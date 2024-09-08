@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d93c47e8a3cc4a5cbc6998fd1ef9e104, type: 3}
+  m_Name: EnemyData
+  m_EditorClassIdentifier: 
+  <EnemyPrefab>k__BackingField: {fileID: -4442779900800386315, guid: 7e4936d0d98814640b192079f4542546, type: 3}
+  <DefaultMoveSpeed>k__BackingField: 3
+  <DefaultRotationSpeed>k__BackingField: 3
+  <DefaultDamage>k__BackingField: 1
