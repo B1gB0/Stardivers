@@ -7,7 +7,7 @@
         public float Damage { get; private set; } = 4f;
         
         public float ExplosionRadius { get; private set; } = 5f;
-        
+
         public void IncreaseDamage(float damageFactor)
         {
             Damage += Damage * damageFactor;

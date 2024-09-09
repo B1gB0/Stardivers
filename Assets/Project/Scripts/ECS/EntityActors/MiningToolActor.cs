@@ -7,8 +7,9 @@ namespace Build.Game.Scripts.ECS.EntityActors
 {
     public class MiningToolActor : MonoBehaviour
     {
-        private const string ObjectPoolSoundsOfMiningStoneName = "PoolMiningSoundsOfStone";
-        
+        private const string Stone = nameof(Stone);
+        private const float MinValue = 0f;
+
         [SerializeField] private float _miningRange;
         [SerializeField] private float _delay;
         [SerializeField] private float _damage;
@@ -16,41 +17,24 @@ namespace Build.Game.Scripts.ECS.EntityActors
         [SerializeField] private Transform _detectionPoint;
         [SerializeField] private Transform _hitEffectPoint;
         [SerializeField] private ParticleSystem _hitEffect;
-        
-        [SerializeField] private MiningStoneSound _miningStoneSoundPrefab;
-        
-        [SerializeField] private bool _isAutoExpandPool = false;
 
         private ParticleSystem _hitEffectRef;
-
         private StoneActor stoneRef;
-
-        private int _countSounds = 4;
-
         private float _lastHitTime;
-        private float _minValue = 0f;
+        private AudioSoundsService _audioSoundsService;
 
-        private ObjectPool<MiningStoneSound> _poolMiningSoundsOfStone;
-        
         public bool IsMining { get; private set; }
 
         private void Awake()
         {
-            _poolMiningSoundsOfStone = new ObjectPool<MiningStoneSound>(_miningStoneSoundPrefab, _countSounds,
-                new GameObject(ObjectPoolSoundsOfMiningStoneName).transform);
-
-            _poolMiningSoundsOfStone.AutoExpand = _isAutoExpandPool;
-            
             _hitEffectRef = Instantiate(_hitEffect, _hitEffectPoint);
             _hitEffectRef.Stop();
         }
 
         private void Update()
         {
-            RaycastHit hit;
-
-            if (Physics.Raycast(_detectionPoint.position, _detectionPoint.forward, out hit,
-                _miningRange))
+            if (Physics.Raycast(_detectionPoint.position, _detectionPoint.forward, out var hit,
+                    _miningRange))
             {
                 if(stoneRef != null)
                     stoneRef.Health.SetHit(false);
@@ -59,15 +43,11 @@ namespace Build.Game.Scripts.ECS.EntityActors
                 
                 IsMining = true;
 
-                if (_lastHitTime <= _minValue)
+                if (_lastHitTime <= MinValue)
                 {
                     stoneRef = resource;
 
-                    MiningStoneSound sound = _poolMiningSoundsOfStone.GetFreeElement();
-                    
-                    sound.AudioSource.PlayOneShot(sound.AudioSource.clip);
-
-                    StartCoroutine(sound.OffSound());
+                    _audioSoundsService.PlaySound(Stone);
 
                     stoneRef.Health.TakeDamage(_damage);
                     stoneRef.Health.SetHit(true);
@@ -85,11 +65,9 @@ namespace Build.Game.Scripts.ECS.EntityActors
             }
         }
 
-        private void OnDrawGizmos()
+        public void GetAudioService(AudioSoundsService audioSoundsService)
         {
-            Gizmos.color = Color.blue;
-        
-            Gizmos.DrawLine(_detectionPoint.position, _detectionPoint.forward);
+            _audioSoundsService = audioSoundsService;
         }
     }
 }

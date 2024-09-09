@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Build.Game.Scripts.ECS.Components;
 using Build.Game.Scripts.ECS.Data;
@@ -15,7 +16,9 @@ namespace Build.Game.Scripts.ECS.System
 {
     public class GameInitSystem : IEcsInitSystem, IEcsRunSystem
     {
-        private const string EnemyPoolName = "EnemyPool";
+        private const string CapsuleFlight = nameof(CapsuleFlight);
+        private const string EnemyPool = nameof(EnemyPool);
+        
         private const float CapsuleHeight = 20f;
         private const float MinValue = 0f;
         private const float Delay = 10f;
@@ -42,7 +45,8 @@ namespace Build.Game.Scripts.ECS.System
         private ObjectPool<EnemyActor> _enemyPool;
         private bool _isAutoExpand = true;
 
-        private ExperiencePoints experiencePoints;
+        private ExperiencePoints _experiencePoints;
+        private AudioSoundsService _audioSoundsService;
         private FloatingDamageTextService _damageTextService;
 
         public Health PlayerHealth { get; private set; }
@@ -70,6 +74,8 @@ namespace Build.Game.Scripts.ECS.System
             
             player = CreatePlayer();
             capsule = CreateCapsule();
+            
+            _audioSoundsService.PlaySound(CapsuleFlight);
             
             PlayerHealth = player.Health;
             
@@ -117,6 +123,8 @@ namespace Build.Game.Scripts.ECS.System
         private PlayerActor CreatePlayer()
         {
             var playerActor = Object.Instantiate(_playerInitData.Prefab, _playerSpawnPoint, Quaternion.identity);
+            
+            playerActor.MiningToolActor.GetAudioService(_audioSoundsService);
 
             PlayerTransform = playerActor.transform;
             
@@ -147,7 +155,7 @@ namespace Build.Game.Scripts.ECS.System
         private EnemyActor CreateEnemy(PlayerActor target)
         {
             var enemyActor = Object.Instantiate(_enemyInitData.EnemyPrefab);
-            enemyActor.Construct(experiencePoints, _damageTextService);
+            enemyActor.Construct(_experiencePoints, _damageTextService);
 
             var enemy = _world.NewEntity();
             
@@ -175,7 +183,7 @@ namespace Build.Game.Scripts.ECS.System
         private void CreateStone(Vector3 atPosition)
         {
             var stoneActor = Object.Instantiate(_stoneInitData.StonePrefab, atPosition, Quaternion.identity);
-            stoneActor.Construct(experiencePoints);
+            stoneActor.Construct(_experiencePoints);
 
             var resource = _world.NewEntity();
 

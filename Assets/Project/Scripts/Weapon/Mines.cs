@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Project.Game.Scripts
@@ -16,12 +17,16 @@ namespace Project.Game.Scripts
         [SerializeField] private Transform _installPoint;
         
         private ObjectPool<Mine> _pool;
-        private float _lastShotTime;
-        private Button _minesButton;
         
-        public void Construct(Button button)
+        private Button _minesButton;
+        private AudioSoundsService _audioSoundsService;
+        
+        private float _lastShotTime;
+
+        public void Construct(Button button, AudioSoundsService audioSoundsService)
         {
             _minesButton = button;
+            _audioSoundsService = audioSoundsService;
         }
 
         private void Awake()
@@ -52,8 +57,8 @@ namespace Project.Game.Scripts
             if (_lastShotTime <= MinValue)
             {
                 _mine = _pool.GetFreeElement();
-                
-                _mine.GetEffect(_explosionEffect);
+
+                _mine.GetExplosionEffects(_explosionEffect, _audioSoundsService);
                 
                 _mine.transform.position = _installPoint.position;
                 _mine.SetCharacteristics(_mineCharacteristics.Damage, _mineCharacteristics.ExplosionRadius);

@@ -6,10 +6,13 @@ using UnityEngine;
 namespace  Project.Scripts.Projectiles.Grenades
 {
     public class FragGrenade : Projectile
-    { 
+    {
+        private const string Grenades = nameof(Grenades);
         private const float ThrowTime = 2f;
         
         private ParticleSystem _explosionEffect;
+        private AudioSoundsService _audioSoundsService;
+        
         private Transform _enemyPosition;
         
         private float _damage;
@@ -44,16 +47,24 @@ namespace  Project.Scripts.Projectiles.Grenades
             _grenadeSpeed = grenadeSpeed;
         }
         
-        public void GetEffect(ParticleSystem effect)
+        public void GetExplosionEffects(ParticleSystem effect, AudioSoundsService audioSoundsService)
         {
             _explosionEffect = effect;
+            _audioSoundsService = audioSoundsService;
         }
-        
+
+        protected override IEnumerator LifeRoutine()
+        {
+            yield return new WaitForSeconds(LifeTime);
+            
+            Explode();
+        }
+
         private void Explode()
         {
-            //_source.Play();
             _explosionEffect.transform.position = transform.position;
             _explosionEffect.Play();
+            _audioSoundsService.PlaySound(Grenades);
         
             foreach (EnemyActor explosiveObject in GetExplosiveObjects())
             {

@@ -1,17 +1,17 @@
 ﻿namespace Project.Game.Scripts
 {
-    public class GrenadeCharacteristics
+    public class FragGrenadeCharacteristics
     {
         public float RangeAttack { get; private set; } = 5f;
 
-        public float FireRate { get; private set; } = 2f;
+        public float FireRate { get; private set; } = 5f;
 
         public float GrenadeSpeed { get; private set; } = 10f;
         
         public float ExplosionRadius { get; private set; } = 3f;
 
         public float Damage { get; private set; } = 1f;
-        
+
         public void IncreaseDamage(float damageFactor)
         {
             Damage += Damage * damageFactor;

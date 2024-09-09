@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using Build.Game.Scripts.ECS.EntityActors;
 using Project.Scripts.Projectiles.Grenades;
 using UnityEngine;
@@ -13,21 +14,24 @@ namespace Project.Game.Scripts
         private const bool IsAutoExpandPool = true;
         private const float MinValue = 0f;
         
-        private readonly GrenadeCharacteristics _grenadeCharacteristics = new ();
+        private readonly FragGrenadeCharacteristics _fragGrenadeCharacteristics = new ();
         
         [SerializeField] private ParticleSystem _explosionEffect;
         [SerializeField] private FragGrenade _fragGrenade;
         [SerializeField] private Transform _shootPoint;
 
-        private float _lastShotTime;
         private ClosestEnemyDetector _detector;
+        private AudioSoundsService _audioSoundsService;
+        
+        private float _lastShotTime;
         private EnemyActor closestEnemy;
 
         private ObjectPool<FragGrenade> _poolGrenades;
         
-        public void Construct(ClosestEnemyDetector detector)
+        public void Construct(ClosestEnemyDetector detector, AudioSoundsService audioSoundsService)
         {
             _detector = detector;
+            _audioSoundsService = audioSoundsService;
         }
 
         private void Awake()
@@ -49,7 +53,7 @@ namespace Project.Game.Scripts
         
             if (closestEnemy != null)
             {
-                if (Vector3.Distance(closestEnemy.transform.position, transform.position) <= _grenadeCharacteristics.RangeAttack)
+                if (Vector3.Distance(closestEnemy.transform.position, transform.position) <= _fragGrenadeCharacteristics.RangeAttack)
                 {
                     Shoot();
                 }
@@ -61,19 +65,18 @@ namespace Project.Game.Scripts
             if (_lastShotTime <= MinValue && closestEnemy.Health.Value > MinValue)
             {
                 _fragGrenade = _poolGrenades.GetFreeElement();
-                _fragGrenade.GetEffect(_explosionEffect);
+                _fragGrenade.GetExplosionEffects(_explosionEffect, _audioSoundsService);
 
                 _fragGrenade.transform.position = _shootPoint.position;
 
                 _fragGrenade.SetDirection(closestEnemy.transform);
-                _fragGrenade.SetCharacteristics(_grenadeCharacteristics.Damage, _grenadeCharacteristics.ExplosionRadius,
-                    _grenadeCharacteristics.GrenadeSpeed);
+                _fragGrenade.SetCharacteristics(_fragGrenadeCharacteristics.Damage, _fragGrenadeCharacteristics.ExplosionRadius,
+                    _fragGrenadeCharacteristics.GrenadeSpeed);
 
-                _lastShotTime = _grenadeCharacteristics.FireRate;
+                _lastShotTime = _fragGrenadeCharacteristics.FireRate;
             }
 
             _lastShotTime -= Time.fixedDeltaTime;
-            
         }
     }
 }

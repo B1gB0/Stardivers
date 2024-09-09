@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5704813061802760931
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7908107487203084591}
+  - component: {fileID: 5146202037532030320}
+  m_Layer: 0
+  m_Name: AudioSoundsService
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7908107487203084591
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5704813061802760931}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5146202037532030320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5704813061802760931}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67a9104ec1be4f74e9f7ca503c64f761, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _gunSoundOfShotsPrefab: {fileID: -5471474892450395940, guid: 76891a962812825438c456c0be4c88e3, type: 3}
+  _miningStoneSoundPrefab: {fileID: 9133455839186376225, guid: 6cee5fb050d0d2f4697797421f85dc91, type: 3}
+  _machineGunSoundPrefab: {fileID: 5564757779691221944, guid: be6606c75d901c84bbe8070e8effc3f7, type: 3}
+  _minesSoundPrefab: {fileID: 8570341842159061482, guid: ef02f0b417251714195f2846c7a6496c, type: 3}
+  _grenadesSoundPrefab: {fileID: 2542407263816996839, guid: da30c14e1ab10524bb068b24e3ffd6fd, type: 3}
+  _capsuleFlightSoundPrefab: {fileID: 4664028554917857881, guid: e6b8a3483b820934da40500d93c4a240, type: 3}
+  _capsuleExplosionSoundPrefab: {fileID: 8847972078415087990, guid: d72a411bc6164874ca6f1c2b9c87239e, type: 3}

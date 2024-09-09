@@ -17,7 +17,7 @@ namespace Project.Scripts.Projectiles
             StopCoroutine(LifeRoutine());
         }
 
-        protected IEnumerator LifeRoutine()
+        protected virtual IEnumerator LifeRoutine()
         {
             yield return new WaitForSeconds(LifeTime);
         

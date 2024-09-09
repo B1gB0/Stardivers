@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class MachineGunBullet : Projectile
 {
-    private Transform _enemy;
+    private Vector3 _direction;
     
     private float _bulletSpeed;
     private float _damage;
@@ -22,13 +22,12 @@ public class MachineGunBullet : Projectile
     
     private void FixedUpdate()
     {
-        transform.position = Vector3.MoveTowards(transform.position, _enemy.position,
-            _bulletSpeed * Time.fixedDeltaTime);
+        transform.position += _direction * (_bulletSpeed * Time.fixedDeltaTime);
     }
 
     public void SetDirection(Transform enemy)
     {
-        _enemy = enemy;
+        _direction = (enemy.position - transform.position).normalized;
         transform.LookAt(enemy);
     }
 

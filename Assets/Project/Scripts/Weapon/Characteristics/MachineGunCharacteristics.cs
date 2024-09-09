@@ -10,7 +10,7 @@ public class MachineGunCharacteristics
 
     public float BulletSpeed { get; private set; } = 10f;
 
-    public float Damage { get; private set; } = 1f;
+    public float Damage { get; private set; } = 3f;
     
     public int MaxCountShots { get; private set; } = 12;
     

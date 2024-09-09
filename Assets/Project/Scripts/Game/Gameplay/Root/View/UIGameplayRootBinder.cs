@@ -27,4 +27,14 @@ public class UIGameplayRootBinder : MonoBehaviour
     {
         _exitSceneSignalSubject = exitSceneSignalSubject;
     }
+
+    public void ShowMinesButton()
+    {
+        MinesButton.gameObject.SetActive(true);
+    }
+    
+    public void HideMinesButton()
+    {
+        MinesButton.gameObject.SetActive(false);
+    }
 }

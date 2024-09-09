@@ -1,10 +1,6 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using Build.Game.Scripts.ECS.EntityActors;
-using Project.Game.Scripts;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class MachineGun : Weapon
 {
@@ -29,12 +25,15 @@ public class MachineGun : Weapon
     private MachineGunBullet _bullet;
 
     private ClosestEnemyDetector _detector;
+    private AudioSoundsService _audioSoundsService;
+    
     private EnemyActor closestEnemy;
     private ObjectPool<MachineGunBullet> _poolBullets;
 
-    public void Construct(ClosestEnemyDetector detector)
+    public void Construct(ClosestEnemyDetector detector, AudioSoundsService audioSoundsService)
     {
         _detector = detector;
+        _audioSoundsService = audioSoundsService;
     }
 
     private void Awake()
@@ -59,15 +58,15 @@ public class MachineGun : Weapon
             Shoot();
         }
         
-        CheckAmmo();
-        
-        Debug.Log(_maxCountShots);
+        CheckAmmoAndReload();
     }
     
     public override void Shoot()
     {
         if (_lastBurstTime <= MinValue && closestEnemy.Health.Value > MinValue)
         {
+            _audioSoundsService.PlaySound(this.Type);
+            
             StartCoroutine(LaunchBullet());
             
             _lastBurstTime = _machineGunCharacteristics.FireRate;
@@ -76,7 +75,7 @@ public class MachineGun : Weapon
         _lastBurstTime -= Time.fixedDeltaTime;
     }
 
-    private void CheckAmmo()
+    private void CheckAmmoAndReload()
     {
         if (_maxCountShots <= MinValue)
         {

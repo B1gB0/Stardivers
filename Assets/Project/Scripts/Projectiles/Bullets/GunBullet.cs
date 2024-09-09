@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GunBullet : Projectile
 {
-    private Transform _enemy;
+    private Vector3 _direction;
     
     private float _bulletSpeed;
     private float _damage;
@@ -20,14 +20,13 @@ public class GunBullet : Projectile
     
     private void FixedUpdate()
     {
-        transform.position = Vector3.MoveTowards(transform.position, _enemy.position,
-            _bulletSpeed * Time.fixedDeltaTime);
+        transform.position += _direction * (_bulletSpeed * Time.fixedDeltaTime);
     }
 
     public void SetDirection(Transform enemy)
     {
-        _enemy = enemy;
-        transform.LookAt(_enemy);
+        _direction = (enemy.position - transform.position).normalized;
+        transform.LookAt(enemy);
     }
     
     public void SetCharacteristics(float damage, float bulletSpeed)

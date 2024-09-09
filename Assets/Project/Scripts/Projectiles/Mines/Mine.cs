@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using Build.Game.Scripts.ECS.EntityActors;
 using Project.Scripts.Projectiles;
@@ -5,7 +6,10 @@ using UnityEngine;
 
 public class Mine : Projectile
 {
+    private const string Mines = nameof(Mines);
+    
     private ParticleSystem _explosionEffect;
+    private AudioSoundsService _audioSoundsService;
     
     private float _damage;
     private float _explosionRadius;
@@ -25,16 +29,24 @@ public class Mine : Projectile
         _explosionRadius = explosionRadius;
     }
     
-    public void GetEffect(ParticleSystem effect)
+    public void GetExplosionEffects(ParticleSystem effect, AudioSoundsService audioSoundsService)
     {
         _explosionEffect = effect;
+        _audioSoundsService = audioSoundsService;
     }
-    
+
+    protected override IEnumerator LifeRoutine()
+    {
+        yield return new WaitForSeconds(LifeTime);
+        
+        Explode();
+    }
+
     private void Explode()
     {
-        //_source.Play();
         _explosionEffect.transform.position = transform.position;
         _explosionEffect.Play();
+        _audioSoundsService.PlaySound(Mines);
 
         foreach (EnemyActor explosiveObject in GetExplosiveObjects())
         {

@@ -39,7 +39,9 @@ namespace Project.Scripts.Score
         {
             experienceActor.Accept(experienceActorVisitor);
             
-            if (TargetValue >= _currentMaxValueOfLevel && _currentLevel <= _playerProgression.Levels.Count - 1)
+            if (_currentLevel > _playerProgression.Levels.Count - 1) return;
+            
+            if (TargetValue >= _currentMaxValueOfLevel)
             {
                 _currentLevel++;
                 _currentMaxValueOfLevel = _playerProgression.Levels[_currentLevel];

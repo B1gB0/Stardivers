@@ -1,3 +1,4 @@
+using System.Collections;
 using Build.Game.Scripts.ECS.EntityActors;
 using Project.Game.Scripts;
 using UnityEngine;
@@ -5,54 +6,50 @@ using UnityEngine;
 public class Gun : Weapon
 {
     private const string ObjectPoolBulletName = "PoolBullets";
-    private const string ObjectPoolSoundsOfShotsName = "PoolAssaultRifleSoundsOfShots";
     private const bool IsAutoExpandPool = true;
     private const float MinValue = 0f;
     
     private readonly GunCharacteristics _gunCharacteristics = new();
     
     [SerializeField] private GunBullet _bulletPrefab;
-    [SerializeField] private AssaultRifleSoundOfShot soundPrefab;
-    
     [SerializeField] private int _countBullets;
     [SerializeField] private Transform _shootPoint;
 
     private float _lastShotTime;
+    private int _maxCountShots;
+    private bool _isShooting = true;
+    
     private GunBullet _bullet;
+    private EnemyActor closestEnemy;
+    private ObjectPool<GunBullet> _poolBullets;
 
     private ClosestEnemyDetector _detector;
-    private EnemyActor closestEnemy;
+    private AudioSoundsService _audioSoundsService;
 
-    private ObjectPool<GunBullet> _poolBullets;
-    private ObjectPool<AssaultRifleSoundOfShot> _poolSoundsOfShots;
-
-
-    public void Construct(ClosestEnemyDetector detector)
+    public void Construct(ClosestEnemyDetector detector, AudioSoundsService audioSoundsService)
     {
         _detector = detector;
+        _audioSoundsService = audioSoundsService;
     }
 
     private void Awake()
     {
         _poolBullets = new ObjectPool<GunBullet>(_bulletPrefab, _countBullets, new GameObject(ObjectPoolBulletName).transform);
-        _poolSoundsOfShots = new ObjectPool<AssaultRifleSoundOfShot>(soundPrefab, _countBullets,
-            new GameObject(ObjectPoolSoundsOfShotsName).transform);
-
-        _poolSoundsOfShots.AutoExpand = IsAutoExpandPool;
         _poolBullets.AutoExpand = IsAutoExpandPool;
     }
 
     private void FixedUpdate()
     {
         closestEnemy = _detector.СlosestEnemy;
+
+        if (closestEnemy == null) return;
         
-        if (closestEnemy != null)
+        if (Vector3.Distance(closestEnemy.transform.position, transform.position) <= _gunCharacteristics.RangeAttack && _isShooting)
         {
-            if (Vector3.Distance(closestEnemy.transform.position, transform.position) <= _gunCharacteristics.RangeAttack)
-            {
-                Shoot();
-            }
+            Shoot();
         }
+        
+        CheckAmmoAndReload();
     }
     
     public override void Shoot()
@@ -60,12 +57,8 @@ public class Gun : Weapon
         if (_lastShotTime <= MinValue && closestEnemy.Health.Value > MinValue)
         {
             _bullet = _poolBullets.GetFreeElement();
-
-            AssaultRifleSoundOfShot sound = _poolSoundsOfShots.GetFreeElement();
             
-            sound.AudioSource.PlayOneShot(sound.AudioSource.clip);
-            
-            StartCoroutine(sound.OffSound());
+            _audioSoundsService.PlaySound(this.Type);
 
             _bullet.transform.position = _shootPoint.position;
 
@@ -76,5 +69,22 @@ public class Gun : Weapon
         }
 
         _lastShotTime -= Time.fixedDeltaTime;
+    }
+    
+    private void CheckAmmoAndReload()
+    {
+        if (_maxCountShots <= MinValue)
+        {
+            _isShooting = false;
+            StartCoroutine(Reload());
+        }
+    }
+
+    private IEnumerator Reload()
+    {
+        yield return new WaitForSeconds(_gunCharacteristics.ReloadTime);
+
+        _maxCountShots = _gunCharacteristics.MaxCountShots;
+        _isShooting = true;
     }
 }

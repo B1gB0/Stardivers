@@ -16,7 +16,7 @@ namespace Build.Game.Scripts.Game.Gameplay
 {
     public class GameplayEntryPoint : MonoBehaviour
     {
-        private const string StartWeaponType = "MachineGun";
+        private const string StartWeaponType = "Gun";
         
         private readonly WeaponHolder _weaponHolder = new ();
         private readonly DataFactory _dataFactory = new ();
@@ -25,6 +25,9 @@ namespace Build.Game.Scripts.Game.Gameplay
         [SerializeField] private ViewFactory _viewFactory;
         [SerializeField] private CinemachineVirtualCamera _cinemachineVirtualCamera;
         [SerializeField] private UIGameplayRootBinder _sceneUIRootPrefab;
+        [SerializeField] private AudioSoundsService _audioSoundsService;
+
+        private UIGameplayRootBinder _uiScene;
         
         private PlayerInitData _playerData;
         private LevelInitData _levelData;
@@ -59,11 +62,14 @@ namespace Build.Game.Scripts.Game.Gameplay
 
             FloatingDamageTextView damageTextView = _viewFactory.CreateDamageTextView();
             FloatingDamageTextService damageTextService = new FloatingDamageTextService(damageTextView);
-
+            
+            _audioSoundsService = Instantiate(_audioSoundsService);
+            
             _experiencePoints = new ExperiencePoints(_playerProgressionData);
 
             _updateSystems.Inject(_experiencePoints);
             _updateSystems.Inject(damageTextService);
+            _updateSystems.Inject(_audioSoundsService);
             _updateSystems.Add(_gameInitSystem = new GameInitSystem(_playerData, _enemyData, _stoneData, _capsuleData, _levelData));
             _updateSystems.Add(new PlayerInputSystem());
             _updateSystems.Add(new MainCameraSystem(_cinemachineVirtualCamera));
@@ -81,7 +87,7 @@ namespace Build.Game.Scripts.Game.Gameplay
             _healthBar = _viewFactory.CreateHealthBar(_gameInitSystem.PlayerHealth);
             _progressBar = _viewFactory.CreateProgressBar(_experiencePoints, _gameInitSystem.PlayerTransform);
             
-            _weaponFactory.GetData(_gameInitSystem.PlayerTransform, _weaponHolder);
+            _weaponFactory.GetData(_gameInitSystem.PlayerTransform, _weaponHolder, _audioSoundsService);
             _weaponFactory.CreateEnemyDetector();
             _weaponFactory.CreateWeapon(StartWeaponType);
 
@@ -103,6 +109,9 @@ namespace Build.Game.Scripts.Game.Gameplay
             {
                 _experiencePoints.RewardIsShowed -= _levelUpPanel.OnLevelUpgraded;
             }
+            
+            if(_weaponFactory != null && _uiScene != null)
+                _weaponFactory.MinesIsCreated -= _uiScene.ShowMinesButton;
         }
 
         private void Update()
@@ -120,15 +129,16 @@ namespace Build.Game.Scripts.Game.Gameplay
             _levelUpPanel.GetServices(uiRoot.PauseService, _weaponFactory, _weaponHolder);
             _levelUpPanel.GetStartImprovements();
             
-            UIGameplayRootBinder uiScene = Instantiate(_sceneUIRootPrefab);
-            _healthBar.transform.SetParent(uiScene.transform);
-            _levelUpPanel.transform.SetParent(uiScene.transform);
-            _weaponFactory.GetMinesButton(uiScene.MinesButton);
-            uiRoot.AttachSceneUI(uiScene.gameObject);
+            _uiScene = Instantiate(_sceneUIRootPrefab);
+            _healthBar.transform.SetParent(_uiScene.transform);
+            _levelUpPanel.transform.SetParent(_uiScene.transform);
+            _weaponFactory.GetMinesButton(_uiScene.MinesButton);
+            uiRoot.AttachSceneUI(_uiScene.gameObject);
             
+            _weaponFactory.MinesIsCreated += _uiScene.ShowMinesButton;
 
             var exitSceneSignalSubject = new Subject<Unit>();
-            uiScene.Bind(exitSceneSignalSubject);
+            _uiScene.Bind(exitSceneSignalSubject);
 
             var mainMenuEnterParameters = new MainMenuEnterParameters("Enter parameters");
             var exitParameters = new GameplayExitParameters(mainMenuEnterParameters);
