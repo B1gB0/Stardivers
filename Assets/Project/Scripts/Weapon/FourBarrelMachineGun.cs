@@ -1,45 +1,48 @@
 using System.Collections;
-using Build.Game.Scripts.ECS.EntityActors;
+using System.Collections.Generic;
+using Project.Scripts.Projectiles.Bullets;
 using UnityEngine;
 
-public class MachineGun : Weapon
+public class FourBarrelMachineGun : Weapon
 {
-    private const string ObjectPoolBulletName = "PoolMachineGunBullets";
+    private const string ObjectPoolBulletName = "PoolFourBarrelMachineGunBullets";
     private const bool IsAutoExpandPool = true;
     
     private const float MinValue = 0f;
-    private const float DelayBetweenShots = 0.2f;
-    
+    private const float DelayBetweenShots = 0.1f;
+    private const int CountBullets = 4;
+
+    private readonly List<Vector3> _directions = new ();
     private readonly MachineGunCharacteristics _machineGunCharacteristics = new();
     
-    [SerializeField] private MachineGunBullet _bulletPrefab;
-
+    [SerializeField] private FourBarrelMachineGunBullet _bulletPrefab;
     [SerializeField] private int _countBulletsForPool;
-    [SerializeField] private Transform[] _shootPoints;
+    [SerializeField] private Transform _shootPoint;
 
     private float _lastBurstTime;
     private int _maxCountShots;
     private bool _isShooting = true;
 
     private Coroutine _coroutine;
-    private MachineGunBullet _bullet;
-
-    private ClosestEnemyDetector _detector;
-    private AudioSoundsService _audioSoundsService;
+    private FourBarrelMachineGunBullet _bullet;
     
-    private EnemyActor closestEnemy;
-    private ObjectPool<MachineGunBullet> _poolBullets;
+    private AudioSoundsService _audioSoundsService;
+    private ObjectPool<FourBarrelMachineGunBullet> _poolBullets;
 
-    public void Construct(ClosestEnemyDetector detector, AudioSoundsService audioSoundsService)
+    public void Construct(AudioSoundsService audioSoundsService)
     {
-        _detector = detector;
         _audioSoundsService = audioSoundsService;
     }
 
     private void Awake()
     {
-        _poolBullets = new ObjectPool<MachineGunBullet>(_bulletPrefab, _countBulletsForPool, new GameObject(ObjectPoolBulletName).transform);
+        _poolBullets = new ObjectPool<FourBarrelMachineGunBullet>(_bulletPrefab, _countBulletsForPool, new GameObject(ObjectPoolBulletName).transform);
         _poolBullets.AutoExpand = IsAutoExpandPool;
+        
+        _directions.Add(transform.forward);
+        _directions.Add(transform.right);
+        _directions.Add(-transform.forward);
+        _directions.Add(-transform.right);
     }
 
     private void Start()
@@ -49,25 +52,22 @@ public class MachineGun : Weapon
 
     private void FixedUpdate()
     {
-        closestEnemy = _detector.СlosestEnemy;
-
-        if (closestEnemy == null) return;
-        
-        if (Vector3.Distance(closestEnemy.transform.position, transform.position) <= _machineGunCharacteristics.RangeAttack && _isShooting)
-        {
+        if (_isShooting)
             Shoot();
-        }
-        
+
         CheckAmmoAndReload();
     }
     
     public override void Shoot()
     {
-        if (_lastBurstTime <= MinValue && closestEnemy.Health.Value > MinValue)
+        if (_lastBurstTime <= MinValue)
         {
             _audioSoundsService.PlaySound(this.Type);
-            
-            StartCoroutine(LaunchBullet());
+
+            foreach (Vector3 direction in _directions)
+            {
+                StartCoroutine(LaunchBullet(direction));
+            }
             
             _lastBurstTime = _machineGunCharacteristics.FireRate;
         }
@@ -92,22 +92,20 @@ public class MachineGun : Weapon
         _isShooting = true;
     }
 
-    private IEnumerator LaunchBullet()
+    private IEnumerator LaunchBullet(Vector3 direction)
     {
-        foreach (var shootPoint in _shootPoints)
+        for (int i = 0; i < CountBullets; i++)
         {
             _bullet = _poolBullets.GetFreeElement();
 
             _maxCountShots--;
-            
-            _bullet.transform.position = shootPoint.position;
-                
-            _bullet.SetDirection(closestEnemy.transform);
+        
+            _bullet.transform.position = _shootPoint.position + Vector3.one * Random.Range(-0.2f, 0.2f);
+        
+            _bullet.SetDirection(direction);
             _bullet.SetCharacteristics(_machineGunCharacteristics.Damage, _machineGunCharacteristics.BulletSpeed);
 
             yield return new WaitForSeconds(DelayBetweenShots);
         }
-
-        yield return null;
     }
 }

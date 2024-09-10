@@ -126,7 +126,7 @@ namespace Build.Game.Scripts.Game.Gameplay
 
         public Observable<GameplayExitParameters> Run(UIRootView uiRoot, GameplayEnterParameters enterParameters)
         {
-            _levelUpPanel.GetServices(uiRoot.PauseService, _weaponFactory, _weaponHolder);
+            _levelUpPanel.GetServices(uiRoot.PauseService, _weaponFactory, _weaponHolder, _audioSoundsService);
             _levelUpPanel.GetStartImprovements();
             
             _uiScene = Instantiate(_sceneUIRootPrefab);

@@ -13,6 +13,7 @@ namespace Project.Scripts.UI
         private const string RangeAttack = nameof(RangeAttack);
         private const string FireRate = nameof(FireRate);
         private const string BulletSpeed = nameof(BulletSpeed);
+        private const string CardViewButton = nameof(CardViewButton);
         
         private const string Gun = nameof(Gun);
         private const string Mines = nameof(Mines);
@@ -33,6 +34,8 @@ namespace Project.Scripts.UI
         private PauseService _pauseService;
         private WeaponFactory _weaponFactory;
         private WeaponHolder _weaponHolder;
+
+        private AudioSoundsService _audioSoundsService;
 
         private void Start()
         {
@@ -58,11 +61,13 @@ namespace Project.Scripts.UI
             }
         }
 
-        public void GetServices(PauseService pauseService, WeaponFactory weaponFactory, WeaponHolder weaponHolder)
+        public void GetServices(PauseService pauseService, WeaponFactory weaponFactory, WeaponHolder weaponHolder,
+            AudioSoundsService audioSoundsService)
         {
             _pauseService = pauseService;
             _weaponFactory = weaponFactory;
             _weaponHolder = weaponHolder;
+            _audioSoundsService = audioSoundsService;
         }
 
         public void GetStartImprovements()
@@ -148,16 +153,19 @@ namespace Project.Scripts.UI
 
         private void OnButtonClicked(Card card, CardView cardView)
         {
-            //_weaponCards.Remove(card);
+            _audioSoundsService.PlaySound(CardViewButton);
 
             if (card is ImprovementCard improvementCard)
             {
                 _currentImprovementCards.Remove(improvementCard);
-                // switch (improvementCard.TypeCharacteristics)
-                // {
-                //     case Damage
-                //         
-                // }
+                
+                foreach (Weapon weapon in _weaponHolder.Weapons)
+                {
+                    if (improvementCard.WeaponType == weapon.Type)
+                    {
+                        
+                    }
+                }
             }
             else if (card is WeaponCard weaponCard)
             {
@@ -172,7 +180,7 @@ namespace Project.Scripts.UI
             }
 
             _pauseService.PlayGame();
-            
+
             Hide();
         }
     }

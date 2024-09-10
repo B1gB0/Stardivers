@@ -12,7 +12,7 @@ public class MachineGunCharacteristics
 
     public float Damage { get; private set; } = 3f;
     
-    public int MaxCountShots { get; private set; } = 12;
+    public int MaxCountShots { get; private set; } = 16;
     
     public float ReloadTime { get; private set; } = 6f;
         
@@ -34,5 +34,10 @@ public class MachineGunCharacteristics
     public void IncreaseRangeAttack(float rangeAttackFactor)
     {
         RangeAttack += RangeAttack * rangeAttackFactor;
+    }
+    
+    public void IncreaseReloadVelocity(float reloadTimeFactor)
+    {
+        ReloadTime += ReloadTime * reloadTimeFactor;
     }
 }

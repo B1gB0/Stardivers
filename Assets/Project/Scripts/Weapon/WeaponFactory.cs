@@ -10,12 +10,14 @@ namespace Project.Game.Scripts
         private const string MachineGun = nameof(MachineGun);
         private const string Mines = nameof(Mines);
         private const string FragGrenades = nameof(FragGrenades);
+        private const string FourBarrelMachineGun = nameof(FourBarrelMachineGun);
 
         [SerializeField] private ClosestEnemyDetector _enemyDetectorTemplate;
         [SerializeField] private Gun _gunTemplate;
         [SerializeField] private MachineGun _machineGunTemplate;
         [SerializeField] private Mines _minesTemplate;
         [SerializeField] private FragGrenades _fragGrenadesTemplate;
+        [SerializeField] private FourBarrelMachineGun _fourBarrelMachineGunTemplate;
 
         private AudioSoundsService _audioSoundsService;
         private ClosestEnemyDetector _enemyDetector;
@@ -40,6 +42,9 @@ namespace Project.Game.Scripts
                     break;
                 case FragGrenades : 
                     CreateFragGrenades();
+                    break;
+                case FourBarrelMachineGun :
+                    CreateFourBarrelMachineGun();
                     break;
             }
         }
@@ -91,6 +96,13 @@ namespace Project.Game.Scripts
             FragGrenades fragGrenades = Instantiate(_fragGrenadesTemplate, _player);
             fragGrenades.Construct(_enemyDetector, _audioSoundsService);
             _weaponHolder.AddWeapon(fragGrenades);
+        }
+
+        private void CreateFourBarrelMachineGun()
+        {
+            FourBarrelMachineGun fourBarrelMachineGun = Instantiate(_fourBarrelMachineGunTemplate, _player);
+            fourBarrelMachineGun.Construct(_audioSoundsService);
+            _weaponHolder.AddWeapon(fourBarrelMachineGun);
         }
     }
 }

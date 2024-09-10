@@ -13,7 +13,7 @@
         public int MaxCountShots { get; private set; } = 7;
     
         public float ReloadTime { get; private set; } = 3f;
-        
+
         public void IncreaseDamage(float damageFactor)
         {
             Damage += Damage * damageFactor;
@@ -32,6 +32,11 @@
         public void IncreaseRangeAttack(float rangeAttackFactor)
         {
             RangeAttack += RangeAttack * rangeAttackFactor;
+        }
+        
+        public void IncreaseReloadVelocity(float reloadTimeFactor)
+        {
+            ReloadTime += ReloadTime * reloadTimeFactor;
         }
     }
 }

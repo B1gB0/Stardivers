@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Gun : Weapon
 {
-    private const string ObjectPoolBulletName = "PoolBullets";
+    private const string ObjectPoolBulletName = "PoolGunBullets";
     private const bool IsAutoExpandPool = true;
     private const float MinValue = 0f;
     
