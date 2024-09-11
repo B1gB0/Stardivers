@@ -6,15 +6,6 @@ using UnityEngine.Serialization;
 
 public class AudioSoundsService : MonoBehaviour
 {
-    private const string Gun = nameof(Gun);
-    private const string Stone = nameof(Stone);
-    private const string MachineGun = nameof(MachineGun);
-    private const string Mines = nameof(Mines);
-    private const string Grenades = nameof(Grenades);
-    private const string CapsuleFlight = nameof(CapsuleFlight);
-    private const string CardViewButton = nameof(CardViewButton);
-    private const string FourBarrelMachineGun = nameof(FourBarrelMachineGun);
-
     private const float CapsuleFlightDuration = 4.5f;
     private const float CapsuleExplosionDelay = 2.5f;
     private const int CountSounds = 3;
@@ -61,32 +52,32 @@ public class AudioSoundsService : MonoBehaviour
         _poolFourBarrelMachineGunSounds.AutoExpand = IsAutoExpandPool;
     }
 
-    public void PlaySound(string sound)
+    public void PlaySound(Sounds sound)
     {
         switch (sound)
         {
-            case Gun :
+            case Sounds.Gun :
                 PlayGunSound();
                 break;
-            case Stone :
+            case Sounds.Stone :
                 PlaySoundOfMiningStone();
                 break;
-            case MachineGun :
+            case Sounds.MachineGun :
                 PlayMachineGunSound();
                 break;
-            case Mines :
+            case Sounds.Mines :
                 PlayMinesSound();
                 break;
-            case Grenades :
+            case Sounds.FragGrenades :
                 PlayGrenadesSound();
                 break;
-            case CapsuleFlight :
+            case Sounds.CapsuleFlight :
                 PlayCapsuleFlightSound();
                 break;
-            case CardViewButton :
+            case Sounds.CardViewButton :
                 PlayCardViewButtonSound();
                 break;
-            case FourBarrelMachineGun :
+            case Sounds.FourBarrelMachineGun :
                 PlayFourBarrelMachineGunSound();
                 break;
         }

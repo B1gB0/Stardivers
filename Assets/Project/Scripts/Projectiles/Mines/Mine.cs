@@ -1,13 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using Build.Game.Scripts.ECS.EntityActors;
+using Project.Game.Scripts;
 using Project.Scripts.Projectiles;
 using UnityEngine;
 
 public class Mine : Projectile
 {
-    private const string Mines = nameof(Mines);
-    
     private ParticleSystem _explosionEffect;
     private AudioSoundsService _audioSoundsService;
     
@@ -46,7 +45,7 @@ public class Mine : Projectile
     {
         _explosionEffect.transform.position = transform.position;
         _explosionEffect.Play();
-        _audioSoundsService.PlaySound(Mines);
+        _audioSoundsService.PlaySound(Sounds.Mines);
 
         foreach (EnemyActor explosiveObject in GetExplosiveObjects())
         {

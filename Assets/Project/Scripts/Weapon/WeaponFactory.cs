@@ -6,12 +6,6 @@ namespace Project.Game.Scripts
 {
     public class WeaponFactory : MonoBehaviour
     {
-        private const string Gun = nameof(Gun);
-        private const string MachineGun = nameof(MachineGun);
-        private const string Mines = nameof(Mines);
-        private const string FragGrenades = nameof(FragGrenades);
-        private const string FourBarrelMachineGun = nameof(FourBarrelMachineGun);
-
         [SerializeField] private ClosestEnemyDetector _enemyDetectorTemplate;
         [SerializeField] private Gun _gunTemplate;
         [SerializeField] private MachineGun _machineGunTemplate;
@@ -27,23 +21,23 @@ namespace Project.Game.Scripts
 
         public event Action MinesIsCreated;
 
-        public void CreateWeapon(string weaponType)
+        public void CreateWeapon(Weapons weapons)
         {
-            switch (weaponType)
+            switch (weapons)
             {
-                case Gun :
+                case Weapons.Gun :
                     CreateGun();
                     break;
-                case MachineGun :
+                case Weapons.MachineGun :
                     CreateMachineGun();
                     break;
-                case Mines :
+                case Weapons.Mines :
                     CreateMines();
                     break;
-                case FragGrenades : 
+                case Weapons.FragGrenades : 
                     CreateFragGrenades();
                     break;
-                case FourBarrelMachineGun :
+                case Weapons.FourBarrelMachineGun :
                     CreateFourBarrelMachineGun();
                     break;
             }

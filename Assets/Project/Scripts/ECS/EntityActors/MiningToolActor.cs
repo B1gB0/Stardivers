@@ -7,7 +7,6 @@ namespace Build.Game.Scripts.ECS.EntityActors
 {
     public class MiningToolActor : MonoBehaviour
     {
-        private const string Stone = nameof(Stone);
         private const float MinValue = 0f;
 
         [SerializeField] private float _miningRange;
@@ -47,7 +46,7 @@ namespace Build.Game.Scripts.ECS.EntityActors
                 {
                     stoneRef = resource;
 
-                    _audioSoundsService.PlaySound(Stone);
+                    _audioSoundsService.PlaySound(Sounds.Stone);
 
                     stoneRef.Health.TakeDamage(_damage);
                     stoneRef.Health.SetHit(true);

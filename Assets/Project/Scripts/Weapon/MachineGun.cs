@@ -1,5 +1,7 @@
 using System.Collections;
 using Build.Game.Scripts.ECS.EntityActors;
+using Project.Game.Scripts;
+using Project.Game.Scripts.Improvements;
 using UnityEngine;
 
 public class MachineGun : Weapon
@@ -9,9 +11,7 @@ public class MachineGun : Weapon
     
     private const float MinValue = 0f;
     private const float DelayBetweenShots = 0.2f;
-    
-    private readonly MachineGunCharacteristics _machineGunCharacteristics = new();
-    
+
     [SerializeField] private MachineGunBullet _bulletPrefab;
 
     [SerializeField] private int _countBulletsForPool;
@@ -30,6 +30,8 @@ public class MachineGun : Weapon
     private EnemyActor closestEnemy;
     private ObjectPool<MachineGunBullet> _poolBullets;
 
+    public MachineGunCharacteristics MachineGunCharacteristics { get; } = new();
+
     public void Construct(ClosestEnemyDetector detector, AudioSoundsService audioSoundsService)
     {
         _detector = detector;
@@ -44,7 +46,7 @@ public class MachineGun : Weapon
 
     private void Start()
     {
-        _maxCountShots = _machineGunCharacteristics.MaxCountShots;
+        _maxCountShots = MachineGunCharacteristics.MaxCountShots;
     }
 
     private void FixedUpdate()
@@ -53,7 +55,7 @@ public class MachineGun : Weapon
 
         if (closestEnemy == null) return;
         
-        if (Vector3.Distance(closestEnemy.transform.position, transform.position) <= _machineGunCharacteristics.RangeAttack && _isShooting)
+        if (Vector3.Distance(closestEnemy.transform.position, transform.position) <= MachineGunCharacteristics.RangeAttack && _isShooting)
         {
             Shoot();
         }
@@ -65,14 +67,19 @@ public class MachineGun : Weapon
     {
         if (_lastBurstTime <= MinValue && closestEnemy.Health.Value > MinValue)
         {
-            _audioSoundsService.PlaySound(this.Type);
+            _audioSoundsService.PlaySound(Sounds.MachineGun);
             
             StartCoroutine(LaunchBullet());
             
-            _lastBurstTime = _machineGunCharacteristics.FireRate;
+            _lastBurstTime = MachineGunCharacteristics.FireRate;
         }
 
         _lastBurstTime -= Time.fixedDeltaTime;
+    }
+    
+    public override void Accept(IWeaponVisitor weaponVisitor, CharacteristicsTypes type, float value)
+    {
+        weaponVisitor.Visit(this, type, value);
     }
 
     private void CheckAmmoAndReload()
@@ -86,9 +93,9 @@ public class MachineGun : Weapon
 
     private IEnumerator Reload()
     {
-        yield return new WaitForSeconds(_machineGunCharacteristics.ReloadTime);
+        yield return new WaitForSeconds(MachineGunCharacteristics.ReloadTime);
 
-        _maxCountShots = _machineGunCharacteristics.MaxCountShots;
+        _maxCountShots = MachineGunCharacteristics.MaxCountShots;
         _isShooting = true;
     }
 
@@ -103,7 +110,7 @@ public class MachineGun : Weapon
             _bullet.transform.position = shootPoint.position;
                 
             _bullet.SetDirection(closestEnemy.transform);
-            _bullet.SetCharacteristics(_machineGunCharacteristics.Damage, _machineGunCharacteristics.BulletSpeed);
+            _bullet.SetCharacteristics(MachineGunCharacteristics.Damage, MachineGunCharacteristics.BulletSpeed);
 
             yield return new WaitForSeconds(DelayBetweenShots);
         }

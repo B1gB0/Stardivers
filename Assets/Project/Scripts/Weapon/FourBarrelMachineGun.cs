@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using Project.Game.Scripts;
+using Project.Game.Scripts.Improvements;
 using Project.Scripts.Projectiles.Bullets;
 using UnityEngine;
 
@@ -13,8 +15,7 @@ public class FourBarrelMachineGun : Weapon
     private const int CountBullets = 4;
 
     private readonly List<Vector3> _directions = new ();
-    private readonly MachineGunCharacteristics _machineGunCharacteristics = new();
-    
+
     [SerializeField] private FourBarrelMachineGunBullet _bulletPrefab;
     [SerializeField] private int _countBulletsForPool;
     [SerializeField] private Transform _shootPoint;
@@ -28,6 +29,8 @@ public class FourBarrelMachineGun : Weapon
     
     private AudioSoundsService _audioSoundsService;
     private ObjectPool<FourBarrelMachineGunBullet> _poolBullets;
+
+    public MachineGunCharacteristics MachineGunCharacteristics { get; } = new();
 
     public void Construct(AudioSoundsService audioSoundsService)
     {
@@ -47,7 +50,7 @@ public class FourBarrelMachineGun : Weapon
 
     private void Start()
     {
-        _maxCountShots = _machineGunCharacteristics.MaxCountShots;
+        _maxCountShots = MachineGunCharacteristics.MaxCountShots;
     }
 
     private void FixedUpdate()
@@ -62,17 +65,22 @@ public class FourBarrelMachineGun : Weapon
     {
         if (_lastBurstTime <= MinValue)
         {
-            _audioSoundsService.PlaySound(this.Type);
+            _audioSoundsService.PlaySound(Sounds.FourBarrelMachineGun);
 
             foreach (Vector3 direction in _directions)
             {
                 StartCoroutine(LaunchBullet(direction));
             }
             
-            _lastBurstTime = _machineGunCharacteristics.FireRate;
+            _lastBurstTime = MachineGunCharacteristics.FireRate;
         }
 
         _lastBurstTime -= Time.fixedDeltaTime;
+    }
+    
+    public override void Accept(IWeaponVisitor weaponVisitor, CharacteristicsTypes type, float value)
+    {
+        weaponVisitor.Visit(this, type, value);
     }
 
     private void CheckAmmoAndReload()
@@ -86,9 +94,9 @@ public class FourBarrelMachineGun : Weapon
 
     private IEnumerator Reload()
     {
-        yield return new WaitForSeconds(_machineGunCharacteristics.ReloadTime);
+        yield return new WaitForSeconds(MachineGunCharacteristics.ReloadTime);
 
-        _maxCountShots = _machineGunCharacteristics.MaxCountShots;
+        _maxCountShots = MachineGunCharacteristics.MaxCountShots;
         _isShooting = true;
     }
 
@@ -103,7 +111,7 @@ public class FourBarrelMachineGun : Weapon
             _bullet.transform.position = _shootPoint.position + Vector3.one * Random.Range(-0.2f, 0.2f);
         
             _bullet.SetDirection(direction);
-            _bullet.SetCharacteristics(_machineGunCharacteristics.Damage, _machineGunCharacteristics.BulletSpeed);
+            _bullet.SetCharacteristics(MachineGunCharacteristics.Damage, MachineGunCharacteristics.BulletSpeed);
 
             yield return new WaitForSeconds(DelayBetweenShots);
         }

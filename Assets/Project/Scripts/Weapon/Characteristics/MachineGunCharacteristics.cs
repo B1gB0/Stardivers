@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Project.Game.Scripts;
 using UnityEngine;
 
 public class MachineGunCharacteristics
@@ -15,6 +16,28 @@ public class MachineGunCharacteristics
     public int MaxCountShots { get; private set; } = 16;
     
     public float ReloadTime { get; private set; } = 6f;
+    
+    public void ApplyImprovement(CharacteristicsTypes type ,float factor)
+    {
+        switch (type)
+        {
+            case CharacteristicsTypes.Damage :
+                IncreaseDamage(factor);
+                break;
+            case CharacteristicsTypes.FireRate :
+                IncreaseFireRate(factor);
+                break;
+            case CharacteristicsTypes.ProjectileSpeed :
+                IncreaseBulletSpeed(factor);
+                break;
+            case CharacteristicsTypes.RangeAttack :
+                IncreaseRangeAttack(factor);
+                break;
+            case CharacteristicsTypes.ReloadTime :
+                IncreaseReloadVelocity(factor);
+                break;
+        }
+    }
         
     public void IncreaseDamage(float damageFactor)
     {

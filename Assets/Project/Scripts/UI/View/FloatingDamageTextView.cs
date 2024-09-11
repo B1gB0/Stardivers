@@ -6,6 +6,9 @@ namespace Project.Scripts.UI
 {
     public class FloatingDamageTextView : MonoBehaviour, IView
     {
+        private const float DamageFactor = 0.9f;
+        private const int TextFormat = 10;
+        
         private const float Delay = 3f;
         private const float Offset = 2f;
         
@@ -23,7 +26,8 @@ namespace Project.Scripts.UI
 
         public void SetDamageText(float damage, Transform target)
         {
-            _text.text = damage.ToString();
+            //damage /= DamageFactor;
+            _text.text = $"{damage * TextFormat}";
             transform.position = new Vector3 (target.position.x, target.position.y, target.position.z - Offset);
         }
 

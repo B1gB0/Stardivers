@@ -1,4 +1,6 @@
-﻿namespace Project.Game.Scripts
+﻿using UnityEngine;
+
+namespace Project.Game.Scripts
 {
     public class GunCharacteristics
     {
@@ -14,27 +16,49 @@
     
         public float ReloadTime { get; private set; } = 3f;
 
-        public void IncreaseDamage(float damageFactor)
+        public void ApplyImprovement(CharacteristicsTypes type ,float factor)
+        {
+            switch (type)
+            {
+                case CharacteristicsTypes.Damage :
+                    IncreaseDamage(factor);
+                    break;
+                case CharacteristicsTypes.FireRate :
+                    IncreaseFireRate(factor);
+                    break;
+                case CharacteristicsTypes.ProjectileSpeed :
+                    IncreaseBulletSpeed(factor);
+                    break;
+                case CharacteristicsTypes.RangeAttack :
+                    IncreaseRangeAttack(factor);
+                    break;
+                case CharacteristicsTypes.ReloadTime :
+                    IncreaseReloadVelocity(factor);
+                    break;
+            }
+        }
+
+        private void IncreaseDamage(float damageFactor)
         {
             Damage += Damage * damageFactor;
         }
 
-        public void IncreaseFireRate(float fireRateFactor)
+        private void IncreaseFireRate(float fireRateFactor)
         {
             FireRate -= FireRate * fireRateFactor;
         }
 
-        public void IncreaseBulletSpeed(float bulletSpeedFactor)
+        private void IncreaseBulletSpeed(float bulletSpeedFactor)
         {
             BulletSpeed += BulletSpeed * bulletSpeedFactor;
         }
 
-        public void IncreaseRangeAttack(float rangeAttackFactor)
+        private void IncreaseRangeAttack(float rangeAttackFactor)
         {
             RangeAttack += RangeAttack * rangeAttackFactor;
         }
         
-        public void IncreaseReloadVelocity(float reloadTimeFactor)
+        private void IncreaseReloadVelocity(float reloadTimeFactor)
         {
             ReloadTime += ReloadTime * reloadTimeFactor;
         }

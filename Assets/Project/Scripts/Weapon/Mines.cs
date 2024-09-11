@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Project.Game.Scripts.Improvements;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,8 +9,6 @@ namespace Project.Game.Scripts
     {
         private const float MinValue = 0f;
         private const bool IsAutoExpandPool = true;
-        
-        private readonly MineCharacteristics _mineCharacteristics = new ();
 
         [SerializeField] private ParticleSystem _explosionEffect;
         [SerializeField] private int _countMines;
@@ -17,11 +16,12 @@ namespace Project.Game.Scripts
         [SerializeField] private Transform _installPoint;
         
         private ObjectPool<Mine> _pool;
-        
         private Button _minesButton;
         private AudioSoundsService _audioSoundsService;
         
         private float _lastShotTime;
+
+        public MineCharacteristics MineCharacteristics { get; } = new ();
 
         public void Construct(Button button, AudioSoundsService audioSoundsService)
         {
@@ -61,10 +61,15 @@ namespace Project.Game.Scripts
                 _mine.GetExplosionEffects(_explosionEffect, _audioSoundsService);
                 
                 _mine.transform.position = _installPoint.position;
-                _mine.SetCharacteristics(_mineCharacteristics.Damage, _mineCharacteristics.ExplosionRadius);
+                _mine.SetCharacteristics(MineCharacteristics.Damage, MineCharacteristics.ExplosionRadius);
 
-                _lastShotTime = _mineCharacteristics.FireRate;
+                _lastShotTime = MineCharacteristics.FireRate;
             }
+        }
+        
+        public override void Accept(IWeaponVisitor weaponVisitor, CharacteristicsTypes type, float value)
+        {
+            weaponVisitor.Visit(this, type, value);
         }
     }
 }

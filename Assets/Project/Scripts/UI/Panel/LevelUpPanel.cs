@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Project.Game.Scripts;
+using Project.Game.Scripts.Improvements;
 using Project.Scripts.Cards.ScriptableObjects;
 using UnityEngine;
 using Random = System.Random;
@@ -9,22 +10,14 @@ namespace Project.Scripts.UI
 {
     public class LevelUpPanel : MonoBehaviour, IView
     {
-        private const string Damage = nameof(Damage);
-        private const string RangeAttack = nameof(RangeAttack);
-        private const string FireRate = nameof(FireRate);
-        private const string BulletSpeed = nameof(BulletSpeed);
-        private const string CardViewButton = nameof(CardViewButton);
-        
-        private const string Gun = nameof(Gun);
-        private const string Mines = nameof(Mines);
-        
         private const int MinIndex = 1;
         private const int Remainder = 0;
         private const int StartWeapon = 0;
-        private const int Multiplicity = 2;
+        private const int Multiplicity = 3;
 
         private readonly List<Card> _currentImprovementCards = new ();
         private readonly List<Card> _currentWeaponCards = new ();
+        private readonly WeaponVisitor _weaponVisitor = new ();
         private readonly Random _random = new ();
 
         [SerializeField] private List<CardView> _cardsView = new ();
@@ -153,19 +146,19 @@ namespace Project.Scripts.UI
 
         private void OnButtonClicked(Card card, CardView cardView)
         {
-            _audioSoundsService.PlaySound(CardViewButton);
+            _audioSoundsService.PlaySound(Sounds.CardViewButton);
 
             if (card is ImprovementCard improvementCard)
             {
-                _currentImprovementCards.Remove(improvementCard);
-                
                 foreach (Weapon weapon in _weaponHolder.Weapons)
                 {
                     if (improvementCard.WeaponType == weapon.Type)
                     {
-                        
+                        weapon.Accept(_weaponVisitor, improvementCard.CharacteristicsType, improvementCard.Value);
                     }
                 }
+                
+                _currentImprovementCards.Remove(improvementCard);
             }
             else if (card is WeaponCard weaponCard)
             {

@@ -1,6 +1,7 @@
 using System.Collections;
 using Build.Game.Scripts.ECS.EntityActors;
 using Project.Game.Scripts;
+using Project.Game.Scripts.Improvements;
 using UnityEngine;
 
 public class Gun : Weapon
@@ -8,9 +9,7 @@ public class Gun : Weapon
     private const string ObjectPoolBulletName = "PoolGunBullets";
     private const bool IsAutoExpandPool = true;
     private const float MinValue = 0f;
-    
-    private readonly GunCharacteristics _gunCharacteristics = new();
-    
+
     [SerializeField] private GunBullet _bulletPrefab;
     [SerializeField] private int _countBullets;
     [SerializeField] private Transform _shootPoint;
@@ -25,6 +24,8 @@ public class Gun : Weapon
 
     private ClosestEnemyDetector _detector;
     private AudioSoundsService _audioSoundsService;
+
+    public GunCharacteristics GunCharacteristics { get; } = new();
 
     public void Construct(ClosestEnemyDetector detector, AudioSoundsService audioSoundsService)
     {
@@ -44,7 +45,7 @@ public class Gun : Weapon
 
         if (closestEnemy == null) return;
         
-        if (Vector3.Distance(closestEnemy.transform.position, transform.position) <= _gunCharacteristics.RangeAttack && _isShooting)
+        if (Vector3.Distance(closestEnemy.transform.position, transform.position) <= GunCharacteristics.RangeAttack && _isShooting)
         {
             Shoot();
         }
@@ -58,17 +59,22 @@ public class Gun : Weapon
         {
             _bullet = _poolBullets.GetFreeElement();
             
-            _audioSoundsService.PlaySound(this.Type);
+            _audioSoundsService.PlaySound(Sounds.Gun);
 
             _bullet.transform.position = _shootPoint.position;
 
             _bullet.SetDirection(closestEnemy.transform);
-            _bullet.SetCharacteristics(_gunCharacteristics.Damage, _gunCharacteristics.BulletSpeed);
+            _bullet.SetCharacteristics(GunCharacteristics.Damage, GunCharacteristics.BulletSpeed);
 
-            _lastShotTime = _gunCharacteristics.FireRate;
+            _lastShotTime = GunCharacteristics.FireRate;
         }
 
         _lastShotTime -= Time.fixedDeltaTime;
+    }
+
+    public override void Accept(IWeaponVisitor weaponVisitor, CharacteristicsTypes type, float value)
+    {
+        weaponVisitor.Visit(this, type, value);
     }
     
     private void CheckAmmoAndReload()
@@ -82,9 +88,9 @@ public class Gun : Weapon
 
     private IEnumerator Reload()
     {
-        yield return new WaitForSeconds(_gunCharacteristics.ReloadTime);
+        yield return new WaitForSeconds(GunCharacteristics.ReloadTime);
 
-        _maxCountShots = _gunCharacteristics.MaxCountShots;
+        _maxCountShots = GunCharacteristics.MaxCountShots;
         _isShooting = true;
     }
 }

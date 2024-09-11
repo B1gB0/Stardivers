@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using Build.Game.Scripts.ECS.EntityActors;
+using Project.Game.Scripts.Improvements;
 using Project.Scripts.Projectiles.Grenades;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -13,9 +14,7 @@ namespace Project.Game.Scripts
         private const int CountGrenades = 1;
         private const bool IsAutoExpandPool = true;
         private const float MinValue = 0f;
-        
-        private readonly FragGrenadeCharacteristics _fragGrenadeCharacteristics = new ();
-        
+
         [SerializeField] private ParticleSystem _explosionEffect;
         [SerializeField] private FragGrenade _fragGrenade;
         [SerializeField] private Transform _shootPoint;
@@ -27,7 +26,9 @@ namespace Project.Game.Scripts
         private EnemyActor closestEnemy;
 
         private ObjectPool<FragGrenade> _poolGrenades;
-        
+
+        public FragGrenadeCharacteristics FragGrenadeCharacteristics { get; } = new ();
+
         public void Construct(ClosestEnemyDetector detector, AudioSoundsService audioSoundsService)
         {
             _detector = detector;
@@ -53,7 +54,7 @@ namespace Project.Game.Scripts
         
             if (closestEnemy != null)
             {
-                if (Vector3.Distance(closestEnemy.transform.position, transform.position) <= _fragGrenadeCharacteristics.RangeAttack)
+                if (Vector3.Distance(closestEnemy.transform.position, transform.position) <= FragGrenadeCharacteristics.RangeAttack)
                 {
                     Shoot();
                 }
@@ -70,13 +71,18 @@ namespace Project.Game.Scripts
                 _fragGrenade.transform.position = _shootPoint.position;
 
                 _fragGrenade.SetDirection(closestEnemy.transform);
-                _fragGrenade.SetCharacteristics(_fragGrenadeCharacteristics.Damage, _fragGrenadeCharacteristics.ExplosionRadius,
-                    _fragGrenadeCharacteristics.GrenadeSpeed);
+                _fragGrenade.SetCharacteristics(FragGrenadeCharacteristics.Damage, FragGrenadeCharacteristics.ExplosionRadius,
+                    FragGrenadeCharacteristics.GrenadeSpeed);
 
-                _lastShotTime = _fragGrenadeCharacteristics.FireRate;
+                _lastShotTime = FragGrenadeCharacteristics.FireRate;
             }
 
             _lastShotTime -= Time.fixedDeltaTime;
+        }
+        
+        public override void Accept(IWeaponVisitor weaponVisitor, CharacteristicsTypes type, float value)
+        {
+            weaponVisitor.Visit(this, type, value);
         }
     }
 }

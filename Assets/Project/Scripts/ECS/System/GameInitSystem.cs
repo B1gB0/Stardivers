@@ -6,6 +6,7 @@ using Build.Game.Scripts.ECS.Data;
 using Build.Game.Scripts.ECS.Data.SO;
 using Build.Game.Scripts.ECS.EntityActors;
 using Leopotam.Ecs;
+using Project.Game.Scripts;
 using Project.Scripts.Score;
 using Project.Scripts.UI;
 using UnityEngine;
@@ -16,7 +17,6 @@ namespace Build.Game.Scripts.ECS.System
 {
     public class GameInitSystem : IEcsInitSystem, IEcsRunSystem
     {
-        private const string CapsuleFlight = nameof(CapsuleFlight);
         private const string EnemyPool = nameof(EnemyPool);
         
         private const float CapsuleHeight = 20f;
@@ -75,7 +75,7 @@ namespace Build.Game.Scripts.ECS.System
             player = CreatePlayer();
             capsule = CreateCapsule();
             
-            _audioSoundsService.PlaySound(CapsuleFlight);
+            _audioSoundsService.PlaySound(Sounds.CapsuleFlight);
             
             PlayerHealth = player.Health;
             

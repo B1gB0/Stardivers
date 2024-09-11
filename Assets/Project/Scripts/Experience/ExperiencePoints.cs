@@ -6,7 +6,6 @@ namespace Project.Scripts.Score
 {
     public class ExperiencePoints
     {
-        private const string CurrentLevel = nameof(CurrentLevel);
         private const int DefaultLevel = 0;
         
         private readonly ExperienceActorVisitor experienceActorVisitor = new ();

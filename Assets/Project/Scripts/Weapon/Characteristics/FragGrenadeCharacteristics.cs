@@ -11,6 +11,28 @@
         public float ExplosionRadius { get; private set; } = 3f;
 
         public float Damage { get; private set; } = 1f;
+        
+        public void ApplyImprovement(CharacteristicsTypes type ,float factor)
+        {
+            switch (type)
+            {
+                case CharacteristicsTypes.Damage :
+                    IncreaseDamage(factor);
+                    break;
+                case CharacteristicsTypes.FireRate :
+                    IncreaseFireRate(factor);
+                    break;
+                case CharacteristicsTypes.ProjectileSpeed :
+                    IncreaseBulletSpeed(factor);
+                    break;
+                case CharacteristicsTypes.RangeAttack :
+                    IncreaseRangeAttack(factor);
+                    break;
+                case CharacteristicsTypes.ExplosionRadius :
+                    IncreaseExplosionRadius(factor);
+                    break;
+            }
+        }
 
         public void IncreaseDamage(float damageFactor)
         {

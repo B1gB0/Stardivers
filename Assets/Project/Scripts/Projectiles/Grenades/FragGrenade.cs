@@ -1,13 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Build.Game.Scripts.ECS.EntityActors;
+using Project.Game.Scripts;
 using UnityEngine;
 
 namespace  Project.Scripts.Projectiles.Grenades
 {
     public class FragGrenade : Projectile
     {
-        private const string Grenades = nameof(Grenades);
         private const float ThrowTime = 2f;
         
         private ParticleSystem _explosionEffect;
@@ -64,7 +64,7 @@ namespace  Project.Scripts.Projectiles.Grenades
         {
             _explosionEffect.transform.position = transform.position;
             _explosionEffect.Play();
-            _audioSoundsService.PlaySound(Grenades);
+            _audioSoundsService.PlaySound(Sounds.FragGrenades);
         
             foreach (EnemyActor explosiveObject in GetExplosiveObjects())
             {
