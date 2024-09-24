@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using Build.Game.Scripts.ECS.Components;
 using Build.Game.Scripts.ECS.Data;
@@ -56,16 +55,17 @@ namespace Build.Game.Scripts.ECS.System
         public event Action PlayerIsLanded;
 
         public GameInitSystem(PlayerInitData playerData, EnemyInitData enemyData, StoneInitData stoneInitData,
-            CapsuleInitData capsuleData, LevelInitData levelData)
+            CapsuleInitData capsuleData, MapInitData mapData)
         {
             _playerInitData = playerData;
             _enemyInitData = enemyData;
             _stoneInitData = stoneInitData;
             _capsuleInitData = capsuleData;
-            
-            _enemySpawnPoints = levelData.EnemySpawnPoints;
-            _playerSpawnPoint = levelData.PlayerSpawnPoint;
-            _stoneSpawnPoints = levelData.ResourcesSpawnPoints;
+
+            Object.Instantiate(mapData.MapPrefab);
+            _enemySpawnPoints = mapData.EnemySpawnPoints;
+            _playerSpawnPoint = mapData.PlayerSpawnPoint;
+            _stoneSpawnPoints = mapData.StoneSpawnPoints;
         }
 
         public void Init()

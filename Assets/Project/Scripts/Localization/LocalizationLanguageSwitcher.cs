@@ -6,12 +6,12 @@ using UnityEngine.UI;
 
 public class LocalizationLanguageSwitcher : MonoBehaviour
 {
-    private readonly List<string> _languages = new List<string>() {"English", "Russian", "Turkey"};
+    private readonly List<string> _languages = new () {"English", "Russian", "Turkey"};
 
     [SerializeField] private Button _priviousButton;
     [SerializeField] private Button _nextButton;
 
-    private int _currentIndex = 0;
+    private int _currentIndex;
 
     private void OnEnable()
     {

@@ -7,7 +7,7 @@ namespace Source.CommonModules.StateMachineModule
 {
     public class StateMachine
     {
-        private Dictionary<Type, State> _states = new Dictionary<Type, State>();
+        private Dictionary<Type, State> _states = new ();
         
         public State CurrentState { get; private set; }
 
@@ -16,7 +16,7 @@ namespace Source.CommonModules.StateMachineModule
             _states.Add(state.GetType(), state);
         }
 
-        public void SetState<T>() where T : State
+        public void EnterIn<T>() where T : State
         {
             var type = typeof(T);
 
@@ -28,9 +28,7 @@ namespace Source.CommonModules.StateMachineModule
             if (_states.TryGetValue(type, out var newState))
             {
                 CurrentState?.Exit();
-
                 CurrentState = newState;
-                
                 CurrentState.Enter();
             }
         }

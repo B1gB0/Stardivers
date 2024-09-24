@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
@@ -15,6 +13,11 @@ public class LoadingPanel : MonoBehaviour, IView
 
     [SerializeField] private Image _loadingWheel;
     [SerializeField] private TMP_Text _progressText;
+
+    private void Start()
+    {
+        RotateLoadingWheel();
+    }
 
     public void Show()
     {

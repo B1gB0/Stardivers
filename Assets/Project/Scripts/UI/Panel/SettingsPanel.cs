@@ -29,7 +29,6 @@ namespace Project.Scripts.UI
 
         private void OnEnable()
         {
-            _backToSceneButton.onClick.AddListener(Hide);
             _backToSceneButton.onClick.AddListener(PlayGame);
             _settingsButton.gameObject.SetActive(false);
 
@@ -39,7 +38,6 @@ namespace Project.Scripts.UI
 
         private void OnDisable()
         {
-            _backToSceneButton.onClick.RemoveListener(Hide);
             _backToSceneButton.onClick.RemoveListener(PlayGame);
             _settingsButton.gameObject.SetActive(true);
 

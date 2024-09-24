@@ -18,8 +18,6 @@ namespace Project.Scripts.Score
             _currentMaxValueOfLevel = _playerProgression.Levels[_currentLevel];
 
             _currentValue = TargetValue;
-            
-            Debug.Log(_currentMaxValueOfLevel);
         }
 
         private int _currentMaxValueOfLevel;

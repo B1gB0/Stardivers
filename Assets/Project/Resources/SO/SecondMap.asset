@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20413632e384ba04d8bbd66dc8136d3e, type: 3}
+  m_Name: SecondMap
+  m_EditorClassIdentifier: 
+  <Label>k__BackingField: Second Map
+  <Image>k__BackingField: {fileID: 0}
+  <MapPrefab>k__BackingField: {fileID: 3473994869337256753, guid: 11fe58ba8ddf59c4d85ccfa71ae3aa91, type: 3}
+  EnemySpawnPoints:
+  - {x: -67.2, y: 0, z: 27.40001}
+  - {x: -57.900013, y: 0, z: -38.799995}
+  - {x: 78.50001, y: 0, z: -13.000008}
+  - {x: 78.000015, y: 0, z: 59.1}
+  StoneSpawnPoints:
+  - {x: -20.700005, y: 0, z: -23.299997}
+  - {x: -2.4000041, y: 0, z: -27.000004}
+  - {x: 21.099998, y: 0, z: -33.300003}
+  - {x: -42.400005, y: 0, z: 11.600006}
+  - {x: 29.200006, y: 0, z: 13.599998}
+  - {x: 2.9000041, y: 0, z: 33.800003}
+  - {x: -11.699999, y: 0, z: 20.800003}
+  - {x: 50.90001, y: 0, z: 5.399994}
+  - {x: -46.300003, y: 0, z: 7.4000053}
+  PlayerSpawnPoint: {x: 2.8999927, y: 0, z: -58.54001}

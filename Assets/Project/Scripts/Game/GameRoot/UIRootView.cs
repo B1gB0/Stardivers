@@ -1,25 +1,37 @@
-﻿using Project.Scripts.UI;
+﻿using Project.Scripts.Game.GameRoot;
+using Project.Scripts.UI;
+using Project.Scripts.UI.StateMachine;
+using Project.Scripts.UI.StateMachine.States;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace Source.Game.Scripts
 {
     public class UIRootView : MonoBehaviour
     {
-        [SerializeField] private Transform _uiSceneContainer;
+        [SerializeField] private UISceneContainer _uiSceneContainer;
+        [SerializeField] private UIRootButtons _uiRootButtons;
 
         [SerializeField] private LoadingPanel _loadingPanel;
         [SerializeField] private SettingsPanel _settingsPanel;
 
         [SerializeField] private Button _settingsButton;
         [SerializeField] private Button _backToSceneButton;
-
+        
         public PauseService PauseService { get; } = new ();
+        
+        public UIStateMachine UIStateMachine { get; private set; }
+
+        public UIRootButtons UIRootButtons => _uiRootButtons;
 
         private void Awake()
         {
+            UIStateMachine = new UIStateMachine();
+            UIStateMachine.AddState(new SettingsPanelState(_settingsPanel));
+            UIStateMachine.AddState(new LoadingPanelState(_loadingPanel));
+
             _settingsPanel.GetPauseService(PauseService);
-            HideLoadingScreen();
         }
 
         private void Start()
@@ -30,60 +42,52 @@ namespace Source.Game.Scripts
 
         private void OnEnable()
         {
-            _settingsButton.onClick.AddListener(_settingsPanel.Show);
-            _settingsButton.onClick.AddListener(_settingsPanel.StopGame);
-            _settingsButton.onClick.AddListener(HideUIScene);
+            _settingsButton.onClick.AddListener(ShowSettingsPanel);
             _backToSceneButton.onClick.AddListener(ShowUIScene);
         }
 
         private void OnDisable()
         {
-            _settingsButton.onClick.RemoveListener(_settingsPanel.Show);
-            _settingsButton.onClick.RemoveListener(_settingsPanel.StopGame);
-            _settingsButton.onClick.RemoveListener(HideUIScene);
+            _settingsButton.onClick.RemoveListener(ShowSettingsPanel);
             _backToSceneButton.onClick.RemoveListener(ShowUIScene);
-        }
-        
-        public void ShowLoadingScreen()
-        {
-            _loadingPanel.Show();
-            _loadingPanel.RotateLoadingWheel();
         }
 
         public void ShowLoadingProgress(float progress)
         {
             _loadingPanel.SetProgressText(progress);
         }
-        
-        public void HideLoadingScreen()
-        {
-            _loadingPanel.Hide();
-        }
 
         public void AttachSceneUI(GameObject sceneUI)
         {
             ClearSceneUI();
             
-            sceneUI.transform.SetParent(_uiSceneContainer, false);
+            sceneUI.transform.SetParent(_uiSceneContainer.transform, false);
+        }
+
+        private void ShowSettingsPanel()
+        {
+            UIStateMachine.EnterIn<SettingsPanelState>();
+            _settingsPanel.StopGame();
         }
 
         private void ShowUIScene()
         {
-            _uiSceneContainer.gameObject.SetActive(true);
-        }
-
-        private void HideUIScene()
-        {
-            _uiSceneContainer.gameObject.SetActive(false);
+            var sceneName = SceneManager.GetActiveScene().name;
+            
+            if(sceneName == Scenes.MainMenu)
+                UIStateMachine.EnterIn<MainMenuState>();
+            
+            if(sceneName == Scenes.Gameplay)
+                UIStateMachine.EnterIn<GameplayState>();
         }
 
         private void ClearSceneUI()
         {
-            var childCount = _uiSceneContainer.childCount;
+            var childCount = _uiSceneContainer.transform.childCount;
 
             for (int i = 0; i < childCount; i++)
             {
-                Destroy(_uiSceneContainer.GetChild(i).gameObject);
+                Destroy(_uiSceneContainer.transform.GetChild(i).gameObject);
             }
         }
     }

@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Project.Scripts.UI;
+using Project.Scripts.UI.StateMachine.States;
 using R3;
 using Source.Game.Scripts;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Build.Game.Scripts.Game.Gameplay.GameplayRoot
 {
@@ -10,18 +10,23 @@ namespace Build.Game.Scripts.Game.Gameplay.GameplayRoot
     {
         [SerializeField] private UIMainMenuRootBinder _sceneUIRootPrefab;
 
+        private UIMainMenuRootBinder _uiScene;
+        private string _currentOperation;
+        private string saveFileName;
+
         public Observable<MainMenuExitParameters> Run(UIRootView uiRoot, MainMenuEnterParameters enterParameters)
         {
-            var uiScene = Instantiate(_sceneUIRootPrefab);
-            uiRoot.AttachSceneUI(uiScene.gameObject);
+            _uiScene = Instantiate(_sceneUIRootPrefab);
+            uiRoot.AttachSceneUI(_uiScene.gameObject);
             
-            var exitSignalSubject = new Subject<Unit>();
-            uiScene.Bind(exitSignalSubject);
+            _uiScene.GetUIStateMachineAndStates(uiRoot.UIStateMachine, uiRoot.UIRootButtons);
 
-            var saveFileName = "";
-            var levelNumber = 1;
-            
-            var gameplayEnterParameters = new GameplayEnterParameters(saveFileName, levelNumber);
+            var exitSignalSubject = new Subject<Unit>();
+            _uiScene.Bind(exitSignalSubject);
+
+            saveFileName = "Save";
+
+            var gameplayEnterParameters = new GameplayEnterParameters(saveFileName, _currentOperation);
             var mainMenuExitParameters = new MainMenuExitParameters(gameplayEnterParameters);
 
             var exitToGameplaySceneSignal = exitSignalSubject.Select(_ => mainMenuExitParameters);

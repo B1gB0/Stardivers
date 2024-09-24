@@ -28,6 +28,12 @@ namespace Build.Game.Scripts
 
         public bool IsHitting { get; private set; }
 
+        private void Awake()
+        {
+            _hitEffectRef = Instantiate(_hitEffect);
+            _hitEffectRef.Stop();
+        }
+
         private void Start()
         {
             _maxHealth = Value;
@@ -35,9 +41,6 @@ namespace Build.Game.Scripts
             _currentHealth = Value;
             
             HealthChanged?.Invoke(_currentHealth, _targetHealth, _maxHealth);
-
-            _hitEffectRef = Instantiate(_hitEffect);
-            _hitEffectRef.Stop();
         }
 
         public void TakeDamage(float damage)

@@ -1,12 +1,11 @@
 ﻿using System.Collections;
 using Build.Game.Scripts.Game.Gameplay;
 using Build.Game.Scripts.Game.Gameplay.GameplayRoot;
-using Project.Scripts.UI;
+using Project.Scripts.UI.StateMachine.States;
 using R3;
 using Source.Game.Scripts;
 using Source.Game.Scripts.Utils;
 using UnityEngine;
-using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 
 namespace Build.Game.Scripts.Game.GameRoot
@@ -56,7 +55,8 @@ namespace Build.Game.Scripts.Game.GameRoot
 
             if (sceneName == Scenes.Gameplay)
             {
-                var enterParameters = new GameplayEnterParameters("", 1);
+                var operation = "Mars";
+                var enterParameters = new GameplayEnterParameters("", operation);
                 
                 _coroutines.StartCoroutine(LoadAndStartGameplay(enterParameters));
                 return;
@@ -73,8 +73,8 @@ namespace Build.Game.Scripts.Game.GameRoot
 
         private IEnumerator LoadAndStartMainMenu(MainMenuEnterParameters enterParameters = null)
         {
-            _uiRoot.ShowLoadingScreen();
-
+            _uiRoot.UIStateMachine.EnterIn<LoadingPanelState>();
+            
             yield return LoadScene(Scenes.Boot);
             yield return LoadScene(Scenes.MainMenu);
 
@@ -91,13 +91,11 @@ namespace Build.Game.Scripts.Game.GameRoot
                         TargetSceneEnterParameters.As<GameplayEnterParameters>()));
                 }
             } );
-
-            _uiRoot.HideLoadingScreen();
         }
         
         private IEnumerator LoadAndStartGameplay(GameplayEnterParameters enterParameters)
         {
-            _uiRoot.ShowLoadingScreen();
+            _uiRoot.UIStateMachine.EnterIn<LoadingPanelState>();
 
             yield return LoadScene(Scenes.Boot);
             yield return LoadScene(Scenes.Gameplay);
@@ -109,8 +107,6 @@ namespace Build.Game.Scripts.Game.GameRoot
             {
                 _coroutines.StartCoroutine(LoadAndStartMainMenu(gameplayExitParameters.MainMenuEnterParameters));
             });
-
-            _uiRoot.HideLoadingScreen();
         }
 
         private IEnumerator LoadScene(string sceneName)

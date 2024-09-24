@@ -1,4 +1,5 @@
 ﻿using Project.Game.Scripts.Game.GameRoot;
+using Project.Scripts.Operations;
 
 namespace Build.Game.Scripts.Game.Gameplay
 {
@@ -6,12 +7,12 @@ namespace Build.Game.Scripts.Game.Gameplay
     {
         public string SaveFileName { get; }
         
-        public int LevelNumber { get; }
+        public string CurrentOperation { get; }
         
-        public GameplayEnterParameters( string saveFileName, int levelNumber) : base(Scenes.Gameplay)
+        public GameplayEnterParameters( string saveFileName, string currentOperation) : base(Scenes.Gameplay)
         {
             SaveFileName = saveFileName;
-            LevelNumber = levelNumber;
+            CurrentOperation = currentOperation;
         }
     }
 }
