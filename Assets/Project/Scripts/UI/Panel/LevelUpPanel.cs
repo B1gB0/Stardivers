@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Project.Game.Scripts;
 using Project.Game.Scripts.Improvements;
 using Project.Scripts.Cards.ScriptableObjects;
+using Reflex.Attributes;
 using UnityEngine;
 using Random = System.Random;
 
@@ -14,7 +14,7 @@ namespace Project.Scripts.UI
         private const int Remainder = 0;
         private const int StartWeapon = 0;
         private const int Multiplicity = 3;
-
+        
         private readonly List<Card> _currentImprovementCards = new ();
         private readonly List<Card> _currentWeaponCards = new ();
         private readonly WeaponVisitor _weaponVisitor = new ();
@@ -24,11 +24,17 @@ namespace Project.Scripts.UI
         [SerializeField] private List<ImprovementCard> _improvementCards = new ();
         [SerializeField] private List<WeaponCard> _weaponCards = new ();
 
+        private AudioSoundsService _audioSoundsService;
         private PauseService _pauseService;
         private WeaponFactory _weaponFactory;
         private WeaponHolder _weaponHolder;
 
-        private AudioSoundsService _audioSoundsService;
+        [Inject]
+        private void Construct(AudioSoundsService audioSoundsService, PauseService pauseService)
+        {
+            _audioSoundsService = audioSoundsService;
+            _pauseService = pauseService;
+        }
 
         private void Start()
         {
@@ -54,13 +60,10 @@ namespace Project.Scripts.UI
             }
         }
 
-        public void GetServices(PauseService pauseService, WeaponFactory weaponFactory, WeaponHolder weaponHolder,
-            AudioSoundsService audioSoundsService)
+        public void GetServices(WeaponFactory weaponFactory, WeaponHolder weaponHolder)
         {
-            _pauseService = pauseService;
             _weaponFactory = weaponFactory;
             _weaponHolder = weaponHolder;
-            _audioSoundsService = audioSoundsService;
         }
 
         public void GetStartImprovements()
@@ -78,7 +81,7 @@ namespace Project.Scripts.UI
             gameObject.SetActive(false);
         }
 
-        public void OnLevelUpgraded(int currentLevel)
+        public void OnCurrentLevelIsUpgraded(int currentLevel)
         {
             GetCardsForLevelUp(currentLevel);
             Show();

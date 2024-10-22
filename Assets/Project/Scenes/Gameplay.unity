@@ -439,6 +439,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &722291731
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 722291733}
+  - component: {fileID: 722291732}
+  m_Layer: 0
+  m_Name: SceneScope
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &722291732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 722291731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fd1482e4a9dee141aecc5bcd0a4f0f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &722291733
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 722291731}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &726738084
 GameObject:
   m_ObjectHideFlags: 0
@@ -701,7 +745,6 @@ MonoBehaviour:
   _viewFactory: {fileID: 882966743}
   _cinemachineVirtualCamera: {fileID: 624840162}
   _sceneUIRootPrefab: {fileID: 7126382617908381610, guid: 06db735353458e540a515312bcb50596, type: 3}
-  _audioSoundsService: {fileID: 5146202037532030320, guid: f4156268cb07402479321dd11e7e1660, type: 3}
 --- !u!4 &882966742
 Transform:
   m_ObjectHideFlags: 0
@@ -733,6 +776,8 @@ MonoBehaviour:
   _damageTextViewTemplate: {fileID: 4202921636403678774, guid: b8b82ebba3f127e4bb3ce6e6696433b9, type: 3}
   _progressRadialBarPlaneTemplate: {fileID: 1512919815294232957, guid: 289d2f21a6b011a4188945a3b1bfae94, type: 3}
   _levelUpPanelTemplate: {fileID: 1819995445119654197, guid: 236691d053c4dd1428a1de43f2f55faa, type: 3}
+  _endGamePanelTemplate: {fileID: 4326549633215720951, guid: 7a65b2b2cb355ec439d925f6492bf8ec, type: 3}
+  _timer: {fileID: 626542871292815136, guid: e1a867eb6c529bb4fb3bf99bbe3936c0, type: 3}
 --- !u!114 &882966744
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1027,4 +1072,5 @@ SceneRoots:
   - {fileID: 684789935}
   - {fileID: 624840163}
   - {fileID: 726738085}
+  - {fileID: 722291733}
   - {fileID: 882966742}

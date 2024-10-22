@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using Project.Scripts.UI.StateMachine.States;
 
 namespace Project.Scripts.UI.StateMachine
 {
     public class UIStateMachine
     {
-        private readonly Dictionary<Type, IUIState> _states = new ();
-        private IUIState _currentState;
+        private readonly Dictionary<Type, UIState> _states = new ();
+        private UIState _currentState;
 
-        public void EnterIn<T>() where T : IUIState
+        public void EnterIn<T>() where T : UIState
         {
             var type = typeof(T);
 
@@ -23,12 +24,25 @@ namespace Project.Scripts.UI.StateMachine
             _currentState = newState;
             _currentState.Enter();
         }
-        
-        public void AddState(IUIState state)
+
+        public void AddState(UIState state)
         {
             var type = state.GetType();
 
-            _states.TryAdd(type, state);
+            if (_states.ContainsKey(type) == false)
+            {
+                _states.TryAdd(type, state);
+            }
+        }
+
+        public void RemoveState<T>() where T : UIState
+        {
+            var type = typeof(T);
+            
+            if (_states.ContainsKey(type))
+            {
+                _states.Remove(type);
+            }
         }
     }
 }

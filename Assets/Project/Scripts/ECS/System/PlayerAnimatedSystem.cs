@@ -7,10 +7,10 @@ namespace Build.Game.Scripts.ECS.System
 {
     public class PlayerAnimatedSystem : IEcsRunSystem
     {
-        private static readonly int Idle = Animator.StringToHash(nameof(Idle));
-        private static readonly int Move = Animator.StringToHash(nameof(Move));
-        private static readonly int Hit = Animator.StringToHash(nameof(Hit));
-        private static readonly int Speed = Animator.StringToHash(nameof(Speed));
+        public readonly int Idle = Animator.StringToHash(nameof(Idle));
+        public readonly int Move = Animator.StringToHash(nameof(Move));
+        public readonly int Hit = Animator.StringToHash(nameof(Hit));
+        public readonly int Speed = Animator.StringToHash(nameof(Speed));
 
         private readonly EcsFilter<AnimatedComponent, MovableComponent, PlayerComponent> _animatedFilter;
 
@@ -43,12 +43,12 @@ namespace Build.Game.Scripts.ECS.System
             }
         }
 
-        public void SetBlendTreeHitAndMoveAnimation(AnimatedComponent animatedComponent, float value)
+        private void SetBlendTreeHitAndMoveAnimation(AnimatedComponent animatedComponent, float value)
         {
             animatedComponent.animator.SetFloat(Speed, value);
         }
 
-        public void SetHitAnimation(AnimatedComponent animatedComponent, bool isHiting)
+        private void SetHitAnimation(AnimatedComponent animatedComponent, bool isHiting)
         {
             animatedComponent.animator.SetBool(Hit, isHiting);
         }

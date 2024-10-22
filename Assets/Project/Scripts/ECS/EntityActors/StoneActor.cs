@@ -1,7 +1,5 @@
-﻿using System;
-using Project.Scripts.Score;
+﻿using Project.Scripts.Score;
 using UnityEngine;
-using Zenject;
 
 namespace Build.Game.Scripts.ECS.EntityActors
 {

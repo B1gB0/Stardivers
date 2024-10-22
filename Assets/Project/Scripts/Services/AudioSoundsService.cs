@@ -1,8 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
 using Project.Game.Scripts;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class AudioSoundsService : MonoBehaviour
 {
@@ -20,6 +18,7 @@ public class AudioSoundsService : MonoBehaviour
     [SerializeField] private CapsuleExplosionSound _capsuleExplosionSoundPrefab;
     [SerializeField] private CardViewButtonSound _cardViewButtonSoundPrefab;
     [SerializeField] private FourBarrelMachineGunSound _fourBarrelMachineGunSoundPrefab;
+    [SerializeField] private ButtonSound _buttonSoundPrefab;
 
     private ObjectPool<GunSound> _poolGunSoundsOfShots;
     private ObjectPool<MiningStoneSound> _poolMiningSoundsOfStone;
@@ -31,6 +30,7 @@ public class AudioSoundsService : MonoBehaviour
     private CapsuleFlightSound _capsuleFlightSound;
     private CapsuleExplosionSound _capsuleExplosionSound;
     private CardViewButtonSound _cardViewButtonSound;
+    private ButtonSound _buttonSound;
 
     private void Awake()
     {
@@ -40,11 +40,12 @@ public class AudioSoundsService : MonoBehaviour
         _poolFourBarrelMachineGunSounds =
             new ObjectPool<FourBarrelMachineGunSound>(_fourBarrelMachineGunSoundPrefab, CountSounds, transform);
 
-        _minesSound = Instantiate(_minesSoundPrefab);
-        _grenadesSound = Instantiate(_grenadesSoundPrefab);
-        _capsuleFlightSound = Instantiate(_capsuleFlightSoundPrefab);
-        _capsuleExplosionSound = Instantiate(_capsuleExplosionSoundPrefab);
-        _cardViewButtonSound = Instantiate(_cardViewButtonSoundPrefab);
+        _minesSound = Instantiate(_minesSoundPrefab, transform);
+        _grenadesSound = Instantiate(_grenadesSoundPrefab, transform);
+        _capsuleFlightSound = Instantiate(_capsuleFlightSoundPrefab, transform);
+        _capsuleExplosionSound = Instantiate(_capsuleExplosionSoundPrefab, transform);
+        _cardViewButtonSound = Instantiate(_cardViewButtonSoundPrefab, transform);
+        _buttonSound = Instantiate(_buttonSoundPrefab, transform);
 
         _poolGunSoundsOfShots.AutoExpand = IsAutoExpandPool;
         _poolMiningSoundsOfStone.AutoExpand = IsAutoExpandPool;
@@ -79,6 +80,9 @@ public class AudioSoundsService : MonoBehaviour
                 break;
             case Sounds.FourBarrelMachineGun :
                 PlayFourBarrelMachineGunSound();
+                break;
+            case Sounds.Button :
+                PlayButtonSound();
                 break;
         }
     }
@@ -140,6 +144,11 @@ public class AudioSoundsService : MonoBehaviour
         fourBarrelMachineGunSound.AudioSource.PlayOneShot(fourBarrelMachineGunSound.AudioSource.clip);
 
         StartCoroutine(fourBarrelMachineGunSound.OffSoundAfterPlay());
+    }
+
+    private void PlayButtonSound()
+    {
+        _buttonSound.AudioSource.PlayOneShot(_buttonSound.AudioSource.clip);
     }
     
     private IEnumerator PlayCapsuleExplosionSound()

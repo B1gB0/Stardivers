@@ -1,7 +1,9 @@
-﻿using Project.Scripts.Game.GameRoot;
-using Project.Scripts.UI;
+﻿using Project.Game.Scripts;
+using Project.Scripts.Game.GameRoot;
+using Project.Scripts.UI.Panel;
 using Project.Scripts.UI.StateMachine;
 using Project.Scripts.UI.StateMachine.States;
+using Reflex.Attributes;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -18,20 +20,24 @@ namespace Source.Game.Scripts
 
         [SerializeField] private Button _settingsButton;
         [SerializeField] private Button _backToSceneButton;
-        
-        public PauseService PauseService { get; } = new ();
-        
+
+        private AudioSoundsService _audioSoundsService;
+
         public UIStateMachine UIStateMachine { get; private set; }
 
         public UIRootButtons UIRootButtons => _uiRootButtons;
+
+        [Inject]
+        private void Construct(AudioSoundsService audioSoundsService)
+        {
+            _audioSoundsService = audioSoundsService;
+        }
 
         private void Awake()
         {
             UIStateMachine = new UIStateMachine();
             UIStateMachine.AddState(new SettingsPanelState(_settingsPanel));
             UIStateMachine.AddState(new LoadingPanelState(_loadingPanel));
-
-            _settingsPanel.GetPauseService(PauseService);
         }
 
         private void Start()
@@ -66,12 +72,15 @@ namespace Source.Game.Scripts
 
         private void ShowSettingsPanel()
         {
+            _audioSoundsService.PlaySound(Sounds.Button);
             UIStateMachine.EnterIn<SettingsPanelState>();
             _settingsPanel.StopGame();
         }
 
         private void ShowUIScene()
         {
+            _audioSoundsService.PlaySound(Sounds.Button);
+            
             var sceneName = SceneManager.GetActiveScene().name;
             
             if(sceneName == Scenes.MainMenu)

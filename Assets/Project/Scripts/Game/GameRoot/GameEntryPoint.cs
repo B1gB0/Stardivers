@@ -3,6 +3,7 @@ using Build.Game.Scripts.Game.Gameplay;
 using Build.Game.Scripts.Game.Gameplay.GameplayRoot;
 using Project.Scripts.UI.StateMachine.States;
 using R3;
+using Reflex.Core;
 using Source.Game.Scripts;
 using Source.Game.Scripts.Utils;
 using UnityEngine;
@@ -14,7 +15,7 @@ namespace Build.Game.Scripts.Game.GameRoot
     {
         private const string UIRootViewPath = "UIRoot";
         private const string CoroutinesName = "[Coroutines]";
-        
+
         private readonly Coroutines _coroutines;
         private readonly UIRootView _uiRoot;
 
@@ -27,7 +28,7 @@ namespace Build.Game.Scripts.Game.GameRoot
         {
             Application.targetFrameRate = 60;
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
-            
+
             _instance = new GameEntryPoint();
             _instance.StartGame();
         }
@@ -75,6 +76,8 @@ namespace Build.Game.Scripts.Game.GameRoot
         {
             _uiRoot.UIStateMachine.EnterIn<LoadingPanelState>();
             
+            Debug.Log(_uiRoot.UIStateMachine != null);
+            
             yield return LoadScene(Scenes.Boot);
             yield return LoadScene(Scenes.MainMenu);
 
@@ -112,6 +115,7 @@ namespace Build.Game.Scripts.Game.GameRoot
         private IEnumerator LoadScene(string sceneName)
         {
             _asyncOperation = SceneManager.LoadSceneAsync(sceneName);
+            ReflexSceneManager.PreInstallScene(SceneManager.GetSceneByName(sceneName), builder => builder.AddSingleton("Beautifull"));
             
             while (!_asyncOperation.isDone)
             {

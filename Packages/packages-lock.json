@@ -7,6 +7,16 @@
       "dependencies": {},
       "hash": "faf20595c0f18f4a471e6b27fbd5fbf5fd05d7a2"
     },
+    "com.coffee.ui-particle": {
+      "version": "https://github.com/mob-sakai/ParticleEffectForUGUI.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.ugui": "1.0.0",
+        "com.unity.modules.particlesystem": "1.0.0"
+      },
+      "hash": "025efcbc5d3175aa1aaf5cb42a667cd7727457ae"
+    },
     "com.cysharp.r3": {
       "version": "https://github.com/Cysharp/R3.git?path=src/R3.Unity/Assets/R3.Unity",
       "depth": 0,
@@ -22,6 +32,22 @@
       "source": "git",
       "dependencies": {},
       "hash": "90fa6db024148d466fe738f58fd4263c7267346b"
+    },
+    "com.gustavopsantos.reflex": {
+      "version": "https://github.com/gustavopsantos/reflex.git?path=/Assets/Reflex/#9.0.0",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "935f1cefcf48b5a48bbba0ae4c69947acf1d8520"
+    },
+    "com.unity.ai.navigation": {
+      "version": "1.1.5",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.modules.ai": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
     },
     "com.unity.cinemachine": {
       "version": "2.9.7",
@@ -113,6 +139,15 @@
       "depth": 1,
       "source": "registry",
       "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.postprocessing": {
+      "version": "3.2.2",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.modules.physics": "1.0.0"
+      },
       "url": "https://packages.unity.com"
     },
     "com.unity.render-pipelines.core": {

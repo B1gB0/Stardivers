@@ -1,6 +1,6 @@
-﻿using Project.Scripts.UI;
-using Project.Scripts.UI.StateMachine.States;
-using R3;
+﻿using R3;
+using Reflex.Extensions;
+using Reflex.Injectors;
 using Source.Game.Scripts;
 using UnityEngine;
 
@@ -9,7 +9,7 @@ namespace Build.Game.Scripts.Game.Gameplay.GameplayRoot
     public class MainMenuEntryPoint : MonoBehaviour
     {
         [SerializeField] private UIMainMenuRootBinder _sceneUIRootPrefab;
-
+        
         private UIMainMenuRootBinder _uiScene;
         private string _currentOperation;
         private string saveFileName;
@@ -18,6 +18,9 @@ namespace Build.Game.Scripts.Game.Gameplay.GameplayRoot
         {
             _uiScene = Instantiate(_sceneUIRootPrefab);
             uiRoot.AttachSceneUI(_uiScene.gameObject);
+            
+            var container = gameObject.scene.GetSceneContainer();
+            GameObjectInjector.InjectRecursive(uiRoot.gameObject, container);
             
             _uiScene.GetUIStateMachineAndStates(uiRoot.UIStateMachine, uiRoot.UIRootButtons);
 

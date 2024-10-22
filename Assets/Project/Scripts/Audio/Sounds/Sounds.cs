@@ -9,6 +9,7 @@
         FragGrenades,
         CapsuleFlight,
         CardViewButton,
-        FourBarrelMachineGun
+        FourBarrelMachineGun,
+        Button
     }
 }

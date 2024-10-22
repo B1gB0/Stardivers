@@ -1,4 +1,5 @@
 ﻿using System;
+using Reflex.Attributes;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,6 +21,12 @@ namespace Project.Game.Scripts
         private Transform _player;
 
         public event Action MinesIsCreated;
+
+        [Inject]
+        private void Construct(AudioSoundsService audioSoundsService)
+        {
+            _audioSoundsService = audioSoundsService;
+        }
 
         public void CreateWeapon(Weapons weapons)
         {
@@ -43,11 +50,10 @@ namespace Project.Game.Scripts
             }
         }
 
-        public void GetData(Transform player, WeaponHolder weaponHolder, AudioSoundsService audioSoundsService)
+        public void GetData(Transform player, WeaponHolder weaponHolder)
         {
             _weaponHolder = weaponHolder;
             _player = player;
-            _audioSoundsService = audioSoundsService;
         }
 
         public void GetMinesButton(Button button)

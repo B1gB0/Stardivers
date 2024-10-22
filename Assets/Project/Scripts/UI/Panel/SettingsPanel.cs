@@ -1,10 +1,11 @@
-using System;
+using Project.Game.Scripts;
+using Reflex.Attributes;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-namespace Project.Scripts.UI
+namespace Project.Scripts.UI.Panel
 {
     public class SettingsPanel : MonoBehaviour, IView
     {
@@ -25,7 +26,15 @@ namespace Project.Scripts.UI
         [SerializeField] private Slider _musicVolumeSlider;
         [SerializeField] private Slider _effectsVolumeSlider;
 
+        private AudioSoundsService _audioSoundsService;
         private PauseService _pauseService;
+        
+        [Inject]
+        public void Construct(AudioSoundsService audioSoundsService, PauseService pauseService)
+        {
+            _audioSoundsService = audioSoundsService;
+            _pauseService = pauseService;
+        }
 
         private void OnEnable()
         {
@@ -43,11 +52,6 @@ namespace Project.Scripts.UI
 
             _musicVolumeSlider.onValueChanged.RemoveListener(ChangeMusicVolume);
             _effectsVolumeSlider.onValueChanged.RemoveListener(ChangeEffectsVolume);
-        }
-
-        public void GetPauseService(PauseService pauseService)
-        {
-            _pauseService = pauseService;
         }
 
         public void Show()
@@ -81,6 +85,8 @@ namespace Project.Scripts.UI
         
         private void PlayGame()
         {
+            _audioSoundsService.PlaySound(Sounds.Button);
+            
             if(SceneManager.GetActiveScene().name == Scenes.Gameplay)
                 _pauseService.PlayGame();
         }

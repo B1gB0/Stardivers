@@ -30,7 +30,7 @@ namespace Project.Scripts.Score
 
         public event Action<int, float, float> LevelIsUpgraded;
 
-        public event Action<int> RewardIsShowed;
+        public event Action<int> CurrentLevelIsUpgraded;
 
         public void OnKill(ScoreActor experienceActor)
         {
@@ -49,7 +49,7 @@ namespace Project.Scripts.Score
                 LevelIsUpgraded?.Invoke(_currentLevel, TargetValue, _currentMaxValueOfLevel);
                 _currentValue = TargetValue;
                 
-                RewardIsShowed?.Invoke(_currentLevel);
+                CurrentLevelIsUpgraded?.Invoke(_currentLevel);
             }
             else
             {

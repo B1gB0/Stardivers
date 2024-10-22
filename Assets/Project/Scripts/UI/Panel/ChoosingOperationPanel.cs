@@ -1,8 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Project.Game.Scripts;
 using Project.Scripts.Operations;
 using Project.Scripts.UI.StateMachine;
 using Project.Scripts.UI.StateMachine.States;
+using Reflex.Attributes;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,8 +20,15 @@ namespace Project.Scripts.UI
 
         private int _currentIndex;
         private UIStateMachine _uiStateMachine;
+        private AudioSoundsService _audioSoundsService;
         
         public Operation CurrentOperation { get; private set; }
+
+        [Inject]
+        private void Construct(AudioSoundsService audioSoundsService)
+        {
+            _audioSoundsService = audioSoundsService;
+        }
 
         private void Start()
         {
@@ -58,11 +66,14 @@ namespace Project.Scripts.UI
 
         private void HandleBackButtonClick()
         {
+            _audioSoundsService.PlaySound(Sounds.Button);
             _uiStateMachine.EnterIn<MainMenuState>();
         }
 
         private void SetNextOperation()
         {
+            _audioSoundsService.PlaySound(Sounds.Button);
+            
             if (_currentIndex == _operations.Count - 1)
                 _currentIndex = 0;
             else
@@ -73,6 +84,8 @@ namespace Project.Scripts.UI
 
         private void SetPreviousOperation()
         {
+            _audioSoundsService.PlaySound(Sounds.Button);
+            
             if (_currentIndex == 0)
                 _currentIndex = _operations.Count - 1;
             else

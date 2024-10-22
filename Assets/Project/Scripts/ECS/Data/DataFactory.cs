@@ -23,7 +23,7 @@ public class DataFactory : MonoBehaviour
         return Resources.Load<PlayerInitData>(_playerData);
     }
     
-    public MapInitData CreateMapData(string name, int index)
+    public LevelInitData CreateLevelData(string name, int index)
     {
         return name switch
         {

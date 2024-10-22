@@ -56,6 +56,8 @@ namespace Project.Game.Scripts
         {
             if (_lastShotTime <= MinValue)
             {
+                _audioSoundsService.PlaySound(Sounds.Button);
+                
                 _mine = _pool.GetFreeElement();
 
                 _mine.GetExplosionEffects(_explosionEffect, _audioSoundsService);

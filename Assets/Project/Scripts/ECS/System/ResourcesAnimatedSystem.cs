@@ -6,8 +6,8 @@ namespace Build.Game.Scripts.ECS.System
 {
     public class ResourcesAnimatedSystem : IEcsRunSystem
     {
-        private static readonly int Idle = Animator.StringToHash(nameof(Idle));
-        private static readonly int Hit = Animator.StringToHash(nameof(Hit));
+        public readonly int Idle = Animator.StringToHash(nameof(Idle));
+        public readonly int Hit = Animator.StringToHash(nameof(Hit));
 
         private readonly EcsFilter<ResourceComponent, AnimatedComponent> _animatedFilter;
         

@@ -2,7 +2,7 @@
 
 namespace Project.Scripts.UI.StateMachine.States
 {
-    public abstract class ViewState : IUIState
+    public class ViewState : UIState
     {
         private readonly IView _view;
 
@@ -11,12 +11,12 @@ namespace Project.Scripts.UI.StateMachine.States
             _view = view;
         }
 
-        public virtual void Enter()
+        public override void Enter()
         {
             _view.Show();
         }
 
-        public virtual void Exit()
+        public override void Exit()
         {
             _view.Hide();
         }

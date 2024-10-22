@@ -7,7 +7,6 @@ namespace Build.Game.Scripts.ECS.System
     public class FollowSystem : IEcsRunSystem
     {
         private readonly EcsFilter<FollowPlayerComponent, MovableComponent> _enemyFollowFilter;
-        private readonly float _stopDistance = 2.5f;
         
         public void Run()
         {
@@ -19,18 +18,17 @@ namespace Build.Game.Scripts.ECS.System
                 if (followComponent.target == null)
                     continue;
 
+                var navMashAgent = followComponent.navMeshAgent;
                 var direction = (followComponent.target.transform.position - movableComponent.transform.position).normalized;
-                var distance = Vector3.Distance(followComponent.target.transform.position, movableComponent.transform.position);
-                var isMoving = distance > Mathf.Round(_stopDistance);
-                movableComponent.isMoving = isMoving;
 
-                if (isMoving)
+                if (navMashAgent.gameObject.activeSelf)
                 {
-                    movableComponent.rigidbody.velocity = direction * movableComponent.moveSpeed;
+                    navMashAgent.destination = followComponent.target.transform.position;
+                    var isMoving = navMashAgent.remainingDistance > navMashAgent.stoppingDistance;
+                    movableComponent.isMoving = isMoving;
                 }
-
-                direction.y = 0;
-                movableComponent.transform.forward = direction;
+                
+                movableComponent.transform.forward = navMashAgent.transform.forward;
             }
         }
     }

@@ -2,6 +2,15 @@
 {
     public class LevelUpPanelState : ViewState
     {
-        public LevelUpPanelState(IView view) : base(view) { }
+        public LevelUpPanelState(LevelUpPanel levelUpPanel) : base(levelUpPanel)
+        {
+            
+        }
+
+        public override void Enter()
+        {
+               
+            base.Enter();
+        }
     }
 }

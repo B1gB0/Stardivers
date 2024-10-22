@@ -1,6 +1,8 @@
-﻿using Project.Scripts.Score;
+﻿using System;
+using Project.Scripts.Score;
 using Project.Scripts.UI;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Build.Game.Scripts.ECS.EntityActors
 {
@@ -11,6 +13,8 @@ namespace Build.Game.Scripts.ECS.EntityActors
         [field: SerializeField] public Animator Animator { get; private set; }
 
         [field: SerializeField] public Rigidbody Rigidbody { get; private set; }
+        
+        [field: SerializeField] public NavMeshAgent NavMeshAgent { get; private set; }
 
         private ExperiencePoints experiencePoints;
         private FloatingDamageTextService _damageTextService;

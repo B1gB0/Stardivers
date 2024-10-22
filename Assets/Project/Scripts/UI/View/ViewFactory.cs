@@ -1,5 +1,7 @@
 ﻿using Build.Game.Scripts;
 using Project.Scripts.Score;
+using Project.Scripts.UI.Panel;
+using Reflex.Attributes;
 using UnityEngine;
 
 namespace Project.Scripts.UI
@@ -10,12 +12,23 @@ namespace Project.Scripts.UI
         [SerializeField] private FloatingDamageTextView _damageTextViewTemplate;
         [SerializeField] private ProgressRadialBar _progressRadialBarPlaneTemplate;
         [SerializeField] private LevelUpPanel _levelUpPanelTemplate;
+        [SerializeField] private EndGamePanel _endGamePanelTemplate;
+        [SerializeField] private Timer _timer;
+        
+        private AudioSoundsService _audioSoundsService;
+        private PauseService _pauseService;
+
+        [Inject]
+        public void Construct(AudioSoundsService audioSoundsService, PauseService pauseService)
+        {
+            _audioSoundsService = audioSoundsService;
+            _pauseService = pauseService;
+        }
 
         public HealthBar CreateHealthBar(Health health)
         {
             HealthBar healthBar = Instantiate(_healthBarTemplate);
             healthBar.Construct(health);
-
             return healthBar;
         }
 
@@ -37,6 +50,18 @@ namespace Project.Scripts.UI
         {
             LevelUpPanel levelUpPanel = Instantiate(_levelUpPanelTemplate);
             return levelUpPanel;
+        }
+
+        public EndGamePanel CreateEndGamePanel()
+        {
+            EndGamePanel endGamePanel = Instantiate(_endGamePanelTemplate);
+            return endGamePanel;
+        }
+
+        public Timer CreateTimer()
+        {
+            Timer timer = Instantiate(_timer);
+            return timer;
         }
     }
 }

@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7247752550587771800}
-  - component: {fileID: 8450626917484303956}
   - component: {fileID: -5471474892450395940}
+  - component: {fileID: 8450626917484303956}
   m_Layer: 0
   m_Name: GunSoundsOfShots
   m_TagString: Untagged
@@ -33,6 +33,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-5471474892450395940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3824874023738345596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f672d3f5a534119bef3c60465fb2bb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <AudioSource>k__BackingField: {fileID: 8450626917484303956}
 --- !u!82 &8450626917484303956
 AudioSource:
   m_ObjectHideFlags: 0
@@ -129,16 +142,3 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &-5471474892450395940
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3824874023738345596}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f672d3f5a534119bef3c60465fb2bb1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <AudioSource>k__BackingField: {fileID: 8450626917484303956}

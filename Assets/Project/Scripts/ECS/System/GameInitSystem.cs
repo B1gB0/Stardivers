@@ -1,33 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
+using Build.Game.Scripts;
 using Build.Game.Scripts.ECS.Components;
 using Build.Game.Scripts.ECS.Data;
 using Build.Game.Scripts.ECS.Data.SO;
 using Build.Game.Scripts.ECS.EntityActors;
 using Leopotam.Ecs;
 using Project.Game.Scripts;
+using Project.Scripts.Operations;
 using Project.Scripts.Score;
 using Project.Scripts.UI;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
-namespace Build.Game.Scripts.ECS.System
+namespace Project.Scripts.ECS.System
 {
     public class GameInitSystem : IEcsInitSystem, IEcsRunSystem
     {
         private const string EnemyPool = nameof(EnemyPool);
+        private const bool IsAutoExpand = true;
         
         private const float CapsuleHeight = 20f;
-        private const float MinValue = 0f;
-        private const float Delay = 10f;
-        
+
         private readonly EcsWorld _world;
 
+        private readonly FloatingDamageTextService _damageTextService;
+        private readonly AudioSoundsService _audioSoundsService;
+        private readonly ExperiencePoints _experiencePoints;
+        private readonly Timer _timer;
+        
         private readonly PlayerInitData _playerInitData;
         private readonly EnemyInitData _enemyInitData;
         private readonly StoneInitData _stoneInitData;
         private readonly CapsuleInitData _capsuleInitData;
+        
+        private readonly Level _level;
         
         private readonly List<Vector3> _enemySpawnPoints;
         private readonly List<Vector3> _stoneSpawnPoints;
@@ -35,56 +43,45 @@ namespace Build.Game.Scripts.ECS.System
 
         private Vector3 _capsuleSpawnPoint;
 
-        private PlayerActor player;
-        private EnemyActor enemy;
-        private CapsuleActor capsule;
-
-        private float _lastSpawnTime;
+        private PlayerActor _player;
+        private EnemyActor _enemy;
+        private CapsuleActor _capsule;
 
         private ObjectPool<EnemyActor> _enemyPool;
-        private bool _isAutoExpand = true;
-
-        private ExperiencePoints _experiencePoints;
-        private AudioSoundsService _audioSoundsService;
-        private FloatingDamageTextService _damageTextService;
-
+        
         public Health PlayerHealth { get; private set; }
         
         public Transform PlayerTransform { get; private set; }
 
-        public event Action PlayerIsLanded;
+        public event Action PlayerIsSpawned;
 
         public GameInitSystem(PlayerInitData playerData, EnemyInitData enemyData, StoneInitData stoneInitData,
-            CapsuleInitData capsuleData, MapInitData mapData)
+            CapsuleInitData capsuleData, LevelInitData levelData)
         {
             _playerInitData = playerData;
             _enemyInitData = enemyData;
             _stoneInitData = stoneInitData;
             _capsuleInitData = capsuleData;
 
-            Object.Instantiate(mapData.MapPrefab);
-            _enemySpawnPoints = mapData.EnemySpawnPoints;
-            _playerSpawnPoint = mapData.PlayerSpawnPoint;
-            _stoneSpawnPoints = mapData.StoneSpawnPoints;
+            _level = Object.Instantiate(levelData.LevelPrefab);
+            _enemySpawnPoints = levelData.EnemySpawnPoints;
+            _playerSpawnPoint = levelData.PlayerSpawnPoint;
+            _stoneSpawnPoints = levelData.StoneSpawnPoints;
         }
 
         public void Init()
         {
-            _lastSpawnTime = Delay;
+            _player = CreatePlayer();
             
-            player = CreatePlayer();
-            capsule = CreateCapsule();
-            
-            _audioSoundsService.PlaySound(Sounds.CapsuleFlight);
-            
-            PlayerHealth = player.Health;
-            
-            player.gameObject.SetActive(false);
+            PlayerHealth = _player.Health;
 
-            //_enemyPool = new ObjectPool<EnemyActor>(_enemyInitData.EnemyPrefab, _enemySpawnPoints.Count,
-                //new GameObject(EnemyPoolName).transform);
-            
-            //_enemyPool.AutoExpand = _isAutoExpand;
+            _player.gameObject.SetActive(false);
+
+            _enemyPool = new ObjectPool<EnemyActor>(_enemyInitData.EnemyPrefab, _enemySpawnPoints.Count, 
+                new GameObject(EnemyPool).transform)
+            {
+                AutoExpand = IsAutoExpand
+            };
 
             foreach (var resourcesSpawnPoint in _stoneSpawnPoints)
             {
@@ -93,31 +90,62 @@ namespace Build.Game.Scripts.ECS.System
             
                 CreateStone(resourceSpawnPosition);   
             }
+            
+            _level.GetServices(this, _timer);
+
+            if (!_level.IsLaunchedPlayerCapsule)
+            {
+                SpawnPlayer();
+            }
         }
 
         public void Run()
         {
-            if(capsule != null)
-                LaunchCapsule(capsule);
-
-            if (_lastSpawnTime <= MinValue)
+            if (_capsule != null)
             {
-                SpawnEnemy();
-
-                _lastSpawnTime = Delay;
+                LaunchPlayerCapsule();
             }
-
-            _lastSpawnTime -= Time.deltaTime;
         }
-
-        private CapsuleActor CreateCapsule()
+        
+        public void SpawnEnemy()
         {
+            foreach (var enemySpawnPoint in _enemySpawnPoints)
+            {
+                EnemyActor enemy = CreateEnemy(_player);
+
+                var enemySpawnPosition = enemySpawnPoint + Vector3.one * Random.Range(-2f, 2f);
+                enemySpawnPosition.y = 0f;
+
+                enemy.transform.position = enemySpawnPosition;
+            }
+        }
+        
+        public void CreateCapsule()
+        {
+            _audioSoundsService.PlaySound(Sounds.CapsuleFlight);
+            
             _capsuleSpawnPoint = _playerSpawnPoint;
             _capsuleSpawnPoint.y += CapsuleHeight;
             
-            var capsuleActor = Object.Instantiate(_capsuleInitData.Prefab, _capsuleSpawnPoint, Quaternion.identity);
+            _capsule = Object.Instantiate(_capsuleInitData.Prefab, _capsuleSpawnPoint, Quaternion.identity);
+        }
 
-            return capsuleActor;
+        private void SpawnPlayer()
+        {
+            _player.gameObject.SetActive(true);
+        }
+
+        private void LaunchPlayerCapsule()
+        {
+            _capsule.transform.position = Vector3.MoveTowards(_capsule.transform.position, _playerSpawnPoint,
+                _capsuleInitData.DefaultMoveSpeed * Time.deltaTime);
+
+            if (_capsule.transform.position == _playerSpawnPoint)
+            {
+                PlayerIsSpawned?.Invoke();
+                SpawnPlayer();
+                _capsule.Destroy();
+            }
         }
 
         private PlayerActor CreatePlayer()
@@ -154,7 +182,8 @@ namespace Build.Game.Scripts.ECS.System
         
         private EnemyActor CreateEnemy(PlayerActor target)
         {
-            var enemyActor = Object.Instantiate(_enemyInitData.EnemyPrefab);
+            //var enemyActor = Object.Instantiate(_enemyInitData.EnemyPrefab);
+            var enemyActor = _enemyPool.GetFreeElement();
             enemyActor.Construct(_experiencePoints, _damageTextService);
 
             var enemy = _world.NewEntity();
@@ -173,6 +202,7 @@ namespace Build.Game.Scripts.ECS.System
 
             ref var followComponent = ref enemy.Get<FollowPlayerComponent>();
             followComponent.target = target;
+            followComponent.navMeshAgent = enemyActor.NavMeshAgent;
 
             ref var attackComponent = ref enemy.Get<AttackComponent>();
             attackComponent.damage = _enemyInitData.DefaultDamage;
@@ -192,32 +222,6 @@ namespace Build.Game.Scripts.ECS.System
 
             ref var animatedComponent = ref resource.Get<AnimatedComponent>();
             animatedComponent.animator = stoneActor.Animator;
-        }
-
-        private void SpawnEnemy()
-        {
-            foreach (var enemySpawnPoint in _enemySpawnPoints)
-            {
-                EnemyActor enemy = CreateEnemy(player);
-
-                var enemySpawnPosition = enemySpawnPoint + Vector3.one * Random.Range(-2f, 2f);
-                enemySpawnPosition.y = 0f;
-
-                enemy.transform.position = enemySpawnPosition;
-            }
-        }
-        
-        private void LaunchCapsule(CapsuleActor capsule)
-        {
-            capsule.transform.position = Vector3.MoveTowards(capsule.transform.position, _playerSpawnPoint,
-                _capsuleInitData.DefaultMoveSpeed * Time.deltaTime);
-
-            if (capsule.transform.position == _playerSpawnPoint)
-            {
-                PlayerIsLanded?.Invoke();
-                player.gameObject.SetActive(true);
-                capsule.Destroy();
-            }
         }
     }
 }
