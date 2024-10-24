@@ -6,7 +6,7 @@ namespace Build.Game.Scripts.ECS.System
 {
     public class FollowSystem : IEcsRunSystem
     {
-        private readonly EcsFilter<FollowPlayerComponent, MovableComponent> _enemyFollowFilter;
+        private readonly EcsFilter<FollowPlayerComponent, EnemyMovableComponent> _enemyFollowFilter;
         
         public void Run()
         {
@@ -15,20 +15,19 @@ namespace Build.Game.Scripts.ECS.System
                 ref var followComponent = ref _enemyFollowFilter.Get1(entity);
                 ref var movableComponent = ref _enemyFollowFilter.Get2(entity);
 
-                if (followComponent.target == null)
+                if (followComponent.Target == null)
                     continue;
 
-                var navMashAgent = followComponent.navMeshAgent;
-                var direction = (followComponent.target.transform.position - movableComponent.transform.position).normalized;
+                var navMashAgent = followComponent.NavMeshAgent;
 
                 if (navMashAgent.gameObject.activeSelf)
                 {
-                    navMashAgent.destination = followComponent.target.transform.position;
+                    navMashAgent.destination = followComponent.Target.transform.position;
                     var isMoving = navMashAgent.remainingDistance > navMashAgent.stoppingDistance;
-                    movableComponent.isMoving = isMoving;
+                    movableComponent.IsMoving = isMoving;
                 }
                 
-                movableComponent.transform.forward = navMashAgent.transform.forward;
+                movableComponent.Transform.forward = navMashAgent.transform.forward;
             }
         }
     }

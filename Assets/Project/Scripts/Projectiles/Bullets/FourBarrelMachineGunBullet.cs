@@ -12,7 +12,7 @@ namespace Project.Scripts.Projectiles.Bullets
     
         private void OnTriggerEnter(Collider collision)
         {
-            if(collision.gameObject.TryGetComponent(out EnemyActor enemy))
+            if(collision.gameObject.TryGetComponent(out SmallAlienEnemyActor enemy))
             {
                 enemy.Health.TakeDamage(_damage);
                 gameObject.SetActive(false);

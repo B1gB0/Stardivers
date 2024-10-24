@@ -10,7 +10,7 @@ namespace Build.Game.Scripts.ECS.System
         public readonly int Move = Animator.StringToHash(nameof(Move));
         public readonly int Attack = Animator.StringToHash(nameof(Attack));
 
-        private readonly EcsFilter<AnimatedComponent, MovableComponent, AttackComponent, EnemyComponent> _animatedFilter;
+        private readonly EcsFilter<AnimatedComponent, EnemyMovableComponent, EnemyComponent> _animatedFilter;
         
         public void Run()
         {
@@ -18,13 +18,12 @@ namespace Build.Game.Scripts.ECS.System
             {
                 ref var animatedComponent = ref _animatedFilter.Get1(entity);
                 ref var movableComponent = ref _animatedFilter.Get2(entity);
-                ref var attackComponent = ref _animatedFilter.Get3(entity);
 
-                if(!attackComponent.isAttacking)
-                    animatedComponent.animator.SetBool(Move, movableComponent.isMoving);
+                if(!animatedComponent.IsAttacking)
+                    animatedComponent.Animator.SetBool(Move, movableComponent.IsMoving);
                 
-                if(!movableComponent.isMoving)
-                    animatedComponent.animator.SetBool(Attack, attackComponent.isAttacking);
+                if(!movableComponent.IsMoving)
+                    animatedComponent.Animator.SetBool(Attack, animatedComponent.IsAttacking);
             }
         }
     }

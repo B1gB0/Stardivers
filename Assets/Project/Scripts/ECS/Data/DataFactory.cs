@@ -10,7 +10,8 @@ public class DataFactory : MonoBehaviour
     private const string MysteryPlanet = nameof(MysteryPlanet);
     
     private readonly string _playerData = "SO/PlayerData";
-    private readonly string _enemyData = "SO/EnemyData";
+    private readonly string _smallEnemyAlienData = "SO/SmallEnemyAlienData";
+    private readonly string _bigEnemyAlienData = "SO/BigEnemyAlienData";
     private readonly string _stoneData = "SO/StoneData";
     private readonly string _capsuleData = "SO/CapsuleData";
     private readonly string _playerProgression = "SO/PlayerProgression";
@@ -33,9 +34,14 @@ public class DataFactory : MonoBehaviour
         };
     }
     
-    public EnemyInitData CreateEnemyData()
+    public SmallEnemyAlienInitData CreateSmallEnemyAlienData()
     {
-        return Resources.Load<EnemyInitData>(_enemyData);
+        return Resources.Load<SmallEnemyAlienInitData>(_smallEnemyAlienData);
+    }
+    
+    public BigEnemyAlienInitData CreateBigEnemyAlienData()
+    {
+        return Resources.Load<BigEnemyAlienInitData>(_bigEnemyAlienData);
     }
     
     public StoneInitData CreateStoneData()

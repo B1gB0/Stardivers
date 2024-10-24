@@ -6,8 +6,8 @@ namespace Build.Game.Scripts.ECS.Components
 {
     public struct PlayerComponent
     {
-        public Health health;
-        public List<Weapon> weapons;
+        public Health Health;
+        public List<Weapon> Weapons;
         public MiningToolActor MiningTool;
     }
 }

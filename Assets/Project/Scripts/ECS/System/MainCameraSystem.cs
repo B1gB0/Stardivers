@@ -6,7 +6,7 @@ namespace Build.Game.Scripts.ECS.System
 {
     public class MainCameraSystem : IEcsRunSystem
     {
-        private readonly EcsFilter<PlayerComponent, MovableComponent> _mainCameraFilter;
+        private readonly EcsFilter<PlayerComponent, PlayerMovableComponent> _mainCameraFilter;
         private readonly CinemachineVirtualCamera _mainCamera;
 
         public MainCameraSystem(CinemachineVirtualCamera mainCamera)
@@ -19,7 +19,7 @@ namespace Build.Game.Scripts.ECS.System
             foreach (var entity in _mainCameraFilter)
             {
                 ref var movableComponent = ref _mainCameraFilter.Get2(entity);
-                _mainCamera.Follow = movableComponent.transform;
+                _mainCamera.Follow = movableComponent.Transform;
             }
         }
     }

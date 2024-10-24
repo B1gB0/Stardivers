@@ -27,7 +27,7 @@ public class MachineGun : Weapon
     private ClosestEnemyDetector _detector;
     private AudioSoundsService _audioSoundsService;
     
-    private EnemyActor closestEnemy;
+    private SmallAlienEnemyActor closestSmallAlienEnemy;
     private ObjectPool<MachineGunBullet> _poolBullets;
 
     public MachineGunCharacteristics MachineGunCharacteristics { get; } = new();
@@ -51,11 +51,11 @@ public class MachineGun : Weapon
 
     private void FixedUpdate()
     {
-        closestEnemy = _detector.СlosestEnemy;
+        closestSmallAlienEnemy = _detector.СlosestSmallAlienEnemy;
 
-        if (closestEnemy == null) return;
+        if (closestSmallAlienEnemy == null) return;
         
-        if (Vector3.Distance(closestEnemy.transform.position, transform.position) <= MachineGunCharacteristics.RangeAttack && _isShooting)
+        if (Vector3.Distance(closestSmallAlienEnemy.transform.position, transform.position) <= MachineGunCharacteristics.RangeAttack && _isShooting)
         {
             Shoot();
         }
@@ -65,7 +65,7 @@ public class MachineGun : Weapon
     
     public override void Shoot()
     {
-        if (_lastBurstTime <= MinValue && closestEnemy.Health.Value > MinValue)
+        if (_lastBurstTime <= MinValue && closestSmallAlienEnemy.Health.TargetHealth > MinValue)
         {
             _audioSoundsService.PlaySound(Sounds.MachineGun);
             
@@ -109,7 +109,7 @@ public class MachineGun : Weapon
             
             _bullet.transform.position = shootPoint.position;
                 
-            _bullet.SetDirection(closestEnemy.transform);
+            _bullet.SetDirection(closestSmallAlienEnemy.transform);
             _bullet.SetCharacteristics(MachineGunCharacteristics.Damage, MachineGunCharacteristics.BulletSpeed);
 
             yield return new WaitForSeconds(DelayBetweenShots);

@@ -8,8 +8,7 @@ namespace Build.Game.Scripts
     {
         private const float RecoveryRate = 10f;
         
-        [field: SerializeField] public float Value { get; private set; }
-        
+        [SerializeField] private float _value;
         [SerializeField] private ParticleSystem _hitEffect;
         [SerializeField] private Transform _hitPoint;
 
@@ -24,7 +23,8 @@ namespace Build.Game.Scripts
 
         private float _currentHealth;
         private float _maxHealth;
-        private float _targetHealth;
+        
+        public float TargetHealth { get; private set; }
 
         public bool IsHitting { get; private set; }
 
@@ -36,11 +36,11 @@ namespace Build.Game.Scripts
 
         private void Start()
         {
-            _maxHealth = Value;
-            _targetHealth = Value;
-            _currentHealth = Value;
+            _maxHealth = _value;
+            TargetHealth = _value;
+            _currentHealth = _value;
             
-            HealthChanged?.Invoke(_currentHealth, _targetHealth, _maxHealth);
+            HealthChanged?.Invoke(_currentHealth, TargetHealth, _maxHealth);
         }
 
         public void TakeDamage(float damage)
@@ -49,20 +49,27 @@ namespace Build.Game.Scripts
             
             _hitEffectRef.transform.position = _hitPoint.position;
             _hitEffectRef.Play();
+
+            TargetHealth -= damage;
+
+            OnChangeHealth(_currentHealth, TargetHealth, _maxHealth);
             
-            Value -= damage;
+            _currentHealth = TargetHealth;
 
-            _targetHealth = Value;
-
-            OnChangeHealth(_currentHealth, _targetHealth, _maxHealth);
-            
-            _currentHealth = Value;
-
-            if (Value < 0f)
-                Value = 0f;
+            if (TargetHealth < 0f)
+                TargetHealth = 0f;
         
-            if(Value == 0)
+            if(TargetHealth == 0)
                 Die?.Invoke();
+        }
+
+        public void SetHealthValue()
+        {
+            TargetHealth = _value;
+            
+            OnChangeHealth(_currentHealth, TargetHealth, _maxHealth);
+
+            _currentHealth = TargetHealth;
         }
         
         public void SetHit(bool isHitting)

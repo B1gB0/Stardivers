@@ -19,7 +19,7 @@ public class Gun : Weapon
     private bool _isShooting = true;
     
     private GunBullet _bullet;
-    private EnemyActor closestEnemy;
+    private SmallAlienEnemyActor closestSmallAlienEnemy;
     private ObjectPool<GunBullet> _poolBullets;
 
     private ClosestEnemyDetector _detector;
@@ -41,11 +41,11 @@ public class Gun : Weapon
 
     private void FixedUpdate()
     {
-        closestEnemy = _detector.СlosestEnemy;
+        closestSmallAlienEnemy = _detector.СlosestSmallAlienEnemy;
 
-        if (closestEnemy == null) return;
+        if (closestSmallAlienEnemy == null) return;
         
-        if (Vector3.Distance(closestEnemy.transform.position, transform.position) <= GunCharacteristics.RangeAttack && _isShooting)
+        if (Vector3.Distance(closestSmallAlienEnemy.transform.position, transform.position) <= GunCharacteristics.RangeAttack && _isShooting)
         {
             Shoot();
         }
@@ -55,7 +55,7 @@ public class Gun : Weapon
     
     public override void Shoot()
     {
-        if (_lastShotTime <= MinValue && closestEnemy.Health.Value > MinValue)
+        if (_lastShotTime <= MinValue && closestSmallAlienEnemy.Health.TargetHealth > MinValue)
         {
             _bullet = _poolBullets.GetFreeElement();
             
@@ -63,7 +63,7 @@ public class Gun : Weapon
 
             _bullet.transform.position = _shootPoint.position;
 
-            _bullet.SetDirection(closestEnemy.transform);
+            _bullet.SetDirection(closestSmallAlienEnemy.transform);
             _bullet.SetCharacteristics(GunCharacteristics.Damage, GunCharacteristics.BulletSpeed);
 
             _lastShotTime = GunCharacteristics.FireRate;

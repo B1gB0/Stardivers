@@ -7,11 +7,11 @@ public class ClosestEnemyDetector : MonoBehaviour
     private const float MinValue = 0f;
     private const float SearchRadius = 5f;
     
-    private readonly List<EnemyActor> _enemies = new ();
+    private readonly List<SmallAlienEnemyActor> _enemies = new ();
     
     private float _currentDistanceOfClosestEnemy;
 
-    public EnemyActor СlosestEnemy { get; private set; }
+    public SmallAlienEnemyActor СlosestSmallAlienEnemy { get; private set; }
 
     private void Update()
     {
@@ -25,22 +25,22 @@ public class ClosestEnemyDetector : MonoBehaviour
         Collider[] colliders = Physics.OverlapSphere(transform.position, SearchRadius);
         
         foreach (Collider collider in colliders)
-            if (collider.attachedRigidbody != null && collider.gameObject.TryGetComponent(out EnemyActor enemyActor))
+            if (collider.attachedRigidbody != null && collider.gameObject.TryGetComponent(out SmallAlienEnemyActor enemyActor))
                 _enemies.Add(enemyActor);
 
         float distance = Mathf.Infinity;
 
         Vector3 position = transform.localPosition;
 
-        foreach (EnemyActor enemy in _enemies)
+        foreach (SmallAlienEnemyActor enemy in _enemies)
         {
-            if (enemy.Health.Value > MinValue)
+            if (enemy.Health.TargetHealth > MinValue)
             {
                 _currentDistanceOfClosestEnemy = Vector3.Distance(position, enemy.transform.localPosition);
 
                 if (_currentDistanceOfClosestEnemy < distance)
                 {
-                    СlosestEnemy = enemy;
+                    СlosestSmallAlienEnemy = enemy;
                     distance = _currentDistanceOfClosestEnemy;
                 }
             }

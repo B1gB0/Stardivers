@@ -26,7 +26,7 @@ namespace Project.Scripts.UI
 
         public void SetDamageText(float damage, Transform target)
         {
-            //damage /= DamageFactor;
+            //Damage /= DamageFactor;
             _text.text = $"{damage * TextFormat}";
             transform.position = new Vector3 (target.position.x, target.position.y, target.position.z - Offset);
         }

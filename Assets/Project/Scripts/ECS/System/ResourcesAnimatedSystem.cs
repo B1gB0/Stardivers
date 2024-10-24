@@ -19,7 +19,7 @@ namespace Build.Game.Scripts.ECS.System
 
                 ref var animatedComponent = ref _animatedFilter.Get2(entity);
 
-                animatedComponent.animator.SetBool(Hit, resourceComponent.health.IsHitting);
+                animatedComponent.Animator.SetBool(Hit, resourceComponent.Health.IsHitting);
             }
         }
     }

@@ -12,7 +12,7 @@ namespace Build.Game.Scripts.ECS.System
         public readonly int Hit = Animator.StringToHash(nameof(Hit));
         public readonly int Speed = Animator.StringToHash(nameof(Speed));
 
-        private readonly EcsFilter<AnimatedComponent, MovableComponent, PlayerComponent> _animatedFilter;
+        private readonly EcsFilter<AnimatedComponent, PlayerMovableComponent, PlayerComponent> _animatedFilter;
 
         private readonly float _stopHitValue = 0f;
         private readonly float _startHitValue = 0.4f;
@@ -25,9 +25,9 @@ namespace Build.Game.Scripts.ECS.System
                 ref var movableComponent = ref _animatedFilter.Get2(entity);
                 ref var playerComponent = ref _animatedFilter.Get3(entity);
 
-                animatedComponent.animator.SetBool(Move, movableComponent.isMoving);
+                animatedComponent.Animator.SetBool(Move, movableComponent.IsMoving);
 
-                if (playerComponent.MiningTool.IsMining && movableComponent.isMoving)
+                if (playerComponent.MiningTool.IsMining && movableComponent.IsMoving)
                 {
                     SetBlendTreeHitAndMoveAnimation(animatedComponent, _startHitValue);
                 }
@@ -45,12 +45,12 @@ namespace Build.Game.Scripts.ECS.System
 
         private void SetBlendTreeHitAndMoveAnimation(AnimatedComponent animatedComponent, float value)
         {
-            animatedComponent.animator.SetFloat(Speed, value);
+            animatedComponent.Animator.SetFloat(Speed, value);
         }
 
         private void SetHitAnimation(AnimatedComponent animatedComponent, bool isHiting)
         {
-            animatedComponent.animator.SetBool(Hit, isHiting);
+            animatedComponent.Animator.SetBool(Hit, isHiting);
         }
     }
 }

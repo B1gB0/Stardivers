@@ -4,6 +4,7 @@ namespace Build.Game.Scripts.ECS.Components
 {
     public struct AnimatedComponent
     {
-        public Animator animator;
+        public Animator Animator;
+        public bool IsAttacking;
     }
 }

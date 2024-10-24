@@ -15,7 +15,7 @@ public class Mine : Projectile
 
     private void OnTriggerEnter(Collider collision)
     {
-        if(collision.gameObject.TryGetComponent(out EnemyActor enemy))
+        if(collision.gameObject.TryGetComponent(out SmallAlienEnemyActor enemy))
         {
             Explode();
             StopCoroutine(LifeRoutine());
@@ -47,7 +47,7 @@ public class Mine : Projectile
         _explosionEffect.Play();
         _audioSoundsService.PlaySound(Sounds.Mines);
 
-        foreach (EnemyActor explosiveObject in GetExplosiveObjects())
+        foreach (SmallAlienEnemyActor explosiveObject in GetExplosiveObjects())
         {
             explosiveObject.Health.TakeDamage(_damage);
         }
@@ -55,14 +55,14 @@ public class Mine : Projectile
         gameObject.SetActive(false);
     }
     
-    private List<EnemyActor> GetExplosiveObjects()
+    private List<SmallAlienEnemyActor> GetExplosiveObjects()
     {
         Collider[] hits = Physics.OverlapSphere(transform.position, _explosionRadius);
 
-        List<EnemyActor> enemies = new();
+        List<SmallAlienEnemyActor> enemies = new();
 
         foreach (Collider hit in hits)
-            if (hit.attachedRigidbody != null && hit.gameObject.TryGetComponent(out EnemyActor enemyActor))
+            if (hit.attachedRigidbody != null && hit.gameObject.TryGetComponent(out SmallAlienEnemyActor enemyActor))
                 enemies.Add(enemyActor);
 
         return enemies;

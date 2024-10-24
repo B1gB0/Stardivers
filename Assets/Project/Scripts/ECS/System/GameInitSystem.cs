@@ -7,6 +7,7 @@ using Build.Game.Scripts.ECS.Data.SO;
 using Build.Game.Scripts.ECS.EntityActors;
 using Leopotam.Ecs;
 using Project.Game.Scripts;
+using Project.Scripts.ECS.Data;
 using Project.Scripts.Operations;
 using Project.Scripts.Score;
 using Project.Scripts.UI;
@@ -18,11 +19,15 @@ namespace Project.Scripts.ECS.System
 {
     public class GameInitSystem : IEcsInitSystem, IEcsRunSystem
     {
-        private const string EnemyPool = nameof(EnemyPool);
+        private const string SmallEnemyAlienPool = nameof(SmallEnemyAlienPool);
+        private const string BigEnemyAlienPool = nameof(BigEnemyAlienPool);
+        
         private const bool IsAutoExpand = true;
         
         private const float CapsuleHeight = 20f;
+        private const float MinValue = 0f;
 
+        private readonly Vector3 _stoneRotation = new (0f, 90f, 0f);
         private readonly EcsWorld _world;
 
         private readonly FloatingDamageTextService _damageTextService;
@@ -31,23 +36,26 @@ namespace Project.Scripts.ECS.System
         private readonly Timer _timer;
         
         private readonly PlayerInitData _playerInitData;
-        private readonly EnemyInitData _enemyInitData;
+        private readonly SmallEnemyAlienInitData _smallEnemyAlienInitData;
+        private readonly BigEnemyAlienInitData bigEnemyAlienData; 
         private readonly StoneInitData _stoneInitData;
         private readonly CapsuleInitData _capsuleInitData;
         
         private readonly Level _level;
         
-        private readonly List<Vector3> _enemySpawnPoints;
+        private readonly List<Vector3> _smallEnemyAlienSpawnPoints;
+        private readonly List<Vector3> _bigEnemyAlienSpawnPoints;
         private readonly List<Vector3> _stoneSpawnPoints;
         private readonly Vector3 _playerSpawnPoint;
 
         private Vector3 _capsuleSpawnPoint;
 
         private PlayerActor _player;
-        private EnemyActor _enemy;
+        private SmallAlienEnemyActor smallAlienEnemy;
         private CapsuleActor _capsule;
 
-        private ObjectPool<EnemyActor> _enemyPool;
+        private ObjectPool<BigAlienEnemyAlienActor> _bigEnemyAlienPool;
+        private ObjectPool<SmallAlienEnemyActor> _smallEnemyAlienPool;
         
         public Health PlayerHealth { get; private set; }
         
@@ -55,16 +63,19 @@ namespace Project.Scripts.ECS.System
 
         public event Action PlayerIsSpawned;
 
-        public GameInitSystem(PlayerInitData playerData, EnemyInitData enemyData, StoneInitData stoneInitData,
-            CapsuleInitData capsuleData, LevelInitData levelData)
+        public GameInitSystem(PlayerInitData playerData, SmallEnemyAlienInitData smallEnemyAlienData,
+            BigEnemyAlienInitData bigEnemyAlienData, StoneInitData stoneInitData, CapsuleInitData capsuleData,
+            LevelInitData levelData)
         {
             _playerInitData = playerData;
-            _enemyInitData = enemyData;
+            _smallEnemyAlienInitData = smallEnemyAlienData;
+            this.bigEnemyAlienData = bigEnemyAlienData;
             _stoneInitData = stoneInitData;
             _capsuleInitData = capsuleData;
 
             _level = Object.Instantiate(levelData.LevelPrefab);
-            _enemySpawnPoints = levelData.EnemySpawnPoints;
+            _smallEnemyAlienSpawnPoints = levelData.SmallEnemyAlienSpawnPoints;
+            _bigEnemyAlienSpawnPoints = levelData.BigEnemyAlienSpawnPoints;
             _playerSpawnPoint = levelData.PlayerSpawnPoint;
             _stoneSpawnPoints = levelData.StoneSpawnPoints;
         }
@@ -77,18 +88,24 @@ namespace Project.Scripts.ECS.System
 
             _player.gameObject.SetActive(false);
 
-            _enemyPool = new ObjectPool<EnemyActor>(_enemyInitData.EnemyPrefab, _enemySpawnPoints.Count, 
-                new GameObject(EnemyPool).transform)
+            _smallEnemyAlienPool = new ObjectPool<SmallAlienEnemyActor>(_smallEnemyAlienInitData.SmallAlienEnemyPrefab,
+                _smallEnemyAlienSpawnPoints.Count, new GameObject(SmallEnemyAlienPool).transform)
             {
                 AutoExpand = IsAutoExpand
             };
 
-            foreach (var resourcesSpawnPoint in _stoneSpawnPoints)
+            _bigEnemyAlienPool = new ObjectPool<BigAlienEnemyAlienActor>(bigEnemyAlienData.BigAlienEnemyPrefab,
+                _bigEnemyAlienSpawnPoints.Count, new GameObject(BigEnemyAlienPool).transform)
             {
-                var resourceSpawnPosition = resourcesSpawnPoint + Vector3.one * Random.Range(-2f, 2f);
-                resourceSpawnPosition.y = 0;
+                AutoExpand = IsAutoExpand
+            };
+
+            foreach (var stoneSpawnPoint in _stoneSpawnPoints)
+            {
+                var stoneSpawnPosition = stoneSpawnPoint + Vector3.one * Random.Range(-3f, 3f);
+                stoneSpawnPosition.y = 0;
             
-                CreateStone(resourceSpawnPosition);   
+                CreateStone(stoneSpawnPosition);   
             }
             
             _level.GetServices(this, _timer);
@@ -109,14 +126,24 @@ namespace Project.Scripts.ECS.System
         
         public void SpawnEnemy()
         {
-            foreach (var enemySpawnPoint in _enemySpawnPoints)
+            foreach (var enemySpawnPoint in _smallEnemyAlienSpawnPoints)
             {
-                EnemyActor enemy = CreateEnemy(_player);
+                SmallAlienEnemyActor smallAlienEnemy = CreateSmallEnemyAlien(_player);
 
                 var enemySpawnPosition = enemySpawnPoint + Vector3.one * Random.Range(-2f, 2f);
                 enemySpawnPosition.y = 0f;
 
-                enemy.transform.position = enemySpawnPosition;
+                smallAlienEnemy.transform.position = enemySpawnPosition;
+            }
+            
+            foreach (var enemySpawnPoint in _bigEnemyAlienSpawnPoints)
+            {
+                BigAlienEnemyAlienActor bigEnemyAlien = CreateBigEnemyAlien(_player);
+
+                var enemySpawnPosition = enemySpawnPoint + Vector3.one * Random.Range(-2f, 2f);
+                enemySpawnPosition.y = 0f;
+
+                bigEnemyAlien.transform.position = enemySpawnPosition;
             }
         }
         
@@ -163,65 +190,97 @@ namespace Project.Scripts.ECS.System
             
             ref var playerComponent = ref player.Get<PlayerComponent>();
             playerComponent.MiningTool = playerActor.MiningToolActor;
-            playerComponent.weapons = playerActor.Weapons;
-            playerComponent.health = playerActor.Health;
+            playerComponent.Weapons = playerActor.Weapons;
+            playerComponent.Health = playerActor.Health;
 
-            ref var movableComponent = ref player.Get<MovableComponent>();
-            movableComponent.moveSpeed = _playerInitData.DefaultMoveSpeed;
-            movableComponent.rotationSpeed = _playerInitData.DefaultRotationSpeed;
-            movableComponent.transform = playerActor.transform;
-            movableComponent.rigidbody = playerActor.Rigidbody;
+            ref var movableComponent = ref player.Get<PlayerMovableComponent>();
+            movableComponent.MoveSpeed = _playerInitData.DefaultMoveSpeed;
+            movableComponent.RotationSpeed = _playerInitData.DefaultRotationSpeed;
+            movableComponent.Transform = playerActor.transform;
+            movableComponent.Rigidbody = playerActor.Rigidbody;
 
             ref var animationsComponent = ref player.Get<AnimatedComponent>();
-            animationsComponent.animator = playerActor.Animator;
-            
-            ref var attackComponent = ref player.Get<AttackComponent>();
+            animationsComponent.Animator = playerActor.Animator;
 
             return playerActor;
         }
         
-        private EnemyActor CreateEnemy(PlayerActor target)
+        private SmallAlienEnemyActor CreateSmallEnemyAlien(PlayerActor target)
         {
-            //var enemyActor = Object.Instantiate(_enemyInitData.EnemyPrefab);
-            var enemyActor = _enemyPool.GetFreeElement();
-            enemyActor.Construct(_experiencePoints, _damageTextService);
+            var smallEnemyAlienActor = _smallEnemyAlienPool.GetFreeElement();
+            smallEnemyAlienActor.Construct(_experiencePoints, _damageTextService);
+
+            if (smallEnemyAlienActor.Health.TargetHealth <= MinValue)
+            {
+                smallEnemyAlienActor.Health.SetHealthValue();
+            }
 
             var enemy = _world.NewEntity();
             
             ref var enemyComponent = ref enemy.Get<EnemyComponent>();
-            enemyComponent.health = enemyActor.Health;
+            enemyComponent.Health = smallEnemyAlienActor.Health;
 
-            ref var enemyMovableComponent = ref enemy.Get<MovableComponent>();
-            enemyMovableComponent.moveSpeed = _enemyInitData.DefaultMoveSpeed;
-            enemyMovableComponent.rotationSpeed = _enemyInitData.DefaultRotationSpeed;
-            enemyMovableComponent.transform = enemyActor.transform;
-            enemyMovableComponent.rigidbody = enemyActor.Rigidbody;
+            ref var enemyMovableComponent = ref enemy.Get<EnemyMovableComponent>();
+            enemyMovableComponent.Transform = smallEnemyAlienActor.transform;
 
             ref var enemyAnimationsComponent = ref enemy.Get<AnimatedComponent>();
-            enemyAnimationsComponent.animator = enemyActor.Animator;
+            enemyAnimationsComponent.Animator = smallEnemyAlienActor.Animator;
 
             ref var followComponent = ref enemy.Get<FollowPlayerComponent>();
-            followComponent.target = target;
-            followComponent.navMeshAgent = enemyActor.NavMeshAgent;
+            followComponent.Target = target;
+            followComponent.NavMeshAgent = smallEnemyAlienActor.NavMeshAgent;
 
-            ref var attackComponent = ref enemy.Get<AttackComponent>();
-            attackComponent.damage = _enemyInitData.DefaultDamage;
+            ref var attackComponent = ref enemy.Get<MeleeAttackComponent>();
+            attackComponent.Damage = _smallEnemyAlienInitData.DefaultDamage;
 
-            return enemyActor;
+            return smallEnemyAlienActor;
+        }
+
+        private BigAlienEnemyAlienActor CreateBigEnemyAlien(PlayerActor target)
+        {
+            var bigEnemyAlienActor = _bigEnemyAlienPool.GetFreeElement();
+            bigEnemyAlienActor.Construct(_experiencePoints, _damageTextService);
+            
+            if (bigEnemyAlienActor.Health.TargetHealth <= MinValue)
+            {
+                bigEnemyAlienActor.Health.SetHealthValue();
+            }
+            
+            var enemy = _world.NewEntity();
+            
+            ref var enemyComponent = ref enemy.Get<EnemyComponent>();
+            enemyComponent.Health = bigEnemyAlienActor.Health;
+
+            ref var enemyMovableComponent = ref enemy.Get<EnemyMovableComponent>();
+            enemyMovableComponent.Transform = bigEnemyAlienActor.transform;
+
+            ref var enemyAnimationsComponent = ref enemy.Get<AnimatedComponent>();
+            enemyAnimationsComponent.Animator = bigEnemyAlienActor.Animator;
+
+            ref var followComponent = ref enemy.Get<FollowPlayerComponent>();
+            followComponent.Target = target;
+            followComponent.NavMeshAgent = bigEnemyAlienActor.NavMeshAgent;
+
+            ref var attackComponent = ref enemy.Get<RangeAttackComponent>();
+            attackComponent.Damage = bigEnemyAlienData.DefaultDamage;
+            attackComponent.ProjectileSpeed = bigEnemyAlienData.ProjectileSpeed;
+            attackComponent.Projectile = bigEnemyAlienData.BigAlienEnemyAlienProjectilePrefab;
+
+            return bigEnemyAlienActor;
         }
 
         private void CreateStone(Vector3 atPosition)
         {
-            var stoneActor = Object.Instantiate(_stoneInitData.StonePrefab, atPosition, Quaternion.identity);
+            var stoneActor = Object.Instantiate(_stoneInitData.StonePrefab, atPosition, Quaternion.Euler(_stoneRotation));
             stoneActor.Construct(_experiencePoints);
 
             var resource = _world.NewEntity();
 
             ref var resourceComponent = ref resource.Get<ResourceComponent>();
-            resourceComponent.health = stoneActor.Health;
+            resourceComponent.Health = stoneActor.Health;
 
             ref var animatedComponent = ref resource.Get<AnimatedComponent>();
-            animatedComponent.animator = stoneActor.Animator;
+            animatedComponent.Animator = stoneActor.Animator;
         }
     }
 }

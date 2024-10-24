@@ -87,7 +87,7 @@ public class DemoController : MonoBehaviour
 
             }
 
-            animator.SetBool("isAttacking", isInAnimation);
+            animator.SetBool("IsAttacking", isInAnimation);
 
 			//switch character
 

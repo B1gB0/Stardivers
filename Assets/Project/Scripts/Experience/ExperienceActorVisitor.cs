@@ -4,7 +4,7 @@ public class ExperienceActorVisitor : IActorVisitor
 {
     public int AccumulatedExperience { get; private set; }
 
-    public void Visit(EnemyActor enemy)
+    public void Visit(SmallAlienEnemyActor smallAlienEnemy)
     {
         AccumulatedExperience += 15;
     }

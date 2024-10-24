@@ -6,7 +6,7 @@ namespace Build.Game.Scripts.ECS.Components
 {
     public struct FollowPlayerComponent
     {
-        public PlayerActor target;
-        public NavMeshAgent navMeshAgent;
+        public PlayerActor Target;
+        public NavMeshAgent NavMeshAgent;
     }
 }

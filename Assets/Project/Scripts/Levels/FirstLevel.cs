@@ -11,6 +11,11 @@ namespace Project.Scripts.Operations
 
         private void Start()
         {
+            if (IsLaunchedPlayerCapsule)
+            {
+                _gameInitSystem.CreateCapsule();
+            }
+            
             _enemySpawnTrigger.IsTimerLaunched += _timer.Show;
             _enemySpawnTrigger.IsTimerLaunched += _timer.OnLaunchTimer;
         }
@@ -22,7 +27,7 @@ namespace Project.Scripts.Operations
                 CreateWaveOfEnemy();
             }
 
-            if (_timer._seconds <= MinValue)
+            if (_timer._timeInSeconds <= MinValue)
             {
                 _enemySpawnTrigger.CompleteSpawn();
                 _timer.OffLaunchTimer();

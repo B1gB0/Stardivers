@@ -38,7 +38,8 @@ namespace Build.Game.Scripts.Game.Gameplay
         
         private PlayerInitData _playerData;
         private LevelInitData _levelData;
-        private EnemyInitData _enemyData;
+        private SmallEnemyAlienInitData _smallEnemyAlienData;
+        private BigEnemyAlienInitData _bigEnemyAlienData;
         private StoneInitData _stoneData;
         private CapsuleInitData _capsuleData;
         private PlayerProgressionInitData _playerProgressionData;
@@ -167,7 +168,8 @@ namespace Build.Game.Scripts.Game.Gameplay
         {
             _playerData = _dataFactory.CreatePlayerData();
             _levelData = _dataFactory.CreateLevelData(PlayerPrefs.GetString(CurrentOperationCodeName), 0);
-            _enemyData = _dataFactory.CreateEnemyData();
+            _smallEnemyAlienData = _dataFactory.CreateSmallEnemyAlienData();
+            _bigEnemyAlienData = _dataFactory.CreateBigEnemyAlienData();
             _stoneData = _dataFactory.CreateStoneData();
             _capsuleData = _dataFactory.CreateCapsuleData();
             _playerProgressionData = _dataFactory.CreatePlayerProgression();
@@ -183,17 +185,20 @@ namespace Build.Game.Scripts.Game.Gameplay
             _updateSystems.Inject(damageTextService);
             _updateSystems.Inject(_audioSoundsService);
             _updateSystems.Inject(_timer);
-            _updateSystems.Add(_gameInitSystem = new GameInitSystem(_playerData, _enemyData, _stoneData, _capsuleData, _levelData));
+            
+            _updateSystems.Add(_gameInitSystem = new GameInitSystem(_playerData, _smallEnemyAlienData, _bigEnemyAlienData,
+                _stoneData, _capsuleData, _levelData));
             _updateSystems.Add(new PlayerInputSystem());
             _updateSystems.Add(new MainCameraSystem(_cinemachineVirtualCamera));
             _updateSystems.Add(new PlayerAnimatedSystem());
             _updateSystems.Add(new EnemyAnimatedSystem());
-            _updateSystems.Add(new EnemyAttackSystem());
+            _updateSystems.Add(new EnemyMeleeAttackSystem());
             _updateSystems.Add(new ResourcesAnimatedSystem());
             _updateSystems.Init();
             
             _fixedUpdateSystems.Add(new PlayerMoveSystem());
             _fixedUpdateSystems.Add(new FollowSystem());
+            _fixedUpdateSystems.Add(new EnemyRangeAttackSystem());
             _fixedUpdateSystems.Init();
         }
     }

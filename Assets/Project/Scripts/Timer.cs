@@ -13,20 +13,22 @@ namespace Project.Scripts
         
         private const float Delay = 1f;
 
-        [field: SerializeField] public int _seconds { get; private set; }
+        [field: SerializeField] public int _timeInSeconds { get; private set; }
         
         [SerializeField] private TMP_Text _text;
 
         private Coroutine _coroutine;
         private int _minutes;
+        private int _seconds;
 
         private void Awake()
         {
-            _minutes = _seconds / SecondsInMinute;
+            _minutes = _timeInSeconds / SecondsInMinute;
+            _seconds = _timeInSeconds;
 
             if (_minutes != MinValue)
             {
-                _seconds /= _minutes;
+                _seconds -= _minutes * SecondsInMinute;
             }
 
             DisplayCountdown();
@@ -49,7 +51,8 @@ namespace Project.Scripts
         
         public void OffLaunchTimer()
         {
-            StopCoroutine(_coroutine);
+            if(_coroutine != null)
+                StopCoroutine(_coroutine);
         }
 
         private void DisplayCountdown()
@@ -70,12 +73,19 @@ namespace Project.Scripts
         
             while (enabled)
             {
-                _seconds--;
+                _timeInSeconds--;
 
-                if (_seconds == LastSecondOfMinute)
+                if (_seconds == MinValue)
                 {
+                    _seconds = LastSecondOfMinute;
                     _minutes--;
+                    
+                    DisplayCountdown();
+                    
+                    yield return waitForSeconds;
                 }
+                
+                _seconds--;
 
                 DisplayCountdown();
 

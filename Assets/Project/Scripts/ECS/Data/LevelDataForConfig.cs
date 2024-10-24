@@ -7,15 +7,21 @@ public class LevelDataForConfig : MonoBehaviour
     [ContextMenu("Save Data")]
     public void SaveDataToConfigLevel()
     {
-        GameObject[] enemySpawnPoints = GameObject.FindGameObjectsWithTag("EnemySpawnPoint");
+        GameObject[] smallEnemyAlienSpawnPoints = GameObject.FindGameObjectsWithTag("SmallEnemyAlienSpawnPoint");
+        GameObject[] bigEnemyAlienSpawnPoints = GameObject.FindGameObjectsWithTag("BigEnemyAlienSpawnPoint");
         GameObject[] stoneSpawnPoints = GameObject.FindGameObjectsWithTag("StoneSpawnPoint");
         GameObject playerSpawnPoint = GameObject.FindGameObjectWithTag("PlayerSpawnPoint");
         
         levelInitData.PlayerSpawnPoint = playerSpawnPoint.transform.position;
         
-        foreach (var enemy in enemySpawnPoints)
+        foreach (var point in smallEnemyAlienSpawnPoints)
         {
-            levelInitData.EnemySpawnPoints.Add(enemy.transform.position);
+            levelInitData.SmallEnemyAlienSpawnPoints.Add(point.transform.position);
+        }
+        
+        foreach (var point in bigEnemyAlienSpawnPoints)
+        {
+            levelInitData.BigEnemyAlienSpawnPoints.Add(point.transform.position);
         }
 
         foreach (var stone in stoneSpawnPoints)
