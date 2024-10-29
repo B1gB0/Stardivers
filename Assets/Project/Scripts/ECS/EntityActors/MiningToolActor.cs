@@ -38,13 +38,13 @@ namespace Build.Game.Scripts.ECS.EntityActors
                 if(stoneRef != null)
                     stoneRef.Health.SetHit(false);
                 
-                if (!hit.collider.TryGetComponent(out StoneActor resource)) return;
+                if (!hit.collider.TryGetComponent(out StoneActor stone)) return;
                 
                 IsMining = true;
 
                 if (_lastHitTime <= MinValue)
                 {
-                    stoneRef = resource;
+                    stoneRef = stone;
 
                     _audioSoundsService.PlaySound(Sounds.Stone);
 

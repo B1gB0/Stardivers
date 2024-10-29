@@ -1,4 +1,5 @@
 ﻿using Build.Game.Scripts.ECS.EntityActors;
+using Project.Scripts.ECS.EntityActors;
 using UnityEngine;
 
 namespace Project.Scripts.Projectiles.Bullets
@@ -12,7 +13,7 @@ namespace Project.Scripts.Projectiles.Bullets
     
         private void OnTriggerEnter(Collider collision)
         {
-            if(collision.gameObject.TryGetComponent(out SmallAlienEnemyActor enemy))
+            if(collision.gameObject.TryGetComponent(out SmallAlienEnemy enemy))
             {
                 enemy.Health.TakeDamage(_damage);
                 gameObject.SetActive(false);

@@ -6,13 +6,13 @@ namespace Build.Game.Scripts.ECS.System
 {
     public class EnemyMeleeAttackSystem : IEcsRunSystem
     {
-        private const float Delay = 1f;
+        private const float Delay = 2f;
         private const float MinValue = 0f;
-        
+
         private readonly EcsFilter<EnemyComponent, FollowPlayerComponent, MeleeAttackComponent, EnemyMovableComponent,
             AnimatedComponent> _attackFilter;
 
-        private float _lastHitTime = 2f;
+        private float _lastHitTime = 0.2f;
 
         public void Run()
         {
@@ -27,15 +27,18 @@ namespace Build.Game.Scripts.ECS.System
                 if (!movableComponent.IsMoving && followPlayerComponent.Target.Health.TargetHealth > MinValue && 
                     enemyComponent.Health.TargetHealth > MinValue)
                 {
-                    animatedComponent.IsAttacking = true;
-                    
                     if (_lastHitTime <= MinValue)
                     {
+                        animatedComponent.IsAttacking = true;
                         followPlayerComponent.Target.Health.TakeDamage(attackComponent.Damage);
 
                         _lastHitTime = Delay;
                     }
-                    
+                    else if (_lastHitTime <= Delay)
+                    {
+                        animatedComponent.IsAttacking = false;
+                    }
+
                     _lastHitTime -= Time.deltaTime;
                 }
                 else

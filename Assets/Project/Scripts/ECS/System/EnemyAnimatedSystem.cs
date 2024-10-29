@@ -19,11 +19,8 @@ namespace Build.Game.Scripts.ECS.System
                 ref var animatedComponent = ref _animatedFilter.Get1(entity);
                 ref var movableComponent = ref _animatedFilter.Get2(entity);
 
-                if(!animatedComponent.IsAttacking)
-                    animatedComponent.Animator.SetBool(Move, movableComponent.IsMoving);
-                
-                if(!movableComponent.IsMoving)
-                    animatedComponent.Animator.SetBool(Attack, animatedComponent.IsAttacking);
+                animatedComponent.Animator.SetBool(Attack, animatedComponent.IsAttacking);
+                animatedComponent.Animator.SetBool(Move, movableComponent.IsMoving);
             }
         }
     }

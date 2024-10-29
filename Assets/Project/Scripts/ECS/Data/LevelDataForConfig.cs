@@ -1,32 +1,47 @@
 using UnityEngine;
 
-public class LevelDataForConfig : MonoBehaviour
+namespace Project.Scripts.ECS.Data
 {
-    [SerializeField] private LevelInitData levelInitData;
-
-    [ContextMenu("Save Data")]
-    public void SaveDataToConfigLevel()
+    public class LevelDataForConfig : MonoBehaviour
     {
-        GameObject[] smallEnemyAlienSpawnPoints = GameObject.FindGameObjectsWithTag("SmallEnemyAlienSpawnPoint");
-        GameObject[] bigEnemyAlienSpawnPoints = GameObject.FindGameObjectsWithTag("BigEnemyAlienSpawnPoint");
-        GameObject[] stoneSpawnPoints = GameObject.FindGameObjectsWithTag("StoneSpawnPoint");
-        GameObject playerSpawnPoint = GameObject.FindGameObjectWithTag("PlayerSpawnPoint");
-        
-        levelInitData.PlayerSpawnPoint = playerSpawnPoint.transform.position;
-        
-        foreach (var point in smallEnemyAlienSpawnPoints)
-        {
-            levelInitData.SmallEnemyAlienSpawnPoints.Add(point.transform.position);
-        }
-        
-        foreach (var point in bigEnemyAlienSpawnPoints)
-        {
-            levelInitData.BigEnemyAlienSpawnPoints.Add(point.transform.position);
-        }
+        [SerializeField] private LevelInitData levelInitData;
 
-        foreach (var stone in stoneSpawnPoints)
+        [ContextMenu("Save Data")]
+        public void SaveDataToConfigLevel()
         {
-            levelInitData.StoneSpawnPoints.Add(stone.transform.position);
+            GameObject[] smallEnemyAlienSpawnPoints = GameObject.FindGameObjectsWithTag("SmallEnemyAlienSpawnPoint");
+            GameObject[] bigEnemyAlienSpawnPoints = GameObject.FindGameObjectsWithTag("BigEnemyAlienSpawnPoint");
+            GameObject[] stoneSpawnPoints = GameObject.FindGameObjectsWithTag("StoneSpawnPoint");
+            GameObject[] healingCoreSpawnPoints = GameObject.FindGameObjectsWithTag("HealingCoreSpawnPoint");
+            GameObject[] goldCoreSpawnPoints = GameObject.FindGameObjectsWithTag("GoldCoreSpawnPoint");
+            GameObject playerSpawnPoint = GameObject.FindGameObjectWithTag("PlayerSpawnPoint");
+        
+            levelInitData.PlayerSpawnPoint = playerSpawnPoint.transform.position;
+        
+            foreach (var point in smallEnemyAlienSpawnPoints)
+            {
+                levelInitData.SmallEnemyAlienSpawnPoints.Add(point.transform.position);
+            }
+        
+            foreach (var point in bigEnemyAlienSpawnPoints)
+            {
+                levelInitData.BigEnemyAlienSpawnPoints.Add(point.transform.position);
+            }
+
+            foreach (var stone in stoneSpawnPoints)
+            {
+                levelInitData.StoneSpawnPoints.Add(stone.transform.position);
+            }
+        
+            foreach (var healingCore in healingCoreSpawnPoints)
+            {
+                levelInitData.HealingCoreSpawnPoints.Add(healingCore.transform.position);
+            }
+        
+            foreach (var goldCore in goldCoreSpawnPoints)
+            {
+                levelInitData.GoldCoreSpawnPoints.Add(goldCore.transform.position);
+            }
         }
     }
 }

@@ -6,9 +6,10 @@ using Cinemachine;
 using Leopotam.Ecs;
 using Project.Game.Scripts;
 using Project.Scripts;
+using Project.Scripts.Crystals;
 using Project.Scripts.ECS.Data;
 using Project.Scripts.ECS.System;
-using Project.Scripts.Score;
+using Project.Scripts.Experience;
 using Project.Scripts.UI;
 using Project.Scripts.UI.Panel;
 using Project.Scripts.UI.StateMachine;
@@ -43,6 +44,8 @@ namespace Build.Game.Scripts.Game.Gameplay
         private StoneInitData _stoneData;
         private CapsuleInitData _capsuleData;
         private PlayerProgressionInitData _playerProgressionData;
+        private HealingCoreInitData _healingCoreData;
+        private GoldCoreInitData _goldCoreData;
 
         private EcsWorld _world;
         private EcsSystems _updateSystems;
@@ -54,6 +57,7 @@ namespace Build.Game.Scripts.Game.Gameplay
 
         private HealthBar _healthBar;
         private ExperiencePoints _experiencePoints;
+        private CrystalSpawner _crystalsSpawner;
         private ProgressRadialBar _progressBar;
         private LevelUpPanel _levelUpPanel;
         private EndGamePanel _endGamePanel;
@@ -112,6 +116,7 @@ namespace Build.Game.Scripts.Game.Gameplay
             _timer = _viewFactory.CreateTimer();
             
             _experiencePoints = new ExperiencePoints(_playerProgressionData);
+            _crystalsSpawner = new CrystalSpawner();
             
             InitEcs(damageTextService);
 
@@ -173,6 +178,8 @@ namespace Build.Game.Scripts.Game.Gameplay
             _stoneData = _dataFactory.CreateStoneData();
             _capsuleData = _dataFactory.CreateCapsuleData();
             _playerProgressionData = _dataFactory.CreatePlayerProgression();
+            _healingCoreData = _dataFactory.CreateHealingCoreData();
+            _goldCoreData = _dataFactory.CreateGoldCoreData();
         }
 
         private void InitEcs(FloatingDamageTextService damageTextService)
@@ -182,12 +189,13 @@ namespace Build.Game.Scripts.Game.Gameplay
             _fixedUpdateSystems = new EcsSystems(_world);
 
             _updateSystems.Inject(_experiencePoints);
+            _updateSystems.Inject(_crystalsSpawner);
             _updateSystems.Inject(damageTextService);
             _updateSystems.Inject(_audioSoundsService);
             _updateSystems.Inject(_timer);
             
             _updateSystems.Add(_gameInitSystem = new GameInitSystem(_playerData, _smallEnemyAlienData, _bigEnemyAlienData,
-                _stoneData, _capsuleData, _levelData));
+                _stoneData, _capsuleData, _levelData, _healingCoreData, _goldCoreData));
             _updateSystems.Add(new PlayerInputSystem());
             _updateSystems.Add(new MainCameraSystem(_cinemachineVirtualCamera));
             _updateSystems.Add(new PlayerAnimatedSystem());

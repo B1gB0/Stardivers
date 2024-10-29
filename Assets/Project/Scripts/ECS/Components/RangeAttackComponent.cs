@@ -1,4 +1,5 @@
 ﻿using Project.Scripts.Projectiles.Bullets;
+using UnityEngine;
 
 namespace Build.Game.Scripts.ECS.Components
 {
@@ -6,6 +7,5 @@ namespace Build.Game.Scripts.ECS.Components
     {
         public BigEnemyAlienProjectile Projectile;
         public float Damage;
-        public float ProjectileSpeed;
     }
 }

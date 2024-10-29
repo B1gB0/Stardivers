@@ -15,6 +15,8 @@ public class DataFactory : MonoBehaviour
     private readonly string _stoneData = "SO/StoneData";
     private readonly string _capsuleData = "SO/CapsuleData";
     private readonly string _playerProgression = "SO/PlayerProgression";
+    private readonly string _healingCoreData = "SO/HealingCoreData";
+    private readonly string _goldCoreData = "SO/GoldCoreData";
 
     [SerializeField] private Operation _operationMars;
     [SerializeField] private Operation _operationMysteryPlanet;
@@ -57,5 +59,15 @@ public class DataFactory : MonoBehaviour
     public PlayerProgressionInitData CreatePlayerProgression()
     {
         return Resources.Load<PlayerProgressionInitData>(_playerProgression);
+    }
+
+    public HealingCoreInitData CreateHealingCoreData()
+    {
+        return Resources.Load<HealingCoreInitData>(_healingCoreData);
+    }
+    
+    public GoldCoreInitData CreateGoldCoreData()
+    {
+        return Resources.Load<GoldCoreInitData>(_goldCoreData);
     }
 }

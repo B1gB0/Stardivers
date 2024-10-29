@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bullet_Trail_FX
       objectReference: {fileID: 0}
+    - target: {fileID: 1003485616670832, guid: 2298236a23b5c4349b5f8204068aadf3, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4209795057775410, guid: 2298236a23b5c4349b5f8204068aadf3, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.726
@@ -84,7 +88,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1859234679933314, guid: 4700ce61fd21e32439977dd4e8211f37, type: 3}
       propertyPath: m_Name
-      value: AssualtRifleBullet
+      value: GunBullet
       objectReference: {fileID: 0}
     - target: {fileID: 4084649257871824, guid: 4700ce61fd21e32439977dd4e8211f37, type: 3}
       propertyPath: m_LocalScale.x
@@ -177,10 +181,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 315a17694631a7941a36bbb1590c12b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <MovementSpeed>k__BackingField: 10
-  <Damage>k__BackingField: 2
   <LifeTime>k__BackingField: 5
-  <AudioSource>k__BackingField: {fileID: 3279009880565865678}
 --- !u!82 &3279009880565865678
 AudioSource:
   m_ObjectHideFlags: 0

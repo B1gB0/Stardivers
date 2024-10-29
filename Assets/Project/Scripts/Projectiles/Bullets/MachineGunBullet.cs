@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Build.Game.Scripts.ECS.EntityActors;
+using Project.Scripts.ECS.EntityActors;
 using Project.Scripts.Projectiles;
 using UnityEngine;
 
@@ -13,7 +14,7 @@ public class MachineGunBullet : Projectile
     
     private void OnTriggerEnter(Collider collision)
     {
-        if(collision.gameObject.TryGetComponent(out SmallAlienEnemyActor enemy))
+        if(collision.gameObject.TryGetComponent(out SmallAlienEnemy enemy))
         {
             enemy.Health.TakeDamage(_damage);
             gameObject.SetActive(false);

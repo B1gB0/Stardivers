@@ -17,8 +17,10 @@ namespace Build.Game.Scripts
 
         public event Action Die;
 
-        public event Action<float, Transform> IsDamaged;
-        
+        public event Action<float, Transform> IsSpawnedDamageText;
+
+        public event Action IsDamaged; 
+
         public event Action<float, float, float> HealthChanged;
 
         private float _currentHealth;
@@ -27,6 +29,8 @@ namespace Build.Game.Scripts
         public float TargetHealth { get; private set; }
 
         public bool IsHitting { get; private set; }
+        
+        public bool IsHealing { get; private set; }
 
         private void Awake()
         {
@@ -45,14 +49,15 @@ namespace Build.Game.Scripts
 
         public void TakeDamage(float damage)
         {
-            IsDamaged?.Invoke(damage, transform);
+            IsSpawnedDamageText?.Invoke(damage, transform);
+            IsDamaged?.Invoke();
             
             _hitEffectRef.transform.position = _hitPoint.position;
             _hitEffectRef.Play();
 
             TargetHealth -= damage;
 
-            OnChangeHealth(_currentHealth, TargetHealth, _maxHealth);
+            OnChangeHealth();
             
             _currentHealth = TargetHealth;
 
@@ -63,11 +68,25 @@ namespace Build.Game.Scripts
                 Die?.Invoke();
         }
 
+        public void AddHealth(float healthValue)
+        {
+            IsHealing = TargetHealth != _maxHealth;
+
+            TargetHealth += healthValue;
+            
+            OnChangeHealth();
+
+            _currentHealth = TargetHealth;
+
+            if (TargetHealth > _maxHealth)
+                TargetHealth = _maxHealth;
+        }
+
         public void SetHealthValue()
         {
             TargetHealth = _value;
             
-            OnChangeHealth(_currentHealth, TargetHealth, _maxHealth);
+            OnChangeHealth();
 
             _currentHealth = TargetHealth;
         }
@@ -77,22 +96,22 @@ namespace Build.Game.Scripts
             IsHitting = isHitting;
         }
 
-        private void OnChangeHealth(float currentHealth, float targetHealth, float maxHealth)
+        private void OnChangeHealth()
         {
             if (_coroutine != null)
             {
                 StopCoroutine(_coroutine);
             }
 
-            _coroutine = StartCoroutine(ChangeHealth(currentHealth, targetHealth, maxHealth));
+            _coroutine = StartCoroutine(ChangeHealth());
         }
 
-        private IEnumerator ChangeHealth(float currentHealth, float targetHealth, float maxHealth)
+        private IEnumerator ChangeHealth()
         {
-            while (currentHealth != targetHealth)
+            while (_currentHealth != TargetHealth)
             {
-                currentHealth = Mathf.MoveTowards(currentHealth, targetHealth, RecoveryRate * Time.deltaTime);
-                HealthChanged?.Invoke(currentHealth, maxHealth, targetHealth);
+                _currentHealth = Mathf.MoveTowards(_currentHealth, TargetHealth, RecoveryRate * Time.deltaTime);
+                HealthChanged?.Invoke(_currentHealth, _maxHealth, TargetHealth);
 
                 yield return null;
             }

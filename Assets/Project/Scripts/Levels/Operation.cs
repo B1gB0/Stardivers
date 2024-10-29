@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Project.Scripts.ECS.Data;
 using UnityEngine;
 using UnityEngine.UI;
 

@@ -1,6 +1,5 @@
 ﻿using Build.Game.Scripts.ECS.Components;
 using Leopotam.Ecs;
-using UnityEngine;
 
 namespace Build.Game.Scripts.ECS.System
 {
@@ -19,15 +18,15 @@ namespace Build.Game.Scripts.ECS.System
                     continue;
 
                 var navMashAgent = followComponent.NavMeshAgent;
+                var direction = (followComponent.Target.transform.position - movableComponent.Transform.position).normalized;
 
-                if (navMashAgent.gameObject.activeSelf)
-                {
-                    navMashAgent.destination = followComponent.Target.transform.position;
-                    var isMoving = navMashAgent.remainingDistance > navMashAgent.stoppingDistance;
-                    movableComponent.IsMoving = isMoving;
-                }
+                if (!navMashAgent.gameObject.activeSelf) continue;
                 
-                movableComponent.Transform.forward = navMashAgent.transform.forward;
+                navMashAgent.destination = followComponent.Target.transform.position;
+                var isMoving = navMashAgent.remainingDistance > navMashAgent.stoppingDistance;
+                movableComponent.IsMoving = isMoving;
+
+                movableComponent.Transform.forward = isMoving ? navMashAgent.transform.forward : direction;
             }
         }
     }

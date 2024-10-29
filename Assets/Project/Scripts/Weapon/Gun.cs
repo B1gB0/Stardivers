@@ -2,6 +2,7 @@ using System.Collections;
 using Build.Game.Scripts.ECS.EntityActors;
 using Project.Game.Scripts;
 using Project.Game.Scripts.Improvements;
+using Project.Scripts.ECS.EntityActors;
 using UnityEngine;
 
 public class Gun : Weapon
@@ -19,7 +20,7 @@ public class Gun : Weapon
     private bool _isShooting = true;
     
     private GunBullet _bullet;
-    private SmallAlienEnemyActor closestSmallAlienEnemy;
+    private SmallAlienEnemy closestSmallAlienEnemy;
     private ObjectPool<GunBullet> _poolBullets;
 
     private ClosestEnemyDetector _detector;

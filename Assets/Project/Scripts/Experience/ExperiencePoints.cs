@@ -1,14 +1,14 @@
 ﻿using System;
 using Project.Scripts.ECS.Data;
-using UnityEngine;
+using Project.Scripts.ECS.EntityActors;
 
-namespace Project.Scripts.Score
+namespace Project.Scripts.Experience
 {
     public class ExperiencePoints
     {
         private const int DefaultLevel = 0;
         
-        private readonly ExperienceActorVisitor experienceActorVisitor = new ();
+        private readonly ExperienceScoreActorVisitor _experienceScoreActorVisitor = new ();
         private readonly PlayerProgressionInitData _playerProgression;
 
         public ExperiencePoints(PlayerProgressionInitData playerProgression)
@@ -24,7 +24,7 @@ namespace Project.Scripts.Score
         private int _currentValue;
         private int _currentLevel;
         
-        private int TargetValue => experienceActorVisitor.AccumulatedExperience;
+        private int TargetValue => _experienceScoreActorVisitor.AccumulatedExperience;
         
         public event Action<float, float, float> ValueIsChanged;
 
@@ -32,9 +32,9 @@ namespace Project.Scripts.Score
 
         public event Action<int> CurrentLevelIsUpgraded;
 
-        public void OnKill(ScoreActor experienceActor)
+        public void OnKill(IAcceptable experience)
         {
-            experienceActor.Accept(experienceActorVisitor);
+            experience.AcceptScore(_experienceScoreActorVisitor);
             
             if (_currentLevel > _playerProgression.Levels.Count - 1) return;
             
@@ -44,7 +44,7 @@ namespace Project.Scripts.Score
                 _currentMaxValueOfLevel = _playerProgression.Levels[_currentLevel];
                 
                 int newValue = _currentMaxValueOfLevel - TargetValue;
-                experienceActorVisitor.UpdateAccumulatedExperience(newValue);
+                _experienceScoreActorVisitor.UpdateAccumulatedExperience(newValue);
                 
                 LevelIsUpgraded?.Invoke(_currentLevel, TargetValue, _currentMaxValueOfLevel);
                 _currentValue = TargetValue;

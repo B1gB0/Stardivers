@@ -2,6 +2,7 @@ using System.Collections;
 using Build.Game.Scripts.ECS.EntityActors;
 using Project.Game.Scripts;
 using Project.Game.Scripts.Improvements;
+using Project.Scripts.ECS.EntityActors;
 using UnityEngine;
 
 public class MachineGun : Weapon
@@ -27,7 +28,7 @@ public class MachineGun : Weapon
     private ClosestEnemyDetector _detector;
     private AudioSoundsService _audioSoundsService;
     
-    private SmallAlienEnemyActor closestSmallAlienEnemy;
+    private SmallAlienEnemy closestSmallAlienEnemy;
     private ObjectPool<MachineGunBullet> _poolBullets;
 
     public MachineGunCharacteristics MachineGunCharacteristics { get; } = new();

@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using Project.Scripts.Experience;
+using TMPro;
 using UnityEngine;
 
 namespace Project.Scripts.Score

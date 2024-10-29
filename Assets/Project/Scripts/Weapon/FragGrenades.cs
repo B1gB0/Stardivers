@@ -2,6 +2,7 @@
 using System.Collections;
 using Build.Game.Scripts.ECS.EntityActors;
 using Project.Game.Scripts.Improvements;
+using Project.Scripts.ECS.EntityActors;
 using Project.Scripts.Projectiles.Grenades;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -23,7 +24,7 @@ namespace Project.Game.Scripts
         private AudioSoundsService _audioSoundsService;
         
         private float _lastShotTime;
-        private SmallAlienEnemyActor closestSmallAlienEnemy;
+        private SmallAlienEnemy closestSmallAlienEnemy;
 
         private ObjectPool<FragGrenade> _poolGrenades;
 
