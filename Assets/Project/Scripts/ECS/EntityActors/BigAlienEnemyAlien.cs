@@ -1,12 +1,8 @@
-﻿using Project.Scripts.ECS.EntityActors;
-using Project.Scripts.Experience;
+﻿using Project.Scripts.Experience;
 using Project.Scripts.Projectiles.Bullets;
-using Project.Scripts.Score;
-using Project.Scripts.UI;
 using UnityEngine;
-using NotImplementedException = System.NotImplementedException;
 
-namespace Build.Game.Scripts.ECS.EntityActors
+namespace Project.Scripts.ECS.EntityActors
 {
     public class BigAlienEnemyAlien : EnemyAlienActor, IAcceptable
     {
@@ -24,7 +20,7 @@ namespace Build.Game.Scripts.ECS.EntityActors
 
         private void Die()
         {
-            Health.IsSpawnedDamageText -= DamageTextService.OnChangedDamageText;
+            Health.IsSpawnedDamageText -= TextService.OnChangedFloatingText;
             ExperiencePoints.OnKill(this);
             gameObject.SetActive(false);
         }

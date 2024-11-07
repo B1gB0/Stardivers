@@ -28,7 +28,7 @@ public class MachineGun : Weapon
     private ClosestEnemyDetector _detector;
     private AudioSoundsService _audioSoundsService;
     
-    private SmallAlienEnemy closestSmallAlienEnemy;
+    private EnemyAlienActor closestAlienEnemy;
     private ObjectPool<MachineGunBullet> _poolBullets;
 
     public MachineGunCharacteristics MachineGunCharacteristics { get; } = new();
@@ -41,8 +41,10 @@ public class MachineGun : Weapon
 
     private void Awake()
     {
-        _poolBullets = new ObjectPool<MachineGunBullet>(_bulletPrefab, _countBulletsForPool, new GameObject(ObjectPoolBulletName).transform);
-        _poolBullets.AutoExpand = IsAutoExpandPool;
+        _poolBullets = new ObjectPool<MachineGunBullet>(_bulletPrefab, _countBulletsForPool, new GameObject(ObjectPoolBulletName).transform)
+        {
+            AutoExpand = IsAutoExpandPool
+        };
     }
 
     private void Start()
@@ -52,11 +54,11 @@ public class MachineGun : Weapon
 
     private void FixedUpdate()
     {
-        closestSmallAlienEnemy = _detector.СlosestSmallAlienEnemy;
+        closestAlienEnemy = _detector.СlosestAlienEnemy;
 
-        if (closestSmallAlienEnemy == null) return;
+        if (closestAlienEnemy == null) return;
         
-        if (Vector3.Distance(closestSmallAlienEnemy.transform.position, transform.position) <= MachineGunCharacteristics.RangeAttack && _isShooting)
+        if (Vector3.Distance(closestAlienEnemy.transform.position, transform.position) <= MachineGunCharacteristics.RangeAttack && _isShooting)
         {
             Shoot();
         }
@@ -66,7 +68,7 @@ public class MachineGun : Weapon
     
     public override void Shoot()
     {
-        if (_lastBurstTime <= MinValue && closestSmallAlienEnemy.Health.TargetHealth > MinValue)
+        if (_lastBurstTime <= MinValue && closestAlienEnemy.Health.TargetHealth > MinValue)
         {
             _audioSoundsService.PlaySound(Sounds.MachineGun);
             
@@ -110,7 +112,7 @@ public class MachineGun : Weapon
             
             _bullet.transform.position = shootPoint.position;
                 
-            _bullet.SetDirection(closestSmallAlienEnemy.transform);
+            _bullet.SetDirection(closestAlienEnemy.transform);
             _bullet.SetCharacteristics(MachineGunCharacteristics.Damage, MachineGunCharacteristics.BulletSpeed);
 
             yield return new WaitForSeconds(DelayBetweenShots);

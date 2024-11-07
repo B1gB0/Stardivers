@@ -1,30 +1,32 @@
 using System;
 using System.Collections;
+using Build.Game.Scripts;
 using UnityEngine;
 
-namespace Build.Game.Scripts
+namespace Project.Scripts.Health
 {
     public class Health : MonoBehaviour, IDamageable
     {
         private const float RecoveryRate = 10f;
-        
+
+        [SerializeField] private Color _colorText;
         [SerializeField] private float _value;
-        [SerializeField] private ParticleSystem _hitEffect;
+        [SerializeField] private ParticleSystem _hitEffectPrefab;
         [SerializeField] private Transform _hitPoint;
 
-        private ParticleSystem _hitEffectRef;
+        private ParticleSystem _hitEffect;
         private Coroutine _coroutine;
+        private float _currentHealth;
 
         public event Action Die;
 
-        public event Action<float, Transform> IsSpawnedDamageText;
+        public event Action<string, Transform, Color> IsSpawnedDamageText;
 
         public event Action IsDamaged; 
 
         public event Action<float, float, float> HealthChanged;
-
-        private float _currentHealth;
-        private float _maxHealth;
+        
+        public float MaxHealth { get; private set; }
         
         public float TargetHealth { get; private set; }
 
@@ -34,32 +36,30 @@ namespace Build.Game.Scripts
 
         private void Awake()
         {
-            _hitEffectRef = Instantiate(_hitEffect);
-            _hitEffectRef.Stop();
+            _hitEffect = Instantiate(_hitEffectPrefab);
+            _hitEffect.Stop();
         }
 
         private void Start()
         {
-            _maxHealth = _value;
+            MaxHealth = _value;
             TargetHealth = _value;
             _currentHealth = _value;
             
-            HealthChanged?.Invoke(_currentHealth, TargetHealth, _maxHealth);
+            HealthChanged?.Invoke(_currentHealth, TargetHealth, MaxHealth);
         }
 
         public void TakeDamage(float damage)
         {
-            IsSpawnedDamageText?.Invoke(damage, transform);
+            IsSpawnedDamageText?.Invoke(damage.ToString(), transform, _colorText);
             IsDamaged?.Invoke();
-            
-            _hitEffectRef.transform.position = _hitPoint.position;
-            _hitEffectRef.Play();
+
+            _hitEffect.transform.position = _hitPoint.position;
+            _hitEffect.Play();
 
             TargetHealth -= damage;
 
             OnChangeHealth();
-            
-            _currentHealth = TargetHealth;
 
             if (TargetHealth < 0f)
                 TargetHealth = 0f;
@@ -70,16 +70,12 @@ namespace Build.Game.Scripts
 
         public void AddHealth(float healthValue)
         {
-            IsHealing = TargetHealth != _maxHealth;
-
             TargetHealth += healthValue;
             
             OnChangeHealth();
 
-            _currentHealth = TargetHealth;
-
-            if (TargetHealth > _maxHealth)
-                TargetHealth = _maxHealth;
+            if (TargetHealth > MaxHealth)
+                TargetHealth = MaxHealth;
         }
 
         public void SetHealthValue()
@@ -87,8 +83,6 @@ namespace Build.Game.Scripts
             TargetHealth = _value;
             
             OnChangeHealth();
-
-            _currentHealth = TargetHealth;
         }
         
         public void SetHit(bool isHitting)
@@ -111,7 +105,7 @@ namespace Build.Game.Scripts
             while (_currentHealth != TargetHealth)
             {
                 _currentHealth = Mathf.MoveTowards(_currentHealth, TargetHealth, RecoveryRate * Time.deltaTime);
-                HealthChanged?.Invoke(_currentHealth, _maxHealth, TargetHealth);
+                HealthChanged?.Invoke(_currentHealth, MaxHealth, TargetHealth);
 
                 yield return null;
             }

@@ -1,7 +1,8 @@
 ﻿using Project.Scripts.ECS.System;
+using Project.Scripts.UI.Panel;
 using UnityEngine;
 
-namespace Project.Scripts.Operations
+namespace Project.Scripts.Levels
 {
     public abstract class Level : MonoBehaviour
     {
@@ -11,22 +12,24 @@ namespace Project.Scripts.Operations
         
         [SerializeField] private float Delay = 10f;
         
-        protected Timer _timer;
-        protected GameInitSystem _gameInitSystem;
+        protected Timer Timer;
+        protected GameInitSystem GameInitSystem;
+        protected AdviserMessagePanel AdviserMessagePanel;
         
         private float _lastSpawnTime;
 
-        public void GetServices(GameInitSystem gameInitSystem, Timer timer)
+        public void GetServices(GameInitSystem gameInitSystem, Timer timer, AdviserMessagePanel adviserMessagePanel)
         {
-            _gameInitSystem = gameInitSystem;
-            _timer = timer;
+            AdviserMessagePanel = adviserMessagePanel;
+            GameInitSystem = gameInitSystem;
+            Timer = timer;
         }
 
         protected void CreateWaveOfEnemy()
         {
             if (_lastSpawnTime <= MinValue)
             {
-                _gameInitSystem.SpawnEnemy();
+                GameInitSystem.SpawnEnemy();
 
                 _lastSpawnTime = Delay;
             }

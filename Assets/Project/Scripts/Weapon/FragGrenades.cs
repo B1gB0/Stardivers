@@ -24,7 +24,7 @@ namespace Project.Game.Scripts
         private AudioSoundsService _audioSoundsService;
         
         private float _lastShotTime;
-        private SmallAlienEnemy closestSmallAlienEnemy;
+        private EnemyAlienActor closestSmallAlienEnemy;
 
         private ObjectPool<FragGrenade> _poolGrenades;
 
@@ -38,9 +38,10 @@ namespace Project.Game.Scripts
 
         private void Awake()
         {
-            _poolGrenades = new ObjectPool<FragGrenade>(_fragGrenade, CountGrenades, new GameObject(ObjectPoolGrenadeName).transform);
-            
-            _poolGrenades.AutoExpand = IsAutoExpandPool;
+            _poolGrenades = new ObjectPool<FragGrenade>(_fragGrenade, CountGrenades, new GameObject(ObjectPoolGrenadeName).transform)
+            {
+                AutoExpand = IsAutoExpandPool
+            };
         }
 
         private void Start()
@@ -51,7 +52,7 @@ namespace Project.Game.Scripts
 
         private void FixedUpdate()
         {
-            closestSmallAlienEnemy = _detector.СlosestSmallAlienEnemy;
+            closestSmallAlienEnemy = _detector.СlosestAlienEnemy;
         
             if (closestSmallAlienEnemy != null)
             {

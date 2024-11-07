@@ -1,23 +1,40 @@
-﻿using System;
-using System.Collections.Generic;
-using Project.Scripts.ECS.System;
+﻿using Project.Scripts.Levels;
+using Project.Scripts.Levels.TextForAdviser;
 using UnityEngine;
 
 namespace Project.Scripts.Operations
 {
     public class FirstLevel : Level
     {
+        private readonly FirstLevelAdviserTextsSetter _firstLevelAdviserTextsSetter = new ();
+        
         [SerializeField] private EnemySpawnTrigger _enemySpawnTrigger;
+        [SerializeField] private WelcomeMarsTextTrigger _welcomeMarsTextTrigger;
 
         private void Start()
         {
+            _firstLevelAdviserTextsSetter.GetAdviserPanel(AdviserMessagePanel);
+            
             if (IsLaunchedPlayerCapsule)
             {
-                _gameInitSystem.CreateCapsule();
+                GameInitSystem.CreateCapsule();
             }
             
-            _enemySpawnTrigger.IsTimerLaunched += _timer.Show;
-            _enemySpawnTrigger.IsTimerLaunched += _timer.OnLaunchTimer;
+            _enemySpawnTrigger.IsTimerLaunched += Timer.Show;
+            _enemySpawnTrigger.IsTimerLaunched += Timer.OnLaunchTimer;
+            _enemySpawnTrigger.IsTimerLaunched += _firstLevelAdviserTextsSetter.SetAndShowEnemySpawnTriggerText;
+            Timer.IsEndAttack += _firstLevelAdviserTextsSetter.SetAndShowEndAttackText;
+            Timer.IsEndAttack += _enemySpawnTrigger.CompleteSpawn;
+        }
+
+        private void OnEnable()
+        {
+            _welcomeMarsTextTrigger.IsWelcomeToMars += _firstLevelAdviserTextsSetter.SetAndShowWelcomeMarsText;
+        }
+
+        private void OnDisable()
+        {
+            _welcomeMarsTextTrigger.IsWelcomeToMars -= _firstLevelAdviserTextsSetter.SetAndShowWelcomeMarsText;
         }
 
         private void Update()
@@ -26,19 +43,15 @@ namespace Project.Scripts.Operations
             {
                 CreateWaveOfEnemy();
             }
-
-            if (_timer._timeInSeconds <= MinValue)
-            {
-                _enemySpawnTrigger.CompleteSpawn();
-                _timer.OffLaunchTimer();
-                _timer.Hide();
-            }
         }
 
         private void OnDestroy()
         {
-            _enemySpawnTrigger.IsTimerLaunched -= _timer.Show;
-            _enemySpawnTrigger.IsTimerLaunched -= _timer.OnLaunchTimer;
+            _enemySpawnTrigger.IsTimerLaunched -= Timer.Show;
+            _enemySpawnTrigger.IsTimerLaunched -= Timer.OnLaunchTimer;
+            _enemySpawnTrigger.IsTimerLaunched -= _firstLevelAdviserTextsSetter.SetAndShowEnemySpawnTriggerText;
+            Timer.IsEndAttack -= _firstLevelAdviserTextsSetter.SetAndShowEndAttackText;
+            Timer.IsEndAttack -= _enemySpawnTrigger.CompleteSpawn;
         }
     }
 }

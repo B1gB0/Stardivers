@@ -14,7 +14,7 @@ public class MachineGunBullet : Projectile
     
     private void OnTriggerEnter(Collider collision)
     {
-        if(collision.gameObject.TryGetComponent(out SmallAlienEnemy enemy))
+        if(collision.gameObject.TryGetComponent(out EnemyAlienActor enemy))
         {
             enemy.Health.TakeDamage(_damage);
             gameObject.SetActive(false);

@@ -1,16 +1,23 @@
 using Project.Scripts.Crystals;
 using Project.Scripts.Experience;
-using Project.Scripts.MiningResources;
+using Project.Scripts.Services;
 using UnityEngine;
 
 namespace Project.Scripts.ECS.EntityActors
 {
     public class HealingCore : ResourceActor, IAcceptable
     {
-        [SerializeField] private HealingCrystal _healingCrystalPrefab;
-
-        private CrystalSpawner _crystalSpawner;
+        private const float CrystalJumpForce = 2.5f;
+        private const float MinAngle = 0f;
+        private const float MaxAngle = 360f;
         
+        [SerializeField] private HealingCrystal _healingCrystalPrefab;
+        [SerializeField] private Transform _crystalSpawnPoint;
+
+        private Vector3 _rotationCrystal;
+        private Vector3 _jumpDirectionCrystal;
+        private FloatingTextService _floatingTextService;
+
         private void OnEnable()
         {
             Health.Die += Die;
@@ -23,9 +30,9 @@ namespace Project.Scripts.ECS.EntityActors
             Health.IsDamaged -= SpawnCrystal;
         }
 
-        public void GetCrystalSpawner(CrystalSpawner crystalSpawner)
+        public void GetServices(FloatingTextService floatingTextService)
         {
-            _crystalSpawner = crystalSpawner;
+            _floatingTextService = floatingTextService;
         }
         
         public void AcceptScore(IScoreActorVisitor visitor)
@@ -33,14 +40,14 @@ namespace Project.Scripts.ECS.EntityActors
             visitor.Visit(this);
         }
 
-        public void AcceptSpawnCrystal(ICrystalsActorVisitor visitor)
-        {
-            visitor.Visit(this, _healingCrystalPrefab);
-        }
-
         private void SpawnCrystal()
         {
-            _crystalSpawner.OnSpawn(this);
+            _rotationCrystal = new Vector3(MinAngle, Random.Range(MinAngle, MaxAngle), MinAngle);
+            _jumpDirectionCrystal = new Vector3(Random.Range(-1, 1), 1, Random.Range(-1, 1));
+            
+            var crystal = Instantiate(_healingCrystalPrefab, _crystalSpawnPoint.position, Quaternion.Euler(_rotationCrystal));
+            crystal.GetTextService(_floatingTextService);
+            crystal.Rigidbody.AddForceAtPosition(_jumpDirectionCrystal * CrystalJumpForce, _crystalSpawnPoint.position, ForceMode.Impulse);
         }
 
         private void Die()

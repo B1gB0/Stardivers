@@ -1,10 +1,12 @@
-﻿namespace Project.Game.Scripts
+﻿using UnityEngine;
+
+namespace Project.Game.Scripts
 {
     public class MineCharacteristics
     {
         public float FireRate { get; private set; } = 5f;
         
-        public float Damage { get; private set; } = 4f;
+        public float Damage { get; private set; } = 20f;
         
         public float ExplosionRadius { get; private set; } = 5f;
         
@@ -24,19 +26,19 @@
             }
         }
 
-        public void IncreaseDamage(float damageFactor)
+        private void IncreaseDamage(float damageFactor)
         {
-            Damage += Damage * damageFactor;
+            Damage += Mathf.Round(Damage * damageFactor);
         }
         
-        public void IncreaseFireRate(float fireRateFactor)
+        private void IncreaseFireRate(float fireRateFactor)
         {
-            FireRate -= FireRate * fireRateFactor;
+            FireRate -= Mathf.Round(FireRate * fireRateFactor);
         }
         
-        public void IncreaseExplosionRadius(float explosionRadiusFactor)
+        private void IncreaseExplosionRadius(float explosionRadiusFactor)
         {
-            ExplosionRadius += ExplosionRadius * explosionRadiusFactor;
+            ExplosionRadius += Mathf.Round(ExplosionRadius * explosionRadiusFactor);
         }
     }
 }

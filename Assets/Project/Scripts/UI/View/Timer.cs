@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem.HID;
 
 namespace Project.Scripts
 {
@@ -20,6 +21,8 @@ namespace Project.Scripts
         private Coroutine _coroutine;
         private int _minutes;
         private int _seconds;
+
+        public event Action IsEndAttack; 
 
         private void Awake()
         {
@@ -48,12 +51,6 @@ namespace Project.Scripts
         {
             _coroutine = StartCoroutine(LaunchTimer());
         }
-        
-        public void OffLaunchTimer()
-        {
-            if(_coroutine != null)
-                StopCoroutine(_coroutine);
-        }
 
         private void DisplayCountdown()
         {
@@ -71,7 +68,7 @@ namespace Project.Scripts
         {
             WaitForSeconds waitForSeconds = new WaitForSeconds(Delay);
         
-            while (enabled)
+            while (_timeInSeconds >= MinValue)
             {
                 _timeInSeconds--;
 
@@ -90,6 +87,14 @@ namespace Project.Scripts
                 DisplayCountdown();
 
                 yield return waitForSeconds;
+
+                if (_timeInSeconds <= MinValue)
+                {
+                    if (_coroutine == null) continue;
+                    IsEndAttack?.Invoke();
+                    StopCoroutine(_coroutine);
+                    Hide();
+                }
             }
         }
     }

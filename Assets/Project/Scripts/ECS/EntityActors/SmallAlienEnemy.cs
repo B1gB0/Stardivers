@@ -16,7 +16,7 @@ namespace Project.Scripts.ECS.EntityActors
 
         private void Die()
         {
-            Health.IsSpawnedDamageText -= DamageTextService.OnChangedDamageText;
+            Health.IsSpawnedDamageText -= TextService.OnChangedFloatingText;
             ExperiencePoints.OnKill(this);
             gameObject.SetActive(false);
         }

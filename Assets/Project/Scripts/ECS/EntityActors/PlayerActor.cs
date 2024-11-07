@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
-using Project.Game.Scripts.Player.PlayerInputModule;
+using Build.Game.Scripts.ECS.EntityActors;
+using Project.Scripts.Player.PlayerInputModule;
 using UnityEngine;
 
-namespace Build.Game.Scripts.ECS.EntityActors
+namespace Project.Scripts.ECS.EntityActors
 {
     public class PlayerActor : MonoBehaviour
     {
-        [field: SerializeField] public Health Health { get; private set; }
+        [field: SerializeField] public Health.Health Health { get; private set; }
         
         [field: SerializeField] public Animator Animator { get; private set; }
 

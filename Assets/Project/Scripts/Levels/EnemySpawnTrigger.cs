@@ -1,24 +1,33 @@
-﻿using System.Collections;
-using Build.Game.Scripts.ECS.EntityActors;
-using Unity.Plastic.Newtonsoft.Json.Serialization;
+﻿using System;
+using Project.Scripts.ECS.EntityActors;
 using UnityEngine;
+using Action = Unity.Plastic.Newtonsoft.Json.Serialization.Action;
 
-namespace Project.Scripts.Operations
+namespace Project.Scripts.Levels
 {
     public class EnemySpawnTrigger : MonoBehaviour
     {
-        private Coroutine _coroutine;
-
+        [SerializeField] private ParticleSystem _zoneEffect;
+        
         public bool IsEnemySpawned { get; private set; }
 
         public event Action IsTimerLaunched;
 
-        private void OnTriggerEnter(Collider other)
+        private void OnTriggerEnter(Collider trigger)
         {
-            if (other.TryGetComponent(out PlayerActor _))
+            if (trigger.TryGetComponent(out PlayerActor _))
             {
                 IsEnemySpawned = true;
+                _zoneEffect.gameObject.SetActive(false);
                 IsTimerLaunched?.Invoke();
+            }
+        }
+
+        private void OnTriggerExit(Collider trigger)
+        {
+            if (trigger.TryGetComponent(out PlayerActor _))
+            {
+                gameObject.SetActive(false);
             }
         }
 

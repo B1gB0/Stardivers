@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using Build.Game.Scripts.ECS.EntityActors;
+using Project.Scripts.ECS.EntityActors;
 using UnityEngine;
 
 namespace Project.Scripts.Projectiles.Bullets

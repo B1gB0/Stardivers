@@ -1,5 +1,5 @@
 ﻿using System;
-using Project.Game.Scripts.Player.PlayerInputModule;
+using Project.Scripts.Player.PlayerInputModule;
 using UnityEngine;
 
 namespace Build.Game.Scripts.ECS.Components

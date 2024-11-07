@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1658822703447104190
+--- !u!1 &3003101662067886810
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,7 +8,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 848237254147481004}
+  - component: {fileID: 5470175713704170343}
   m_Layer: 0
   m_Name: HitPoint
   m_TagString: Untagged
@@ -16,16 +16,16 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &848237254147481004
+--- !u!4 &5470175713704170343
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1658822703447104190}
+  m_GameObject: {fileID: 3003101662067886810}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.57, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -612,7 +612,7 @@ PrefabInstance:
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 400000, guid: a39d5c20a054b6b4b98fc4b3efc11358, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 848237254147481004}
+      addedObject: {fileID: 5470175713704170343}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 100000, guid: a39d5c20a054b6b4b98fc4b3efc11358, type: 3}
       insertIndex: -1
@@ -700,9 +700,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbef326efc61174488772c5468beb681, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _value: 10
-  _hitEffect: {fileID: 19889686, guid: de85f8f81ea29ea479250adb36debd92, type: 3}
-  _hitPoint: {fileID: 848237254147481004}
+  _colorText: {r: 1, g: 1, b: 1, a: 0}
+  _value: 40
+  _hitEffectPrefab: {fileID: 19889686, guid: de85f8f81ea29ea479250adb36debd92, type: 3}
+  _hitPoint: {fileID: 5470175713704170343}
 --- !u!114 &-4442779900800386315
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -717,7 +718,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Health>k__BackingField: {fileID: 2171862078909410446}
   <Animator>k__BackingField: {fileID: 824788631375992023}
-  <Rigidbody>k__BackingField: {fileID: -3084844747911513566}
   <NavMeshAgent>k__BackingField: {fileID: -1036943301705702460}
 --- !u!195 &-1036943301705702460
 NavMeshAgent:

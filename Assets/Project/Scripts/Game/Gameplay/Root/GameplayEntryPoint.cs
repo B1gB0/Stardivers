@@ -1,18 +1,19 @@
 ﻿using Build.Game.Scripts.ECS.Data;
 using Build.Game.Scripts.ECS.Data.SO;
 using Build.Game.Scripts.ECS.System;
+using Build.Game.Scripts.Game.Gameplay;
 using Build.Game.Scripts.Game.Gameplay.GameplayRoot;
 using Cinemachine;
 using Leopotam.Ecs;
 using Project.Game.Scripts;
-using Project.Scripts;
 using Project.Scripts.Crystals;
 using Project.Scripts.ECS.Data;
 using Project.Scripts.ECS.System;
 using Project.Scripts.Experience;
+using Project.Scripts.Services;
 using Project.Scripts.UI;
 using Project.Scripts.UI.Panel;
-using Project.Scripts.UI.StateMachine;
+using Project.Scripts.UI.View;
 using R3;
 using Reflex.Attributes;
 using Reflex.Extensions;
@@ -20,12 +21,10 @@ using Reflex.Injectors;
 using Source.Game.Scripts;
 using UnityEngine;
 
-namespace Build.Game.Scripts.Game.Gameplay
+namespace Project.Scripts.Game.Gameplay.Root
 {
     public class GameplayEntryPoint : MonoBehaviour
     {
-        private const string CurrentOperationCodeName = nameof(CurrentOperationCodeName);
-
         private readonly WeaponHolder _weaponHolder = new ();
 
         [SerializeField] private DataFactory _dataFactory;
@@ -35,8 +34,7 @@ namespace Build.Game.Scripts.Game.Gameplay
         [SerializeField] private UIGameplayRootBinder _sceneUIRootPrefab;
         
         private UIGameplayRootBinder _uiScene;
-        private UIStateMachine _uiStateMachine;
-        
+
         private PlayerInitData _playerData;
         private LevelInitData _levelData;
         private SmallEnemyAlienInitData _smallEnemyAlienData;
@@ -57,11 +55,12 @@ namespace Build.Game.Scripts.Game.Gameplay
 
         private HealthBar _healthBar;
         private ExperiencePoints _experiencePoints;
-        private CrystalSpawner _crystalsSpawner;
         private ProgressRadialBar _progressBar;
         private LevelUpPanel _levelUpPanel;
         private EndGamePanel _endGamePanel;
         private Timer _timer;
+        private AdviserMessagePanel _adviserMessagePanel;
+        private GoldView _goldView;
 
         [Inject]
         private void Construct(AudioSoundsService audioSoundsService, PauseService pauseService)
@@ -77,11 +76,14 @@ namespace Build.Game.Scripts.Game.Gameplay
                 _gameInitSystem.PlayerIsSpawned -= _healthBar.Show;
                 _gameInitSystem.PlayerIsSpawned -= _progressBar.Show;
                 _gameInitSystem.PlayerHealth.Die -= _endGamePanel.Show;
+                _gameInitSystem.PlayerHealth.Die -= _endGamePanel.SetDefeatPanel;
+                _gameInitSystem.PlayerHealth.Die -= _progressBar.Hide;
             }
 
             if (_endGamePanel != null)
             {
                 _endGamePanel.GoToMainMenuButton.onClick.RemoveListener(_uiScene.HandleGoToMainMenuButtonClick);
+                _endGamePanel.RebornPlayerButton.onClick.RemoveListener(_gameInitSystem.CreateCapsule);
             }
 
             if (_experiencePoints != null)
@@ -105,20 +107,19 @@ namespace Build.Game.Scripts.Game.Gameplay
 
         public Observable<GameplayExitParameters> Run(UIRootView uiRoot, GameplayEnterParameters enterParameters)
         {
-            InitData();
+            InitData(enterParameters.CurrentOperation);
 
-            _uiStateMachine = uiRoot.UIStateMachine;
+            FloatingTextView textView = _viewFactory.CreateDamageTextView();
+            textView.Hide();
+            FloatingTextService textService = new FloatingTextService(textView);
 
-            FloatingDamageTextView damageTextView = _viewFactory.CreateDamageTextView();
-            damageTextView.Hide();
-            FloatingDamageTextService damageTextService = new FloatingDamageTextService(damageTextView);
-
+            _goldView = _viewFactory.CreateGoldView();
+            _adviserMessagePanel = _viewFactory.CreateAdviserMessagePanel();
             _timer = _viewFactory.CreateTimer();
             
             _experiencePoints = new ExperiencePoints(_playerProgressionData);
-            _crystalsSpawner = new CrystalSpawner();
-            
-            InitEcs(damageTextService);
+
+            InitEcs(textService);
 
             _levelUpPanel = _viewFactory.CreateLevelUpPanel();
             _endGamePanel = _viewFactory.CreateEndGamePanel();
@@ -136,7 +137,9 @@ namespace Build.Game.Scripts.Game.Gameplay
             _healthBar.transform.SetParent(_uiScene.transform);
             _levelUpPanel.transform.SetParent(_uiScene.transform);
             _endGamePanel.transform.SetParent(_uiScene.transform);
+            _adviserMessagePanel.transform.SetParent(_uiScene.transform);
             _timer.transform.SetParent(_uiScene.transform);
+            _goldView.transform.SetParent(_uiScene.transform);
             _weaponFactory.GetMinesButton(_uiScene.MinesButton);
             uiRoot.AttachSceneUI(_uiScene.gameObject);
             
@@ -146,11 +149,16 @@ namespace Build.Game.Scripts.Game.Gameplay
             _uiScene.GetUIStateMachine(uiRoot.UIStateMachine, uiRoot.UIRootButtons);
             
             _gameInitSystem.PlayerHealth.Die += _endGamePanel.Show;
-            _weaponFactory.MinesIsCreated += _uiScene.ShowMinesButton;
-            _experiencePoints.CurrentLevelIsUpgraded += _levelUpPanel.OnCurrentLevelIsUpgraded;
-            _endGamePanel.GoToMainMenuButton.onClick.AddListener(_uiScene.HandleGoToMainMenuButtonClick);
+            _gameInitSystem.PlayerHealth.Die += _endGamePanel.SetDefeatPanel;
+            _gameInitSystem.PlayerHealth.Die += _progressBar.Hide;
             _gameInitSystem.PlayerIsSpawned += _healthBar.Show;
             _gameInitSystem.PlayerIsSpawned += _progressBar.Show;
+            
+            _endGamePanel.RebornPlayerButton.onClick.AddListener(_gameInitSystem.CreateCapsule);
+            _endGamePanel.GoToMainMenuButton.onClick.AddListener(_uiScene.HandleGoToMainMenuButtonClick);
+            
+            _weaponFactory.MinesIsCreated += _uiScene.ShowMinesButton;
+            _experiencePoints.CurrentLevelIsUpgraded += _levelUpPanel.OnCurrentLevelIsUpgraded;
 
             var exitSceneSignalSubject = new Subject<Unit>();
             _uiScene.Bind(exitSceneSignalSubject);
@@ -169,10 +177,10 @@ namespace Build.Game.Scripts.Game.Gameplay
             _world?.Destroy();
         }
 
-        private void InitData()
+        private void InitData(string currentOperation)
         {
             _playerData = _dataFactory.CreatePlayerData();
-            _levelData = _dataFactory.CreateLevelData(PlayerPrefs.GetString(CurrentOperationCodeName), 0);
+            _levelData = _dataFactory.CreateLevelData(currentOperation, 0);
             _smallEnemyAlienData = _dataFactory.CreateSmallEnemyAlienData();
             _bigEnemyAlienData = _dataFactory.CreateBigEnemyAlienData();
             _stoneData = _dataFactory.CreateStoneData();
@@ -182,15 +190,16 @@ namespace Build.Game.Scripts.Game.Gameplay
             _goldCoreData = _dataFactory.CreateGoldCoreData();
         }
 
-        private void InitEcs(FloatingDamageTextService damageTextService)
+        private void InitEcs(FloatingTextService textService)
         {
             _world = new EcsWorld();
             _updateSystems = new EcsSystems(_world);
             _fixedUpdateSystems = new EcsSystems(_world);
 
+            _updateSystems.Inject(_adviserMessagePanel);
             _updateSystems.Inject(_experiencePoints);
-            _updateSystems.Inject(_crystalsSpawner);
-            _updateSystems.Inject(damageTextService);
+            _updateSystems.Inject(textService);
+            _updateSystems.Inject(_goldView);
             _updateSystems.Inject(_audioSoundsService);
             _updateSystems.Inject(_timer);
             

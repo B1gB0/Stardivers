@@ -1,20 +1,17 @@
 ﻿using System;
-using Build.Game.Scripts.ECS.EntityActors;
+using Project.Scripts.Services;
 using UnityEngine;
 
-namespace Project.Scripts.MiningResources
+namespace Project.Scripts.Crystals
 {
-    public class HealingCrystal : MonoBehaviour
+    [RequireComponent(typeof(Rigidbody))]
+    public class HealingCrystal : Crystal
     {
-        [SerializeField] private float _healthValue;
+        [field: SerializeField] public float HealthValue { get; private set; }
         
-        private void OnTriggerEnter(Collider other)
+        public void Destroy()
         {
-            if (!other.TryGetComponent(out PlayerActor player)) return;
-            
-            if (!player.Health.IsHealing) return;
-            
-            player.Health.AddHealth(_healthValue);
+            TextService.OnChangedFloatingText("+" + HealthValue, transform, ColorText);
             Destroy(gameObject);
         }
     }

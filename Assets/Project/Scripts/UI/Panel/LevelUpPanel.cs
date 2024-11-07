@@ -2,11 +2,12 @@
 using Project.Game.Scripts;
 using Project.Game.Scripts.Improvements;
 using Project.Scripts.Cards.ScriptableObjects;
+using Project.Scripts.UI.View;
 using Reflex.Attributes;
 using UnityEngine;
 using Random = System.Random;
 
-namespace Project.Scripts.UI
+namespace Project.Scripts.UI.Panel
 {
     public class LevelUpPanel : MonoBehaviour, IView
     {
@@ -85,7 +86,6 @@ namespace Project.Scripts.UI
         {
             GetCardsForLevelUp(currentLevel);
             Show();
-            _pauseService.StopGame();
         }
 
         private void GetCardsForLevelUp(int currentLevel)
@@ -98,6 +98,8 @@ namespace Project.Scripts.UI
             {
                 SortAndGetCards(_currentImprovementCards);
             }
+            
+            _pauseService.StopGame();
         }
 
         private void SortAndGetCards(List<Card> cards)

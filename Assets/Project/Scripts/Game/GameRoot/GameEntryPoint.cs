@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using Build.Game.Scripts.Game.Gameplay;
 using Build.Game.Scripts.Game.Gameplay.GameplayRoot;
+using Project.Scripts.Game.Gameplay.Root;
+using Project.Scripts.Game.MainMenu.Root;
 using Project.Scripts.UI.StateMachine.States;
 using R3;
 using Reflex.Core;
@@ -8,13 +10,15 @@ using Source.Game.Scripts;
 using Source.Game.Scripts.Utils;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using YG;
 
-namespace Build.Game.Scripts.Game.GameRoot
+namespace Project.Scripts.Game.GameRoot
 {
     public class GameEntryPoint
     {
         private const string UIRootViewPath = "UIRoot";
         private const string CoroutinesName = "[Coroutines]";
+        private const bool IsFullScreen = true;
 
         private readonly Coroutines _coroutines;
         private readonly UIRootView _uiRoot;
@@ -115,7 +119,7 @@ namespace Build.Game.Scripts.Game.GameRoot
         private IEnumerator LoadScene(string sceneName)
         {
             _asyncOperation = SceneManager.LoadSceneAsync(sceneName);
-            ReflexSceneManager.PreInstallScene(SceneManager.GetSceneByName(sceneName), builder => builder.AddSingleton("Beautifull"));
+            ReflexSceneManager.PreInstallScene(SceneManager.GetSceneByName(sceneName), builder => builder.AddSingleton("Beautiful"));
             
             while (!_asyncOperation.isDone)
             {

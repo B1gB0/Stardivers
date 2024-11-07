@@ -1,6 +1,7 @@
 ﻿using System;
 using Build.Game.Scripts.ECS.Components;
 using Project.Game.Scripts;
+using Project.Scripts.ECS.EntityActors;
 using UnityEngine;
 
 namespace Build.Game.Scripts.ECS.EntityActors
@@ -18,7 +19,7 @@ namespace Build.Game.Scripts.ECS.EntityActors
         [SerializeField] private ParticleSystem _hitEffect;
 
         private ParticleSystem _hitEffectRef;
-        private StoneActor stoneRef;
+        private ResourceActor resourceRef;
         private float _lastHitTime;
         private AudioSoundsService _audioSoundsService;
 
@@ -35,21 +36,21 @@ namespace Build.Game.Scripts.ECS.EntityActors
             if (Physics.Raycast(_detectionPoint.position, _detectionPoint.forward, out var hit,
                     _miningRange))
             {
-                if(stoneRef != null)
-                    stoneRef.Health.SetHit(false);
+                if(resourceRef != null)
+                    resourceRef.Health.SetHit(false);
                 
-                if (!hit.collider.TryGetComponent(out StoneActor stone)) return;
+                if (!hit.collider.TryGetComponent(out ResourceActor resource)) return;
                 
                 IsMining = true;
 
                 if (_lastHitTime <= MinValue)
                 {
-                    stoneRef = stone;
+                    resourceRef = resource;
 
                     _audioSoundsService.PlaySound(Sounds.Stone);
 
-                    stoneRef.Health.TakeDamage(_damage);
-                    stoneRef.Health.SetHit(true);
+                    resourceRef.Health.TakeDamage(_damage);
+                    resourceRef.Health.SetHit(true);
 
                     _hitEffectRef.Play();
 

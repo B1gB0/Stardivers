@@ -1,6 +1,7 @@
 ﻿using System;
 using Project.Scripts.ECS.Data;
 using Project.Scripts.ECS.EntityActors;
+using UnityEngine;
 
 namespace Project.Scripts.Experience
 {
@@ -14,42 +15,52 @@ namespace Project.Scripts.Experience
         public ExperiencePoints(PlayerProgressionInitData playerProgression)
         {
             _playerProgression = playerProgression;
+            _counterLevel = DefaultLevel;
             _currentLevel = DefaultLevel;
-            _currentMaxValueOfLevel = _playerProgression.Levels[_currentLevel];
+            _currentMaxValueOfLevel = _playerProgression.Levels[_counterLevel];
 
             _currentValue = TargetValue;
         }
 
         private int _currentMaxValueOfLevel;
         private int _currentValue;
+        private int _counterLevel;
         private int _currentLevel;
+        private int _newValue;
         
         private int TargetValue => _experienceScoreActorVisitor.AccumulatedExperience;
         
         public event Action<float, float, float> ValueIsChanged;
 
-        public event Action<int, float, float> LevelIsUpgraded;
+        public event Action<int, float, float> ProgressBarLevelIsUpgraded;
 
         public event Action<int> CurrentLevelIsUpgraded;
 
         public void OnKill(IAcceptable experience)
         {
             experience.AcceptScore(_experienceScoreActorVisitor);
-            
-            if (_currentLevel > _playerProgression.Levels.Count - 1) return;
+
+            if (_counterLevel > _playerProgression.Levels.Count - 1) return;
             
             if (TargetValue >= _currentMaxValueOfLevel)
             {
-                _currentLevel++;
-                _currentMaxValueOfLevel = _playerProgression.Levels[_currentLevel];
-                
-                int newValue = _currentMaxValueOfLevel - TargetValue;
-                _experienceScoreActorVisitor.UpdateAccumulatedExperience(newValue);
-                
-                LevelIsUpgraded?.Invoke(_currentLevel, TargetValue, _currentMaxValueOfLevel);
+                _counterLevel++;
+                _currentMaxValueOfLevel = _playerProgression.Levels[_counterLevel];
+
+                _newValue = Math.Abs(_currentMaxValueOfLevel - TargetValue);
+                _experienceScoreActorVisitor.UpdateAccumulatedExperience(_newValue);
+
+                ProgressBarLevelIsUpgraded?.Invoke(_counterLevel, TargetValue, _currentMaxValueOfLevel);
                 _currentValue = TargetValue;
-                
-                CurrentLevelIsUpgraded?.Invoke(_currentLevel);
+
+                if (TargetValue <= _currentMaxValueOfLevel)
+                {
+                    for (int i = _currentLevel; i < _counterLevel; i++)
+                    {
+                        _currentLevel++;
+                        CurrentLevelIsUpgraded?.Invoke(_currentLevel);
+                    }
+                }
             }
             else
             {

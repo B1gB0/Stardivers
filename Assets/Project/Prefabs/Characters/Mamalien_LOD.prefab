@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &459390951411769973
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7012782083852387894}
+  m_Layer: 0
+  m_Name: HitPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7012782083852387894
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 459390951411769973}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5436888960903260587}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &4115829720075624261
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -667,6 +698,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 400094, guid: c5717d66a63433d46be8ab0996cd7452, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8311274849509398250}
+    - targetCorrespondingSourceObject: {fileID: 400094, guid: c5717d66a63433d46be8ab0996cd7452, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7012782083852387894}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 100094, guid: c5717d66a63433d46be8ab0996cd7452, type: 3}
       insertIndex: 1
@@ -714,9 +748,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbef326efc61174488772c5468beb681, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _value: 15
-  _hitEffect: {fileID: 19889686, guid: de85f8f81ea29ea479250adb36debd92, type: 3}
-  _hitPoint: {fileID: 5436888960903260587}
+  _colorText: {r: 1, g: 1, b: 1, a: 0}
+  _value: 70
+  _hitEffectPrefab: {fileID: 2505167390030652998, guid: c5f344500c55ab64db42ad890f988745, type: 3}
+  _hitPoint: {fileID: 7012782083852387894}
 --- !u!114 &2774489045408133602
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -731,7 +766,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Health>k__BackingField: {fileID: 8894253457751917587}
   <Animator>k__BackingField: {fileID: 5436888960896288277}
-  <Rigidbody>k__BackingField: {fileID: -1545371747373570864}
   <NavMeshAgent>k__BackingField: {fileID: 5703868975293681217}
   <Projectile>k__BackingField: {fileID: 5811171080434309738}
 --- !u!136 &882404680993714590

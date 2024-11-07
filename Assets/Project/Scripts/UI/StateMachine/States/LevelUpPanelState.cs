@@ -1,4 +1,6 @@
-﻿namespace Project.Scripts.UI.StateMachine.States
+﻿using Project.Scripts.UI.Panel;
+
+namespace Project.Scripts.UI.StateMachine.States
 {
     public class LevelUpPanelState : ViewState
     {

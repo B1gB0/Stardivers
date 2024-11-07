@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Project.Scripts.UI
 {
@@ -18,11 +17,15 @@ namespace Project.Scripts.UI
         
         private Coroutine _coroutine;
 
+        private void Start()
+        {
+            _barMaterial.SetFloat(RemovedSegments, 0);
+            _backgroundBarMaterial.SetFloat(RemovedSegments, 1);
+        }
+
         public void Show()
         {
             gameObject.SetActive(true);
-            _barMaterial.SetFloat(RemovedSegments, 0);
-            _backgroundBarMaterial.SetFloat(RemovedSegments, 1);
         }
 
         public void Hide()

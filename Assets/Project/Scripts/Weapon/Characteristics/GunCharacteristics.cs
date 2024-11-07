@@ -10,7 +10,7 @@ namespace Project.Game.Scripts
 
         public float BulletSpeed { get; private set; } = 10f;
 
-        public float Damage { get; private set; } = 2f;
+        public float Damage { get; private set; } = 15f;
         
         public int MaxCountShots { get; private set; } = 7;
     
@@ -40,27 +40,27 @@ namespace Project.Game.Scripts
 
         private void IncreaseDamage(float damageFactor)
         {
-            Damage += Damage * damageFactor;
+            Damage += Mathf.Round(Damage * damageFactor);
         }
 
         private void IncreaseFireRate(float fireRateFactor)
         {
-            FireRate -= FireRate * fireRateFactor;
+            FireRate -= Mathf.Round(FireRate * fireRateFactor);
         }
 
         private void IncreaseBulletSpeed(float bulletSpeedFactor)
         {
-            BulletSpeed += BulletSpeed * bulletSpeedFactor;
+            BulletSpeed += Mathf.Round(BulletSpeed * bulletSpeedFactor);
         }
 
         private void IncreaseRangeAttack(float rangeAttackFactor)
         {
-            RangeAttack += RangeAttack * rangeAttackFactor;
+            RangeAttack += Mathf.Round(RangeAttack * rangeAttackFactor);
         }
         
         private void IncreaseReloadVelocity(float reloadTimeFactor)
         {
-            ReloadTime += ReloadTime * reloadTimeFactor;
+            ReloadTime += Mathf.Round(ReloadTime * reloadTimeFactor);
         }
     }
 }

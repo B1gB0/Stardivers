@@ -1,4 +1,6 @@
-﻿namespace Project.Game.Scripts
+﻿using UnityEngine;
+
+namespace Project.Game.Scripts
 {
     public class FragGrenadeCharacteristics
     {
@@ -10,7 +12,7 @@
         
         public float ExplosionRadius { get; private set; } = 3f;
 
-        public float Damage { get; private set; } = 1f;
+        public float Damage { get; private set; } = 10f;
         
         public void ApplyImprovement(CharacteristicsTypes type ,float factor)
         {
@@ -34,29 +36,29 @@
             }
         }
 
-        public void IncreaseDamage(float damageFactor)
+        private void IncreaseDamage(float damageFactor)
         {
-            Damage += Damage * damageFactor;
+            Damage += Mathf.Round(Damage * damageFactor);
         }
 
-        public void IncreaseFireRate(float fireRateFactor)
+        private void IncreaseFireRate(float fireRateFactor)
         {
-            FireRate -= FireRate * fireRateFactor;
+            FireRate -= Mathf.Round(FireRate * fireRateFactor);
         }
 
-        public void IncreaseBulletSpeed(float bulletSpeedFactor)
+        private void IncreaseBulletSpeed(float bulletSpeedFactor)
         {
-            GrenadeSpeed += GrenadeSpeed * bulletSpeedFactor;
+            GrenadeSpeed += Mathf.Round(GrenadeSpeed * bulletSpeedFactor);
         }
 
-        public void IncreaseRangeAttack(float rangeAttackFactor)
+        private void IncreaseRangeAttack(float rangeAttackFactor)
         {
-            RangeAttack += RangeAttack * rangeAttackFactor;
+            RangeAttack += Mathf.Round(RangeAttack * rangeAttackFactor);
         }
         
-        public void IncreaseExplosionRadius(float explosionRadiusFactor)
+        private void IncreaseExplosionRadius(float explosionRadiusFactor)
         {
-            ExplosionRadius += ExplosionRadius * explosionRadiusFactor;
+            ExplosionRadius += Mathf.Round(ExplosionRadius * explosionRadiusFactor);
         }
     }
 }

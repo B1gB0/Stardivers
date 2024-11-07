@@ -22,7 +22,7 @@ namespace  Project.Scripts.Projectiles.Grenades
 
         private void OnTriggerEnter(Collider collision)
         {
-            if(collision.gameObject.TryGetComponent(out SmallAlienEnemy enemy))
+            if(collision.gameObject.TryGetComponent(out EnemyAlienActor enemy))
             {
                 Explode();
                 StopCoroutine(LifeRoutine());
@@ -67,7 +67,7 @@ namespace  Project.Scripts.Projectiles.Grenades
             _explosionEffect.Play();
             _audioSoundsService.PlaySound(Sounds.FragGrenades);
         
-            foreach (SmallAlienEnemy explosiveObject in GetExplosiveObjects())
+            foreach (EnemyAlienActor explosiveObject in GetExplosiveObjects())
             {
                 explosiveObject.Health.TakeDamage(_damage);
             }
@@ -75,14 +75,14 @@ namespace  Project.Scripts.Projectiles.Grenades
             gameObject.SetActive(false);
         }
         
-        private List<SmallAlienEnemy> GetExplosiveObjects()
+        private List<EnemyAlienActor> GetExplosiveObjects()
         {
             Collider[] hits = Physics.OverlapSphere(transform.position, _explosionRadius);
         
-            List<SmallAlienEnemy> enemies = new();
+            List<EnemyAlienActor> enemies = new();
         
             foreach (Collider hit in hits)
-                if (hit.attachedRigidbody != null && hit.gameObject.TryGetComponent(out SmallAlienEnemy enemyActor))
+                if (hit.attachedRigidbody != null && hit.gameObject.TryGetComponent(out EnemyAlienActor enemyActor))
                     enemies.Add(enemyActor);
         
             return enemies;

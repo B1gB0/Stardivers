@@ -20,7 +20,7 @@ public class Gun : Weapon
     private bool _isShooting = true;
     
     private GunBullet _bullet;
-    private SmallAlienEnemy closestSmallAlienEnemy;
+    private EnemyAlienActor closestAlienEnemy;
     private ObjectPool<GunBullet> _poolBullets;
 
     private ClosestEnemyDetector _detector;
@@ -36,17 +36,19 @@ public class Gun : Weapon
 
     private void Awake()
     {
-        _poolBullets = new ObjectPool<GunBullet>(_bulletPrefab, _countBullets, new GameObject(ObjectPoolBulletName).transform);
-        _poolBullets.AutoExpand = IsAutoExpandPool;
+        _poolBullets = new ObjectPool<GunBullet>(_bulletPrefab, _countBullets, new GameObject(ObjectPoolBulletName).transform)
+        {
+            AutoExpand = IsAutoExpandPool
+        };
     }
 
     private void FixedUpdate()
     {
-        closestSmallAlienEnemy = _detector.СlosestSmallAlienEnemy;
+        closestAlienEnemy = _detector.СlosestAlienEnemy;
 
-        if (closestSmallAlienEnemy == null) return;
+        if (closestAlienEnemy == null) return;
         
-        if (Vector3.Distance(closestSmallAlienEnemy.transform.position, transform.position) <= GunCharacteristics.RangeAttack && _isShooting)
+        if (Vector3.Distance(closestAlienEnemy.transform.position, transform.position) <= GunCharacteristics.RangeAttack && _isShooting)
         {
             Shoot();
         }
@@ -56,7 +58,7 @@ public class Gun : Weapon
     
     public override void Shoot()
     {
-        if (_lastShotTime <= MinValue && closestSmallAlienEnemy.Health.TargetHealth > MinValue)
+        if (_lastShotTime <= MinValue && closestAlienEnemy.Health.TargetHealth > MinValue)
         {
             _bullet = _poolBullets.GetFreeElement();
             
@@ -64,7 +66,7 @@ public class Gun : Weapon
 
             _bullet.transform.position = _shootPoint.position;
 
-            _bullet.SetDirection(closestSmallAlienEnemy.transform);
+            _bullet.SetDirection(closestAlienEnemy.transform);
             _bullet.SetCharacteristics(GunCharacteristics.Damage, GunCharacteristics.BulletSpeed);
 
             _lastShotTime = GunCharacteristics.FireRate;

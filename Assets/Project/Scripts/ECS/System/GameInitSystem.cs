@@ -11,11 +11,14 @@ using Project.Scripts.Crystals;
 using Project.Scripts.ECS.Data;
 using Project.Scripts.ECS.EntityActors;
 using Project.Scripts.Experience;
-using Project.Scripts.MiningResources;
+using Project.Scripts.Levels;
 using Project.Scripts.Operations;
 using Project.Scripts.Projectiles.Bullets;
 using Project.Scripts.Score;
+using Project.Scripts.Services;
 using Project.Scripts.UI;
+using Project.Scripts.UI.Panel;
+using Project.Scripts.UI.View;
 using TreeEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -38,11 +41,12 @@ namespace Project.Scripts.ECS.System
         private readonly Vector3 _stoneRotation = new (0f, 90f, 0f);
         private readonly EcsWorld _world;
 
-        private readonly FloatingDamageTextService _damageTextService;
+        private readonly FloatingTextService _textService;
+        private readonly GoldView _goldView;
         private readonly AudioSoundsService _audioSoundsService;
         private readonly ExperiencePoints _experiencePoints;
-        private readonly CrystalSpawner _crystalSpawner;
         private readonly Timer _timer;
+        private readonly AdviserMessagePanel _adviserMessagePanel;
         
         private readonly PlayerInitData _playerInitData;
         private readonly SmallEnemyAlienInitData _smallEnemyAlienInitData;
@@ -70,7 +74,7 @@ namespace Project.Scripts.ECS.System
         private ObjectPool<BigAlienEnemyAlien> _bigEnemyAlienPool;
         private ObjectPool<SmallAlienEnemy> _smallEnemyAlienPool;
 
-        public Health PlayerHealth { get; private set; }
+        public Health.Health PlayerHealth { get; private set; }
         
         public Transform PlayerTransform { get; private set; }
 
@@ -119,7 +123,7 @@ namespace Project.Scripts.ECS.System
             
             SpawnResources();
             
-            _level.GetServices(this, _timer);
+            _level.GetServices(this, _timer, _adviserMessagePanel);
 
             if (!_level.IsLaunchedPlayerCapsule)
             {
@@ -162,7 +166,7 @@ namespace Project.Scripts.ECS.System
         {
             _audioSoundsService.PlaySound(Sounds.CapsuleFlight);
             
-            _capsuleSpawnPoint = _playerSpawnPoint;
+            _capsuleSpawnPoint = _player.transform.position;
             _capsuleSpawnPoint.y += CapsuleHeight;
             
             _capsule = Object.Instantiate(_capsuleInitData.Prefab, _capsuleSpawnPoint, Quaternion.identity);
@@ -171,14 +175,19 @@ namespace Project.Scripts.ECS.System
         private void SpawnPlayer()
         {
             _player.gameObject.SetActive(true);
+            
+            if (_player.Health.TargetHealth <= MinValue)
+            {
+                _player.Health.SetHealthValue();
+            }
         }
 
         private void LaunchPlayerCapsule()
         {
-            _capsule.transform.position = Vector3.MoveTowards(_capsule.transform.position, _playerSpawnPoint,
+            _capsule.transform.position = Vector3.MoveTowards(_capsule.transform.position, _player.transform.position,
                 _capsuleInitData.DefaultMoveSpeed * Time.deltaTime);
 
-            if (_capsule.transform.position == _playerSpawnPoint)
+            if (_capsule.transform.position == _player.transform.position)
             {
                 PlayerIsSpawned?.Invoke();
                 SpawnPlayer();
@@ -219,14 +228,30 @@ namespace Project.Scripts.ECS.System
         private SmallAlienEnemy CreateSmallEnemyAlien(PlayerActor target)
         {
             var smallEnemyAlienActor = _smallEnemyAlienPool.GetFreeElement();
-            smallEnemyAlienActor.Construct(_experiencePoints, _damageTextService);
+            smallEnemyAlienActor.Construct(_experiencePoints, _textService);
 
             if (smallEnemyAlienActor.Health.TargetHealth <= MinValue)
             {
                 smallEnemyAlienActor.Health.SetHealthValue();
             }
+            
+            var entity = _world.NewEntity();
+            
+            ref var enemyComponent = ref entity.Get<EnemyComponent>();
+            enemyComponent.Health = smallEnemyAlienActor.Health;
 
-            InitEnemyAlien(smallAlienEnemy, target);
+            ref var enemyMovableComponent = ref entity.Get<EnemyMovableComponent>();
+            enemyMovableComponent.Transform = smallEnemyAlienActor.transform;
+
+            ref var enemyAnimationsComponent = ref entity.Get<AnimatedComponent>();
+            enemyAnimationsComponent.Animator = smallEnemyAlienActor.Animator;
+
+            ref var followComponent = ref entity.Get<FollowPlayerComponent>();
+            followComponent.Target = target;
+            followComponent.NavMeshAgent = smallEnemyAlienActor.NavMeshAgent;
+
+            ref var attackComponent = ref entity.Get<MeleeAttackComponent>();
+            attackComponent.Damage = _smallEnemyAlienInitData.DefaultDamage;
 
             return smallEnemyAlienActor;
         }
@@ -234,14 +259,33 @@ namespace Project.Scripts.ECS.System
         private BigAlienEnemyAlien CreateBigEnemyAlien(PlayerActor target)
         {
             var bigEnemyAlienActor = _bigEnemyAlienPool.GetFreeElement();
-            bigEnemyAlienActor.Construct(_experiencePoints, _damageTextService);
+            bigEnemyAlienActor.Construct(_experiencePoints, _textService);
             
             if (bigEnemyAlienActor.Health.TargetHealth <= MinValue)
             {
                 bigEnemyAlienActor.Health.SetHealthValue();
             }
             
-            InitEnemyAlien(bigEnemyAlienActor, target, bigEnemyAlienActor.Projectile);
+            var entity = _world.NewEntity();
+            
+            ref var enemyComponent = ref entity.Get<EnemyComponent>();
+            enemyComponent.Health = bigEnemyAlienActor.Health;
+
+            ref var enemyMovableComponent = ref entity.Get<EnemyMovableComponent>();
+            enemyMovableComponent.Transform = bigEnemyAlienActor.transform;
+
+            ref var enemyAnimationsComponent = ref entity.Get<AnimatedComponent>();
+            enemyAnimationsComponent.Animator = bigEnemyAlienActor.Animator;
+
+            ref var followComponent = ref entity.Get<FollowPlayerComponent>();
+            followComponent.Target = target;
+            followComponent.NavMeshAgent = bigEnemyAlienActor.NavMeshAgent;
+
+            ref var attackComponent = ref entity.Get<RangeAttackComponent>();
+            attackComponent.Damage = _bigEnemyAlienData.DefaultDamage;
+            attackComponent.Projectile = bigEnemyAlienActor.Projectile;
+            
+            attackComponent.Projectile.SetCharacteristics(attackComponent.Damage);
 
             return bigEnemyAlienActor;
         }
@@ -258,7 +302,7 @@ namespace Project.Scripts.ECS.System
         {
             var healingCore = Object.Instantiate(_healingCoreInitData.HealingCorePrefab, atPosition, Quaternion.identity);
             healingCore.GetExperiencePoints(_experiencePoints);
-            healingCore.GetCrystalSpawner(_crystalSpawner);
+            healingCore.GetServices(_textService);
             
             InitResource(healingCore);
         }
@@ -267,7 +311,7 @@ namespace Project.Scripts.ECS.System
         {
             var goldCore = Object.Instantiate(_goldCoreInitData.GoldCorePrefab, atPosition, Quaternion.identity);
             goldCore.GetExperiencePoints(_experiencePoints);
-            goldCore.GetCrystalSpawner(_crystalSpawner);
+            goldCore.GetServices(_textService, _goldView);
             
             InitResource(goldCore);
         }
@@ -281,30 +325,6 @@ namespace Project.Scripts.ECS.System
 
             ref var animatedComponent = ref entity.Get<AnimatedComponent>();
             animatedComponent.Animator = resource.Animator;
-        }
-
-        private void InitEnemyAlien(EnemyAlienActor enemy, PlayerActor target, BigEnemyAlienProjectile projectile = null)
-        {
-            var entity = _world.NewEntity();
-            
-            ref var enemyComponent = ref entity.Get<EnemyComponent>();
-            enemyComponent.Health = enemy.Health;
-
-            ref var enemyMovableComponent = ref entity.Get<EnemyMovableComponent>();
-            enemyMovableComponent.Transform = enemy.transform;
-
-            ref var enemyAnimationsComponent = ref entity.Get<AnimatedComponent>();
-            enemyAnimationsComponent.Animator = enemy.Animator;
-
-            ref var followComponent = ref entity.Get<FollowPlayerComponent>();
-            followComponent.Target = target;
-            followComponent.NavMeshAgent = enemy.NavMeshAgent;
-
-            ref var attackComponent = ref entity.Get<RangeAttackComponent>();
-            attackComponent.Damage = _bigEnemyAlienData.DefaultDamage;
-            attackComponent.Projectile = projectile;
-            
-            attackComponent.Projectile.SetCharacteristics(attackComponent.Damage);
         }
 
         private void SpawnResources()
@@ -351,7 +371,7 @@ namespace Project.Scripts.ECS.System
             {
                 Vector3 randomPoint = freeSpawnPoints[Random.Range(MinValue, counterSpawnPoints)];
                 sortedSpawnPoints.Add(randomPoint);
-                //freeSpawnPoints.Remove(randomPoint);
+                freeSpawnPoints.Remove(randomPoint);
                 counterSpawnPoints--;
             }
 

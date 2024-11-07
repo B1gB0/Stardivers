@@ -11,7 +11,7 @@ public class MachineGunCharacteristics
 
     public float BulletSpeed { get; private set; } = 10f;
 
-    public float Damage { get; private set; } = 3f;
+    public float Damage { get; private set; } = 18f;
     
     public int MaxCountShots { get; private set; } = 16;
     
@@ -39,28 +39,28 @@ public class MachineGunCharacteristics
         }
     }
         
-    public void IncreaseDamage(float damageFactor)
+    private void IncreaseDamage(float damageFactor)
     {
-        Damage += Damage * damageFactor;
+        Damage += Mathf.Round(Damage * damageFactor);
     }
 
-    public void IncreaseFireRate(float fireRateFactor)
+    private void IncreaseFireRate(float fireRateFactor)
     {
-        FireRate -= FireRate * fireRateFactor;
+        FireRate -= Mathf.Round(FireRate * fireRateFactor);
     }
 
-    public void IncreaseBulletSpeed(float bulletSpeedFactor)
+    private void IncreaseBulletSpeed(float bulletSpeedFactor)
     {
-        BulletSpeed += BulletSpeed * bulletSpeedFactor;
+        BulletSpeed += Mathf.Round(BulletSpeed * bulletSpeedFactor);
     }
 
-    public void IncreaseRangeAttack(float rangeAttackFactor)
+    private void IncreaseRangeAttack(float rangeAttackFactor)
     {
-        RangeAttack += RangeAttack * rangeAttackFactor;
+        RangeAttack += Mathf.Round(RangeAttack * rangeAttackFactor);
     }
     
-    public void IncreaseReloadVelocity(float reloadTimeFactor)
+    private void IncreaseReloadVelocity(float reloadTimeFactor)
     {
-        ReloadTime += ReloadTime * reloadTimeFactor;
+        ReloadTime += Mathf.Round(ReloadTime * reloadTimeFactor);
     }
 }

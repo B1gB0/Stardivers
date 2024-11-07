@@ -93,7 +93,7 @@ public class AudioSoundsService : MonoBehaviour
         
         sound.AudioSource.PlayOneShot(sound.AudioSource.clip);
 
-        StartCoroutine(sound.OffSoundAfterPlay());
+        StartCoroutine(sound.OffPoolSoundAfterPlay());
     }
 
     private void PlaySoundOfMiningStone()
@@ -102,7 +102,7 @@ public class AudioSoundsService : MonoBehaviour
         
         miningStoneSound.AudioSource.PlayOneShot(miningStoneSound.AudioSource.clip);
 
-        StartCoroutine(miningStoneSound.OffSoundAfterPlay());
+        StartCoroutine(miningStoneSound.OffPoolSoundAfterPlay());
     }
 
     private void PlayMachineGunSound()
@@ -111,7 +111,7 @@ public class AudioSoundsService : MonoBehaviour
         
         machineGunSound.AudioSource.PlayOneShot(machineGunSound.AudioSource.clip);
 
-        StartCoroutine(machineGunSound.OffSoundAfterPlay());
+        StartCoroutine(machineGunSound.OffPoolSoundAfterPlay());
     }
     
     private void PlayMinesSound()
@@ -129,7 +129,7 @@ public class AudioSoundsService : MonoBehaviour
         _capsuleFlightSound.AudioSource.PlayOneShot(_capsuleFlightSound.AudioSource.clip);
 
         StartCoroutine(PlayCapsuleExplosionSound());
-        StartCoroutine(_capsuleFlightSound.OffSoundAfterPlay(CapsuleFlightDuration));
+        StartCoroutine(_capsuleFlightSound.OffSoundAfterDurationPlay(CapsuleFlightDuration));
     }
     
     private void PlayCardViewButtonSound()
@@ -143,7 +143,7 @@ public class AudioSoundsService : MonoBehaviour
         
         fourBarrelMachineGunSound.AudioSource.PlayOneShot(fourBarrelMachineGunSound.AudioSource.clip);
 
-        StartCoroutine(fourBarrelMachineGunSound.OffSoundAfterPlay());
+        StartCoroutine(fourBarrelMachineGunSound.OffPoolSoundAfterPlay());
     }
 
     private void PlayButtonSound()

@@ -816,7 +816,7 @@ PlayerSettings:
   webGLDebugSymbols: 0
   webGLEmscriptenArgs: 
   webGLModulesDirectory: 
-  webGLTemplate: PROJECT:FullscreenWindow
+  webGLTemplate: PROJECT:PluginYG
   webGLAnalyzeBuildSize: 0
   webGLUseEmbeddedResources: 0
   webGLCompressionFormat: 0
@@ -842,7 +842,7 @@ PlayerSettings:
     Stadia: UNITY_POST_PROCESSING_STACK_V2
     Standalone: UNITY_POST_PROCESSING_STACK_V2
     VisionOS: UNITY_POST_PROCESSING_STACK_V2
-    WebGL: REFLEX_DEBUG;UNITY_POST_PROCESSING_STACK_V2
+    WebGL: REFLEX_DEBUG;UNITY_POST_PROCESSING_STACK_V2;YG_PLUGIN_YANDEX_GAME;YG_NEWTONSOFT_FOR_AUTOLOCALIZATION;YG_NEWTONSOFT_FOR_SAVES;YG_TEXT_MESH_PRO
     XboxOne: UNITY_POST_PROCESSING_STACK_V2
     tvOS: UNITY_POST_PROCESSING_STACK_V2
   additionalCompilerArguments: {}

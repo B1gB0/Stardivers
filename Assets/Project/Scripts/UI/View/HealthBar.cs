@@ -1,4 +1,4 @@
-using Build.Game.Scripts;
+using Project.Scripts.Health;
 
 public class HealthBar : Bar
 {

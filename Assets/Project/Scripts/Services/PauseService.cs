@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using YG;
 
 namespace Project.Scripts.UI
 {
@@ -17,6 +18,7 @@ namespace Project.Scripts.UI
                 case MinCountPause :
                     countPauses = 0;
                     Time.timeScale = PlayTime;
+                    YandexGame.GameplayStart();
                     break;
                 case > MinCountPause :
                     countPauses--;
@@ -26,7 +28,12 @@ namespace Project.Scripts.UI
 
         public void StopGame()
         {
-            if (Time.timeScale != StopTime) Time.timeScale = StopTime;
+            if (Time.timeScale != StopTime)
+            {
+                Time.timeScale = StopTime;
+                YandexGame.GameplayStop();
+            }
+            
             countPauses++;
         }
     }

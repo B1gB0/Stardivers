@@ -31,8 +31,10 @@ namespace Project.Game.Scripts
 
         private void Awake()
         {
-            _pool = new ObjectPool<Mine>(_mine, _countMines, new GameObject("PoolMines").transform);
-            _pool.AutoExpand = IsAutoExpandPool;
+            _pool = new ObjectPool<Mine>(_mine, _countMines, new GameObject("PoolMines").transform)
+            {
+                AutoExpand = IsAutoExpandPool
+            };
         }
 
         private void Start()

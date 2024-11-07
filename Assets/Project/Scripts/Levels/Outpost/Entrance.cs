@@ -1,41 +1,27 @@
-using Build.Game.Scripts.ECS.EntityActors;
 using UnityEngine;
 
-[RequireComponent(typeof(Animator))]
-public class Entrance : MonoBehaviour
+namespace Project.Scripts.Levels.Outpost
 {
-    public readonly int IsOpened = Animator.StringToHash(nameof(IsOpened));
+    [RequireComponent(typeof(Animator))]
+    public class Entrance : MonoBehaviour
+    {
+        public readonly int IsOpened = Animator.StringToHash(nameof(IsOpened));
     
-    private Animator _animator;
+        private Animator _animator;
 
-    private void Start()
-    {
-        _animator = GetComponent<Animator>();
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.TryGetComponent(out PlayerActor playerActor))
+        private void Start()
         {
-            OpenGate();
+            _animator = GetComponent<Animator>();
         }
-    }
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.TryGetComponent(out PlayerActor playerActor))
+        public void OpenGate()
         {
-            CloseGate();
+            _animator.SetBool(IsOpened, true);
         }
-    }
 
-    public void OpenGate()
-    {
-        _animator.SetBool(IsOpened, true);
-    }
-
-    public void CloseGate()
-    {
-        _animator.SetBool(IsOpened, false);
+        public void CloseGate()
+        {
+            _animator.SetBool(IsOpened, false);
+        }
     }
 }

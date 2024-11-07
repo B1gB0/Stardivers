@@ -24,7 +24,7 @@ namespace Project.Scripts.UI
         private void OnEnable()
         {
             _experiencePoints.ValueIsChanged += OnChangeValue;
-            _experiencePoints.LevelIsUpgraded += UpgradeLevel;
+            _experiencePoints.ProgressBarLevelIsUpgraded += UpgradeProgressBarLevel;
         }
 
         private void Update()
@@ -35,10 +35,10 @@ namespace Project.Scripts.UI
         private void OnDisable()
         {
             _experiencePoints.ValueIsChanged -= OnChangeValue;
-            _experiencePoints.LevelIsUpgraded -= UpgradeLevel;
+            _experiencePoints.ProgressBarLevelIsUpgraded -= UpgradeProgressBarLevel;
         }
 
-        private void UpgradeLevel(int level, float targetValue, float maxValue)
+        private void UpgradeProgressBarLevel(int level, float targetValue, float maxValue)
         {
             level += _stepLevel;
             text.text = "LVL " + level;

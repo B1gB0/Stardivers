@@ -1,4 +1,5 @@
 ﻿using System;
+using Project.Scripts.Health;
 using UnityEngine;
 
 namespace Build.Game.Scripts.ECS.Components

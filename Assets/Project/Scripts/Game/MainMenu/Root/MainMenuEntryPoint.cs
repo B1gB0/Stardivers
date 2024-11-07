@@ -1,17 +1,21 @@
-﻿using R3;
+﻿using Build.Game.Scripts.Game.Gameplay;
+using Build.Game.Scripts.Game.Gameplay.GameplayRoot;
+using R3;
 using Reflex.Extensions;
 using Reflex.Injectors;
 using Source.Game.Scripts;
 using UnityEngine;
 
-namespace Build.Game.Scripts.Game.Gameplay.GameplayRoot
+namespace Project.Scripts.Game.MainMenu.Root
 {
     public class MainMenuEntryPoint : MonoBehaviour
     {
+        private const string CurrentOperationCodeName = nameof(CurrentOperationCodeName);
+        
         [SerializeField] private UIMainMenuRootBinder _sceneUIRootPrefab;
         
         private UIMainMenuRootBinder _uiScene;
-        private string _currentOperation;
+        private string currentOperation;
         private string saveFileName;
 
         public Observable<MainMenuExitParameters> Run(UIRootView uiRoot, MainMenuEnterParameters enterParameters)
@@ -28,8 +32,9 @@ namespace Build.Game.Scripts.Game.Gameplay.GameplayRoot
             _uiScene.Bind(exitSignalSubject);
 
             saveFileName = "Save";
+            currentOperation = PlayerPrefs.GetString(CurrentOperationCodeName);
 
-            var gameplayEnterParameters = new GameplayEnterParameters(saveFileName, _currentOperation);
+            var gameplayEnterParameters = new GameplayEnterParameters(saveFileName, currentOperation);
             var mainMenuExitParameters = new MainMenuExitParameters(gameplayEnterParameters);
 
             var exitToGameplaySceneSignal = exitSignalSubject.Select(_ => mainMenuExitParameters);

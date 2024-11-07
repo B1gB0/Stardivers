@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Project.Scripts.ECS.EntityActors;
 using UnityEngine;
 
 namespace Build.Game.Scripts.ECS.EntityActors
 {
     public class CapsuleParts : MonoBehaviour
     {
+        private const float Damage = 20f;
+        
         [SerializeField] private ParticleSystem _effect;
         [SerializeField] private LayerMask _layer;
 
@@ -21,6 +22,11 @@ namespace Build.Game.Scripts.ECS.EntityActors
             foreach (Rigidbody explodableObject in GetExplodableObjects())
             {
                  explodableObject.AddExplosionForce(_force, transform.position, _radius); 
+            }
+
+            foreach (var enemy in GetEnemies())
+            {
+                enemy.Health.TakeDamage(Damage);
             }
             
             Destroy(gameObject, _delay);
@@ -37,6 +43,19 @@ namespace Build.Game.Scripts.ECS.EntityActors
                     parts.Add(hit.attachedRigidbody);
 
             return parts;
+        }
+
+        private List<EnemyAlienActor> GetEnemies()
+        {
+            Collider[] hits = Physics.OverlapSphere(transform.position, _radius);
+
+            List<EnemyAlienActor> enemies = new ();
+
+            foreach (Collider hit in hits)
+                if (hit.attachedRigidbody != null && hit.gameObject.TryGetComponent(out EnemyAlienActor enemyActor))
+                    enemies.Add(enemyActor);
+
+            return enemies;
         }
     }
 }
