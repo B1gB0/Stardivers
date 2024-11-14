@@ -1,6 +1,5 @@
 using Build.Game.Scripts.ECS.EntityActors;
 using Project.Scripts.ECS.EntityActors;
-using UnityEngine;
 
 namespace Project.Scripts.Experience
 {
@@ -13,9 +12,14 @@ namespace Project.Scripts.Experience
             AccumulatedExperience += 10;
         }
 
-        public void Visit(BigAlienEnemyAlien bigAlienEnemy)
+        public void Visit(BigAlienEnemy bigAlienEnemy)
         {
             AccumulatedExperience += 25;
+        }
+
+        public void Visit(GunnerAlienEnemy gunnerAlienEnemy)
+        {
+            AccumulatedExperience += 15;
         }
 
         public void Visit(StoneActor stone)

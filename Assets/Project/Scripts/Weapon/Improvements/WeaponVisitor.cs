@@ -1,4 +1,7 @@
-﻿namespace Project.Game.Scripts.Improvements
+﻿using Project.Scripts.Weapon.Improvements;
+using Project.Scripts.Weapon.Player;
+
+namespace Project.Game.Scripts.Improvements
 {
     public class WeaponVisitor : IWeaponVisitor
     {
@@ -7,9 +10,9 @@
             gun.GunCharacteristics.ApplyImprovement(type, value);
         }
 
-        public void Visit(MachineGun machineGun, CharacteristicsTypes type, float value)
+        public void Visit(FourBarrelMachineGun fourBarrelMachineGun, CharacteristicsTypes type, float value)
         {
-            machineGun.MachineGunCharacteristics.ApplyImprovement(type, value);
+            fourBarrelMachineGun.MachineGunCharacteristics.ApplyImprovement(type, value);
         }
 
         public void Visit(Mines mines, CharacteristicsTypes type, float value)
@@ -22,9 +25,9 @@
             fragGrenades.FragGrenadeCharacteristics.ApplyImprovement(type, value);
         }
 
-        public void Visit(FourBarrelMachineGun fourBarrelMachineGun, CharacteristicsTypes type, float value)
+        public void Visit(MachineGun machineGun, CharacteristicsTypes type, float value)
         {
-            fourBarrelMachineGun.MachineGunCharacteristics.ApplyImprovement(type, value);
+            machineGun.MachineGunCharacteristics.ApplyImprovement(type, value);
         }
     }
 }

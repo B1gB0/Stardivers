@@ -1,9 +1,7 @@
-﻿using Build.Game.Scripts.ECS.EntityActors;
-using Project.Scripts.ECS.EntityActors;
-using UnityEngine;
+﻿using Project.Scripts.ECS.EntityActors;
 using UnityEngine.AI;
 
-namespace Build.Game.Scripts.ECS.Components
+namespace Project.Scripts.ECS.Components
 {
     public struct FollowPlayerComponent
     {

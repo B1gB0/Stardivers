@@ -1,14 +1,9 @@
-﻿using System.Collections.Generic;
-using Build.Game.Scripts.ECS.EntityActors;
-using Project.Scripts.Health;
-using UnityEngine;
+﻿using Build.Game.Scripts.ECS.EntityActors;
 
-namespace Build.Game.Scripts.ECS.Components
+namespace Project.Scripts.ECS.Components
 {
     public struct PlayerComponent
     {
-        public Health Health;
-        public List<Weapon> Weapons;
         public MiningToolActor MiningTool;
     }
 }

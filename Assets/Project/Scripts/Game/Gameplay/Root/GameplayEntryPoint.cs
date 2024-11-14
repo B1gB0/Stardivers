@@ -14,6 +14,7 @@ using Project.Scripts.Services;
 using Project.Scripts.UI;
 using Project.Scripts.UI.Panel;
 using Project.Scripts.UI.View;
+using Project.Scripts.Weapon.Player;
 using R3;
 using Reflex.Attributes;
 using Reflex.Extensions;
@@ -39,6 +40,7 @@ namespace Project.Scripts.Game.Gameplay.Root
         private LevelInitData _levelData;
         private SmallEnemyAlienInitData _smallEnemyAlienData;
         private BigEnemyAlienInitData _bigEnemyAlienData;
+        private GunnerAlienEnemyInitData _gunnerEnemyAlienData;
         private StoneInitData _stoneData;
         private CapsuleInitData _capsuleData;
         private PlayerProgressionInitData _playerProgressionData;
@@ -183,6 +185,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             _levelData = _dataFactory.CreateLevelData(currentOperation, 0);
             _smallEnemyAlienData = _dataFactory.CreateSmallEnemyAlienData();
             _bigEnemyAlienData = _dataFactory.CreateBigEnemyAlienData();
+            _gunnerEnemyAlienData = _dataFactory.CreateGunnerAlienEnemyData();
             _stoneData = _dataFactory.CreateStoneData();
             _capsuleData = _dataFactory.CreateCapsuleData();
             _playerProgressionData = _dataFactory.CreatePlayerProgression();
@@ -203,8 +206,8 @@ namespace Project.Scripts.Game.Gameplay.Root
             _updateSystems.Inject(_audioSoundsService);
             _updateSystems.Inject(_timer);
             
-            _updateSystems.Add(_gameInitSystem = new GameInitSystem(_playerData, _smallEnemyAlienData, _bigEnemyAlienData,
-                _stoneData, _capsuleData, _levelData, _healingCoreData, _goldCoreData));
+            _updateSystems.Add(_gameInitSystem = new GameInitSystem(_playerData, _smallEnemyAlienData, _bigEnemyAlienData, 
+                _gunnerEnemyAlienData, _stoneData, _capsuleData, _levelData, _healingCoreData, _goldCoreData));
             _updateSystems.Add(new PlayerInputSystem());
             _updateSystems.Add(new MainCameraSystem(_cinemachineVirtualCamera));
             _updateSystems.Add(new PlayerAnimatedSystem());
@@ -212,7 +215,8 @@ namespace Project.Scripts.Game.Gameplay.Root
             _updateSystems.Add(new EnemyMeleeAttackSystem());
             _updateSystems.Add(new ResourcesAnimatedSystem());
             _updateSystems.Init();
-            
+
+            _fixedUpdateSystems.Inject(_bigEnemyAlienData.ProjectilePrefab);
             _fixedUpdateSystems.Add(new PlayerMoveSystem());
             _fixedUpdateSystems.Add(new FollowSystem());
             _fixedUpdateSystems.Add(new EnemyRangeAttackSystem());

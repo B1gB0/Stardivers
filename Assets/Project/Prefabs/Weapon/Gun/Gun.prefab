@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 153728810928961209}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.2, z: 0}
+  m_LocalPosition: {x: 0, y: 0.4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -76,8 +76,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5126a6c55a4a4104aa45744b08f118e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Type>k__BackingField: Gun
+  <Type>k__BackingField: 0
   _bulletPrefab: {fileID: 6632399667553593021, guid: 289276c1b0a79c446bff8e67d8c2004c, type: 3}
-  soundPrefab: {fileID: -5471474892450395940, guid: 76891a962812825438c456c0be4c88e3, type: 3}
   _countBullets: 4
   _shootPoint: {fileID: 5503829001068718617}

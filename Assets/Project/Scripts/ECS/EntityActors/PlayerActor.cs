@@ -17,7 +17,7 @@ namespace Project.Scripts.ECS.EntityActors
         
         [field: SerializeField] public MiningToolActor MiningToolActor { get; private set; }
 
-        [field: SerializeField] public List<Weapon> Weapons { get; private set; }
+        [field: SerializeField] public List<global::Project.Scripts.Weapon.Player.PlayerWeapon> Weapons { get; private set; }
 
         private void OnEnable()
         {

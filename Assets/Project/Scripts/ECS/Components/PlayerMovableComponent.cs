@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Build.Game.Scripts.ECS.Components
+namespace Project.Scripts.ECS.Components
 {
     public struct PlayerMovableComponent
     {

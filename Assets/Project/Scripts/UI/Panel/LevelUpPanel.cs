@@ -3,6 +3,7 @@ using Project.Game.Scripts;
 using Project.Game.Scripts.Improvements;
 using Project.Scripts.Cards.ScriptableObjects;
 using Project.Scripts.UI.View;
+using Project.Scripts.Weapon.Player;
 using Reflex.Attributes;
 using UnityEngine;
 using Random = System.Random;
@@ -138,11 +139,11 @@ namespace Project.Scripts.UI.Panel
             }
         }
 
-        private void UpdateImprovementCardsByWeapon(Weapon weapon)
+        private void UpdateImprovementCardsByWeapon(PlayerWeapon playerWeapon)
         {
             foreach (ImprovementCard card in _improvementCards)
             {
-                if (card.WeaponType == weapon.Type)
+                if (card.WeaponType == playerWeapon.Type)
                 {
                     _currentImprovementCards.Add(card);
                 }
@@ -155,11 +156,11 @@ namespace Project.Scripts.UI.Panel
 
             if (card is ImprovementCard improvementCard)
             {
-                foreach (Weapon weapon in _weaponHolder.Weapons)
+                foreach (var weapon in _weaponHolder.Weapons)
                 {
                     if (improvementCard.WeaponType == weapon.Type)
                     {
-                        weapon.Accept(_weaponVisitor, improvementCard.CharacteristicsType, improvementCard.Value);
+                        weapon.AcceptWeaponImprovement(_weaponVisitor, improvementCard.CharacteristicsType, improvementCard.Value);
                     }
                 }
                 
@@ -167,8 +168,8 @@ namespace Project.Scripts.UI.Panel
             }
             else if (card is WeaponCard weaponCard)
             {
-                _weaponFactory.CreateWeapon(weaponCard.Weapon.Type);
-                UpdateImprovementCardsByWeapon(weaponCard.Weapon);
+                _weaponFactory.CreateWeapon(weaponCard.PlayerWeapon.Type);
+                UpdateImprovementCardsByWeapon(weaponCard.PlayerWeapon);
                 _currentWeaponCards.Remove(weaponCard);
             }
 

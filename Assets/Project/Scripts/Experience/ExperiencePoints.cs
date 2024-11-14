@@ -1,7 +1,6 @@
 ﻿using System;
 using Project.Scripts.ECS.Data;
 using Project.Scripts.ECS.EntityActors;
-using UnityEngine;
 
 namespace Project.Scripts.Experience
 {

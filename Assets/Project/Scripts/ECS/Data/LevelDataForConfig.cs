@@ -11,6 +11,7 @@ namespace Project.Scripts.ECS.Data
         {
             GameObject[] smallEnemyAlienSpawnPoints = GameObject.FindGameObjectsWithTag("SmallEnemyAlienSpawnPoint");
             GameObject[] bigEnemyAlienSpawnPoints = GameObject.FindGameObjectsWithTag("BigEnemyAlienSpawnPoint");
+            GameObject[] gunnerEnemyAlienSpawnPoints = GameObject.FindGameObjectsWithTag("GunnerEnemyAlienSpawnPoint");
             GameObject[] stoneSpawnPoints = GameObject.FindGameObjectsWithTag("StoneSpawnPoint");
             GameObject[] healingCoreSpawnPoints = GameObject.FindGameObjectsWithTag("HealingCoreSpawnPoint");
             GameObject[] goldCoreSpawnPoints = GameObject.FindGameObjectsWithTag("GoldCoreSpawnPoint");
@@ -26,6 +27,11 @@ namespace Project.Scripts.ECS.Data
             foreach (var point in bigEnemyAlienSpawnPoints)
             {
                 levelInitData.BigEnemyAlienSpawnPoints.Add(point.transform.position);
+            }
+            
+            foreach (var point in gunnerEnemyAlienSpawnPoints)
+            {
+                levelInitData.GunnerEnemyAlienSpawnPoints.Add(point.transform.position);
             }
 
             foreach (var stone in stoneSpawnPoints)

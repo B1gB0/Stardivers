@@ -1,6 +1,6 @@
-﻿using Build.Game.Scripts.ECS.Components;
-using Build.Game.Scripts.ECS.EntityActors;
+﻿using Build.Game.Scripts.ECS.EntityActors;
 using Leopotam.Ecs;
+using Project.Scripts.ECS.Components;
 using UnityEngine;
 
 namespace Build.Game.Scripts.ECS.System

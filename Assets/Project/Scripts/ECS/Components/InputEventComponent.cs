@@ -1,8 +1,6 @@
-﻿using System;
-using Project.Scripts.Player.PlayerInputModule;
-using UnityEngine;
+﻿using Project.Scripts.Player.PlayerInputModule;
 
-namespace Build.Game.Scripts.ECS.Components
+namespace Project.Scripts.ECS.Components
 {
     public struct InputEventComponent
     {

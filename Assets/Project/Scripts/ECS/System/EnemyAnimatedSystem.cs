@@ -1,8 +1,9 @@
-﻿using Build.Game.Scripts.ECS.Components;
-using Leopotam.Ecs;
+﻿using Leopotam.Ecs;
+using Project.Scripts.ECS.Components;
+using Project.Scripts.EnemyAnimation.States;
 using UnityEngine;
 
-namespace Build.Game.Scripts.ECS.System
+namespace Project.Scripts.ECS.System
 {
     public class EnemyAnimatedSystem : IEcsRunSystem
     {
@@ -10,7 +11,8 @@ namespace Build.Game.Scripts.ECS.System
         public readonly int Move = Animator.StringToHash(nameof(Move));
         public readonly int Attack = Animator.StringToHash(nameof(Attack));
 
-        private readonly EcsFilter<AnimatedComponent, EnemyMovableComponent, EnemyComponent> _animatedFilter;
+        private readonly EcsFilter<AnimatedComponent, EnemyMovableComponent, EnemyComponent, EnemyMeleeAttackComponent>
+            _animatedFilter;
         
         public void Run()
         {

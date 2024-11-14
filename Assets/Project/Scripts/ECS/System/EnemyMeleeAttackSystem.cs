@@ -1,15 +1,15 @@
-﻿using Build.Game.Scripts.ECS.Components;
-using Leopotam.Ecs;
+﻿using Leopotam.Ecs;
+using Project.Scripts.ECS.Components;
 using UnityEngine;
 
-namespace Build.Game.Scripts.ECS.System
+namespace Project.Scripts.ECS.System
 {
     public class EnemyMeleeAttackSystem : IEcsRunSystem
     {
         private const float Delay = 2f;
         private const float MinValue = 0f;
 
-        private readonly EcsFilter<EnemyComponent, FollowPlayerComponent, MeleeAttackComponent, EnemyMovableComponent,
+        private readonly EcsFilter<EnemyComponent, FollowPlayerComponent, EnemyMeleeAttackComponent, EnemyMovableComponent,
             AnimatedComponent> _attackFilter;
 
         private float _lastHitTime = 0.2f;

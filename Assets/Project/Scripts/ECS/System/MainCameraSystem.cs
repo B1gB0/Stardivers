@@ -1,6 +1,6 @@
-﻿using Build.Game.Scripts.ECS.Components;
-using Leopotam.Ecs;
+﻿using Leopotam.Ecs;
 using Cinemachine;
+using Project.Scripts.ECS.Components;
 
 namespace Build.Game.Scripts.ECS.System
 {

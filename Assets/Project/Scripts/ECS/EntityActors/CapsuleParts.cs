@@ -11,8 +11,8 @@ namespace Build.Game.Scripts.ECS.EntityActors
         [SerializeField] private ParticleSystem _effect;
         [SerializeField] private LayerMask _layer;
 
-        private float _force = 250f;
-        private float _radius = 80f;
+        private float _force = 300f;
+        private float _radius = 40f;
         private float _delay = 4f;
         
         private void Start()

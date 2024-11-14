@@ -1,5 +1,4 @@
 ﻿using System;
-using Build.Game.Scripts.ECS.Components;
 using Project.Game.Scripts;
 using Project.Scripts.ECS.EntityActors;
 using UnityEngine;

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Project.Scripts.UI.StateMachine.States;
 
 namespace Project.Scripts.UI.StateMachine
 {

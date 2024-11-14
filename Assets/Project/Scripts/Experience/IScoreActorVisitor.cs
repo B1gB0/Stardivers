@@ -7,7 +7,9 @@ namespace Project.Scripts.Experience
     {
         void Visit(SmallAlienEnemy smallAlienEnemy);
     
-        void Visit(BigAlienEnemyAlien bigAlienEnemy);
+        void Visit(BigAlienEnemy bigAlienEnemy);
+
+        void Visit(GunnerAlienEnemy gunnerAlienEnemy);
 
         void Visit(StoneActor stone);
     

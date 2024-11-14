@@ -12,6 +12,7 @@ public class DataFactory : MonoBehaviour
     private readonly string _playerData = "SO/PlayerData";
     private readonly string _smallEnemyAlienData = "SO/SmallEnemyAlienData";
     private readonly string _bigEnemyAlienData = "SO/BigEnemyAlienData";
+    private readonly string _gunnerEnemyAlienData = "SO/GunnerEnemyAlienData";
     private readonly string _stoneData = "SO/StoneData";
     private readonly string _capsuleData = "SO/CapsuleData";
     private readonly string _playerProgression = "SO/PlayerProgression";
@@ -44,6 +45,11 @@ public class DataFactory : MonoBehaviour
     public BigEnemyAlienInitData CreateBigEnemyAlienData()
     {
         return Resources.Load<BigEnemyAlienInitData>(_bigEnemyAlienData);
+    }
+
+    public GunnerAlienEnemyInitData CreateGunnerAlienEnemyData()
+    {
+        return Resources.Load<GunnerAlienEnemyInitData>(_gunnerEnemyAlienData);
     }
     
     public StoneInitData CreateStoneData()

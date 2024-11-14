@@ -1,5 +1,6 @@
 ﻿using System;
 using Project.Game.Scripts;
+using Project.Scripts.Weapon.Player;
 using UnityEngine;
 
 namespace Project.Scripts.Cards.ScriptableObjects

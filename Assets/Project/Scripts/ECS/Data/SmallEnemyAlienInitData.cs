@@ -12,10 +12,6 @@ namespace Build.Game.Scripts.ECS.Data.SO
     {
         [field: SerializeField] public SmallAlienEnemy SmallAlienEnemyPrefab { get; private set; }
 
-        [field: SerializeField] public float DefaultMoveSpeed { get; private set; } = 3f;
-        
-        [field: SerializeField] public float DefaultRotationSpeed { get; private set; } = 3f;
-        
         [field: SerializeField] public float DefaultDamage { get; private set; } = 1f;
     }
 }
