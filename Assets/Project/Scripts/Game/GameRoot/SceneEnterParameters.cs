@@ -1,4 +1,4 @@
-﻿namespace Project.Game.Scripts.Game.GameRoot
+﻿namespace Project.Scripts.Game.GameRoot
 {
     public abstract class SceneEnterParameters
     {

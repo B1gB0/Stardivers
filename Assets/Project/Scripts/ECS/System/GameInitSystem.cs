@@ -10,6 +10,7 @@ using Project.Scripts.ECS.EntityActors;
 using Project.Scripts.EnemyAnimation;
 using Project.Scripts.Experience;
 using Project.Scripts.Levels;
+using Project.Scripts.Levels.Mars.SecondLevel;
 using Project.Scripts.Projectiles.Enemy;
 using Project.Scripts.Services;
 using Project.Scripts.UI.Panel;
@@ -44,6 +45,7 @@ namespace Project.Scripts.ECS.System
         private readonly ExperiencePoints _experiencePoints;
         private readonly Timer _timer;
         private readonly AdviserMessagePanel _adviserMessagePanel;
+        private readonly BallisticRocketProgressBar _ballisticRocketProgressBar;
         
         private readonly PlayerInitData _playerInitData;
         private readonly SmallEnemyAlienInitData _smallEnemyAlienInitData;
@@ -53,9 +55,7 @@ namespace Project.Scripts.ECS.System
         private readonly CapsuleInitData _capsuleInitData;
         private readonly HealingCoreInitData _healingCoreInitData;
         private readonly GoldCoreInitData _goldCoreInitData;
-        
-        private readonly Level _level;
-        
+
         private readonly List<Vector3> _smallEnemyAlienSpawnPoints;
         private readonly List<Vector3> _bigEnemyAlienSpawnPoints;
         private readonly List<Vector3> _gunnerEnemyAlienSpawnPoints;
@@ -79,6 +79,8 @@ namespace Project.Scripts.ECS.System
         public Health.Health PlayerHealth { get; private set; }
         
         public Transform PlayerTransform { get; private set; }
+        
+        public Level Level { get; private set; }
 
         public event Action PlayerIsSpawned;
 
@@ -96,7 +98,7 @@ namespace Project.Scripts.ECS.System
             _goldCoreInitData = goldCoreData;
             _capsuleInitData = capsuleData;
             
-            _level = Object.Instantiate(levelData.LevelPrefab);
+            Level = Object.Instantiate(levelData.LevelPrefab);
             _smallEnemyAlienSpawnPoints = levelData.SmallEnemyAlienSpawnPoints;
             _bigEnemyAlienSpawnPoints = levelData.BigEnemyAlienSpawnPoints;
             _gunnerEnemyAlienSpawnPoints = levelData.GunnerEnemyAlienSpawnPoints;
@@ -116,13 +118,13 @@ namespace Project.Scripts.ECS.System
 
             SpawnResources();
             
-            _level.GetServices(this, _timer, _adviserMessagePanel);
-
-            if (!_level.IsLaunchedPlayerCapsule)
-            {
-                SpawnPlayer();
-            }
+            Level.GetServices(this, _timer, _adviserMessagePanel);
             
+            if (Level is SecondMarsLevel secondMarsLevel)
+            {
+                secondMarsLevel.GetBallisticProgressBar(_ballisticRocketProgressBar);
+            }
+
             CreateEnemyObjectPools();
         }
 
@@ -141,7 +143,7 @@ namespace Project.Scripts.ECS.System
                 SmallAlienEnemy smallAlienEnemy = CreateSmallEnemyAlien(_player);
 
                 var enemySpawnPosition = enemySpawnPoint + Vector3.one * Random.Range(-2f, 2f);
-                enemySpawnPosition.y = 0f;
+                enemySpawnPosition.y = enemySpawnPoint.y;
 
                 smallAlienEnemy.transform.position = enemySpawnPosition;
             }
@@ -151,7 +153,7 @@ namespace Project.Scripts.ECS.System
                 BigAlienEnemy bigEnemy = CreateBigEnemyAlien(_player);
 
                 var enemySpawnPosition = enemySpawnPoint + Vector3.one * Random.Range(-2f, 2f);
-                enemySpawnPosition.y = 0f;
+                enemySpawnPosition.y = enemySpawnPoint.y;
 
                 bigEnemy.transform.position = enemySpawnPosition;
             }
@@ -161,7 +163,7 @@ namespace Project.Scripts.ECS.System
                 GunnerAlienEnemy gunnerEnemy = CreateGunnerEnemyAlien(_player);
                 
                 var enemySpawnPosition = enemySpawnPoint + Vector3.one * Random.Range(-2f, 2f);
-                enemySpawnPosition.y = 0f;
+                enemySpawnPosition.y = enemySpawnPoint.y;
 
                 gunnerEnemy.transform.position = enemySpawnPosition;
             }
@@ -177,9 +179,10 @@ namespace Project.Scripts.ECS.System
             _capsule = Object.Instantiate(_capsuleInitData.Prefab, _capsuleSpawnPoint, Quaternion.identity);
         }
 
-        private void SpawnPlayer()
+        public void SpawnPlayer()
         {
             _player.gameObject.SetActive(true);
+            PlayerIsSpawned?.Invoke();
             
             if (_player.Health.TargetHealth <= MinValue)
             {
@@ -194,7 +197,6 @@ namespace Project.Scripts.ECS.System
 
             if (_capsule.transform.position == _player.transform.position)
             {
-                PlayerIsSpawned?.Invoke();
                 SpawnPlayer();
                 _capsule.Destroy();
             }
@@ -280,6 +282,7 @@ namespace Project.Scripts.ECS.System
             ref var enemyAnimationsComponent = ref entity.Get<AnimatedComponent>();
             AnimatedStateMachine animatedStateMachine = new(bigEnemyAlienActor.Animator);
             enemyAnimationsComponent.AnimatedStateMachine = animatedStateMachine;
+            enemyAnimationsComponent.Animator = bigEnemyAlienActor.Animator;
 
             ref var followComponent = ref entity.Get<FollowPlayerComponent>();
             followComponent.Target = target;
@@ -313,6 +316,7 @@ namespace Project.Scripts.ECS.System
             ref var enemyAnimationsComponent = ref entity.Get<AnimatedComponent>();
             AnimatedStateMachine animatedStateMachine = new(gunnerEnemyAlienActor.Animator);
             enemyAnimationsComponent.AnimatedStateMachine = animatedStateMachine;
+            enemyAnimationsComponent.Animator = gunnerEnemyAlienActor.Animator;
 
             ref var followComponent = ref entity.Get<FollowPlayerComponent>();
             followComponent.Target = target;
@@ -402,8 +406,8 @@ namespace Project.Scripts.ECS.System
             foreach (var stoneSpawnPoint in _stoneSpawnPoints)
             {
                 var stoneSpawnPosition = stoneSpawnPoint + Vector3.one * Random.Range(-3f, 3f);
-                stoneSpawnPosition.y = 0;
-            
+                stoneSpawnPosition.y = stoneSpawnPoint.y;
+
                 CreateStone(stoneSpawnPosition);   
             }
 
@@ -412,8 +416,8 @@ namespace Project.Scripts.ECS.System
             foreach (var goldCoreSpawnPoint in sortedSpawnPoints)
             {
                 var goldCoreSpawnPosition = goldCoreSpawnPoint + Vector3.one * Random.Range(-3f, 3f);
-                goldCoreSpawnPosition.y = 0;
-            
+                goldCoreSpawnPosition.y = goldCoreSpawnPoint.y;
+
                 CreateGoldCore(goldCoreSpawnPosition);   
             }
             
@@ -422,8 +426,8 @@ namespace Project.Scripts.ECS.System
             foreach (var healingCoreSpawnPoint in sortedSpawnPoints)
             {
                 var healingCoreSpawnPosition = healingCoreSpawnPoint + Vector3.one * Random.Range(-3f, 3f);
-                healingCoreSpawnPosition.y = 0;
-            
+                healingCoreSpawnPosition.y = healingCoreSpawnPoint.y;
+
                 CreateHealingCore(healingCoreSpawnPosition);   
             }
         }

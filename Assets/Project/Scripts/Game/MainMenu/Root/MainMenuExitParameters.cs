@@ -1,6 +1,6 @@
-﻿using Project.Game.Scripts.Game.GameRoot;
+﻿using Project.Scripts.Game.GameRoot;
 
-namespace Build.Game.Scripts.Game.Gameplay.GameplayRoot
+namespace Project.Scripts.Game.MainMenu.Root
 {
     public class MainMenuExitParameters
     {

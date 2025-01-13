@@ -1,4 +1,6 @@
 ﻿using Project.Scripts.Experience;
+using Project.Scripts.Levels.Mars.SecondLevel;
+using Project.Scripts.Services;
 using Project.Scripts.UI.Panel;
 using Reflex.Attributes;
 using UnityEngine;
@@ -15,6 +17,7 @@ namespace Project.Scripts.UI.View
         [SerializeField] private Timer _timer;
         [SerializeField] private AdviserMessagePanel _adviserMessagePanel;
         [SerializeField] private GoldView _goldView;
+        [SerializeField] private BallisticRocketProgressBar _ballisticRocketBarTemplate;
         
         private AudioSoundsService _audioSoundsService;
         private PauseService _pauseService;
@@ -75,6 +78,12 @@ namespace Project.Scripts.UI.View
         {
             GoldView goldView = Instantiate(_goldView);
             return goldView;
+        }
+        
+        public BallisticRocketProgressBar CreateBallisticRocketProgressBar()
+        {
+            BallisticRocketProgressBar ballisticRocketProgressBar = Instantiate(_ballisticRocketBarTemplate);
+            return ballisticRocketProgressBar;
         }
     }
 }

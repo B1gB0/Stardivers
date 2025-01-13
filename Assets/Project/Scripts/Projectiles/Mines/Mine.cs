@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Project.Game.Scripts;
 using Project.Scripts.ECS.EntityActors;
 using Project.Scripts.Projectiles;
+using Project.Scripts.Services;
 using UnityEngine;
 
 public class Mine : Projectile

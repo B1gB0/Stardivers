@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using Project.Scripts.ECS.Data;
 using UnityEngine;
-using UnityEngine.UI;
 
-namespace Project.Scripts.Operations
+namespace Project.Scripts.Levels
 {
     [CreateAssetMenu(menuName = "Operations/New Operation")]
     public class Operation : ScriptableObject

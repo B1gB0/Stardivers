@@ -1,5 +1,5 @@
 ﻿using Project.Game.Scripts;
-using Project.Scripts.Game.GameRoot;
+using Project.Scripts.Services;
 using Project.Scripts.UI.Panel;
 using Project.Scripts.UI.StateMachine;
 using Project.Scripts.UI.StateMachine.States;
@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-namespace Source.Game.Scripts
+namespace Project.Scripts.Game.GameRoot
 {
     public class UIRootView : MonoBehaviour
     {

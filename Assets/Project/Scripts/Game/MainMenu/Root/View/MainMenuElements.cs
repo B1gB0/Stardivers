@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Build.Game.Scripts.Game.Gameplay.GameplayRoot.View
+namespace Project.Scripts.Game.MainMenu.Root.View
 {
     public class MainMenuElements : MonoBehaviour, IView
     {

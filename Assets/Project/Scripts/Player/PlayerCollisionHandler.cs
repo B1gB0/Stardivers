@@ -1,6 +1,6 @@
 ﻿using Project.Scripts.Crystals;
 using Project.Scripts.ECS.EntityActors;
-using Project.Scripts.Levels.Outpost;
+using Project.Scripts.Levels.Triggers;
 using UnityEngine;
 
 namespace Project.Scripts.Player
@@ -17,17 +17,17 @@ namespace Project.Scripts.Player
 
         private void OnTriggerEnter(Collider trigger)
         {
-            if (trigger.TryGetComponent(out Entrance entrance))
+            if (trigger.TryGetComponent(out EntranceTrigger entranceTrigger))
             {
-                entrance.OpenGate();
+                entranceTrigger.Entrance.OpenGate();
             }
         }
 
         private void OnTriggerExit(Collider trigger)
         {
-            if (trigger.TryGetComponent(out Entrance entrance))
+            if (trigger.TryGetComponent(out EntranceTrigger entranceTrigger))
             {
-                entrance.CloseGate();
+                entranceTrigger.Entrance.CloseGate();
             }
         }
 

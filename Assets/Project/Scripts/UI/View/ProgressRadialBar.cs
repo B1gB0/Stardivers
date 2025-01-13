@@ -1,10 +1,7 @@
-﻿using System;
-using Cinemachine;
-using Project.Scripts.Experience;
-using Project.Scripts.Score;
+﻿using Project.Scripts.Experience;
 using UnityEngine;
 
-namespace Project.Scripts.UI
+namespace Project.Scripts.UI.View
 {
     public class ProgressRadialBar : RadialBar
     {

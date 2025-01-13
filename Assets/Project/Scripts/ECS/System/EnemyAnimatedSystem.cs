@@ -7,11 +7,10 @@ namespace Project.Scripts.ECS.System
 {
     public class EnemyAnimatedSystem : IEcsRunSystem
     {
-        public readonly int Idle = Animator.StringToHash(nameof(Idle));
         public readonly int Move = Animator.StringToHash(nameof(Move));
         public readonly int Attack = Animator.StringToHash(nameof(Attack));
 
-        private readonly EcsFilter<AnimatedComponent, EnemyMovableComponent, EnemyComponent, EnemyMeleeAttackComponent>
+        private readonly EcsFilter<AnimatedComponent, EnemyMovableComponent, EnemyComponent>
             _animatedFilter;
         
         public void Run()

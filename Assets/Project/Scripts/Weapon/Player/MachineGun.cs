@@ -2,6 +2,7 @@ using System.Collections;
 using Project.Game.Scripts;
 using Project.Scripts.ECS.EntityActors;
 using Project.Scripts.Projectiles.Bullets;
+using Project.Scripts.Services;
 using Project.Scripts.Weapon.Improvements;
 using UnityEngine;
 

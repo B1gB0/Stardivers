@@ -759,6 +759,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Slider
       objectReference: {fileID: 0}
+    - target: {fileID: 50396018038126586, guid: 6080478b9bb4a8d449ac5b8e72c38e14, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 154981714924088085, guid: 6080478b9bb4a8d449ac5b8e72c38e14, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -1167,6 +1171,14 @@ PrefabInstance:
     - target: {fileID: 4842499984484983579, guid: 1b9e14954f4311147934a0baea44e0d1, type: 3}
       propertyPath: m_Name
       value: SmoothSlider
+      objectReference: {fileID: 0}
+    - target: {fileID: 4842499984484983579, guid: 1b9e14954f4311147934a0baea44e0d1, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5765288010114048415, guid: 1b9e14954f4311147934a0baea44e0d1, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6618234354574673286, guid: 1b9e14954f4311147934a0baea44e0d1, type: 3}
       propertyPath: m_AnchorMax.x

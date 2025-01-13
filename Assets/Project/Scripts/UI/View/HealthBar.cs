@@ -1,33 +1,34 @@
-using Project.Scripts.Health;
-
-public class HealthBar : Bar
+namespace Project.Scripts.UI.View
 {
-    private Health _health;
-
-    public void Construct(Health health)
+    public class HealthBar : Bar
     {
-        _health = health;
-    }
+        private Health.Health _health;
 
-    private void OnEnable()
-    {
-        _health.Die += OnDie;
-        _health.HealthChanged += OnChangedValues;
-    }
+        public void Construct(Health.Health health)
+        {
+            _health = health;
+        }
 
-    private void OnDisable()
-    {
-        _health.Die -= OnDie;
-        _health.HealthChanged -= OnChangedValues;
-    }
+        private void OnEnable()
+        {
+            _health.Die += OnDie;
+            _health.HealthChanged += OnChangedValues;
+        }
 
-    private void OnDie()
-    {
-        Hide();
-    }
+        private void OnDisable()
+        {
+            _health.Die -= OnDie;
+            _health.HealthChanged -= OnChangedValues;
+        }
 
-    private void OnChangedValues(float currentHealth, float maxHealth, float targetHealth)
-    {
-        SetValues(currentHealth, maxHealth, targetHealth);
+        private void OnDie()
+        {
+            Hide();
+        }
+
+        private void OnChangedValues(float currentHealth, float maxHealth, float targetHealth)
+        {
+            SetValues(currentHealth, maxHealth, targetHealth);
+        }
     }
 }

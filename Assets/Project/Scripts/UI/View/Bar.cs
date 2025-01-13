@@ -21,7 +21,9 @@ public abstract class Bar : MonoBehaviour, IView
     protected void SetValues(float currentValue, float maxValue, float targetValue)
     {
         SmoothSlider.value = currentValue / maxValue;
+        
         Slider.value = targetValue / maxValue;
+        
         Text.text = (int)targetValue + "/" + (int)maxValue;
     }
 }

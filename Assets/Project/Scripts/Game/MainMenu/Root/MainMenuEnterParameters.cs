@@ -1,10 +1,12 @@
-﻿namespace Build.Game.Scripts.Game.Gameplay.GameplayRoot
+﻿using Project.Scripts.Game.GameRoot;
+
+namespace Project.Scripts.Game.MainMenu.Root
 {
-    public class MainMenuEnterParameters
+    public class MainMenuEnterParameters : SceneEnterParameters
     {
         public string Result { get; }
 
-        public MainMenuEnterParameters(string result)
+        public MainMenuEnterParameters(string result) : base(Scenes.MainMenu)
         {
             Result = result;
         }

@@ -2,6 +2,7 @@
 using Project.Game.Scripts;
 using Project.Game.Scripts.Improvements;
 using Project.Scripts.Cards.ScriptableObjects;
+using Project.Scripts.Services;
 using Project.Scripts.UI.View;
 using Project.Scripts.Weapon.Player;
 using Reflex.Attributes;

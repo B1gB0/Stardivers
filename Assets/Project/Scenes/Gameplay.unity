@@ -201,10 +201,10 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 524221899}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.4358698, y: 0, z: 0, w: 0.90000975}
-  m_LocalPosition: {x: 0, y: 7.2, z: -2.38}
-  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
-  m_ConstrainProportionsScale: 0
+  m_LocalRotation: {x: 0.4383711, y: 0, z: 0, w: 0.89879405}
+  m_LocalPosition: {x: 0, y: 15, z: -4}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 921315243}
   m_Father: {fileID: 0}
@@ -322,14 +322,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 624840161}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.4358698, y: -0, z: -0, w: 0.90000975}
-  m_LocalPosition: {x: 0, y: 7.2, z: -2.38}
-  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
+  m_LocalRotation: {x: 0.4383711, y: 0, z: 0, w: 0.89879405}
+  m_LocalPosition: {x: 0, y: 15, z: -4}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1012229953}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 51.681, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 52, y: 0, z: 0}
 --- !u!114 &624840164
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -555,6 +555,7 @@ MonoBehaviour:
   _timer: {fileID: 626542871292815136, guid: e1a867eb6c529bb4fb3bf99bbe3936c0, type: 3}
   _adviserMessagePanel: {fileID: 5470805614760437840, guid: e5cf3c4e4607e1c45a9c03f613fbf342, type: 3}
   _goldView: {fileID: 3215358125355683392, guid: 95288b66127170f4a85a6bc9bfab1783, type: 3}
+  _ballisticRocketBarTemplate: {fileID: 5316539490472160391, guid: e77851854dd54b34a8a389acb0cc0bd0, type: 3}
 --- !u!114 &882966744
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -585,8 +586,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 402cec44ae8f535428b3b2ad025e1ba3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _operationMars: {fileID: 11400000, guid: a33a1a21e11167849921d903259274b8, type: 2}
-  _operationMysteryPlanet: {fileID: 11400000, guid: 56782c343f4249a46a4e1c79ca810957, type: 2}
 --- !u!224 &921315243 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4798538837464128, guid: fa0beb7adbbc3cf4c895d8b818eaba5f, type: 3}

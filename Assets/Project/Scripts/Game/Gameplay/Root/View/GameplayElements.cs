@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Build.Game.Scripts.Game.Gameplay.View
+namespace Project.Scripts.Game.Gameplay.Root.View
 {
     public class GameplayElements : MonoBehaviour, IView
     {
@@ -11,7 +11,7 @@ namespace Build.Game.Scripts.Game.Gameplay.View
 
         public void Hide()
         {
-            gameObject.SetActive(true);
+            gameObject.SetActive(false);
         }
     }
 }

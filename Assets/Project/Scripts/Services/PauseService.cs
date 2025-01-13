@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using YG;
 
-namespace Project.Scripts.UI
+namespace Project.Scripts.Services
 {
     public class PauseService
     {

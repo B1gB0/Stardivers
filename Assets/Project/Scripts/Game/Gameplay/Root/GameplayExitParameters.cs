@@ -1,14 +1,14 @@
-﻿using Build.Game.Scripts.Game.Gameplay.GameplayRoot;
+﻿using Project.Scripts.Game.GameRoot;
 
-namespace Build.Game.Scripts.Game.Gameplay
+namespace Project.Scripts.Game.Gameplay.Root
 {
     public class GameplayExitParameters
     {
-        public MainMenuEnterParameters MainMenuEnterParameters { get; }
+        public SceneEnterParameters TargetSceneEnterParameters;
 
-        public GameplayExitParameters(MainMenuEnterParameters mainMenuEnterParameters)
+        public GameplayExitParameters(SceneEnterParameters targetSceneEnterParameters)
         {
-            MainMenuEnterParameters = mainMenuEnterParameters;
+            TargetSceneEnterParameters = targetSceneEnterParameters;
         }
     }
 }

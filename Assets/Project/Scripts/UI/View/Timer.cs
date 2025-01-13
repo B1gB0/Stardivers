@@ -2,9 +2,8 @@ using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
-using UnityEngine.InputSystem.HID;
 
-namespace Project.Scripts
+namespace Project.Scripts.UI.View
 {
     public class Timer : MonoBehaviour, IView
     {
@@ -92,8 +91,8 @@ namespace Project.Scripts
                 {
                     if (_coroutine == null) continue;
                     IsEndAttack?.Invoke();
-                    StopCoroutine(_coroutine);
                     Hide();
+                    StopCoroutine(_coroutine);
                 }
             }
         }

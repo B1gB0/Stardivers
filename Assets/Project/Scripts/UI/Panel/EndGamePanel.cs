@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Project.Scripts.Services;
 using Reflex.Attributes;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,40 +17,59 @@ namespace Project.Scripts.UI.Panel
         [SerializeField] private Text _labelText;
         [SerializeField] private Button _goToMainMenuButton;
         [SerializeField] private Button _rebornPlayerButton;
+        [SerializeField] private Button _nextLevelButton;
         [SerializeField] private List<Image> _images;
         
         private PauseService _pauseService;
+        private OperationAndLevelSetterService operationAndLevelSetterService;
 
         public Button GoToMainMenuButton => _goToMainMenuButton;
         
         public Button RebornPlayerButton => _rebornPlayerButton;
+        
+        public Button NextLevelButton => _nextLevelButton;
 
         [Inject]
-        public void Construct(PauseService pauseService)
+        public void Construct(PauseService pauseService, OperationAndLevelSetterService operationAndLevelSetterService)
         {
             _pauseService = pauseService;
+            this.operationAndLevelSetterService = operationAndLevelSetterService;
         }
 
         private void OnEnable()
         {
             _goToMainMenuButton.onClick.AddListener(Hide);
             _rebornPlayerButton.onClick.AddListener(Hide);
+            
+            _rebornPlayerButton.onClick.AddListener(_pauseService.PlayGame);
+            _nextLevelButton.onClick.AddListener(_pauseService.PlayGame);
+            _goToMainMenuButton.onClick.AddListener(_pauseService.PlayGame);
         }
 
         private void OnDisable()
         {
             _goToMainMenuButton.onClick.RemoveListener(Hide);
             _rebornPlayerButton.onClick.RemoveListener(Hide);
+            
+            _rebornPlayerButton.onClick.RemoveListener(_pauseService.PlayGame);
+            _nextLevelButton.onClick.RemoveListener(_pauseService.PlayGame);
+            _goToMainMenuButton.onClick.RemoveListener(_pauseService.PlayGame);
         }
 
         public void SetVictoryPanel()
         {
+            _nextLevelButton.gameObject.SetActive(operationAndLevelSetterService.CurrentNumberLevel != 
+                                                  operationAndLevelSetterService.CurrentOperation.Maps.Count - 1);
+
+            _rebornPlayerButton.gameObject.SetActive(false);
             _labelText.text = VictoryLabelText;
             OnChangeColor(_blueColor);
         }
 
         public void SetDefeatPanel()
         {
+            _rebornPlayerButton.gameObject.SetActive(true);
+            _nextLevelButton.gameObject.SetActive(false);
             _labelText.text = DefeatLabelText;
             OnChangeColor(_redColor);
         }
@@ -70,7 +90,6 @@ namespace Project.Scripts.UI.Panel
 
         public void Hide()
         {
-            _pauseService.PlayGame();
             gameObject.SetActive(false);
         }
     }

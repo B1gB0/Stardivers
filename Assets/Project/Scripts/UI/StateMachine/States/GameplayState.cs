@@ -1,4 +1,4 @@
-﻿using Project.Scripts.Game.GameRoot;
+﻿using UnityEngine;
 
 namespace Project.Scripts.UI.StateMachine.States
 {

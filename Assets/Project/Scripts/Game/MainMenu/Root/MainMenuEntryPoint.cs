@@ -1,6 +1,9 @@
-﻿using Build.Game.Scripts.Game.Gameplay;
-using Build.Game.Scripts.Game.Gameplay.GameplayRoot;
+﻿using Project.Scripts.Game.Gameplay.Root;
+using Project.Scripts.Game.GameRoot;
+using Project.Scripts.Game.MainMenu.Root.View;
+using Project.Scripts.Services;
 using R3;
+using Reflex.Attributes;
 using Reflex.Extensions;
 using Reflex.Injectors;
 using Source.Game.Scripts;
@@ -10,13 +13,17 @@ namespace Project.Scripts.Game.MainMenu.Root
 {
     public class MainMenuEntryPoint : MonoBehaviour
     {
-        private const string CurrentOperationCodeName = nameof(CurrentOperationCodeName);
-        
         [SerializeField] private UIMainMenuRootBinder _sceneUIRootPrefab;
         
         private UIMainMenuRootBinder _uiScene;
-        private string currentOperation;
         private string saveFileName;
+        private OperationAndLevelSetterService operationAndLevelSetterService;
+
+        [Inject]
+        private void Construct(OperationAndLevelSetterService operationAndLevelSetterService)
+        {
+            this.operationAndLevelSetterService = operationAndLevelSetterService;
+        }
 
         public Observable<MainMenuExitParameters> Run(UIRootView uiRoot, MainMenuEnterParameters enterParameters)
         {
@@ -32,9 +39,9 @@ namespace Project.Scripts.Game.MainMenu.Root
             _uiScene.Bind(exitSignalSubject);
 
             saveFileName = "Save";
-            currentOperation = PlayerPrefs.GetString(CurrentOperationCodeName);
 
-            var gameplayEnterParameters = new GameplayEnterParameters(saveFileName, currentOperation);
+            var gameplayEnterParameters = new GameplayEnterParameters(saveFileName, operationAndLevelSetterService.CurrentOperation,
+                operationAndLevelSetterService.CurrentNumberLevel);
             var mainMenuExitParameters = new MainMenuExitParameters(gameplayEnterParameters);
 
             var exitToGameplaySceneSignal = exitSignalSubject.Select(_ => mainMenuExitParameters);

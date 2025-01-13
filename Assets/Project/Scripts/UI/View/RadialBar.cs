@@ -2,11 +2,13 @@
 using TMPro;
 using UnityEngine;
 
-namespace Project.Scripts.UI
+namespace Project.Scripts.UI.View
 {
     public class RadialBar : MonoBehaviour, IView
     {
         private const float RecoveryRate = 10f;
+        private const int DefaultBarValue = 0;
+        private const int DefaultBackgroundBarValue = 1;
         
         private readonly int RemovedSegments = Shader.PropertyToID("_RemovedSegments");
         
@@ -19,8 +21,8 @@ namespace Project.Scripts.UI
 
         private void Start()
         {
-            _barMaterial.SetFloat(RemovedSegments, 0);
-            _backgroundBarMaterial.SetFloat(RemovedSegments, 1);
+            _barMaterial.SetFloat(RemovedSegments, DefaultBarValue);
+            _backgroundBarMaterial.SetFloat(RemovedSegments, DefaultBackgroundBarValue);
         }
 
         public void Show()

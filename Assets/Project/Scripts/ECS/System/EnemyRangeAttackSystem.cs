@@ -9,38 +9,38 @@ namespace Project.Scripts.ECS.System
     {
         private const float FireRate = 4f;
         private const float MinValue = 0f;
-        private const float Delay = 2f;
 
         private readonly EcsFilter<EnemyComponent, FollowPlayerComponent, EnemyMovableComponent, AnimatedComponent,
-            EnemyGunnerAlienAttackComponent> _rangeGunnerAlienEnemyAttackFilter;
+            EnemyGunnerAlienAttackComponent> _gunnerAlienEnemyAttackFilter;
         
         private readonly EcsFilter<EnemyComponent, FollowPlayerComponent, EnemyMovableComponent, AnimatedComponent,
-            EnemyBigAlienAttackComponent> _rangeBigAlienEnemyAttackFilter;
+            EnemyBigAlienAttackComponent> _bigAlienEnemyAttackFilter;
 
         private float _lastShotTime = 2f;
 
         public void Run()
         {
-            foreach (var entity in _rangeGunnerAlienEnemyAttackFilter)
+            foreach (var entity in _gunnerAlienEnemyAttackFilter)
             {
-                ref var enemyComponent = ref _rangeGunnerAlienEnemyAttackFilter.Get1(entity);
-                ref var followPlayerComponent = ref _rangeGunnerAlienEnemyAttackFilter.Get2(entity);
-                ref var movableComponent = ref _rangeGunnerAlienEnemyAttackFilter.Get3(entity);
-                ref var animatedComponent = ref _rangeGunnerAlienEnemyAttackFilter.Get4(entity);
-                ref var attackComponent = ref _rangeGunnerAlienEnemyAttackFilter.Get5(entity);
+                ref var enemyComponent = ref _gunnerAlienEnemyAttackFilter.Get1(entity);
+                ref var followPlayerComponent = ref _gunnerAlienEnemyAttackFilter.Get2(entity);
+                ref var movableComponent = ref _gunnerAlienEnemyAttackFilter.Get3(entity);
+                ref var animatedComponent = ref _gunnerAlienEnemyAttackFilter.Get4(entity);
+                ref var attackComponent = ref _gunnerAlienEnemyAttackFilter.Get5(entity);
 
                 if (!movableComponent.IsMoving && followPlayerComponent.Target.Health.TargetHealth > MinValue && 
                     enemyComponent.Health.TargetHealth > MinValue)
                 {
                     if (_lastShotTime <= MinValue)
                     {
-                        animatedComponent.AnimatedStateMachine.EnterIn<AttackState>();
+                        animatedComponent.IsAttacking = true;
 
                         _lastShotTime = FireRate;
                     }
                     else if(_lastShotTime <= FireRate)
                     {
-                        animatedComponent.AnimatedStateMachine.EnterIn<IdleState>();
+                        animatedComponent.IsAttacking = false;
+                        animatedComponent.AnimatedStateMachine.EnterIn<GetGunState>();
                     }
 
                     _lastShotTime -= Time.fixedDeltaTime;
@@ -51,25 +51,26 @@ namespace Project.Scripts.ECS.System
                 }
             }
             
-            foreach (var entity in _rangeBigAlienEnemyAttackFilter)
+            foreach (var entity in _bigAlienEnemyAttackFilter)
             {
-                ref var enemyComponent = ref _rangeBigAlienEnemyAttackFilter.Get1(entity);
-                ref var followPlayerComponent = ref _rangeBigAlienEnemyAttackFilter.Get2(entity);
-                ref var movableComponent = ref _rangeBigAlienEnemyAttackFilter.Get3(entity);
-                ref var animatedComponent = ref _rangeBigAlienEnemyAttackFilter.Get4(entity);
-                ref var attackComponent = ref _rangeBigAlienEnemyAttackFilter.Get5(entity);
+                ref var enemyComponent = ref _bigAlienEnemyAttackFilter.Get1(entity);
+                ref var followPlayerComponent = ref _bigAlienEnemyAttackFilter.Get2(entity);
+                ref var movableComponent = ref _bigAlienEnemyAttackFilter.Get3(entity);
+                ref var animatedComponent = ref _bigAlienEnemyAttackFilter.Get4(entity);
+                ref var attackComponent = ref _bigAlienEnemyAttackFilter.Get5(entity);
 
                 if (!movableComponent.IsMoving && followPlayerComponent.Target.Health.TargetHealth > MinValue && 
                     enemyComponent.Health.TargetHealth > MinValue)
                 {
                     if (_lastShotTime <= MinValue)
                     {
-                        animatedComponent.AnimatedStateMachine.EnterIn<AttackState>();
+                        animatedComponent.IsAttacking = true;
 
                         _lastShotTime = FireRate;
                     }
                     else if(_lastShotTime <= FireRate)
                     {
+                        animatedComponent.IsAttacking = false;
                         animatedComponent.AnimatedStateMachine.EnterIn<IdleState>();
                     }
 

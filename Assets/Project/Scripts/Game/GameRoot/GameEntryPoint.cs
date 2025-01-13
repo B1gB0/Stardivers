@@ -1,16 +1,14 @@
 ﻿using System.Collections;
-using Build.Game.Scripts.Game.Gameplay;
-using Build.Game.Scripts.Game.Gameplay.GameplayRoot;
 using Project.Scripts.Game.Gameplay.Root;
 using Project.Scripts.Game.MainMenu.Root;
+using Project.Scripts.Services;
 using Project.Scripts.UI.StateMachine.States;
 using R3;
+using Reflex.Attributes;
 using Reflex.Core;
-using Source.Game.Scripts;
 using Source.Game.Scripts.Utils;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using YG;
 
 namespace Project.Scripts.Game.GameRoot
 {
@@ -18,7 +16,6 @@ namespace Project.Scripts.Game.GameRoot
     {
         private const string UIRootViewPath = "UIRoot";
         private const string CoroutinesName = "[Coroutines]";
-        private const bool IsFullScreen = true;
 
         private readonly Coroutines _coroutines;
         private readonly UIRootView _uiRoot;
@@ -26,13 +23,14 @@ namespace Project.Scripts.Game.GameRoot
         private static GameEntryPoint _instance;
         
         private AsyncOperation _asyncOperation;
+        private OperationAndLevelSetterService _operationAndLevelSetterService;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         public static void AutostartGame()
         {
             Application.targetFrameRate = 60;
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
-
+            
             _instance = new GameEntryPoint();
             _instance.StartGame();
         }
@@ -45,6 +43,12 @@ namespace Project.Scripts.Game.GameRoot
             var prefabUIRoot = Resources.Load<UIRootView>(UIRootViewPath);
             _uiRoot = Object.Instantiate(prefabUIRoot);
             Object.DontDestroyOnLoad(_uiRoot.gameObject);
+        }
+        
+        [Inject]
+        private void Construct(OperationAndLevelSetterService operationAndLevelSetterService)
+        {
+            _operationAndLevelSetterService = operationAndLevelSetterService;
         }
 
         private void StartGame()
@@ -60,8 +64,8 @@ namespace Project.Scripts.Game.GameRoot
 
             if (sceneName == Scenes.Gameplay)
             {
-                var operation = "Mars";
-                var enterParameters = new GameplayEnterParameters("", operation);
+                var enterParameters = new GameplayEnterParameters("", _operationAndLevelSetterService.CurrentOperation,
+                    _operationAndLevelSetterService.CurrentNumberLevel);
                 
                 _coroutines.StartCoroutine(LoadAndStartGameplay(enterParameters));
                 return;
@@ -79,9 +83,7 @@ namespace Project.Scripts.Game.GameRoot
         private IEnumerator LoadAndStartMainMenu(MainMenuEnterParameters enterParameters = null)
         {
             _uiRoot.UIStateMachine.EnterIn<LoadingPanelState>();
-            
-            Debug.Log(_uiRoot.UIStateMachine != null);
-            
+
             yield return LoadScene(Scenes.Boot);
             yield return LoadScene(Scenes.MainMenu);
 
@@ -112,14 +114,25 @@ namespace Project.Scripts.Game.GameRoot
             var sceneEntryPoint = Object.FindFirstObjectByType<GameplayEntryPoint>();
             sceneEntryPoint.Run(_uiRoot, enterParameters).Subscribe(gameplayExitParameters =>
             {
-                _coroutines.StartCoroutine(LoadAndStartMainMenu(gameplayExitParameters.MainMenuEnterParameters));
+                var targetSceneName = gameplayExitParameters.TargetSceneEnterParameters.SceneName;
+
+                if (targetSceneName == Scenes.MainMenu)
+                {
+                    _coroutines.StartCoroutine(LoadAndStartMainMenu(gameplayExitParameters.
+                        TargetSceneEnterParameters.As<MainMenuEnterParameters>()));
+                }
+                else if(targetSceneName == Scenes.Gameplay)
+                {
+                    _coroutines.StartCoroutine(LoadAndStartGameplay(gameplayExitParameters.
+                        TargetSceneEnterParameters.As<GameplayEnterParameters>()));
+                }
             });
         }
 
         private IEnumerator LoadScene(string sceneName)
         {
             _asyncOperation = SceneManager.LoadSceneAsync(sceneName);
-            ReflexSceneManager.PreInstallScene(SceneManager.GetSceneByName(sceneName), builder => builder.AddSingleton("Beautiful"));
+            ReflexSceneManager.PreInstallScene(SceneManager.GetSceneByName(sceneName), builder => builder.AddSingleton("Container"));
             
             while (!_asyncOperation.isDone)
             {

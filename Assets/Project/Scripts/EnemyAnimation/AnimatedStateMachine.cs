@@ -14,10 +14,9 @@ namespace Project.Scripts.EnemyAnimation
             AnimationNamesBase animationBase = new ();
 
             AddState(new IdleState(animator, animationBase));
-            AddState(new IdleGunState(animator, animationBase, this));
+            AddState(new GetGunState(animator, animationBase));
             AddState(new MoveState(animator, animationBase));
             AddState(new AttackState(animator, animationBase));
-            AddState(new GetGunState(animator, animationBase));
         }
 
         private AnimatedState _currentState;

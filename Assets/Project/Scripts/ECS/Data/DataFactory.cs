@@ -1,14 +1,11 @@
 using Build.Game.Scripts.ECS.Data;
 using Build.Game.Scripts.ECS.Data.SO;
 using Project.Scripts.ECS.Data;
-using Project.Scripts.Operations;
+using Project.Scripts.Levels;
 using UnityEngine;
 
 public class DataFactory : MonoBehaviour
 {
-    private const string Mars = nameof(Mars);
-    private const string MysteryPlanet = nameof(MysteryPlanet);
-    
     private readonly string _playerData = "SO/PlayerData";
     private readonly string _smallEnemyAlienData = "SO/SmallEnemyAlienData";
     private readonly string _bigEnemyAlienData = "SO/BigEnemyAlienData";
@@ -19,22 +16,15 @@ public class DataFactory : MonoBehaviour
     private readonly string _healingCoreData = "SO/HealingCoreData";
     private readonly string _goldCoreData = "SO/GoldCoreData";
 
-    [SerializeField] private Operation _operationMars;
-    [SerializeField] private Operation _operationMysteryPlanet;
-
     public PlayerInitData CreatePlayerData()
     {
         return Resources.Load<PlayerInitData>(_playerData);
     }
     
-    public LevelInitData CreateLevelData(string name, int index)
+    public LevelInitData CreateLevelData(Operation operation, int numberLevel)
     {
-        return name switch
-        {
-            Mars => Instantiate(_operationMars.Maps[index]),
-            MysteryPlanet => Instantiate(_operationMysteryPlanet.Maps[index]),
-            _ => null
-        };
+        LevelInitData levelInitData = Instantiate(operation.Maps[numberLevel]);
+        return levelInitData;
     }
     
     public SmallEnemyAlienInitData CreateSmallEnemyAlienData()
