@@ -1,6 +1,7 @@
 using Project.Game.Scripts;
 using Project.Scripts.Game.GameRoot;
 using Project.Scripts.Services;
+using Project.Scripts.UI.View;
 using Reflex.Attributes;
 using UnityEngine;
 using UnityEngine.Audio;

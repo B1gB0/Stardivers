@@ -2,6 +2,7 @@
 using Project.Scripts.Services;
 using Project.Scripts.UI.StateMachine;
 using Project.Scripts.UI.StateMachine.States;
+using Project.Scripts.UI.View;
 using Reflex.Attributes;
 using UnityEngine;
 using UnityEngine.UI;

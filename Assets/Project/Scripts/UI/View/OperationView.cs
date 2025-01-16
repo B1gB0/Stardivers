@@ -1,9 +1,9 @@
 ﻿using Project.Scripts.Levels;
-using Project.Scripts.Operations;
 using UnityEngine;
 using UnityEngine.UI;
+using YG;
 
-namespace Project.Scripts.UI
+namespace Project.Scripts.UI.View
 {
     public class OperationView : MonoBehaviour, IView
     {

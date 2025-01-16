@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Build.Game.Scripts.ECS.EntityActors;
 using Project.Scripts.Player.PlayerInputModule;
+using Project.Scripts.Weapon.Player;
 using UnityEngine;
 
 namespace Project.Scripts.ECS.EntityActors
@@ -17,7 +18,7 @@ namespace Project.Scripts.ECS.EntityActors
         
         [field: SerializeField] public MiningToolActor MiningToolActor { get; private set; }
 
-        [field: SerializeField] public List<global::Project.Scripts.Weapon.Player.PlayerWeapon> Weapons { get; private set; }
+        [field: SerializeField] public List<PlayerWeapon> Weapons { get; private set; }
 
         private void OnEnable()
         {

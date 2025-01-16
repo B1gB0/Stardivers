@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Project.Scripts.Services;
+using Project.Scripts.UI.View;
 using Reflex.Attributes;
 using UnityEngine;
 using UnityEngine.UI;

@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Project.Scripts.UI.View;
 using TMPro;
 using UnityEngine;
 

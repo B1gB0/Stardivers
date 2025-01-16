@@ -31,6 +31,7 @@ namespace Project.Scripts.ECS.System
         private const bool IsAutoExpand = true;
         
         private const float CapsuleHeight = 20f;
+        private const float RandomPositionFactor = 2f;
         private const int MinValue = 0;
         private const int CountEnemyAlienProjectile = 3;
         private const int QuantityGoldCoreSpawnPoints = 3;
@@ -135,40 +136,48 @@ namespace Project.Scripts.ECS.System
                 LaunchPlayerCapsule();
             }
         }
-        
-        public void SpawnEnemy()
+
+        public void SpawnGunnerEnemyAlien()
         {
-            foreach (var enemySpawnPoint in _smallEnemyAlienSpawnPoints)
-            {
-                SmallAlienEnemy smallAlienEnemy = CreateSmallEnemyAlien(_player);
-
-                var enemySpawnPosition = enemySpawnPoint + Vector3.one * Random.Range(-2f, 2f);
-                enemySpawnPosition.y = enemySpawnPoint.y;
-
-                smallAlienEnemy.transform.position = enemySpawnPosition;
-            }
-            
-            foreach (var enemySpawnPoint in _bigEnemyAlienSpawnPoints)
-            {
-                BigAlienEnemy bigEnemy = CreateBigEnemyAlien(_player);
-
-                var enemySpawnPosition = enemySpawnPoint + Vector3.one * Random.Range(-2f, 2f);
-                enemySpawnPosition.y = enemySpawnPoint.y;
-
-                bigEnemy.transform.position = enemySpawnPosition;
-            }
-
             foreach (var enemySpawnPoint in _gunnerEnemyAlienSpawnPoints)
             {
                 GunnerAlienEnemy gunnerEnemy = CreateGunnerEnemyAlien(_player);
-                
-                var enemySpawnPosition = enemySpawnPoint + Vector3.one * Random.Range(-2f, 2f);
+
+                var enemySpawnPosition = enemySpawnPoint + Vector3.one * Random.Range(-RandomPositionFactor,
+                    RandomPositionFactor);
                 enemySpawnPosition.y = enemySpawnPoint.y;
 
                 gunnerEnemy.transform.position = enemySpawnPosition;
             }
         }
-        
+
+        public void SpawnSmallEnemyAlien()
+        {
+            foreach (var enemySpawnPoint in _smallEnemyAlienSpawnPoints)
+            {
+                SmallAlienEnemy smallAlienEnemy = CreateSmallEnemyAlien(_player);
+
+                var enemySpawnPosition = enemySpawnPoint;
+                enemySpawnPosition.y = enemySpawnPoint.y;
+
+                smallAlienEnemy.transform.position = enemySpawnPosition;
+            }
+        }
+
+        public void SpawnBigEnemyAlien()
+        {
+            foreach (var enemySpawnPoint in _bigEnemyAlienSpawnPoints)
+            {
+                BigAlienEnemy bigEnemy = CreateBigEnemyAlien(_player);
+
+                var enemySpawnPosition = enemySpawnPoint + Vector3.one * Random.Range(-RandomPositionFactor,
+                    RandomPositionFactor);
+                enemySpawnPosition.y = enemySpawnPoint.y;
+
+                bigEnemy.transform.position = enemySpawnPosition;
+            }
+        }
+
         public void CreateCapsule()
         {
             _audioSoundsService.PlaySound(Sounds.CapsuleFlight);
@@ -405,7 +414,7 @@ namespace Project.Scripts.ECS.System
 
             foreach (var stoneSpawnPoint in _stoneSpawnPoints)
             {
-                var stoneSpawnPosition = stoneSpawnPoint + Vector3.one * Random.Range(-3f, 3f);
+                var stoneSpawnPosition = stoneSpawnPoint + Vector3.one * Random.Range(-2f, 2f);
                 stoneSpawnPosition.y = stoneSpawnPoint.y;
 
                 CreateStone(stoneSpawnPosition);   
@@ -415,7 +424,7 @@ namespace Project.Scripts.ECS.System
 
             foreach (var goldCoreSpawnPoint in sortedSpawnPoints)
             {
-                var goldCoreSpawnPosition = goldCoreSpawnPoint + Vector3.one * Random.Range(-3f, 3f);
+                var goldCoreSpawnPosition = goldCoreSpawnPoint + Vector3.one * Random.Range(-2f, 2f);
                 goldCoreSpawnPosition.y = goldCoreSpawnPoint.y;
 
                 CreateGoldCore(goldCoreSpawnPosition);   
@@ -425,7 +434,7 @@ namespace Project.Scripts.ECS.System
             
             foreach (var healingCoreSpawnPoint in sortedSpawnPoints)
             {
-                var healingCoreSpawnPosition = healingCoreSpawnPoint + Vector3.one * Random.Range(-3f, 3f);
+                var healingCoreSpawnPosition = healingCoreSpawnPoint + Vector3.one * Random.Range(-2f, 2f);
                 healingCoreSpawnPosition.y = healingCoreSpawnPoint.y;
 
                 CreateHealingCore(healingCoreSpawnPosition);   

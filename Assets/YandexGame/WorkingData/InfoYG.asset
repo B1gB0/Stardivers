@@ -18,7 +18,7 @@ MonoBehaviour:
   playerInfoSimulation:
     authorized: 1
     isMobile: 0
-    language: ru
+    language: en
     name: Player this
     uniqueID: 000
     photo: https://justplaygames.ru/public/icon_player.png
@@ -183,8 +183,8 @@ MonoBehaviour:
       rank: 2
       score: 10
   LocalizationEnable: 1
-  callingLanguageCheck: 1
-  translateMethod: 0
+  callingLanguageCheck: 0
+  translateMethod: 1
   domainAutoLocalization: com
   CSVFileTranslate:
     format: 0

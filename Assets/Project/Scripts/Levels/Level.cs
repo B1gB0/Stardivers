@@ -9,49 +9,51 @@ namespace Project.Scripts.Levels
 {
     public abstract class Level : MonoBehaviour
     {
-        private const float MinValue = 0f;
+        protected const float MinValue = 0f;
         
         [field: SerializeField] public bool IsLaunchedPlayerCapsule { get; private set; }
         
         [field: SerializeField] public EndLevelTrigger EndLevelTrigger { get; private set; }
+        
         [field: SerializeField] public EntranceTrigger EntranceTrigger { get; private set; }
         
-        [SerializeField] private float _delay = 10f;
+        [field: SerializeField] public Transform StartPoint { get; private set; }
         
+        [SerializeField] protected float Delay = 10f;
+
         protected Timer Timer;
         protected AdviserMessagePanel AdviserMessagePanel;
-        
-        private GameInitSystem _gameInitSystem;
-        private float _lastSpawnTime;
+        protected GameInitSystem GameInitSystem;
+        protected float LastSpawnTime;
 
         public void GetServices(GameInitSystem gameInitSystem, Timer timer, AdviserMessagePanel adviserMessagePanel)
         {
-            _gameInitSystem = gameInitSystem;
+            GameInitSystem = gameInitSystem;
             AdviserMessagePanel = adviserMessagePanel;
             Timer = timer;
         }
 
-        protected void CreateWaveOfEnemy()
+        protected virtual void CreateWaveOfEnemy()
         {
-            if (_lastSpawnTime <= MinValue)
+            if (LastSpawnTime <= MinValue)
             {
-                _gameInitSystem.SpawnEnemy();
+                GameInitSystem.SpawnSmallEnemyAlien();
 
-                _lastSpawnTime = _delay;
+                LastSpawnTime = Delay;
             }
 
-            _lastSpawnTime -= Time.deltaTime;
+            LastSpawnTime -= Time.deltaTime;
         }
 
         protected void SpawnPlayer()
         {
             if (IsLaunchedPlayerCapsule)
             {
-                _gameInitSystem.CreateCapsule();
+                GameInitSystem.CreateCapsule();
             }
             else
             {
-                _gameInitSystem.SpawnPlayer();
+                GameInitSystem.SpawnPlayer();
             }
         }
     }

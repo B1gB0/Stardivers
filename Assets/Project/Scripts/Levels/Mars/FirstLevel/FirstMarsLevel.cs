@@ -1,5 +1,4 @@
-﻿using Project.Scripts.Levels.TextForAdviser;
-using Project.Scripts.Levels.Triggers;
+﻿using Project.Scripts.Levels.Triggers;
 using UnityEngine;
 
 namespace Project.Scripts.Levels.Mars.FirstLevel

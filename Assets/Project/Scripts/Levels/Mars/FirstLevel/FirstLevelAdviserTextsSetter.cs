@@ -1,6 +1,6 @@
 ﻿using Project.Scripts.UI.Panel;
 
-namespace Project.Scripts.Levels.TextForAdviser
+namespace Project.Scripts.Levels.Mars.FirstLevel
 {
     public class FirstLevelAdviserTextsSetter
     {

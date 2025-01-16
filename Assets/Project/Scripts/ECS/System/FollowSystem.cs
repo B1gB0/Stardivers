@@ -1,12 +1,13 @@
 ﻿using Leopotam.Ecs;
 using Project.Scripts.ECS.Components;
+using UnityEngine;
 
 namespace Build.Game.Scripts.ECS.System
 {
     public class FollowSystem : IEcsRunSystem
     {
         private readonly EcsFilter<FollowPlayerComponent, EnemyMovableComponent> _enemyFollowFilter;
-        
+
         public void Run()
         {
             foreach (var entity in _enemyFollowFilter)
@@ -21,10 +22,12 @@ namespace Build.Game.Scripts.ECS.System
                 var direction = (followComponent.Target.transform.position - movableComponent.Transform.position).normalized;
 
                 if (!navMashAgent.gameObject.activeSelf) continue;
-                
+
                 navMashAgent.destination = followComponent.Target.transform.position;
                 var isMoving = navMashAgent.remainingDistance > navMashAgent.stoppingDistance;
                 movableComponent.IsMoving = isMoving;
+                
+                Debug.Log(navMashAgent.remainingDistance);
 
                 movableComponent.Transform.forward = isMoving ? navMashAgent.transform.forward : direction;
             }

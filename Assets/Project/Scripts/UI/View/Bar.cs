@@ -1,3 +1,4 @@
+using Project.Scripts.UI.View;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;

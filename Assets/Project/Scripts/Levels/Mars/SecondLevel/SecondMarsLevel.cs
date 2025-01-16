@@ -39,6 +39,19 @@ namespace Project.Scripts.Levels.Mars.SecondLevel
             _ballisticRocket.ProgressChanged += _ballisticRocketProgressBar.OnChangedValues;
         }
 
+        protected override void CreateWaveOfEnemy()
+        {
+            if (LastSpawnTime <= MinValue)
+            {
+                GameInitSystem.SpawnSmallEnemyAlien();
+                GameInitSystem.SpawnGunnerEnemyAlien();
+
+                LastSpawnTime = Delay;
+            }
+
+            LastSpawnTime -= Time.deltaTime;
+        }
+
         private void OnDestroy()
         {
             _ballisticRocket.ProgressChanged -= _ballisticRocketProgressBar.OnChangedValues;

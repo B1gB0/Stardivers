@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Project.Scripts.UI.View;
+using UnityEngine;
 
 namespace Project.Scripts.Game.Gameplay.Root.View
 {

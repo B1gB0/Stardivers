@@ -1,9 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public interface IView
+namespace Project.Scripts.UI.View
 {
-    void Show();
-    void Hide();
+    public interface IView
+    {
+        void Show();
+        void Hide();
+    }
 }
