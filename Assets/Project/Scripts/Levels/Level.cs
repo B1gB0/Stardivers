@@ -1,5 +1,6 @@
 ﻿using System;
 using Project.Scripts.ECS.System;
+using Project.Scripts.Levels.Spawners;
 using Project.Scripts.Levels.Triggers;
 using Project.Scripts.UI.Panel;
 using Project.Scripts.UI.View;
@@ -11,33 +12,43 @@ namespace Project.Scripts.Levels
     {
         protected const float MinValue = 0f;
         
-        [field: SerializeField] public bool IsLaunchedPlayerCapsule { get; private set; }
+        [field: SerializeField] public bool IsLaunchPlayerCapsule { get; private set; }
         
         [field: SerializeField] public EndLevelTrigger EndLevelTrigger { get; private set; }
         
         [field: SerializeField] public EntranceTrigger EntranceTrigger { get; private set; }
         
-        [field: SerializeField] public Transform StartPoint { get; private set; }
+        [field: SerializeField] public int QuantityGoldCore { get; private set; }
         
+        [field: SerializeField] public int QuantityHealingCore { get; private set; }
+
         [SerializeField] protected float Delay = 10f;
 
+        protected PlayerSpawner PlayerSpawner;
+        protected EnemySpawner EnemySpawner;
+        
         protected Timer Timer;
         protected AdviserMessagePanel AdviserMessagePanel;
-        protected GameInitSystem GameInitSystem;
+
         protected float LastSpawnTime;
+        
+        private ResourcesSpawner _resourcesSpawner;
+
+        public event Action IsInitiatedSpawners;
 
         public void GetServices(GameInitSystem gameInitSystem, Timer timer, AdviserMessagePanel adviserMessagePanel)
         {
-            GameInitSystem = gameInitSystem;
             AdviserMessagePanel = adviserMessagePanel;
             Timer = timer;
+            
+            InitSpawners(gameInitSystem);
         }
 
         protected virtual void CreateWaveOfEnemy()
         {
             if (LastSpawnTime <= MinValue)
             {
-                GameInitSystem.SpawnSmallEnemyAlien();
+                EnemySpawner.SpawnSmallAlienEnemy();
 
                 LastSpawnTime = Delay;
             }
@@ -47,14 +58,29 @@ namespace Project.Scripts.Levels
 
         protected void SpawnPlayer()
         {
-            if (IsLaunchedPlayerCapsule)
+            if (IsLaunchPlayerCapsule)
             {
-                GameInitSystem.CreateCapsule();
+                PlayerSpawner.SpawnCapsule();
             }
             else
             {
-                GameInitSystem.SpawnPlayer();
+                PlayerSpawner.SpawnPlayer();
             }
+        }
+
+        protected void SpawnResources()
+        {
+            _resourcesSpawner.Spawn(QuantityGoldCore, QuantityHealingCore);
+        }
+
+        private void InitSpawners(GameInitSystem gameInitSystem)
+        {
+            _resourcesSpawner = new ResourcesSpawner(gameInitSystem);
+            
+            EnemySpawner = new EnemySpawner(gameInitSystem);
+            // PlayerSpawner = 
+            //
+            // IsInitiatedSpawners?.Invoke();
         }
     }
 }

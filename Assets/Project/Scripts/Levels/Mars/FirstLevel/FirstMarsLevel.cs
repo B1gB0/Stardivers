@@ -9,10 +9,27 @@ namespace Project.Scripts.Levels.Mars.FirstLevel
         
         [SerializeField] private EnemySpawnTrigger _enemySpawnTrigger;
         [SerializeField] private WelcomeMarsTextTrigger _welcomeMarsTextTrigger;
+        [SerializeField] private int _timeOfWave = 90; 
+        
+        private void OnEnable()
+        {
+            _welcomeMarsTextTrigger.IsWelcomeToMars += _firstLevelAdviserTextsSetter.SetAndShowWelcomeMarsText;
+            
+            IsInitiatedSpawners += SpawnPlayer;
+            IsInitiatedSpawners += SpawnResources;
+        }
+
+        private void OnDisable()
+        {
+            _welcomeMarsTextTrigger.IsWelcomeToMars -= _firstLevelAdviserTextsSetter.SetAndShowWelcomeMarsText;
+            
+            IsInitiatedSpawners -= SpawnPlayer;
+            IsInitiatedSpawners -= SpawnResources;
+        }
 
         private void Start()
         {
-            SpawnPlayer();
+            Timer.SetTime(_timeOfWave);
             
             _firstLevelAdviserTextsSetter.GetAdviserPanel(AdviserMessagePanel);
 
@@ -24,16 +41,6 @@ namespace Project.Scripts.Levels.Mars.FirstLevel
             Timer.IsEndAttack += _enemySpawnTrigger.CompleteSpawn;
             Timer.IsEndAttack += EntranceTrigger.Activate;
             Timer.IsEndAttack += EndLevelTrigger.Activate;
-        }
-
-        private void OnEnable()
-        {
-            _welcomeMarsTextTrigger.IsWelcomeToMars += _firstLevelAdviserTextsSetter.SetAndShowWelcomeMarsText;
-        }
-
-        private void OnDisable()
-        {
-            _welcomeMarsTextTrigger.IsWelcomeToMars -= _firstLevelAdviserTextsSetter.SetAndShowWelcomeMarsText;
         }
 
         private void Update()

@@ -1,8 +1,7 @@
 ﻿using Leopotam.Ecs;
 using Project.Scripts.ECS.Components;
-using UnityEngine;
 
-namespace Build.Game.Scripts.ECS.System
+namespace Project.Scripts.ECS.System
 {
     public class FollowSystem : IEcsRunSystem
     {
@@ -26,8 +25,6 @@ namespace Build.Game.Scripts.ECS.System
                 navMashAgent.destination = followComponent.Target.transform.position;
                 var isMoving = navMashAgent.remainingDistance > navMashAgent.stoppingDistance;
                 movableComponent.IsMoving = isMoving;
-                
-                Debug.Log(navMashAgent.remainingDistance);
 
                 movableComponent.Transform.forward = isMoving ? navMashAgent.transform.forward : direction;
             }

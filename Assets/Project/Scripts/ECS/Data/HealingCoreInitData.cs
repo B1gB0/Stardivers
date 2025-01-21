@@ -7,5 +7,7 @@ namespace Project.Scripts.ECS.Data
     public class HealingCoreInitData : InitData
     {
         [field: SerializeField] public HealingCore HealingCorePrefab { get; private set; }
+        
+        [field: SerializeField] public ParticleSystem HitEffect { get; private set; }
     }
 }

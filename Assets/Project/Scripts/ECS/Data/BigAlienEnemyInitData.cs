@@ -5,10 +5,12 @@ using UnityEngine;
 namespace Project.Scripts.ECS.Data
 {
     [CreateAssetMenu(menuName = "InitData/BigAlienEnemyData")]
-    public class BigEnemyAlienInitData : InitData
+    public class BigAlienEnemyInitData : InitData
     {
         [field: SerializeField] public BigAlienEnemy BigAlienEnemyPrefab { get; private set; }
+
+        [field: SerializeField] public ParticleSystem HitEffect { get; private set; }
         
-        [field: SerializeField] public BigEnemyAlienProjectile ProjectilePrefab { get; private set; }
+        [field: SerializeField] public BigAlienEnemyProjectile ProjectilePrefab { get; private set; }
     }
 }

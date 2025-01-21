@@ -1,5 +1,4 @@
 using Build.Game.Scripts.ECS.Data;
-using Build.Game.Scripts.ECS.Data.SO;
 using Project.Scripts.ECS.Data;
 using Project.Scripts.Levels;
 using UnityEngine;
@@ -27,14 +26,14 @@ public class DataFactory : MonoBehaviour
         return levelInitData;
     }
     
-    public SmallEnemyAlienInitData CreateSmallEnemyAlienData()
+    public SmallAlienEnemyInitData CreateSmallEnemyAlienData()
     {
-        return Resources.Load<SmallEnemyAlienInitData>(_smallEnemyAlienData);
+        return Resources.Load<SmallAlienEnemyInitData>(_smallEnemyAlienData);
     }
     
-    public BigEnemyAlienInitData CreateBigEnemyAlienData()
+    public BigAlienEnemyInitData CreateBigEnemyAlienData()
     {
-        return Resources.Load<BigEnemyAlienInitData>(_bigEnemyAlienData);
+        return Resources.Load<BigAlienEnemyInitData>(_bigEnemyAlienData);
     }
 
     public GunnerAlienEnemyInitData CreateGunnerAlienEnemyData()

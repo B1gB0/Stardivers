@@ -9,9 +9,9 @@ namespace Project.Scripts.Weapon.Enemy
         [SerializeField] private float _damage;
 
         private Transform _target;
-        private GunnerEnemyAlienProjectile _projectile;
+        private GunnerAlienEnemyProjectile _projectile;
         
-        private ObjectPool<GunnerEnemyAlienProjectile> _projectilePool;
+        private ObjectPool<GunnerAlienEnemyProjectile> _projectilePool;
         
         public override void Shoot()
         {
@@ -23,7 +23,7 @@ namespace Project.Scripts.Weapon.Enemy
             _projectile.SetDirection(_target);
         }
 
-        public void SetData(Transform target, ObjectPool<GunnerEnemyAlienProjectile> projectilePool)
+        public void SetData(Transform target, ObjectPool<GunnerAlienEnemyProjectile> projectilePool)
         {
             _target = target;
             _projectilePool = projectilePool;

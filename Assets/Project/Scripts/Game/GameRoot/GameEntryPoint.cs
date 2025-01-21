@@ -30,7 +30,7 @@ namespace Project.Scripts.Game.GameRoot
         {
             Application.targetFrameRate = 60;
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
-            
+
             _instance = new GameEntryPoint();
             _instance.StartGame();
         }
@@ -82,9 +82,10 @@ namespace Project.Scripts.Game.GameRoot
 
         private IEnumerator LoadAndStartMainMenu(MainMenuEnterParameters enterParameters = null)
         {
-            _uiRoot.UIStateMachine.EnterIn<LoadingPanelState>();
-
             yield return LoadScene(Scenes.Boot);
+            
+            _uiRoot.UIStateMachine.EnterIn<LoadingPanelState>();
+            
             yield return LoadScene(Scenes.MainMenu);
 
             yield return new WaitForSeconds(1);
@@ -104,9 +105,10 @@ namespace Project.Scripts.Game.GameRoot
         
         private IEnumerator LoadAndStartGameplay(GameplayEnterParameters enterParameters)
         {
-            _uiRoot.UIStateMachine.EnterIn<LoadingPanelState>();
-
             yield return LoadScene(Scenes.Boot);
+
+            _uiRoot.UIStateMachine.EnterIn<LoadingPanelState>();
+            
             yield return LoadScene(Scenes.Gameplay);
             
             yield return new WaitForSeconds(1);

@@ -12,12 +12,11 @@ namespace Project.Scripts.UI.View
         private const int MinValue = 0;
         
         private const float Delay = 1f;
-
-        [field: SerializeField] public int _timeInSeconds { get; private set; }
         
         [SerializeField] private TMP_Text _text;
 
         private Coroutine _coroutine;
+        private int _timeInSeconds;
         private int _minutes;
         private int _seconds;
 
@@ -36,6 +35,16 @@ namespace Project.Scripts.UI.View
             DisplayCountdown();
         }
 
+        private void OnEnable()
+        {
+            IsEndAttack += StopTimer;
+        }
+
+        private void OnDisable()
+        {
+            IsEndAttack -= StopTimer;
+        }
+
         public void Show()
         {
             gameObject.SetActive(true);
@@ -48,7 +57,13 @@ namespace Project.Scripts.UI.View
 
         public void OnLaunchTimer()
         {
+            
             _coroutine = StartCoroutine(LaunchTimer());
+        }
+
+        public void SetTime(int seconds)
+        {
+            _timeInSeconds = seconds;
         }
 
         private void DisplayCountdown()
@@ -63,13 +78,24 @@ namespace Project.Scripts.UI.View
             }
         }
 
+        private void StopTimer()
+        {
+            StopCoroutine(_coroutine);
+            Hide();
+        }
+
         private IEnumerator LaunchTimer()
         {
             WaitForSeconds waitForSeconds = new WaitForSeconds(Delay);
-        
+
             while (_timeInSeconds >= MinValue)
             {
                 _timeInSeconds--;
+                
+                if (_timeInSeconds <= MinValue)
+                {
+                    IsEndAttack?.Invoke();
+                }
 
                 if (_seconds == MinValue)
                 {
@@ -80,20 +106,12 @@ namespace Project.Scripts.UI.View
                     
                     yield return waitForSeconds;
                 }
-                
+
                 _seconds--;
 
                 DisplayCountdown();
 
                 yield return waitForSeconds;
-
-                if (_timeInSeconds <= MinValue)
-                {
-                    if (_coroutine == null) continue;
-                    IsEndAttack?.Invoke();
-                    Hide();
-                    StopCoroutine(_coroutine);
-                }
             }
         }
     }

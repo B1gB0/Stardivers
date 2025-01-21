@@ -7,5 +7,7 @@ namespace Project.Scripts.ECS.Data
     public class GoldCoreInitData : InitData
     {
         [field: SerializeField] public GoldCore GoldCorePrefab { get; private set; }
+        
+        [field: SerializeField] public ParticleSystem HitEffect { get; private set; }
     }
 }

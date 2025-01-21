@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Project.Scripts.Projectiles.Enemy
 {
-    public class GunnerEnemyAlienProjectile : Projectile
+    public class BigAlienEnemyProjectile : Projectile
     {
         private const float BulletSpeed = 5f;
         

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8694440483095543786}
   m_Layer: 0
-  m_Name: Navmeshlinks
+  m_Name: NavMeshLinks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -77,11 +77,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AgentTypeID: 0
-  m_StartPoint: {x: -0.062894605, y: 0, z: -2.5345788}
-  m_EndPoint: {x: 0.0875446, y: 0, z: 4.131171}
+  m_StartPoint: {x: 0.034934744, y: 0, z: 3.4491975}
+  m_EndPoint: {x: 0.10765876, y: 0, z: -2.1947727}
   m_Width: 11.439687
   m_CostModifier: -1
-  m_Bidirectional: 1
+  m_Bidirectional: 0
   m_AutoUpdatePosition: 0
   m_Area: 2
 --- !u!1 &415743440894959415
@@ -178,8 +178,6 @@ Transform:
   - {fileID: 234178581806479609}
   - {fileID: 6872296721603470807}
   - {fileID: 8943878113330160776}
-  - {fileID: 8003304919488572112}
-  - {fileID: 760163316844335023}
   - {fileID: 8927090655976494455}
   - {fileID: 797442989797660738}
   - {fileID: 6952867419030624657}
@@ -204,8 +202,6 @@ Transform:
   - {fileID: 7928073690615026439}
   - {fileID: 2960745065023189373}
   - {fileID: 5204920168273706611}
-  - {fileID: 6341052387050487088}
-  - {fileID: 7782018551844048839}
   m_Father: {fileID: 5154019154185384059}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &960492616160777265
@@ -316,8 +312,6 @@ GameObject:
   - component: {fileID: 5154019154185384059}
   - component: {fileID: 2842802138881804754}
   - component: {fileID: 6253172765691761114}
-  - component: {fileID: 3818344858834899454}
-  - component: {fileID: -4233277795931687880}
   m_Layer: 0
   m_Name: FirstLevel
   m_TagString: Untagged
@@ -342,7 +336,6 @@ Transform:
   - {fileID: 1786907004730117307}
   - {fileID: 5157125286240565683}
   - {fileID: 8694440483095543786}
-  - {fileID: 4750334573980062838}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2842802138881804754
@@ -357,13 +350,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dfd91c3f2b64f0faa8824375c5a41bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <IsLaunchedPlayerCapsule>k__BackingField: 1
+  <IsLaunchPlayerCapsule>k__BackingField: 1
   <EndLevelTrigger>k__BackingField: {fileID: 3142880971892820217}
   <EntranceTrigger>k__BackingField: {fileID: 2439098929297887853}
-  <StartPoint>k__BackingField: {fileID: 4750334573980062838}
+  <QuantityGoldCore>k__BackingField: 3
+  <QuantityHealingCore>k__BackingField: 2
   Delay: 10
   _enemySpawnTrigger: {fileID: 6597233131612524275}
   _welcomeMarsTextTrigger: {fileID: 1947437047661282420}
+  _timeOfWave: 90
 --- !u!114 &6253172765691761114
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -395,47 +390,6 @@ MonoBehaviour:
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: 382502f81f72d8a4598daa6e48961b4b, type: 2}
   m_BuildHeightMesh: 0
---- !u!195 &3818344858834899454
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1152062949123751555}
-  m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 3.5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 0
-  m_AutoBraking: 0
-  m_AutoRepath: 0
-  m_Height: 2
-  m_BaseOffset: 0
-  m_WalkableMask: 0
-  m_ObstacleAvoidanceType: 4
---- !u!114 &-4233277795931687880
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1152062949123751555}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03abe612bcd994c4cb4f7157ea4b4ec5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _method: 2
-  _curve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!1 &1344551201661743313
 GameObject:
   m_ObjectHideFlags: 0
@@ -516,7 +470,7 @@ GameObject:
   m_Layer: 0
   m_Name: SmallEnemyAlienSpawnPoint (2)
   m_TagString: SmallEnemyAlienSpawnPoint
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -529,7 +483,7 @@ Transform:
   m_GameObject: {fileID: 1379260956849132384}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7936108, z: -0, w: 0.6084258}
-  m_LocalPosition: {x: -54.289997, y: 0, z: 49.879997}
+  m_LocalPosition: {x: -59.859997, y: 0, z: 58.85}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -631,37 +585,6 @@ Transform:
   - {fileID: 5061014715923485126}
   - {fileID: 2918938791310282225}
   m_Father: {fileID: 5154019154185384059}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &2092317568356658809
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6341052387050487088}
-  m_Layer: 0
-  m_Name: GunnerEnemyAlienSpawnPoint
-  m_TagString: GunnerEnemyAlienSpawnPoint
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6341052387050487088
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2092317568356658809}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -57.34, y: 0, z: 54.06}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1786907004730117307}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2282894568197565134
 GameObject:
@@ -943,37 +866,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1786907004730117307}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &5405559629218214162
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7782018551844048839}
-  m_Layer: 0
-  m_Name: GunnerEnemyAlienSpawnPoint (1)
-  m_TagString: GunnerEnemyAlienSpawnPoint
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &7782018551844048839
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5405559629218214162}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -55.14, y: 0, z: 54.41}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1786907004730117307}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5406909165657572552
 GameObject:
   m_ObjectHideFlags: 0
@@ -1067,37 +959,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1786907004730117307}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &5742313355685368560
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8003304919488572112}
-  m_Layer: 0
-  m_Name: BigEnemyAlienSpawnPoint
-  m_TagString: BigEnemyAlienSpawnPoint
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8003304919488572112
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5742313355685368560}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.7936108, z: -0, w: 0.6084258}
-  m_LocalPosition: {x: -60.59, y: 0, z: 47.69}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1786907004730117307}
-  m_LocalEulerAnglesHint: {x: 0, y: 105.048, z: 0}
 --- !u!1 &5804284722967620241
 GameObject:
   m_ObjectHideFlags: 0
@@ -1317,7 +1178,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5061014715923485126
 Transform:
   m_ObjectHideFlags: 0
@@ -1379,7 +1240,7 @@ GameObject:
   m_Layer: 0
   m_Name: SmallEnemyAlienSpawnPoint (1)
   m_TagString: SmallEnemyAlienSpawnPoint
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -1392,7 +1253,7 @@ Transform:
   m_GameObject: {fileID: 6127866144454686627}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -44.200005, y: 0, z: 56.03}
+  m_LocalPosition: {x: -49.770004, y: 0, z: 65}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1428,37 +1289,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1786907004730117307}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &6411135142265226682
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4750334573980062838}
-  m_Layer: 0
-  m_Name: StartPoint
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4750334573980062838
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6411135142265226682}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -46.01, y: 0, z: 53.47}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 5154019154185384059}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6582488280421560434
 GameObject:
@@ -1591,7 +1421,7 @@ GameObject:
   m_Layer: 0
   m_Name: SmallEnemyAlienSpawnPoint
   m_TagString: SmallEnemyAlienSpawnPoint
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -1604,7 +1434,7 @@ Transform:
   m_GameObject: {fileID: 6794996344574433753}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -50.2, y: 0, z: 52.96}
+  m_LocalPosition: {x: -55.77, y: 0, z: 61.93}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1958,37 +1788,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1786907004730117307}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &8515971295316392362
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 760163316844335023}
-  m_Layer: 0
-  m_Name: BigEnemyAlienSpawnPoint (1)
-  m_TagString: BigEnemyAlienSpawnPoint
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &760163316844335023
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8515971295316392362}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.7936108, z: -0, w: 0.6084258}
-  m_LocalPosition: {x: -56.83, y: 0, z: 46.68}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1786907004730117307}
-  m_LocalEulerAnglesHint: {x: 0, y: 105.048, z: 0}
 --- !u!1 &8543138557674992077
 GameObject:
   m_ObjectHideFlags: 0

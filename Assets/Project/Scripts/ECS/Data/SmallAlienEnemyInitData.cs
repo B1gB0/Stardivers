@@ -1,16 +1,14 @@
-﻿using Build.Game.Scripts.ECS.EntityActors;
-using Project.Scripts.ECS.Data;
-using Project.Scripts.ECS.EntityActors;
-using Project.Scripts.UI;
-using TMPro;
+﻿using Project.Scripts.ECS.EntityActors;
 using UnityEngine;
 
-namespace Build.Game.Scripts.ECS.Data.SO
+namespace Project.Scripts.ECS.Data
 {
     [CreateAssetMenu(menuName = "InitData/SmallAlienEnemyData")]
-    public class SmallEnemyAlienInitData : InitData
+    public class SmallAlienEnemyInitData : InitData
     {
         [field: SerializeField] public SmallAlienEnemy SmallAlienEnemyPrefab { get; private set; }
+
+        [field: SerializeField] public ParticleSystem HitEffect { get; private set; }
 
         [field: SerializeField] public float DefaultDamage { get; private set; } = 1f;
     }

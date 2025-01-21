@@ -1,4 +1,5 @@
-﻿using Project.Scripts.Levels.Triggers;
+﻿using System;
+using Project.Scripts.Levels.Triggers;
 using Project.Scripts.UI.View;
 using UnityEngine;
 
@@ -12,6 +13,16 @@ namespace Project.Scripts.Levels.Mars.SecondLevel
         [SerializeField] private EnemySpawnTrigger _enemySpawnTrigger;
 
         private BallisticRocketProgressBar _ballisticRocketProgressBar;
+
+        private void OnEnable()
+        {
+            IsInitiatedSpawners += SpawnResources;
+        }
+
+        private void OnDisable()
+        {
+            IsInitiatedSpawners -= SpawnResources;
+        }
 
         private void Start()
         {
@@ -43,8 +54,8 @@ namespace Project.Scripts.Levels.Mars.SecondLevel
         {
             if (LastSpawnTime <= MinValue)
             {
-                GameInitSystem.SpawnSmallEnemyAlien();
-                GameInitSystem.SpawnGunnerEnemyAlien();
+                EnemySpawner.SpawnSmallAlienEnemy();
+                EnemySpawner.SpawnGunnerAlienEnemy();
 
                 LastSpawnTime = Delay;
             }

@@ -7,11 +7,13 @@ namespace Project.Scripts.UI.View
 {
     public class OperationView : MonoBehaviour, IView
     {
-        private const string CountMissionsText = "The number of missions in the operation: ";
+        private const int CountLanguages = 2;
         
         [SerializeField] private Image _image;
         [SerializeField] private Text _name;
         [SerializeField] private Text _countMissions;
+        
+        [SerializeField] private LanguageYG _nameYg;
 
         private Operation _operation;
 
@@ -35,7 +37,15 @@ namespace Project.Scripts.UI.View
         {
             _image.sprite = _operation.Image;
             _name.text = _operation.Name;
-            _countMissions.text = CountMissionsText + _operation.Maps.Count;
+            _countMissions.text = _operation.Maps.Count.ToString();
+            
+            _nameYg.tr = null;
+            _nameYg.ru = null;
+            _nameYg.en = null;
+            
+            _nameYg.text = _name.text;
+            _nameYg.Translate(CountLanguages);
+            _nameYg.SwitchLanguage();
         }
     }
 }

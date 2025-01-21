@@ -21,32 +21,38 @@ namespace Project.Scripts.ECS.Data
         
             foreach (var point in smallEnemyAlienSpawnPoints)
             {
-                levelInitData.SmallEnemyAlienSpawnPoints.Add(point.transform.position);
+                if(smallEnemyAlienSpawnPoints.Length != levelInitData.SmallEnemyAlienSpawnPoints.Count)
+                    levelInitData.SmallEnemyAlienSpawnPoints.Add(point.transform.position);
             }
         
             foreach (var point in bigEnemyAlienSpawnPoints)
             {
-                levelInitData.BigEnemyAlienSpawnPoints.Add(point.transform.position);
+                if(bigEnemyAlienSpawnPoints.Length != levelInitData.BigEnemyAlienSpawnPoints.Count)
+                    levelInitData.BigEnemyAlienSpawnPoints.Add(point.transform.position);
             }
             
             foreach (var point in gunnerEnemyAlienSpawnPoints)
             {
-                levelInitData.GunnerEnemyAlienSpawnPoints.Add(point.transform.position);
+                if(gunnerEnemyAlienSpawnPoints.Length != levelInitData.GunnerEnemyAlienSpawnPoints.Count)
+                    levelInitData.GunnerEnemyAlienSpawnPoints.Add(point.transform.position);
             }
 
             foreach (var stone in stoneSpawnPoints)
             {
-                levelInitData.StoneSpawnPoints.Add(stone.transform.position);
+                if(stoneSpawnPoints.Length != levelInitData.StoneSpawnPoints.Count)
+                    levelInitData.StoneSpawnPoints.Add(stone.transform.position);
             }
         
             foreach (var healingCore in healingCoreSpawnPoints)
             {
-                levelInitData.HealingCoreSpawnPoints.Add(healingCore.transform.position);
+                if(healingCoreSpawnPoints.Length != levelInitData.HealingCoreSpawnPoints.Count)
+                    levelInitData.HealingCoreSpawnPoints.Add(healingCore.transform.position);
             }
         
             foreach (var goldCore in goldCoreSpawnPoints)
             {
-                levelInitData.GoldCoreSpawnPoints.Add(goldCore.transform.position);
+                if(goldCoreSpawnPoints.Length != levelInitData.GoldCoreSpawnPoints.Count)
+                    levelInitData.GoldCoreSpawnPoints.Add(goldCore.transform.position);
             }
         }
     }
