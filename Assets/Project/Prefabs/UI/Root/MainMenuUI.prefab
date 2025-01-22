@@ -805,7 +805,7 @@ GameObject:
   - component: {fileID: 8126456224304332117}
   - component: {fileID: 4812047629621166902}
   - component: {fileID: 2455146368157138655}
-  - component: {fileID: 7188362646197222869}
+  - component: {fileID: 1265787148222832105}
   m_Layer: 5
   m_Name: Name
   m_TagString: Untagged
@@ -873,8 +873,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Name location
---- !u!114 &7188362646197222869
+  m_Text: The Invasion of Mars
+--- !u!114 &1265787148222832105
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -925,7 +925,7 @@ MonoBehaviour:
   textHeight: 20
   processTranslateLabel: 
   componentTextField: 1
-  countLang: 3
+  countLang: 0
 --- !u!1 &5319949933887327114
 GameObject:
   m_ObjectHideFlags: 0
@@ -1906,7 +1906,7 @@ MonoBehaviour:
   _image: {fileID: 7873906235154627708}
   _name: {fileID: 2455146368157138655}
   _countMissions: {fileID: 3160117450450192034}
-  _nameYg: {fileID: 7188362646197222869}
+  _nameYg: {fileID: 1265787148222832105}
 --- !u!114 &1970525849591663021
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,5 +1,6 @@
 ﻿using Project.Scripts.Levels;
 using UnityEngine;
+using UnityEngine.Profiling;
 using UnityEngine.UI;
 using YG;
 
@@ -12,8 +13,6 @@ namespace Project.Scripts.UI.View
         [SerializeField] private Image _image;
         [SerializeField] private Text _name;
         [SerializeField] private Text _countMissions;
-        
-        [SerializeField] private LanguageYG _nameYg;
 
         private Operation _operation;
 
@@ -35,17 +34,11 @@ namespace Project.Scripts.UI.View
         
         private void SetData()
         {
+            Profiler.BeginSample("TrashView");
             _image.sprite = _operation.Image;
             _name.text = _operation.Name;
             _countMissions.text = _operation.Maps.Count.ToString();
-            
-            _nameYg.tr = null;
-            _nameYg.ru = null;
-            _nameYg.en = null;
-            
-            _nameYg.text = _name.text;
-            _nameYg.Translate(CountLanguages);
-            _nameYg.SwitchLanguage();
+            Profiler.EndSample();
         }
     }
 }

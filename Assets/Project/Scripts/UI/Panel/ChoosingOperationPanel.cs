@@ -5,6 +5,7 @@ using Project.Scripts.UI.StateMachine.States;
 using Project.Scripts.UI.View;
 using Reflex.Attributes;
 using UnityEngine;
+using UnityEngine.Profiling;
 using UnityEngine.UI;
 
 namespace Project.Scripts.UI.Panel
@@ -21,13 +22,13 @@ namespace Project.Scripts.UI.Panel
         private UIStateMachine _uiStateMachine;
 
         private AudioSoundsService _audioSoundsService;
-        private OperationSetterService operationSetterService;
+        private OperationSetterService _operationSetterService;
 
         [Inject]
         private void Construct(AudioSoundsService audioSoundsService, OperationSetterService operationSetterService)
         {
             _audioSoundsService = audioSoundsService;
-            this.operationSetterService = operationSetterService;
+            _operationSetterService = operationSetterService;
         }
 
         private void Start()
@@ -74,11 +75,11 @@ namespace Project.Scripts.UI.Panel
         {
             _audioSoundsService.PlaySound(Sounds.Button);
             
-            if (_currentIndex == operationSetterService.Operations.Count - 1)
+            if (_currentIndex == _operationSetterService.Operations.Count - 1)
                 _currentIndex = 0;
             else
                 _currentIndex++;
-        
+
             SetOperation(_currentIndex);
         }
 
@@ -87,7 +88,7 @@ namespace Project.Scripts.UI.Panel
             _audioSoundsService.PlaySound(Sounds.Button);
             
             if (_currentIndex == 0)
-                _currentIndex = operationSetterService.Operations.Count - 1;
+                _currentIndex = _operationSetterService.Operations.Count - 1;
             else
                 _currentIndex--;
         
@@ -96,8 +97,8 @@ namespace Project.Scripts.UI.Panel
     
         private void SetOperation(int index)
         {
-            operationSetterService.SetCurrentOperation(index);
-            _operationView.GetOperation(operationSetterService.CurrentOperation);
+            _operationSetterService.SetCurrentOperation(index);
+            _operationView.GetOperation(_operationSetterService.CurrentOperation);
         }
     }
 }

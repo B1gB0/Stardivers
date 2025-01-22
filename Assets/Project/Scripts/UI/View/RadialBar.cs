@@ -8,7 +8,7 @@ namespace Project.Scripts.UI.View
     {
         private const float RecoveryRate = 10f;
         private const int DefaultBarValue = 0;
-        private const int DefaultBackgroundBarValue = 1;
+        private const int DefaultBackgroundBarValue = 2;
         
         private readonly int RemovedSegments = Shader.PropertyToID("_RemovedSegments");
         
