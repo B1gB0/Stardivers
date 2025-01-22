@@ -17,12 +17,12 @@ namespace Project.Scripts.Game.MainMenu.Root
         
         private UIMainMenuRootBinder _uiScene;
         private string saveFileName;
-        private OperationAndLevelSetterService operationAndLevelSetterService;
+        private OperationSetterService operationSetterService;
 
         [Inject]
-        private void Construct(OperationAndLevelSetterService operationAndLevelSetterService)
+        private void Construct(OperationSetterService operationSetterService)
         {
-            this.operationAndLevelSetterService = operationAndLevelSetterService;
+            this.operationSetterService = operationSetterService;
         }
 
         public Observable<MainMenuExitParameters> Run(UIRootView uiRoot, MainMenuEnterParameters enterParameters)
@@ -40,8 +40,8 @@ namespace Project.Scripts.Game.MainMenu.Root
 
             saveFileName = "Save";
 
-            var gameplayEnterParameters = new GameplayEnterParameters(saveFileName, operationAndLevelSetterService.CurrentOperation,
-                operationAndLevelSetterService.CurrentNumberLevel);
+            var gameplayEnterParameters = new GameplayEnterParameters(saveFileName, operationSetterService.CurrentOperation,
+                operationSetterService.CurrentNumberLevel);
             var mainMenuExitParameters = new MainMenuExitParameters(gameplayEnterParameters);
 
             var exitToGameplaySceneSignal = exitSignalSubject.Select(_ => mainMenuExitParameters);

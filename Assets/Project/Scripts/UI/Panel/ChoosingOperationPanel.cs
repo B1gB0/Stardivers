@@ -21,13 +21,13 @@ namespace Project.Scripts.UI.Panel
         private UIStateMachine _uiStateMachine;
 
         private AudioSoundsService _audioSoundsService;
-        private OperationAndLevelSetterService operationAndLevelSetterService;
+        private OperationSetterService operationSetterService;
 
         [Inject]
-        private void Construct(AudioSoundsService audioSoundsService, OperationAndLevelSetterService operationAndLevelSetterService)
+        private void Construct(AudioSoundsService audioSoundsService, OperationSetterService operationSetterService)
         {
             _audioSoundsService = audioSoundsService;
-            this.operationAndLevelSetterService = operationAndLevelSetterService;
+            this.operationSetterService = operationSetterService;
         }
 
         private void Start()
@@ -74,7 +74,7 @@ namespace Project.Scripts.UI.Panel
         {
             _audioSoundsService.PlaySound(Sounds.Button);
             
-            if (_currentIndex == operationAndLevelSetterService.Operations.Count - 1)
+            if (_currentIndex == operationSetterService.Operations.Count - 1)
                 _currentIndex = 0;
             else
                 _currentIndex++;
@@ -87,7 +87,7 @@ namespace Project.Scripts.UI.Panel
             _audioSoundsService.PlaySound(Sounds.Button);
             
             if (_currentIndex == 0)
-                _currentIndex = operationAndLevelSetterService.Operations.Count - 1;
+                _currentIndex = operationSetterService.Operations.Count - 1;
             else
                 _currentIndex--;
         
@@ -96,8 +96,8 @@ namespace Project.Scripts.UI.Panel
     
         private void SetOperation(int index)
         {
-            operationAndLevelSetterService.SetCurrentOperation(index);
-            _operationView.GetOperation(operationAndLevelSetterService.CurrentOperation);
+            operationSetterService.SetCurrentOperation(index);
+            _operationView.GetOperation(operationSetterService.CurrentOperation);
         }
     }
 }

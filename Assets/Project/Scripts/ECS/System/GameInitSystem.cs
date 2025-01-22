@@ -129,10 +129,10 @@ namespace Project.Scripts.ECS.System
 
         public void Run()
         {
-            // if (Capsule != null)
-            // {
-            //     LaunchPlayerCapsule();
-            // }
+            if (Capsule != null)
+            {
+                LaunchPlayerCapsule();
+            }
         }
 
         public void CreateCapsule()

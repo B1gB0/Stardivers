@@ -1,6 +1,6 @@
 ﻿using Project.Scripts.ECS.EntityActors;
 using UnityEngine;
-using Action = Unity.Plastic.Newtonsoft.Json.Serialization.Action;
+using System;
 
 namespace Project.Scripts.Levels.Triggers
 {

@@ -15,7 +15,6 @@ namespace Project.Scripts.Levels.Mars.FirstLevel
         {
             _welcomeMarsTextTrigger.IsWelcomeToMars += _firstLevelAdviserTextsSetter.SetAndShowWelcomeMarsText;
             
-            IsInitiatedSpawners += SpawnPlayer;
             IsInitiatedSpawners += SpawnResources;
         }
 
@@ -23,12 +22,13 @@ namespace Project.Scripts.Levels.Mars.FirstLevel
         {
             _welcomeMarsTextTrigger.IsWelcomeToMars -= _firstLevelAdviserTextsSetter.SetAndShowWelcomeMarsText;
             
-            IsInitiatedSpawners -= SpawnPlayer;
             IsInitiatedSpawners -= SpawnResources;
         }
 
         private void Start()
         {
+            SpawnPlayer();
+            
             Timer.SetTime(_timeOfWave);
             
             _firstLevelAdviserTextsSetter.GetAdviserPanel(AdviserMessagePanel);
@@ -39,7 +39,7 @@ namespace Project.Scripts.Levels.Mars.FirstLevel
             
             Timer.IsEndAttack += _firstLevelAdviserTextsSetter.SetAndShowEndAttackText;
             Timer.IsEndAttack += _enemySpawnTrigger.CompleteSpawn;
-            Timer.IsEndAttack += EntranceTrigger.Activate;
+            Timer.IsEndAttack += EntranceToNextLvlTrigger.Activate;
             Timer.IsEndAttack += EndLevelTrigger.Activate;
         }
 
@@ -59,7 +59,7 @@ namespace Project.Scripts.Levels.Mars.FirstLevel
             
             Timer.IsEndAttack -= _firstLevelAdviserTextsSetter.SetAndShowEndAttackText;
             Timer.IsEndAttack -= _enemySpawnTrigger.CompleteSpawn;
-            Timer.IsEndAttack -= EntranceTrigger.Activate;
+            Timer.IsEndAttack -= EntranceToNextLvlTrigger.Activate;
             Timer.IsEndAttack -= EndLevelTrigger.Activate;
         }
     }

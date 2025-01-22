@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Project.Scripts.Services
 {
-    public class OperationAndLevelSetterService : MonoBehaviour
+    public class OperationSetterService : MonoBehaviour
     {
         private const int DefaultNumberLevel = 0;
         

@@ -11,6 +11,7 @@ namespace Project.Scripts.Levels.Mars.SecondLevel
         
         [SerializeField] private BallisticRocketTrigger _ballisticRocketTrigger;
         [SerializeField] private EnemySpawnTrigger _enemySpawnTrigger;
+        [SerializeField] private EntranceTrigger _entranceLastLvlTrigger;
 
         private BallisticRocketProgressBar _ballisticRocketProgressBar;
 
@@ -29,10 +30,14 @@ namespace Project.Scripts.Levels.Mars.SecondLevel
             SpawnPlayer();
             
             _enemySpawnTrigger.EnemySpawned += _ballisticRocketTrigger.Activate;
+            _enemySpawnTrigger.EnemySpawned += _entranceLastLvlTrigger.Deactivate;
+            _enemySpawnTrigger.EnemySpawned += _ballisticRocketProgressBar.Show;
+            
 
             _ballisticRocket.LaunchCompleted += _enemySpawnTrigger.CompleteSpawn;
             _ballisticRocket.LaunchCompleted += EndLevelTrigger.Activate;
-            _ballisticRocket.LaunchCompleted += EntranceTrigger.Activate;
+            _ballisticRocket.LaunchCompleted += EntranceToNextLvlTrigger.Activate;
+            _ballisticRocket.LaunchCompleted += _entranceLastLvlTrigger.Activate;
         }
 
         private void Update()
@@ -46,7 +51,6 @@ namespace Project.Scripts.Levels.Mars.SecondLevel
         public void GetBallisticProgressBar(BallisticRocketProgressBar ballisticRocketProgressBar)
         {
             _ballisticRocketProgressBar = ballisticRocketProgressBar;
-            _ballisticRocketProgressBar.Show();
             _ballisticRocket.ProgressChanged += _ballisticRocketProgressBar.OnChangedValues;
         }
 
@@ -68,10 +72,13 @@ namespace Project.Scripts.Levels.Mars.SecondLevel
             _ballisticRocket.ProgressChanged -= _ballisticRocketProgressBar.OnChangedValues;
             
             _enemySpawnTrigger.EnemySpawned -= _ballisticRocketTrigger.Activate;
+            _enemySpawnTrigger.EnemySpawned -= _entranceLastLvlTrigger.Deactivate;
+            _enemySpawnTrigger.EnemySpawned -= _ballisticRocketProgressBar.Show;
 
             _ballisticRocket.LaunchCompleted -= _enemySpawnTrigger.CompleteSpawn;
             _ballisticRocket.LaunchCompleted -= EndLevelTrigger.Activate;
-            _ballisticRocket.LaunchCompleted -= EntranceTrigger.Activate;
+            _ballisticRocket.LaunchCompleted -= EntranceToNextLvlTrigger.Activate;
+            _ballisticRocket.LaunchCompleted -= _entranceLastLvlTrigger.Activate;
         }
     }
 }

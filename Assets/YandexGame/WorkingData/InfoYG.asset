@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scopes: 1
   playerPhotoSize: 0
-  autoGameReadyAPI: 0
+  autoGameReadyAPI: 1
   playerInfoSimulation:
     authorized: 1
     isMobile: 0
@@ -183,7 +183,7 @@ MonoBehaviour:
       rank: 2
       score: 10
   LocalizationEnable: 1
-  callingLanguageCheck: 1
+  callingLanguageCheck: 0
   translateMethod: 0
   domainAutoLocalization: com
   CSVFileTranslate:
@@ -336,6 +336,6 @@ MonoBehaviour:
   debug: 1
   archivingBuild: 1
   logoImageFormat: 1
-  backgroundImageFormat: 3
+  backgroundImageFormat: 2
   pixelRatioEnable: 0
   pixelRatioValue: 1

@@ -23,7 +23,7 @@ namespace Project.Scripts.Game.GameRoot
         private static GameEntryPoint _instance;
         
         private AsyncOperation _asyncOperation;
-        private OperationAndLevelSetterService _operationAndLevelSetterService;
+        private OperationSetterService operationSetterService;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         public static void AutostartGame()
@@ -46,9 +46,9 @@ namespace Project.Scripts.Game.GameRoot
         }
         
         [Inject]
-        private void Construct(OperationAndLevelSetterService operationAndLevelSetterService)
+        private void Construct(OperationSetterService operationSetterService)
         {
-            _operationAndLevelSetterService = operationAndLevelSetterService;
+            this.operationSetterService = operationSetterService;
         }
 
         private void StartGame()
@@ -64,8 +64,8 @@ namespace Project.Scripts.Game.GameRoot
 
             if (sceneName == Scenes.Gameplay)
             {
-                var enterParameters = new GameplayEnterParameters("", _operationAndLevelSetterService.CurrentOperation,
-                    _operationAndLevelSetterService.CurrentNumberLevel);
+                var enterParameters = new GameplayEnterParameters("", operationSetterService.CurrentOperation,
+                    operationSetterService.CurrentNumberLevel);
                 
                 _coroutines.StartCoroutine(LoadAndStartGameplay(enterParameters));
                 return;

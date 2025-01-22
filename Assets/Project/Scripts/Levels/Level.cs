@@ -16,28 +16,29 @@ namespace Project.Scripts.Levels
         
         [field: SerializeField] public EndLevelTrigger EndLevelTrigger { get; private set; }
         
-        [field: SerializeField] public EntranceTrigger EntranceTrigger { get; private set; }
+        [field: SerializeField] public EntranceTrigger EntranceToNextLvlTrigger { get; private set; }
         
         [field: SerializeField] public int QuantityGoldCore { get; private set; }
         
         [field: SerializeField] public int QuantityHealingCore { get; private set; }
 
         [SerializeField] protected float Delay = 10f;
-
-        protected PlayerSpawner PlayerSpawner;
-        protected EnemySpawner EnemySpawner;
         
+        protected EnemySpawner EnemySpawner;
+
         protected Timer Timer;
         protected AdviserMessagePanel AdviserMessagePanel;
 
         protected float LastSpawnTime;
         
+        private GameInitSystem _gameInitSystem;
         private ResourcesSpawner _resourcesSpawner;
 
         public event Action IsInitiatedSpawners;
 
         public void GetServices(GameInitSystem gameInitSystem, Timer timer, AdviserMessagePanel adviserMessagePanel)
         {
+            _gameInitSystem = gameInitSystem;
             AdviserMessagePanel = adviserMessagePanel;
             Timer = timer;
             
@@ -60,11 +61,11 @@ namespace Project.Scripts.Levels
         {
             if (IsLaunchPlayerCapsule)
             {
-                PlayerSpawner.SpawnCapsule();
+                _gameInitSystem.CreateCapsule();
             }
             else
             {
-                PlayerSpawner.SpawnPlayer();
+                _gameInitSystem.SpawnPlayer();
             }
         }
 
@@ -76,11 +77,9 @@ namespace Project.Scripts.Levels
         private void InitSpawners(GameInitSystem gameInitSystem)
         {
             _resourcesSpawner = new ResourcesSpawner(gameInitSystem);
-            
             EnemySpawner = new EnemySpawner(gameInitSystem);
-            // PlayerSpawner = 
-            //
-            // IsInitiatedSpawners?.Invoke();
+
+            IsInitiatedSpawners?.Invoke();
         }
     }
 }
