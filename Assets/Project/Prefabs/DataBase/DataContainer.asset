@@ -12,10 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 251638e918974aa8966f9477c35ef1c0, type: 3}
   m_Name: DataContainer
   m_EditorClassIdentifier: 
-  foldoutImportGUI: 0
-  documentId: 
-  selectedTogglesIds: []
+  foldoutImportGUI: 1
+  documentId: 1aW67EnXuv23R8M5tDukUcb1jN2PrFGk1Dzq1VHA2ero
+  selectedTogglesIds:
+  - LocalizationTexts
   foldoutSerializationGUI: 1
   serializationOutputPath: ../../Configs
   serializationFileName: Configs.v0.1
   serializationFormat: 0
+  _content:
+    LocalizationTexts:
+    - Id: mars_operation
+      Ru: "\u0412\u0442\u043E\u0440\u0436\u0435\u043D\u0438\u0435 \u043D\u0430 \u041C\u0430\u0440\u0441"
+      En: The Invasion of Mars
+      Tr: "Mars'\u0131n \u0130\u015Fgali"
+    - Id: mystery_planet_operation
+      Ru: "\u0422\u0430\u0438\u043D\u0441\u0442\u0432\u0435\u043D\u043D\u0430\u044F
+        \u043F\u043B\u0430\u043D\u0435\u0442\u0430"
+      En: The Mysterious Planet
+      Tr: Gizemli Gezegen
