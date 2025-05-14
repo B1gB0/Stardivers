@@ -1,7 +1,7 @@
 ﻿using Leopotam.Ecs;
 using Project.Scripts.ECS.Components;
 
-namespace Build.Game.Scripts.ECS.System
+namespace Project.Scripts.ECS.System
 {
     public class PlayerInputSystem : IEcsRunSystem
     {

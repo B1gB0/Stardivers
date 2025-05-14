@@ -1,4 +1,3 @@
-using Build.Game.Scripts.ECS.Data;
 using Project.Scripts.ECS.Data;
 using Project.Scripts.Levels;
 using UnityEngine;

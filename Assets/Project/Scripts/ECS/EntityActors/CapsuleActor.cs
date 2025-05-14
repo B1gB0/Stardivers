@@ -1,13 +1,15 @@
-using Build.Game.Scripts.ECS.EntityActors;
 using UnityEngine;
 
-public class CapsuleActor : MonoBehaviour
+namespace Project.Scripts.ECS.EntityActors
 {
-    [SerializeField] private CapsuleParts _capsuleParts;
-
-    public void Destroy()
+    public class CapsuleActor : MonoBehaviour
     {
-        _capsuleParts = Instantiate(_capsuleParts, transform.position, Quaternion.identity);
-        Destroy(gameObject);
+        [SerializeField] private CapsuleParts _capsuleParts;
+
+        public void Destroy()
+        {
+            _capsuleParts = Instantiate(_capsuleParts, transform.position, Quaternion.identity);
+            Destroy(gameObject);
+        }
     }
 }

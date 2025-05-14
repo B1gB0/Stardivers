@@ -2,7 +2,7 @@
 using Project.Scripts.ECS.Components;
 using UnityEngine;
 
-namespace Build.Game.Scripts.ECS.System
+namespace Project.Scripts.ECS.System
 {
     public class ResourcesAnimatedSystem : IEcsRunSystem
     {

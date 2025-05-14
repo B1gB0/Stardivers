@@ -1,10 +1,8 @@
-﻿using System;
-using Project.Game.Scripts;
-using Project.Scripts.ECS.EntityActors;
+﻿using Project.Game.Scripts;
 using Project.Scripts.Services;
 using UnityEngine;
 
-namespace Build.Game.Scripts.ECS.EntityActors
+namespace Project.Scripts.ECS.EntityActors
 {
     public class MiningToolActor : MonoBehaviour
     {

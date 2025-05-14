@@ -1,8 +1,6 @@
-﻿using Project.Scripts.ECS.EntityActors;
-using Project.Scripts.Experience;
-using NotImplementedException = System.NotImplementedException;
+﻿using Project.Scripts.Experience;
 
-namespace Build.Game.Scripts.ECS.EntityActors
+namespace Project.Scripts.ECS.EntityActors
 {
     public class StoneActor : ResourceActor, IAcceptable
     {

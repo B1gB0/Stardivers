@@ -1,0 +1,928 @@
+Index: Assets/Project/Scripts/StateMachine/State.cs
+===================================================================
+diff --git a/Assets/Project/Scripts/StateMachine/State.cs b/Assets/Project/Scripts/StateMachine/State.cs
+deleted file mode 100644
+--- a/Assets/Project/Scripts/StateMachine/State.cs	(revision 4f05ecbf54cc3c1bbe43292e4368a0b2e8c7a135)
++++ /dev/null	(revision 4f05ecbf54cc3c1bbe43292e4368a0b2e8c7a135)
+@@ -1,21 +0,0 @@
+-using System.Collections;
+-using System.Collections.Generic;
+-using UnityEngine;
+-
+-namespace Source.CommonModules.StateMachineModule
+-{
+-    public abstract class State
+-    {
+-        protected readonly StateMachine StateMachine;
+-
+-        public State(StateMachine stateMachine)
+-        {
+-            StateMachine = stateMachine;
+-        }
+-
+-        public virtual void Enter() { }
+-        public virtual void Update() { }
+-        public virtual void Exit() { }
+-    }
+-}
+-
+Index: Assets/Project/Scripts/StateMachine/State.cs.meta
+===================================================================
+diff --git a/Assets/Project/Scripts/StateMachine/State.cs.meta b/Assets/Project/Scripts/StateMachine/State.cs.meta
+deleted file mode 100644
+--- a/Assets/Project/Scripts/StateMachine/State.cs.meta	(revision 4f05ecbf54cc3c1bbe43292e4368a0b2e8c7a135)
++++ /dev/null	(revision 4f05ecbf54cc3c1bbe43292e4368a0b2e8c7a135)
+@@ -1,11 +0,0 @@
+-fileFormatVersion: 2
+-guid: b3ed495af851292469610a3e6f8bc4a6
+-MonoImporter:
+-  externalObjects: {}
+-  serializedVersion: 2
+-  defaultReferences: []
+-  executionOrder: 0
+-  icon: {instanceID: 0}
+-  userData: 
+-  assetBundleName: 
+-  assetBundleVariant: 
+Index: Assets/Project/Scripts/StateMachine/StateMachine.cs
+===================================================================
+diff --git a/Assets/Project/Scripts/StateMachine/StateMachine.cs b/Assets/Project/Scripts/StateMachine/StateMachine.cs
+deleted file mode 100644
+--- a/Assets/Project/Scripts/StateMachine/StateMachine.cs	(revision 4f05ecbf54cc3c1bbe43292e4368a0b2e8c7a135)
++++ /dev/null	(revision 4f05ecbf54cc3c1bbe43292e4368a0b2e8c7a135)
+@@ -1,42 +0,0 @@
+-using System.Collections;
+-using System;
+-using System.Collections.Generic;
+-using UnityEngine;
+-
+-namespace Source.CommonModules.StateMachineModule
+-{
+-    public class StateMachine
+-    {
+-        private Dictionary<Type, State> _states = new ();
+-        
+-        public State CurrentState { get; private set; }
+-
+-        public void AddState(State state)
+-        {
+-            _states.Add(state.GetType(), state);
+-        }
+-
+-        public void EnterIn<T>() where T : State
+-        {
+-            var type = typeof(T);
+-
+-            if (CurrentState.GetType() == type)
+-            {
+-                return;
+-            }
+-
+-            if (_states.TryGetValue(type, out var newState))
+-            {
+-                CurrentState?.Exit();
+-                CurrentState = newState;
+-                CurrentState.Enter();
+-            }
+-        }
+-
+-        public void Update()
+-        {
+-            CurrentState?.Update();
+-        }
+-    }
+-}
+-
+Index: Assets/Project/Scripts/StateMachine/StateMachine.cs.meta
+===================================================================
+diff --git a/Assets/Project/Scripts/StateMachine/StateMachine.cs.meta b/Assets/Project/Scripts/StateMachine/StateMachine.cs.meta
+deleted file mode 100644
+--- a/Assets/Project/Scripts/StateMachine/StateMachine.cs.meta	(revision 4f05ecbf54cc3c1bbe43292e4368a0b2e8c7a135)
++++ /dev/null	(revision 4f05ecbf54cc3c1bbe43292e4368a0b2e8c7a135)
+@@ -1,11 +0,0 @@
+-fileFormatVersion: 2
+-guid: 2633dcfbeaf26e040b5bdc47f8aa714d
+-MonoImporter:
+-  externalObjects: {}
+-  serializedVersion: 2
+-  defaultReferences: []
+-  executionOrder: 0
+-  icon: {instanceID: 0}
+-  userData: 
+-  assetBundleName: 
+-  assetBundleVariant: 
+Index: Assets/Project/Scripts/StateMachine.meta
+===================================================================
+diff --git a/Assets/Project/Scripts/StateMachine.meta b/Assets/Project/Scripts/StateMachine.meta
+deleted file mode 100644
+--- a/Assets/Project/Scripts/StateMachine.meta	(revision 4f05ecbf54cc3c1bbe43292e4368a0b2e8c7a135)
++++ /dev/null	(revision 4f05ecbf54cc3c1bbe43292e4368a0b2e8c7a135)
+@@ -1,8 +0,0 @@
+-fileFormatVersion: 2
+-guid: 848ed08cb3f6af14baf05a89512b6b80
+-folderAsset: yes
+-DefaultImporter:
+-  externalObjects: {}
+-  userData: 
+-  assetBundleName: 
+-  assetBundleVariant: 
+Index: Assets/Project/Scripts/Weapon/Player/PlayerWeapon.cs
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>using Project.Game.Scripts;\r\nusing Project.Scripts.Weapon.Improvements;\r\nusing UnityEngine;\r\n\r\nnamespace Project.Scripts.Weapon.Player\r\n{\r\n    public abstract class PlayerWeapon : MonoBehaviour\r\n    {\r\n        [field: SerializeField] public Weapons Type { get; private set; }\r\n\r\n        public abstract void Shoot();\r\n\r\n        public abstract void AcceptWeaponImprovement(IWeaponVisitor weaponVisitor, CharacteristicsTypes type, float value);\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Assets/Project/Scripts/Weapon/Player/PlayerWeapon.cs b/Assets/Project/Scripts/Weapon/Player/PlayerWeapon.cs
+--- a/Assets/Project/Scripts/Weapon/Player/PlayerWeapon.cs	(revision 4f05ecbf54cc3c1bbe43292e4368a0b2e8c7a135)
++++ b/Assets/Project/Scripts/Weapon/Player/PlayerWeapon.cs	(date 1739446511219)
+@@ -1,3 +1,4 @@
++using System.Collections;
+ using Project.Game.Scripts;
+ using Project.Scripts.Weapon.Improvements;
+ using UnityEngine;
+@@ -8,7 +9,7 @@
+     {
+         [field: SerializeField] public Weapons Type { get; private set; }
+ 
+-        public abstract void Shoot();
++        public abstract IEnumerator Shoot();
+ 
+         public abstract void AcceptWeaponImprovement(IWeaponVisitor weaponVisitor, CharacteristicsTypes type, float value);
+     }
+Index: Assets/Project/Materials/ProgressBarMaterial.mat
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>%YAML 1.1\r\n%TAG !u! tag:unity3d.com,2011:\r\n--- !u!114 &-1511328339403231464\r\nMonoBehaviour:\r\n  m_ObjectHideFlags: 11\r\n  m_CorrespondingSourceObject: {fileID: 0}\r\n  m_PrefabInstance: {fileID: 0}\r\n  m_PrefabAsset: {fileID: 0}\r\n  m_GameObject: {fileID: 0}\r\n  m_Enabled: 1\r\n  m_EditorHideFlags: 0\r\n  m_Script: {fileID: 11500000, guid: 639247ca83abc874e893eb93af2b5e44, type: 3}\r\n  m_Name: \r\n  m_EditorClassIdentifier: \r\n  version: 0\r\n--- !u!21 &2100000\r\nMaterial:\r\n  serializedVersion: 8\r\n  m_ObjectHideFlags: 0\r\n  m_CorrespondingSourceObject: {fileID: 0}\r\n  m_PrefabInstance: {fileID: 0}\r\n  m_PrefabAsset: {fileID: 0}\r\n  m_Name: ProgressBarMaterial\r\n  m_Shader: {fileID: -6465566751694194690, guid: 08c63ef634039c843838a1eb0611e92a, type: 3}\r\n  m_Parent: {fileID: 0}\r\n  m_ModifiedSerializedProperties: 0\r\n  m_ValidKeywords: []\r\n  m_InvalidKeywords: []\r\n  m_LightmapFlags: 4\r\n  m_EnableInstancingVariants: 0\r\n  m_DoubleSidedGI: 0\r\n  m_CustomRenderQueue: -1\r\n  stringTagMap: {}\r\n  disabledShaderPasses: []\r\n  m_LockedProperties: \r\n  m_SavedProperties:\r\n    serializedVersion: 3\r\n    m_TexEnvs:\r\n    - _BumpMap:\r\n        m_Texture: {fileID: 0}\r\n        m_Scale: {x: 1, y: 1}\r\n        m_Offset: {x: 0, y: 0}\r\n    - _DetailAlbedoMap:\r\n        m_Texture: {fileID: 0}\r\n        m_Scale: {x: 1, y: 1}\r\n        m_Offset: {x: 0, y: 0}\r\n    - _DetailMask:\r\n        m_Texture: {fileID: 0}\r\n        m_Scale: {x: 1, y: 1}\r\n        m_Offset: {x: 0, y: 0}\r\n    - _DetailNormalMap:\r\n        m_Texture: {fileID: 0}\r\n        m_Scale: {x: 1, y: 1}\r\n        m_Offset: {x: 0, y: 0}\r\n    - _EmissionMap:\r\n        m_Texture: {fileID: 0}\r\n        m_Scale: {x: 1, y: 1}\r\n        m_Offset: {x: 0, y: 0}\r\n    - _MainTex:\r\n        m_Texture: {fileID: 2800000, guid: b367987edc6cd41ada86fbcf1912a187, type: 3}\r\n        m_Scale: {x: 1, y: 1}\r\n        m_Offset: {x: 0, y: 0}\r\n    - _MetallicGlossMap:\r\n        m_Texture: {fileID: 0}\r\n        m_Scale: {x: 1, y: 1}\r\n        m_Offset: {x: 0, y: 0}\r\n    - _OcclusionMap:\r\n        m_Texture: {fileID: 0}\r\n        m_Scale: {x: 1, y: 1}\r\n        m_Offset: {x: 0, y: 0}\r\n    - _ParallaxMap:\r\n        m_Texture: {fileID: 0}\r\n        m_Scale: {x: 1, y: 1}\r\n        m_Offset: {x: 0, y: 0}\r\n    m_Ints: []\r\n    m_Floats:\r\n    - _BUILTIN_QueueControl: 0\r\n    - _BUILTIN_QueueOffset: 0\r\n    - _BumpScale: 1\r\n    - _Cutoff: 0.5\r\n    - _DetailNormalMapScale: 1\r\n    - _DstBlend: 0\r\n    - _GlossMapScale: 1\r\n    - _Glossiness: 0.5\r\n    - _GlossyReflections: 1\r\n    - _LineWidth: 0.05\r\n    - _Metallic: 0\r\n    - _Mode: 0\r\n    - _OcclusionStrength: 1\r\n    - _Parallax: 0.02\r\n    - _Radius: 0.35\r\n    - _RemovedSegments: 0.7\r\n    - _Rotation: 0\r\n    - _SegmentCount: 1\r\n    - _SegmentSpacing: 0.03\r\n    - _SmoothnessTextureChannel: 0\r\n    - _SpecularHighlights: 1\r\n    - _SrcBlend: 1\r\n    - _UVSec: 0\r\n    - _ZWrite: 1\r\n    m_Colors:\r\n    - _Color: {r: 1, g: 0.6204619, b: 0, a: 1}\r\n    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}\r\n  m_BuildTextureStacks: []\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Assets/Project/Materials/ProgressBarMaterial.mat b/Assets/Project/Materials/ProgressBarMaterial.mat
+--- a/Assets/Project/Materials/ProgressBarMaterial.mat	(revision 4f05ecbf54cc3c1bbe43292e4368a0b2e8c7a135)
++++ b/Assets/Project/Materials/ProgressBarMaterial.mat	(date 1739281640555)
+@@ -89,7 +89,7 @@
+     - _OcclusionStrength: 1
+     - _Parallax: 0.02
+     - _Radius: 0.35
+-    - _RemovedSegments: 0.7
++    - _RemovedSegments: 0.0019505332
+     - _Rotation: 0
+     - _SegmentCount: 1
+     - _SegmentSpacing: 0.03
+Index: Assets/Project/Scripts/Weapon/Player/WeaponFactory.cs
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>using System;\r\nusing Project.Scripts.Services;\r\nusing Reflex.Attributes;\r\nusing UnityEngine;\r\nusing UnityEngine.UI;\r\n\r\nnamespace Project.Scripts.Weapon.Player\r\n{\r\n    public class WeaponFactory : MonoBehaviour\r\n    {\r\n        [SerializeField] private ClosestEnemyDetector _enemyDetectorTemplate;\r\n        [SerializeField] private Gun _gunTemplate;\r\n        [SerializeField] private FourBarrelMachineGun fourBarrelMachineGunTemplate;\r\n        [SerializeField] private Mines _minesTemplate;\r\n        [SerializeField] private FragGrenades _fragGrenadesTemplate;\r\n        [SerializeField] private MachineGun machineGunTemplate;\r\n\r\n        private AudioSoundsService _audioSoundsService;\r\n        private ClosestEnemyDetector _enemyDetector;\r\n        private WeaponHolder _weaponHolder;\r\n        private Button _minesButton;\r\n        private Transform _player;\r\n\r\n        public event Action MinesIsCreated;\r\n\r\n        [Inject]\r\n        private void Construct(AudioSoundsService audioSoundsService)\r\n        {\r\n            _audioSoundsService = audioSoundsService;\r\n        }\r\n\r\n        public void CreateWeapon(Weapons weapons)\r\n        {\r\n            switch (weapons)\r\n            {\r\n                case Weapons.Gun :\r\n                    CreateGun();\r\n                    break;\r\n                case Weapons.MachineGun :\r\n                    CreateMachineGun();\r\n                    break;\r\n                case Weapons.Mines :\r\n                    CreateMines();\r\n                    break;\r\n                case Weapons.FragGrenades : \r\n                    CreateFragGrenades();\r\n                    break;\r\n                case Weapons.FourBarrelMachineGun :\r\n                    CreateFourBarrelMachineGun();\r\n                    break;\r\n            }\r\n        }\r\n\r\n        public void GetData(Transform player, WeaponHolder weaponHolder)\r\n        {\r\n            _weaponHolder = weaponHolder;\r\n            _player = player;\r\n        }\r\n\r\n        public void GetMinesButton(Button button)\r\n        {\r\n            _minesButton = button;\r\n        }\r\n\r\n        public void CreateEnemyDetector()\r\n        {\r\n            _enemyDetector = Instantiate(_enemyDetectorTemplate, _player);\r\n        }\r\n        \r\n        private void CreateGun()\r\n        {\r\n            Gun gun = Instantiate(_gunTemplate, _player);\r\n            gun.Construct(_enemyDetector, _audioSoundsService);\r\n            _weaponHolder.AddWeapon(gun);\r\n        }\r\n        \r\n        private void CreateFourBarrelMachineGun()\r\n        {\r\n            FourBarrelMachineGun fourBarrelMachineGun = Instantiate(fourBarrelMachineGunTemplate, _player);\r\n            fourBarrelMachineGun.Construct(_audioSoundsService);\r\n            _weaponHolder.AddWeapon(fourBarrelMachineGun);\r\n        }\r\n\r\n        private void CreateMines()\r\n        {\r\n            MinesIsCreated?.Invoke();\r\n            \r\n            Vector3 position = new Vector3(_player.position.x, 0f, _player.position.z);\r\n            Mines mines = Instantiate(_minesTemplate, _player);\r\n            mines.transform.position = position;\r\n            mines.Construct(_minesButton, _audioSoundsService);\r\n            _weaponHolder.AddWeapon(mines);\r\n        }\r\n\r\n        private void CreateFragGrenades()\r\n        {\r\n            FragGrenades fragGrenades = Instantiate(_fragGrenadesTemplate, _player);\r\n            fragGrenades.Construct(_enemyDetector, _audioSoundsService);\r\n            _weaponHolder.AddWeapon(fragGrenades);\r\n        }\r\n\r\n        private void CreateMachineGun()\r\n        {\r\n            MachineGun machineGun = Instantiate(machineGunTemplate, _player);\r\n            machineGun.Construct(_enemyDetector, _audioSoundsService);\r\n            _weaponHolder.AddWeapon(machineGun);\r\n        }\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Assets/Project/Scripts/Weapon/Player/WeaponFactory.cs b/Assets/Project/Scripts/Weapon/Player/WeaponFactory.cs
+--- a/Assets/Project/Scripts/Weapon/Player/WeaponFactory.cs	(revision 4f05ecbf54cc3c1bbe43292e4368a0b2e8c7a135)
++++ b/Assets/Project/Scripts/Weapon/Player/WeaponFactory.cs	(date 1739444594064)
+@@ -8,15 +8,17 @@
+ {
+     public class WeaponFactory : MonoBehaviour
+     {
+-        [SerializeField] private ClosestEnemyDetector _enemyDetectorTemplate;
++        private const float MinesHeight = 0f;
++        
++        [SerializeField] private NearestEnemyDetector _enemyDetectorTemplate;
+         [SerializeField] private Gun _gunTemplate;
+         [SerializeField] private FourBarrelMachineGun fourBarrelMachineGunTemplate;
+         [SerializeField] private Mines _minesTemplate;
+         [SerializeField] private FragGrenades _fragGrenadesTemplate;
+         [SerializeField] private MachineGun machineGunTemplate;
+-
++        
+         private AudioSoundsService _audioSoundsService;
+-        private ClosestEnemyDetector _enemyDetector;
++        private NearestEnemyDetector _enemyDetector;
+         private WeaponHolder _weaponHolder;
+         private Button _minesButton;
+         private Transform _player;
+@@ -77,7 +79,7 @@
+         private void CreateFourBarrelMachineGun()
+         {
+             FourBarrelMachineGun fourBarrelMachineGun = Instantiate(fourBarrelMachineGunTemplate, _player);
+-            fourBarrelMachineGun.Construct(_audioSoundsService);
++            fourBarrelMachineGun.Construct(_enemyDetector, _audioSoundsService);
+             _weaponHolder.AddWeapon(fourBarrelMachineGun);
+         }
+ 
+@@ -85,7 +87,7 @@
+         {
+             MinesIsCreated?.Invoke();
+             
+-            Vector3 position = new Vector3(_player.position.x, 0f, _player.position.z);
++            Vector3 position = new Vector3(_player.position.x, MinesHeight, _player.position.z);
+             Mines mines = Instantiate(_minesTemplate, _player);
+             mines.transform.position = position;
+             mines.Construct(_minesButton, _audioSoundsService);
+Index: Assets/Project/Scripts/Weapon/Player/Gun.cs
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>using System.Collections;\r\nusing Project.Game.Scripts;\r\nusing Project.Scripts.ECS.EntityActors;\r\nusing Project.Scripts.Projectiles.Bullets;\r\nusing Project.Scripts.Services;\r\nusing Project.Scripts.Weapon.Improvements;\r\nusing UnityEngine;\r\n\r\nnamespace Project.Scripts.Weapon.Player\r\n{\r\n    public class Gun : PlayerWeapon\r\n    {\r\n        private const string ObjectPoolBulletName = \"PoolGunBullets\";\r\n        private const bool IsAutoExpandPool = true;\r\n        private const float MinValue = 0f;\r\n\r\n        [SerializeField] private GunBullet _bulletPrefab;\r\n        [SerializeField] private int _countBullets;\r\n        [SerializeField] private Transform _shootPoint;\r\n\r\n        private float _lastShotTime;\r\n        private int _maxCountShots;\r\n        private bool _isShooting = true;\r\n    \r\n        private GunBullet _bullet;\r\n        private EnemyAlienActor closestAlienEnemy;\r\n        private ObjectPool<GunBullet> _poolBullets;\r\n\r\n        private ClosestEnemyDetector _detector;\r\n        private AudioSoundsService _audioSoundsService;\r\n\r\n        public GunCharacteristics GunCharacteristics { get; } = new();\r\n\r\n        public void Construct(ClosestEnemyDetector detector, AudioSoundsService audioSoundsService)\r\n        {\r\n            _detector = detector;\r\n            _audioSoundsService = audioSoundsService;\r\n        }\r\n\r\n        private void Awake()\r\n        {\r\n            _poolBullets = new ObjectPool<GunBullet>(_bulletPrefab, _countBullets, new GameObject(ObjectPoolBulletName).transform)\r\n            {\r\n                AutoExpand = IsAutoExpandPool\r\n            };\r\n        }\r\n\r\n        private void FixedUpdate()\r\n        {\r\n            closestAlienEnemy = _detector.СlosestAlienEnemy;\r\n\r\n            if (closestAlienEnemy == null) return;\r\n        \r\n            if (Vector3.Distance(closestAlienEnemy.transform.position, transform.position) <= GunCharacteristics.RangeAttack && _isShooting)\r\n            {\r\n                Shoot();\r\n            }\r\n        \r\n            CheckAmmoAndReload();\r\n        }\r\n    \r\n        public override void Shoot()\r\n        {\r\n            if (_lastShotTime <= MinValue && closestAlienEnemy.Health.TargetHealth > MinValue)\r\n            {\r\n                _bullet = _poolBullets.GetFreeElement();\r\n            \r\n                _audioSoundsService.PlaySound(Sounds.Gun);\r\n\r\n                _bullet.transform.position = _shootPoint.position;\r\n\r\n                _bullet.SetDirection(closestAlienEnemy.transform);\r\n                _bullet.SetCharacteristics(GunCharacteristics.Damage, GunCharacteristics.BulletSpeed);\r\n\r\n                _lastShotTime = GunCharacteristics.FireRate;\r\n            }\r\n\r\n            _lastShotTime -= Time.fixedDeltaTime;\r\n        }\r\n\r\n        public override void AcceptWeaponImprovement(IWeaponVisitor weaponVisitor, CharacteristicsTypes type, float value)\r\n        {\r\n            weaponVisitor.Visit(this, type, value);\r\n        }\r\n    \r\n        private void CheckAmmoAndReload()\r\n        {\r\n            if (_maxCountShots <= MinValue)\r\n            {\r\n                _isShooting = false;\r\n                StartCoroutine(Reload());\r\n            }\r\n        }\r\n\r\n        private IEnumerator Reload()\r\n        {\r\n            yield return new WaitForSeconds(GunCharacteristics.ReloadTime);\r\n\r\n            _maxCountShots = GunCharacteristics.MaxCountShots;\r\n            _isShooting = true;\r\n        }\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Assets/Project/Scripts/Weapon/Player/Gun.cs b/Assets/Project/Scripts/Weapon/Player/Gun.cs
+--- a/Assets/Project/Scripts/Weapon/Player/Gun.cs	(revision 4f05ecbf54cc3c1bbe43292e4368a0b2e8c7a135)
++++ b/Assets/Project/Scripts/Weapon/Player/Gun.cs	(date 1739451097024)
+@@ -23,18 +23,21 @@
+         private bool _isShooting = true;
+     
+         private GunBullet _bullet;
+-        private EnemyAlienActor closestAlienEnemy;
++        private EnemyAlienActor _nearestEnemy;
+         private ObjectPool<GunBullet> _poolBullets;
++        private Coroutine _shootCoroutine;
+ 
+-        private ClosestEnemyDetector _detector;
++        private NearestEnemyDetector _detector;
+         private AudioSoundsService _audioSoundsService;
+ 
+         public GunCharacteristics GunCharacteristics { get; } = new();
+ 
+-        public void Construct(ClosestEnemyDetector detector, AudioSoundsService audioSoundsService)
++        public void Construct(NearestEnemyDetector detector, AudioSoundsService audioSoundsService)
+         {
+             _detector = detector;
+             _audioSoundsService = audioSoundsService;
++
++            _detector.ChangedNearestEnemy += OnChangedNearestEnemy;
+         }
+ 
+         private void Awake()
+@@ -43,45 +46,62 @@
+             {
+                 AutoExpand = IsAutoExpandPool
+             };
++            
++            _maxCountShots = GunCharacteristics.MaxCountShots;
+         }
+ 
+-        private void FixedUpdate()
++        public override IEnumerator Shoot()
+         {
+-            closestAlienEnemy = _detector.СlosestAlienEnemy;
+-
+-            if (closestAlienEnemy == null) return;
+-        
+-            if (Vector3.Distance(closestAlienEnemy.transform.position, transform.position) <= GunCharacteristics.RangeAttack && _isShooting)
++            while (_maxCountShots > MinValue)
+             {
+-                Shoot();
+-            }
+-        
+-            CheckAmmoAndReload();
+-        }
+-    
+-        public override void Shoot()
+-        {
+-            if (_lastShotTime <= MinValue && closestAlienEnemy.Health.TargetHealth > MinValue)
+-            {
+-                _bullet = _poolBullets.GetFreeElement();
++                if (Vector3.Distance(_nearestEnemy.transform.position, transform.position)
++                    > GunCharacteristics.RangeAttack)
++                {
++                    yield return null;
++                }
++                else if (_nearestEnemy.Health.TargetHealth > MinValue)
++                {
++                    _bullet = _poolBullets.GetFreeElement();
+             
+-                _audioSoundsService.PlaySound(Sounds.Gun);
++                    _audioSoundsService.PlaySound(Sounds.Gun);
+ 
+-                _bullet.transform.position = _shootPoint.position;
++                    _bullet.transform.position = _shootPoint.position;
+ 
+-                _bullet.SetDirection(closestAlienEnemy.transform);
+-                _bullet.SetCharacteristics(GunCharacteristics.Damage, GunCharacteristics.BulletSpeed);
++                    _bullet.SetDirection(_nearestEnemy.transform);
++                    _bullet.SetCharacteristics(GunCharacteristics.Damage, GunCharacteristics.BulletSpeed);
+ 
+-                _lastShotTime = GunCharacteristics.FireRate;
++                    _maxCountShots--;
++
++                    yield return new WaitForSeconds(GunCharacteristics.FireRate);
++                }
+             }
+-
+-            _lastShotTime -= Time.fixedDeltaTime;
+         }
+ 
+         public override void AcceptWeaponImprovement(IWeaponVisitor weaponVisitor, CharacteristicsTypes type, float value)
+         {
+             weaponVisitor.Visit(this, type, value);
+         }
++        
++        private void OnChangedNearestEnemy(EnemyAlienActor nearestEnemy)
++        {
++            _nearestEnemy = nearestEnemy;
++            
++            if (_nearestEnemy == null) return;
++            
++            CheckAmmoAndReload();
++        
++            if (_isShooting && _shootCoroutine == null)
++            {
++                _shootCoroutine = StartCoroutine(Shoot());
++            }
++            else if(!_isShooting)
++            {
++                if(_shootCoroutine != null)
++                    StopCoroutine(_shootCoroutine);
++                    
++                _shootCoroutine = null;
++            }
++        }
+     
+         private void CheckAmmoAndReload()
+         {
+@@ -99,5 +119,10 @@
+             _maxCountShots = GunCharacteristics.MaxCountShots;
+             _isShooting = true;
+         }
++        
++        private void OnDestroy()
++        {
++            _detector.ChangedNearestEnemy -= OnChangedNearestEnemy;
++        }
+     }
+ }
+Index: Assets/Project/Scripts/Weapon/Player/Mines.cs
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>using Project.Game.Scripts;\r\nusing Project.Scripts.Services;\r\nusing Project.Scripts.Weapon.Improvements;\r\nusing UnityEngine;\r\nusing UnityEngine.UI;\r\n\r\nnamespace Project.Scripts.Weapon.Player\r\n{\r\n    public class Mines : PlayerWeapon\r\n    {\r\n        private const float MinValue = 0f;\r\n        private const bool IsAutoExpandPool = true;\r\n\r\n        [SerializeField] private ParticleSystem _explosionEffect;\r\n        [SerializeField] private int _countMines;\r\n        [SerializeField] private Mine _mine;\r\n        [SerializeField] private Transform _installPoint;\r\n        \r\n        private ObjectPool<Mine> _pool;\r\n        private Button _minesButton;\r\n        private AudioSoundsService _audioSoundsService;\r\n        \r\n        private float _lastShotTime;\r\n\r\n        public MineCharacteristics MineCharacteristics { get; } = new ();\r\n\r\n        public void Construct(Button button, AudioSoundsService audioSoundsService)\r\n        {\r\n            _minesButton = button;\r\n            _audioSoundsService = audioSoundsService;\r\n        }\r\n\r\n        private void Awake()\r\n        {\r\n            _pool = new ObjectPool<Mine>(_mine, _countMines, new GameObject(\"PoolMines\").transform)\r\n            {\r\n                AutoExpand = IsAutoExpandPool\r\n            };\r\n        }\r\n\r\n        private void Start()\r\n        {\r\n            _explosionEffect = Instantiate(_explosionEffect);\r\n            _explosionEffect.Stop();\r\n            _minesButton.onClick.AddListener(Shoot);\r\n        }\r\n\r\n        private void FixedUpdate()\r\n        {\r\n            _lastShotTime -= Time.fixedDeltaTime;\r\n        }\r\n\r\n        private void OnDestroy()\r\n        {\r\n            _minesButton.onClick.RemoveListener(Shoot);\r\n        }\r\n\r\n        public override void Shoot()\r\n        {\r\n            if (_lastShotTime <= MinValue)\r\n            {\r\n                _audioSoundsService.PlaySound(Sounds.Button);\r\n                \r\n                _mine = _pool.GetFreeElement();\r\n\r\n                _mine.GetExplosionEffects(_explosionEffect, _audioSoundsService);\r\n                \r\n                _mine.transform.position = _installPoint.position;\r\n                _mine.SetCharacteristics(MineCharacteristics.Damage, MineCharacteristics.ExplosionRadius);\r\n\r\n                _lastShotTime = MineCharacteristics.FireRate;\r\n            }\r\n        }\r\n        \r\n        public override void AcceptWeaponImprovement(IWeaponVisitor weaponVisitor, CharacteristicsTypes type, float value)\r\n        {\r\n            weaponVisitor.Visit(this, type, value);\r\n        }\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Assets/Project/Scripts/Weapon/Player/Mines.cs b/Assets/Project/Scripts/Weapon/Player/Mines.cs
+--- a/Assets/Project/Scripts/Weapon/Player/Mines.cs	(revision 4f05ecbf54cc3c1bbe43292e4368a0b2e8c7a135)
++++ b/Assets/Project/Scripts/Weapon/Player/Mines.cs	(date 1739447411119)
+@@ -1,3 +1,4 @@
++using System.Collections;
+ using Project.Game.Scripts;
+ using Project.Scripts.Services;
+ using Project.Scripts.Weapon.Improvements;
+@@ -19,6 +20,7 @@
+         private ObjectPool<Mine> _pool;
+         private Button _minesButton;
+         private AudioSoundsService _audioSoundsService;
++        private Coroutine _shootCoroutine;
+         
+         private float _lastShotTime;
+ 
+@@ -42,7 +44,7 @@
+         {
+             _explosionEffect = Instantiate(_explosionEffect);
+             _explosionEffect.Stop();
+-            _minesButton.onClick.AddListener(Shoot);
++            _minesButton.onClick.AddListener(OnShoot);
+         }
+ 
+         private void FixedUpdate()
+@@ -52,13 +54,13 @@
+ 
+         private void OnDestroy()
+         {
+-            _minesButton.onClick.RemoveListener(Shoot);
++            _minesButton.onClick.RemoveListener(OnShoot);
+         }
+ 
+-        public override void Shoot()
++        public override IEnumerator Shoot()
+         {
+-            if (_lastShotTime <= MinValue)
+-            {
++            //if (_lastShotTime <= MinValue)
++            //{
+                 _audioSoundsService.PlaySound(Sounds.Button);
+                 
+                 _mine = _pool.GetFreeElement();
+@@ -69,12 +71,26 @@
+                 _mine.SetCharacteristics(MineCharacteristics.Damage, MineCharacteristics.ExplosionRadius);
+ 
+                 _lastShotTime = MineCharacteristics.FireRate;
+-            }
++
++                yield return new WaitForSeconds(MineCharacteristics.FireRate);
++                //}
+         }
+         
+         public override void AcceptWeaponImprovement(IWeaponVisitor weaponVisitor, CharacteristicsTypes type, float value)
+         {
+             weaponVisitor.Visit(this, type, value);
+         }
++
++        private void OnShoot()
++        {
++            if (_shootCoroutine == null)
++            {
++                StartCoroutine(Shoot());
++            }
++            else
++            {
++                StopCoroutine(_shootCoroutine);
++            }
++        }
+     }
+ }
+\ No newline at end of file
+Index: Assets/Project/Scripts/Weapon/Player/MachineGun.cs
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>using System.Collections;\r\nusing Project.Game.Scripts;\r\nusing Project.Scripts.ECS.EntityActors;\r\nusing Project.Scripts.Projectiles.Bullets;\r\nusing Project.Scripts.Services;\r\nusing Project.Scripts.Weapon.Improvements;\r\nusing UnityEngine;\r\n\r\nnamespace Project.Scripts.Weapon.Player\r\n{\r\n    public class MachineGun : PlayerWeapon\r\n    {\r\n        private const string ObjectPoolBulletName = \"PoolMachineGunBullets\";\r\n        private const bool IsAutoExpandPool = true;\r\n    \r\n        private const float MinValue = 0f;\r\n        private const float DelayBetweenShots = 0.2f;\r\n\r\n        [SerializeField] private MachineGunBullet _bulletPrefab;\r\n\r\n        [SerializeField] private int _countBulletsForPool;\r\n        [SerializeField] private Transform[] _shootPoints;\r\n\r\n        private float _lastBurstTime;\r\n        private int _maxCountShots;\r\n        private bool _isShooting = true;\r\n\r\n        private Coroutine _coroutine;\r\n        private MachineGunBullet _bullet;\r\n\r\n        private ClosestEnemyDetector _detector;\r\n        private AudioSoundsService _audioSoundsService;\r\n    \r\n        private EnemyAlienActor closestAlienEnemy;\r\n        private ObjectPool<MachineGunBullet> _poolBullets;\r\n\r\n        public MachineGunCharacteristics MachineGunCharacteristics { get; } = new();\r\n\r\n        public void Construct(ClosestEnemyDetector detector, AudioSoundsService audioSoundsService)\r\n        {\r\n            _detector = detector;\r\n            _audioSoundsService = audioSoundsService;\r\n        }\r\n\r\n        private void Awake()\r\n        {\r\n            _poolBullets = new ObjectPool<MachineGunBullet>(_bulletPrefab, _countBulletsForPool, new GameObject(ObjectPoolBulletName).transform)\r\n            {\r\n                AutoExpand = IsAutoExpandPool\r\n            };\r\n        }\r\n\r\n        private void Start()\r\n        {\r\n            _maxCountShots = MachineGunCharacteristics.MaxCountShots;\r\n        }\r\n\r\n        private void FixedUpdate()\r\n        {\r\n            closestAlienEnemy = _detector.СlosestAlienEnemy;\r\n\r\n            if (closestAlienEnemy == null) return;\r\n        \r\n            if (Vector3.Distance(closestAlienEnemy.transform.position, transform.position) <= MachineGunCharacteristics.RangeAttack && _isShooting)\r\n            {\r\n                Shoot();\r\n            }\r\n        \r\n            CheckAmmoAndReload();\r\n        }\r\n    \r\n        public override void Shoot()\r\n        {\r\n            if (_lastBurstTime <= MinValue && closestAlienEnemy.Health.TargetHealth > MinValue)\r\n            {\r\n                _audioSoundsService.PlaySound(Sounds.MachineGun);\r\n            \r\n                StartCoroutine(LaunchBullet());\r\n            \r\n                _lastBurstTime = MachineGunCharacteristics.FireRate;\r\n            }\r\n\r\n            _lastBurstTime -= Time.fixedDeltaTime;\r\n        }\r\n    \r\n        public override void AcceptWeaponImprovement(IWeaponVisitor weaponVisitor, CharacteristicsTypes type, float value)\r\n        {\r\n            weaponVisitor.Visit(this, type, value);\r\n        }\r\n\r\n        private void CheckAmmoAndReload()\r\n        {\r\n            if (_maxCountShots <= MinValue)\r\n            {\r\n                _isShooting = false;\r\n                StartCoroutine(Reload());\r\n            }\r\n        }\r\n\r\n        private IEnumerator Reload()\r\n        {\r\n            yield return new WaitForSeconds(MachineGunCharacteristics.ReloadTime);\r\n\r\n            _maxCountShots = MachineGunCharacteristics.MaxCountShots;\r\n            _isShooting = true;\r\n        }\r\n\r\n        private IEnumerator LaunchBullet()\r\n        {\r\n            foreach (var shootPoint in _shootPoints)\r\n            {\r\n                _bullet = _poolBullets.GetFreeElement();\r\n\r\n                _maxCountShots--;\r\n            \r\n                _bullet.transform.position = shootPoint.position;\r\n                \r\n                _bullet.SetDirection(closestAlienEnemy.transform);\r\n                _bullet.SetCharacteristics(MachineGunCharacteristics.Damage, MachineGunCharacteristics.BulletSpeed);\r\n\r\n                yield return new WaitForSeconds(DelayBetweenShots);\r\n            }\r\n\r\n            yield return null;\r\n        }\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Assets/Project/Scripts/Weapon/Player/MachineGun.cs b/Assets/Project/Scripts/Weapon/Player/MachineGun.cs
+--- a/Assets/Project/Scripts/Weapon/Player/MachineGun.cs	(revision 4f05ecbf54cc3c1bbe43292e4368a0b2e8c7a135)
++++ b/Assets/Project/Scripts/Weapon/Player/MachineGun.cs	(date 1739446865961)
+@@ -28,18 +28,20 @@
+         private Coroutine _coroutine;
+         private MachineGunBullet _bullet;
+ 
+-        private ClosestEnemyDetector _detector;
++        private NearestEnemyDetector _detector;
+         private AudioSoundsService _audioSoundsService;
+     
+-        private EnemyAlienActor closestAlienEnemy;
++        private EnemyAlienActor _nearestEnemy;
+         private ObjectPool<MachineGunBullet> _poolBullets;
+ 
+         public MachineGunCharacteristics MachineGunCharacteristics { get; } = new();
+ 
+-        public void Construct(ClosestEnemyDetector detector, AudioSoundsService audioSoundsService)
++        public void Construct(NearestEnemyDetector detector, AudioSoundsService audioSoundsService)
+         {
+             _detector = detector;
+             _audioSoundsService = audioSoundsService;
++
++            _detector.ChangedNearestEnemy += OnChangedNearestEnemy;
+         }
+ 
+         private void Awake()
+@@ -55,32 +57,26 @@
+             _maxCountShots = MachineGunCharacteristics.MaxCountShots;
+         }
+ 
+-        private void FixedUpdate()
++        public override IEnumerator Shoot()
+         {
+-            closestAlienEnemy = _detector.СlosestAlienEnemy;
+-
+-            if (closestAlienEnemy == null) return;
+-        
+-            if (Vector3.Distance(closestAlienEnemy.transform.position, transform.position) <= MachineGunCharacteristics.RangeAttack && _isShooting)
++            //if (_lastBurstTime <= MinValue && _nearestEnemy.Health.TargetHealth > MinValue)
++            //{
++            if (_nearestEnemy.Health.TargetHealth <= MinValue)
+             {
+-                Shoot();
++                yield return null;
+             }
+-        
+-            CheckAmmoAndReload();
+-        }
+-    
+-        public override void Shoot()
+-        {
+-            if (_lastBurstTime <= MinValue && closestAlienEnemy.Health.TargetHealth > MinValue)
+-            {
+-                _audioSoundsService.PlaySound(Sounds.MachineGun);
++
++            _audioSoundsService.PlaySound(Sounds.MachineGun);
+             
+-                StartCoroutine(LaunchBullet());
++            StartCoroutine(LaunchBullet());
+             
+-                _lastBurstTime = MachineGunCharacteristics.FireRate;
+-            }
++            //_lastBurstTime = MachineGunCharacteristics.FireRate;
+ 
+-            _lastBurstTime -= Time.fixedDeltaTime;
++            yield return new WaitForSeconds(MachineGunCharacteristics.FireRate);
++                
++                //}
++
++                //_lastBurstTime -= Time.fixedDeltaTime;
+         }
+     
+         public override void AcceptWeaponImprovement(IWeaponVisitor weaponVisitor, CharacteristicsTypes type, float value)
+@@ -88,6 +84,21 @@
+             weaponVisitor.Visit(this, type, value);
+         }
+ 
++        private void OnChangedNearestEnemy(EnemyAlienActor nearestEnemy)
++        {
++            _nearestEnemy = nearestEnemy;
++
++            if (_nearestEnemy == null) return;
++        
++            if (Vector3.Distance(_nearestEnemy.transform.position, transform.position)
++                <= MachineGunCharacteristics.RangeAttack && _isShooting)
++            {
++                StartCoroutine(Shoot());
++            }
++        
++            CheckAmmoAndReload();
++        }
++
+         private void CheckAmmoAndReload()
+         {
+             if (_maxCountShots <= MinValue)
+@@ -115,7 +126,7 @@
+             
+                 _bullet.transform.position = shootPoint.position;
+                 
+-                _bullet.SetDirection(closestAlienEnemy.transform);
++                _bullet.SetDirection(_nearestEnemy.transform);
+                 _bullet.SetCharacteristics(MachineGunCharacteristics.Damage, MachineGunCharacteristics.BulletSpeed);
+ 
+                 yield return new WaitForSeconds(DelayBetweenShots);
+@@ -123,5 +134,10 @@
+ 
+             yield return null;
+         }
++
++        private void OnDestroy()
++        {
++            _detector.ChangedNearestEnemy -= OnChangedNearestEnemy;
++        }
+     }
+ }
+Index: Assets/Project/Scripts/ECS/Data/PlayerInitData.cs
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>using Build.Game.Scripts.ECS.EntityActors;\r\nusing Project.Scripts.ECS.Data;\r\nusing Project.Scripts.ECS.EntityActors;\r\nusing Project.Scripts.Health;\r\nusing UnityEngine;\r\n\r\nnamespace Build.Game.Scripts.ECS.Data\r\n{\r\n    [CreateAssetMenu(menuName = \"InitData/PlayerData\")]\r\n    public class PlayerInitData : InitData\r\n    {\r\n        [field: SerializeField] public PlayerActor Prefab { get; private set; }\r\n        \r\n        [field: SerializeField] public Health Health { get; private set; }\r\n        \r\n        [field: SerializeField] public ParticleSystem HitEffect { get; private set; }\r\n\r\n        [field: SerializeField] public float DefaultMoveSpeed { get; private set; } = 3f;\r\n        \r\n        [field: SerializeField] public float DefaultRotationSpeed { get; private set; } = 3f;\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Assets/Project/Scripts/ECS/Data/PlayerInitData.cs b/Assets/Project/Scripts/ECS/Data/PlayerInitData.cs
+--- a/Assets/Project/Scripts/ECS/Data/PlayerInitData.cs	(revision 4f05ecbf54cc3c1bbe43292e4368a0b2e8c7a135)
++++ b/Assets/Project/Scripts/ECS/Data/PlayerInitData.cs	(date 1739443216735)
+@@ -1,4 +1,3 @@
+-using Build.Game.Scripts.ECS.EntityActors;
+ using Project.Scripts.ECS.Data;
+ using Project.Scripts.ECS.EntityActors;
+ using Project.Scripts.Health;
+Index: Assets/Project/Scripts/ECS/System/GameInitSystem.cs
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>using System;\r\nusing System.Collections.Generic;\r\nusing Build.Game.Scripts.ECS.Data;\r\nusing Leopotam.Ecs;\r\nusing Project.Game.Scripts;\r\nusing Project.Scripts.ECS.Components;\r\nusing Project.Scripts.ECS.Data;\r\nusing Project.Scripts.ECS.EntityActors;\r\nusing Project.Scripts.EnemyAnimation;\r\nusing Project.Scripts.Experience;\r\nusing Project.Scripts.Levels;\r\nusing Project.Scripts.Levels.Mars.SecondLevel;\r\nusing Project.Scripts.Projectiles.Enemy;\r\nusing Project.Scripts.Services;\r\nusing Project.Scripts.UI.Panel;\r\nusing Project.Scripts.UI.View;\r\nusing UnityEngine;\r\nusing Object = UnityEngine.Object;\r\n\r\nnamespace Project.Scripts.ECS.System\r\n{\r\n    public class GameInitSystem : IEcsInitSystem, IEcsRunSystem\r\n    {\r\n        private const string SmallEnemyAlienPool = nameof(SmallEnemyAlienPool);\r\n        private const string BigEnemyAlienPool = nameof(BigEnemyAlienPool);\r\n        private const string BigAlienEnemyProjectilePool = nameof(BigAlienEnemyProjectilePool);\r\n        private const string GunnerAlienEnemyPool = nameof(GunnerAlienEnemyPool);\r\n        private const string GunnerAlienEnemyProjectilePool = nameof(GunnerAlienEnemyProjectilePool);\r\n\r\n        private const bool IsAutoExpand = true;\r\n        \r\n        private const float CapsuleHeight = 20f;\r\n        private const int MinValue = 0;\r\n        private const int CountAlienEnemyProjectile = 3;\r\n\r\n        private readonly Vector3 _stoneRotation = new (0f, 90f, 0f);\r\n        private readonly EcsWorld _world;\r\n        \r\n        private readonly FloatingTextService _textService;\r\n        private readonly GoldView _goldView;\r\n        private readonly AudioSoundsService _audioSoundsService;\r\n        private readonly ExperiencePoints _experiencePoints;\r\n        private readonly Timer _timer;\r\n        private readonly AdviserMessagePanel _adviserMessagePanel;\r\n        private readonly BallisticRocketProgressBar _ballisticRocketProgressBar;\r\n        \r\n        private readonly PlayerInitData _playerInitData;\r\n        private readonly SmallAlienEnemyInitData _smallAlienEnemyInitData;\r\n        private readonly BigAlienEnemyInitData _bigAlienEnemyData;\r\n        private readonly GunnerAlienEnemyInitData _gunnerAlienEnemyData;\r\n        private readonly StoneInitData _stoneInitData;\r\n        private readonly CapsuleInitData _capsuleInitData;\r\n        private readonly HealingCoreInitData _healingCoreInitData;\r\n        private readonly GoldCoreInitData _goldCoreInitData;\r\n\r\n        private readonly Vector3 _playerSpawnPoint;\r\n        \r\n        private Vector3 _capsuleSpawnPoint;\r\n\r\n        private ObjectPool<BigAlienEnemy> _bigAlienEnemyPool;\r\n        private ObjectPool<SmallAlienEnemy> _smallAlienEnemyPool;\r\n        private ObjectPool<GunnerAlienEnemy> _gunnerAlienEnemyPool;\r\n        private ObjectPool<BigAlienEnemyProjectile> _bigAlienEnemyProjectilePool;\r\n        private ObjectPool<GunnerAlienEnemyProjectile> _gunnerAlienEnemyProjectilePool;\r\n\r\n        public CapsuleActor Capsule { get; private set; }\r\n        \r\n        public PlayerActor Player { get; private set; }\r\n        \r\n        public Health.Health PlayerHealth { get; private set; }\r\n        \r\n        public Transform PlayerTransform { get; private set; }\r\n        \r\n        public Level Level { get; private set; }\r\n\r\n        public List<Vector3> SmallEnemyAlienSpawnPoints { get; private set; }\r\n        \r\n        public List<Vector3> BigEnemyAlienSpawnPoints { get; private set; }\r\n        \r\n        public List<Vector3> GunnerEnemyAlienSpawnPoints { get; private set; }\r\n        \r\n        public List<Vector3> StoneSpawnPoints { get; private set; }\r\n        \r\n        public List<Vector3> GoldCoreSpawnPoints { get; private set; }\r\n        \r\n        public List<Vector3> HealingCoreSpawnPoints { get; private set; }\r\n\r\n        public event Action PlayerIsSpawned;\r\n\r\n        public GameInitSystem(PlayerInitData playerData, SmallAlienEnemyInitData smallAlienEnemyData,\r\n            BigAlienEnemyInitData bigAlienEnemyData, GunnerAlienEnemyInitData gunnerAlienEnemyData,\r\n            StoneInitData stoneData, CapsuleInitData capsuleData, LevelInitData levelData,\r\n            HealingCoreInitData healingCoreData, GoldCoreInitData goldCoreData)\r\n        {\r\n            _playerInitData = playerData;\r\n            _smallAlienEnemyInitData = smallAlienEnemyData;\r\n            _bigAlienEnemyData = bigAlienEnemyData;\r\n            _gunnerAlienEnemyData = gunnerAlienEnemyData;\r\n            _stoneInitData = stoneData;\r\n            _healingCoreInitData = healingCoreData;\r\n            _goldCoreInitData = goldCoreData;\r\n            _capsuleInitData = capsuleData;\r\n            \r\n            Level = Object.Instantiate(levelData.LevelPrefab);\r\n            SmallEnemyAlienSpawnPoints = levelData.SmallEnemyAlienSpawnPoints;\r\n            BigEnemyAlienSpawnPoints = levelData.BigEnemyAlienSpawnPoints;\r\n            GunnerEnemyAlienSpawnPoints = levelData.GunnerEnemyAlienSpawnPoints;\r\n            StoneSpawnPoints = levelData.StoneSpawnPoints;\r\n            GoldCoreSpawnPoints = levelData.GoldCoreSpawnPoints;\r\n            HealingCoreSpawnPoints = levelData.HealingCoreSpawnPoints;\r\n            _playerSpawnPoint = levelData.PlayerSpawnPoint;\r\n        }\r\n\r\n        public void Init()\r\n        {\r\n            Player = CreatePlayer();\r\n            PlayerHealth = Player.Health;\r\n            Player.gameObject.SetActive(false);\r\n\r\n            Level.GetServices(this, _timer, _adviserMessagePanel);\r\n            \r\n            if (Level is SecondMarsLevel secondMarsLevel)\r\n            {\r\n                secondMarsLevel.GetBallisticProgressBar(_ballisticRocketProgressBar);\r\n            }\r\n\r\n            CreateEnemyObjectPools();\r\n        }\r\n\r\n        public void Run()\r\n        {\r\n            if (Capsule != null)\r\n            {\r\n                LaunchPlayerCapsule();\r\n            }\r\n        }\r\n\r\n        public void CreateCapsule()\r\n        {\r\n            _audioSoundsService.PlaySound(Sounds.CapsuleFlight);\r\n            \r\n            _capsuleSpawnPoint = Player.transform.position;\r\n            _capsuleSpawnPoint.y += CapsuleHeight;\r\n            \r\n            Capsule = Object.Instantiate(_capsuleInitData.Prefab, _capsuleSpawnPoint, Quaternion.identity);\r\n        }\r\n\r\n        public void SpawnPlayer()\r\n        {\r\n            Player.gameObject.SetActive(true);\r\n            PlayerIsSpawned?.Invoke();\r\n            \r\n            if (Player.Health.TargetHealth <= MinValue)\r\n            {\r\n                Player.Health.SetHealthValue();\r\n            }\r\n        }\r\n\r\n        private void LaunchPlayerCapsule()\r\n        {\r\n            Capsule.transform.position = Vector3.MoveTowards(Capsule.transform.position, Player.transform.position,\r\n                _capsuleInitData.DefaultMoveSpeed * Time.deltaTime);\r\n\r\n            if (Capsule.transform.position == Player.transform.position)\r\n            {\r\n                SpawnPlayer();\r\n                Capsule.Destroy();\r\n            }\r\n        }\r\n\r\n        private PlayerActor CreatePlayer()\r\n        {\r\n            var playerActor = Object.Instantiate(_playerInitData.Prefab, _playerSpawnPoint, Quaternion.identity);\r\n            \r\n            playerActor.MiningToolActor.GetAudioService(_audioSoundsService);\r\n\r\n            PlayerTransform = playerActor.transform;\r\n            \r\n            var player = _world.NewEntity();\r\n\r\n            ref var inputEventComponent = ref player.Get<InputEventComponent>();\r\n            inputEventComponent.PlayerInputController = playerActor.PlayerInputController;\r\n            \r\n            ref var playerComponent = ref player.Get<PlayerComponent>();\r\n            playerComponent.MiningTool = playerActor.MiningToolActor;\r\n\r\n            ref var movableComponent = ref player.Get<PlayerMovableComponent>();\r\n            movableComponent.MoveSpeed = _playerInitData.DefaultMoveSpeed;\r\n            movableComponent.RotationSpeed = _playerInitData.DefaultRotationSpeed;\r\n            movableComponent.Transform = playerActor.transform;\r\n            movableComponent.Rigidbody = playerActor.Rigidbody;\r\n\r\n            ref var animationsComponent = ref player.Get<AnimatedComponent>();\r\n            animationsComponent.Animator = playerActor.Animator;\r\n\r\n            return playerActor;\r\n        }\r\n        \r\n        public SmallAlienEnemy CreateSmallAlienEnemy(PlayerActor target)\r\n        {\r\n            var smallEnemyAlienActor = _smallAlienEnemyPool.GetFreeElement();\r\n            smallEnemyAlienActor.Construct(_experiencePoints, _textService);\r\n\r\n            if (smallEnemyAlienActor.Health.TargetHealth <= MinValue)\r\n            {\r\n                smallEnemyAlienActor.Health.SetHealthValue();\r\n            }\r\n            \r\n            var entity = _world.NewEntity();\r\n            \r\n            ref var enemyComponent = ref entity.Get<EnemyComponent>();\r\n            enemyComponent.Health = smallEnemyAlienActor.Health;\r\n\r\n            ref var enemyMovableComponent = ref entity.Get<EnemyMovableComponent>();\r\n            enemyMovableComponent.Transform = smallEnemyAlienActor.transform;\r\n            enemyMovableComponent.IsMoving = true;\r\n\r\n            ref var enemyAnimationsComponent = ref entity.Get<AnimatedComponent>();\r\n            enemyAnimationsComponent.Animator = smallEnemyAlienActor.Animator;\r\n\r\n            ref var followComponent = ref entity.Get<FollowPlayerComponent>();\r\n            followComponent.Target = target;\r\n            followComponent.NavMeshAgent = smallEnemyAlienActor.NavMeshAgent;\r\n\r\n            ref var attackComponent = ref entity.Get<EnemyMeleeAttackComponent>();\r\n            attackComponent.Damage = _smallAlienEnemyInitData.DefaultDamage;\r\n\r\n            return smallEnemyAlienActor;\r\n        }\r\n\r\n        public BigAlienEnemy CreateBigAlienEnemy(PlayerActor target)\r\n        {\r\n            var bigEnemyAlienActor = _bigAlienEnemyPool.GetFreeElement();\r\n            bigEnemyAlienActor.Construct(_experiencePoints, _textService);\r\n            \r\n            if (bigEnemyAlienActor.Health.TargetHealth <= MinValue)\r\n            {\r\n                bigEnemyAlienActor.Health.SetHealthValue();\r\n            }\r\n            \r\n            var entity = _world.NewEntity();\r\n            \r\n            ref var enemyComponent = ref entity.Get<EnemyComponent>();\r\n            enemyComponent.Health = bigEnemyAlienActor.Health;\r\n\r\n            ref var enemyMovableComponent = ref entity.Get<EnemyMovableComponent>();\r\n            enemyMovableComponent.Transform = bigEnemyAlienActor.transform;\r\n            enemyMovableComponent.IsMoving = true;\r\n\r\n            ref var enemyAnimationsComponent = ref entity.Get<AnimatedComponent>();\r\n            AnimatedStateMachine animatedStateMachine = new(bigEnemyAlienActor.Animator);\r\n            enemyAnimationsComponent.AnimatedStateMachine = animatedStateMachine;\r\n            enemyAnimationsComponent.Animator = bigEnemyAlienActor.Animator;\r\n\r\n            ref var followComponent = ref entity.Get<FollowPlayerComponent>();\r\n            followComponent.Target = target;\r\n            followComponent.NavMeshAgent = bigEnemyAlienActor.NavMeshAgent;\r\n\r\n            ref var attackComponent = ref entity.Get<EnemyBigAlienAttackComponent>();\r\n\r\n            bigEnemyAlienActor.Weapon.SetData(target.transform, _bigAlienEnemyProjectilePool);\r\n\r\n            return bigEnemyAlienActor;\r\n        }\r\n\r\n        public GunnerAlienEnemy CreateGunnerAlienEnemy(PlayerActor target)\r\n        {\r\n            var gunnerEnemyAlienActor = _gunnerAlienEnemyPool.GetFreeElement();\r\n            gunnerEnemyAlienActor.Construct(_experiencePoints, _textService);\r\n            \r\n            if (gunnerEnemyAlienActor.Health.TargetHealth <= MinValue)\r\n            {\r\n                gunnerEnemyAlienActor.Health.SetHealthValue();\r\n            }\r\n            \r\n            var entity = _world.NewEntity();\r\n            \r\n            ref var enemyComponent = ref entity.Get<EnemyComponent>();\r\n            enemyComponent.Health = gunnerEnemyAlienActor.Health;\r\n\r\n            ref var enemyMovableComponent = ref entity.Get<EnemyMovableComponent>();\r\n            enemyMovableComponent.Transform = gunnerEnemyAlienActor.transform;\r\n            enemyMovableComponent.IsMoving = true;\r\n\r\n            ref var enemyAnimationsComponent = ref entity.Get<AnimatedComponent>();\r\n            AnimatedStateMachine animatedStateMachine = new(gunnerEnemyAlienActor.Animator);\r\n            enemyAnimationsComponent.AnimatedStateMachine = animatedStateMachine;\r\n            enemyAnimationsComponent.Animator = gunnerEnemyAlienActor.Animator;\r\n\r\n            ref var followComponent = ref entity.Get<FollowPlayerComponent>();\r\n            followComponent.Target = target;\r\n            followComponent.NavMeshAgent = gunnerEnemyAlienActor.NavMeshAgent;\r\n\r\n            ref var attackComponent = ref entity.Get<EnemyGunnerAlienAttackComponent>();\r\n\r\n            gunnerEnemyAlienActor.Weapon.SetData(target.transform, _gunnerAlienEnemyProjectilePool);\r\n\r\n            return gunnerEnemyAlienActor;\r\n        }\r\n\r\n        public void CreateStone(Vector3 atPosition)\r\n        {\r\n            var stone = Object.Instantiate(_stoneInitData.StoneActorPrefab, atPosition, Quaternion.Euler(_stoneRotation));\r\n            stone.GetExperiencePoints(_experiencePoints);\r\n\r\n            InitResource(stone);\r\n        }\r\n\r\n        public void CreateHealingCore(Vector3 atPosition)\r\n        {\r\n            var healingCore = Object.Instantiate(_healingCoreInitData.HealingCorePrefab, atPosition, Quaternion.identity);\r\n            healingCore.GetExperiencePoints(_experiencePoints);\r\n            healingCore.GetServices(_textService);\r\n            \r\n            InitResource(healingCore);\r\n        }\r\n        \r\n        public void CreateGoldCore(Vector3 atPosition)\r\n        {\r\n            var goldCore = Object.Instantiate(_goldCoreInitData.GoldCorePrefab, atPosition, Quaternion.identity);\r\n            goldCore.GetExperiencePoints(_experiencePoints);\r\n            goldCore.GetServices(_textService, _goldView);\r\n            \r\n            InitResource(goldCore);\r\n        }\r\n\r\n        private void InitResource(ResourceActor resource)\r\n        {\r\n            var entity = _world.NewEntity();\r\n\r\n            ref var resourceComponent = ref entity.Get<ResourceComponent>();\r\n            resourceComponent.Health = resource.Health;\r\n\r\n            ref var animatedComponent = ref entity.Get<AnimatedComponent>();\r\n            animatedComponent.Animator = resource.Animator;\r\n        }\r\n        \r\n        private void CreateEnemyObjectPools()\r\n        {\r\n            if(SmallEnemyAlienSpawnPoints.Count > 0)\r\n                _smallAlienEnemyPool = new ObjectPool<SmallAlienEnemy>(_smallAlienEnemyInitData.SmallAlienEnemyPrefab,\r\n                    SmallEnemyAlienSpawnPoints.Count, new GameObject(SmallEnemyAlienPool).transform)\r\n                {\r\n                    AutoExpand = IsAutoExpand\r\n                };\r\n\r\n            if (BigEnemyAlienSpawnPoints.Count > 0)\r\n            {\r\n                _bigAlienEnemyPool = new ObjectPool<BigAlienEnemy>(_bigAlienEnemyData.BigAlienEnemyPrefab,\r\n                    BigEnemyAlienSpawnPoints.Count, new GameObject(BigEnemyAlienPool).transform)\r\n                {\r\n                    AutoExpand = IsAutoExpand\r\n                };\r\n                \r\n                _bigAlienEnemyProjectilePool = new ObjectPool<BigAlienEnemyProjectile>(_bigAlienEnemyData.ProjectilePrefab, \r\n                    CountAlienEnemyProjectile, new GameObject(BigAlienEnemyProjectilePool).transform)\r\n                {\r\n                    AutoExpand = IsAutoExpand\r\n                };\r\n            }\r\n\r\n            if (GunnerEnemyAlienSpawnPoints.Count > 0)\r\n            {\r\n                _gunnerAlienEnemyPool = new ObjectPool<GunnerAlienEnemy>(_gunnerAlienEnemyData.GunnerAlienEnemyPrefab, \r\n                    GunnerEnemyAlienSpawnPoints.Count, new GameObject(GunnerAlienEnemyPool).transform)\r\n                {\r\n                    AutoExpand = IsAutoExpand\r\n                };\r\n                \r\n                _gunnerAlienEnemyProjectilePool = new ObjectPool<GunnerAlienEnemyProjectile>(_gunnerAlienEnemyData.ProjectilePrefab, \r\n                    CountAlienEnemyProjectile, new GameObject(GunnerAlienEnemyProjectilePool).transform)\r\n                {\r\n                    AutoExpand = IsAutoExpand\r\n                };\r\n            }\r\n        }\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Assets/Project/Scripts/ECS/System/GameInitSystem.cs b/Assets/Project/Scripts/ECS/System/GameInitSystem.cs
+--- a/Assets/Project/Scripts/ECS/System/GameInitSystem.cs	(revision 4f05ecbf54cc3c1bbe43292e4368a0b2e8c7a135)
++++ b/Assets/Project/Scripts/ECS/System/GameInitSystem.cs	(date 1739450834256)
+@@ -62,31 +62,21 @@
+         private ObjectPool<GunnerAlienEnemy> _gunnerAlienEnemyPool;
+         private ObjectPool<BigAlienEnemyProjectile> _bigAlienEnemyProjectilePool;
+         private ObjectPool<GunnerAlienEnemyProjectile> _gunnerAlienEnemyProjectilePool;
++        
++        public event Action PlayerIsSpawned;
+ 
+         public CapsuleActor Capsule { get; private set; }
+-        
+         public PlayerActor Player { get; private set; }
+-        
+         public Health.Health PlayerHealth { get; private set; }
+-        
+         public Transform PlayerTransform { get; private set; }
+-        
+         public Level Level { get; private set; }
+-
+         public List<Vector3> SmallEnemyAlienSpawnPoints { get; private set; }
+-        
+         public List<Vector3> BigEnemyAlienSpawnPoints { get; private set; }
+-        
+         public List<Vector3> GunnerEnemyAlienSpawnPoints { get; private set; }
+-        
+         public List<Vector3> StoneSpawnPoints { get; private set; }
+-        
+         public List<Vector3> GoldCoreSpawnPoints { get; private set; }
+-        
+         public List<Vector3> HealingCoreSpawnPoints { get; private set; }
+ 
+-        public event Action PlayerIsSpawned;
+-
+         public GameInitSystem(PlayerInitData playerData, SmallAlienEnemyInitData smallAlienEnemyData,
+             BigAlienEnemyInitData bigAlienEnemyData, GunnerAlienEnemyInitData gunnerAlienEnemyData,
+             StoneInitData stoneData, CapsuleInitData capsuleData, LevelInitData levelData,
+Index: Assets/Project/Scripts/Weapon/Player/ClosestEnemyDetector.cs
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Assets/Project/Scripts/Weapon/Player/ClosestEnemyDetector.cs b/Assets/Project/Scripts/Weapon/Player/NearestEnemyDetector.cs
+rename from Assets/Project/Scripts/Weapon/Player/ClosestEnemyDetector.cs
+rename to Assets/Project/Scripts/Weapon/Player/NearestEnemyDetector.cs
+--- a/Assets/Project/Scripts/Weapon/Player/ClosestEnemyDetector.cs	(revision 4f05ecbf54cc3c1bbe43292e4368a0b2e8c7a135)
++++ b/Assets/Project/Scripts/Weapon/Player/NearestEnemyDetector.cs	(date 1739444734798)
+@@ -1,10 +1,11 @@
++using System;
+ using System.Collections.Generic;
+ using Project.Scripts.ECS.EntityActors;
+ using UnityEngine;
+ 
+ namespace Project.Scripts.Weapon.Player
+ {
+-    public class ClosestEnemyDetector : MonoBehaviour
++    public class NearestEnemyDetector : MonoBehaviour
+     {
+         private const float MinValue = 0f;
+         private const float SearchRadius = 5f;
+@@ -12,10 +13,11 @@
+         private readonly List<EnemyAlienActor> _enemies = new ();
+     
+         private float _currentDistanceOfClosestEnemy;
++        private EnemyAlienActor _nearestAlienEnemy;
+ 
+-        public EnemyAlienActor СlosestAlienEnemy { get; private set; }
++        public event Action<EnemyAlienActor> ChangedNearestEnemy;
+ 
+-        private void Update()
++        private void FixedUpdate()
+         {
+             SetClosestEnemy();
+         }
+@@ -42,8 +44,9 @@
+ 
+                     if (_currentDistanceOfClosestEnemy < distance)
+                     {
+-                        СlosestAlienEnemy = enemy;
++                        _nearestAlienEnemy = enemy;
+                         distance = _currentDistanceOfClosestEnemy;
++                        ChangedNearestEnemy?.Invoke(_nearestAlienEnemy);
+                     }
+                 }
+             }
+Index: Assets/Project/Scripts/Game/StateMachine/GameStateData.cs
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Assets/Project/Scripts/Game/StateMachine/GameStateData.cs b/Assets/Project/Scripts/Game/StateMachine/GameStateData.cs
+new file mode 100644
+--- /dev/null	(date 1739443932854)
++++ b/Assets/Project/Scripts/Game/StateMachine/GameStateData.cs	(date 1739443932854)
+@@ -0,0 +1,7 @@
++namespace Project.Scripts.Game.StateMachine
++{
++    public class GameStateData
++    {
++        
++    }
++}
+\ No newline at end of file
+Index: Assets/Project/Scripts/Weapon/Player/FourBarrelMachineGun.cs
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>using System.Collections;\r\nusing System.Collections.Generic;\r\nusing Project.Game.Scripts;\r\nusing Project.Scripts.Projectiles.Bullets;\r\nusing Project.Scripts.Services;\r\nusing Project.Scripts.Weapon.Improvements;\r\nusing UnityEngine;\r\n\r\nnamespace Project.Scripts.Weapon.Player\r\n{\r\n    public class FourBarrelMachineGun : PlayerWeapon\r\n    {\r\n        private const string ObjectPoolBulletName = \"PoolFourBarrelMachineGunBullets\";\r\n        private const bool IsAutoExpandPool = true;\r\n    \r\n        private const float MinValue = 0f;\r\n        private const float DelayBetweenShots = 0.1f;\r\n        private const int CountBullets = 4;\r\n\r\n        private readonly List<Vector3> _directions = new ();\r\n\r\n        [SerializeField] private FourBarrelMachineGunBullet _bulletPrefab;\r\n        [SerializeField] private int _countBulletsForPool;\r\n        [SerializeField] private Transform _shootPoint;\r\n\r\n        private float _lastBurstTime;\r\n        private int _maxCountShots;\r\n        private bool _isShooting = true;\r\n\r\n        private Coroutine _coroutine;\r\n        private FourBarrelMachineGunBullet _bullet;\r\n    \r\n        private AudioSoundsService _audioSoundsService;\r\n        private ObjectPool<FourBarrelMachineGunBullet> _poolBullets;\r\n\r\n        public MachineGunCharacteristics MachineGunCharacteristics { get; } = new();\r\n\r\n        public void Construct(AudioSoundsService audioSoundsService)\r\n        {\r\n            _audioSoundsService = audioSoundsService;\r\n        }\r\n\r\n        private void Awake()\r\n        {\r\n            _poolBullets = new ObjectPool<FourBarrelMachineGunBullet>(_bulletPrefab, _countBulletsForPool, new GameObject(ObjectPoolBulletName).transform);\r\n            _poolBullets.AutoExpand = IsAutoExpandPool;\r\n        \r\n            _directions.Add(transform.forward);\r\n            _directions.Add(transform.right);\r\n            _directions.Add(-transform.forward);\r\n            _directions.Add(-transform.right);\r\n        }\r\n\r\n        private void Start()\r\n        {\r\n            _maxCountShots = MachineGunCharacteristics.MaxCountShots;\r\n        }\r\n\r\n        private void FixedUpdate()\r\n        {\r\n            if (_isShooting)\r\n                Shoot();\r\n\r\n            CheckAmmoAndReload();\r\n        }\r\n    \r\n        public override void Shoot()\r\n        {\r\n            if (_lastBurstTime <= MinValue)\r\n            {\r\n                _audioSoundsService.PlaySound(Sounds.FourBarrelMachineGun);\r\n\r\n                foreach (Vector3 direction in _directions)\r\n                {\r\n                    StartCoroutine(LaunchBullet(direction));\r\n                }\r\n            \r\n                _lastBurstTime = MachineGunCharacteristics.FireRate;\r\n            }\r\n\r\n            _lastBurstTime -= Time.fixedDeltaTime;\r\n        }\r\n    \r\n        public override void AcceptWeaponImprovement(IWeaponVisitor weaponVisitor, CharacteristicsTypes type, float value)\r\n        {\r\n            weaponVisitor.Visit(this, type, value);\r\n        }\r\n\r\n        private void CheckAmmoAndReload()\r\n        {\r\n            if (_maxCountShots <= MinValue)\r\n            {\r\n                _isShooting = false;\r\n                StartCoroutine(Reload());\r\n            }\r\n        }\r\n\r\n        private IEnumerator Reload()\r\n        {\r\n            yield return new WaitForSeconds(MachineGunCharacteristics.ReloadTime);\r\n\r\n            _maxCountShots = MachineGunCharacteristics.MaxCountShots;\r\n            _isShooting = true;\r\n        }\r\n\r\n        private IEnumerator LaunchBullet(Vector3 direction)\r\n        {\r\n            for (int i = 0; i < CountBullets; i++)\r\n            {\r\n                _bullet = _poolBullets.GetFreeElement();\r\n\r\n                _maxCountShots--;\r\n        \r\n                _bullet.transform.position = _shootPoint.position + Vector3.one * Random.Range(-0.2f, 0.2f);\r\n        \r\n                _bullet.SetDirection(direction);\r\n                _bullet.SetCharacteristics(MachineGunCharacteristics.Damage, MachineGunCharacteristics.BulletSpeed);\r\n\r\n                yield return new WaitForSeconds(DelayBetweenShots);\r\n            }\r\n        }\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Assets/Project/Scripts/Weapon/Player/FourBarrelMachineGun.cs b/Assets/Project/Scripts/Weapon/Player/FourBarrelMachineGun.cs
+--- a/Assets/Project/Scripts/Weapon/Player/FourBarrelMachineGun.cs	(revision 4f05ecbf54cc3c1bbe43292e4368a0b2e8c7a135)
++++ b/Assets/Project/Scripts/Weapon/Player/FourBarrelMachineGun.cs	(date 1739446847714)
+@@ -1,6 +1,7 @@
+ using System.Collections;
+ using System.Collections.Generic;
+ using Project.Game.Scripts;
++using Project.Scripts.ECS.EntityActors;
+ using Project.Scripts.Projectiles.Bullets;
+ using Project.Scripts.Services;
+ using Project.Scripts.Weapon.Improvements;
+@@ -31,13 +32,17 @@
+         private FourBarrelMachineGunBullet _bullet;
+     
+         private AudioSoundsService _audioSoundsService;
++        private NearestEnemyDetector _detector;
+         private ObjectPool<FourBarrelMachineGunBullet> _poolBullets;
+ 
+         public MachineGunCharacteristics MachineGunCharacteristics { get; } = new();
+ 
+-        public void Construct(AudioSoundsService audioSoundsService)
++        public void Construct(NearestEnemyDetector detector, AudioSoundsService audioSoundsService)
+         {
++            _detector = detector;
+             _audioSoundsService = audioSoundsService;
++
++            _detector.ChangedNearestEnemy += OnChangedNearestEnemy;
+         }
+ 
+         private void Awake()
+@@ -56,36 +61,43 @@
+             _maxCountShots = MachineGunCharacteristics.MaxCountShots;
+         }
+ 
+-        private void FixedUpdate()
++        public override IEnumerator Shoot()
+         {
+-            if (_isShooting)
+-                Shoot();
++            // (_lastBurstTime <= MinValue)
++            //{
+ 
+-            CheckAmmoAndReload();
+-        }
+-    
+-        public override void Shoot()
+-        {
+-            if (_lastBurstTime <= MinValue)
+-            {
+-                _audioSoundsService.PlaySound(Sounds.FourBarrelMachineGun);
++            _audioSoundsService.PlaySound(Sounds.FourBarrelMachineGun);
+ 
+-                foreach (Vector3 direction in _directions)
+-                {
+-                    StartCoroutine(LaunchBullet(direction));
+-                }
++            foreach (Vector3 direction in _directions)
++            {
++                StartCoroutine(LaunchBullet(direction));
++            }
+             
+-                _lastBurstTime = MachineGunCharacteristics.FireRate;
+-            }
++            yield return new WaitForSeconds(MachineGunCharacteristics.FireRate);
++            
++                //_lastBurstTime = MachineGunCharacteristics.FireRate;
+ 
+-            _lastBurstTime -= Time.fixedDeltaTime;
++                //}
++
++                //_lastBurstTime -= Time.fixedDeltaTime;
+         }
+     
+         public override void AcceptWeaponImprovement(IWeaponVisitor weaponVisitor, CharacteristicsTypes type, float value)
+         {
+             weaponVisitor.Visit(this, type, value);
+         }
++        
++        private void OnChangedNearestEnemy(EnemyAlienActor nearestEnemy)
++        {
++            if(nearestEnemy == null)
++                return;
+ 
++            if (_isShooting)
++                StartCoroutine(Shoot());
++
++            CheckAmmoAndReload();
++        }
++
+         private void CheckAmmoAndReload()
+         {
+             if (_maxCountShots <= MinValue)
+@@ -119,5 +131,10 @@
+                 yield return new WaitForSeconds(DelayBetweenShots);
+             }
+         }
++        
++        private void OnDestroy()
++        {
++            _detector.ChangedNearestEnemy -= OnChangedNearestEnemy;
++        }
+     }
+ }
+Index: Assets/Project/Scripts/Game/StateMachine/GameStateData.cs.meta
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Assets/Project/Scripts/Game/StateMachine/GameStateData.cs.meta b/Assets/Project/Scripts/Game/StateMachine/GameStateData.cs.meta
+new file mode 100644
+--- /dev/null	(date 1739443932903)
++++ b/Assets/Project/Scripts/Game/StateMachine/GameStateData.cs.meta	(date 1739443932903)
+@@ -0,0 +1,3 @@
++fileFormatVersion: 2
++guid: 911ab146881e4468a6e24544fb05f06c
++timeCreated: 1739443932
+\ No newline at end of file
+Index: Assets/Project/Scripts/Weapon/Player/FragGrenades.cs
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>using Project.Game.Scripts;\r\nusing Project.Scripts.ECS.EntityActors;\r\nusing Project.Scripts.Projectiles.Grenades;\r\nusing Project.Scripts.Services;\r\nusing Project.Scripts.Weapon.Improvements;\r\nusing UnityEngine;\r\n\r\nnamespace Project.Scripts.Weapon.Player\r\n{\r\n    public class FragGrenades : PlayerWeapon\r\n    {\r\n        private const string ObjectPoolGrenadeName = \"PoolGrenades\";\r\n        private const int CountGrenades = 1;\r\n        private const bool IsAutoExpandPool = true;\r\n        private const float MinValue = 0f;\r\n\r\n        [SerializeField] private ParticleSystem _explosionEffect;\r\n        [SerializeField] private FragGrenade _fragGrenade;\r\n        [SerializeField] private Transform _shootPoint;\r\n\r\n        private ClosestEnemyDetector _detector;\r\n        private AudioSoundsService _audioSoundsService;\r\n        \r\n        private float _lastShotTime;\r\n        private EnemyAlienActor closestSmallAlienEnemy;\r\n\r\n        private ObjectPool<FragGrenade> _poolGrenades;\r\n\r\n        public FragGrenadeCharacteristics FragGrenadeCharacteristics { get; } = new ();\r\n\r\n        public void Construct(ClosestEnemyDetector detector, AudioSoundsService audioSoundsService)\r\n        {\r\n            _detector = detector;\r\n            _audioSoundsService = audioSoundsService;\r\n        }\r\n\r\n        private void Awake()\r\n        {\r\n            _poolGrenades = new ObjectPool<FragGrenade>(_fragGrenade, CountGrenades, new GameObject(ObjectPoolGrenadeName).transform)\r\n            {\r\n                AutoExpand = IsAutoExpandPool\r\n            };\r\n        }\r\n\r\n        private void Start()\r\n        {\r\n            _explosionEffect = Instantiate(_explosionEffect);\r\n            _explosionEffect.Stop();\r\n        }\r\n\r\n        private void FixedUpdate()\r\n        {\r\n            closestSmallAlienEnemy = _detector.СlosestAlienEnemy;\r\n        \r\n            if (closestSmallAlienEnemy != null)\r\n            {\r\n                if (Vector3.Distance(closestSmallAlienEnemy.transform.position, transform.position) <= FragGrenadeCharacteristics.RangeAttack)\r\n                {\r\n                    Shoot();\r\n                }\r\n            }\r\n        }\r\n        \r\n        public override void Shoot()\r\n        {\r\n            if (_lastShotTime <= MinValue && closestSmallAlienEnemy.Health.TargetHealth > MinValue)\r\n            {\r\n                _fragGrenade = _poolGrenades.GetFreeElement();\r\n                _fragGrenade.GetExplosionEffects(_explosionEffect, _audioSoundsService);\r\n\r\n                _fragGrenade.transform.position = _shootPoint.position;\r\n\r\n                _fragGrenade.SetDirection(closestSmallAlienEnemy.transform);\r\n                _fragGrenade.SetCharacteristics(FragGrenadeCharacteristics.Damage, FragGrenadeCharacteristics.ExplosionRadius,\r\n                    FragGrenadeCharacteristics.GrenadeSpeed);\r\n\r\n                _lastShotTime = FragGrenadeCharacteristics.FireRate;\r\n            }\r\n\r\n            _lastShotTime -= Time.fixedDeltaTime;\r\n        }\r\n        \r\n        public override void AcceptWeaponImprovement(IWeaponVisitor weaponVisitor, CharacteristicsTypes type, float value)\r\n        {\r\n            weaponVisitor.Visit(this, type, value);\r\n        }\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Assets/Project/Scripts/Weapon/Player/FragGrenades.cs b/Assets/Project/Scripts/Weapon/Player/FragGrenades.cs
+--- a/Assets/Project/Scripts/Weapon/Player/FragGrenades.cs	(revision 4f05ecbf54cc3c1bbe43292e4368a0b2e8c7a135)
++++ b/Assets/Project/Scripts/Weapon/Player/FragGrenades.cs	(date 1739446953696)
+@@ -1,3 +1,4 @@
++using System.Collections;
+ using Project.Game.Scripts;
+ using Project.Scripts.ECS.EntityActors;
+ using Project.Scripts.Projectiles.Grenades;
+@@ -18,20 +19,22 @@
+         [SerializeField] private FragGrenade _fragGrenade;
+         [SerializeField] private Transform _shootPoint;
+ 
+-        private ClosestEnemyDetector _detector;
++        private NearestEnemyDetector _detector;
+         private AudioSoundsService _audioSoundsService;
+         
+         private float _lastShotTime;
+-        private EnemyAlienActor closestSmallAlienEnemy;
++        private EnemyAlienActor _nearestEnemy;
+ 
+         private ObjectPool<FragGrenade> _poolGrenades;
+ 
+         public FragGrenadeCharacteristics FragGrenadeCharacteristics { get; } = new ();
+ 
+-        public void Construct(ClosestEnemyDetector detector, AudioSoundsService audioSoundsService)
++        public void Construct(NearestEnemyDetector detector, AudioSoundsService audioSoundsService)
+         {
+             _detector = detector;
+             _audioSoundsService = audioSoundsService;
++            
++            _detector.ChangedNearestEnemy += OnChangedNearestEnemy;
+         }
+ 
+         private void Awake()
+@@ -48,41 +51,53 @@
+             _explosionEffect.Stop();
+         }
+ 
+-        private void FixedUpdate()
++        public override IEnumerator Shoot()
+         {
+-            closestSmallAlienEnemy = _detector.СlosestAlienEnemy;
+-        
+-            if (closestSmallAlienEnemy != null)
+-            {
+-                if (Vector3.Distance(closestSmallAlienEnemy.transform.position, transform.position) <= FragGrenadeCharacteristics.RangeAttack)
+-                {
+-                    Shoot();
+-                }
+-            }
+-        }
+-        
+-        public override void Shoot()
+-        {
+-            if (_lastShotTime <= MinValue && closestSmallAlienEnemy.Health.TargetHealth > MinValue)
+-            {
+-                _fragGrenade = _poolGrenades.GetFreeElement();
+-                _fragGrenade.GetExplosionEffects(_explosionEffect, _audioSoundsService);
++            //if (_lastShotTime <= MinValue && _nearestEnemy.Health.TargetHealth > MinValue)
++            //{
++            if (_nearestEnemy.Health.TargetHealth <= MinValue)
++                yield return null;
++            
++            _fragGrenade = _poolGrenades.GetFreeElement();
++            _fragGrenade.GetExplosionEffects(_explosionEffect, _audioSoundsService);
+ 
+-                _fragGrenade.transform.position = _shootPoint.position;
++            _fragGrenade.transform.position = _shootPoint.position;
+ 
+-                _fragGrenade.SetDirection(closestSmallAlienEnemy.transform);
+-                _fragGrenade.SetCharacteristics(FragGrenadeCharacteristics.Damage, FragGrenadeCharacteristics.ExplosionRadius,
+-                    FragGrenadeCharacteristics.GrenadeSpeed);
++            _fragGrenade.SetDirection(_nearestEnemy.transform);
++            _fragGrenade.SetCharacteristics(FragGrenadeCharacteristics.Damage, FragGrenadeCharacteristics.ExplosionRadius,
++                FragGrenadeCharacteristics.GrenadeSpeed);
+ 
+-                _lastShotTime = FragGrenadeCharacteristics.FireRate;
+-            }
++            _lastShotTime = FragGrenadeCharacteristics.FireRate;
+ 
+-            _lastShotTime -= Time.fixedDeltaTime;
++            yield return new WaitForSeconds(FragGrenadeCharacteristics.FireRate);
++            
++            //}
++
++            //_lastShotTime -= Time.fixedDeltaTime;
+         }
+         
+         public override void AcceptWeaponImprovement(IWeaponVisitor weaponVisitor, CharacteristicsTypes type, float value)
+         {
+             weaponVisitor.Visit(this, type, value);
+         }
++        
++        private void OnChangedNearestEnemy(EnemyAlienActor nearestEnemy)
++        {
++            _nearestEnemy = nearestEnemy;
++        
++            if (_nearestEnemy != null)
++            {
++                if (Vector3.Distance(_nearestEnemy.transform.position, transform.position)
++                    <= FragGrenadeCharacteristics.RangeAttack)
++                {
++                    StartCoroutine(Shoot());
++                }
++            }
++        }
++        
++        private void OnDestroy()
++        {
++            _detector.ChangedNearestEnemy -= OnChangedNearestEnemy;
++        }
+     }
+ }
+\ No newline at end of file
+diff --git a/Assets/Project/Scripts/Weapon/Player/ClosestEnemyDetector.cs.meta b/Assets/Project/Scripts/Weapon/Player/NearestEnemyDetector.cs.meta
+rename from Assets/Project/Scripts/Weapon/Player/ClosestEnemyDetector.cs.meta
+rename to Assets/Project/Scripts/Weapon/Player/NearestEnemyDetector.cs.meta

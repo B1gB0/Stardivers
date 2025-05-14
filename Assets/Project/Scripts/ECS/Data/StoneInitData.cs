@@ -1,14 +1,12 @@
-﻿using Build.Game.Scripts.ECS.EntityActors;
-using Project.Scripts.ECS.Data;
+﻿using Project.Scripts.ECS.EntityActors;
 using UnityEngine;
 
-namespace Build.Game.Scripts.ECS.Data
+namespace Project.Scripts.ECS.Data
 {
     [CreateAssetMenu(menuName = "InitData/StoneData")]
     public class StoneInitData : InitData
     {
         [field: SerializeField] public StoneActor StoneActorPrefab { get; private set; }
-        
         [field: SerializeField] public ParticleSystem HitEffect { get; private set; }
     }
 }

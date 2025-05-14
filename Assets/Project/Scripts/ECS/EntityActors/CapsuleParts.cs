@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-using Project.Scripts.ECS.EntityActors;
 using UnityEngine;
 
-namespace Build.Game.Scripts.ECS.EntityActors
+namespace Project.Scripts.ECS.EntityActors
 {
     public class CapsuleParts : MonoBehaviour
     {

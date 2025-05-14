@@ -1,6 +1,4 @@
-﻿using Build.Game.Scripts.ECS.Data;
-using Build.Game.Scripts.ECS.System;
-using Cinemachine;
+﻿using Cinemachine;
 using Leopotam.Ecs;
 using Project.Scripts.ECS.Data;
 using Project.Scripts.ECS.System;

@@ -9,9 +9,7 @@ namespace Project.Scripts.ECS.EntityActors
     public abstract class EnemyAlienActor : MonoBehaviour
     {
         [field: SerializeField] public Health.Health Health{ get; private set; }
-        
         [field: SerializeField] public Animator Animator { get; private set; }
-
         [field: SerializeField] public NavMeshAgent NavMeshAgent { get; private set; }
         
         protected ExperiencePoints ExperiencePoints;

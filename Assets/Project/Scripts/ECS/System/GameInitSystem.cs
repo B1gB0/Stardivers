@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Build.Game.Scripts.ECS.Data;
 using Leopotam.Ecs;
 using Project.Game.Scripts;
 using Project.Scripts.ECS.Components;

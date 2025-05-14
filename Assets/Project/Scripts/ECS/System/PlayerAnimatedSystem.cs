@@ -1,9 +1,8 @@
-﻿using Build.Game.Scripts.ECS.EntityActors;
-using Leopotam.Ecs;
+﻿using Leopotam.Ecs;
 using Project.Scripts.ECS.Components;
 using UnityEngine;
 
-namespace Build.Game.Scripts.ECS.System
+namespace Project.Scripts.ECS.System
 {
     public class PlayerAnimatedSystem : IEcsRunSystem
     {

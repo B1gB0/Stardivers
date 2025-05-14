@@ -1,4 +1,3 @@
-using Build.Game.Scripts.ECS.EntityActors;
 using Project.Scripts.ECS.EntityActors;
 
 namespace Project.Scripts.Experience
