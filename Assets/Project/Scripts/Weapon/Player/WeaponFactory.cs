@@ -29,25 +29,22 @@ namespace Project.Scripts.Weapon.Player
             _audioSoundsService = audioSoundsService;
         }
 
-        public void CreateWeapon(WeaponType weaponType)
+        public PlayerWeapon CreateWeapon(WeaponType weaponType)
         {
             switch (weaponType)
             {
                 case WeaponType.Gun :
-                    CreateGun();
-                    break;
+                    return CreateGun();
                 case WeaponType.MachineGun :
-                    CreateMachineGun();
-                    break;
+                    return CreateMachineGun();
                 case WeaponType.Mines :
-                    CreateMines();
-                    break;
+                    return CreateMines();
                 case WeaponType.FragGrenades : 
-                    CreateFragGrenades();
-                    break;
+                    return CreateFragGrenades();
                 case WeaponType.FourBarrelMachineGun :
-                    CreateFourBarrelMachineGun();
-                    break;
+                    return CreateFourBarrelMachineGun();
+                default:
+                    return null;
             }
         }
 
@@ -67,21 +64,25 @@ namespace Project.Scripts.Weapon.Player
             _enemyDetector = Instantiate(_enemyDetectorTemplate, _player);
         }
         
-        private void CreateGun()
+        private PlayerWeapon CreateGun()
         {
             Gun gun = Instantiate(_gunTemplate, _player);
             gun.Construct(_enemyDetector, _audioSoundsService);
             _weaponHolder.AddWeapon(gun);
+
+            return gun;
         }
         
-        private void CreateFourBarrelMachineGun()
+        private PlayerWeapon CreateFourBarrelMachineGun()
         {
             FourBarrelMachineGun fourBarrelMachineGun = Instantiate(fourBarrelMachineGunTemplate, _player);
             fourBarrelMachineGun.Construct(_audioSoundsService);
             _weaponHolder.AddWeapon(fourBarrelMachineGun);
+
+            return fourBarrelMachineGun;
         }
 
-        private void CreateMines()
+        private PlayerWeapon CreateMines()
         {
             MinesIsCreated?.Invoke();
             
@@ -90,20 +91,26 @@ namespace Project.Scripts.Weapon.Player
             mines.transform.position = position;
             mines.Construct(_minesButton, _audioSoundsService);
             _weaponHolder.AddWeapon(mines);
+
+            return mines;
         }
 
-        private void CreateFragGrenades()
+        private PlayerWeapon CreateFragGrenades()
         {
             FragGrenades fragGrenades = Instantiate(_fragGrenadesTemplate, _player);
             fragGrenades.Construct(_enemyDetector, _audioSoundsService);
             _weaponHolder.AddWeapon(fragGrenades);
+
+            return fragGrenades;
         }
 
-        private void CreateMachineGun()
+        private PlayerWeapon CreateMachineGun()
         {
             MachineGun machineGun = Instantiate(machineGunTemplate, _player);
             machineGun.Construct(_enemyDetector, _audioSoundsService);
             _weaponHolder.AddWeapon(machineGun);
+
+            return machineGun;
         }
     }
 }

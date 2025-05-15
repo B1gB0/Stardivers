@@ -169,8 +169,8 @@ namespace Project.Scripts.UI.Panel
             }
             else if (card is WeaponCard weaponCard)
             {
-                _weaponFactory.CreateWeapon(weaponCard.PlayerWeapon.Type);
-                UpdateImprovementCardsByWeapon(weaponCard.PlayerWeapon);
+                PlayerWeapon weapon = _weaponFactory.CreateWeapon(weaponCard.PlayerWeapon);
+                UpdateImprovementCardsByWeapon(weapon);
                 _currentWeaponCards.Remove(weaponCard);
             }
 
