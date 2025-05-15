@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using Project.Game.Scripts;
-using Project.Game.Scripts.Improvements;
 using Project.Scripts.Cards.ScriptableObjects;
 using Project.Scripts.Services;
 using Project.Scripts.UI.View;
+using Project.Scripts.Weapon.Improvements;
 using Project.Scripts.Weapon.Player;
 using Reflex.Attributes;
 using UnityEngine;
@@ -161,7 +161,7 @@ namespace Project.Scripts.UI.Panel
                 {
                     if (improvementCard.WeaponType == weapon.Type)
                     {
-                        weapon.AcceptWeaponImprovement(_weaponVisitor, improvementCard.CharacteristicsType, improvementCard.Value);
+                        weapon.AcceptWeaponImprovement(_weaponVisitor, improvementCard.CharacteristicType, improvementCard.Value);
                     }
                 }
                 

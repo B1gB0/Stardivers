@@ -8,7 +8,7 @@ namespace Project.Scripts.Weapon.Player
 {
     public class WeaponFactory : MonoBehaviour
     {
-        [SerializeField] private ClosestEnemyDetector _enemyDetectorTemplate;
+        [SerializeField] private EnemyDetector _enemyDetectorTemplate;
         [SerializeField] private Gun _gunTemplate;
         [SerializeField] private FourBarrelMachineGun fourBarrelMachineGunTemplate;
         [SerializeField] private Mines _minesTemplate;
@@ -16,7 +16,7 @@ namespace Project.Scripts.Weapon.Player
         [SerializeField] private MachineGun machineGunTemplate;
 
         private AudioSoundsService _audioSoundsService;
-        private ClosestEnemyDetector _enemyDetector;
+        private EnemyDetector _enemyDetector;
         private WeaponHolder _weaponHolder;
         private Button _minesButton;
         private Transform _player;
@@ -29,23 +29,23 @@ namespace Project.Scripts.Weapon.Player
             _audioSoundsService = audioSoundsService;
         }
 
-        public void CreateWeapon(Weapons weapons)
+        public void CreateWeapon(WeaponType weaponType)
         {
-            switch (weapons)
+            switch (weaponType)
             {
-                case Weapons.Gun :
+                case WeaponType.Gun :
                     CreateGun();
                     break;
-                case Weapons.MachineGun :
+                case WeaponType.MachineGun :
                     CreateMachineGun();
                     break;
-                case Weapons.Mines :
+                case WeaponType.Mines :
                     CreateMines();
                     break;
-                case Weapons.FragGrenades : 
+                case WeaponType.FragGrenades : 
                     CreateFragGrenades();
                     break;
-                case Weapons.FourBarrelMachineGun :
+                case WeaponType.FourBarrelMachineGun :
                     CreateFourBarrelMachineGun();
                     break;
             }

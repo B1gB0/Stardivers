@@ -1,6 +1,6 @@
 ﻿namespace Project.Scripts.Weapon.Player
 {
-    public enum Weapons
+    public enum WeaponType
     {
         Gun,
         MachineGun,

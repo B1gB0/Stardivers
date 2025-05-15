@@ -16,12 +16,15 @@ MonoBehaviour:
   documentId: 1aW67EnXuv23R8M5tDukUcb1jN2PrFGk1Dzq1VHA2ero
   selectedTogglesIds:
   - LocalizationTexts
+  - Characteristics
+  - Operations
+  - Weapons
   foldoutSerializationGUI: 1
   serializationOutputPath: ../../Configs
   serializationFileName: Configs.v0.1
   serializationFormat: 0
   _content:
-    LocalizationTexts:
+    Operations:
     - Id: mars_operation
       Ru: "\u0412\u0442\u043E\u0440\u0436\u0435\u043D\u0438\u0435 \u043D\u0430 \u041C\u0430\u0440\u0441"
       En: The Invasion of Mars
@@ -31,3 +34,50 @@ MonoBehaviour:
         \u043F\u043B\u0430\u043D\u0435\u0442\u0430"
       En: The Mysterious Planet
       Tr: Gizemli Gezegen
+    Characteristics:
+    - Id: damage
+      Ru: 
+      En: 
+      Tr: 
+    - Id: fire_rate
+      Ru: 
+      En: 
+      Tr: 
+    - Id: range_attack
+      Ru: 
+      En: 
+      Tr: 
+    - Id: reload_time
+      Ru: 
+      En: 
+      Tr: 
+    - Id: bullet_speed
+      Ru: 
+      En: 
+      Tr: 
+    - Id: explosion_radius
+      Ru: 
+      En: 
+      Tr: 
+    Weapons:
+    - Id: gun
+      Ru: "\u041F\u0438\u0441\u0442\u043E\u043B\u0435\u0442"
+      En: Gun
+      Tr: Tabanca
+    - Id: machine_gun
+      Ru: "\u041F\u0443\u043B\u0435\u043C\u0435\u0442"
+      En: Machine Gun
+      Tr: "Makinal\u0131"
+    - Id: mines
+      Ru: "\u041C\u0438\u043D\u044B"
+      En: Mines
+      Tr: "Y\xFCzler"
+    - Id: frag_grenades
+      Ru: "\u041E\u0441\u043A\u043E\u043B\u043E\u0447\u043D\u044B\u0435 \u0433\u0440\u0430\u043D\u0430\u0442\u044B"
+      En: Frag grenades
+      Tr: "Par\xE7a bombas\u0131"
+    - Id: four_barrel_machine_gun
+      Ru: "\u0427\u0435\u0442\u044B\u0440\u0435\u0445\u0441\u0442\u0432\u043E\u043B\u044C\u043D\u044B\u0439
+        \u043F\u0443\u043B\u0435\u043C\u0435\u0442"
+      En: Four barrel machine gun
+      Tr: "D\xF6rt namlulu makineli t\xFCfek"

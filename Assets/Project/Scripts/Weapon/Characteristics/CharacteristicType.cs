@@ -1,6 +1,6 @@
-﻿namespace Project.Game.Scripts
+﻿namespace Project.Scripts.Weapon.Characteristics
 {
-    public enum CharacteristicsTypes
+    public enum CharacteristicType
     {
         Damage,
         FireRate,

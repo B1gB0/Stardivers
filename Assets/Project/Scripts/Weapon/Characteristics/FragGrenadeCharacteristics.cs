@@ -1,36 +1,40 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
-namespace Project.Game.Scripts
+namespace Project.Scripts.Weapon.Characteristics
 {
+    [Serializable]
     public class FragGrenadeCharacteristics
     {
-        public float RangeAttack { get; private set; } = 5f;
-
-        public float FireRate { get; private set; } = 5f;
-
-        public float GrenadeSpeed { get; private set; } = 10f;
+        [SerializeField] private float _rangeAttack = 5f;
+        [SerializeField] private float _fireRate = 5f;
+        [SerializeField] private float _grenadeSpeed = 10f;
+        [SerializeField] private float _explosionRadius = 3f;
+        [SerializeField] private float _damage = 10f;
         
-        public float ExplosionRadius { get; private set; } = 3f;
-
-        public float Damage { get; private set; } = 10f;
+        public float RangeAttack => _rangeAttack;
+        public float FireRate => _fireRate;
+        public float GrenadeSpeed => _grenadeSpeed;
+        public float ExplosionRadius => _explosionRadius;
+        public float Damage => _damage;
         
-        public void ApplyImprovement(CharacteristicsTypes type ,float factor)
+        public void ApplyImprovement(CharacteristicType type ,float factor)
         {
             switch (type)
             {
-                case CharacteristicsTypes.Damage :
+                case CharacteristicType.Damage :
                     IncreaseDamage(factor);
                     break;
-                case CharacteristicsTypes.FireRate :
+                case CharacteristicType.FireRate :
                     IncreaseFireRate(factor);
                     break;
-                case CharacteristicsTypes.ProjectileSpeed :
+                case CharacteristicType.ProjectileSpeed :
                     IncreaseBulletSpeed(factor);
                     break;
-                case CharacteristicsTypes.RangeAttack :
+                case CharacteristicType.RangeAttack :
                     IncreaseRangeAttack(factor);
                     break;
-                case CharacteristicsTypes.ExplosionRadius :
+                case CharacteristicType.ExplosionRadius :
                     IncreaseExplosionRadius(factor);
                     break;
             }
@@ -38,27 +42,27 @@ namespace Project.Game.Scripts
 
         private void IncreaseDamage(float damageFactor)
         {
-            Damage += Mathf.Round(Damage * damageFactor);
+            _damage += Mathf.Round(_damage * damageFactor);
         }
 
         private void IncreaseFireRate(float fireRateFactor)
         {
-            FireRate -= Mathf.Round(FireRate * fireRateFactor);
+            _fireRate -= Mathf.Round(_fireRate * fireRateFactor);
         }
 
         private void IncreaseBulletSpeed(float bulletSpeedFactor)
         {
-            GrenadeSpeed += Mathf.Round(GrenadeSpeed * bulletSpeedFactor);
+            _grenadeSpeed += Mathf.Round(_grenadeSpeed * bulletSpeedFactor);
         }
 
         private void IncreaseRangeAttack(float rangeAttackFactor)
         {
-            RangeAttack += Mathf.Round(RangeAttack * rangeAttackFactor);
+            _rangeAttack += Mathf.Round(_rangeAttack * rangeAttackFactor);
         }
         
         private void IncreaseExplosionRadius(float explosionRadiusFactor)
         {
-            ExplosionRadius += Mathf.Round(ExplosionRadius * explosionRadiusFactor);
+            _explosionRadius += Mathf.Round(_explosionRadius * explosionRadiusFactor);
         }
     }
 }

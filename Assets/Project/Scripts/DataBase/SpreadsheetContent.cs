@@ -8,6 +8,8 @@ namespace Project.Scripts.DataBase
     [Serializable]
     public class SpreadsheetContent
     {
-        [SpreadsheetPage("Localization")] public List<LocalizationData> LocalizationTexts;
+        [SpreadsheetPage("Operations")] public List<OperationData> Operations;
+        [SpreadsheetPage("Characteristics")] public List<CharacteristicsData> Characteristics;
+        [SpreadsheetPage("Weapons")] public List<WeaponData> Weapons;
     }
 }

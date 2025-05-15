@@ -1,26 +1,26 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
-namespace Project.Game.Scripts
+namespace Project.Scripts.Weapon.Characteristics
 {
+    [Serializable]
     public class MineCharacteristics
     {
         public float FireRate { get; private set; } = 5f;
-        
         public float Damage { get; private set; } = 20f;
-        
         public float ExplosionRadius { get; private set; } = 5f;
         
-        public void ApplyImprovement(CharacteristicsTypes type ,float factor)
+        public void ApplyImprovement(CharacteristicType type ,float factor)
         {
             switch (type)
             {
-                case CharacteristicsTypes.Damage :
+                case CharacteristicType.Damage :
                     IncreaseDamage(factor);
                     break;
-                case CharacteristicsTypes.FireRate :
+                case CharacteristicType.FireRate :
                     IncreaseFireRate(factor);
                     break;
-                case CharacteristicsTypes.ExplosionRadius :
+                case CharacteristicType.ExplosionRadius :
                     IncreaseExplosionRadius(factor);
                     break;
             }

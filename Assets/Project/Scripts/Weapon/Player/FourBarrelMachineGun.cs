@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Project.Game.Scripts;
 using Project.Scripts.Projectiles.Bullets;
 using Project.Scripts.Services;
+using Project.Scripts.Weapon.Characteristics;
 using Project.Scripts.Weapon.Improvements;
 using UnityEngine;
 
@@ -81,7 +82,7 @@ namespace Project.Scripts.Weapon.Player
             _lastBurstTime -= Time.fixedDeltaTime;
         }
     
-        public override void AcceptWeaponImprovement(IWeaponVisitor weaponVisitor, CharacteristicsTypes type, float value)
+        public override void AcceptWeaponImprovement(IWeaponVisitor weaponVisitor, CharacteristicType type, float value)
         {
             weaponVisitor.Visit(this, type, value);
         }

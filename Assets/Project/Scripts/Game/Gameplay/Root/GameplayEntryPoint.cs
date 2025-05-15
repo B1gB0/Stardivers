@@ -142,7 +142,7 @@ namespace Project.Scripts.Game.Gameplay.Root
 
             _weaponFactory.GetData(_gameInitSystem.PlayerTransform, _weaponHolder);
             _weaponFactory.CreateEnemyDetector();
-            _weaponFactory.CreateWeapon(Weapons.Gun);
+            _weaponFactory.CreateWeapon(WeaponType.Gun);
             
             _levelUpPanel.GetServices(_weaponFactory, _weaponHolder);
             _levelUpPanel.GetStartImprovements();

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Project.Scripts.Weapon.Player
 {
-    public class ClosestEnemyDetector : MonoBehaviour
+    public class EnemyDetector : MonoBehaviour
     {
         private const float MinValue = 0f;
         private const float SearchRadius = 5f;
@@ -13,14 +13,14 @@ namespace Project.Scripts.Weapon.Player
     
         private float _currentDistanceOfClosestEnemy;
 
-        public EnemyAlienActor СlosestAlienEnemy { get; private set; }
+        public EnemyAlienActor NearestAlienEnemy { get; private set; }
 
         private void Update()
         {
-            SetClosestEnemy();
+            SetNearestEnemy();
         }
 
-        private void SetClosestEnemy()
+        private void SetNearestEnemy()
         {
             _enemies.Clear();
         
@@ -42,7 +42,7 @@ namespace Project.Scripts.Weapon.Player
 
                     if (_currentDistanceOfClosestEnemy < distance)
                     {
-                        СlosestAlienEnemy = enemy;
+                        NearestAlienEnemy = enemy;
                         distance = _currentDistanceOfClosestEnemy;
                     }
                 }

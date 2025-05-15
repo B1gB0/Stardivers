@@ -1,38 +1,42 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
-namespace Project.Game.Scripts
+namespace Project.Scripts.Weapon.Characteristics
 {
+    [Serializable]
     public class GunCharacteristics
     {
-        public float RangeAttack { get; private set; } = 5f;
-
-        public float FireRate { get; private set; } = 1f;
-
-        public float BulletSpeed { get; private set; } = 10f;
-
-        public float Damage { get; private set; } = 15f;
+        [SerializeField] private float _rangeAttack = 5f;
+        [SerializeField] private float _fireRate = 1f;
+        [SerializeField] private float _bulletSpeed = 10f;
+        [SerializeField] private float _damage = 15f;
+        [SerializeField] private int _maxCountShots = 7;
+        [SerializeField] private float _reloadTime = 3f;
         
-        public int MaxCountShots { get; private set; } = 7;
-    
-        public float ReloadTime { get; private set; } = 3f;
+        public float RangeAttack => _rangeAttack;
+        public float FireRate => _fireRate;
+        public float BulletSpeed => _bulletSpeed;
+        public float Damage => _damage;
+        public int MaxCountShots => _maxCountShots;
+        public float ReloadTime => _reloadTime;
 
-        public void ApplyImprovement(CharacteristicsTypes type ,float factor)
+        public void ApplyImprovement(CharacteristicType type ,float factor)
         {
             switch (type)
             {
-                case CharacteristicsTypes.Damage :
+                case CharacteristicType.Damage :
                     IncreaseDamage(factor);
                     break;
-                case CharacteristicsTypes.FireRate :
+                case CharacteristicType.FireRate :
                     IncreaseFireRate(factor);
                     break;
-                case CharacteristicsTypes.ProjectileSpeed :
+                case CharacteristicType.ProjectileSpeed :
                     IncreaseBulletSpeed(factor);
                     break;
-                case CharacteristicsTypes.RangeAttack :
+                case CharacteristicType.RangeAttack :
                     IncreaseRangeAttack(factor);
                     break;
-                case CharacteristicsTypes.ReloadTime :
+                case CharacteristicType.ReloadTime :
                     IncreaseReloadVelocity(factor);
                     break;
             }
@@ -40,27 +44,27 @@ namespace Project.Game.Scripts
 
         private void IncreaseDamage(float damageFactor)
         {
-            Damage += Mathf.Round(Damage * damageFactor);
+            _damage += Mathf.Round(_damage * damageFactor);
         }
 
         private void IncreaseFireRate(float fireRateFactor)
         {
-            FireRate -= Mathf.Round(FireRate * fireRateFactor);
+            _fireRate -= Mathf.Round(_fireRate * fireRateFactor);
         }
 
         private void IncreaseBulletSpeed(float bulletSpeedFactor)
         {
-            BulletSpeed += Mathf.Round(BulletSpeed * bulletSpeedFactor);
+            _bulletSpeed += Mathf.Round(_bulletSpeed * bulletSpeedFactor);
         }
 
         private void IncreaseRangeAttack(float rangeAttackFactor)
         {
-            RangeAttack += Mathf.Round(RangeAttack * rangeAttackFactor);
+            _rangeAttack += Mathf.Round(_rangeAttack * rangeAttackFactor);
         }
         
         private void IncreaseReloadVelocity(float reloadTimeFactor)
         {
-            ReloadTime += Mathf.Round(ReloadTime * reloadTimeFactor);
+            _reloadTime += Mathf.Round(_reloadTime * reloadTimeFactor);
         }
     }
 }

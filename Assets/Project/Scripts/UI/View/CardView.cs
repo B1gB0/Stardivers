@@ -54,7 +54,7 @@ namespace Project.Scripts.UI.View
             _level.text = _card.Level;
         
             if(_card is ImprovementCard improvementCard)
-                _characteristics.text = improvementCard.Value * 10 + "% " + improvementCard.CharacteristicsType;
+                _characteristics.text = improvementCard.Value * 10 + "% " + improvementCard.CharacteristicType;
             else if (_card is WeaponCard weaponCard)
                 _characteristics.text = weaponCard.Characteristics;
         }

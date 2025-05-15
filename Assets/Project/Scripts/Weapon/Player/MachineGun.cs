@@ -3,6 +3,7 @@ using Project.Game.Scripts;
 using Project.Scripts.ECS.EntityActors;
 using Project.Scripts.Projectiles.Bullets;
 using Project.Scripts.Services;
+using Project.Scripts.Weapon.Characteristics;
 using Project.Scripts.Weapon.Improvements;
 using UnityEngine;
 
@@ -17,7 +18,6 @@ namespace Project.Scripts.Weapon.Player
         private const float DelayBetweenShots = 0.2f;
 
         [SerializeField] private MachineGunBullet _bulletPrefab;
-
         [SerializeField] private int _countBulletsForPool;
         [SerializeField] private Transform[] _shootPoints;
 
@@ -28,7 +28,7 @@ namespace Project.Scripts.Weapon.Player
         private Coroutine _coroutine;
         private MachineGunBullet _bullet;
 
-        private ClosestEnemyDetector _detector;
+        private EnemyDetector _detector;
         private AudioSoundsService _audioSoundsService;
     
         private EnemyAlienActor closestAlienEnemy;
@@ -36,7 +36,7 @@ namespace Project.Scripts.Weapon.Player
 
         public MachineGunCharacteristics MachineGunCharacteristics { get; } = new();
 
-        public void Construct(ClosestEnemyDetector detector, AudioSoundsService audioSoundsService)
+        public void Construct(EnemyDetector detector, AudioSoundsService audioSoundsService)
         {
             _detector = detector;
             _audioSoundsService = audioSoundsService;
@@ -57,7 +57,7 @@ namespace Project.Scripts.Weapon.Player
 
         private void FixedUpdate()
         {
-            closestAlienEnemy = _detector.СlosestAlienEnemy;
+            closestAlienEnemy = _detector.NearestAlienEnemy;
 
             if (closestAlienEnemy == null) return;
         
@@ -83,7 +83,7 @@ namespace Project.Scripts.Weapon.Player
             _lastBurstTime -= Time.fixedDeltaTime;
         }
     
-        public override void AcceptWeaponImprovement(IWeaponVisitor weaponVisitor, CharacteristicsTypes type, float value)
+        public override void AcceptWeaponImprovement(IWeaponVisitor weaponVisitor, CharacteristicType type, float value)
         {
             weaponVisitor.Visit(this, type, value);
         }

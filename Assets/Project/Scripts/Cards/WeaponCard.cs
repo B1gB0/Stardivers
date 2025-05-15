@@ -8,6 +8,5 @@ using UnityEngine;
 public class WeaponCard : Card
 {
     [field: SerializeField] public String Characteristics { get; private set; }
-    
     [field: SerializeField] public PlayerWeapon PlayerWeapon { get; private set; }
 }
