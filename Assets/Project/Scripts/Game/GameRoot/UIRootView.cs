@@ -19,7 +19,6 @@ namespace Project.Scripts.Game.GameRoot
         [SerializeField] private SettingsPanel _settingsPanel;
 
         [SerializeField] private Button _settingsButton;
-        [SerializeField] private Button _backToSceneButton;
 
         private AudioSoundsService _audioSoundsService;
 
@@ -49,13 +48,13 @@ namespace Project.Scripts.Game.GameRoot
         private void OnEnable()
         {
             _settingsButton.onClick.AddListener(ShowSettingsPanel);
-            _backToSceneButton.onClick.AddListener(ShowUIScene);
+            _settingsPanel.OnExitButtonPressed += ShowUIScene;
         }
 
         private void OnDisable()
         {
             _settingsButton.onClick.RemoveListener(ShowSettingsPanel);
-            _backToSceneButton.onClick.RemoveListener(ShowUIScene);
+            _settingsPanel.OnExitButtonPressed -= ShowUIScene;
         }
 
         public void ShowLoadingProgress(float progress)

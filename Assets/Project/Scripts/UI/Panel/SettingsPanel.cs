@@ -1,3 +1,4 @@
+using System;
 using Project.Game.Scripts;
 using Project.Scripts.Game.GameRoot;
 using Project.Scripts.Services;
@@ -30,10 +31,12 @@ namespace Project.Scripts.UI.Panel
         [SerializeField] private Slider _effectsVolumeSlider;
 
         private AudioSoundsService _audioSoundsService;
-        private PauseService _pauseService;
+        private IPauseService _pauseService;
+
+        public event Action OnExitButtonPressed;
         
         [Inject]
-        public void Construct(AudioSoundsService audioSoundsService, PauseService pauseService)
+        public void Construct(AudioSoundsService audioSoundsService, IPauseService pauseService)
         {
             _audioSoundsService = audioSoundsService;
             _pauseService = pauseService;
@@ -92,6 +95,8 @@ namespace Project.Scripts.UI.Panel
             
             if(SceneManager.GetActiveScene().name == Scenes.Gameplay)
                 _pauseService.PlayGame();
+            
+            OnExitButtonPressed?.Invoke();
         }
         
         private void ChangeMusicVolume(float volume)

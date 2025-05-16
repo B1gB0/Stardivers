@@ -28,12 +28,12 @@ namespace Project.Scripts.UI.Panel
         [SerializeField] private List<WeaponCard> _weaponCards = new ();
 
         private AudioSoundsService _audioSoundsService;
-        private PauseService _pauseService;
+        private IPauseService _pauseService;
         private WeaponFactory _weaponFactory;
         private WeaponHolder _weaponHolder;
 
         [Inject]
-        private void Construct(AudioSoundsService audioSoundsService, PauseService pauseService)
+        private void Construct(AudioSoundsService audioSoundsService, IPauseService pauseService)
         {
             _audioSoundsService = audioSoundsService;
             _pauseService = pauseService;

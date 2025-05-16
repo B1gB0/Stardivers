@@ -3,7 +3,7 @@ using YG;
 
 namespace Project.Scripts.Services
 {
-    public class PauseService
+    public class PauseService : IPauseService
     {
         private const int PlayTime = 1;
         private const int MinCountPause = 1;

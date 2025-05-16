@@ -5,7 +5,7 @@ using UnityEngine.Profiling;
 
 namespace Project.Scripts.Services
 {
-    public class OperationSetterService : MonoBehaviour
+    public class OperationService : MonoBehaviour
     {
         private const int DefaultNumberLevel = 0;
         

@@ -1,3 +1,4 @@
+using System;
 using Project.Game.Scripts;
 using Project.Scripts.Game.GameRoot;
 using Project.Scripts.Services;
@@ -19,13 +20,13 @@ namespace Project.Scripts.Game.Gameplay.Root.View
         [field: SerializeField] public Button MinesButton { get; private set; }
 
         private AudioSoundsService _audioSoundsService;
-        private PauseService _pauseService;
+        private IPauseService _pauseService;
 
         private Subject<Unit> _exitSceneSignalSubject;
         private UIStateMachine _uiStateMachine;
 
         [Inject]
-        public void Construct(AudioSoundsService audioSoundsService, PauseService pauseService)
+        public void Construct(AudioSoundsService audioSoundsService, IPauseService pauseService)
         {
             _audioSoundsService = audioSoundsService;
         }
@@ -47,7 +48,6 @@ namespace Project.Scripts.Game.Gameplay.Root.View
 
         public void Bind(Subject<Unit> exitSceneSignalSubject)
         {
-            _uiStateMachine.RemoveState<GameplayState>();
             _exitSceneSignalSubject = exitSceneSignalSubject;
         }
 
@@ -65,6 +65,11 @@ namespace Project.Scripts.Game.Gameplay.Root.View
         {
             _audioSoundsService.PlaySound(Sounds.Button);
             _exitSceneSignalSubject?.OnNext(Unit.Default);
+        }
+
+        private void OnDestroy()
+        {
+            _uiStateMachine.RemoveState<GameplayState>();
         }
     }
 }

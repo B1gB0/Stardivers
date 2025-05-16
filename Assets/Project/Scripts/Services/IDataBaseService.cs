@@ -1,12 +1,14 @@
 ﻿using System;
+using Cysharp.Threading.Tasks;
+using Project.Scripts.DataBase;
 
-namespace Project.Scripts.DataBase
+namespace Project.Scripts.Services
 {
     public interface IDataBaseService
     {
         SpreadsheetContainer Data { get; }
         SpreadsheetContent Content { get; }
-        void Init();
+        UniTask Init();
         event Action OnLoaded;
     }
 }

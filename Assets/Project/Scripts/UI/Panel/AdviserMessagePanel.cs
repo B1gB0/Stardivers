@@ -12,12 +12,12 @@ namespace Project.Scripts.UI.Panel
     {
         [SerializeField] private Text _text;
 
-        private PauseService _pauseService;
+        private IPauseService _pauseService;
         
         public Button ContinueButton { get; private set; }
         
         [Inject]
-        private void Construct(PauseService pauseService)
+        private void Construct(IPauseService pauseService)
         {
             _pauseService = pauseService;
         }

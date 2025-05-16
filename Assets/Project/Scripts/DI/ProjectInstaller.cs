@@ -1,29 +1,29 @@
+using Project.Scripts.DataBase;
 using Project.Scripts.Services;
-using Project.Scripts.UI;
-using Project.Scripts.UI.StateMachine;
-using Reflex.Core;
 using UnityEngine;
+using Reflex;
+using Reflex.Core;
 
 namespace Project.Scripts.DI
 {
     public class ProjectInstaller : MonoBehaviour, IInstaller
     {
         [SerializeField] private AudioSoundsService _audioSoundsServicePrefab;
-        [SerializeField] private OperationSetterService operationSetterServicePrefab;
+        [SerializeField] private OperationService operationServicePrefab;
         
-        public void InstallBindings(ContainerBuilder containerBuilder)
+        public void InstallBindings(ContainerBuilder builder)
         {
-            PauseService pauseService = new PauseService();
+            builder.AddSingleton(typeof(DataBaseService), typeof(IDataBaseService));
+            builder.AddSingleton( typeof(PauseService), typeof(IPauseService));
 
             AudioSoundsService audioSoundsService = Instantiate(_audioSoundsServicePrefab);
-            OperationSetterService operationSetterService = Instantiate(operationSetterServicePrefab);
+            OperationService operationService = Instantiate(operationServicePrefab);
             
-            containerBuilder.AddSingleton(pauseService);
-            containerBuilder.AddSingleton(audioSoundsService);
-            containerBuilder.AddSingleton(operationSetterService);
+            builder.AddSingleton(audioSoundsService);
+            builder.AddSingleton(operationService);
             
             DontDestroyOnLoad(audioSoundsService.gameObject);
-            DontDestroyOnLoad(operationSetterService);
+            DontDestroyOnLoad(operationService); ;
         }
     }
 }

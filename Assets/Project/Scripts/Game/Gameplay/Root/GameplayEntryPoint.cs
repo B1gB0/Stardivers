@@ -49,8 +49,8 @@ namespace Project.Scripts.Game.Gameplay.Root
         private GameInitSystem _gameInitSystem;
         
         private AudioSoundsService _audioSoundsService;
-        private PauseService _pauseService;
-        private OperationSetterService _operationSetterService;
+        private IPauseService _pauseService;
+        private OperationService _operationService;
 
         private HealthBar _healthBar;
         private ExperiencePoints _experiencePoints;
@@ -63,12 +63,12 @@ namespace Project.Scripts.Game.Gameplay.Root
         private BallisticRocketProgressBar _ballisticRocketProgressBar;
 
         [Inject]
-        private void Construct(AudioSoundsService audioSoundsService, PauseService pauseService,
-            OperationSetterService operationSetterService)
+        private void Construct(AudioSoundsService audioSoundsService, IPauseService pauseService,
+            OperationService operationService)
         {
             _audioSoundsService = audioSoundsService;
             _pauseService = pauseService;
-            _operationSetterService = operationSetterService;
+            _operationService = operationService;
         }
 
         private void OnDisable()
@@ -118,7 +118,7 @@ namespace Project.Scripts.Game.Gameplay.Root
         {
             _pauseService.PlayGame();
             
-            _operationSetterService.SetCurrentNumberLevel(enterParameters.CurrentNumberLevel);
+            _operationService.SetCurrentNumberLevel(enterParameters.CurrentNumberLevel);
 
             InitData();
 
@@ -207,18 +207,18 @@ namespace Project.Scripts.Game.Gameplay.Root
         
         private void GetGameplayExitParameters()
         {
-            int nextNumberLevel = _operationSetterService.CurrentNumberLevel + 1;
+            int nextNumberLevel = _operationService.CurrentNumberLevel + 1;
 
             var gameplayEnterParameters = new GameplayEnterParameters("",
-                _operationSetterService.CurrentOperation, nextNumberLevel);
+                _operationService.CurrentOperation, nextNumberLevel);
             _exitParameters = new GameplayExitParameters(gameplayEnterParameters);
         }
 
         private void InitData()
         {
             _playerData = _dataFactory.CreatePlayerData();
-            _levelData = _dataFactory.CreateLevelData(_operationSetterService.CurrentOperation,
-                _operationSetterService.CurrentNumberLevel);
+            _levelData = _dataFactory.CreateLevelData(_operationService.CurrentOperation,
+                _operationService.CurrentNumberLevel);
             smallAlienEnemyData = _dataFactory.CreateSmallEnemyAlienData();
             bigAlienEnemyData = _dataFactory.CreateBigEnemyAlienData();
             _gunnerEnemyAlienData = _dataFactory.CreateGunnerAlienEnemyData();

@@ -20,13 +20,11 @@ namespace Project.Scripts.UI.View
         [SerializeField] private BallisticRocketProgressBar _ballisticRocketBarTemplate;
         
         private AudioSoundsService _audioSoundsService;
-        private PauseService _pauseService;
 
         [Inject]
-        public void Construct(AudioSoundsService audioSoundsService, PauseService pauseService)
+        public void Construct(AudioSoundsService audioSoundsService)
         {
             _audioSoundsService = audioSoundsService;
-            _pauseService = pauseService;
         }
 
         public HealthBar CreateHealthBar(Health.Health health)

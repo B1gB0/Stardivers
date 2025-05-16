@@ -22,13 +22,13 @@ namespace Project.Scripts.UI.Panel
         private UIStateMachine _uiStateMachine;
 
         private AudioSoundsService _audioSoundsService;
-        private OperationSetterService _operationSetterService;
+        private OperationService _operationService;
 
         [Inject]
-        private void Construct(AudioSoundsService audioSoundsService, OperationSetterService operationSetterService)
+        private void Construct(AudioSoundsService audioSoundsService, OperationService operationService)
         {
             _audioSoundsService = audioSoundsService;
-            _operationSetterService = operationSetterService;
+            _operationService = operationService;
         }
 
         private void Start()
@@ -75,7 +75,7 @@ namespace Project.Scripts.UI.Panel
         {
             _audioSoundsService.PlaySound(Sounds.Button);
             
-            if (_currentIndex == _operationSetterService.Operations.Count - 1)
+            if (_currentIndex == _operationService.Operations.Count - 1)
                 _currentIndex = 0;
             else
                 _currentIndex++;
@@ -88,7 +88,7 @@ namespace Project.Scripts.UI.Panel
             _audioSoundsService.PlaySound(Sounds.Button);
             
             if (_currentIndex == 0)
-                _currentIndex = _operationSetterService.Operations.Count - 1;
+                _currentIndex = _operationService.Operations.Count - 1;
             else
                 _currentIndex--;
         
@@ -97,8 +97,8 @@ namespace Project.Scripts.UI.Panel
     
         private void SetOperation(int index)
         {
-            _operationSetterService.SetCurrentOperation(index);
-            _operationView.GetOperation(_operationSetterService.CurrentOperation);
+            _operationService.SetCurrentOperation(index);
+            _operationView.GetOperation(_operationService.CurrentOperation);
         }
     }
 }

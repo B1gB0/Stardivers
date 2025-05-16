@@ -21,8 +21,8 @@ namespace Project.Scripts.UI.Panel
         [SerializeField] private Button _nextLevelButton;
         [SerializeField] private List<Image> _images;
         
-        private PauseService _pauseService;
-        private OperationSetterService operationSetterService;
+        private IPauseService _pauseService;
+        private OperationService _operationService;
 
         public Button GoToMainMenuButton => _goToMainMenuButton;
         
@@ -31,10 +31,10 @@ namespace Project.Scripts.UI.Panel
         public Button NextLevelButton => _nextLevelButton;
 
         [Inject]
-        public void Construct(PauseService pauseService, OperationSetterService operationSetterService)
+        public void Construct(IPauseService pauseService, OperationService operationService)
         {
             _pauseService = pauseService;
-            this.operationSetterService = operationSetterService;
+            _operationService = operationService;
         }
 
         private void OnEnable()
@@ -59,8 +59,8 @@ namespace Project.Scripts.UI.Panel
 
         public void SetVictoryPanel()
         {
-            _nextLevelButton.gameObject.SetActive(operationSetterService.CurrentNumberLevel != 
-                                                  operationSetterService.CurrentOperation.Maps.Count - 1);
+            _nextLevelButton.gameObject.SetActive(_operationService.CurrentNumberLevel != 
+                                                  _operationService.CurrentOperation.Maps.Count - 1);
 
             _rebornPlayerButton.gameObject.SetActive(false);
             _labelText.text = VictoryLabelText;
