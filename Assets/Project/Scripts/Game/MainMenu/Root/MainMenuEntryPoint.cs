@@ -18,6 +18,7 @@ namespace Project.Scripts.Game.MainMenu.Root
         private UIMainMenuRootBinder _uiScene;
         private string saveFileName;
         private OperationService _operationService;
+        private IDataBaseService _dataBaseService;
 
         [Inject]
         private void Construct(OperationService operationService)

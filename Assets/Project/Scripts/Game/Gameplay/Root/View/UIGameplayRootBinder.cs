@@ -14,9 +14,7 @@ namespace Project.Scripts.Game.Gameplay.Root.View
     public class UIGameplayRootBinder : MonoBehaviour
     {
         [field: SerializeField] public GameplayElements UIScene { get; private set; }
-
         [field: SerializeField] public Joystick Joystick { get; private set; }
-    
         [field: SerializeField] public Button MinesButton { get; private set; }
 
         private AudioSoundsService _audioSoundsService;

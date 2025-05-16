@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Project.Scripts.Services
 {
-    public class FloatingTextService
+    public class FloatingTextService : IFloatingTextService
     {
         private const string ObjectPoolDamageText = "PoolDamageText";
         private const int Count = 4;

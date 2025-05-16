@@ -1,7 +1,5 @@
-using Project.Scripts.DataBase;
 using Project.Scripts.Services;
 using UnityEngine;
-using Reflex;
 using Reflex.Core;
 
 namespace Project.Scripts.DI
@@ -15,6 +13,7 @@ namespace Project.Scripts.DI
         {
             builder.AddSingleton(typeof(DataBaseService), typeof(IDataBaseService));
             builder.AddSingleton( typeof(PauseService), typeof(IPauseService));
+            builder.AddSingleton(typeof(ResourceService), typeof(IResourceService));
 
             AudioSoundsService audioSoundsService = Instantiate(_audioSoundsServicePrefab);
             OperationService operationService = Instantiate(operationServicePrefab);
@@ -23,7 +22,7 @@ namespace Project.Scripts.DI
             builder.AddSingleton(operationService);
             
             DontDestroyOnLoad(audioSoundsService.gameObject);
-            DontDestroyOnLoad(operationService); ;
+            DontDestroyOnLoad(operationService);
         }
     }
 }

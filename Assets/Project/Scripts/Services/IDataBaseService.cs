@@ -9,6 +9,6 @@ namespace Project.Scripts.Services
         SpreadsheetContainer Data { get; }
         SpreadsheetContent Content { get; }
         UniTask Init();
-        event Action OnLoaded;
+        event Action OnDataLoaded;
     }
 }
