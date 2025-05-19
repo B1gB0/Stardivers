@@ -11,9 +11,9 @@ namespace Project.Scripts.DI
         
         public void InstallBindings(ContainerBuilder builder)
         {
+            builder.AddSingleton(typeof(ResourceService), typeof(IResourceService));
             builder.AddSingleton(typeof(DataBaseService), typeof(IDataBaseService));
             builder.AddSingleton( typeof(PauseService), typeof(IPauseService));
-            builder.AddSingleton(typeof(ResourceService), typeof(IResourceService));
 
             AudioSoundsService audioSoundsService = Instantiate(_audioSoundsServicePrefab);
             OperationService operationService = Instantiate(operationServicePrefab);

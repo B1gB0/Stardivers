@@ -209,8 +209,7 @@ namespace Project.Scripts.Game.Gameplay.Root
         {
             int nextNumberLevel = _operationService.CurrentNumberLevel + 1;
 
-            var gameplayEnterParameters = new GameplayEnterParameters("",
-                _operationService.CurrentOperation, nextNumberLevel);
+            var gameplayEnterParameters = new GameplayEnterParameters(_operationService.CurrentOperation, nextNumberLevel);
             _exitParameters = new GameplayExitParameters(gameplayEnterParameters);
         }
 

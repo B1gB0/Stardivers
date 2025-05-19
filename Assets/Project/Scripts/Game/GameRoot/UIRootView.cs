@@ -1,4 +1,5 @@
 ﻿using Project.Game.Scripts;
+using Project.Scripts.Localization;
 using Project.Scripts.Services;
 using Project.Scripts.UI.Panel;
 using Project.Scripts.UI.StateMachine;
@@ -17,6 +18,7 @@ namespace Project.Scripts.Game.GameRoot
 
         [SerializeField] private LoadingPanel _loadingPanel;
         [SerializeField] private SettingsPanel _settingsPanel;
+        [SerializeField] private LocalizationLanguageSwitcher _localizationLanguageSwitcher;
 
         [SerializeField] private Button _settingsButton;
 

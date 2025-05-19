@@ -1,5 +1,5 @@
-﻿using Project.Scripts.UI.View;
-using UnityEngine;
+﻿using System;
+using Project.Scripts.UI.View;
 
 namespace Project.Scripts.UI.StateMachine.States
 {

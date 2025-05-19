@@ -25,7 +25,6 @@ namespace Project.Scripts.Game.GameRoot
         
         private AsyncOperation _asyncOperation;
         private OperationService _operationService;
-        private IDataBaseService _dataBaseService;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         public static void AutostartGame()
@@ -46,13 +45,6 @@ namespace Project.Scripts.Game.GameRoot
             _uiRoot = Object.Instantiate(prefabUIRoot);
             Object.DontDestroyOnLoad(_uiRoot.gameObject);
         }
-        
-        [Inject]
-        private void Construct(OperationService operationService, IDataBaseService dataBaseService)
-        {
-            _operationService = operationService;
-            _dataBaseService = dataBaseService;
-        }
 
         private void StartGame()
         {
@@ -67,7 +59,7 @@ namespace Project.Scripts.Game.GameRoot
 
             if (sceneName == Scenes.Gameplay)
             {
-                var enterParameters = new GameplayEnterParameters("", _operationService.CurrentOperation,
+                var enterParameters = new GameplayEnterParameters(_operationService.CurrentOperation, 
                     _operationService.CurrentNumberLevel);
                 
                 _coroutines.StartCoroutine(LoadAndStartGameplay(enterParameters));

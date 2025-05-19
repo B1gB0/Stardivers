@@ -25,7 +25,8 @@ namespace Project.Scripts.UI.Panel
         private OperationService _operationService;
 
         [Inject]
-        private void Construct(AudioSoundsService audioSoundsService, OperationService operationService)
+        private void Construct(AudioSoundsService audioSoundsService, OperationService operationService, 
+            IDataBaseService dataBaseService)
         {
             _audioSoundsService = audioSoundsService;
             _operationService = operationService;
@@ -58,11 +59,18 @@ namespace Project.Scripts.UI.Panel
         public void Show()
         {
             gameObject.SetActive(true);
+            SetOperation(_currentIndex);
         }
 
         public void Hide()
         {
             gameObject.SetActive(false);
+        }
+
+        private void SetOperation(int index)
+        {
+            _operationService.SetCurrentOperation(index);
+            _operationView.GetOperation(_operationService.CurrentOperation);
         }
 
         private void HandleBackButtonClick()
@@ -93,12 +101,6 @@ namespace Project.Scripts.UI.Panel
                 _currentIndex--;
         
             SetOperation(_currentIndex);
-        }
-    
-        private void SetOperation(int index)
-        {
-            _operationService.SetCurrentOperation(index);
-            _operationView.GetOperation(_operationService.CurrentOperation);
         }
     }
 }

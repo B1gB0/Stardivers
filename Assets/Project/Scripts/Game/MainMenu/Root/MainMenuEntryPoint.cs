@@ -1,4 +1,6 @@
-﻿using Project.Scripts.Game.Gameplay.Root;
+﻿using System;
+using Cysharp.Threading.Tasks;
+using Project.Scripts.Game.Gameplay.Root;
 using Project.Scripts.Game.GameRoot;
 using Project.Scripts.Game.MainMenu.Root.View;
 using Project.Scripts.Services;
@@ -16,14 +18,19 @@ namespace Project.Scripts.Game.MainMenu.Root
         [SerializeField] private UIMainMenuRootBinder _sceneUIRootPrefab;
         
         private UIMainMenuRootBinder _uiScene;
-        private string saveFileName;
         private OperationService _operationService;
         private IDataBaseService _dataBaseService;
 
         [Inject]
-        private void Construct(OperationService operationService)
+        private void Construct(OperationService operationService, IDataBaseService dataBaseService)
         {
+            _dataBaseService = dataBaseService;
             _operationService = operationService;
+        }
+
+        private async void Start()
+        {
+            await _dataBaseService.Init();
         }
 
         public Observable<MainMenuExitParameters> Run(UIRootView uiRoot, MainMenuEnterParameters enterParameters)
@@ -33,15 +40,15 @@ namespace Project.Scripts.Game.MainMenu.Root
             
             var container = gameObject.scene.GetSceneContainer();
             GameObjectInjector.InjectRecursive(uiRoot.gameObject, container);
-            
+            GameObjectInjector.InjectObject(_operationService.gameObject, container);
+
             _uiScene.GetUIStateMachineAndStates(uiRoot.UIStateMachine, uiRoot.UIRootButtons);
+            _operationService.Init();
 
             var exitSignalSubject = new Subject<Unit>();
             _uiScene.Bind(exitSignalSubject);
 
-            saveFileName = "Save";
-
-            var gameplayEnterParameters = new GameplayEnterParameters(saveFileName, _operationService.CurrentOperation,
+            var gameplayEnterParameters = new GameplayEnterParameters(_operationService.CurrentOperation,
                 _operationService.CurrentNumberLevel);
             var mainMenuExitParameters = new MainMenuExitParameters(gameplayEnterParameters);
 

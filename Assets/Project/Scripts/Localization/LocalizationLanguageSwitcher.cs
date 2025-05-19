@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,6 +14,8 @@ namespace Project.Scripts.Localization
         [SerializeField] private Button _nextButton;
 
         private int _currentIndex;
+
+        public event Action<string> OnLanguageChanged;
 
         private void OnEnable()
         {
@@ -49,6 +52,7 @@ namespace Project.Scripts.Localization
         private void SetLanguage(int index)
         {
             YandexGame.SwitchLanguage(_languages[index]);
+            OnLanguageChanged?.Invoke(_languages[index]);
         }
     }
 }
