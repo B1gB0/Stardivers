@@ -10,8 +10,8 @@
         }
 
         public T As<T>() where T : SceneEnterParameters
-        {
-            return (T) this;
+        {                                            
+            return (T) this;                         
         }
     }
 }

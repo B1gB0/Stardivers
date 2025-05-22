@@ -6,6 +6,7 @@ namespace Project.Scripts.UI.StateMachine
     public class UIStateMachine
     {
         private readonly Dictionary<Type, UIState> _states = new ();
+
         private UIState _currentState;
 
         public void EnterIn<T>() where T : UIState
