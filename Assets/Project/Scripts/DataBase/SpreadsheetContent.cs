@@ -11,5 +11,7 @@ namespace Project.Scripts.DataBase
         [SpreadsheetPage("Operations")] public List<OperationData> Operations;
         [SpreadsheetPage("Characteristics")] public List<CharacteristicsData> Characteristics;
         [SpreadsheetPage("Weapons")] public List<WeaponData> Weapons;
+        [SpreadsheetPage("PlayerLevels")] public List<PlayerLevelData> PlayerLevels;
+        [SpreadsheetPage("Improvements")] public List<PlayerLevelData> Improvements;
     }
 }

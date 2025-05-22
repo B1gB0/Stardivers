@@ -1,9 +1,8 @@
-using System.Collections;
 using System;
 using System.Collections.Generic;
-using UnityEngine;
+using Source.CommonModules.StateMachineModule;
 
-namespace Source.CommonModules.StateMachineModule
+namespace Project.Scripts.StateMachine
 {
     public class StateMachine
     {

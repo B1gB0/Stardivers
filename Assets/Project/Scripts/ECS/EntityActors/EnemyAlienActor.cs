@@ -13,9 +13,9 @@ namespace Project.Scripts.ECS.EntityActors
         [field: SerializeField] public NavMeshAgent NavMeshAgent { get; private set; }
         
         protected ExperiencePoints ExperiencePoints;
-        protected FloatingTextService TextService;
+        protected IFloatingTextService TextService;
 
-        public void Construct(ExperiencePoints experiencePoints, FloatingTextService textService)
+        public void Construct(ExperiencePoints experiencePoints, IFloatingTextService textService)
         {
             ExperiencePoints = experiencePoints;
             

@@ -35,7 +35,7 @@ namespace Project.Scripts.ECS.System
         private readonly Vector3 _stoneRotation = new (0f, 90f, 0f);
         private readonly EcsWorld _world;
         
-        private readonly FloatingTextService _textService;
+        private readonly IFloatingTextService _textService;
         private readonly GoldView _goldView;
         private readonly AudioSoundsService _audioSoundsService;
         private readonly ExperiencePoints _experiencePoints;

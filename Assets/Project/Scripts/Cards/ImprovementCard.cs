@@ -1,10 +1,8 @@
-﻿using System;
-using Project.Game.Scripts;
-using Project.Scripts.Weapon.Characteristics;
+﻿using Project.Scripts.Weapon.Characteristics;
 using Project.Scripts.Weapon.Player;
 using UnityEngine;
 
-namespace Project.Scripts.Cards.ScriptableObjects
+namespace Project.Scripts.Cards
 {
     [CreateAssetMenu(menuName = "Cards/Improvement Card")]
     public class ImprovementCard : Card

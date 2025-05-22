@@ -1,9 +1,8 @@
 using System.Collections.Generic;
-using Project.Scripts.DataBase.Data;
+using Cysharp.Threading.Tasks;
 using Project.Scripts.Levels;
 using Reflex.Attributes;
 using UnityEngine;
-using UnityEngine.Profiling;
 
 namespace Project.Scripts.Services
 {
@@ -25,7 +24,7 @@ namespace Project.Scripts.Services
             _dataBaseService = dataBaseService;
         }
 
-        public void Init()
+        public async UniTask Init()
         {
             foreach (var operation in Operations)
             {

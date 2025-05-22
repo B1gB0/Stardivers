@@ -20,7 +20,7 @@ namespace Project.Scripts.ECS.EntityActors
         private Vector3 _rotationCrystal;
         private Vector3 _jumpDirectionCrystal;
         
-        private FloatingTextService _floatingTextService;
+        private IFloatingTextService _floatingTextService;
         private GoldView _goldView;
 
         private void OnEnable()
@@ -35,7 +35,7 @@ namespace Project.Scripts.ECS.EntityActors
             Health.IsDamaged -= SpawnCrystal;
         }
         
-        public void GetServices(FloatingTextService floatingTextService, GoldView goldView)
+        public void GetServices(IFloatingTextService floatingTextService, GoldView goldView)
         {
             _floatingTextService = floatingTextService;
             _goldView = goldView;

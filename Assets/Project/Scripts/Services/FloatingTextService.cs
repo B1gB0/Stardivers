@@ -1,4 +1,5 @@
-﻿using Project.Scripts.UI;
+﻿using Cysharp.Threading.Tasks;
+using Project.Scripts.UI;
 using UnityEngine;
 
 namespace Project.Scripts.Services
@@ -9,9 +10,9 @@ namespace Project.Scripts.Services
         private const int Count = 4;
         private const bool IsAutoExpand = true;
     
-        private readonly ObjectPool<FloatingTextView> _poolDamageText;
+        private ObjectPool<FloatingTextView> _poolDamageText;
 
-        public FloatingTextService(FloatingTextView textView)
+        public void Init(FloatingTextView textView)
         {
             _poolDamageText =
                 new ObjectPool<FloatingTextView>(textView, Count, new GameObject(ObjectPoolDamageText).transform)

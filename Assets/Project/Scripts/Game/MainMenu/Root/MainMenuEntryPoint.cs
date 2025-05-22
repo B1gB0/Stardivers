@@ -1,5 +1,4 @@
-﻿using System;
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
 using Project.Scripts.Game.Gameplay.Root;
 using Project.Scripts.Game.GameRoot;
 using Project.Scripts.Game.MainMenu.Root.View;
@@ -8,7 +7,6 @@ using R3;
 using Reflex.Attributes;
 using Reflex.Extensions;
 using Reflex.Injectors;
-using Source.Game.Scripts;
 using UnityEngine;
 
 namespace Project.Scripts.Game.MainMenu.Root
@@ -43,7 +41,7 @@ namespace Project.Scripts.Game.MainMenu.Root
             GameObjectInjector.InjectObject(_operationService.gameObject, container);
 
             _uiScene.GetUIStateMachineAndStates(uiRoot.UIStateMachine, uiRoot.UIRootButtons);
-            _operationService.Init();
+            _operationService.Init().Forget();
 
             var exitSignalSubject = new Subject<Unit>();
             _uiScene.Bind(exitSignalSubject);

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Project.Game.Scripts;
-using Project.Scripts.Cards.ScriptableObjects;
+using Project.Scripts.Cards;
 using Project.Scripts.Services;
 using Project.Scripts.UI.View;
 using Project.Scripts.Weapon.Improvements;

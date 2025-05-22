@@ -1,27 +1,23 @@
-﻿using System.Collections;
-using Cysharp.Threading.Tasks;
+﻿using System;
 using Project.Scripts.Game.Gameplay.Root;
 using Project.Scripts.Game.MainMenu.Root;
 using Project.Scripts.Services;
 using Project.Scripts.UI.StateMachine.States;
 using R3;
-using Reflex.Attributes;
 using Reflex.Core;
-using Source.Game.Scripts.Utils;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Cysharp.Threading.Tasks;
 
 namespace Project.Scripts.Game.GameRoot
 {
     public class GameEntryPoint
     {
         private const string UIRootViewPath = "UIRoot";
-        private const string CoroutinesName = "[Coroutines]";
-
-        private readonly Coroutines _coroutines;
-        private readonly UIRootView _uiRoot;
 
         private static GameEntryPoint _instance;
+        
+        private readonly UIRootView _uiRoot;
         
         private AsyncOperation _asyncOperation;
         private OperationService _operationService;
@@ -33,36 +29,34 @@ namespace Project.Scripts.Game.GameRoot
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
 
             _instance = new GameEntryPoint();
-            _instance.StartGame();
+            _instance.StartGame().Forget();
         }
 
         private GameEntryPoint()
         {
-            _coroutines = new GameObject(CoroutinesName).AddComponent<Coroutines>();
-            Object.DontDestroyOnLoad(_coroutines.gameObject);
-
             var prefabUIRoot = Resources.Load<UIRootView>(UIRootViewPath);
-            _uiRoot = Object.Instantiate(prefabUIRoot);
-            Object.DontDestroyOnLoad(_uiRoot.gameObject);
+            _uiRoot = UnityEngine.Object.Instantiate(prefabUIRoot);
+            UnityEngine.Object.DontDestroyOnLoad(_uiRoot.gameObject);
         }
 
-        private void StartGame()
+        private async UniTaskVoid StartGame()
         {
 #if UNITY_EDITOR
             var sceneName = SceneManager.GetActiveScene().name;
 
             if (sceneName == Scenes.MainMenu)
             {
-                _coroutines.StartCoroutine(LoadAndStartMainMenu());
+                await LoadAndStartMainMenu();
                 return;
             }
 
             if (sceneName == Scenes.Gameplay)
             {
-                var enterParameters = new GameplayEnterParameters(_operationService.CurrentOperation, 
-                    _operationService.CurrentNumberLevel);
-                
-                _coroutines.StartCoroutine(LoadAndStartGameplay(enterParameters));
+                var enterParameters = new GameplayEnterParameters(
+                    _operationService.CurrentOperation, 
+                    _operationService.CurrentNumberLevel
+                );
+                await LoadAndStartGameplay(enterParameters);
                 return;
             }
 
@@ -71,71 +65,70 @@ namespace Project.Scripts.Game.GameRoot
                 return;
             }
 #endif
-
-            _coroutines.StartCoroutine(LoadAndStartMainMenu());
+            await LoadAndStartMainMenu();
         }
 
-        private IEnumerator LoadAndStartMainMenu(MainMenuEnterParameters enterParameters = null)
+        private async UniTask LoadAndStartMainMenu(MainMenuEnterParameters enterParameters = null)
         {
-            yield return LoadScene(Scenes.Boot);
+            await LoadScene(Scenes.Boot);
             
             _uiRoot.UIStateMachine.EnterIn<LoadingPanelState>();
             
-            yield return LoadScene(Scenes.MainMenu);
+            await LoadScene(Scenes.MainMenu);
+            await UniTask.Delay(TimeSpan.FromSeconds(1), ignoreTimeScale: false);
 
-            yield return new WaitForSeconds(1);
-
-            var sceneEntryPoint = Object.FindFirstObjectByType<MainMenuEntryPoint>();
+            var sceneEntryPoint = UnityEngine.Object.FindFirstObjectByType<MainMenuEntryPoint>();
             sceneEntryPoint.Run(_uiRoot, enterParameters).Subscribe(mainMenuExitParameters =>
             {
                 var targetSceneName = mainMenuExitParameters.TargetSceneEnterParameters.SceneName;
 
                 if (targetSceneName == Scenes.Gameplay)
                 {
-                    _coroutines.StartCoroutine(LoadAndStartGameplay(mainMenuExitParameters.
-                        TargetSceneEnterParameters.As<GameplayEnterParameters>()));
+                    LoadAndStartGameplay(mainMenuExitParameters
+                        .TargetSceneEnterParameters.As<GameplayEnterParameters>()
+                    ).Forget();
                 }
-            } );
+            });
         }
         
-        private IEnumerator LoadAndStartGameplay(GameplayEnterParameters enterParameters)
+        private async UniTask LoadAndStartGameplay(GameplayEnterParameters enterParameters)
         {
-            yield return LoadScene(Scenes.Boot);
-
+            await LoadScene(Scenes.Boot);
             _uiRoot.UIStateMachine.EnterIn<LoadingPanelState>();
             
-            yield return LoadScene(Scenes.Gameplay);
-            
-            yield return new WaitForSeconds(1);
+            await LoadScene(Scenes.Gameplay);
+            await UniTask.Delay(TimeSpan.FromSeconds(1), ignoreTimeScale: false);
 
-            var sceneEntryPoint = Object.FindFirstObjectByType<GameplayEntryPoint>();
+            var sceneEntryPoint = UnityEngine.Object.FindFirstObjectByType<GameplayEntryPoint>();
             sceneEntryPoint.Run(_uiRoot, enterParameters).Subscribe(gameplayExitParameters =>
             {
                 var targetSceneName = gameplayExitParameters.TargetSceneEnterParameters.SceneName;
 
                 if (targetSceneName == Scenes.MainMenu)
                 {
-                    _coroutines.StartCoroutine(LoadAndStartMainMenu(gameplayExitParameters.
-                        TargetSceneEnterParameters.As<MainMenuEnterParameters>()));
+                    LoadAndStartMainMenu(gameplayExitParameters
+                        .TargetSceneEnterParameters.As<MainMenuEnterParameters>()
+                    ).Forget();
                 }
                 else if(targetSceneName == Scenes.Gameplay)
                 {
-                    _coroutines.StartCoroutine(LoadAndStartGameplay(gameplayExitParameters.
-                        TargetSceneEnterParameters.As<GameplayEnterParameters>()));
+                    LoadAndStartGameplay(gameplayExitParameters
+                        .TargetSceneEnterParameters.As<GameplayEnterParameters>()
+                    ).Forget();
                 }
             });
         }
 
-        private IEnumerator LoadScene(string sceneName)
+        private async UniTask LoadScene(string sceneName)
         {
             _asyncOperation = SceneManager.LoadSceneAsync(sceneName);
-            ReflexSceneManager.PreInstallScene(SceneManager.GetSceneByName(sceneName), builder => builder.AddSingleton("Container"));
+            ReflexSceneManager.PreInstallScene(SceneManager.GetSceneByName(sceneName), 
+                builder => builder.AddSingleton("Container"));
             
             while (!_asyncOperation.isDone)
             {
                 _uiRoot.ShowLoadingProgress(_asyncOperation.progress);
-                
-                yield return null;
+                await UniTask.Yield(PlayerLoopTiming.Update);
             }
         }
     }

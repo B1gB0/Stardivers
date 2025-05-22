@@ -1,5 +1,5 @@
 using System;
-using Project.Scripts.Cards.ScriptableObjects;
+using Project.Scripts.Cards;
 using UnityEngine;
 using UnityEngine.UI;
 

@@ -17,6 +17,11 @@ namespace Project.Scripts.Localization
 
         public event Action<string> OnLanguageChanged;
 
+        private void Start()
+        {
+            YandexGame.SwitchLanguage(YandexGame.savesData.language);
+        }
+
         private void OnEnable()
         {
             _priviousButton.onClick.AddListener(SetPreviousLanguage);

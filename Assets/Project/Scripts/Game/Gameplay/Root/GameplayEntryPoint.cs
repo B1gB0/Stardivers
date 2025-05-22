@@ -51,6 +51,7 @@ namespace Project.Scripts.Game.Gameplay.Root
         private AudioSoundsService _audioSoundsService;
         private IPauseService _pauseService;
         private OperationService _operationService;
+        private IFloatingTextService _floatingTextService;
 
         private HealthBar _healthBar;
         private ExperiencePoints _experiencePoints;
@@ -64,11 +65,12 @@ namespace Project.Scripts.Game.Gameplay.Root
 
         [Inject]
         private void Construct(AudioSoundsService audioSoundsService, IPauseService pauseService,
-            OperationService operationService)
+            OperationService operationService, IFloatingTextService floatingTextService)
         {
             _audioSoundsService = audioSoundsService;
             _pauseService = pauseService;
             _operationService = operationService;
+            _floatingTextService = floatingTextService;
         }
 
         private void OnDisable()
@@ -124,7 +126,7 @@ namespace Project.Scripts.Game.Gameplay.Root
 
             FloatingTextView textView = _viewFactory.CreateDamageTextView();
             textView.Hide();
-            FloatingTextService textService = new FloatingTextService(textView);
+            _floatingTextService.Init(textView);
 
             _goldView = _viewFactory.CreateGoldView();
             _adviserMessagePanel = _viewFactory.CreateAdviserMessagePanel();
@@ -133,7 +135,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             
             _experiencePoints = new ExperiencePoints(_playerProgressionData);
 
-            InitEcs(textService);
+            InitEcs();
 
             _levelUpPanel = _viewFactory.CreateLevelUpPanel();
             _endGamePanel = _viewFactory.CreateEndGamePanel();
@@ -228,7 +230,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             _goldCoreData = _dataFactory.CreateGoldCoreData();
         }
 
-        private void InitEcs(FloatingTextService textService)
+        private void InitEcs()
         {
             _world = new EcsWorld();
             _updateSystems = new EcsSystems(_world);
@@ -236,7 +238,7 @@ namespace Project.Scripts.Game.Gameplay.Root
 
             _updateSystems.Inject(_adviserMessagePanel);
             _updateSystems.Inject(_experiencePoints);
-            _updateSystems.Inject(textService);
+            _updateSystems.Inject(_floatingTextService);
             _updateSystems.Inject(_goldView);
             _updateSystems.Inject(_audioSoundsService);
             _updateSystems.Inject(_timer);

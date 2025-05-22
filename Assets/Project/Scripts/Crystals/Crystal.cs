@@ -5,7 +5,7 @@ namespace Project.Scripts.Crystals
 {
     public class Crystal : MonoBehaviour
     {
-        protected FloatingTextService TextService;
+        protected IFloatingTextService TextService;
 
         [SerializeField] protected Color ColorText;
         
@@ -16,7 +16,7 @@ namespace Project.Scripts.Crystals
             Rigidbody = GetComponent<Rigidbody>();
         }
 
-        public void GetTextService(FloatingTextService textService)
+        public void GetTextService(IFloatingTextService textService)
         {
             TextService = textService;
         }
