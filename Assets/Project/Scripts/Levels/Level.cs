@@ -13,13 +13,9 @@ namespace Project.Scripts.Levels
         protected const float MinValue = 0f;
         
         [field: SerializeField] public bool IsLaunchPlayerCapsule { get; private set; }
-        
         [field: SerializeField] public EndLevelTrigger EndLevelTrigger { get; private set; }
-        
         [field: SerializeField] public EntranceTrigger EntranceToNextLvlTrigger { get; private set; }
-        
         [field: SerializeField] public int QuantityGoldCore { get; private set; }
-        
         [field: SerializeField] public int QuantityHealingCore { get; private set; }
 
         [SerializeField] protected float Delay = 10f;

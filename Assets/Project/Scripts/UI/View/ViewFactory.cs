@@ -1,5 +1,4 @@
 ﻿using Project.Scripts.Experience;
-using Project.Scripts.Levels.Mars.SecondLevel;
 using Project.Scripts.Services;
 using Project.Scripts.UI.Panel;
 using Reflex.Attributes;
