@@ -243,6 +243,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             _updateSystems.Inject(_audioSoundsService);
             _updateSystems.Inject(_timer);
             _updateSystems.Inject(_ballisticRocketProgressBar);
+            _updateSystems.Inject(_pauseService);
 
             _updateSystems.Add(_gameInitSystem = new GameInitSystem(_playerData, smallAlienEnemyData, bigAlienEnemyData, 
                 _gunnerEnemyAlienData, _stoneData, _capsuleData, _levelData, _healingCoreData, _goldCoreData));

@@ -9,8 +9,8 @@ namespace Project.Scripts.Levels.Mars.FirstLevel
         
         [SerializeField] private EnemySpawnTrigger _enemySpawnTrigger;
         [SerializeField] private WelcomeMarsTextTrigger _welcomeMarsTextTrigger;
-        [SerializeField] private int _timeOfWave = 90; 
-        
+        [SerializeField] private int _timeOfWave = 90;
+
         private void OnEnable()
         {
             _welcomeMarsTextTrigger.IsWelcomeToMars += _firstLevelAdviserTextsSetter.SetAndShowWelcomeMarsText;
@@ -32,9 +32,11 @@ namespace Project.Scripts.Levels.Mars.FirstLevel
             Timer.SetTime(_timeOfWave);
             
             _firstLevelAdviserTextsSetter.GetAdviserPanel(AdviserMessagePanel);
+            
+            PauseService.OnGameStarted += Timer.ResumeTimer;
+            PauseService.OnGamePaused += Timer.PauseTimer;
 
             _enemySpawnTrigger.EnemySpawned += Timer.Show;
-            _enemySpawnTrigger.EnemySpawned += Timer.OnLaunchTimer;
             _enemySpawnTrigger.EnemySpawned += _firstLevelAdviserTextsSetter.SetAndShowEnemySpawnTriggerText;
             
             Timer.IsEndAttack += _firstLevelAdviserTextsSetter.SetAndShowEndAttackText;
@@ -53,8 +55,10 @@ namespace Project.Scripts.Levels.Mars.FirstLevel
 
         private void OnDestroy()
         {
+            PauseService.OnGameStarted -= Timer.ResumeTimer;
+            PauseService.OnGamePaused -= Timer.PauseTimer;
+            
             _enemySpawnTrigger.EnemySpawned -= Timer.Show;
-            _enemySpawnTrigger.EnemySpawned -= Timer.OnLaunchTimer;
             _enemySpawnTrigger.EnemySpawned -= _firstLevelAdviserTextsSetter.SetAndShowEnemySpawnTriggerText;
             
             Timer.IsEndAttack -= _firstLevelAdviserTextsSetter.SetAndShowEndAttackText;

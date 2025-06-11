@@ -40,6 +40,7 @@ namespace Project.Scripts.ECS.System
         private readonly AudioSoundsService _audioSoundsService;
         private readonly ExperiencePoints _experiencePoints;
         private readonly Timer _timer;
+        private readonly PauseService _pauseService;
         private readonly AdviserMessagePanel _adviserMessagePanel;
         private readonly BallisticRocketProgressBar _ballisticRocketProgressBar;
         
@@ -63,25 +64,16 @@ namespace Project.Scripts.ECS.System
         private ObjectPool<GunnerAlienEnemyProjectile> _gunnerAlienEnemyProjectilePool;
 
         public CapsuleActor Capsule { get; private set; }
-        
         public PlayerActor Player { get; private set; }
-        
         public Health.Health PlayerHealth { get; private set; }
-        
         public Transform PlayerTransform { get; private set; }
-        
         public Level Level { get; private set; }
 
         public List<Vector3> SmallEnemyAlienSpawnPoints { get; private set; }
-        
         public List<Vector3> BigEnemyAlienSpawnPoints { get; private set; }
-        
         public List<Vector3> GunnerEnemyAlienSpawnPoints { get; private set; }
-        
         public List<Vector3> StoneSpawnPoints { get; private set; }
-        
         public List<Vector3> GoldCoreSpawnPoints { get; private set; }
-        
         public List<Vector3> HealingCoreSpawnPoints { get; private set; }
 
         public event Action PlayerIsSpawned;
@@ -116,7 +108,7 @@ namespace Project.Scripts.ECS.System
             PlayerHealth = Player.Health;
             Player.gameObject.SetActive(false);
 
-            Level.GetServices(this, _timer, _adviserMessagePanel);
+            Level.GetServices(this, _timer, _adviserMessagePanel, _pauseService);
             
             if (Level is SecondMarsLevel secondMarsLevel)
             {

@@ -1,5 +1,6 @@
 using System;
-using System.Collections;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 
@@ -7,42 +8,34 @@ namespace Project.Scripts.UI.View
 {
     public class Timer : MonoBehaviour, IView
     {
-        private const int LastSecondOfMinute = 59;
         private const int SecondsInMinute = 60;
         private const int MinValue = 0;
         
-        private const float Delay = 1f;
-        
         [SerializeField] private TMP_Text _text;
 
-        private Coroutine _coroutine;
         private int _timeInSeconds;
-        private int _minutes;
-        private int _seconds;
+        private bool _isPaused;
+        private bool _isRunning;
+        private CancellationTokenSource _cts;
+        private float _accumulatedTime;
 
-        public event Action IsEndAttack; 
+        public event Action IsEndAttack;
 
         private void Awake()
         {
-            _minutes = _timeInSeconds / SecondsInMinute;
-            _seconds = _timeInSeconds;
-
-            if (_minutes != MinValue)
-            {
-                _seconds -= _minutes * SecondsInMinute;
-            }
-
-            DisplayCountdown();
+            UpdateDisplay();
         }
 
         private void OnEnable()
         {
             IsEndAttack += StopTimer;
+            OnLaunchTimer();
         }
 
         private void OnDisable()
         {
             IsEndAttack -= StopTimer;
+            StopTimer();
         }
 
         public void Show()
@@ -55,63 +48,89 @@ namespace Project.Scripts.UI.View
             gameObject.SetActive(false);
         }
 
-        public void OnLaunchTimer()
+        public void ResumeTimer()
         {
-            
-            _coroutine = StartCoroutine(LaunchTimer());
+            _isPaused = false;
         }
-
+        
+        public void PauseTimer()
+        {
+            _isPaused = true;
+        }
+        
+        public async void OnLaunchTimer()
+        {
+            StopTimer();
+            
+            _isRunning = true;
+            _isPaused = false;
+            _accumulatedTime = 0f;
+            _cts = new CancellationTokenSource();
+            
+            try
+            {
+                await RunTimerAsync(_cts.Token);
+            }
+            catch (OperationCanceledException)
+            {
+                // Таймер был остановлен
+            }
+            finally
+            {
+                _isRunning = false;
+            }
+        }
+        
         public void SetTime(int seconds)
         {
             _timeInSeconds = seconds;
+            UpdateDisplay();
         }
-
-        private void DisplayCountdown()
-        {
-            if (_seconds <= 9)
-            {
-                _text.text = "0" + _minutes + " : 0" + _seconds;
-            }
-            else
-            {
-                _text.text = "0" + _minutes + " : " + _seconds;
-            }
-        }
-
+        
         private void StopTimer()
         {
-            StopCoroutine(_coroutine);
-            Hide();
+            _isRunning = false;
+            _cts?.Cancel();
+            _cts?.Dispose();
+            _cts = null;
         }
 
-        private IEnumerator LaunchTimer()
+        private void UpdateDisplay()
         {
-            WaitForSeconds waitForSeconds = new WaitForSeconds(Delay);
+            int minutes = _timeInSeconds / SecondsInMinute;
+            int seconds = _timeInSeconds % SecondsInMinute;
+            _text.text = $"{minutes:00} : {seconds:00}";
+        }
 
-            while (_timeInSeconds >= MinValue)
+        private async UniTask RunTimerAsync(CancellationToken ct)
+        {
+            while (_timeInSeconds > MinValue && _isRunning && !ct.IsCancellationRequested)
             {
-                _timeInSeconds--;
+                // Ждем до следующего кадра
+                await UniTask.Yield(PlayerLoopTiming.Update, ct);
                 
-                if (_timeInSeconds <= MinValue)
+                if (_isPaused) continue;
+                
+                // Накопление времени с учетом реального времени
+                _accumulatedTime += Time.unscaledDeltaTime;
+                
+                // Проверяем, прошла ли целая секунда
+                if (_accumulatedTime >= 1f)
                 {
-                    IsEndAttack?.Invoke();
-                }
-
-                if (_seconds == MinValue)
-                {
-                    _seconds = LastSecondOfMinute;
-                    _minutes--;
+                    // Вычисляем сколько целых секунд прошло
+                    int secondsPassed = Mathf.FloorToInt(_accumulatedTime);
+                    _accumulatedTime -= secondsPassed;
                     
-                    DisplayCountdown();
+                    _timeInSeconds -= secondsPassed;
+                    UpdateDisplay();
                     
-                    yield return waitForSeconds;
+                    if (_timeInSeconds <= MinValue)
+                    {
+                        IsEndAttack?.Invoke();
+                        StopTimer();
+                        break;
+                    }
                 }
-
-                _seconds--;
-
-                DisplayCountdown();
-
-                yield return waitForSeconds;
             }
         }
     }

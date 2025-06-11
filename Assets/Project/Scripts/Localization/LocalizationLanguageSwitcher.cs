@@ -19,7 +19,7 @@ namespace Project.Scripts.Localization
 
         private void Start()
         {
-            YandexGame.SwitchLanguage(YandexGame.savesData.language);
+            YandexGame.SwitchLanguage(YandexGame.lang);
         }
 
         private void OnEnable()

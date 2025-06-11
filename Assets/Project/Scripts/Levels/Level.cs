@@ -2,6 +2,7 @@
 using Project.Scripts.ECS.System;
 using Project.Scripts.Levels.Spawners;
 using Project.Scripts.Levels.Triggers;
+using Project.Scripts.Services;
 using Project.Scripts.UI.Panel;
 using Project.Scripts.UI.View;
 using UnityEngine;
@@ -24,6 +25,7 @@ namespace Project.Scripts.Levels
 
         protected Timer Timer;
         protected AdviserMessagePanel AdviserMessagePanel;
+        protected PauseService PauseService;
 
         protected float LastSpawnTime;
         
@@ -32,9 +34,14 @@ namespace Project.Scripts.Levels
 
         public event Action IsInitiatedSpawners;
 
-        public void GetServices(GameInitSystem gameInitSystem, Timer timer, AdviserMessagePanel adviserMessagePanel)
+        public void GetServices(
+            GameInitSystem gameInitSystem,
+            Timer timer,
+            AdviserMessagePanel adviserMessagePanel,
+            PauseService pauseService)
         {
             _gameInitSystem = gameInitSystem;
+            PauseService = pauseService;
             AdviserMessagePanel = adviserMessagePanel;
             Timer = timer;
             
