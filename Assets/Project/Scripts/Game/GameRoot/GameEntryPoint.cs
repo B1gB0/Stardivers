@@ -14,8 +14,13 @@ namespace Project.Scripts.Game.GameRoot
 {
     public class GameEntryPoint : MonoBehaviour
     {
-        private const float TargetLoadingValue = 0.9f;
-        
+        private const float TargetValue = 1f;
+        private const float SpeedLoadingScene = 5f;
+        private const float SpeedFinalLoadingScene = 0.5f;
+        private const float MinLoadTime = 2.0f;
+        private const float ActivationThreshold = 0.9f;
+        private const string Boot = nameof(Boot);
+
         private UIRootView _uiRoot;
         private AsyncOperation _asyncOperation;
         private OperationService _operationService;
@@ -66,7 +71,7 @@ namespace Project.Scripts.Game.GameRoot
 
         private async UniTask LoadAndStartMainMenu(MainMenuEnterParameters enterParameters = null)
         {
-            await LoadScene(Scenes.Boot);
+            // await LoadScene(Scenes.Boot);
             
             _uiRoot.UIStateMachine.EnterIn<LoadingPanelState>();
             
@@ -89,10 +94,11 @@ namespace Project.Scripts.Game.GameRoot
         
         private async UniTask LoadAndStartGameplay(GameplayEnterParameters enterParameters)
         {
-            await LoadScene(Scenes.Boot);
             _uiRoot.UIStateMachine.EnterIn<LoadingPanelState>();
             
+            // await LoadScene(Scenes.Boot);
             await LoadScene(Scenes.Gameplay);
+            
             await UniTask.Delay(TimeSpan.FromSeconds(1), ignoreTimeScale: false);
 
             var sceneEntryPoint = UnityEngine.Object.FindFirstObjectByType<GameplayEntryPoint>();
@@ -119,17 +125,51 @@ namespace Project.Scripts.Game.GameRoot
         {
             _asyncOperation = SceneManager.LoadSceneAsync(sceneName);
             _asyncOperation.allowSceneActivation = false;
-            
-            ReflexSceneManager.PreInstallScene(SceneManager.GetSceneByName(sceneName), 
-                builder => builder.AddSingleton("Container"));
 
-            while (_asyncOperation.progress < TargetLoadingValue)
+            if (sceneName != Boot)
             {
-                _uiRoot.ShowLoadingProgress(_asyncOperation.progress);
-                await UniTask.Yield(PlayerLoopTiming.Update);
+                float timer = 0f;
+                float fakeProgress = 0f;
+                
+                while (fakeProgress < ActivationThreshold)
+                {
+                    timer += Time.deltaTime;
+                
+                    float realProgress = Mathf.Clamp01(_asyncOperation.progress);
+                
+                    fakeProgress = Mathf.Lerp(fakeProgress, realProgress, Time.deltaTime * SpeedLoadingScene);
+                    fakeProgress = Mathf.Clamp01(Mathf.Max(fakeProgress, timer / MinLoadTime));
+                    fakeProgress = Mathf.Min(fakeProgress, ActivationThreshold);
+        
+                    _uiRoot.ShowLoadingProgress(fakeProgress);
+                    await UniTask.Yield(PlayerLoopTiming.Update);
+                }
+            
+                fakeProgress = ActivationThreshold;
+            
+                while (fakeProgress < TargetValue)
+                {
+                    fakeProgress = Mathf.MoveTowards(fakeProgress, TargetValue,
+                        Time.deltaTime * SpeedFinalLoadingScene);
+                    
+                    _uiRoot.ShowLoadingProgress(fakeProgress);
+                    await UniTask.Yield(PlayerLoopTiming.Update);
+                }
+            
+                _uiRoot.ShowLoadingProgress(TargetValue);
+                await UniTask.Yield(); 
             }
 
             _asyncOperation.allowSceneActivation = true;
+            
+            while (!_asyncOperation.isDone)
+            {
+                await UniTask.Yield(PlayerLoopTiming.Update);
+            }
+            
+            Scene loadedScene = SceneManager.GetSceneByName(sceneName);
+            ReflexSceneManager.PreInstallScene(loadedScene, 
+                builder => builder.AddSingleton("Container"));
         }
     }
 }
