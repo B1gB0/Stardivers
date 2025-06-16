@@ -19,7 +19,6 @@ namespace Project.Scripts.Game.GameRoot
         private const float SpeedFinalLoadingScene = 0.5f;
         private const float MinLoadTime = 2.0f;
         private const float ActivationThreshold = 0.9f;
-        private const string Boot = nameof(Boot);
 
         private UIRootView _uiRoot;
         private AsyncOperation _asyncOperation;
@@ -51,15 +50,15 @@ namespace Project.Scripts.Game.GameRoot
                 return;
             }
 
-            if (sceneName == Scenes.Gameplay)
-            {
-                var enterParameters = new GameplayEnterParameters(
-                    _operationService.CurrentOperation, 
-                    _operationService.CurrentNumberLevel
-                );
-                await LoadAndStartGameplay(enterParameters);
-                return;
-            }
+            // if (sceneName == Scenes.Gameplay)
+            // {
+            //     var enterParameters = new GameplayEnterParameters(
+            //         _operationService.CurrentOperation, 
+            //         _operationService.CurrentNumberLevel
+            //     );
+            //     await LoadAndStartGameplay(enterParameters);
+            //     return;
+            // }
 
             if (sceneName != Scenes.Boot)
             {
@@ -71,14 +70,12 @@ namespace Project.Scripts.Game.GameRoot
 
         private async UniTask LoadAndStartMainMenu(MainMenuEnterParameters enterParameters = null)
         {
-            // await LoadScene(Scenes.Boot);
-            
             _uiRoot.UIStateMachine.EnterIn<LoadingPanelState>();
             
             await LoadScene(Scenes.MainMenu);
             await UniTask.Delay(TimeSpan.FromSeconds(1), ignoreTimeScale: false);
 
-            var sceneEntryPoint = UnityEngine.Object.FindFirstObjectByType<MainMenuEntryPoint>();
+            var sceneEntryPoint = FindFirstObjectByType<MainMenuEntryPoint>();
             sceneEntryPoint.Run(_uiRoot, enterParameters).Subscribe(mainMenuExitParameters =>
             {
                 var targetSceneName = mainMenuExitParameters.TargetSceneEnterParameters.SceneName;
@@ -96,12 +93,10 @@ namespace Project.Scripts.Game.GameRoot
         {
             _uiRoot.UIStateMachine.EnterIn<LoadingPanelState>();
             
-            // await LoadScene(Scenes.Boot);
             await LoadScene(Scenes.Gameplay);
-            
             await UniTask.Delay(TimeSpan.FromSeconds(1), ignoreTimeScale: false);
 
-            var sceneEntryPoint = UnityEngine.Object.FindFirstObjectByType<GameplayEntryPoint>();
+            var sceneEntryPoint = FindFirstObjectByType<GameplayEntryPoint>();
             sceneEntryPoint.Run(_uiRoot, enterParameters).Subscribe(gameplayExitParameters =>
             {
                 var targetSceneName = gameplayExitParameters.TargetSceneEnterParameters.SceneName;
@@ -126,7 +121,7 @@ namespace Project.Scripts.Game.GameRoot
             _asyncOperation = SceneManager.LoadSceneAsync(sceneName);
             _asyncOperation.allowSceneActivation = false;
 
-            if (sceneName != Boot)
+            if (sceneName != Scenes.Boot)
             {
                 float timer = 0f;
                 float fakeProgress = 0f;
