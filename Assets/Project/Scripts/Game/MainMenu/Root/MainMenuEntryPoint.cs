@@ -38,7 +38,7 @@ namespace Project.Scripts.Game.MainMenu.Root
             
             var container = gameObject.scene.GetSceneContainer();
             GameObjectInjector.InjectRecursive(uiRoot.gameObject, container);
-            GameObjectInjector.InjectObject(_operationService.gameObject, container);
+            // GameObjectInjector.InjectObject(_operationService.gameObject, container);
 
             _uiScene.GetUIStateMachineAndStates(uiRoot.UIStateMachine, uiRoot.UIRootButtons);
             _operationService.Init().Forget();

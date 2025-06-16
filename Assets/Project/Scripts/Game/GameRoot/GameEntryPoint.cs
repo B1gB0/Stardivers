@@ -8,38 +8,34 @@ using Reflex.Core;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Cysharp.Threading.Tasks;
+using Reflex.Attributes;
 
 namespace Project.Scripts.Game.GameRoot
 {
-    public class GameEntryPoint
+    public class GameEntryPoint : MonoBehaviour
     {
-        private const string UIRootViewPath = "UIRoot";
-
-        private static GameEntryPoint _instance;
+        private const float TargetLoadingValue = 0.9f;
         
-        private readonly UIRootView _uiRoot;
-        
+        private UIRootView _uiRoot;
         private AsyncOperation _asyncOperation;
         private OperationService _operationService;
 
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        public static void AutostartGame()
+        [Inject]
+        private void Construct(UIRootView uiRoot, OperationService operationService)
+        {
+            _operationService = operationService;
+            _uiRoot = uiRoot;
+        }
+
+        private async void Start()
         {
             Application.targetFrameRate = 60;
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
-
-            _instance = new GameEntryPoint();
-            _instance.StartGame().Forget();
+            
+            await StartGame();
         }
 
-        private GameEntryPoint()
-        {
-            var prefabUIRoot = Resources.Load<UIRootView>(UIRootViewPath);
-            _uiRoot = UnityEngine.Object.Instantiate(prefabUIRoot);
-            UnityEngine.Object.DontDestroyOnLoad(_uiRoot.gameObject);
-        }
-
-        private async UniTaskVoid StartGame()
+        private async UniTask StartGame()
         {
 #if UNITY_EDITOR
             var sceneName = SceneManager.GetActiveScene().name;
@@ -122,14 +118,18 @@ namespace Project.Scripts.Game.GameRoot
         private async UniTask LoadScene(string sceneName)
         {
             _asyncOperation = SceneManager.LoadSceneAsync(sceneName);
+            _asyncOperation.allowSceneActivation = false;
+            
             ReflexSceneManager.PreInstallScene(SceneManager.GetSceneByName(sceneName), 
                 builder => builder.AddSingleton("Container"));
-            
-            while (!_asyncOperation.isDone)
+
+            while (_asyncOperation.progress < TargetLoadingValue)
             {
                 _uiRoot.ShowLoadingProgress(_asyncOperation.progress);
                 await UniTask.Yield(PlayerLoopTiming.Update);
             }
+
+            _asyncOperation.allowSceneActivation = true;
         }
     }
 }
