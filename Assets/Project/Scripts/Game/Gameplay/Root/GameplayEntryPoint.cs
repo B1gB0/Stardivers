@@ -73,39 +73,6 @@ namespace Project.Scripts.Game.Gameplay.Root
             _floatingTextService = floatingTextService;
         }
 
-        private void OnDisable()
-        {
-            if (_gameInitSystem != null)
-            {
-                _gameInitSystem.PlayerIsSpawned -= _healthBar.Show;
-                _gameInitSystem.PlayerIsSpawned -= _progressBar.Show;
-                
-                _gameInitSystem.PlayerHealth.Die -= _endGamePanel.Show;
-                _gameInitSystem.PlayerHealth.Die -= _endGamePanel.SetDefeatPanel;
-                _gameInitSystem.PlayerHealth.Die -= _progressBar.Hide;
-                
-                _gameInitSystem.Level.EndLevelTrigger.IsLevelCompleted -= _endGamePanel.Show;
-                _gameInitSystem.Level.EndLevelTrigger.IsLevelCompleted -= _endGamePanel.SetVictoryPanel;
-            }
-
-            if (_endGamePanel != null)
-            {
-                _endGamePanel.GoToMainMenuButton.onClick.RemoveListener(GetMainMenuExitParameters);
-                _endGamePanel.GoToMainMenuButton.onClick.RemoveListener(_uiScene.HandleGoToNextSceneButtonClick);
-                _endGamePanel.NextLevelButton.onClick.RemoveListener(GetGameplayExitParameters);
-                _endGamePanel.NextLevelButton.onClick.RemoveListener(_uiScene.HandleGoToNextSceneButtonClick);
-                _endGamePanel.RebornPlayerButton.onClick.RemoveListener(_gameInitSystem.CreateCapsule);
-            }
-
-            if (_experiencePoints != null)
-            {
-                _experiencePoints.CurrentLevelIsUpgraded -= _levelUpPanel.OnCurrentLevelIsUpgraded;
-            }
-            
-            if(_weaponFactory != null && _uiScene != null)
-                _weaponFactory.MinesIsCreated -= _uiScene.ShowMinesButton;
-        }
-
         private void Update()
         {
             _updateSystems?.Run();
@@ -196,6 +163,26 @@ namespace Project.Scripts.Game.Gameplay.Root
         
         private void OnDestroy()
         {
+            _gameInitSystem.PlayerIsSpawned -= _healthBar.Show;
+            _gameInitSystem.PlayerIsSpawned -= _progressBar.Show;
+                
+            _gameInitSystem.PlayerHealth.Die -= _endGamePanel.Show;
+            _gameInitSystem.PlayerHealth.Die -= _endGamePanel.SetDefeatPanel;
+            _gameInitSystem.PlayerHealth.Die -= _progressBar.Hide;
+                
+            _gameInitSystem.Level.EndLevelTrigger.IsLevelCompleted -= _endGamePanel.Show;
+            _gameInitSystem.Level.EndLevelTrigger.IsLevelCompleted -= _endGamePanel.SetVictoryPanel;
+            
+            _endGamePanel.GoToMainMenuButton.onClick.RemoveListener(GetMainMenuExitParameters);
+            _endGamePanel.GoToMainMenuButton.onClick.RemoveListener(_uiScene.HandleGoToNextSceneButtonClick);
+            _endGamePanel.NextLevelButton.onClick.RemoveListener(GetGameplayExitParameters);
+            _endGamePanel.NextLevelButton.onClick.RemoveListener(_uiScene.HandleGoToNextSceneButtonClick);
+            _endGamePanel.RebornPlayerButton.onClick.RemoveListener(_gameInitSystem.CreateCapsule);
+            
+            _experiencePoints.CurrentLevelIsUpgraded -= _levelUpPanel.OnCurrentLevelIsUpgraded;
+            
+            _weaponFactory.MinesIsCreated -= _uiScene.ShowMinesButton;
+            
             _updateSystems?.Destroy();
             _fixedUpdateSystems?.Destroy();
             _world?.Destroy();

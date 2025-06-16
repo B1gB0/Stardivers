@@ -40,6 +40,7 @@ namespace Project.Scripts.Game.Gameplay.Root.View
         public void GetUIStateMachine(UIStateMachine uiStateMachine, UIRootButtons uiRootButtons)
         {
             _uiStateMachine = uiStateMachine;
+            _uiStateMachine.RemoveState<GameplayState>();
             _uiStateMachine.AddState(new GameplayState(UIScene, uiRootButtons));
             _uiStateMachine.EnterIn<GameplayState>();
         }
@@ -65,9 +66,9 @@ namespace Project.Scripts.Game.Gameplay.Root.View
             _exitSceneSignalSubject?.OnNext(Unit.Default);
         }
 
-        private void OnDestroy()
-        {
-            _uiStateMachine.RemoveState<GameplayState>();
-        }
+        // private void OnDestroy()
+        // {
+        //     _uiStateMachine.RemoveState<GameplayState>();
+        // }
     }
 }
