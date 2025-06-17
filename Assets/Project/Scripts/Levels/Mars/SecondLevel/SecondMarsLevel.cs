@@ -27,12 +27,16 @@ namespace Project.Scripts.Levels.Mars.SecondLevel
 
         private void Start()
         {
-            SpawnPlayer();
+            // SpawnPlayer();
+        }
+
+        public override void OnStartLevel()
+        {
+            base.OnStartLevel();
             
             _enemySpawnTrigger.EnemySpawned += _ballisticRocketTrigger.Activate;
             _enemySpawnTrigger.EnemySpawned += _entranceLastLvlTrigger.Deactivate;
             _enemySpawnTrigger.EnemySpawned += _ballisticRocketProgressBar.Show;
-            
 
             _ballisticRocket.LaunchCompleted += _enemySpawnTrigger.CompleteSpawn;
             _ballisticRocket.LaunchCompleted += EndLevelTrigger.Activate;

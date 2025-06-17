@@ -21,7 +21,14 @@ namespace Project.Scripts.Levels.Mars.ThirdLevel
 
         private void Start()
         {
-            SpawnPlayer();
+            // SpawnPlayer();
+        }
+
+        public override void OnStartLevel()
+        {
+            base.OnStartLevel();
+            
+            
         }
 
         private void Update()

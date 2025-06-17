@@ -45,8 +45,11 @@ namespace Project.Scripts.Game.MainMenu.Root
             var exitSignalSubject = new Subject<Unit>();
             _uiScene.Bind(exitSignalSubject);
 
+            var sceneName = _operationService.GetSceneNameByNumber(_operationService.CurrentNumberLevel);
+
             var gameplayEnterParameters = new GameplayEnterParameters(_operationService.CurrentOperation,
-                _operationService.CurrentNumberLevel);
+                _operationService.CurrentNumberLevel, sceneName);
+            
             var mainMenuExitParameters = new MainMenuExitParameters(gameplayEnterParameters);
 
             var exitToGameplaySceneSignal = exitSignalSubject.Select(_ => mainMenuExitParameters);

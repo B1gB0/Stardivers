@@ -8,7 +8,6 @@ namespace Project.Scripts.ECS.Data
     {
         [field: SerializeField] public PlayerActor Prefab { get; private set; }
         [field: SerializeField] public Health.Health Health { get; private set; }
-        [field: SerializeField] public ParticleSystem HitEffect { get; private set; }
         [field: SerializeField] public float DefaultMoveSpeed { get; private set; } = 3f;
         [field: SerializeField] public float DefaultRotationSpeed { get; private set; } = 3f;
     }

@@ -27,7 +27,12 @@ namespace Project.Scripts.Levels.Mars.FirstLevel
 
         private void Start()
         {
-            SpawnPlayer();
+            // SpawnPlayer();
+        }
+
+        public override void OnStartLevel()
+        {
+            base.OnStartLevel();
             
             Timer.SetTime(_timeOfWave);
             

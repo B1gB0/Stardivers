@@ -8,7 +8,6 @@ namespace Project.Scripts.ECS.Data
     public class BigAlienEnemyInitData : InitData
     {
         [field: SerializeField] public BigAlienEnemy BigAlienEnemyPrefab { get; private set; }
-        [field: SerializeField] public ParticleSystem HitEffect { get; private set; }
         [field: SerializeField] public BigAlienEnemyProjectile ProjectilePrefab { get; private set; }
     }
 }

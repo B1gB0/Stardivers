@@ -1,5 +1,7 @@
 using Project.Scripts.ECS.Data;
 using Project.Scripts.Levels;
+using Project.Scripts.Services;
+using Reflex.Attributes;
 using UnityEngine;
 
 public class DataFactory : MonoBehaviour
@@ -13,6 +15,14 @@ public class DataFactory : MonoBehaviour
     private readonly string _playerProgression = "SO/PlayerProgression";
     private readonly string _healingCoreData = "SO/HealingCoreData";
     private readonly string _goldCoreData = "SO/GoldCoreData";
+    
+    // private IResourceService _resourceService;
+    //
+    // [Inject]
+    // private void Construct(IResourceService resourceService)
+    // {
+    //     _resourceService = resourceService;
+    // }
 
     public PlayerInitData CreatePlayerData()
     {

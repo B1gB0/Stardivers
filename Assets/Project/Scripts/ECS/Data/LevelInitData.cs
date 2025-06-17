@@ -8,8 +8,7 @@ namespace Project.Scripts.ECS.Data
     [CreateAssetMenu(menuName = "InitData/LevelData")]
     public class LevelInitData : InitData
     {
-        [field: SerializeField] public Level LevelPrefab { get; private set; }
-        [field: SerializeField] public string LevelOcclusionData { get; private set; }
+        // [field: SerializeField] public Level LevelPrefab { get; private set; }
 
         public List<Vector3> SmallEnemyAlienSpawnPoints;
         public List<Vector3> BigEnemyAlienSpawnPoints;

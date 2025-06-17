@@ -7,7 +7,6 @@ namespace Project.Scripts.ECS.Data
     public class SmallAlienEnemyInitData : InitData
     {
         [field: SerializeField] public SmallAlienEnemy SmallAlienEnemyPrefab { get; private set; }
-        [field: SerializeField] public ParticleSystem HitEffect { get; private set; }
         [field: SerializeField] public float DefaultDamage { get; private set; } = 1f;
     }
 }

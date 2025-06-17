@@ -9,6 +9,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Cysharp.Threading.Tasks;
 using Reflex.Attributes;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.ResourceManagement.ResourceProviders;
 
 namespace Project.Scripts.Game.GameRoot
 {
@@ -20,8 +23,12 @@ namespace Project.Scripts.Game.GameRoot
         private const float MinLoadTime = 2.0f;
         private const float ActivationThreshold = 0.9f;
 
+        private const string Mars = "mars_operation";
+        private const string MysteryPlanet = "mystery_planet_operation";
+
+        private AsyncOperationHandle<SceneInstance> _sceneHandle;
+
         private UIRootView _uiRoot;
-        private AsyncOperation _asyncOperation;
         private OperationService _operationService;
 
         [Inject]
@@ -35,7 +42,7 @@ namespace Project.Scripts.Game.GameRoot
         {
             Application.targetFrameRate = 60;
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
-            
+
             await StartGame();
         }
 
@@ -71,29 +78,33 @@ namespace Project.Scripts.Game.GameRoot
         private async UniTask LoadAndStartMainMenu(MainMenuEnterParameters enterParameters = null)
         {
             _uiRoot.UIStateMachine.EnterIn<LoadingPanelState>();
-            
+
             await LoadScene(Scenes.MainMenu);
             await UniTask.Delay(TimeSpan.FromSeconds(1), ignoreTimeScale: false);
 
             var sceneEntryPoint = FindFirstObjectByType<MainMenuEntryPoint>();
             sceneEntryPoint.Run(_uiRoot, enterParameters).Subscribe(mainMenuExitParameters =>
             {
-                var targetSceneName = mainMenuExitParameters.TargetSceneEnterParameters.SceneName;
-
-                if (targetSceneName == Scenes.Gameplay)
+                if (_operationService.CurrentOperation.Id == Mars)
                 {
-                    LoadAndStartGameplay(mainMenuExitParameters
-                        .TargetSceneEnterParameters.As<GameplayEnterParameters>()
-                    ).Forget();
+                    mainMenuExitParameters.TargetSceneEnterParameters.SetNewSceneName(Scenes.MarsFirstLevel);
                 }
+                else if(_operationService.CurrentOperation.Id == MysteryPlanet)
+                {
+                    mainMenuExitParameters.TargetSceneEnterParameters.SetNewSceneName(Scenes.MarsFirstLevel);
+                }
+                
+                LoadAndStartGameplay(mainMenuExitParameters
+                    .TargetSceneEnterParameters.As<GameplayEnterParameters>()
+                ).Forget();
             });
         }
-        
+
         private async UniTask LoadAndStartGameplay(GameplayEnterParameters enterParameters)
         {
             _uiRoot.UIStateMachine.EnterIn<LoadingPanelState>();
-            
-            await LoadScene(Scenes.Gameplay);
+
+            await LoadScene(enterParameters.SceneName);
             await UniTask.Delay(TimeSpan.FromSeconds(1), ignoreTimeScale: false);
 
             var sceneEntryPoint = FindFirstObjectByType<GameplayEntryPoint>();
@@ -107,7 +118,7 @@ namespace Project.Scripts.Game.GameRoot
                         .TargetSceneEnterParameters.As<MainMenuEnterParameters>()
                     ).Forget();
                 }
-                else if(targetSceneName == Scenes.Gameplay)
+                else
                 {
                     LoadAndStartGameplay(gameplayExitParameters
                         .TargetSceneEnterParameters.As<GameplayEnterParameters>()
@@ -118,52 +129,60 @@ namespace Project.Scripts.Game.GameRoot
 
         private async UniTask LoadScene(string sceneName)
         {
-            _asyncOperation = SceneManager.LoadSceneAsync(sceneName);
-            _asyncOperation.allowSceneActivation = false;
+            if (_sceneHandle.IsValid())
+            {
+                Addressables.Release(_sceneHandle);
+            }
+
+            _sceneHandle = Addressables.LoadSceneAsync(
+                sceneName,
+                LoadSceneMode.Single,
+                false
+            );
 
             if (sceneName != Scenes.Boot)
             {
                 float timer = 0f;
                 float fakeProgress = 0f;
-                
+
                 while (fakeProgress < ActivationThreshold)
                 {
                     timer += Time.deltaTime;
-                
-                    float realProgress = Mathf.Clamp01(_asyncOperation.progress);
-                
+
+                    float realProgress = _sceneHandle.PercentComplete;
+
                     fakeProgress = Mathf.Lerp(fakeProgress, realProgress, Time.deltaTime * SpeedLoadingScene);
                     fakeProgress = Mathf.Clamp01(Mathf.Max(fakeProgress, timer / MinLoadTime));
                     fakeProgress = Mathf.Min(fakeProgress, ActivationThreshold);
-        
+
                     _uiRoot.ShowLoadingProgress(fakeProgress);
                     await UniTask.Yield(PlayerLoopTiming.Update);
                 }
-            
+
                 fakeProgress = ActivationThreshold;
-            
+
                 while (fakeProgress < TargetValue)
                 {
                     fakeProgress = Mathf.MoveTowards(fakeProgress, TargetValue,
                         Time.deltaTime * SpeedFinalLoadingScene);
-                    
+
                     _uiRoot.ShowLoadingProgress(fakeProgress);
                     await UniTask.Yield(PlayerLoopTiming.Update);
                 }
-            
+
                 _uiRoot.ShowLoadingProgress(TargetValue);
-                await UniTask.Yield(); 
+                await UniTask.Yield();
             }
 
-            _asyncOperation.allowSceneActivation = true;
-            
-            while (!_asyncOperation.isDone)
+            var activateOp = _sceneHandle.Result.ActivateAsync();
+
+            while (!activateOp.isDone)
             {
                 await UniTask.Yield(PlayerLoopTiming.Update);
             }
-            
+
             Scene loadedScene = SceneManager.GetSceneByName(sceneName);
-            ReflexSceneManager.PreInstallScene(loadedScene, 
+            ReflexSceneManager.PreInstallScene(loadedScene,
                 builder => builder.AddSingleton("Container"));
         }
     }

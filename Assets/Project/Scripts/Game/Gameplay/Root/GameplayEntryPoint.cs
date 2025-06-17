@@ -6,6 +6,7 @@ using Project.Scripts.Experience;
 using Project.Scripts.Game.Gameplay.Root.View;
 using Project.Scripts.Game.GameRoot;
 using Project.Scripts.Game.MainMenu.Root;
+using Project.Scripts.Levels;
 using Project.Scripts.Services;
 using Project.Scripts.UI;
 using Project.Scripts.UI.Panel;
@@ -28,6 +29,7 @@ namespace Project.Scripts.Game.Gameplay.Root
         [SerializeField] private ViewFactory _viewFactory;
         [SerializeField] private CinemachineVirtualCamera _cinemachineVirtualCamera;
         [SerializeField] private UIGameplayRootBinder _sceneUIRootPrefab;
+        [SerializeField] private Level _level;
         
         private UIGameplayRootBinder _uiScene;
         private GameplayExitParameters _exitParameters;
@@ -136,8 +138,8 @@ namespace Project.Scripts.Game.Gameplay.Root
             _gameInitSystem.PlayerHealth.Die += _endGamePanel.SetDefeatPanel;
             _gameInitSystem.PlayerHealth.Die += _progressBar.Hide;
             
-            _gameInitSystem.Level.EndLevelTrigger.IsLevelCompleted += _endGamePanel.Show;
-            _gameInitSystem.Level.EndLevelTrigger.IsLevelCompleted += _endGamePanel.SetVictoryPanel;
+            _level.EndLevelTrigger.IsLevelCompleted += _endGamePanel.Show;
+            _level.EndLevelTrigger.IsLevelCompleted += _endGamePanel.SetVictoryPanel;
             
             _gameInitSystem.PlayerIsSpawned += _healthBar.Show;
             _gameInitSystem.PlayerIsSpawned += _progressBar.Show;
@@ -157,6 +159,8 @@ namespace Project.Scripts.Game.Gameplay.Root
             _uiScene.Bind(exitSceneSignalSubject);
 
             var exitToSceneSignal = exitSceneSignalSubject.Select(_ => _exitParameters);
+            
+            _level.OnStartLevel();
 
             return exitToSceneSignal;
         }
@@ -170,8 +174,8 @@ namespace Project.Scripts.Game.Gameplay.Root
             _gameInitSystem.PlayerHealth.Die -= _endGamePanel.SetDefeatPanel;
             _gameInitSystem.PlayerHealth.Die -= _progressBar.Hide;
                 
-            _gameInitSystem.Level.EndLevelTrigger.IsLevelCompleted -= _endGamePanel.Show;
-            _gameInitSystem.Level.EndLevelTrigger.IsLevelCompleted -= _endGamePanel.SetVictoryPanel;
+            _level.EndLevelTrigger.IsLevelCompleted -= _endGamePanel.Show;
+            _level.EndLevelTrigger.IsLevelCompleted -= _endGamePanel.SetVictoryPanel;
             
             _endGamePanel.GoToMainMenuButton.onClick.RemoveListener(GetMainMenuExitParameters);
             _endGamePanel.GoToMainMenuButton.onClick.RemoveListener(_uiScene.HandleGoToNextSceneButtonClick);
@@ -198,7 +202,11 @@ namespace Project.Scripts.Game.Gameplay.Root
         {
             int nextNumberLevel = _operationService.CurrentNumberLevel + 1;
 
-            var gameplayEnterParameters = new GameplayEnterParameters(_operationService.CurrentOperation, nextNumberLevel);
+            var sceneName = _operationService.GetSceneNameByNumber(nextNumberLevel);
+
+            var gameplayEnterParameters = new GameplayEnterParameters(_operationService.CurrentOperation,
+                nextNumberLevel, sceneName);
+            
             _exitParameters = new GameplayExitParameters(gameplayEnterParameters);
         }
 
@@ -231,6 +239,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             _updateSystems.Inject(_timer);
             _updateSystems.Inject(_ballisticRocketProgressBar);
             _updateSystems.Inject(_pauseService);
+            _updateSystems.Inject(_level);
 
             _updateSystems.Add(_gameInitSystem = new GameInitSystem(_playerData, smallAlienEnemyData, bigAlienEnemyData, 
                 _gunnerEnemyAlienData, _stoneData, _capsuleData, _levelData, _healingCoreData, _goldCoreData));

@@ -19,6 +19,9 @@ MonoBehaviour:
   - Characteristics
   - Operations
   - Weapons
+  - MarsSceneLevels
+  - Improvements
+  - PlayerLevels
   foldoutSerializationGUI: 1
   serializationOutputPath: ../../Configs
   serializationFileName: Configs.v0.1
@@ -147,3 +150,82 @@ MonoBehaviour:
       _descriptionEn: The machine gun fires a burst in 4 different directions
       _descriptionTr: "Makineli t\xFCfek 4 farkl\u0131 y\xF6ne patlayarak ate\u015F
         ediyor"
+    PlayerLevels:
+    - _id: 
+      _requiredExperience: 50
+    - _id: 
+      _requiredExperience: 70
+    - _id: 
+      _requiredExperience: 80
+    - _id: 
+      _requiredExperience: 100
+    - _id: 
+      _requiredExperience: 150
+    - _id: 
+      _requiredExperience: 200
+    - _id: 
+      _requiredExperience: 220
+    - _id: 
+      _requiredExperience: 250
+    - _id: 
+      _requiredExperience: 300
+    - _id: 
+      _requiredExperience: 330
+    - _id: 
+      _requiredExperience: 370
+    - _id: 
+      _requiredExperience: 400
+    - _id: 
+      _requiredExperience: 450
+    - _id: 
+      _requiredExperience: 500
+    - _id: 
+      _requiredExperience: 650
+    - _id: 
+      _requiredExperience: 700
+    - _id: 
+      _requiredExperience: 750
+    - _id: 
+      _requiredExperience: 800
+    - _id: 
+      _requiredExperience: 850
+    - _id: 
+      _requiredExperience: 900
+    Improvements:
+    - _id: grenade_damage_common
+      _requiredExperience: 0
+    - _id: grenade_radius_common
+      _requiredExperience: 0
+    - _id: grenade_speed_common
+      _requiredExperience: 0
+    - _id: grenade_fire_rate_common
+      _requiredExperience: 0
+    - _id: grenade_range_common
+      _requiredExperience: 0
+    - _id: grenade_damage_unusual
+      _requiredExperience: 0
+    - _id: grenade_radius_unusual
+      _requiredExperience: 0
+    - _id: grenade_speed_unusual
+      _requiredExperience: 0
+    - _id: grenade_fire_rate_unusual
+      _requiredExperience: 0
+    - _id: grenade_range_unusual
+      _requiredExperience: 0
+    - _id: grenade_damage_rare
+      _requiredExperience: 0
+    - _id: grenade_radius_rare
+      _requiredExperience: 0
+    - _id: grenade_speed_rare
+      _requiredExperience: 0
+    - _id: grenade_fire_rate_rare
+      _requiredExperience: 0
+    - _id: grenade_range_rare
+      _requiredExperience: 0
+    MarsSceneLevels:
+    - _number: 0
+      _sceneName: MarsFirstLevel
+    - _number: 1
+      _sceneName: MarsSecondLevel
+    - _number: 2
+      _sceneName: MarsThirdLevel

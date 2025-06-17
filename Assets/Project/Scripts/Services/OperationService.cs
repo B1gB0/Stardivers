@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using Project.Scripts.DataBase.Data;
 using Project.Scripts.Levels;
 using Reflex.Attributes;
 using UnityEngine;
@@ -11,7 +12,9 @@ namespace Project.Scripts.Services
         private const int DefaultNumberLevel = 0;
         
         [field: SerializeField] public List<Operation> Operations { get; private set; } = new();
-
+        
+        private readonly Dictionary<int, string> _marsSceneLevels = new();
+        
         private IDataBaseService _dataBaseService;
         
         public Operation CurrentOperation { get; private set; }
@@ -36,6 +39,11 @@ namespace Project.Scripts.Services
                     }
                 }
             }
+
+            foreach (var marsSceneLevel in _dataBaseService.Content.MarsSceneLevels)
+            {
+                _marsSceneLevels.Add(marsSceneLevel.Number, marsSceneLevel.SceneName);
+            }
         }
         
         public void SetCurrentOperation(int index)
@@ -47,6 +55,11 @@ namespace Project.Scripts.Services
         public void SetCurrentNumberLevel(int numberLevel)
         {
             CurrentNumberLevel = numberLevel;
+        }
+
+        public string GetSceneNameByNumber(int number)
+        {
+            return _marsSceneLevels[number];
         }
     }
 }

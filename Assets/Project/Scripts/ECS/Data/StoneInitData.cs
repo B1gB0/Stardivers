@@ -7,6 +7,5 @@ namespace Project.Scripts.ECS.Data
     public class StoneInitData : InitData
     {
         [field: SerializeField] public StoneActor StoneActorPrefab { get; private set; }
-        [field: SerializeField] public ParticleSystem HitEffect { get; private set; }
     }
 }

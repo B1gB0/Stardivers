@@ -34,6 +34,11 @@ namespace Project.Scripts.Levels
 
         public event Action IsInitiatedSpawners;
 
+        public virtual void OnStartLevel()
+        {
+            SpawnPlayer();
+        }
+
         public void GetServices(
             GameInitSystem gameInitSystem,
             Timer timer,

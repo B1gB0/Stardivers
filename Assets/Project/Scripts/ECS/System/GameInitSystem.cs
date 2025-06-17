@@ -43,6 +43,7 @@ namespace Project.Scripts.ECS.System
         private readonly PauseService _pauseService;
         private readonly AdviserMessagePanel _adviserMessagePanel;
         private readonly BallisticRocketProgressBar _ballisticRocketProgressBar;
+        private readonly Level _level;
         
         private readonly PlayerInitData _playerInitData;
         private readonly SmallAlienEnemyInitData _smallAlienEnemyInitData;
@@ -67,7 +68,7 @@ namespace Project.Scripts.ECS.System
         public PlayerActor Player { get; private set; }
         public Health.Health PlayerHealth { get; private set; }
         public Transform PlayerTransform { get; private set; }
-        public Level Level { get; private set; }
+        // public Level Level { get; private set; }
 
         public List<Vector3> SmallEnemyAlienSpawnPoints { get; private set; }
         public List<Vector3> BigEnemyAlienSpawnPoints { get; private set; }
@@ -92,7 +93,6 @@ namespace Project.Scripts.ECS.System
             _goldCoreInitData = goldCoreData;
             _capsuleInitData = capsuleData;
             
-            Level = Object.Instantiate(levelData.LevelPrefab);
             SmallEnemyAlienSpawnPoints = levelData.SmallEnemyAlienSpawnPoints;
             BigEnemyAlienSpawnPoints = levelData.BigEnemyAlienSpawnPoints;
             GunnerEnemyAlienSpawnPoints = levelData.GunnerEnemyAlienSpawnPoints;
@@ -108,9 +108,9 @@ namespace Project.Scripts.ECS.System
             PlayerHealth = Player.Health;
             Player.gameObject.SetActive(false);
 
-            Level.GetServices(this, _timer, _adviserMessagePanel, _pauseService);
+            _level.GetServices(this, _timer, _adviserMessagePanel, _pauseService);
             
-            if (Level is SecondMarsLevel secondMarsLevel)
+            if (_level is SecondMarsLevel secondMarsLevel)
             {
                 secondMarsLevel.GetBallisticProgressBar(_ballisticRocketProgressBar);
             }
