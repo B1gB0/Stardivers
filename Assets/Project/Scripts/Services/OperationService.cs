@@ -20,6 +20,8 @@ namespace Project.Scripts.Services
         public Operation CurrentOperation { get; private set; }
         
         public int CurrentNumberLevel { get; private set; }
+        
+        public bool IsInited { get; private set; }
 
         [Inject]
         public void Construct(IDataBaseService dataBaseService)
@@ -44,6 +46,8 @@ namespace Project.Scripts.Services
             {
                 _marsSceneLevels.Add(marsSceneLevel.Number, marsSceneLevel.SceneName);
             }
+
+            IsInited = true;
         }
         
         public void SetCurrentOperation(int index)

@@ -28,7 +28,11 @@ namespace Project.Scripts.Game.MainMenu.Root
 
         private async void Start()
         {
+            if(_operationService.IsInited)
+                return;
+            
             await _dataBaseService.Init();
+            await _operationService.Init();
         }
 
         public Observable<MainMenuExitParameters> Run(UIRootView uiRoot, MainMenuEnterParameters enterParameters)
@@ -40,7 +44,6 @@ namespace Project.Scripts.Game.MainMenu.Root
             GameObjectInjector.InjectRecursive(uiRoot.gameObject, container);
 
             _uiScene.GetUIStateMachineAndStates(uiRoot.UIStateMachine, uiRoot.UIRootButtons);
-            _operationService.Init().Forget();
 
             var exitSignalSubject = new Subject<Unit>();
             _uiScene.Bind(exitSignalSubject);
