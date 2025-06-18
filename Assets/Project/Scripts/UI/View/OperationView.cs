@@ -11,7 +11,7 @@ namespace Project.Scripts.UI.View
         private const string Ru = "ru";
         private const string En = "en";
         private const string Tr = "tr";
-        
+
         [SerializeField] private Image _image;
         [SerializeField] private Text _name;
         [SerializeField] private Text _countMissions;
@@ -33,18 +33,19 @@ namespace Project.Scripts.UI.View
         {
             gameObject.SetActive(false);
         }
-        
+
         private void SetData()
         {
             _image.sprite = _operation.Image;
-            
-            if(YandexGame.lang == Ru)
-             _name.text = _operation.NameRu;
-            else if(YandexGame.lang == En)
-                _name.text = _operation.NameEn;
-            else if(YandexGame.lang == Tr)
-                _name.text = _operation.NameTr;
-            
+
+            _name.text = YG2.lang switch
+            {
+                Ru => _operation.NameRu,
+                En => _operation.NameEn,
+                Tr => _operation.NameTr,
+                _ => _name.text
+            };
+
             _countMissions.text = _operation.Maps.Count.ToString();
         }
     }

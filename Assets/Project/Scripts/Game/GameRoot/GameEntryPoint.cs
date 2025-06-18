@@ -40,6 +40,10 @@ namespace Project.Scripts.Game.GameRoot
 
         private async void Start()
         {
+            Debug.Log("Метод Start в GameEntryPoint");
+            
+            await Addressables.InitializeAsync().Task;
+
             Application.targetFrameRate = 60;
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
 
@@ -57,29 +61,26 @@ namespace Project.Scripts.Game.GameRoot
                 return;
             }
 
-            // if (sceneName == Scenes.Gameplay)
-            // {
-            //     var enterParameters = new GameplayEnterParameters(
-            //         _operationService.CurrentOperation, 
-            //         _operationService.CurrentNumberLevel
-            //     );
-            //     await LoadAndStartGameplay(enterParameters);
-            //     return;
-            // }
-
             if (sceneName != Scenes.Boot)
             {
                 return;
             }
 #endif
+            Debug.Log("Старт игры, и вход в состояние загрузки");
+            
+            _uiRoot.UIStateMachine.EnterIn<LoadingPanelState>();
+            
             await LoadAndStartMainMenu();
         }
 
         private async UniTask LoadAndStartMainMenu(MainMenuEnterParameters enterParameters = null)
         {
+            Debug.Log("Загрузка меню");
+            
             _uiRoot.UIStateMachine.EnterIn<LoadingPanelState>();
-
+            
             await LoadScene(Scenes.MainMenu);
+
             await UniTask.Delay(TimeSpan.FromSeconds(1), ignoreTimeScale: false);
 
             var sceneEntryPoint = FindFirstObjectByType<MainMenuEntryPoint>();
@@ -89,11 +90,11 @@ namespace Project.Scripts.Game.GameRoot
                 {
                     mainMenuExitParameters.TargetSceneEnterParameters.SetNewSceneName(Scenes.MarsFirstLevel);
                 }
-                else if(_operationService.CurrentOperation.Id == MysteryPlanet)
+                else if (_operationService.CurrentOperation.Id == MysteryPlanet)
                 {
-                    mainMenuExitParameters.TargetSceneEnterParameters.SetNewSceneName(Scenes.MarsFirstLevel);
+                    mainMenuExitParameters.TargetSceneEnterParameters.SetNewSceneName(Scenes.MarsSecondLevel);
                 }
-                
+
                 LoadAndStartGameplay(mainMenuExitParameters
                     .TargetSceneEnterParameters.As<GameplayEnterParameters>()
                 ).Forget();
@@ -102,6 +103,8 @@ namespace Project.Scripts.Game.GameRoot
 
         private async UniTask LoadAndStartGameplay(GameplayEnterParameters enterParameters)
         {
+            Debug.Log("Загрузка геймплея");
+            
             _uiRoot.UIStateMachine.EnterIn<LoadingPanelState>();
 
             await LoadScene(enterParameters.SceneName);
@@ -139,6 +142,8 @@ namespace Project.Scripts.Game.GameRoot
                 LoadSceneMode.Single,
                 false
             );
+            
+            await _sceneHandle.Task;
 
             if (sceneName != Scenes.Boot)
             {
@@ -171,15 +176,12 @@ namespace Project.Scripts.Game.GameRoot
                 }
 
                 _uiRoot.ShowLoadingProgress(TargetValue);
-                await UniTask.Yield();
             }
+            
+            await UniTask.Yield();
 
             var activateOp = _sceneHandle.Result.ActivateAsync();
-
-            while (!activateOp.isDone)
-            {
-                await UniTask.Yield(PlayerLoopTiming.Update);
-            }
+            await activateOp;
 
             Scene loadedScene = SceneManager.GetSceneByName(sceneName);
             ReflexSceneManager.PreInstallScene(loadedScene,

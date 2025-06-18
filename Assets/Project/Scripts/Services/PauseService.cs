@@ -10,23 +10,23 @@ namespace Project.Scripts.Services
         private const int MinCountPause = 1;
         private const int StopTime = 0;
 
-        private int countPauses;
+        private int _countPauses;
         
         public event Action OnGameStarted;
         public event Action OnGamePaused;
 
         public void PlayGame()
         {
-            switch (countPauses)
+            switch (_countPauses)
             {
                 case MinCountPause :
-                    countPauses = 0;
+                    _countPauses = 0;
                     OnGameStarted?.Invoke();
+                    YG2.GameplayStart();
                     Time.timeScale = PlayTime;
-                    YandexGame.GameplayStart();
                     break;
                 case > MinCountPause :
-                    countPauses--;
+                    _countPauses--;
                     break;
             }
         }
@@ -36,11 +36,11 @@ namespace Project.Scripts.Services
             if (Time.timeScale != StopTime)
             {
                 OnGamePaused?.Invoke();
+                YG2.GameplayStop();
                 Time.timeScale = StopTime;
-                YandexGame.GameplayStop();
             }
             
-            countPauses++;
+            _countPauses++;
         }
     }
 }

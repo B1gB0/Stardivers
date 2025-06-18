@@ -15,7 +15,7 @@ namespace Project.Scripts.UI.Panel
     {
         private const string MusicVolume = nameof(MusicVolume);
         private const string EffectsVolume = nameof(EffectsVolume);
-        
+
         private const float StartValueSlider = 0.8f;
         private const float MinValueSlider = 0f;
 
@@ -23,10 +23,10 @@ namespace Project.Scripts.UI.Panel
         [SerializeField] private Button _backToSceneButton;
 
         [SerializeField] private AudioMixerGroup _mixer;
-        
+
         [SerializeField] private float _minVolume = -80f;
         [SerializeField] private float _maxVolume;
-        
+
         [SerializeField] private Slider _musicVolumeSlider;
         [SerializeField] private Slider _effectsVolumeSlider;
 
@@ -34,7 +34,7 @@ namespace Project.Scripts.UI.Panel
         private IPauseService _pauseService;
 
         public event Action OnExitButtonPressed;
-        
+
         [Inject]
         public void Construct(AudioSoundsService audioSoundsService, IPauseService pauseService)
         {
@@ -82,23 +82,27 @@ namespace Project.Scripts.UI.Panel
                 _effectsVolumeSlider.value = StartValueSlider;
             }
         }
-        
+
         public void StopGame()
         {
-            if(SceneManager.GetActiveScene().name == Scenes.Gameplay)
-                _pauseService.StopGame();
+            if (SceneManager.GetActiveScene().name == Scenes.MainMenu)
+                return;
+
+            _pauseService.StopGame();
         }
-        
+
         private void PlayGame()
         {
             _audioSoundsService.PlaySound(Sounds.Button);
-            
-            if(SceneManager.GetActiveScene().name == Scenes.Gameplay)
-                _pauseService.PlayGame();
-            
+
             OnExitButtonPressed?.Invoke();
+            
+            if (SceneManager.GetActiveScene().name == Scenes.MainMenu)
+                return;
+
+            _pauseService.PlayGame();
         }
-        
+
         private void ChangeMusicVolume(float volume)
         {
             _mixer.audioMixer.SetFloat(MusicVolume, Mathf.Lerp(_minVolume, _maxVolume, volume));

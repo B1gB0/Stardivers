@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
-using Project.Scripts.DataBase.Data;
 using Project.Scripts.Levels;
 using Reflex.Attributes;
 using UnityEngine;

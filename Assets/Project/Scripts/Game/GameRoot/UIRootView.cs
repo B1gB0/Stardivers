@@ -87,7 +87,7 @@ namespace Project.Scripts.Game.GameRoot
             if(sceneName == Scenes.MainMenu)
                 UIStateMachine.EnterIn<MainMenuState>();
             
-            if(sceneName == Scenes.Gameplay)
+            if(sceneName != Scenes.MainMenu)
                 UIStateMachine.EnterIn<GameplayState>();
         }
 

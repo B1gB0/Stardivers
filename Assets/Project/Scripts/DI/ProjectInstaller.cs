@@ -20,10 +20,14 @@ namespace Project.Scripts.DI
         
         public void InstallBindings(ContainerBuilder builder)
         {
+            Debug.Log("Регистрация сервисов");
+            
             RegisterCoreServices(builder);
+            Debug.Log("Перед созданием моно сервисов");
             CreateMonoServices();
             RegisterCreatedServices(builder);
             RegisterContainerDependentServices(builder);
+            Debug.Log("Конец InstallBindings");
         }
         
         private void RegisterCoreServices(ContainerBuilder builder)
@@ -32,25 +36,26 @@ namespace Project.Scripts.DI
             builder.AddSingleton(typeof(DataBaseService), typeof(IDataBaseService));
             builder.AddSingleton(typeof(PauseService), typeof(IPauseService));
             builder.AddSingleton(typeof(FloatingTextService), typeof(IFloatingTextService));
+            Debug.Log("Регистрация сервисов завершена");
         }
         
         private void CreateMonoServices()
         {
-            var serviceParent = new GameObject("Services");
-            DontDestroyOnLoad(serviceParent);
-            
-            CreateService(_audioSoundsServicePrefab, serviceParent);
-            CreateService(_operationServicePrefab, serviceParent);
-            CreateService(_uiRootViewPrefab, serviceParent);
-            CreateService(_gameEntryPointPrefab, serviceParent);
+            Debug.Log("Создание моно сервисов");
+
+            CreateService(_audioSoundsServicePrefab);
+            CreateService(_operationServicePrefab);
+            CreateService(_uiRootViewPrefab);
+            CreateService(_gameEntryPointPrefab);
         }
 
-        private void CreateService<T>(T prefab, GameObject parent) where T : MonoBehaviour
+        private void CreateService<T>(T prefab) where T : MonoBehaviour
         {
-            var instance = Instantiate(prefab, parent.transform);
+            Debug.Log($"Создание {prefab.name}");
+            var instance = Instantiate(prefab);
             _monoServices.Add(instance);
             _monoServiceObjects.Add(instance.gameObject);
-            DontDestroyOnLoad(instance.gameObject);
+            DontDestroyOnLoad(instance);
         }
         
         private void RegisterCreatedServices(ContainerBuilder builder)
