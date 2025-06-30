@@ -68,7 +68,6 @@ namespace Project.Scripts.ECS.System
         public PlayerActor Player { get; private set; }
         public Health.Health PlayerHealth { get; private set; }
         public Transform PlayerTransform { get; private set; }
-        // public Level Level { get; private set; }
 
         public List<Vector3> SmallEnemyAlienSpawnPoints { get; private set; }
         public List<Vector3> BigEnemyAlienSpawnPoints { get; private set; }

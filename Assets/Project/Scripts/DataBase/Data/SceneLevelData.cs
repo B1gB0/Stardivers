@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Project.Scripts.DataBase.Data
 {
     [Serializable]
-    public class MarsSceneLevelData
+    public class SceneLevelData
     {
         [SerializeField] private int _number;
         [SerializeField] private string _sceneName;

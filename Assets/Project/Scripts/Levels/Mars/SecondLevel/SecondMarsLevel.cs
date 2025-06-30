@@ -1,5 +1,4 @@
-﻿using System;
-using Project.Scripts.Levels.Triggers;
+﻿using Project.Scripts.Levels.Triggers;
 using Project.Scripts.UI.View;
 using UnityEngine;
 
@@ -23,11 +22,6 @@ namespace Project.Scripts.Levels.Mars.SecondLevel
         private void OnDisable()
         {
             IsInitiatedSpawners -= SpawnResources;
-        }
-
-        private void Start()
-        {
-            // SpawnPlayer();
         }
 
         public override void OnStartLevel()

@@ -1,9 +1,9 @@
 ﻿using Project.Scripts.Levels.Triggers;
 using UnityEngine;
 
-namespace Project.Scripts.Levels.Mars.ThirdLevel
+namespace Project.Scripts.Levels.MysteryPlanet.FirstLevel
 {
-    public class ThirdMarsLevel : Level
+    public class FirstMysteryPlanetLevel : Level
     {
         [SerializeField] private EnemySpawnTrigger _enemySpawnTrigger;
         [SerializeField] private EntranceTrigger _entranceLastLvlTrigger;
@@ -16,11 +16,6 @@ namespace Project.Scripts.Levels.Mars.ThirdLevel
         private void OnDisable()
         {
             IsInitiatedSpawners -= SpawnResources;
-        }
-
-        public override void OnStartLevel()
-        {
-            base.OnStartLevel();
         }
 
         private void Update()

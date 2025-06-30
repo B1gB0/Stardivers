@@ -25,11 +25,6 @@ namespace Project.Scripts.Levels.Mars.FirstLevel
             IsInitiatedSpawners -= SpawnResources;
         }
 
-        private void Start()
-        {
-            // SpawnPlayer();
-        }
-
         public override void OnStartLevel()
         {
             base.OnStartLevel();

@@ -13,6 +13,7 @@ namespace Project.Scripts.Services
         [field: SerializeField] public List<Operation> Operations { get; private set; } = new();
         
         private readonly Dictionary<int, string> _marsSceneLevels = new();
+        private readonly Dictionary<int, string> _mysteryPlanetSceneLevels = new();
         
         private IDataBaseService _dataBaseService;
         
@@ -45,6 +46,11 @@ namespace Project.Scripts.Services
             {
                 _marsSceneLevels.Add(marsSceneLevel.Number, marsSceneLevel.SceneName);
             }
+            
+            foreach (var mysteryPlanetSceneLevel in _dataBaseService.Content.MysteryPlanetSceneLevels)
+            {
+                _mysteryPlanetSceneLevels.Add(mysteryPlanetSceneLevel.Number, mysteryPlanetSceneLevel.SceneName);
+            }
 
             IsInited = true;
         }
@@ -62,7 +68,12 @@ namespace Project.Scripts.Services
 
         public string GetSceneNameByNumber(int number)
         {
-            return _marsSceneLevels[number];
+            return CurrentOperation.Id switch
+            {
+                Game.GameRoot.Operations.Mars => _marsSceneLevels[number],
+                Game.GameRoot.Operations.MysteryPlanet => _mysteryPlanetSceneLevels[number],
+                _ => null
+            };
         }
     }
 }

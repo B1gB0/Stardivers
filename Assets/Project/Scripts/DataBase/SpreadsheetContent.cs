@@ -12,7 +12,8 @@ namespace Project.Scripts.DataBase
         [SpreadsheetPage("Characteristics")] public List<CharacteristicsData> Characteristics;
         [SpreadsheetPage("Weapons")] public List<WeaponData> Weapons;
         [SpreadsheetPage("PlayerLevels")] public List<PlayerLevelData> PlayerLevels;
-        [SpreadsheetPage("Improvements")] public List<PlayerLevelData> Improvements;
-        [SpreadsheetPage("MarsSceneLevels")] public List<MarsSceneLevelData> MarsSceneLevels;
+        [SpreadsheetPage("Improvements")] public List<ImprovementData> Improvements;
+        [SpreadsheetPage("MarsSceneLevels")] public List<SceneLevelData> MarsSceneLevels;
+        [SpreadsheetPage("MysteryPlanetSceneLevels")] public List<SceneLevelData> MysteryPlanetSceneLevels;
     }
 }

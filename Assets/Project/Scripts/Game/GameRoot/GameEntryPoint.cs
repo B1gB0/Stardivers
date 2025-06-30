@@ -23,9 +23,6 @@ namespace Project.Scripts.Game.GameRoot
         private const float MinLoadTime = 2.0f;
         private const float ActivationThreshold = 0.9f;
 
-        private const string Mars = "mars_operation";
-        private const string MysteryPlanet = "mystery_planet_operation";
-
         private AsyncOperationHandle<SceneInstance> _sceneHandle;
 
         private UIRootView _uiRoot;
@@ -86,13 +83,13 @@ namespace Project.Scripts.Game.GameRoot
             var sceneEntryPoint = FindFirstObjectByType<MainMenuEntryPoint>();
             sceneEntryPoint.Run(_uiRoot, enterParameters).Subscribe(mainMenuExitParameters =>
             {
-                if (_operationService.CurrentOperation.Id == Mars)
+                if (_operationService.CurrentOperation.Id == Operations.Mars)
                 {
                     mainMenuExitParameters.TargetSceneEnterParameters.SetNewSceneName(Scenes.MarsFirstLevel);
                 }
-                else if (_operationService.CurrentOperation.Id == MysteryPlanet)
+                else if (_operationService.CurrentOperation.Id == Operations.MysteryPlanet)
                 {
-                    mainMenuExitParameters.TargetSceneEnterParameters.SetNewSceneName(Scenes.MarsSecondLevel);
+                    mainMenuExitParameters.TargetSceneEnterParameters.SetNewSceneName(Scenes.MysteryPlanetFirstLevel);
                 }
 
                 LoadAndStartGameplay(mainMenuExitParameters

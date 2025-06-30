@@ -1,5 +1,4 @@
-﻿using Cysharp.Threading.Tasks;
-using Project.Scripts.Game.Gameplay.Root;
+﻿using Project.Scripts.Game.Gameplay.Root;
 using Project.Scripts.Game.GameRoot;
 using Project.Scripts.Game.MainMenu.Root.View;
 using Project.Scripts.Services;
@@ -18,6 +17,8 @@ namespace Project.Scripts.Game.MainMenu.Root
         private UIMainMenuRootBinder _uiScene;
         private OperationService _operationService;
         private IDataBaseService _dataBaseService;
+        
+        private MainMenuExitParameters _exitParameters;
 
         [Inject]
         private void Construct(OperationService operationService, IDataBaseService dataBaseService)
@@ -40,6 +41,8 @@ namespace Project.Scripts.Game.MainMenu.Root
             _uiScene = Instantiate(_sceneUIRootPrefab);
             uiRoot.AttachSceneUI(_uiScene.gameObject);
             
+            _uiScene.OnGameplayStarted += GetMainMenuExitParameters;
+            
             var container = gameObject.scene.GetSceneContainer();
             GameObjectInjector.InjectRecursive(uiRoot.gameObject, container);
 
@@ -48,16 +51,24 @@ namespace Project.Scripts.Game.MainMenu.Root
             var exitSignalSubject = new Subject<Unit>();
             _uiScene.Bind(exitSignalSubject);
 
+            var exitToGameplaySceneSignal = exitSignalSubject.Select(_ => _exitParameters);
+
+            return exitToGameplaySceneSignal;
+        }
+
+        private void GetMainMenuExitParameters()
+        {
             var sceneName = _operationService.GetSceneNameByNumber(_operationService.CurrentNumberLevel);
 
             var gameplayEnterParameters = new GameplayEnterParameters(_operationService.CurrentOperation,
                 _operationService.CurrentNumberLevel, sceneName);
             
-            var mainMenuExitParameters = new MainMenuExitParameters(gameplayEnterParameters);
+            _exitParameters = new MainMenuExitParameters(gameplayEnterParameters);
+        }
 
-            var exitToGameplaySceneSignal = exitSignalSubject.Select(_ => mainMenuExitParameters);
-
-            return exitToGameplaySceneSignal;
+        private void OnDestroy()
+        {
+            _uiScene.OnGameplayStarted -= GetMainMenuExitParameters;
         }
     }
 }

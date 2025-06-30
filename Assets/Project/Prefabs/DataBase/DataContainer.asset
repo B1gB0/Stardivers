@@ -22,6 +22,7 @@ MonoBehaviour:
   - MarsSceneLevels
   - Improvements
   - PlayerLevels
+  - MysteryPlanetSceneLevels
   foldoutSerializationGUI: 1
   serializationOutputPath: ../../Configs
   serializationFileName: Configs.v0.1
@@ -151,77 +152,122 @@ MonoBehaviour:
       _descriptionTr: "Makineli t\xFCfek 4 farkl\u0131 y\xF6ne patlayarak ate\u015F
         ediyor"
     PlayerLevels:
-    - _id: 
+    - _id: 1
       _requiredExperience: 50
-    - _id: 
+    - _id: 2
       _requiredExperience: 70
-    - _id: 
+    - _id: 3
       _requiredExperience: 80
-    - _id: 
+    - _id: 4
       _requiredExperience: 100
-    - _id: 
+    - _id: 5
       _requiredExperience: 150
-    - _id: 
+    - _id: 6
       _requiredExperience: 200
-    - _id: 
+    - _id: 7
       _requiredExperience: 220
-    - _id: 
+    - _id: 8
       _requiredExperience: 250
-    - _id: 
+    - _id: 9
       _requiredExperience: 300
-    - _id: 
+    - _id: 10
       _requiredExperience: 330
-    - _id: 
+    - _id: 11
       _requiredExperience: 370
-    - _id: 
+    - _id: 12
       _requiredExperience: 400
-    - _id: 
+    - _id: 13
       _requiredExperience: 450
-    - _id: 
+    - _id: 14
       _requiredExperience: 500
-    - _id: 
+    - _id: 15
       _requiredExperience: 650
-    - _id: 
+    - _id: 16
       _requiredExperience: 700
-    - _id: 
+    - _id: 17
       _requiredExperience: 750
-    - _id: 
+    - _id: 18
       _requiredExperience: 800
-    - _id: 
+    - _id: 19
       _requiredExperience: 850
-    - _id: 
+    - _id: 20
       _requiredExperience: 900
     Improvements:
     - _id: grenade_damage_common
-      _requiredExperience: 0
+      _weaponType: 3
+      _characteristicType: 0
+      _levelCard: 0
+      _value: 0.1
     - _id: grenade_radius_common
-      _requiredExperience: 0
+      _weaponType: 3
+      _characteristicType: 5
+      _levelCard: 0
+      _value: 0.1
     - _id: grenade_speed_common
-      _requiredExperience: 0
+      _weaponType: 3
+      _characteristicType: 4
+      _levelCard: 0
+      _value: 0.1
     - _id: grenade_fire_rate_common
-      _requiredExperience: 0
+      _weaponType: 3
+      _characteristicType: 1
+      _levelCard: 0
+      _value: 0.1
     - _id: grenade_range_common
-      _requiredExperience: 0
+      _weaponType: 3
+      _characteristicType: 0
+      _levelCard: 0
+      _value: 0.1
     - _id: grenade_damage_unusual
-      _requiredExperience: 0
+      _weaponType: 3
+      _characteristicType: 0
+      _levelCard: 1
+      _value: 0.2
     - _id: grenade_radius_unusual
-      _requiredExperience: 0
+      _weaponType: 3
+      _characteristicType: 5
+      _levelCard: 1
+      _value: 0.2
     - _id: grenade_speed_unusual
-      _requiredExperience: 0
+      _weaponType: 3
+      _characteristicType: 4
+      _levelCard: 1
+      _value: 0.2
     - _id: grenade_fire_rate_unusual
-      _requiredExperience: 0
+      _weaponType: 3
+      _characteristicType: 1
+      _levelCard: 1
+      _value: 0.2
     - _id: grenade_range_unusual
-      _requiredExperience: 0
+      _weaponType: 3
+      _characteristicType: 0
+      _levelCard: 1
+      _value: 0.2
     - _id: grenade_damage_rare
-      _requiredExperience: 0
+      _weaponType: 3
+      _characteristicType: 0
+      _levelCard: 2
+      _value: 0.3
     - _id: grenade_radius_rare
-      _requiredExperience: 0
+      _weaponType: 3
+      _characteristicType: 5
+      _levelCard: 2
+      _value: 0.3
     - _id: grenade_speed_rare
-      _requiredExperience: 0
+      _weaponType: 3
+      _characteristicType: 4
+      _levelCard: 2
+      _value: 0.3
     - _id: grenade_fire_rate_rare
-      _requiredExperience: 0
+      _weaponType: 3
+      _characteristicType: 1
+      _levelCard: 2
+      _value: 0.3
     - _id: grenade_range_rare
-      _requiredExperience: 0
+      _weaponType: 3
+      _characteristicType: 0
+      _levelCard: 2
+      _value: 0.3
     MarsSceneLevels:
     - _number: 0
       _sceneName: MarsFirstLevel
@@ -229,3 +275,10 @@ MonoBehaviour:
       _sceneName: MarsSecondLevel
     - _number: 2
       _sceneName: MarsThirdLevel
+    MysteryPlanetSceneLevels:
+    - _number: 0
+      _sceneName: MysteryPlanetFirstLevel
+    - _number: 1
+      _sceneName: MysteryPlanetSecondLevel
+    - _number: 2
+      _sceneName: MysteryPlanetThirdLevel

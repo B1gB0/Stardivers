@@ -11,7 +11,7 @@ namespace Project.Scripts.Levels.Mars.FirstLevel
             " Поэтому действуем быстро! Тебе нужно проверить ближайший радиопередатчик " +
             "около поста колонистов.";
 
-        private const string EnemySpawnTriggerText = "Десантник зафиксированы неопознанные биосигналы." +
+        private const string EnemySpawnTriggerText = "Десантник, зафиксированы неопознанные биосигналы." +
                                                      " Они всё ближе к тебе! Приготовься!";
 
         private const string EndAttackText = "Атака закончилась! Пора отправиться в ближайший аванпост" +
