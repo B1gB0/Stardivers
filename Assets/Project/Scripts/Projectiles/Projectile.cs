@@ -21,7 +21,7 @@ namespace Project.Scripts.Projectiles
             Transform = transform;
         }
 
-        private void OnEnable()
+        protected virtual void OnEnable()
         {
             StartCoroutine(LifeRoutine());
         }
@@ -40,7 +40,7 @@ namespace Project.Scripts.Projectiles
             }
         }
 
-        private void OnDisable()
+        protected virtual void OnDisable()
         {
             StopCoroutine(LifeRoutine());
         }

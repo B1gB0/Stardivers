@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace  Project.Scripts.Projectiles.Grenades
 {
-    public class FragGrenade : Projectile
+    public class FragGrenade : ExplodingProjectile
     {
         private const float ThrowTime = 2f;
         
@@ -15,8 +15,6 @@ namespace  Project.Scripts.Projectiles.Grenades
         private AudioSoundsService _audioSoundsService;
         
         private Transform _enemyPosition;
-        
-        private float _explosionRadius;
 
         protected override void FixedUpdate()
         {
@@ -43,13 +41,7 @@ namespace  Project.Scripts.Projectiles.Grenades
         {
             Damage = damage;
             ProjectileSpeed = projectileSpeed;
-            _explosionRadius = explosionRadius;
-        }
-        
-        public void GetExplosionEffects(ParticleSystem effect, AudioSoundsService audioSoundsService)
-        {
-            _explosionEffect = effect;
-            _audioSoundsService = audioSoundsService;
+            ExplosionRadius = explosionRadius;
         }
 
         protected override IEnumerator LifeRoutine()
@@ -59,7 +51,7 @@ namespace  Project.Scripts.Projectiles.Grenades
             Explode();
         }
 
-        private void Explode()
+        protected override void Explode()
         {
             _explosionEffect.transform.position = Transform.position;
             _explosionEffect.Play();
@@ -73,9 +65,9 @@ namespace  Project.Scripts.Projectiles.Grenades
             gameObject.SetActive(false);
         }
         
-        private List<EnemyAlienActor> GetExplosiveObjects()
+        protected override List<EnemyAlienActor> GetExplosiveObjects()
         {
-            Collider[] hits = Physics.OverlapSphere(Transform.position, _explosionRadius);
+            Collider[] hits = Physics.OverlapSphere(Transform.position, ExplosionRadius);
         
             List<EnemyAlienActor> enemies = new();
         

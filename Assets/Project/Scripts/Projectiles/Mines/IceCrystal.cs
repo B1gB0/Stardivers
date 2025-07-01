@@ -1,8 +1,6 @@
-﻿using UnityEngine;
-
-namespace Project.Scripts.Projectiles.Mines
+﻿namespace Project.Scripts.Projectiles.Mines
 {
-    public class IceCrystal : MonoBehaviour
+    public class IceCrystal : ExplodingProjectile
     {
         
     }
