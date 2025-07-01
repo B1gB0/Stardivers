@@ -16,11 +16,16 @@ namespace  Project.Scripts.Projectiles.Grenades
         
         private Transform _enemyPosition;
         
-        private float _damage;
         private float _explosionRadius;
-        private float _grenadeSpeed;
 
-        private void OnTriggerEnter(Collider collision)
+        protected override void FixedUpdate()
+        {
+            StartCoroutine(ThrowGrenade());
+            Transform.position = Vector3.MoveTowards(Transform.position, _enemyPosition.position, 
+                ProjectileSpeed * Time.fixedDeltaTime);
+        }
+
+        protected override void OnTriggerEnter(Collider collision)
         {
             if(collision.gameObject.TryGetComponent(out EnemyAlienActor enemy))
             {
@@ -29,23 +34,16 @@ namespace  Project.Scripts.Projectiles.Grenades
             }
         }
 
-        private void FixedUpdate()
-        {
-            StartCoroutine(ThrowGrenade());
-            transform.position = Vector3.MoveTowards(transform.position, _enemyPosition.position, 
-                _grenadeSpeed * Time.fixedDeltaTime);
-        }
-        
-        public void SetDirection(Transform enemyPosition)
+        public override void SetDirection(Transform enemyPosition)
         {
             _enemyPosition = enemyPosition;
         }
         
-        public void SetCharacteristics(float damage, float explosionRadius, float grenadeSpeed)
+        public void SetCharacteristics(float damage, float explosionRadius, float projectileSpeed)
         {
-            _damage = damage;
+            Damage = damage;
+            ProjectileSpeed = projectileSpeed;
             _explosionRadius = explosionRadius;
-            _grenadeSpeed = grenadeSpeed;
         }
         
         public void GetExplosionEffects(ParticleSystem effect, AudioSoundsService audioSoundsService)
@@ -63,13 +61,13 @@ namespace  Project.Scripts.Projectiles.Grenades
 
         private void Explode()
         {
-            _explosionEffect.transform.position = transform.position;
+            _explosionEffect.transform.position = Transform.position;
             _explosionEffect.Play();
             _audioSoundsService.PlaySound(Sounds.FragGrenades);
         
             foreach (EnemyAlienActor explosiveObject in GetExplosiveObjects())
             {
-                explosiveObject.Health.TakeDamage(_damage);
+                explosiveObject.Health.TakeDamage(Damage);
             }
                 
             gameObject.SetActive(false);
@@ -77,7 +75,7 @@ namespace  Project.Scripts.Projectiles.Grenades
         
         private List<EnemyAlienActor> GetExplosiveObjects()
         {
-            Collider[] hits = Physics.OverlapSphere(transform.position, _explosionRadius);
+            Collider[] hits = Physics.OverlapSphere(Transform.position, _explosionRadius);
         
             List<EnemyAlienActor> enemies = new();
         
@@ -90,7 +88,7 @@ namespace  Project.Scripts.Projectiles.Grenades
         
         private IEnumerator ThrowGrenade()
         {
-            transform.up += Vector3.up;
+            Transform.up += Vector3.up;
 
             yield return new WaitForSeconds(ThrowTime);
         }

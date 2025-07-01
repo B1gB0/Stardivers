@@ -1,4 +1,5 @@
 ﻿using Project.Game.Scripts;
+using Project.Scripts.Projectiles.Mines;
 using Project.Scripts.Services;
 using Project.Scripts.Weapon.Characteristics;
 using Project.Scripts.Weapon.Improvements;
