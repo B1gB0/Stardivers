@@ -5,11 +5,8 @@ using UnityEngine;
 
 namespace Project.Scripts.Projectiles.Mines
 {
-    public class Mine : ExplodingProjectile
+    public class Mine : ExplodingObject
     {
-        private ParticleSystem _explosionEffect;
-        private AudioSoundsService _audioSoundsService;
-
         protected override void OnTriggerEnter(Collider collision)
         {
             if(collision.gameObject.TryGetComponent(out EnemyAlienActor enemy))

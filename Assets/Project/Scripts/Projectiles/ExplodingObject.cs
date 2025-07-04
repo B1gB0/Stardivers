@@ -6,26 +6,26 @@ using UnityEngine;
 
 namespace Project.Scripts.Projectiles
 {
-    public class ExplodingProjectile : Projectile
+    public abstract class ExplodingObject : Projectile
     {
         protected float ExplosionRadius;
         
-        private ParticleSystem _explosionEffect;
-        private AudioSoundsService _audioSoundsService;
+        protected ParticleSystem ExplosionEffect;
+        protected AudioSoundsService AudioSoundsService;
 
         public void GetExplosionEffects(ParticleSystem effect, AudioSoundsService audioSoundsService)
         {
-            _explosionEffect = effect;
-            _audioSoundsService = audioSoundsService;
+            ExplosionEffect = effect;
+            AudioSoundsService = audioSoundsService;
         }
         
         protected virtual void Explode()
         {
-            _explosionEffect.transform.position = Transform.position;
-            _explosionEffect.Play();
-            _audioSoundsService.PlaySound(Sounds.Mines);
+            ExplosionEffect.transform.position = Transform.position;
+            ExplosionEffect.Play();
+            AudioSoundsService.PlaySound(Sounds.Mines);
 
-            foreach (EnemyAlienActor explosiveObject in GetExplosiveObjects())
+            foreach (EnemyAlienActor explosiveObject in GetEnemies())
             {
                 explosiveObject.Health.TakeDamage(Damage);
             }
@@ -33,7 +33,7 @@ namespace Project.Scripts.Projectiles
             gameObject.SetActive(false);
         }
     
-        protected virtual List<EnemyAlienActor> GetExplosiveObjects()
+        protected List<EnemyAlienActor> GetEnemies()
         {
             Collider[] hits = Physics.OverlapSphere(Transform.position, ExplosionRadius);
 

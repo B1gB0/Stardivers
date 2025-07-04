@@ -1,6 +1,7 @@
 ﻿using System;
 using Project.Scripts.ECS.Data;
 using Project.Scripts.ECS.EntityActors;
+using YG;
 
 namespace Project.Scripts.Experience
 {
@@ -56,8 +57,11 @@ namespace Project.Scripts.Experience
                 {
                     for (int i = _currentLevel; i < _counterLevel; i++)
                     {
-                        _currentLevel++;
-                        CurrentLevelIsUpgraded?.Invoke(_currentLevel);
+                        if (YG2.isGameplaying)
+                        {
+                            _currentLevel++;
+                            CurrentLevelIsUpgraded?.Invoke(_currentLevel);
+                        }
                     }
                 }
             }

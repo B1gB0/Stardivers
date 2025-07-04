@@ -1,19 +1,14 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using Project.Game.Scripts;
 using Project.Scripts.ECS.EntityActors;
-using Project.Scripts.Services;
 using UnityEngine;
 
 namespace  Project.Scripts.Projectiles.Grenades
 {
-    public class FragGrenade : ExplodingProjectile
+    public class FragGrenade : ExplodingObject
     {
         private const float ThrowTime = 2f;
-        
-        private ParticleSystem _explosionEffect;
-        private AudioSoundsService _audioSoundsService;
-        
+
         private Transform _enemyPosition;
 
         protected override void FixedUpdate()
@@ -53,31 +48,18 @@ namespace  Project.Scripts.Projectiles.Grenades
 
         protected override void Explode()
         {
-            _explosionEffect.transform.position = Transform.position;
-            _explosionEffect.Play();
-            _audioSoundsService.PlaySound(Sounds.FragGrenades);
+            ExplosionEffect.transform.position = Transform.position;
+            ExplosionEffect.Play();
+            AudioSoundsService.PlaySound(Sounds.FragGrenades);
         
-            foreach (EnemyAlienActor explosiveObject in GetExplosiveObjects())
+            foreach (EnemyAlienActor explosiveObject in GetEnemies())
             {
                 explosiveObject.Health.TakeDamage(Damage);
             }
                 
             gameObject.SetActive(false);
         }
-        
-        protected override List<EnemyAlienActor> GetExplosiveObjects()
-        {
-            Collider[] hits = Physics.OverlapSphere(Transform.position, ExplosionRadius);
-        
-            List<EnemyAlienActor> enemies = new();
-        
-            foreach (Collider hit in hits)
-                if (hit.attachedRigidbody != null && hit.gameObject.TryGetComponent(out EnemyAlienActor enemyActor))
-                    enemies.Add(enemyActor);
-        
-            return enemies;
-        }
-        
+
         private IEnumerator ThrowGrenade()
         {
             Transform.up += Vector3.up;

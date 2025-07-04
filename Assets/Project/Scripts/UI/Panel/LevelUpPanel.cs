@@ -29,14 +29,17 @@ namespace Project.Scripts.UI.Panel
 
         private AudioSoundsService _audioSoundsService;
         private IPauseService _pauseService;
+        private IDataBaseService _dataBaseService;
+        
         private WeaponFactory _weaponFactory;
         private WeaponHolder _weaponHolder;
 
         [Inject]
-        private void Construct(AudioSoundsService audioSoundsService, IPauseService pauseService)
+        private void Construct(AudioSoundsService audioSoundsService, IPauseService pauseService, IDataBaseService dataBaseService)
         {
             _audioSoundsService = audioSoundsService;
             _pauseService = pauseService;
+            _dataBaseService = dataBaseService;
         }
 
         private void Start()
