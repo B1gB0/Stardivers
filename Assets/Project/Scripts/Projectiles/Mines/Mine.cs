@@ -1,6 +1,5 @@
 using System.Collections;
 using Project.Scripts.ECS.EntityActors;
-using Project.Scripts.Services;
 using UnityEngine;
 
 namespace Project.Scripts.Projectiles.Mines

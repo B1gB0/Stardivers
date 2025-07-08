@@ -1,5 +1,4 @@
-﻿using System;
-using Project.Scripts.Experience;
+﻿using Project.Scripts.Experience;
 using Project.Scripts.Services;
 using UnityEngine;
 using UnityEngine.AI;
@@ -21,6 +20,11 @@ namespace Project.Scripts.ECS.EntityActors
             
             TextService = textService;
             Health.IsSpawnedDamageText += TextService.OnChangedFloatingText;
+        }
+
+        public void SetSpeed(float speed)
+        {
+            NavMeshAgent.speed += speed;
         }
     }
 }
