@@ -78,8 +78,6 @@ namespace Project.Scripts.Game.GameRoot
             
             await LoadScene(Scenes.MainMenu);
 
-            await UniTask.Delay(TimeSpan.FromSeconds(1), ignoreTimeScale: false);
-
             var sceneEntryPoint = FindFirstObjectByType<MainMenuEntryPoint>();
             sceneEntryPoint.Run(_uiRoot, enterParameters).Subscribe(mainMenuExitParameters =>
             {
@@ -105,7 +103,6 @@ namespace Project.Scripts.Game.GameRoot
             _uiRoot.UIStateMachine.EnterIn<LoadingPanelState>();
 
             await LoadScene(enterParameters.SceneName);
-            await UniTask.Delay(TimeSpan.FromSeconds(1), ignoreTimeScale: false);
 
             var sceneEntryPoint = FindFirstObjectByType<GameplayEntryPoint>();
             sceneEntryPoint.Run(_uiRoot, enterParameters).Subscribe(gameplayExitParameters =>
