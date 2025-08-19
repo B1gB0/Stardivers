@@ -983,6 +983,10 @@ PrefabInstance:
       propertyPath: m_ReflectionProbeUsage
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 2842802138881804754, guid: 99c52dcbf79d6bf4482197d737c0fd77, type: 3}
+      propertyPath: welcomePlanetTextTrigger
+      value: 
+      objectReference: {fileID: 223593004}
     - target: {fileID: 2844090986861479541, guid: 99c52dcbf79d6bf4482197d737c0fd77, type: 3}
       propertyPath: m_LightProbeUsage
       value: 0
@@ -2876,6 +2880,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3dfd91c3f2b64f0faa8824375c5a41bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &223593004 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1947437047661282420, guid: 99c52dcbf79d6bf4482197d737c0fd77, type: 3}
+  m_PrefabInstance: {fileID: 223593002}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ce795dad942430ba3933e63847550ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &686221071

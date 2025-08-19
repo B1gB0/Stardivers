@@ -7,6 +7,7 @@ namespace Project.Scripts.Levels.MysteryPlanet.FirstLevel
     {
         [SerializeField] private EnemySpawnTrigger _enemySpawnTrigger;
         [SerializeField] private EntranceTrigger _entranceLastLvlTrigger;
+        [SerializeField] private int _timeOfWaves = 90;
 
         private void OnEnable()
         {
@@ -16,6 +17,12 @@ namespace Project.Scripts.Levels.MysteryPlanet.FirstLevel
         private void OnDisable()
         {
             IsInitiatedSpawners -= SpawnResources;
+        }
+
+        public override void OnStartLevel()
+        {
+            base.OnStartLevel();
+            
         }
 
         private void Update()

@@ -8,19 +8,19 @@ namespace Project.Scripts.Levels.Mars.FirstLevel
         private readonly FirstLevelAdviserTextsSetter _firstLevelAdviserTextsSetter = new ();
         
         [SerializeField] private EnemySpawnTrigger _enemySpawnTrigger;
-        [SerializeField] private WelcomeMarsTextTrigger _welcomeMarsTextTrigger;
-        [SerializeField] private int _timeOfWave = 90;
+        [SerializeField] private WelcomePlanetTextTrigger welcomePlanetTextTrigger;
+        [SerializeField] private int _timeOfWaves = 90;
 
         private void OnEnable()
         {
-            _welcomeMarsTextTrigger.IsWelcomeToMars += _firstLevelAdviserTextsSetter.SetAndShowWelcomeMarsText;
+            welcomePlanetTextTrigger.IsWelcomeToPlanet += _firstLevelAdviserTextsSetter.SetAndShowWelcomePlanetText;
             
             IsInitiatedSpawners += SpawnResources;
         }
 
         private void OnDisable()
         {
-            _welcomeMarsTextTrigger.IsWelcomeToMars -= _firstLevelAdviserTextsSetter.SetAndShowWelcomeMarsText;
+            welcomePlanetTextTrigger.IsWelcomeToPlanet -= _firstLevelAdviserTextsSetter.SetAndShowWelcomePlanetText;
             
             IsInitiatedSpawners -= SpawnResources;
         }
@@ -29,7 +29,7 @@ namespace Project.Scripts.Levels.Mars.FirstLevel
         {
             base.OnStartLevel();
             
-            Timer.SetTime(_timeOfWave);
+            Timer.SetTime(_timeOfWaves);
             
             _firstLevelAdviserTextsSetter.GetAdviserPanel(AdviserMessagePanel);
             

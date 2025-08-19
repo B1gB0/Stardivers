@@ -22,7 +22,7 @@ namespace Project.Scripts.Levels.Mars.FirstLevel
             _adviserMessagePanel = adviserMessagePanel;
         }
 
-        public void SetAndShowWelcomeMarsText()
+        public void SetAndShowWelcomePlanetText()
         {
             _adviserMessagePanel.SetText(WelcomeMarsText);
             _adviserMessagePanel.Show();

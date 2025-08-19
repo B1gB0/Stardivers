@@ -59,7 +59,7 @@ namespace Project.Scripts.Levels.Mars.SecondLevel
                 EnemySpawner.SpawnSmallAlienEnemy();
                 EnemySpawner.SpawnGunnerAlienEnemy();
 
-                LastSpawnTime = Delay;
+                LastSpawnTime = SpawnWaveOfEnemyDelay;
             }
 
             LastSpawnTime -= Time.deltaTime;

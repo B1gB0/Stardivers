@@ -54,6 +54,8 @@ namespace Project.Scripts.Game.Gameplay.Root
         private IPauseService _pauseService;
         private OperationService _operationService;
         private IFloatingTextService _floatingTextService;
+        private IResourceService _resourceService;
+        private IDataBaseService _dataBaseService;
 
         private HealthBar _healthBar;
         private ExperiencePoints _experiencePoints;
@@ -66,13 +68,16 @@ namespace Project.Scripts.Game.Gameplay.Root
         private BallisticRocketProgressBar _ballisticRocketProgressBar;
 
         [Inject]
-        private void Construct(AudioSoundsService audioSoundsService, IPauseService pauseService,
-            OperationService operationService, IFloatingTextService floatingTextService)
+        private void Construct(AudioSoundsService audioSoundsService, IPauseService pauseService, 
+            OperationService operationService, IFloatingTextService floatingTextService, IDataBaseService dataBaseService,
+            IResourceService resourceService)
         {
             _audioSoundsService = audioSoundsService;
             _pauseService = pauseService;
             _operationService = operationService;
             _floatingTextService = floatingTextService;
+            _dataBaseService = dataBaseService;
+            _resourceService = resourceService;
         }
 
         private void Update()
@@ -240,6 +245,8 @@ namespace Project.Scripts.Game.Gameplay.Root
             _updateSystems.Inject(_ballisticRocketProgressBar);
             _updateSystems.Inject(_pauseService);
             _updateSystems.Inject(_level);
+            _updateSystems.Inject(_resourceService);
+            _updateSystems.Inject(_dataBaseService);
 
             _updateSystems.Add(_gameInitSystem = new GameInitSystem(_playerData, smallAlienEnemyData, bigAlienEnemyData, 
                 _gunnerEnemyAlienData, _stoneData, _capsuleData, _levelData, _healingCoreData, _goldCoreData));

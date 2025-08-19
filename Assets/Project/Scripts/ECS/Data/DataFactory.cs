@@ -16,13 +16,13 @@ public class DataFactory : MonoBehaviour
     private readonly string _healingCoreData = "SO/HealingCoreData";
     private readonly string _goldCoreData = "SO/GoldCoreData";
     
-    // private IResourceService _resourceService;
-    //
-    // [Inject]
-    // private void Construct(IResourceService resourceService)
-    // {
-    //     _resourceService = resourceService;
-    // }
+    private IResourceService _resourceService;
+    
+    [Inject]
+    private void Construct(IResourceService resourceService)
+    {
+        _resourceService = resourceService;
+    }
 
     public PlayerInitData CreatePlayerData()
     {

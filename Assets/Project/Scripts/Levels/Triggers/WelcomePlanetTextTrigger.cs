@@ -2,17 +2,17 @@
 using Project.Scripts.ECS.EntityActors;
 using UnityEngine;
 
-namespace Project.Scripts.Levels
+namespace Project.Scripts.Levels.Triggers
 {
-    public class WelcomeMarsTextTrigger : MonoBehaviour
+    public class WelcomePlanetTextTrigger : Trigger
     {
-        public event Action IsWelcomeToMars; 
+        public event Action IsWelcomeToPlanet; 
 
         private void OnTriggerEnter(Collider trigger)
         {
             if (trigger.TryGetComponent(out PlayerActor _))
             {
-                IsWelcomeToMars?.Invoke();
+                IsWelcomeToPlanet?.Invoke();
             }
         }
 
@@ -20,7 +20,7 @@ namespace Project.Scripts.Levels
         {
             if (trigger.TryGetComponent(out PlayerActor _))
             {
-                gameObject.SetActive(false);
+                Deactivate();
             }
         }
     }

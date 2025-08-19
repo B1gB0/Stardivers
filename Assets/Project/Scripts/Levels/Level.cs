@@ -19,7 +19,7 @@ namespace Project.Scripts.Levels
         [field: SerializeField] public int QuantityGoldCore { get; private set; }
         [field: SerializeField] public int QuantityHealingCore { get; private set; }
 
-        [SerializeField] protected float Delay = 10f;
+        [SerializeField] protected float SpawnWaveOfEnemyDelay = 10f;
         
         protected EnemySpawner EnemySpawner;
 
@@ -59,13 +59,18 @@ namespace Project.Scripts.Levels
             {
                 EnemySpawner.SpawnSmallAlienEnemy();
 
-                LastSpawnTime = Delay;
+                LastSpawnTime = SpawnWaveOfEnemyDelay;
             }
 
             LastSpawnTime -= Time.deltaTime;
         }
 
-        protected void SpawnPlayer()
+        protected void SpawnResources()
+        {
+            _resourcesSpawner.Spawn(QuantityGoldCore, QuantityHealingCore);
+        }
+        
+        private void SpawnPlayer()
         {
             if (IsLaunchPlayerCapsule)
             {
@@ -75,11 +80,6 @@ namespace Project.Scripts.Levels
             {
                 _gameInitSystem.SpawnPlayer();
             }
-        }
-
-        protected void SpawnResources()
-        {
-            _resourcesSpawner.Spawn(QuantityGoldCore, QuantityHealingCore);
         }
 
         private void InitSpawners(GameInitSystem gameInitSystem)
