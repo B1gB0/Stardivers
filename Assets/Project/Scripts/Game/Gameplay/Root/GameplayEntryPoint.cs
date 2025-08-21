@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Cinemachine;
+﻿using Cinemachine;
 using Cysharp.Threading.Tasks;
 using Leopotam.Ecs;
 using Project.Scripts.ECS.Data;
@@ -119,8 +118,8 @@ namespace Project.Scripts.Game.Gameplay.Root
             _progressBar = _viewFactory.CreateProgressBar(_experiencePoints, _gameInitSystem.PlayerTransform);
 
             _weaponFactory.GetData(_gameInitSystem.PlayerTransform, _weaponHolder);
-            _weaponFactory.CreateEnemyDetector();
-            _weaponFactory.CreateWeapon(WeaponType.Gun);
+            await _weaponFactory.CreateEnemyDetector();
+            await _weaponFactory.CreateWeapon(WeaponType.Gun);
             
             _levelUpPanel.GetServices(_weaponFactory, _weaponHolder);
             _levelUpPanel.GetStartImprovements();

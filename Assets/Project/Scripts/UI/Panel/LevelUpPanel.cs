@@ -154,7 +154,7 @@ namespace Project.Scripts.UI.Panel
             }
         }
 
-        private void OnButtonClicked(Card card, CardView cardView)
+        private async void OnButtonClicked(Card card, CardView cardView)
         {
             _audioSoundsService.PlaySound(Sounds.CardViewButton);
 
@@ -172,7 +172,7 @@ namespace Project.Scripts.UI.Panel
             }
             else if (card is WeaponCard weaponCard)
             {
-                PlayerWeapon weapon = _weaponFactory.CreateWeapon(weaponCard.PlayerWeapon);
+                PlayerWeapon weapon = await _weaponFactory.CreateWeapon(weaponCard.PlayerWeapon);
                 UpdateImprovementCardsByWeapon(weapon);
                 _currentWeaponCards.Remove(weaponCard);
             }
