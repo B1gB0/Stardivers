@@ -1,4 +1,6 @@
-﻿using Cinemachine;
+﻿using System.Threading.Tasks;
+using Cinemachine;
+using Cysharp.Threading.Tasks;
 using Leopotam.Ecs;
 using Project.Scripts.ECS.Data;
 using Project.Scripts.ECS.System;
@@ -36,8 +38,8 @@ namespace Project.Scripts.Game.Gameplay.Root
 
         private PlayerInitData _playerData;
         private LevelInitData _levelData;
-        private SmallAlienEnemyInitData smallAlienEnemyData;
-        private BigAlienEnemyInitData bigAlienEnemyData;
+        private SmallAlienEnemyInitData _smallAlienEnemyData;
+        private BigAlienEnemyInitData _bigAlienEnemyData;
         private GunnerAlienEnemyInitData _gunnerEnemyAlienData;
         private StoneInitData _stoneData;
         private CapsuleInitData _capsuleData;
@@ -90,13 +92,13 @@ namespace Project.Scripts.Game.Gameplay.Root
             _fixedUpdateSystems?.Run();
         }
 
-        public Observable<GameplayExitParameters> Run(UIRootView uiRoot, GameplayEnterParameters enterParameters)
+        public async UniTask<Observable<GameplayExitParameters>> Run(UIRootView uiRoot, GameplayEnterParameters enterParameters)
         {
             _pauseService.PlayGame();
             
             _operationService.SetCurrentNumberLevel(enterParameters.CurrentNumberLevel);
 
-            InitData();
+            await InitData();
 
             FloatingTextView textView = _viewFactory.CreateDamageTextView();
             textView.Hide();
@@ -215,19 +217,20 @@ namespace Project.Scripts.Game.Gameplay.Root
             _exitParameters = new GameplayExitParameters(gameplayEnterParameters);
         }
 
-        private void InitData()
+        private async UniTask InitData()
         {
-            _playerData = _dataFactory.CreatePlayerData();
             _levelData = _dataFactory.CreateLevelData(_operationService.CurrentOperation,
                 _operationService.CurrentNumberLevel);
-            smallAlienEnemyData = _dataFactory.CreateSmallEnemyAlienData();
-            bigAlienEnemyData = _dataFactory.CreateBigEnemyAlienData();
-            _gunnerEnemyAlienData = _dataFactory.CreateGunnerAlienEnemyData();
-            _stoneData = _dataFactory.CreateStoneData();
-            _capsuleData = _dataFactory.CreateCapsuleData();
-            _playerProgressionData = _dataFactory.CreatePlayerProgression();
-            _healingCoreData = _dataFactory.CreateHealingCoreData();
-            _goldCoreData = _dataFactory.CreateGoldCoreData();
+            
+            _playerData = await _dataFactory.CreatePlayerData();
+            _smallAlienEnemyData = await _dataFactory.CreateSmallEnemyAlienData();
+            _bigAlienEnemyData = await _dataFactory.CreateBigEnemyAlienData();
+            _gunnerEnemyAlienData = await _dataFactory.CreateGunnerAlienEnemyData();
+            _stoneData = await _dataFactory.CreateStoneData();
+            _capsuleData = await _dataFactory.CreateCapsuleData();
+            _playerProgressionData = await _dataFactory.CreatePlayerProgression();
+            _healingCoreData = await _dataFactory.CreateHealingCoreData();
+            _goldCoreData = await _dataFactory.CreateGoldCoreData();
         }
 
         private void InitEcs()
@@ -245,10 +248,9 @@ namespace Project.Scripts.Game.Gameplay.Root
             _updateSystems.Inject(_ballisticRocketProgressBar);
             _updateSystems.Inject(_pauseService);
             _updateSystems.Inject(_level);
-            _updateSystems.Inject(_resourceService);
             _updateSystems.Inject(_dataBaseService);
 
-            _updateSystems.Add(_gameInitSystem = new GameInitSystem(_playerData, smallAlienEnemyData, bigAlienEnemyData, 
+            _updateSystems.Add(_gameInitSystem = new GameInitSystem(_playerData, _smallAlienEnemyData, _bigAlienEnemyData, 
                 _gunnerEnemyAlienData, _stoneData, _capsuleData, _levelData, _healingCoreData, _goldCoreData));
             _updateSystems.Add(new PlayerInputSystem());
             _updateSystems.Add(new MainCameraSystem(_cinemachineVirtualCamera));
@@ -258,7 +260,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             _updateSystems.Add(new ResourcesAnimatedSystem());
             _updateSystems.Init();
 
-            _fixedUpdateSystems.Inject(bigAlienEnemyData.ProjectilePrefab);
+            _fixedUpdateSystems.Inject(_bigAlienEnemyData.ProjectilePrefab);
             _fixedUpdateSystems.Add(new PlayerMoveSystem());
             _fixedUpdateSystems.Add(new FollowSystem());
             _fixedUpdateSystems.Add(new EnemyRangeAttackSystem());

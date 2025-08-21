@@ -37,7 +37,7 @@ namespace Project.Scripts.Game.GameRoot
         private async void Start()
         {
             Debug.Log("Метод Start в GameEntryPoint");
-            
+
             await Addressables.InitializeAsync().Task;
 
             Application.targetFrameRate = 60;
@@ -63,18 +63,18 @@ namespace Project.Scripts.Game.GameRoot
             }
 #endif
             Debug.Log("Старт игры, и вход в состояние загрузки");
-            
+
             _uiRoot.UIStateMachine.EnterIn<LoadingPanelState>();
-            
+
             await LoadAndStartMainMenu();
         }
 
         private async UniTask LoadAndStartMainMenu(MainMenuEnterParameters enterParameters = null)
         {
             Debug.Log("Загрузка меню");
-            
+
             _uiRoot.UIStateMachine.EnterIn<LoadingPanelState>();
-            
+
             await LoadScene(Scenes.MainMenu);
 
             var sceneEntryPoint = FindFirstObjectByType<MainMenuEntryPoint>();
@@ -98,29 +98,32 @@ namespace Project.Scripts.Game.GameRoot
         private async UniTask LoadAndStartGameplay(GameplayEnterParameters enterParameters)
         {
             Debug.Log("Загрузка геймплея");
-            
+
             _uiRoot.UIStateMachine.EnterIn<LoadingPanelState>();
 
             await LoadScene(enterParameters.SceneName);
 
             var sceneEntryPoint = FindFirstObjectByType<GameplayEntryPoint>();
-            sceneEntryPoint.Run(_uiRoot, enterParameters).Subscribe(gameplayExitParameters =>
-            {
-                var targetSceneName = gameplayExitParameters.TargetSceneEnterParameters.SceneName;
+            var observable = await sceneEntryPoint.Run(_uiRoot, enterParameters);
+            observable.Subscribe(HandleExitGameplayScene);
+        }
 
-                if (targetSceneName == Scenes.MainMenu)
-                {
-                    LoadAndStartMainMenu(gameplayExitParameters
-                        .TargetSceneEnterParameters.As<MainMenuEnterParameters>()
-                    ).Forget();
-                }
-                else
-                {
-                    LoadAndStartGameplay(gameplayExitParameters
-                        .TargetSceneEnterParameters.As<GameplayEnterParameters>()
-                    ).Forget();
-                }
-            });
+        private void HandleExitGameplayScene(GameplayExitParameters gameplayExitParameters)
+        {
+            var targetSceneName = gameplayExitParameters.TargetSceneEnterParameters.SceneName;
+
+            if (targetSceneName == Scenes.MainMenu)
+            {
+                LoadAndStartMainMenu(gameplayExitParameters
+                    .TargetSceneEnterParameters.As<MainMenuEnterParameters>()
+                ).Forget();
+            }
+            else
+            {
+                LoadAndStartGameplay(gameplayExitParameters
+                    .TargetSceneEnterParameters.As<GameplayEnterParameters>()
+                ).Forget();
+            }
         }
 
         private async UniTask LoadScene(string sceneName)
@@ -135,7 +138,7 @@ namespace Project.Scripts.Game.GameRoot
                 LoadSceneMode.Single,
                 false
             );
-            
+
             await _sceneHandle.Task;
 
             if (sceneName != Scenes.Boot)
@@ -170,7 +173,7 @@ namespace Project.Scripts.Game.GameRoot
 
                 _uiRoot.ShowLoadingProgress(TargetValue);
             }
-            
+
             await UniTask.Yield();
 
             var activateOp = _sceneHandle.Result.ActivateAsync();

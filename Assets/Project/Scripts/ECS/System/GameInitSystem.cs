@@ -36,7 +36,6 @@ namespace Project.Scripts.ECS.System
         private readonly EcsWorld _world;
         
         private readonly IFloatingTextService _textService;
-        private readonly IResourceService _resourceService;
         private readonly IDataBaseService _dataBaseService;
         private readonly GoldView _goldView;
         private readonly AudioSoundsService _audioSoundsService;

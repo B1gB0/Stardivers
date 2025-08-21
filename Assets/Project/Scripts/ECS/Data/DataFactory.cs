@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using Project.Scripts.ECS.Data;
 using Project.Scripts.Levels;
 using Project.Scripts.Services;
@@ -6,15 +7,15 @@ using UnityEngine;
 
 public class DataFactory : MonoBehaviour
 {
-    private readonly string _playerData = "SO/PlayerData";
-    private readonly string _smallEnemyAlienData = "SO/SmallEnemyAlienData";
-    private readonly string _bigEnemyAlienData = "SO/BigEnemyAlienData";
-    private readonly string _gunnerEnemyAlienData = "SO/GunnerEnemyAlienData";
-    private readonly string _stoneData = "SO/StoneData";
-    private readonly string _capsuleData = "SO/CapsuleData";
-    private readonly string _playerProgression = "SO/PlayerProgression";
-    private readonly string _healingCoreData = "SO/HealingCoreData";
-    private readonly string _goldCoreData = "SO/GoldCoreData";
+    private readonly string _playerData = "PlayerData";
+    private readonly string _smallEnemyAlienData = "SmallEnemyAlienData";
+    private readonly string _bigEnemyAlienData = "BigEnemyAlienData";
+    private readonly string _gunnerEnemyAlienData = "GunnerEnemyAlienData";
+    private readonly string _stoneData = "StoneData";
+    private readonly string _capsuleData = "CapsuleData";
+    private readonly string _playerProgression = "PlayerProgression";
+    private readonly string _healingCoreData = "HealingCoreData";
+    private readonly string _goldCoreData = "GoldCoreData";
     
     private IResourceService _resourceService;
     
@@ -23,55 +24,55 @@ public class DataFactory : MonoBehaviour
     {
         _resourceService = resourceService;
     }
-
-    public PlayerInitData CreatePlayerData()
-    {
-        return Resources.Load<PlayerInitData>(_playerData);
-    }
     
     public LevelInitData CreateLevelData(Operation operation, int numberLevel)
     {
         LevelInitData levelInitData = Instantiate(operation.Maps[numberLevel]);
         return levelInitData;
     }
-    
-    public SmallAlienEnemyInitData CreateSmallEnemyAlienData()
+
+    public async UniTask<PlayerInitData> CreatePlayerData()
     {
-        return Resources.Load<SmallAlienEnemyInitData>(_smallEnemyAlienData);
-    }
-    
-    public BigAlienEnemyInitData CreateBigEnemyAlienData()
-    {
-        return Resources.Load<BigAlienEnemyInitData>(_bigEnemyAlienData);
+        return await _resourceService.Load<PlayerInitData>(_playerData);
     }
 
-    public GunnerAlienEnemyInitData CreateGunnerAlienEnemyData()
+    public async UniTask<SmallAlienEnemyInitData> CreateSmallEnemyAlienData()
     {
-        return Resources.Load<GunnerAlienEnemyInitData>(_gunnerEnemyAlienData);
+        return await _resourceService.Load<SmallAlienEnemyInitData>(_smallEnemyAlienData);
     }
     
-    public StoneInitData CreateStoneData()
+    public async UniTask<BigAlienEnemyInitData> CreateBigEnemyAlienData()
     {
-        return Resources.Load<StoneInitData>(_stoneData);
+        return await _resourceService.Load<BigAlienEnemyInitData>(_bigEnemyAlienData);
     }
 
-    public CapsuleInitData CreateCapsuleData()
+    public async UniTask<GunnerAlienEnemyInitData> CreateGunnerAlienEnemyData()
     {
-        return Resources.Load<CapsuleInitData>(_capsuleData);
-    }
-
-    public PlayerProgressionInitData CreatePlayerProgression()
-    {
-        return Resources.Load<PlayerProgressionInitData>(_playerProgression);
-    }
-
-    public HealingCoreInitData CreateHealingCoreData()
-    {
-        return Resources.Load<HealingCoreInitData>(_healingCoreData);
+        return await _resourceService.Load<GunnerAlienEnemyInitData>(_gunnerEnemyAlienData);
     }
     
-    public GoldCoreInitData CreateGoldCoreData()
+    public async UniTask<StoneInitData> CreateStoneData()
     {
-        return Resources.Load<GoldCoreInitData>(_goldCoreData);
+        return await _resourceService.Load<StoneInitData>(_stoneData);
+    }
+
+    public async UniTask<CapsuleInitData> CreateCapsuleData()
+    {
+        return await _resourceService.Load<CapsuleInitData>(_capsuleData);
+    }
+
+    public async UniTask<PlayerProgressionInitData> CreatePlayerProgression()
+    {
+        return await _resourceService.Load<PlayerProgressionInitData>(_playerProgression);
+    }
+
+    public async UniTask<HealingCoreInitData> CreateHealingCoreData()
+    {
+        return await _resourceService.Load<HealingCoreInitData>(_healingCoreData);
+    }
+    
+    public async UniTask<GoldCoreInitData> CreateGoldCoreData()
+    {
+        return await _resourceService.Load<GoldCoreInitData>(_goldCoreData);
     }
 }
