@@ -1,9 +1,10 @@
 using System.Collections.Generic;
+using Project.Scripts.Projectiles;
 using UnityEngine;
 
 namespace Project.Scripts.Lightning
 {
-    public class LineRendererController : MonoBehaviour
+    public class LightningProjectile : Projectile
     {
         private const int MinValueLineRenderers = 0;
         private const int MinValuePosition = 2;

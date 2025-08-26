@@ -50,6 +50,8 @@ namespace Project.Scripts.Weapon.Player
                     return await CreateFragGrenades();
                 case WeaponType.FourBarrelMachineGun :
                     return await CreateFourBarrelMachineGun();
+                case WeaponType.ChainLightningGun :
+                    return await CreateChainLightningGun();
                 default:
                     return null;
             }
@@ -152,6 +154,7 @@ namespace Project.Scripts.Weapon.Player
 
             ChainLightningGun chainLightningGun = chainLightningGunTemplate.GetComponent<ChainLightningGun>();
             chainLightningGun.Construct(_audioSoundsService, _newEnemyDetector);
+            _weaponHolder.AddWeapon(chainLightningGun);
 
             return chainLightningGun;
         }

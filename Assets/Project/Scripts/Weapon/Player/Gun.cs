@@ -52,7 +52,7 @@ namespace Project.Scripts.Weapon.Player
             _closestAlienEnemy = _detector.NearestAlienEnemy;
 
             if (_closestAlienEnemy == null) return;
-        
+
             if (Vector3.Distance(_closestAlienEnemy.transform.position, transform.position) 
                 <= GunCharacteristics.RangeAttack && !_isReloading)
             {

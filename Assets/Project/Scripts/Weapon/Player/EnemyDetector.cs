@@ -15,7 +15,7 @@ namespace Project.Scripts.Weapon.Player
 
         public EnemyAlienActor NearestAlienEnemy { get; private set; }
 
-        private void Update()
+        private void FixedUpdate()
         {
             SetNearestEnemy();
         }

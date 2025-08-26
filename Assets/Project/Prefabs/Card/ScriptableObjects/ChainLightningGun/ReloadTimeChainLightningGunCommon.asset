@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c25dd33b346443fdb097dbbce355b522, type: 3}
-  m_Name: FireRateFourBarrelMachineGunCommon
+  m_Name: ReloadTimeChainLightningGunCommon
   m_EditorClassIdentifier: 
-  <Label>k__BackingField: Fire Rate
-  <Icon>k__BackingField: {fileID: 21300000, guid: 42d0e32d6fbccf3438cb33286fb41e44, type: 3}
+  <Label>k__BackingField: Reloading Time
+  <Icon>k__BackingField: {fileID: 576788955910145305, guid: 2262f408278271248889a3ea3c7e75bf, type: 3}
   <Level>k__BackingField: Common
-  <Description>k__BackingField: Increase fire rate
-  <WeaponType>k__BackingField: 4
-  <CharacteristicType>k__BackingField: 1
+  <Description>k__BackingField: Reduce reloading time
+  <WeaponType>k__BackingField: 5
+  <CharacteristicType>k__BackingField: 3
   <Value>k__BackingField: 0.1

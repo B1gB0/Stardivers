@@ -10,9 +10,9 @@ namespace Project.Scripts.Weapon.Player
         
         private readonly List<EnemyAlienActor> _enemiesInRange = new();
 
-        private void OnTriggerEnter(Collider thisCollider)
+        private void OnTriggerEnter(Collider otherCollider)
         {
-            if (!thisCollider.TryGetComponent(out EnemyAlienActor enemyAlienActor))
+            if (!otherCollider.TryGetComponent(out EnemyAlienActor enemyAlienActor))
                 return;
             
             if (_enemiesInRange.Count == MinValue)
@@ -25,9 +25,9 @@ namespace Project.Scripts.Weapon.Player
             }
         }
 
-        private void OnTriggerExit(Collider thisCollider)
+        private void OnTriggerExit(Collider otherCollider)
         {
-            if (!thisCollider.TryGetComponent(out EnemyAlienActor enemyAlienActor))
+            if (!otherCollider.TryGetComponent(out EnemyAlienActor enemyAlienActor))
                 return;
             
             if (_enemiesInRange.Count > MinValue)
@@ -58,7 +58,6 @@ namespace Project.Scripts.Weapon.Player
             }
 
             return bestTarget;
-
         }
 
         public List<EnemyAlienActor> GetEnemiesInRange()
