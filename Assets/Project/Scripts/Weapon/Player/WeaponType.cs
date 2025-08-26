@@ -6,6 +6,7 @@
         MachineGun,
         Mines,
         FragGrenades,
-        FourBarrelMachineGun
+        FourBarrelMachineGun,
+        ChainLightningGun
     }
 }

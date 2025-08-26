@@ -119,6 +119,7 @@ namespace Project.Scripts.Game.Gameplay.Root
 
             _weaponFactory.GetData(_gameInitSystem.PlayerTransform, _weaponHolder);
             await _weaponFactory.CreateEnemyDetector();
+            await _weaponFactory.CreateNewEnemyDetector();
             await _weaponFactory.CreateWeapon(WeaponType.Gun);
             
             _levelUpPanel.GetServices(_weaponFactory, _weaponHolder);

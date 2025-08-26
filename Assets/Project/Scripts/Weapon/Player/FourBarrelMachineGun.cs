@@ -26,7 +26,7 @@ namespace Project.Scripts.Weapon.Player
 
         private float _lastBurstTime;
         private int _maxCountShots;
-        private bool _isShooting = true;
+        private bool _isReloading;
 
         private Coroutine _coroutine;
         private FourBarrelMachineGunBullet _bullet;
@@ -59,7 +59,7 @@ namespace Project.Scripts.Weapon.Player
 
         private void FixedUpdate()
         {
-            if (_isShooting)
+            if (!_isReloading)
                 Shoot();
 
             CheckAmmoAndReload();
@@ -91,7 +91,7 @@ namespace Project.Scripts.Weapon.Player
         {
             if (_maxCountShots <= MinValue)
             {
-                _isShooting = false;
+                _isReloading = true;
                 StartCoroutine(Reload());
             }
         }
@@ -101,7 +101,7 @@ namespace Project.Scripts.Weapon.Player
             yield return new WaitForSeconds(MachineGunCharacteristics.ReloadTime);
 
             _maxCountShots = MachineGunCharacteristics.MaxCountShots;
-            _isShooting = true;
+            _isReloading = false;
         }
 
         private IEnumerator LaunchBullet(Vector3 direction)

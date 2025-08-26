@@ -21,10 +21,10 @@ namespace Project.Scripts.Weapon.Player
 
         private float _lastShotTime;
         private int _maxCountShots;
-        private bool _isShooting = true;
+        private bool _isReloading;
     
         private GunBullet _bullet;
-        private EnemyAlienActor closestAlienEnemy;
+        private EnemyAlienActor _closestAlienEnemy;
         private ObjectPool<GunBullet> _poolBullets;
 
         private EnemyDetector _detector;
@@ -40,7 +40,8 @@ namespace Project.Scripts.Weapon.Player
 
         private void Awake()
         {
-            _poolBullets = new ObjectPool<GunBullet>(_bulletPrefab, _countBullets, new GameObject(ObjectPoolBulletName).transform)
+            _poolBullets = new ObjectPool<GunBullet>(_bulletPrefab, _countBullets,
+                new GameObject(ObjectPoolBulletName).transform)
             {
                 AutoExpand = IsAutoExpandPool
             };
@@ -48,11 +49,12 @@ namespace Project.Scripts.Weapon.Player
 
         private void FixedUpdate()
         {
-            closestAlienEnemy = _detector.NearestAlienEnemy;
+            _closestAlienEnemy = _detector.NearestAlienEnemy;
 
-            if (closestAlienEnemy == null) return;
+            if (_closestAlienEnemy == null) return;
         
-            if (Vector3.Distance(closestAlienEnemy.transform.position, transform.position) <= GunCharacteristics.RangeAttack && _isShooting)
+            if (Vector3.Distance(_closestAlienEnemy.transform.position, transform.position) 
+                <= GunCharacteristics.RangeAttack && !_isReloading)
             {
                 Shoot();
             }
@@ -62,7 +64,7 @@ namespace Project.Scripts.Weapon.Player
     
         public override void Shoot()
         {
-            if (_lastShotTime <= MinValue && closestAlienEnemy.Health.TargetHealth > MinValue)
+            if (_lastShotTime <= MinValue && _closestAlienEnemy.Health.TargetHealth > MinValue)
             {
                 _bullet = _poolBullets.GetFreeElement();
             
@@ -70,7 +72,7 @@ namespace Project.Scripts.Weapon.Player
 
                 _bullet.transform.position = _shootPoint.position;
 
-                _bullet.SetDirection(closestAlienEnemy.transform);
+                _bullet.SetDirection(_closestAlienEnemy.transform);
                 _bullet.SetCharacteristics(GunCharacteristics.Damage, GunCharacteristics.BulletSpeed);
 
                 _lastShotTime = GunCharacteristics.FireRate;
@@ -88,7 +90,7 @@ namespace Project.Scripts.Weapon.Player
         {
             if (_maxCountShots <= MinValue)
             {
-                _isShooting = false;
+                _isReloading = false;
                 StartCoroutine(Reload());
             }
         }
@@ -98,7 +100,7 @@ namespace Project.Scripts.Weapon.Player
             yield return new WaitForSeconds(GunCharacteristics.ReloadTime);
 
             _maxCountShots = GunCharacteristics.MaxCountShots;
-            _isShooting = true;
+            _isReloading = true;
         }
     }
 }

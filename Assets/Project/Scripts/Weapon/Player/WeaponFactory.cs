@@ -10,16 +10,19 @@ namespace Project.Scripts.Weapon.Player
     public class WeaponFactory : MonoBehaviour
     {
         private readonly string _enemyDetectorPath = "EnemyDetector";
+        private readonly string _newEnemyDetectorPath = "NewEnemyDetector";
         private readonly string _gunPath = "Gun";
         private readonly string _fourBarrelMachineGunPath = "FourBarrelMachineGun";
         private readonly string _minesPath = "Mines";
         private readonly string _fragGrenadesPath = "FragGrenades";
         private readonly string _machineGunPath = "MachineGun";
+        private readonly string _chainLightningGunPath = "ChainLightningGun";
 
         private AudioSoundsService _audioSoundsService;
         private IResourceService _resourceService;
 
         private EnemyDetector _enemyDetector;
+        private NewEnemyDetector _newEnemyDetector;
         private WeaponHolder _weaponHolder;
         private Button _minesButton;
         private Transform _player;
@@ -68,6 +71,13 @@ namespace Project.Scripts.Weapon.Player
             var enemyDetectorTemplate = await _resourceService.Load<GameObject>(_enemyDetectorPath);
             enemyDetectorTemplate = Instantiate(enemyDetectorTemplate, _player);
             _enemyDetector = enemyDetectorTemplate.GetComponent<EnemyDetector>();
+        }
+        
+        public async UniTask CreateNewEnemyDetector()
+        {
+            var enemyDetectorTemplate = await _resourceService.Load<GameObject>(_newEnemyDetectorPath);
+            enemyDetectorTemplate = Instantiate(enemyDetectorTemplate, _player);
+            _newEnemyDetector = enemyDetectorTemplate.GetComponent<NewEnemyDetector>();
         }
         
         private async UniTask<PlayerWeapon> CreateGun()
@@ -133,6 +143,17 @@ namespace Project.Scripts.Weapon.Player
             _weaponHolder.AddWeapon(machineGun);
 
             return machineGun;
+        }
+
+        private async UniTask<PlayerWeapon> CreateChainLightningGun()
+        {
+            var chainLightningGunTemplate = await _resourceService.Load<GameObject>(_chainLightningGunPath);
+            chainLightningGunTemplate = Instantiate(chainLightningGunTemplate, _player);
+
+            ChainLightningGun chainLightningGun = chainLightningGunTemplate.GetComponent<ChainLightningGun>();
+            chainLightningGun.Construct(_audioSoundsService, _newEnemyDetector);
+
+            return chainLightningGun;
         }
     }
 }
