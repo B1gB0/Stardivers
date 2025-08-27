@@ -119,7 +119,7 @@ namespace Project.Scripts.Game.Gameplay.Root
 
             _weaponFactory.GetData(_gameInitSystem.PlayerTransform, _weaponHolder);
             await _weaponFactory.CreateImprovedEnemyDetector();
-            await _weaponFactory.CreateWeapon(WeaponType.Gun);
+            await _weaponFactory.CreateWeapon(WeaponType.ChainLightningGun);
             
             _levelUpPanel.GetServices(_weaponFactory, _weaponHolder);
             _levelUpPanel.GetStartImprovements();

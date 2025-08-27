@@ -41,6 +41,8 @@ namespace Project.Scripts.Weapon.Player
             {
                 AutoExpand = IsAutoExpandPool
             };
+            
+            FragGrenadeCharacteristics.SetStartingCharacteristics();
         }
 
         private void Start()
@@ -72,7 +74,7 @@ namespace Project.Scripts.Weapon.Player
 
                 _fragGrenade.SetDirection(_closestAlienEnemy.transform);
                 _fragGrenade.SetCharacteristics(FragGrenadeCharacteristics.Damage, FragGrenadeCharacteristics.ExplosionRadius,
-                    FragGrenadeCharacteristics.GrenadeSpeed);
+                    FragGrenadeCharacteristics.ProjectileSpeed);
 
                 _lastShotTime = FragGrenadeCharacteristics.FireRate;
             }

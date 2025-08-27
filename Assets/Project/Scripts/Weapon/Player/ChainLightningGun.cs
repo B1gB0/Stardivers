@@ -144,11 +144,11 @@ namespace Project.Scripts.Weapon.Player
                 
                 _enemiesInChain.Add(closestEnemy);
 
-                if (!_enemiesInChain.Contains(closestEnemy.GetComponent<ImprovedEnemyDetector>().GetClosestEnemy()))
+                if (!_enemiesInChain.Contains(closestEnemy.GetComponentInChildren<ImprovedEnemyDetector>().GetClosestEnemy()))
                 {
-                    CreateLightning(closestEnemy.transform, closestEnemy.GetComponent<ImprovedEnemyDetector>()
+                    CreateLightning(closestEnemy.transform, closestEnemy.GetComponentInChildren<ImprovedEnemyDetector>()
                         .GetClosestEnemy().transform);
-                    StartCoroutine(ChainReaction(closestEnemy.GetComponent<ImprovedEnemyDetector>().GetClosestEnemy()));
+                    StartCoroutine(ChainReaction(closestEnemy.GetComponentInChildren<ImprovedEnemyDetector>().GetClosestEnemy()));
                 }
             }
         }
@@ -168,10 +168,9 @@ namespace Project.Scripts.Weapon.Player
         
         private void CheckAmmoAndReload()
         {
-            StopShooting();
-            
             if (_maxCountShots <= MinValue)
             {
+                StopShooting();
                 _isReloading = true;
                 StartCoroutine(Reload());
             }

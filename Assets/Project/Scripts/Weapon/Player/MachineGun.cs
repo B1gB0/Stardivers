@@ -48,11 +48,13 @@ namespace Project.Scripts.Weapon.Player
             {
                 AutoExpand = IsAutoExpandPool
             };
+            
+            MachineGunCharacteristics.SetStartingCharacteristics();
         }
 
         private void Start()
         {
-            _maxCountShots = MachineGunCharacteristics.MaxCountShots;
+            _maxCountShots = MachineGunCharacteristics.MaxCountBullets;
         }
 
         private void FixedUpdate()
@@ -101,7 +103,7 @@ namespace Project.Scripts.Weapon.Player
         {
             yield return new WaitForSeconds(MachineGunCharacteristics.ReloadTime);
 
-            _maxCountShots = MachineGunCharacteristics.MaxCountShots;
+            _maxCountShots = MachineGunCharacteristics.MaxCountBullets;
             _isReloading = false;
         }
 
@@ -116,7 +118,7 @@ namespace Project.Scripts.Weapon.Player
                 _bullet.transform.position = shootPoint.position;
                 
                 _bullet.SetDirection(closestAlienEnemy.transform);
-                _bullet.SetCharacteristics(MachineGunCharacteristics.Damage, MachineGunCharacteristics.BulletSpeed);
+                _bullet.SetCharacteristics(MachineGunCharacteristics.Damage, MachineGunCharacteristics.ProjectileSpeed);
 
                 yield return new WaitForSeconds(DelayBetweenShots);
             }

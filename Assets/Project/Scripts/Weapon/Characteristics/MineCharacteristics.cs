@@ -1,16 +1,16 @@
-﻿using System;
-using UnityEngine;
-
-namespace Project.Scripts.Weapon.Characteristics
+﻿namespace Project.Scripts.Weapon.Characteristics
 {
-    [Serializable]
-    public class MineCharacteristics
+    public class MineCharacteristics : Characteristics
     {
-        public float FireRate { get; private set; } = 5f;
-        public float Damage { get; private set; } = 20f;
-        public float ExplosionRadius { get; private set; } = 5f;
-        
-        public void ApplyImprovement(CharacteristicType type ,float factor)
+        public override void SetStartingCharacteristics()
+        {
+            fireRate = 5f;
+            damage = 20f;
+            explosionRadius = 5f;
+            maxCountBullets = 1;
+        }
+
+        public override void ApplyImprovement(CharacteristicType type ,float factor)
         {
             switch (type)
             {
@@ -24,21 +24,6 @@ namespace Project.Scripts.Weapon.Characteristics
                     IncreaseExplosionRadius(factor);
                     break;
             }
-        }
-
-        private void IncreaseDamage(float damageFactor)
-        {
-            Damage += Mathf.Round(Damage * damageFactor);
-        }
-        
-        private void IncreaseFireRate(float fireRateFactor)
-        {
-            FireRate -= Mathf.Round(FireRate * fireRateFactor);
-        }
-        
-        private void IncreaseExplosionRadius(float explosionRadiusFactor)
-        {
-            ExplosionRadius += Mathf.Round(ExplosionRadius * explosionRadiusFactor);
         }
     }
 }

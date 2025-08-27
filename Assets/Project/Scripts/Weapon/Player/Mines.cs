@@ -38,6 +38,8 @@ namespace Project.Scripts.Weapon.Player
             {
                 AutoExpand = IsAutoExpandPool
             };
+            
+            MineCharacteristics.SetStartingCharacteristics();
         }
 
         private void Start()

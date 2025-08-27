@@ -57,11 +57,13 @@ namespace Project.Scripts.Weapon.Player
             _directions.Add(transform.right);
             _directions.Add(-transform.forward);
             _directions.Add(-transform.right);
+            
+            MachineGunCharacteristics.SetStartingCharacteristics();
         }
 
         private void Start()
         {
-            _maxCountShots = MachineGunCharacteristics.MaxCountShots;
+            _maxCountShots = MachineGunCharacteristics.MaxCountBullets;
         }
 
         private void FixedUpdate()
@@ -113,7 +115,7 @@ namespace Project.Scripts.Weapon.Player
         {
             yield return new WaitForSeconds(MachineGunCharacteristics.ReloadTime);
 
-            _maxCountShots = MachineGunCharacteristics.MaxCountShots;
+            _maxCountShots = MachineGunCharacteristics.MaxCountBullets;
             _isReloading = false;
         }
 
@@ -128,7 +130,7 @@ namespace Project.Scripts.Weapon.Player
                 _bullet.transform.position = _shootPoint.position + Vector3.one * Random.Range(-0.2f, 0.2f);
 
                 _bullet.SetDirection(direction);
-                _bullet.SetCharacteristics(MachineGunCharacteristics.Damage, MachineGunCharacteristics.BulletSpeed);
+                _bullet.SetCharacteristics(MachineGunCharacteristics.Damage, MachineGunCharacteristics.ProjectileSpeed);
 
                 yield return new WaitForSeconds(DelayBetweenShots);
             }

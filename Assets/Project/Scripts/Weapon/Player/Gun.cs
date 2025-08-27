@@ -45,6 +45,8 @@ namespace Project.Scripts.Weapon.Player
             {
                 AutoExpand = IsAutoExpandPool
             };
+            
+            GunCharacteristics.SetStartingCharacteristics();
         }
 
         private void FixedUpdate()
@@ -72,7 +74,7 @@ namespace Project.Scripts.Weapon.Player
                 _bullet.transform.position = _shootPoint.position;
 
                 _bullet.SetDirection(_closestAlienEnemy.transform);
-                _bullet.SetCharacteristics(GunCharacteristics.Damage, GunCharacteristics.BulletSpeed);
+                _bullet.SetCharacteristics(GunCharacteristics.Damage, GunCharacteristics.ProjectileSpeed);
 
                 _lastShotTime = GunCharacteristics.FireRate;
             }

@@ -1,78 +1,40 @@
-﻿using System;
-using UnityEngine;
-
-namespace Project.Scripts.Weapon.Characteristics
+﻿namespace Project.Scripts.Weapon.Characteristics
 {
-    [Serializable]
-    public class GunCharacteristics
+    public class GunCharacteristics : Characteristics
     {
-        [SerializeField] private float _rangeAttack = 5f;
-        [SerializeField] private float _fireRate = 1f;
-        [SerializeField] private float _bulletSpeed = 10f;
-        [SerializeField] private float _damage = 15f;
-        [SerializeField] private int _maxCountBullets = 4;
-        [SerializeField] private float _reloadTime = 3f;
-        
-        public float RangeAttack => _rangeAttack;
-        public float FireRate => _fireRate;
-        public float BulletSpeed => _bulletSpeed;
-        public float Damage => _damage;
-        public int MaxCountBullets => _maxCountBullets;
-        public float ReloadTime => _reloadTime;
+        public override void SetStartingCharacteristics()
+        {
+            rangeAttack = 5f;
+            fireRate = 1f;
+            projectileSpeed = 10f;
+            damage = 15f;
+            maxCountBullets = 4;
+            reloadTime = 3f;
+        }
 
-        public void ApplyImprovement(CharacteristicType type ,float factor)
+        public override void ApplyImprovement(CharacteristicType type, float factor)
         {
             switch (type)
             {
-                case CharacteristicType.Damage :
+                case CharacteristicType.Damage:
                     IncreaseDamage(factor);
                     break;
-                case CharacteristicType.FireRate :
+                case CharacteristicType.FireRate:
                     IncreaseFireRate(factor);
                     break;
-                case CharacteristicType.ProjectileSpeed :
+                case CharacteristicType.ProjectileSpeed:
                     IncreaseBulletSpeed(factor);
                     break;
-                case CharacteristicType.RangeAttack :
+                case CharacteristicType.RangeAttack:
                     IncreaseRangeAttack(factor);
                     break;
-                case CharacteristicType.ReloadTime :
+                case CharacteristicType.ReloadTime:
                     IncreaseReloadVelocity(factor);
                     break;
-                case CharacteristicType.MaxCountBullets :
+                case CharacteristicType.MaxCountBullets:
                     IncreaseMaxCountBullets((int)factor);
                     break;
             }
-        }
-
-        private void IncreaseDamage(float damageFactor)
-        {
-            _damage += Mathf.Round(_damage * damageFactor);
-        }
-
-        private void IncreaseFireRate(float fireRateFactor)
-        {
-            _fireRate -= Mathf.Round(_fireRate * fireRateFactor);
-        }
-
-        private void IncreaseBulletSpeed(float bulletSpeedFactor)
-        {
-            _bulletSpeed += Mathf.Round(_bulletSpeed * bulletSpeedFactor);
-        }
-
-        private void IncreaseRangeAttack(float rangeAttackFactor)
-        {
-            _rangeAttack += Mathf.Round(_rangeAttack * rangeAttackFactor);
-        }
-        
-        private void IncreaseReloadVelocity(float reloadTimeFactor)
-        {
-            _reloadTime += Mathf.Round(_reloadTime * reloadTimeFactor);
-        }
-
-        private void IncreaseMaxCountBullets(int maxCountBullets)
-        {
-            _maxCountBullets = maxCountBullets;
         }
     }
 }
