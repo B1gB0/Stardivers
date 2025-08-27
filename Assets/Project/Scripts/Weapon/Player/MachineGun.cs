@@ -28,7 +28,7 @@ namespace Project.Scripts.Weapon.Player
         private Coroutine _coroutine;
         private MachineGunBullet _bullet;
 
-        private EnemyDetector _detector;
+        private ImprovedEnemyDetector _detector;
         private AudioSoundsService _audioSoundsService;
     
         private EnemyAlienActor closestAlienEnemy;
@@ -36,7 +36,7 @@ namespace Project.Scripts.Weapon.Player
 
         public MachineGunCharacteristics MachineGunCharacteristics { get; } = new();
 
-        public void Construct(EnemyDetector detector, AudioSoundsService audioSoundsService)
+        public void Construct(ImprovedEnemyDetector detector, AudioSoundsService audioSoundsService)
         {
             _detector = detector;
             _audioSoundsService = audioSoundsService;
@@ -57,12 +57,11 @@ namespace Project.Scripts.Weapon.Player
 
         private void FixedUpdate()
         {
-            closestAlienEnemy = _detector.NearestAlienEnemy;
+            closestAlienEnemy = _detector.GetClosestEnemy();
 
             if (closestAlienEnemy == null) return;
         
-            if (Vector3.Distance(closestAlienEnemy.transform.position, transform.position)
-                <= MachineGunCharacteristics.RangeAttack && !_isReloading)
+            if (_detector.ClosestEnemyDistance <= MachineGunCharacteristics.RangeAttack && !_isReloading)
             {
                 Shoot();
             }

@@ -28,7 +28,7 @@ namespace Project.Scripts.Weapon.Player
         [SerializeField] private float _delayBetweenChain = 0.2f;
         [SerializeField] private int _countCharges;
         
-        private NewEnemyDetector _detector;
+        private ImprovedEnemyDetector _detector;
         private AudioSoundsService _audioSoundsService;
         
         private float _lastShotTime;
@@ -36,12 +36,12 @@ namespace Project.Scripts.Weapon.Player
         private int _maxCountShots;
         private bool _isReloading;
         
-        private EnemyAlienActor _currentClosestEnemy;
+        private EnemyAlienActor _closestAlienEnemy;
         private ObjectPool<LightningProjectile> _poolLineRendererSetters;
 
         public GunCharacteristics GunCharacteristics { get; } = new ();
         
-        public void Construct(AudioSoundsService audioSoundsService, NewEnemyDetector enemyDetector)
+        public void Construct(AudioSoundsService audioSoundsService, ImprovedEnemyDetector enemyDetector)
         {
             _audioSoundsService = audioSoundsService;
             _detector = enemyDetector;
@@ -58,14 +58,17 @@ namespace Project.Scripts.Weapon.Player
 
         private void FixedUpdate()
         {
-            _currentClosestEnemy = _detector.GetClosestEnemy();
+            _closestAlienEnemy = _detector.GetClosestEnemy();
 
-            if (_detector.GetEnemiesInRange().Count > MinValue)
+            if (_detector.GetEnemiesInRange().Count > MinValue && _closestAlienEnemy != null)
             {
-                if (Vector3.Distance(_currentClosestEnemy.transform.position, transform.position) 
-                    <= GunCharacteristics.RangeAttack && !_isReloading)
+                if (_detector.ClosestEnemyDistance <= GunCharacteristics.RangeAttack && !_isReloading)
                 {
                     Shoot();
+                }
+                else
+                {
+                    StopShooting();
                 }
             }
 
@@ -74,15 +77,15 @@ namespace Project.Scripts.Weapon.Player
 
         public override void Shoot()
         {
-            if (_lastShotTime <= MinValue && _currentClosestEnemy.Health.TargetHealth > MinValue)
+            if (_lastShotTime <= MinValue && _closestAlienEnemy.Health.TargetHealth > MinValue)
             {
                 _audioSoundsService.PlaySound(Sounds.Gun);
                 
-                CreateLightning(_shootPoint, _currentClosestEnemy.transform, true);
+                CreateLightning(_shootPoint, _closestAlienEnemy.transform, true);
 
                 if (_maxEnemiesInChain > MinEnemiesInChain)
                 {
-                    StartCoroutine(ChainReaction(_currentClosestEnemy));
+                    StartCoroutine(ChainReaction(_closestAlienEnemy));
                 }
 
                 _lastShotTime = GunCharacteristics.FireRate;
@@ -98,24 +101,24 @@ namespace Project.Scripts.Weapon.Player
 
         private void CreateLightning(Transform startPoint, Transform endPoint, bool fromPlayer = false)
         {
-            LightningProjectile lineRenderer = _poolLineRendererSetters.GetFreeElement();
-            _spawnedLineRenderers.Add(lineRenderer);
-            StartCoroutine(UpdateLineRenderer(lineRenderer, startPoint, endPoint, fromPlayer));
+            LightningProjectile lightningProjectile = _poolLineRendererSetters.GetFreeElement();
+            _spawnedLineRenderers.Add(lightningProjectile);
+            StartCoroutine(UpdateLineRenderer(lightningProjectile, startPoint, endPoint, fromPlayer));
         }
 
-        private IEnumerator UpdateLineRenderer(LightningProjectile lineRenderer, Transform startPoint, Transform endPoint,
-            bool fromPlayer = false)
+        private IEnumerator UpdateLineRenderer(LightningProjectile lightningProjectile, Transform startPoint,
+            Transform endPoint, bool fromPlayer = false)
         {
-            lineRenderer.GetComponent<LightningProjectile>().SetPosition(startPoint, endPoint);
+            lightningProjectile.GetComponent<LightningProjectile>().SetPosition(startPoint, endPoint);
 
             yield return new WaitForSeconds(_refreshRate);
 
             if (fromPlayer)
             {
-                StartCoroutine(UpdateLineRenderer(lineRenderer, startPoint, 
+                StartCoroutine(UpdateLineRenderer(lightningProjectile, startPoint, 
                     _detector.GetClosestEnemy().transform, true));
 
-                if (_currentClosestEnemy != _detector.GetClosestEnemy())
+                if (_closestAlienEnemy != _detector.GetClosestEnemy())
                 {
                     StopShooting();
                     Shoot();
@@ -123,7 +126,7 @@ namespace Project.Scripts.Weapon.Player
             }
             else
             {
-                StartCoroutine(UpdateLineRenderer(lineRenderer, startPoint, endPoint));
+                StartCoroutine(UpdateLineRenderer(lightningProjectile, startPoint, endPoint));
             }
         }
 
@@ -141,10 +144,11 @@ namespace Project.Scripts.Weapon.Player
                 
                 _enemiesInChain.Add(closestEnemy);
 
-                if (!_enemiesInChain.Contains(closestEnemy.GetComponent<NewEnemyDetector>().GetClosestEnemy()))
+                if (!_enemiesInChain.Contains(closestEnemy.GetComponent<ImprovedEnemyDetector>().GetClosestEnemy()))
                 {
-                    CreateLightning(closestEnemy.transform, closestEnemy.GetComponent<NewEnemyDetector>().GetClosestEnemy().transform);
-                    StartCoroutine(ChainReaction(closestEnemy.GetComponent<NewEnemyDetector>().GetClosestEnemy()));
+                    CreateLightning(closestEnemy.transform, closestEnemy.GetComponent<ImprovedEnemyDetector>()
+                        .GetClosestEnemy().transform);
+                    StartCoroutine(ChainReaction(closestEnemy.GetComponent<ImprovedEnemyDetector>().GetClosestEnemy()));
                 }
             }
         }
@@ -177,7 +181,7 @@ namespace Project.Scripts.Weapon.Player
         {
             yield return new WaitForSeconds(GunCharacteristics.ReloadTime);
 
-            _maxCountShots = GunCharacteristics.MaxCountShots;
+            _maxCountShots = GunCharacteristics.MaxCountBullets;
             _isReloading = false;
         }
     }

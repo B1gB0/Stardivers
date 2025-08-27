@@ -1,4 +1,5 @@
-﻿using Project.Scripts.Experience;
+﻿using System;
+using Project.Scripts.Experience;
 using Project.Scripts.Services;
 using UnityEngine;
 using UnityEngine.AI;
@@ -14,6 +15,18 @@ namespace Project.Scripts.ECS.EntityActors
         protected ExperiencePoints ExperiencePoints;
         protected IFloatingTextService TextService;
 
+        public event Action<EnemyAlienActor> Die;
+
+        private void OnEnable()
+        {
+            Health.Die += OnDie;
+        }
+
+        private void OnDisable()
+        {
+            Health.Die -= OnDie;
+        }
+
         public void Construct(ExperiencePoints experiencePoints, IFloatingTextService textService)
         {
             ExperiencePoints = experiencePoints;
@@ -25,6 +38,11 @@ namespace Project.Scripts.ECS.EntityActors
         public void SetSpeed(float speed)
         {
             NavMeshAgent.speed += speed;
+        }
+
+        private void OnDie()
+        {
+            Die?.Invoke(this);
         }
     }
 }

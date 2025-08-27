@@ -19,17 +19,17 @@ namespace Project.Scripts.Weapon.Player
         [SerializeField] private FragGrenade _fragGrenade;
         [SerializeField] private Transform _shootPoint;
 
-        private EnemyDetector _detector;
+        private ImprovedEnemyDetector _detector;
         private AudioSoundsService _audioSoundsService;
         
         private float _lastShotTime;
-        private EnemyAlienActor closestSmallAlienEnemy;
+        private EnemyAlienActor _closestAlienEnemy;
 
         private ObjectPool<FragGrenade> _poolGrenades;
 
         public FragGrenadeCharacteristics FragGrenadeCharacteristics { get; } = new ();
 
-        public void Construct(EnemyDetector detector, AudioSoundsService audioSoundsService)
+        public void Construct(ImprovedEnemyDetector detector, AudioSoundsService audioSoundsService)
         {
             _detector = detector;
             _audioSoundsService = audioSoundsService;
@@ -51,27 +51,26 @@ namespace Project.Scripts.Weapon.Player
 
         private void FixedUpdate()
         {
-            closestSmallAlienEnemy = _detector.NearestAlienEnemy;
-        
-            if (closestSmallAlienEnemy != null)
+            _closestAlienEnemy = _detector.GetClosestEnemy();
+
+            if (_closestAlienEnemy == null) return;
+            
+            if (_detector.ClosestEnemyDistance <= FragGrenadeCharacteristics.RangeAttack)
             {
-                if (Vector3.Distance(closestSmallAlienEnemy.transform.position, transform.position) <= FragGrenadeCharacteristics.RangeAttack)
-                {
-                    Shoot();
-                }
+                Shoot();
             }
         }
         
         public override void Shoot()
         {
-            if (_lastShotTime <= MinValue && closestSmallAlienEnemy.Health.TargetHealth > MinValue)
+            if (_lastShotTime <= MinValue && _closestAlienEnemy.Health.TargetHealth > MinValue)
             {
                 _fragGrenade = _poolGrenades.GetFreeElement();
                 _fragGrenade.GetExplosionEffects(_explosionEffect, _audioSoundsService);
 
                 _fragGrenade.transform.position = _shootPoint.position;
 
-                _fragGrenade.SetDirection(closestSmallAlienEnemy.transform);
+                _fragGrenade.SetDirection(_closestAlienEnemy.transform);
                 _fragGrenade.SetCharacteristics(FragGrenadeCharacteristics.Damage, FragGrenadeCharacteristics.ExplosionRadius,
                     FragGrenadeCharacteristics.GrenadeSpeed);
 

@@ -7,6 +7,7 @@
         RangeAttack,
         ReloadTime,
         ProjectileSpeed,
-        ExplosionRadius
+        ExplosionRadius,
+        MaxCountBullets
     }
 }

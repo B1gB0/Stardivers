@@ -9,8 +9,7 @@ namespace Project.Scripts.Weapon.Player
 {
     public class WeaponFactory : MonoBehaviour
     {
-        private readonly string _enemyDetectorPath = "EnemyDetector";
-        private readonly string _newEnemyDetectorPath = "NewEnemyDetector";
+        private readonly string _newEnemyDetectorPath = "ImprovedEnemyDetector";
         private readonly string _gunPath = "Gun";
         private readonly string _fourBarrelMachineGunPath = "FourBarrelMachineGun";
         private readonly string _minesPath = "Mines";
@@ -20,9 +19,8 @@ namespace Project.Scripts.Weapon.Player
 
         private AudioSoundsService _audioSoundsService;
         private IResourceService _resourceService;
-
-        private EnemyDetector _enemyDetector;
-        private NewEnemyDetector _newEnemyDetector;
+        
+        private ImprovedEnemyDetector _improvedEnemyDetector;
         private WeaponHolder _weaponHolder;
         private Button _minesButton;
         private Transform _player;
@@ -68,18 +66,11 @@ namespace Project.Scripts.Weapon.Player
             _minesButton = button;
         }
 
-        public async UniTask CreateEnemyDetector()
-        {
-            var enemyDetectorTemplate = await _resourceService.Load<GameObject>(_enemyDetectorPath);
-            enemyDetectorTemplate = Instantiate(enemyDetectorTemplate, _player);
-            _enemyDetector = enemyDetectorTemplate.GetComponent<EnemyDetector>();
-        }
-        
-        public async UniTask CreateNewEnemyDetector()
+        public async UniTask CreateImprovedEnemyDetector()
         {
             var enemyDetectorTemplate = await _resourceService.Load<GameObject>(_newEnemyDetectorPath);
             enemyDetectorTemplate = Instantiate(enemyDetectorTemplate, _player);
-            _newEnemyDetector = enemyDetectorTemplate.GetComponent<NewEnemyDetector>();
+            _improvedEnemyDetector = enemyDetectorTemplate.GetComponent<ImprovedEnemyDetector>();
         }
         
         private async UniTask<PlayerWeapon> CreateGun()
@@ -88,7 +79,7 @@ namespace Project.Scripts.Weapon.Player
             gunTemplate = Instantiate(gunTemplate, _player);
             
             Gun gun = gunTemplate.GetComponent<Gun>();
-            gun.Construct(_enemyDetector, _audioSoundsService);
+            gun.Construct(_improvedEnemyDetector, _audioSoundsService);
             _weaponHolder.AddWeapon(gun);
 
             return gun;
@@ -100,7 +91,7 @@ namespace Project.Scripts.Weapon.Player
             fourBarrelMachineGunTemplate = Instantiate(fourBarrelMachineGunTemplate, _player);
 
             FourBarrelMachineGun fourBarrelMachineGun = fourBarrelMachineGunTemplate.GetComponent<FourBarrelMachineGun>();
-            fourBarrelMachineGun.Construct(_audioSoundsService);
+            fourBarrelMachineGun.Construct(_audioSoundsService, _improvedEnemyDetector);
             _weaponHolder.AddWeapon(fourBarrelMachineGun);
 
             return fourBarrelMachineGun;
@@ -129,7 +120,7 @@ namespace Project.Scripts.Weapon.Player
             fragGrenadesTemplate = Instantiate(fragGrenadesTemplate, _player);
 
             FragGrenades fragGrenades = fragGrenadesTemplate.GetComponent<FragGrenades>();
-            fragGrenades.Construct(_enemyDetector, _audioSoundsService);
+            fragGrenades.Construct(_improvedEnemyDetector, _audioSoundsService);
             _weaponHolder.AddWeapon(fragGrenades);
 
             return fragGrenades;
@@ -141,7 +132,7 @@ namespace Project.Scripts.Weapon.Player
             machineGunTemplate = Instantiate(machineGunTemplate, _player);
 
             MachineGun machineGun = machineGunTemplate.GetComponent<MachineGun>();
-            machineGun.Construct(_enemyDetector, _audioSoundsService);
+            machineGun.Construct(_improvedEnemyDetector, _audioSoundsService);
             _weaponHolder.AddWeapon(machineGun);
 
             return machineGun;
@@ -153,7 +144,7 @@ namespace Project.Scripts.Weapon.Player
             chainLightningGunTemplate = Instantiate(chainLightningGunTemplate, _player);
 
             ChainLightningGun chainLightningGun = chainLightningGunTemplate.GetComponent<ChainLightningGun>();
-            chainLightningGun.Construct(_audioSoundsService, _newEnemyDetector);
+            chainLightningGun.Construct(_audioSoundsService, _improvedEnemyDetector);
             _weaponHolder.AddWeapon(chainLightningGun);
 
             return chainLightningGun;

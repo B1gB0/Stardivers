@@ -27,12 +27,12 @@ namespace Project.Scripts.Weapon.Player
         private EnemyAlienActor _closestAlienEnemy;
         private ObjectPool<GunBullet> _poolBullets;
 
-        private EnemyDetector _detector;
+        private ImprovedEnemyDetector _detector;
         private AudioSoundsService _audioSoundsService;
 
         public GunCharacteristics GunCharacteristics { get; } = new();
 
-        public void Construct(EnemyDetector detector, AudioSoundsService audioSoundsService)
+        public void Construct(ImprovedEnemyDetector detector, AudioSoundsService audioSoundsService)
         {
             _detector = detector;
             _audioSoundsService = audioSoundsService;
@@ -49,12 +49,11 @@ namespace Project.Scripts.Weapon.Player
 
         private void FixedUpdate()
         {
-            _closestAlienEnemy = _detector.NearestAlienEnemy;
+            _closestAlienEnemy = _detector.GetClosestEnemy();
 
             if (_closestAlienEnemy == null) return;
 
-            if (Vector3.Distance(_closestAlienEnemy.transform.position, transform.position) 
-                <= GunCharacteristics.RangeAttack && !_isReloading)
+            if (_detector.ClosestEnemyDistance <= GunCharacteristics.RangeAttack && !_isReloading)
             {
                 Shoot();
             }
@@ -88,7 +87,7 @@ namespace Project.Scripts.Weapon.Player
     
         private void CheckAmmoAndReload()
         {
-            if (_maxCountShots <= MinValue)
+            if (_maxCountShots <= MinValue && _isReloading)
             {
                 _isReloading = false;
                 StartCoroutine(Reload());
@@ -99,7 +98,7 @@ namespace Project.Scripts.Weapon.Player
         {
             yield return new WaitForSeconds(GunCharacteristics.ReloadTime);
 
-            _maxCountShots = GunCharacteristics.MaxCountShots;
+            _maxCountShots = GunCharacteristics.MaxCountBullets;
             _isReloading = true;
         }
     }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Project.Game.Scripts;
+using Project.Scripts.ECS.EntityActors;
 using Project.Scripts.Projectiles.Bullets;
 using Project.Scripts.Services;
 using Project.Scripts.Weapon.Characteristics;
@@ -13,12 +14,12 @@ namespace Project.Scripts.Weapon.Player
     {
         private const string ObjectPoolBulletName = "PoolFourBarrelMachineGunBullets";
         private const bool IsAutoExpandPool = true;
-    
-        private const float MinValue = 0f;
+
+        private const int MinValue = 0;
         private const float DelayBetweenShots = 0.1f;
         private const int CountBullets = 4;
 
-        private readonly List<Vector3> _directions = new ();
+        private readonly List<Vector3> _directions = new();
 
         [SerializeField] private FourBarrelMachineGunBullet _bulletPrefab;
         [SerializeField] private int _countBulletsForPool;
@@ -30,22 +31,28 @@ namespace Project.Scripts.Weapon.Player
 
         private Coroutine _coroutine;
         private FourBarrelMachineGunBullet _bullet;
-    
+
         private AudioSoundsService _audioSoundsService;
+        private ImprovedEnemyDetector _detector;
+        
+        private EnemyAlienActor _closestAlienEnemy;
+
         private ObjectPool<FourBarrelMachineGunBullet> _poolBullets;
 
         public MachineGunCharacteristics MachineGunCharacteristics { get; } = new();
 
-        public void Construct(AudioSoundsService audioSoundsService)
+        public void Construct(AudioSoundsService audioSoundsService, ImprovedEnemyDetector detector)
         {
             _audioSoundsService = audioSoundsService;
+            _detector = detector;
         }
 
         private void Awake()
         {
-            _poolBullets = new ObjectPool<FourBarrelMachineGunBullet>(_bulletPrefab, _countBulletsForPool, new GameObject(ObjectPoolBulletName).transform);
+            _poolBullets = new ObjectPool<FourBarrelMachineGunBullet>(_bulletPrefab, _countBulletsForPool,
+                new GameObject(ObjectPoolBulletName).transform);
             _poolBullets.AutoExpand = IsAutoExpandPool;
-        
+
             _directions.Add(transform.forward);
             _directions.Add(transform.right);
             _directions.Add(-transform.forward);
@@ -59,12 +66,18 @@ namespace Project.Scripts.Weapon.Player
 
         private void FixedUpdate()
         {
-            if (!_isReloading)
+            _closestAlienEnemy = _detector.GetClosestEnemy();
+            
+            if (_closestAlienEnemy == null) return;
+            
+            if (_detector.ClosestEnemyDistance <= MachineGunCharacteristics.RangeAttack && !_isReloading)
+            {
                 Shoot();
+            }
 
             CheckAmmoAndReload();
         }
-    
+
         public override void Shoot()
         {
             if (_lastBurstTime <= MinValue)
@@ -75,13 +88,13 @@ namespace Project.Scripts.Weapon.Player
                 {
                     StartCoroutine(LaunchBullet(direction));
                 }
-            
+
                 _lastBurstTime = MachineGunCharacteristics.FireRate;
             }
 
             _lastBurstTime -= Time.fixedDeltaTime;
         }
-    
+
         public override void AcceptWeaponImprovement(IWeaponVisitor weaponVisitor, CharacteristicType type, float value)
         {
             weaponVisitor.Visit(this, type, value);
@@ -111,9 +124,9 @@ namespace Project.Scripts.Weapon.Player
                 _bullet = _poolBullets.GetFreeElement();
 
                 _maxCountShots--;
-        
+
                 _bullet.transform.position = _shootPoint.position + Vector3.one * Random.Range(-0.2f, 0.2f);
-        
+
                 _bullet.SetDirection(direction);
                 _bullet.SetCharacteristics(MachineGunCharacteristics.Damage, MachineGunCharacteristics.BulletSpeed);
 

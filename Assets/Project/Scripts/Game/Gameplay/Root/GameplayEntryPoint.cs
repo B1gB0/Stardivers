@@ -118,8 +118,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             _progressBar = _viewFactory.CreateProgressBar(_experiencePoints, _gameInitSystem.PlayerTransform);
 
             _weaponFactory.GetData(_gameInitSystem.PlayerTransform, _weaponHolder);
-            await _weaponFactory.CreateEnemyDetector();
-            await _weaponFactory.CreateNewEnemyDetector();
+            await _weaponFactory.CreateImprovedEnemyDetector();
             await _weaponFactory.CreateWeapon(WeaponType.Gun);
             
             _levelUpPanel.GetServices(_weaponFactory, _weaponHolder);

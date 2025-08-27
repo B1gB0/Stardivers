@@ -78,7 +78,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Type>k__BackingField: 5
   _shootPoint: {fileID: 6108429977538310800}
-  _maximumEnemiesInChain: 3
+  _maxEnemiesInChain: 3
   _lineRendererPrefab: {fileID: 6717208834214143315, guid: fbff7193843cbf34aa00423597c5a46e, type: 3}
   _refreshRate: 0.01
   _delayBetweenChain: 0.2
+  _countCharges: 3

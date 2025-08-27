@@ -10,14 +10,14 @@ namespace Project.Scripts.Weapon.Characteristics
         [SerializeField] private float _fireRate = 1f;
         [SerializeField] private float _bulletSpeed = 10f;
         [SerializeField] private float _damage = 15f;
-        [SerializeField] private int _maxCountShots = 7;
+        [SerializeField] private int _maxCountBullets = 4;
         [SerializeField] private float _reloadTime = 3f;
         
         public float RangeAttack => _rangeAttack;
         public float FireRate => _fireRate;
         public float BulletSpeed => _bulletSpeed;
         public float Damage => _damage;
-        public int MaxCountShots => _maxCountShots;
+        public int MaxCountBullets => _maxCountBullets;
         public float ReloadTime => _reloadTime;
 
         public void ApplyImprovement(CharacteristicType type ,float factor)
@@ -38,6 +38,9 @@ namespace Project.Scripts.Weapon.Characteristics
                     break;
                 case CharacteristicType.ReloadTime :
                     IncreaseReloadVelocity(factor);
+                    break;
+                case CharacteristicType.MaxCountBullets :
+                    IncreaseMaxCountBullets((int)factor);
                     break;
             }
         }
@@ -65,6 +68,11 @@ namespace Project.Scripts.Weapon.Characteristics
         private void IncreaseReloadVelocity(float reloadTimeFactor)
         {
             _reloadTime += Mathf.Round(_reloadTime * reloadTimeFactor);
+        }
+
+        private void IncreaseMaxCountBullets(int maxCountBullets)
+        {
+            _maxCountBullets = maxCountBullets;
         }
     }
 }
