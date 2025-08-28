@@ -17,30 +17,31 @@ namespace Project.Scripts.Weapon.Player
         private const bool IsAutoExpandPool = true;
         private const float MinValue = 0f;
         private const int MinEnemiesInChain = 1;
-        
-        private readonly List<EnemyAlienActor> _enemiesInChain = new ();
-        private readonly List<LightningProjectile> _spawnedLineRenderers = new ();
-        
+
+        private readonly List<EnemyAlienActor> _enemiesInChain = new();
+        private readonly List<LightningProjectile> _spawnedLineRenderers = new();
+
         [SerializeField] private Transform _shootPoint;
         [SerializeField] [Range(1, 10)] private int _maxEnemiesInChain = 3;
         [SerializeField] private LightningProjectile _lineRendererPrefab;
         [SerializeField] private float _refreshRate = 0.01f;
         [SerializeField] private float _delayBetweenChain = 0.2f;
         [SerializeField] private int _countCharges;
-        
+        [SerializeField] private Vector3 _heightLightningPosition = new(0, 0.15f, 0);
+
         private ImprovedEnemyDetector _detector;
         private AudioSoundsService _audioSoundsService;
-        
+
         private float _lastShotTime;
         private int _counter = 1;
         private int _maxCountShots;
         private bool _isReloading;
-        
+
         private EnemyAlienActor _closestAlienEnemy;
         private ObjectPool<LightningProjectile> _poolLineRendererSetters;
 
-        public GunCharacteristics GunCharacteristics { get; } = new ();
-        
+        public GunCharacteristics GunCharacteristics { get; } = new();
+
         public void Construct(AudioSoundsService audioSoundsService, ImprovedEnemyDetector enemyDetector)
         {
             _audioSoundsService = audioSoundsService;
@@ -80,7 +81,7 @@ namespace Project.Scripts.Weapon.Player
             if (_lastShotTime <= MinValue && _closestAlienEnemy.Health.TargetHealth > MinValue)
             {
                 _audioSoundsService.PlaySound(Sounds.Gun);
-                
+
                 CreateLightning(_shootPoint, _closestAlienEnemy.transform, true);
 
                 if (_maxEnemiesInChain > MinEnemiesInChain)
@@ -96,7 +97,6 @@ namespace Project.Scripts.Weapon.Player
 
         public override void AcceptWeaponImprovement(IWeaponVisitor weaponVisitor, CharacteristicType type, float value)
         {
-            
         }
 
         private void CreateLightning(Transform startPoint, Transform endPoint, bool fromPlayer = false)
@@ -115,7 +115,7 @@ namespace Project.Scripts.Weapon.Player
 
             if (fromPlayer)
             {
-                StartCoroutine(UpdateLineRenderer(lightningProjectile, startPoint, 
+                StartCoroutine(UpdateLineRenderer(lightningProjectile, startPoint,
                     _detector.GetClosestEnemy().transform, true));
 
                 if (_closestAlienEnemy != _detector.GetClosestEnemy())
@@ -126,6 +126,8 @@ namespace Project.Scripts.Weapon.Player
             }
             else
             {
+                startPoint.position += _heightLightningPosition;
+                endPoint.position += _heightLightningPosition;
                 StartCoroutine(UpdateLineRenderer(lightningProjectile, startPoint, endPoint));
             }
         }
@@ -134,38 +136,43 @@ namespace Project.Scripts.Weapon.Player
         {
             yield return new WaitForSeconds(_delayBetweenChain);
 
-            if (_counter == _maxEnemiesInChain)
+            if (_counter >= _maxEnemiesInChain) yield return null;
+
+            if (closestEnemy == null) yield break;
+
+            var detector = closestEnemy.GetComponentInChildren<ImprovedEnemyDetector>();
+            if (detector == null) yield break;
+            
+            var nextEnemy = detector.GetClosestEnemy();
+            if (nextEnemy == null) yield break;
+
+            _enemiesInChain.Add(closestEnemy);
+
+            if (!_enemiesInChain.Contains(nextEnemy))
             {
-                yield return null;
-            }
-            else
-            {
+                CreateLightning(closestEnemy.transform, closestEnemy.GetComponentInChildren<ImprovedEnemyDetector>()
+                    .GetClosestEnemy().transform);
+                
                 _counter++;
                 
-                _enemiesInChain.Add(closestEnemy);
-
-                if (!_enemiesInChain.Contains(closestEnemy.GetComponentInChildren<ImprovedEnemyDetector>().GetClosestEnemy()))
-                {
-                    CreateLightning(closestEnemy.transform, closestEnemy.GetComponentInChildren<ImprovedEnemyDetector>()
-                        .GetClosestEnemy().transform);
-                    StartCoroutine(ChainReaction(closestEnemy.GetComponentInChildren<ImprovedEnemyDetector>().GetClosestEnemy()));
-                }
+                StartCoroutine(ChainReaction(closestEnemy.GetComponentInChildren<ImprovedEnemyDetector>()
+                    .GetClosestEnemy()));
             }
         }
 
         private void StopShooting()
         {
             _counter = 1;
-            
+
             for (int i = 0; i < _spawnedLineRenderers.Count; i++)
             {
                 _spawnedLineRenderers[i].gameObject.SetActive(false);
             }
-            
+
             _spawnedLineRenderers.Clear();
             _enemiesInChain.Clear();
         }
-        
+
         private void CheckAmmoAndReload()
         {
             if (_maxCountShots <= MinValue)
