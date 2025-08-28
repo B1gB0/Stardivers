@@ -13,14 +13,12 @@ namespace Project.Scripts.Weapon.Player
 {
     public class ChainLightningGun : PlayerWeapon
     {
-        [Header("Chain Lightning Settings")]
         [SerializeField] private Transform _shootPoint;
-
         [SerializeField] [Range(1, 10)] private int _maxEnemiesInChain = 3;
         [SerializeField] private LightningProjectile _lightningPrefab;
         [SerializeField] private float _chainDelay = 0.2f;
         [SerializeField] private float _lightningDuration = 0.35f;
-        [SerializeField] private Vector3 _heightOffset = new(0, 0.15f, 0);
+        [SerializeField] private float _heightOffset = 0.2f;
 
         private ImprovedEnemyDetector _detector;
         private AudioSoundsService _audioService;
@@ -49,6 +47,7 @@ namespace Project.Scripts.Weapon.Player
                 new GameObject(PoolName).transform
             );
 
+            GunCharacteristics.SetStartingCharacteristics();
             _currentCharges = GunCharacteristics.MaxCountBullets;
         }
 
@@ -79,8 +78,7 @@ namespace Project.Scripts.Weapon.Player
             _audioService.PlaySound(Sounds.Gun);
             _currentCharges--;
             _lastShotTime = GunCharacteristics.FireRate;
-
-
+            
             _isShooting = true;
             
             CreateLightning(_shootPoint, firstTarget.transform);
@@ -127,12 +125,15 @@ namespace Project.Scripts.Weapon.Player
 
         private void CreateLightning(Transform start, Transform end)
         {
+            Vector3 startPoint = start.position;
+            Vector3 endPoint = end.position;
+            
+            startPoint.y += _heightOffset;
+            endPoint.y += _heightOffset;
+            
             var lightning = _lightningPool.GetFreeElement();
-            lightning.SetPosition(start, end);
-            
-            start.position += _heightOffset;
-            end.position += _heightOffset;
-            
+            lightning.SetPosition(startPoint, endPoint);
+
             StartCoroutine(ReturnLightningToPool(lightning, _lightningDuration));
         }
 

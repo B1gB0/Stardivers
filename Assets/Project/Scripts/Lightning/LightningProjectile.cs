@@ -13,7 +13,7 @@ namespace Project.Scripts.Lightning
         
         [SerializeField] private List<LineRenderer> _lineRenderers = new ();
 
-        public void SetPosition(Transform startPoint, Transform endPoint)
+        public void SetPosition(Vector3 startPoint, Vector3 endPoint)
         {
             if (_lineRenderers.Count > MinValueLineRenderers)
             {
@@ -21,8 +21,8 @@ namespace Project.Scripts.Lightning
                 {
                     if (_lineRenderers[i].positionCount >= MinValuePosition)
                     {
-                        _lineRenderers[i].SetPosition(FirstIndex, startPoint.position);
-                        _lineRenderers[i].SetPosition(SecondIndex, endPoint.position);
+                        _lineRenderers[i].SetPosition(FirstIndex, startPoint);
+                        _lineRenderers[i].SetPosition(SecondIndex, endPoint);
                     }
                     else
                     {
