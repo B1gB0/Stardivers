@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &380942517071549812
+--- !u!1 &8097464536255893207
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,38 +8,39 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2934025382013598047}
-  - component: {fileID: 9108748540946064133}
+  - component: {fileID: 2484282325656976444}
+  - component: {fileID: 7568429709689450744}
+  - component: {fileID: 3212628134218671286}
   m_Layer: 0
-  m_Name: Line
+  m_Name: LightningTrailRendererProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &2934025382013598047
+--- !u!4 &2484282325656976444
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 380942517071549812}
+  m_GameObject: {fileID: 8097464536255893207}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 8018317820219639094}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!120 &9108748540946064133
-LineRenderer:
-  serializedVersion: 2
+--- !u!96 &7568429709689450744
+TrailRenderer:
+  serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 380942517071549812}
+  m_GameObject: {fileID: 8097464536255893207}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -54,7 +55,6 @@ LineRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 12ebd389b8538f94caeb62b70827c583, type: 2}
-  - {fileID: 2100000, guid: bf8376da8ebdf4d4eafe2f931a805f5d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -75,32 +75,31 @@ LineRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Positions:
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 1}
+  m_Time: 1
+  m_PreviewTimeScale: 1
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.1
+    widthMultiplier: 1
     widthCurve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0
-        value: 1
-        inSlope: -0.2664641
-        outSlope: -0.2664641
+        time: 0.0064953417
+        value: 0.5288606
+        inSlope: -0.22738223
+        outSlope: -0.22738223
         tangentMode: 0
         weightedMode: 0
         inWeight: 0
-        outWeight: 0.15112159
+        outWeight: 0.2102607
       - serializedVersion: 3
-        time: 1
-        value: 0.5637584
-        inSlope: -1.3255485
-        outSlope: -1.3255485
+        time: 0.9976387
+        value: 0.013422815
+        inSlope: -0.9130405
+        outSlope: -0.9130405
         tangentMode: 0
         weightedMode: 0
-        inWeight: 0.13164109
+        inWeight: 0.16096957
         outWeight: 0.33333334
       m_PreInfinity: 2
       m_PostInfinity: 2
@@ -109,7 +108,7 @@ LineRenderer:
       serializedVersion: 2
       key0: {r: 1, g: 1, b: 1, a: 1}
       key1: {r: 1, g: 1, b: 1, a: 1}
-      key2: {r: 0, g: 1, b: 0.89380527, a: 0}
+      key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
@@ -117,7 +116,7 @@ LineRenderer:
       key7: {r: 0, g: 0, b: 0, a: 0}
       ctime0: 0
       ctime1: 65535
-      ctime2: 57054
+      ctime2: 0
       ctime3: 0
       ctime4: 0
       ctime5: 0
@@ -142,55 +141,21 @@ LineRenderer:
     textureScale: {x: 1, y: 1}
     shadowBias: 0.5
     generateLightingData: 0
+  m_MinVertexDistance: 0.1
   m_MaskInteraction: 0
-  m_UseWorldSpace: 0
-  m_Loop: 0
+  m_Autodestruct: 0
+  m_Emitting: 1
   m_ApplyActiveColorSpace: 1
---- !u!1 &6717208834214143315
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8018317820219639094}
-  - component: {fileID: 3634560372620799725}
-  m_Layer: 0
-  m_Name: LineRendererSetterPrefab
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8018317820219639094
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6717208834214143315}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 2934025382013598047}
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3634560372620799725
+--- !u!114 &3212628134218671286
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6717208834214143315}
+  m_GameObject: {fileID: 8097464536255893207}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a3003c8cdb33e849a7078f1a63486f0, type: 3}
+  m_Script: {fileID: 11500000, guid: c4071df5f90a407a8513b5d2ad3e9279, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <LifeTime>k__BackingField: 4
-  _lineRenderers:
-  - {fileID: 9108748540946064133}
+  <LifeTime>k__BackingField: 6

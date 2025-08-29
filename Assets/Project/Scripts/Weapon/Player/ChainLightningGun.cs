@@ -13,16 +13,18 @@ namespace Project.Scripts.Weapon.Player
 {
     public class ChainLightningGun : PlayerWeapon
     {
+        private const bool IsAutoExpandPool = true;
+
         [SerializeField] private Transform _shootPoint;
         [SerializeField] [Range(1, 10)] private int _maxEnemiesInChain = 3;
-        [SerializeField] private LightningProjectile _lightningPrefab;
+        [SerializeField] private LightningLineRendererProjectile lightningLineRendererPrefab;
         [SerializeField] private float _chainDelay = 0.2f;
         [SerializeField] private float _lightningDuration = 0.35f;
         [SerializeField] private float _heightOffset = 0.2f;
 
         private ImprovedEnemyDetector _detector;
         private AudioSoundsService _audioService;
-        private ObjectPool<LightningProjectile> _lightningPool;
+        private ObjectPool<LightningLineRendererProjectile> _lightningPool;
 
         private float _lastShotTime;
         private bool _isShooting;
@@ -30,7 +32,7 @@ namespace Project.Scripts.Weapon.Player
         private Coroutine _chainCoroutine;
 
         private const string PoolName = "ChainLightningPool";
-        
+
         public GunCharacteristics GunCharacteristics { get; } = new();
 
         public void Construct(AudioSoundsService audioService, ImprovedEnemyDetector detector)
@@ -41,11 +43,11 @@ namespace Project.Scripts.Weapon.Player
 
         private void Awake()
         {
-            _lightningPool = new ObjectPool<LightningProjectile>(
-                _lightningPrefab,
-                GunCharacteristics.MaxCountBullets,
-                new GameObject(PoolName).transform
-            );
+            _lightningPool = new ObjectPool<LightningLineRendererProjectile>(
+                lightningLineRendererPrefab, GunCharacteristics.MaxCountBullets, new GameObject(PoolName).transform)
+            {
+                AutoExpand = IsAutoExpandPool
+            };
 
             GunCharacteristics.SetStartingCharacteristics();
             _currentCharges = GunCharacteristics.MaxCountBullets;
@@ -61,7 +63,7 @@ namespace Project.Scripts.Weapon.Player
                 return;
             }
 
-            if (_detector.GetClosestEnemy() != null && _detector.ClosestEnemyDistance 
+            if (_detector.GetClosestEnemy() != null && _detector.ClosestEnemyDistance
                 <= GunCharacteristics.RangeAttack && _lastShotTime <= 0)
             {
                 Shoot();
@@ -74,16 +76,16 @@ namespace Project.Scripts.Weapon.Player
 
             var firstTarget = _detector.GetClosestEnemy();
             if (firstTarget == null || firstTarget.Health.TargetHealth <= 0) return;
-            
+
             _audioService.PlaySound(Sounds.Gun);
             _currentCharges--;
             _lastShotTime = GunCharacteristics.FireRate;
-            
+
             _isShooting = true;
-            
+
             CreateLightning(_shootPoint, firstTarget.transform);
             firstTarget.Health.TakeDamage(GunCharacteristics.Damage);
-            
+
             if (_chainCoroutine != null) StopCoroutine(_chainCoroutine);
             _chainCoroutine = StartCoroutine(ChainReaction(firstTarget));
         }
@@ -96,10 +98,10 @@ namespace Project.Scripts.Weapon.Player
             for (int i = 1; i < _maxEnemiesInChain; i++)
             {
                 yield return new WaitForSeconds(_chainDelay);
-                
+
                 var nextEnemy = FindNextEnemy(currentTarget, hitEnemies);
                 if (nextEnemy == null || nextEnemy.Health.TargetHealth <= 0) break;
-                
+
                 CreateLightning(currentTarget.transform, nextEnemy.transform);
                 nextEnemy.Health.TakeDamage(GunCharacteristics.Damage);
 
@@ -113,10 +115,11 @@ namespace Project.Scripts.Weapon.Player
         private EnemyAlienActor FindNextEnemy(EnemyAlienActor lastEnemy, List<EnemyAlienActor> alreadyHit)
         {
             if (lastEnemy == null) return null;
-            
+
             var enemiesInRange = _detector.GetEnemiesInRange()
                 .Where(enemy => enemy != null && enemy != lastEnemy && !alreadyHit.Contains(enemy) &&
-                                Vector3.Distance(lastEnemy.transform.position, enemy.transform.position) <= GunCharacteristics.RangeAttack)
+                                Vector3.Distance(lastEnemy.transform.position, enemy.transform.position) <=
+                                GunCharacteristics.RangeAttack)
                 .OrderBy(enemy => Vector3.Distance(lastEnemy.transform.position, enemy.transform.position))
                 .ToList();
 
@@ -127,20 +130,21 @@ namespace Project.Scripts.Weapon.Player
         {
             Vector3 startPoint = start.position;
             Vector3 endPoint = end.position;
-            
+
             startPoint.y += _heightOffset;
             endPoint.y += _heightOffset;
-            
+
             var lightning = _lightningPool.GetFreeElement();
             lightning.SetPosition(startPoint, endPoint);
+            lightning.SetCharacteristics(GunCharacteristics.Damage, GunCharacteristics.ProjectileSpeed);
 
             StartCoroutine(ReturnLightningToPool(lightning, _lightningDuration));
         }
 
-        private IEnumerator ReturnLightningToPool(LightningProjectile lightning, float delay)
+        private IEnumerator ReturnLightningToPool(LightningLineRendererProjectile lightningLineRenderer, float delay)
         {
             yield return new WaitForSeconds(delay);
-            lightning.gameObject.SetActive(false);
+            lightningLineRenderer.gameObject.SetActive(false);
         }
 
         private IEnumerator Reload()

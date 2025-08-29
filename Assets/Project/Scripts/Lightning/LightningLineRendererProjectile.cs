@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Project.Scripts.Lightning
 {
-    public class LightningProjectile : Projectile
+    public class LightningLineRendererProjectile : Projectile
     {
         private const int MinValueLineRenderers = 0;
         private const int MinValuePosition = 2;
@@ -24,15 +24,7 @@ namespace Project.Scripts.Lightning
                         _lineRenderers[i].SetPosition(FirstIndex, startPoint);
                         _lineRenderers[i].SetPosition(SecondIndex, endPoint);
                     }
-                    else
-                    {
-                        Debug.Log("The line renderer should have at least 2 positions!");
-                    }
                 }
-            }
-            else
-            {
-                Debug.Log("Line Renderers list is empty");
             }
         }
     }
