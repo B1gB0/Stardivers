@@ -4,7 +4,7 @@
     {
         public override void SetStartingCharacteristics()
         {
-            rangeAttack = 5f;
+            rangeAttack = 4f;
             fireRate = 5f;
             projectileSpeed = 10f;
             explosionRadius = 3f;

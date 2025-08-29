@@ -33,7 +33,7 @@ namespace Project.Scripts.Weapon.Player
 
         private const string PoolName = "ChainLightningPool";
 
-        public GunCharacteristics GunCharacteristics { get; } = new();
+        public ChainLightningGunCharacteristics ChainLightningGunCharacteristics { get; } = new();
 
         public void Construct(AudioSoundsService audioService, ImprovedEnemyDetector detector)
         {
@@ -44,13 +44,13 @@ namespace Project.Scripts.Weapon.Player
         private void Awake()
         {
             _lightningPool = new ObjectPool<LightningLineRendererProjectile>(
-                lightningLineRendererPrefab, GunCharacteristics.MaxCountBullets, new GameObject(PoolName).transform)
+                lightningLineRendererPrefab, ChainLightningGunCharacteristics.MaxCountBullets, new GameObject(PoolName).transform)
             {
                 AutoExpand = IsAutoExpandPool
             };
 
-            GunCharacteristics.SetStartingCharacteristics();
-            _currentCharges = GunCharacteristics.MaxCountBullets;
+            ChainLightningGunCharacteristics.SetStartingCharacteristics();
+            _currentCharges = ChainLightningGunCharacteristics.MaxCountBullets;
         }
 
         private void FixedUpdate()
@@ -64,7 +64,7 @@ namespace Project.Scripts.Weapon.Player
             }
 
             if (_detector.GetClosestEnemy() != null && _detector.ClosestEnemyDistance
-                <= GunCharacteristics.RangeAttack && _lastShotTime <= 0)
+                <= ChainLightningGunCharacteristics.RangeAttack && _lastShotTime <= 0)
             {
                 Shoot();
             }
@@ -79,12 +79,12 @@ namespace Project.Scripts.Weapon.Player
 
             _audioService.PlaySound(Sounds.Gun);
             _currentCharges--;
-            _lastShotTime = GunCharacteristics.FireRate;
+            _lastShotTime = ChainLightningGunCharacteristics.FireRate;
 
             _isShooting = true;
 
             CreateLightning(_shootPoint, firstTarget.transform);
-            firstTarget.Health.TakeDamage(GunCharacteristics.Damage);
+            firstTarget.Health.TakeDamage(ChainLightningGunCharacteristics.Damage);
 
             if (_chainCoroutine != null) StopCoroutine(_chainCoroutine);
             _chainCoroutine = StartCoroutine(ChainReaction(firstTarget));
@@ -103,7 +103,7 @@ namespace Project.Scripts.Weapon.Player
                 if (nextEnemy == null || nextEnemy.Health.TargetHealth <= 0) break;
 
                 CreateLightning(currentTarget.transform, nextEnemy.transform);
-                nextEnemy.Health.TakeDamage(GunCharacteristics.Damage);
+                nextEnemy.Health.TakeDamage(ChainLightningGunCharacteristics.Damage);
 
                 hitEnemies.Add(nextEnemy);
                 currentTarget = nextEnemy;
@@ -119,7 +119,7 @@ namespace Project.Scripts.Weapon.Player
             var enemiesInRange = _detector.GetEnemiesInRange()
                 .Where(enemy => enemy != null && enemy != lastEnemy && !alreadyHit.Contains(enemy) &&
                                 Vector3.Distance(lastEnemy.transform.position, enemy.transform.position) <=
-                                GunCharacteristics.RangeAttack)
+                                ChainLightningGunCharacteristics.RangeAttack)
                 .OrderBy(enemy => Vector3.Distance(lastEnemy.transform.position, enemy.transform.position))
                 .ToList();
 
@@ -136,7 +136,7 @@ namespace Project.Scripts.Weapon.Player
 
             var lightning = _lightningPool.GetFreeElement();
             lightning.SetPosition(startPoint, endPoint);
-            lightning.SetCharacteristics(GunCharacteristics.Damage, GunCharacteristics.ProjectileSpeed);
+            lightning.SetCharacteristics(ChainLightningGunCharacteristics.Damage, ChainLightningGunCharacteristics.ProjectileSpeed);
 
             StartCoroutine(ReturnLightningToPool(lightning, _lightningDuration));
         }
@@ -149,8 +149,8 @@ namespace Project.Scripts.Weapon.Player
 
         private IEnumerator Reload()
         {
-            yield return new WaitForSeconds(GunCharacteristics.ReloadTime);
-            _currentCharges = GunCharacteristics.MaxCountBullets;
+            yield return new WaitForSeconds(ChainLightningGunCharacteristics.ReloadTime);
+            _currentCharges = ChainLightningGunCharacteristics.MaxCountBullets;
         }
 
         public override void AcceptWeaponImprovement(IWeaponVisitor weaponVisitor, CharacteristicType type, float value)
