@@ -7,8 +7,6 @@ namespace Project.Scripts.Crystals
     {
         protected IFloatingTextService TextService;
 
-        [SerializeField] protected Color ColorText;
-        
         public Rigidbody Rigidbody { get; private set; }
 
         private void Awake()

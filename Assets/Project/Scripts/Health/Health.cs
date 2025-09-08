@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using Build.Game.Scripts;
+using Project.Scripts.UI.View;
 using UnityEngine;
 
 namespace Project.Scripts.Health
@@ -9,7 +10,8 @@ namespace Project.Scripts.Health
     {
         private const float RecoveryRate = 10f;
 
-        [SerializeField] private Color _colorText;
+        [SerializeField] private Color _healingColor;
+        [SerializeField] private Color _standardColor;
         [SerializeField] private float _value;
         [SerializeField] private ParticleSystem _hitEffectPrefab;
         [SerializeField] private Transform _hitPoint;
@@ -20,7 +22,8 @@ namespace Project.Scripts.Health
 
         public event Action Die;
 
-        public event Action<string, Transform, Color> IsSpawnedDamageText;
+        public event Action<string, Transform, FloatingTextViewType, Color> IsSpawnedDamageText;
+        public event Action<string, Transform, FloatingTextViewType, Color> IsSpawnedHealingText;
 
         public event Action IsDamaged; 
 
@@ -51,7 +54,7 @@ namespace Project.Scripts.Health
 
         public void TakeDamage(float damage)
         {
-            IsSpawnedDamageText?.Invoke(damage.ToString(), transform, _colorText);
+            IsSpawnedDamageText?.Invoke(damage.ToString(), transform, FloatingTextViewType.Damage, _standardColor);
             IsDamaged?.Invoke();
 
             _hitEffect.transform.position = _hitPoint.position;
@@ -70,6 +73,7 @@ namespace Project.Scripts.Health
 
         public void AddHealth(float healthValue)
         {
+            IsSpawnedHealingText?.Invoke(healthValue.ToString(), transform, FloatingTextViewType.Healing, _healingColor);
             TargetHealth += healthValue;
             
             OnChangeHealth();

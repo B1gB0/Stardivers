@@ -213,9 +213,41 @@ PrefabInstance:
       value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 2891465084703597491, guid: e7965cb5f3b6b49439772edd4131b2b0, type: 3}
+      propertyPath: _healingColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2891465084703597491, guid: e7965cb5f3b6b49439772edd4131b2b0, type: 3}
+      propertyPath: _healingColor.b
+      value: 0.44897917
+      objectReference: {fileID: 0}
+    - target: {fileID: 2891465084703597491, guid: e7965cb5f3b6b49439772edd4131b2b0, type: 3}
+      propertyPath: _healingColor.g
+      value: 0.9716981
+      objectReference: {fileID: 0}
+    - target: {fileID: 2891465084703597491, guid: e7965cb5f3b6b49439772edd4131b2b0, type: 3}
+      propertyPath: _healingColor.r
+      value: 0.2970096
+      objectReference: {fileID: 0}
+    - target: {fileID: 2891465084703597491, guid: e7965cb5f3b6b49439772edd4131b2b0, type: 3}
       propertyPath: _hitEffectPrefab
       value: 
       objectReference: {fileID: 19845262, guid: fdac75e990da47649b31f10049c400b0, type: 3}
+    - target: {fileID: 2891465084703597491, guid: e7965cb5f3b6b49439772edd4131b2b0, type: 3}
+      propertyPath: _standardColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2891465084703597491, guid: e7965cb5f3b6b49439772edd4131b2b0, type: 3}
+      propertyPath: _standardColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2891465084703597491, guid: e7965cb5f3b6b49439772edd4131b2b0, type: 3}
+      propertyPath: _standardColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2891465084703597491, guid: e7965cb5f3b6b49439772edd4131b2b0, type: 3}
+      propertyPath: _standardColor.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2891465084703597491, guid: e7965cb5f3b6b49439772edd4131b2b0, type: 3}
       propertyPath: <Value>k__BackingField
       value: 100

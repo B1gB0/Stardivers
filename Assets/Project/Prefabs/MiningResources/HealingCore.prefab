@@ -138,7 +138,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Health>k__BackingField: {fileID: 3090329063166936177}
   <Animator>k__BackingField: {fileID: 6335976667743448501}
-  _healingCrystalPrefab: {fileID: 883261589923405469, guid: b955f0bb2d3f59447a0c1a6f69b5dd80, type: 3}
+  redCrystalPrefab: {fileID: 883261589923405469, guid: b955f0bb2d3f59447a0c1a6f69b5dd80, type: 3}
   _crystalSpawnPoint: {fileID: 4542856625410300882}
 --- !u!114 &3090329063166936177
 MonoBehaviour:
@@ -152,7 +152,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbef326efc61174488772c5468beb681, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _colorText: {r: 0, g: 0, b: 0, a: 0}
+  _healingColor: {r: 0, g: 0, b: 0, a: 0}
+  _standardColor: {r: 0, g: 0, b: 0, a: 0}
   _value: 12
   _hitEffectPrefab: {fileID: 198441514564820928, guid: d519ad6ef8ea3cd4f9acf13f6646a601, type: 3}
   _hitPoint: {fileID: 4736080336239985497}

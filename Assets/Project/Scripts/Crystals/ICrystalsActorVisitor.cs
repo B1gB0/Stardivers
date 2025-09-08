@@ -4,7 +4,7 @@ namespace Project.Scripts.Crystals
 {
     public interface ICrystalsActorVisitor
     {
-        void Visit(HealingCrystal healingCrystal);
+        void Visit(RedCrystal redCrystal);
     
         void Visit(GoldCrystal goldCrystal);
     }

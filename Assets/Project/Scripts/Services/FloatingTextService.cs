@@ -1,5 +1,4 @@
-﻿using Cysharp.Threading.Tasks;
-using Project.Scripts.UI;
+﻿using Project.Scripts.UI.View;
 using UnityEngine;
 
 namespace Project.Scripts.Services
@@ -9,7 +8,7 @@ namespace Project.Scripts.Services
         private const string ObjectPoolDamageText = "PoolDamageText";
         private const int Count = 4;
         private const bool IsAutoExpand = true;
-    
+
         private ObjectPool<FloatingTextView> _poolDamageText;
 
         public void Init(FloatingTextView textView)
@@ -21,15 +20,16 @@ namespace Project.Scripts.Services
                 };
         }
 
-        public void OnChangedFloatingText(string value, Transform target, Color targetColor)
+        public void OnChangedFloatingText(string value, Transform target, 
+            FloatingTextViewType floatingTextViewType, Color color)
         {
-            ChangeText(value, target, targetColor);
+            ChangeText(value, target, floatingTextViewType, color);
         }
 
-        private void ChangeText(string value, Transform target, Color targetColor)
+        private void ChangeText(string value, Transform target, FloatingTextViewType floatingTextViewType, Color color)
         {
             FloatingTextView textView = _poolDamageText.GetFreeElement();
-            textView.SetFloatingText(value, target, targetColor);
+            textView.SetFloatingText(value, target, floatingTextViewType, color);
             textView.Show();
         }
     }

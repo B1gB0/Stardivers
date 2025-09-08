@@ -7,6 +7,7 @@ namespace Project.Scripts.Crystals
     public class GoldCrystal : Crystal
     {
         [field: SerializeField] public int GoldValue { get; private set; }
+        [field: SerializeField] public Color Color { get; private set; }
 
         private GoldView _goldView;
 
@@ -18,7 +19,7 @@ namespace Project.Scripts.Crystals
         public void Destroy()
         {
             _goldView.SetValue(GoldValue);
-            TextService.OnChangedFloatingText("+" + GoldValue, transform, ColorText);
+            TextService.OnChangedFloatingText("+" + GoldValue, transform, FloatingTextViewType.Gold, Color);
             Destroy(gameObject);
         }
     }

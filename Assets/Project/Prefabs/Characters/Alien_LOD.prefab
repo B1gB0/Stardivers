@@ -765,7 +765,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbef326efc61174488772c5468beb681, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _colorText: {r: 1, g: 1, b: 1, a: 0}
+  _healingColor: {r: 1, g: 1, b: 1, a: 1}
+  _standardColor: {r: 1, g: 1, b: 1, a: 1}
   _value: 40
   _hitEffectPrefab: {fileID: 19889686, guid: de85f8f81ea29ea479250adb36debd92, type: 3}
   _hitPoint: {fileID: 5470175713704170343}
