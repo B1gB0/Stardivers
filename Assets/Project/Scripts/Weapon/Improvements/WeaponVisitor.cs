@@ -29,5 +29,10 @@ namespace Project.Scripts.Weapon.Improvements
         {
             machineGun.MachineGunCharacteristics.ApplyImprovement(type, value);
         }
+
+        public void Visit(ChainLightningGun chainLightningGun, CharacteristicType type, float value)
+        {
+            chainLightningGun.ChainLightningGunCharacteristics.ApplyImprovement(type, value);
+        }
     }
 }

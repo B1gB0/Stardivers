@@ -4,6 +4,8 @@ namespace YG
 {
     public partial class SavesYG
     {
+        public int gold;
+        
         public List<string> stringKeys = new List<string>();
         public List<string> stringValues = new List<string>();
 

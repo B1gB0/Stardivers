@@ -17,6 +17,8 @@ namespace Project.Scripts.Weapon.Player
 
         private const int MinValue = 0;
         private const float DelayBetweenShots = 0.1f;
+        private const float MinRandomRangePosition = -0.2f;
+        private const float MaxRandomRangePosition = 0.2f;
         private const int CountBullets = 4;
 
         private readonly List<Vector3> _directions = new();
@@ -127,7 +129,8 @@ namespace Project.Scripts.Weapon.Player
 
                 _maxCountShots--;
 
-                _bullet.transform.position = _shootPoint.position + Vector3.one * Random.Range(-0.2f, 0.2f);
+                _bullet.transform.position = _shootPoint.position + Vector3.one
+                    * Random.Range(MinRandomRangePosition, MaxRandomRangePosition);
 
                 _bullet.SetDirection(direction);
                 _bullet.SetCharacteristics(MachineGunCharacteristics.Damage, MachineGunCharacteristics.ProjectileSpeed);

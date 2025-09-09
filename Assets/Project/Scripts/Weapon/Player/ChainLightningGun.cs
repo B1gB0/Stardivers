@@ -44,7 +44,8 @@ namespace Project.Scripts.Weapon.Player
         private void Awake()
         {
             _lightningPool = new ObjectPool<LightningLineRendererProjectile>(
-                lightningLineRendererPrefab, ChainLightningGunCharacteristics.MaxCountBullets, new GameObject(PoolName).transform)
+                lightningLineRendererPrefab, ChainLightningGunCharacteristics.MaxCountBullets,
+                new GameObject(PoolName).transform)
             {
                 AutoExpand = IsAutoExpandPool
             };
@@ -136,7 +137,8 @@ namespace Project.Scripts.Weapon.Player
 
             var lightning = _lightningPool.GetFreeElement();
             lightning.SetPosition(startPoint, endPoint);
-            lightning.SetCharacteristics(ChainLightningGunCharacteristics.Damage, ChainLightningGunCharacteristics.ProjectileSpeed);
+            lightning.SetCharacteristics(ChainLightningGunCharacteristics.Damage,
+                ChainLightningGunCharacteristics.ProjectileSpeed);
 
             StartCoroutine(ReturnLightningToPool(lightning, _lightningDuration));
         }
@@ -155,21 +157,7 @@ namespace Project.Scripts.Weapon.Player
 
         public override void AcceptWeaponImprovement(IWeaponVisitor weaponVisitor, CharacteristicType type, float value)
         {
-            switch (type)
-            {
-                // case CharacteristicType.Damage:
-                //     // Implement damage improvement
-                //     break;
-                // case CharacteristicType.Range:
-                //     _attackRange += value;
-                //     break;
-                // case CharacteristicType.ChainCount:
-                //     _maxEnemiesInChain = Mathf.Clamp(_maxEnemiesInChain + (int)value, 1, 10);
-                //     break;
-                // case CharacteristicType.ChainRange:
-                //     _chainRange += value;
-                //     break;
-            }
+            weaponVisitor.Visit(this, type, value);
         }
 
         private void OnDisable()

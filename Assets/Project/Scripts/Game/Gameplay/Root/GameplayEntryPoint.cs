@@ -18,6 +18,7 @@ using Reflex.Attributes;
 using Reflex.Extensions;
 using Reflex.Injectors;
 using UnityEngine;
+using YG;
 
 namespace Project.Scripts.Game.Gameplay.Root
 {
@@ -174,6 +175,8 @@ namespace Project.Scripts.Game.Gameplay.Root
         
         private void OnDestroy()
         {
+            YG2.SaveProgress();
+            
             _gameInitSystem.PlayerIsSpawned -= _healthBar.Show;
             _gameInitSystem.PlayerIsSpawned -= _progressBar.Show;
                 

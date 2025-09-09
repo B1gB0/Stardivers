@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Project.Scripts.Crystals
 {
-    public class Crystal : MonoBehaviour
+    public abstract class Crystal : MonoBehaviour
     {
         protected IFloatingTextService TextService;
 

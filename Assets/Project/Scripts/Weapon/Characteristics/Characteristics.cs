@@ -13,6 +13,7 @@ namespace Project.Scripts.Weapon.Characteristics
         [SerializeField] protected int maxCountBullets = 4;
         [SerializeField] protected float reloadTime = 3f;
         [SerializeField] protected float explosionRadius = 3f;
+        [SerializeField] protected int maxEnemiesInChain = 3;
 
         public float RangeAttack => rangeAttack;
         public float FireRate => fireRate;
@@ -51,9 +52,14 @@ namespace Project.Scripts.Weapon.Characteristics
             reloadTime -= Mathf.Round(reloadTime * reloadTimeFactor);
         }
 
-        protected virtual void IncreaseMaxCountBullets(int maxCountBullets)
+        protected virtual void IncreaseMaxCountBullets(int maxCount)
         {
-            this.maxCountBullets = maxCountBullets;
+            maxCountBullets = maxCount;
+        }
+        
+        protected virtual void IncreaseMaxEnemiesInChain(int maxEnemies)
+        {
+            maxEnemiesInChain = maxEnemies;
         }
         
         protected virtual void IncreaseExplosionRadius(float explosionRadiusFactor)

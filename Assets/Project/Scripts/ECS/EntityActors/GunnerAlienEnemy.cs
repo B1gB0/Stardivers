@@ -10,15 +10,15 @@ namespace Project.Scripts.ECS.EntityActors
         
         private void OnEnable()
         {
-            Health.Die += Die;
+            Health.Die += OnDie;
         }
 
         private void OnDisable()
         {
-            Health.Die -= Die;
+            Health.Die -= OnDie;
         }
 
-        private void Die()
+        private void OnDie()
         {
             Health.IsSpawnedDamageText -= TextService.OnChangedFloatingText;
             ExperiencePoints.OnKill(this);

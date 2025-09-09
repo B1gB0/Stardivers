@@ -9,6 +9,7 @@
             damage = 10f;
             maxCountBullets = 4;
             reloadTime = 5f;
+            maxEnemiesInChain = 3;
         }
 
         public override void ApplyImprovement(CharacteristicType type, float factor)
@@ -29,6 +30,9 @@
                     break;
                 case CharacteristicType.MaxCountBullets:
                     IncreaseMaxCountBullets((int)factor);
+                    break;
+                case CharacteristicType.MaxCountEnemiesInChain:
+                    IncreaseMaxEnemiesInChain((int)factor);
                     break;
             }
         }
