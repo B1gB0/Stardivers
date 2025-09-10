@@ -1,5 +1,4 @@
-using Project.Game.Scripts;
-using Project.Scripts.Weapon.Characteristics;
+using Project.Scripts.Weapon.CharacteristicsOfWeapon;
 using Project.Scripts.Weapon.Improvements;
 using UnityEngine;
 
@@ -11,6 +10,7 @@ namespace Project.Scripts.Weapon.Player
 
         public abstract void Shoot();
 
-        public abstract void AcceptWeaponImprovement(IWeaponVisitor weaponVisitor, CharacteristicType type, float value);
+        public abstract void AcceptWeaponImprovement(IWeaponVisitor weaponVisitor, CharacteristicType type,
+            float value);
     }
 }

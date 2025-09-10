@@ -1,6 +1,6 @@
 ﻿using System;
 using Project.Scripts.Cards;
-using Project.Scripts.Weapon.Characteristics;
+using Project.Scripts.Weapon.CharacteristicsOfWeapon;
 using Project.Scripts.Weapon.Player;
 using UnityEngine;
 

@@ -1,29 +1,31 @@
 ﻿using System;
+using Project.Scripts.DataBase.Data;
 using UnityEngine;
 
-namespace Project.Scripts.Weapon.Characteristics
+namespace Project.Scripts.Weapon.CharacteristicsOfWeapon
 {
     [Serializable]
     public abstract class Characteristics
     {
-        [SerializeField] protected float rangeAttack = 5f;
-        [SerializeField] protected float fireRate = 1f;
-        [SerializeField] protected float projectileSpeed = 10f;
-        [SerializeField] protected float damage = 15f;
-        [SerializeField] protected int maxCountBullets = 4;
-        [SerializeField] protected float reloadTime = 3f;
-        [SerializeField] protected float explosionRadius = 3f;
-        [SerializeField] protected int maxEnemiesInChain = 3;
+        protected float rangeAttack;
+        protected float fireRate;
+        protected float projectileSpeed;
+        protected float damage;
+        protected int maxCountBullets;
+        protected float reloadTime;
+        protected float explosionRadius;
+        protected int maxEnemiesInChain;
 
         public float RangeAttack => rangeAttack;
         public float FireRate => fireRate;
         public float ProjectileSpeed => projectileSpeed;
         public float Damage => damage;
         public int MaxCountBullets => maxCountBullets;
+        public int MaxEnemiesInChain => maxEnemiesInChain;
         public float ReloadTime => reloadTime;
         public float ExplosionRadius => explosionRadius;
 
-        public abstract void SetStartingCharacteristics();
+        public abstract void SetStartingCharacteristics(CharacteristicsWeaponData data);
 
         public abstract void ApplyImprovement(CharacteristicType type, float factor);
 

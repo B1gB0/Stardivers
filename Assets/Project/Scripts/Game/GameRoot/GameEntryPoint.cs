@@ -1,4 +1,5 @@
-﻿using Project.Scripts.Game.Gameplay.Root;
+﻿using System;
+using Project.Scripts.Game.Gameplay.Root;
 using Project.Scripts.Game.MainMenu.Root;
 using Project.Scripts.Services;
 using Project.Scripts.UI.StateMachine.States;
@@ -11,6 +12,7 @@ using Reflex.Attributes;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceProviders;
+using YG;
 
 namespace Project.Scripts.Game.GameRoot
 {
@@ -44,6 +46,11 @@ namespace Project.Scripts.Game.GameRoot
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
 
             await StartGame();
+        }
+
+        private void OnDestroy()
+        {
+            YG2.SaveProgress();
         }
 
         private async UniTask StartGame()

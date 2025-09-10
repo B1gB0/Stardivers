@@ -1,6 +1,7 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
 using Project.Scripts.DataBase;
+using Project.Scripts.Weapon.Player;
 using Reflex.Attributes;
 
 namespace Project.Scripts.Services

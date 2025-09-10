@@ -9,7 +9,7 @@ namespace Project.Scripts.Weapon.Player
 {
     public class WeaponFactory : MonoBehaviour
     {
-        private readonly string _newEnemyDetectorPath = "ImprovedEnemyDetector";
+        private readonly string _enemyDetectorPath = "EnemyDetector";
         private readonly string _gunPath = "Gun";
         private readonly string _fourBarrelMachineGunPath = "FourBarrelMachineGun";
         private readonly string _minesPath = "Mines";
@@ -19,8 +19,9 @@ namespace Project.Scripts.Weapon.Player
 
         private AudioSoundsService _audioSoundsService;
         private IResourceService _resourceService;
+        private ICharacteristicsWeaponDataService _characteristicsWeaponDataService;
         
-        private ImprovedEnemyDetector _improvedEnemyDetector;
+        private EnemyDetector _enemyDetector;
         private WeaponHolder _weaponHolder;
         private Button _minesButton;
         private Transform _player;
@@ -28,10 +29,12 @@ namespace Project.Scripts.Weapon.Player
         public event Action MinesIsCreated;
 
         [Inject]
-        private void Construct(AudioSoundsService audioSoundsService, IResourceService resourceService)
+        private void Construct(AudioSoundsService audioSoundsService, IResourceService resourceService,
+            ICharacteristicsWeaponDataService characteristicsWeaponDataService)
         {
             _audioSoundsService = audioSoundsService;
             _resourceService = resourceService;
+            _characteristicsWeaponDataService = characteristicsWeaponDataService;
         }
 
         public async UniTask<PlayerWeapon> CreateWeapon(WeaponType weaponType)
@@ -66,11 +69,11 @@ namespace Project.Scripts.Weapon.Player
             _minesButton = button;
         }
 
-        public async UniTask CreateImprovedEnemyDetector()
+        public async UniTask CreateEnemyDetector()
         {
-            var enemyDetectorTemplate = await _resourceService.Load<GameObject>(_newEnemyDetectorPath);
+            var enemyDetectorTemplate = await _resourceService.Load<GameObject>(_enemyDetectorPath);
             enemyDetectorTemplate = Instantiate(enemyDetectorTemplate, _player);
-            _improvedEnemyDetector = enemyDetectorTemplate.GetComponent<ImprovedEnemyDetector>();
+            _enemyDetector = enemyDetectorTemplate.GetComponent<EnemyDetector>();
         }
         
         private async UniTask<PlayerWeapon> CreateGun()
@@ -79,7 +82,8 @@ namespace Project.Scripts.Weapon.Player
             gunTemplate = Instantiate(gunTemplate, _player);
             
             Gun gun = gunTemplate.GetComponent<Gun>();
-            gun.Construct(_improvedEnemyDetector, _audioSoundsService);
+            var weaponData = _characteristicsWeaponDataService.GetWeaponDataByType(WeaponType.Gun);
+            gun.Construct(_enemyDetector, _audioSoundsService, weaponData);
             _weaponHolder.AddWeapon(gun);
 
             return gun;
@@ -91,7 +95,8 @@ namespace Project.Scripts.Weapon.Player
             fourBarrelMachineGunTemplate = Instantiate(fourBarrelMachineGunTemplate, _player);
 
             FourBarrelMachineGun fourBarrelMachineGun = fourBarrelMachineGunTemplate.GetComponent<FourBarrelMachineGun>();
-            fourBarrelMachineGun.Construct(_audioSoundsService, _improvedEnemyDetector);
+            var weaponData = _characteristicsWeaponDataService.GetWeaponDataByType(WeaponType.FourBarrelMachineGun);
+            fourBarrelMachineGun.Construct(_audioSoundsService, _enemyDetector, weaponData);
             _weaponHolder.AddWeapon(fourBarrelMachineGun);
 
             return fourBarrelMachineGun;
@@ -105,8 +110,9 @@ namespace Project.Scripts.Weapon.Player
             minesTemplate = Instantiate(minesTemplate, _player);
 
             Mines mines = minesTemplate.GetComponent<Mines>();
+            var weaponData = _characteristicsWeaponDataService.GetWeaponDataByType(WeaponType.Mines);
             mines.transform.position = position;
-            mines.Construct(_minesButton, _audioSoundsService);
+            mines.Construct(_minesButton, _audioSoundsService, weaponData);
             _weaponHolder.AddWeapon(mines);
             
             MinesIsCreated?.Invoke();
@@ -120,7 +126,8 @@ namespace Project.Scripts.Weapon.Player
             fragGrenadesTemplate = Instantiate(fragGrenadesTemplate, _player);
 
             FragGrenades fragGrenades = fragGrenadesTemplate.GetComponent<FragGrenades>();
-            fragGrenades.Construct(_improvedEnemyDetector, _audioSoundsService);
+            var weaponData = _characteristicsWeaponDataService.GetWeaponDataByType(WeaponType.FragGrenades);
+            fragGrenades.Construct(_enemyDetector, _audioSoundsService, weaponData);
             _weaponHolder.AddWeapon(fragGrenades);
 
             return fragGrenades;
@@ -132,7 +139,8 @@ namespace Project.Scripts.Weapon.Player
             machineGunTemplate = Instantiate(machineGunTemplate, _player);
 
             MachineGun machineGun = machineGunTemplate.GetComponent<MachineGun>();
-            machineGun.Construct(_improvedEnemyDetector, _audioSoundsService);
+            var weaponData = _characteristicsWeaponDataService.GetWeaponDataByType(WeaponType.MachineGun);
+            machineGun.Construct(_enemyDetector, _audioSoundsService, weaponData);
             _weaponHolder.AddWeapon(machineGun);
 
             return machineGun;
@@ -144,7 +152,8 @@ namespace Project.Scripts.Weapon.Player
             chainLightningGunTemplate = Instantiate(chainLightningGunTemplate, _player);
 
             ChainLightningGun chainLightningGun = chainLightningGunTemplate.GetComponent<ChainLightningGun>();
-            chainLightningGun.Construct(_audioSoundsService, _improvedEnemyDetector);
+            var weaponData = _characteristicsWeaponDataService.GetWeaponDataByType(WeaponType.ChainLightningGun);
+            chainLightningGun.Construct(_audioSoundsService, _enemyDetector, weaponData);
             _weaponHolder.AddWeapon(chainLightningGun);
 
             return chainLightningGun;

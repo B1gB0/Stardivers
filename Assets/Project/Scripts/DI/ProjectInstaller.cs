@@ -36,6 +36,8 @@ namespace Project.Scripts.DI
             builder.AddSingleton(typeof(DataBaseService), typeof(IDataBaseService));
             builder.AddSingleton(typeof(PauseService), typeof(IPauseService));
             builder.AddSingleton(typeof(FloatingTextService), typeof(IFloatingTextService));
+            builder.AddSingleton(typeof(CharacteristicsWeaponDataService), 
+                typeof(ICharacteristicsWeaponDataService));
             Debug.Log("Регистрация сервисов завершена");
         }
         

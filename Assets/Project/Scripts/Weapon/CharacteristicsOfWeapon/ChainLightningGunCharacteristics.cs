@@ -1,15 +1,17 @@
-﻿namespace Project.Scripts.Weapon.Characteristics
+﻿using Project.Scripts.DataBase.Data;
+
+namespace Project.Scripts.Weapon.CharacteristicsOfWeapon
 {
     public class ChainLightningGunCharacteristics : Characteristics
     {
-        public override void SetStartingCharacteristics()
+        public override void SetStartingCharacteristics(CharacteristicsWeaponData data)
         {
-            rangeAttack = 6f;
-            fireRate = 3f;
-            damage = 10f;
-            maxCountBullets = 4;
-            reloadTime = 5f;
-            maxEnemiesInChain = 3;
+            rangeAttack = data.RangeAttack;
+            fireRate = data.FireRate;
+            damage = data.Damage;
+            maxCountBullets = data.MaxCountBullets;
+            reloadTime = data.ReloadTime;
+            maxEnemiesInChain = data.MaxEnemiesInChain;
         }
 
         public override void ApplyImprovement(CharacteristicType type, float factor)

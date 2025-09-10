@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using Project.Game.Scripts;
+using Project.Scripts.DataBase.Data;
 using Project.Scripts.ECS.EntityActors;
 using Project.Scripts.Lightning;
 using Project.Scripts.Services;
-using Project.Scripts.Weapon.Characteristics;
+using Project.Scripts.Weapon.CharacteristicsOfWeapon;
 using Project.Scripts.Weapon.Improvements;
 
 namespace Project.Scripts.Weapon.Player
@@ -16,13 +17,12 @@ namespace Project.Scripts.Weapon.Player
         private const bool IsAutoExpandPool = true;
 
         [SerializeField] private Transform _shootPoint;
-        [SerializeField] [Range(1, 10)] private int _maxEnemiesInChain = 3;
         [SerializeField] private LightningLineRendererProjectile lightningLineRendererPrefab;
         [SerializeField] private float _chainDelay = 0.2f;
         [SerializeField] private float _lightningDuration = 0.35f;
         [SerializeField] private float _heightOffset = 0.2f;
 
-        private ImprovedEnemyDetector _detector;
+        private EnemyDetector _detector;
         private AudioSoundsService _audioService;
         private ObjectPool<LightningLineRendererProjectile> _lightningPool;
 
@@ -35,10 +35,11 @@ namespace Project.Scripts.Weapon.Player
 
         public ChainLightningGunCharacteristics ChainLightningGunCharacteristics { get; } = new();
 
-        public void Construct(AudioSoundsService audioService, ImprovedEnemyDetector detector)
+        public void Construct(AudioSoundsService audioService, EnemyDetector detector, CharacteristicsWeaponData data)
         {
             _audioService = audioService;
             _detector = detector;
+            ChainLightningGunCharacteristics.SetStartingCharacteristics(data);
         }
 
         private void Awake()
@@ -49,8 +50,7 @@ namespace Project.Scripts.Weapon.Player
             {
                 AutoExpand = IsAutoExpandPool
             };
-
-            ChainLightningGunCharacteristics.SetStartingCharacteristics();
+            
             _currentCharges = ChainLightningGunCharacteristics.MaxCountBullets;
         }
 
@@ -96,7 +96,7 @@ namespace Project.Scripts.Weapon.Player
             var hitEnemies = new List<EnemyAlienActor> { firstTarget };
             var currentTarget = firstTarget;
 
-            for (int i = 1; i < _maxEnemiesInChain; i++)
+            for (int i = 1; i < ChainLightningGunCharacteristics.MaxEnemiesInChain; i++)
             {
                 yield return new WaitForSeconds(_chainDelay);
 
@@ -137,8 +137,8 @@ namespace Project.Scripts.Weapon.Player
 
             var lightning = _lightningPool.GetFreeElement();
             lightning.SetPosition(startPoint, endPoint);
-            lightning.SetCharacteristics(ChainLightningGunCharacteristics.Damage,
-                ChainLightningGunCharacteristics.ProjectileSpeed);
+            // lightning.SetCharacteristics(ChainLightningGunCharacteristics.Damage,
+            //     ChainLightningGunCharacteristics.ProjectileSpeed);
 
             StartCoroutine(ReturnLightningToPool(lightning, _lightningDuration));
         }

@@ -1,14 +1,17 @@
-﻿namespace Project.Scripts.Weapon.Characteristics
+using Project.Scripts.DataBase.Data;
+
+namespace Project.Scripts.Weapon.CharacteristicsOfWeapon
 {
-    public class FragGrenadeCharacteristics : Characteristics
+    public class MachineGunCharacteristics : Characteristics
     {
-        public override void SetStartingCharacteristics()
+        public override void SetStartingCharacteristics(CharacteristicsWeaponData data)
         {
-            rangeAttack = 4f;
-            fireRate = 5f;
-            projectileSpeed = 10f;
-            explosionRadius = 3f;
-            damage = 10f;
+            rangeAttack = data.RangeAttack;
+            fireRate = data.FireRate;
+            projectileSpeed = data.ProjectileSpeed;
+            damage = data.Damage;
+            maxCountBullets = data.MaxCountBullets;
+            reloadTime = data.ReloadTime;
         }
 
         public override void ApplyImprovement(CharacteristicType type ,float factor)
@@ -27,8 +30,8 @@
                 case CharacteristicType.RangeAttack :
                     IncreaseRangeAttack(factor);
                     break;
-                case CharacteristicType.ExplosionRadius :
-                    IncreaseExplosionRadius(factor);
+                case CharacteristicType.ReloadTime :
+                    IncreaseReloadVelocity(factor);
                     break;
             }
         }

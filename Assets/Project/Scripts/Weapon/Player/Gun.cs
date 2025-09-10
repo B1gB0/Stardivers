@@ -1,9 +1,10 @@
 using System.Collections;
 using Project.Game.Scripts;
+using Project.Scripts.DataBase.Data;
 using Project.Scripts.ECS.EntityActors;
 using Project.Scripts.Projectiles.Bullets;
 using Project.Scripts.Services;
-using Project.Scripts.Weapon.Characteristics;
+using Project.Scripts.Weapon.CharacteristicsOfWeapon;
 using Project.Scripts.Weapon.Improvements;
 using UnityEngine;
 
@@ -27,15 +28,17 @@ namespace Project.Scripts.Weapon.Player
         private EnemyAlienActor _closestAlienEnemy;
         private ObjectPool<GunBullet> _poolBullets;
 
-        private ImprovedEnemyDetector _detector;
+        private EnemyDetector _detector;
         private AudioSoundsService _audioSoundsService;
 
-        public GunCharacteristics GunCharacteristics { get; } = new();
-
-        public void Construct(ImprovedEnemyDetector detector, AudioSoundsService audioSoundsService)
+        public GunCharacteristics GunCharacteristics { get; private set; } = new ();
+        
+        public void Construct(EnemyDetector detector, AudioSoundsService audioSoundsService,
+            CharacteristicsWeaponData data)
         {
             _detector = detector;
             _audioSoundsService = audioSoundsService;
+            GunCharacteristics.SetStartingCharacteristics(data);
         }
 
         private void Awake()
@@ -45,8 +48,6 @@ namespace Project.Scripts.Weapon.Player
             {
                 AutoExpand = IsAutoExpandPool
             };
-            
-            GunCharacteristics.SetStartingCharacteristics();
         }
 
         private void FixedUpdate()

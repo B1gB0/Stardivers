@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Project.Scripts.DataBase.Data
 {
     [Serializable]
-    public class OperationData
+    public class OperationLocalizationData
     {
         [SerializeField] private string _id;
         [SerializeField] private string _nameRu;

@@ -1,15 +1,17 @@
-﻿namespace Project.Scripts.Weapon.Characteristics
+﻿using Project.Scripts.DataBase.Data;
+
+namespace Project.Scripts.Weapon.CharacteristicsOfWeapon
 {
     public class GunCharacteristics : Characteristics
     {
-        public override void SetStartingCharacteristics()
+        public override void SetStartingCharacteristics(CharacteristicsWeaponData data)
         {
-            rangeAttack = 5f;
-            fireRate = 1f;
-            projectileSpeed = 10f;
-            damage = 15f;
-            maxCountBullets = 4;
-            reloadTime = 3f;
+            rangeAttack = data.RangeAttack;
+            fireRate = data.FireRate;
+            projectileSpeed = data.ProjectileSpeed;
+            damage = data.Damage;
+            maxCountBullets = data.MaxCountBullets;
+            reloadTime = data.ReloadTime;
         }
 
         public override void ApplyImprovement(CharacteristicType type, float factor)

@@ -8,9 +8,11 @@ namespace Project.Scripts.DataBase
     [Serializable]
     public class SpreadsheetContent
     {
-        [SpreadsheetPage("Operations")] public List<OperationData> Operations;
-        [SpreadsheetPage("Characteristics")] public List<CharacteristicsData> Characteristics;
-        [SpreadsheetPage("Weapons")] public List<WeaponData> Weapons;
+        [SpreadsheetPage("OperationsLocalization")] public List<OperationLocalizationData> OperationsLocalization;
+        [SpreadsheetPage("CharacteristicsLocalization")] public List<CharacteristicsLocalizationData>
+            CharacteristicsLocalization;
+        [SpreadsheetPage("CharacteristicsWeapon")] public List<CharacteristicsWeaponData> CharacteristicsWeaponsData;
+        [SpreadsheetPage("WeaponsLocalization")] public List<WeaponLocalizationData> WeaponsLocalization;
         [SpreadsheetPage("PlayerLevels")] public List<PlayerLevelData> PlayerLevels;
         [SpreadsheetPage("Improvements")] public List<ImprovementData> Improvements;
         [SpreadsheetPage("MarsSceneLevels")] public List<SceneLevelData> MarsSceneLevels;

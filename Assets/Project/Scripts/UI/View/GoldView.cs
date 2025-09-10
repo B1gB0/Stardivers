@@ -13,7 +13,7 @@ namespace Project.Scripts.UI.View
 
         private void Start()
         {
-            AccumulatedGold = YG2.saves.gold;
+            AccumulatedGold = YG2.saves.Gold;
             _text.text = AccumulatedGold.ToString();
         }
 
@@ -21,8 +21,7 @@ namespace Project.Scripts.UI.View
         {
             AccumulatedGold += value;
             _text.text = AccumulatedGold.ToString();
-            YG2.saves.gold = AccumulatedGold;
-            YG2.SaveProgress();
+            YG2.saves.Gold = AccumulatedGold;
         }
     }
 }

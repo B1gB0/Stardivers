@@ -1,9 +1,10 @@
 using System.Collections;
 using Project.Game.Scripts;
+using Project.Scripts.DataBase.Data;
 using Project.Scripts.ECS.EntityActors;
 using Project.Scripts.Projectiles.Bullets;
 using Project.Scripts.Services;
-using Project.Scripts.Weapon.Characteristics;
+using Project.Scripts.Weapon.CharacteristicsOfWeapon;
 using Project.Scripts.Weapon.Improvements;
 using UnityEngine;
 
@@ -28,7 +29,7 @@ namespace Project.Scripts.Weapon.Player
         private Coroutine _coroutine;
         private MachineGunBullet _bullet;
 
-        private ImprovedEnemyDetector _detector;
+        private EnemyDetector _detector;
         private AudioSoundsService _audioSoundsService;
     
         private EnemyAlienActor closestAlienEnemy;
@@ -36,10 +37,12 @@ namespace Project.Scripts.Weapon.Player
 
         public MachineGunCharacteristics MachineGunCharacteristics { get; } = new();
 
-        public void Construct(ImprovedEnemyDetector detector, AudioSoundsService audioSoundsService)
+        public void Construct(EnemyDetector detector, AudioSoundsService audioSoundsService,
+            CharacteristicsWeaponData data)
         {
             _detector = detector;
             _audioSoundsService = audioSoundsService;
+            MachineGunCharacteristics.SetStartingCharacteristics(data);
         }
 
         private void Awake()
@@ -48,8 +51,6 @@ namespace Project.Scripts.Weapon.Player
             {
                 AutoExpand = IsAutoExpandPool
             };
-            
-            MachineGunCharacteristics.SetStartingCharacteristics();
         }
 
         private void Start()

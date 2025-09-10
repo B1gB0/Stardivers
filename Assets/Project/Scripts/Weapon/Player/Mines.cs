@@ -1,7 +1,8 @@
 ﻿using Project.Game.Scripts;
+using Project.Scripts.DataBase.Data;
 using Project.Scripts.Projectiles.Mines;
 using Project.Scripts.Services;
-using Project.Scripts.Weapon.Characteristics;
+using Project.Scripts.Weapon.CharacteristicsOfWeapon;
 using Project.Scripts.Weapon.Improvements;
 using UnityEngine;
 using UnityEngine.UI;
@@ -26,10 +27,11 @@ namespace Project.Scripts.Weapon.Player
 
         public MineCharacteristics MineCharacteristics { get; } = new ();
 
-        public void Construct(Button button, AudioSoundsService audioSoundsService)
+        public void Construct(Button button, AudioSoundsService audioSoundsService, CharacteristicsWeaponData data)
         {
             _minesButton = button;
             _audioSoundsService = audioSoundsService;
+            MineCharacteristics.SetStartingCharacteristics(data);
         }
 
         private void Awake()
@@ -38,8 +40,6 @@ namespace Project.Scripts.Weapon.Player
             {
                 AutoExpand = IsAutoExpandPool
             };
-            
-            MineCharacteristics.SetStartingCharacteristics();
         }
 
         private void Start()

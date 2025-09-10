@@ -1,4 +1,4 @@
-﻿namespace Project.Scripts.Weapon.Characteristics
+﻿namespace Project.Scripts.Weapon.CharacteristicsOfWeapon
 {
     public enum CharacteristicType
     {

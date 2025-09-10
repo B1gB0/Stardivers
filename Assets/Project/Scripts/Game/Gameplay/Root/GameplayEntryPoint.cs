@@ -9,7 +9,6 @@ using Project.Scripts.Game.GameRoot;
 using Project.Scripts.Game.MainMenu.Root;
 using Project.Scripts.Levels;
 using Project.Scripts.Services;
-using Project.Scripts.UI;
 using Project.Scripts.UI.Panel;
 using Project.Scripts.UI.View;
 using Project.Scripts.Weapon.Player;
@@ -18,7 +17,6 @@ using Reflex.Attributes;
 using Reflex.Extensions;
 using Reflex.Injectors;
 using UnityEngine;
-using YG;
 
 namespace Project.Scripts.Game.Gameplay.Root
 {
@@ -58,6 +56,7 @@ namespace Project.Scripts.Game.Gameplay.Root
         private IFloatingTextService _floatingTextService;
         private IResourceService _resourceService;
         private IDataBaseService _dataBaseService;
+        private ICharacteristicsWeaponDataService _characteristicsWeaponDataService;
 
         private HealthBar _healthBar;
         private ExperiencePoints _experiencePoints;
@@ -72,7 +71,7 @@ namespace Project.Scripts.Game.Gameplay.Root
         [Inject]
         private void Construct(AudioSoundsService audioSoundsService, IPauseService pauseService, 
             OperationService operationService, IFloatingTextService floatingTextService, IDataBaseService dataBaseService,
-            IResourceService resourceService)
+            IResourceService resourceService, ICharacteristicsWeaponDataService characteristicsWeaponDataService)
         {
             _audioSoundsService = audioSoundsService;
             _pauseService = pauseService;
@@ -80,6 +79,12 @@ namespace Project.Scripts.Game.Gameplay.Root
             _floatingTextService = floatingTextService;
             _dataBaseService = dataBaseService;
             _resourceService = resourceService;
+            _characteristicsWeaponDataService = characteristicsWeaponDataService;
+        }
+
+        private async void Start()
+        {
+            await _characteristicsWeaponDataService.Init();
         }
 
         private void Update()
@@ -119,7 +124,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             _progressBar = _viewFactory.CreateProgressBar(_experiencePoints, _gameInitSystem.PlayerTransform);
 
             _weaponFactory.GetData(_gameInitSystem.PlayerTransform, _weaponHolder);
-            await _weaponFactory.CreateImprovedEnemyDetector();
+            await _weaponFactory.CreateEnemyDetector();
             await _weaponFactory.CreateWeapon(WeaponType.ChainLightningGun);
             
             _levelUpPanel.GetServices(_weaponFactory, _weaponHolder);
@@ -175,8 +180,6 @@ namespace Project.Scripts.Game.Gameplay.Root
         
         private void OnDestroy()
         {
-            YG2.SaveProgress();
-            
             _gameInitSystem.PlayerIsSpawned -= _healthBar.Show;
             _gameInitSystem.PlayerIsSpawned -= _progressBar.Show;
                 

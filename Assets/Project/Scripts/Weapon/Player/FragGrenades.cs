@@ -1,7 +1,8 @@
-﻿using Project.Scripts.ECS.EntityActors;
+﻿using Project.Scripts.DataBase.Data;
+using Project.Scripts.ECS.EntityActors;
 using Project.Scripts.Projectiles.Grenades;
 using Project.Scripts.Services;
-using Project.Scripts.Weapon.Characteristics;
+using Project.Scripts.Weapon.CharacteristicsOfWeapon;
 using Project.Scripts.Weapon.Improvements;
 using UnityEngine;
 
@@ -18,7 +19,7 @@ namespace Project.Scripts.Weapon.Player
         [SerializeField] private FragGrenade _fragGrenade;
         [SerializeField] private Transform _shootPoint;
 
-        private ImprovedEnemyDetector _detector;
+        private EnemyDetector _detector;
         private AudioSoundsService _audioSoundsService;
         
         private float _lastShotTime;
@@ -28,10 +29,12 @@ namespace Project.Scripts.Weapon.Player
 
         public FragGrenadeCharacteristics FragGrenadeCharacteristics { get; } = new ();
 
-        public void Construct(ImprovedEnemyDetector detector, AudioSoundsService audioSoundsService)
+        public void Construct(EnemyDetector detector, AudioSoundsService audioSoundsService,
+            CharacteristicsWeaponData data)
         {
             _detector = detector;
             _audioSoundsService = audioSoundsService;
+            FragGrenadeCharacteristics.SetStartingCharacteristics(data);
         }
 
         private void Awake()
@@ -40,8 +43,6 @@ namespace Project.Scripts.Weapon.Player
             {
                 AutoExpand = IsAutoExpandPool
             };
-            
-            FragGrenadeCharacteristics.SetStartingCharacteristics();
         }
 
         private void Start()

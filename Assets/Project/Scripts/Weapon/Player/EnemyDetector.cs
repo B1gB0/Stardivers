@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Project.Scripts.Weapon.Player
 {
-    public class ImprovedEnemyDetector : MonoBehaviour
+    public class EnemyDetector : MonoBehaviour
     {
         private const int MinValue = 0;
 

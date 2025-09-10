@@ -33,7 +33,7 @@ namespace Project.Scripts.Services
         {
             foreach (var operation in Operations)
             {
-                foreach (var operationData in _dataBaseService.Content.Operations)
+                foreach (var operationData in _dataBaseService.Content.OperationsLocalization)
                 {
                     if (operation.Id == operationData.Id)
                     {

@@ -1,13 +1,15 @@
-﻿namespace Project.Scripts.Weapon.Characteristics
+﻿using Project.Scripts.DataBase.Data;
+
+namespace Project.Scripts.Weapon.CharacteristicsOfWeapon
 {
     public class MineCharacteristics : Characteristics
     {
-        public override void SetStartingCharacteristics()
+        public override void SetStartingCharacteristics(CharacteristicsWeaponData data)
         {
-            fireRate = 5f;
-            damage = 20f;
-            explosionRadius = 5f;
-            maxCountBullets = 1;
+            fireRate = data.FireRate;
+            damage = data.Damage;
+            explosionRadius = data.ExplosionRadius;
+            maxCountBullets = data.MaxCountBullets;
         }
 
         public override void ApplyImprovement(CharacteristicType type ,float factor)

@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using Project.Game.Scripts;
+using Project.Scripts.DataBase.Data;
 using Project.Scripts.ECS.EntityActors;
 using Project.Scripts.Projectiles.Bullets;
 using Project.Scripts.Services;
-using Project.Scripts.Weapon.Characteristics;
+using Project.Scripts.Weapon.CharacteristicsOfWeapon;
 using Project.Scripts.Weapon.Improvements;
 using UnityEngine;
 
@@ -35,7 +36,7 @@ namespace Project.Scripts.Weapon.Player
         private FourBarrelMachineGunBullet _bullet;
 
         private AudioSoundsService _audioSoundsService;
-        private ImprovedEnemyDetector _detector;
+        private EnemyDetector _detector;
         
         private EnemyAlienActor _closestAlienEnemy;
 
@@ -43,10 +44,12 @@ namespace Project.Scripts.Weapon.Player
 
         public MachineGunCharacteristics MachineGunCharacteristics { get; } = new();
 
-        public void Construct(AudioSoundsService audioSoundsService, ImprovedEnemyDetector detector)
+        public void Construct(AudioSoundsService audioSoundsService, EnemyDetector detector,
+            CharacteristicsWeaponData data)
         {
             _audioSoundsService = audioSoundsService;
             _detector = detector;
+            MachineGunCharacteristics.SetStartingCharacteristics(data);
         }
 
         private void Awake()
@@ -59,8 +62,6 @@ namespace Project.Scripts.Weapon.Player
             _directions.Add(transform.right);
             _directions.Add(-transform.forward);
             _directions.Add(-transform.right);
-            
-            MachineGunCharacteristics.SetStartingCharacteristics();
         }
 
         private void Start()
