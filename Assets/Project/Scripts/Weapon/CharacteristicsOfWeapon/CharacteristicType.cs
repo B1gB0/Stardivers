@@ -8,7 +8,7 @@
         ReloadTime = 3,
         ProjectileSpeed = 4,
         ExplosionRadius = 5,
-        MaxCountBullets = 6,
+        MaxCountShots = 6,
         MaxCountEnemiesInChain = 7
     }
 }

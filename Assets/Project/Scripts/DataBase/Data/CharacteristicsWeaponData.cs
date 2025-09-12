@@ -13,7 +13,7 @@ namespace Project.Scripts.DataBase.Data
         [SerializeField] private float _fireRate;
         [SerializeField] private float _projectileSpeed;
         [SerializeField] private float _damage;
-        [SerializeField] private int _maxCountBullets;
+        [SerializeField] private int _maxCountShots;
         [SerializeField] private float _reloadTime;
         [SerializeField] private float _explosionRadius;
         [SerializeField] private int _maxEnemiesInChain;
@@ -24,7 +24,7 @@ namespace Project.Scripts.DataBase.Data
         public float FireRate => _fireRate;
         public float ProjectileSpeed => _projectileSpeed;
         public float Damage => _damage;
-        public int MaxCountBullets => _maxCountBullets;
+        public int MaxCountShots => _maxCountShots;
         public float ReloadTime => _reloadTime;
         public float ExplosionRadius => _explosionRadius;
         public int MaxEnemiesInChain => _maxEnemiesInChain;

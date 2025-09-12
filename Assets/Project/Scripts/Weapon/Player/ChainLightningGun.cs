@@ -45,13 +45,13 @@ namespace Project.Scripts.Weapon.Player
         private void Awake()
         {
             _lightningPool = new ObjectPool<LightningLineRendererProjectile>(
-                lightningLineRendererPrefab, ChainLightningGunCharacteristics.MaxCountBullets,
+                lightningLineRendererPrefab, ChainLightningGunCharacteristics.MaxCountShots,
                 new GameObject(PoolName).transform)
             {
                 AutoExpand = IsAutoExpandPool
             };
             
-            _currentCharges = ChainLightningGunCharacteristics.MaxCountBullets;
+            _currentCharges = ChainLightningGunCharacteristics.MaxCountShots;
         }
 
         private void FixedUpdate()
@@ -152,7 +152,7 @@ namespace Project.Scripts.Weapon.Player
         private IEnumerator Reload()
         {
             yield return new WaitForSeconds(ChainLightningGunCharacteristics.ReloadTime);
-            _currentCharges = ChainLightningGunCharacteristics.MaxCountBullets;
+            _currentCharges = ChainLightningGunCharacteristics.MaxCountShots;
         }
 
         public override void AcceptWeaponImprovement(IWeaponVisitor weaponVisitor, CharacteristicType type, float value)

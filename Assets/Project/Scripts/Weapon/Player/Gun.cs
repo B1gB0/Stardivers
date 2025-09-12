@@ -101,7 +101,7 @@ namespace Project.Scripts.Weapon.Player
         {
             yield return new WaitForSeconds(GunCharacteristics.ReloadTime);
 
-            _maxCountShots = GunCharacteristics.MaxCountBullets;
+            _maxCountShots = GunCharacteristics.MaxCountShots;
             _isReloading = true;
         }
     }

@@ -11,10 +11,10 @@ namespace Project.Scripts.DataBase
         [SpreadsheetPage("OperationsLocalization")] public List<OperationLocalizationData> OperationsLocalization;
         [SpreadsheetPage("CharacteristicsLocalization")] public List<CharacteristicsLocalizationData>
             CharacteristicsLocalization;
-        [SpreadsheetPage("CharacteristicsWeapon")] public List<CharacteristicsWeaponData> CharacteristicsWeaponsData;
         [SpreadsheetPage("WeaponsLocalization")] public List<WeaponLocalizationData> WeaponsLocalization;
-        [SpreadsheetPage("PlayerLevels")] public List<PlayerLevelData> PlayerLevels;
+        [SpreadsheetPage("CharacteristicsWeapon")] public List<CharacteristicsWeaponData> CharacteristicsWeaponsData;
         [SpreadsheetPage("Improvements")] public List<ImprovementData> Improvements;
+        [SpreadsheetPage("PlayerLevels")] public List<PlayerLevelData> PlayerLevels;
         [SpreadsheetPage("MarsSceneLevels")] public List<SceneLevelData> MarsSceneLevels;
         [SpreadsheetPage("MysteryPlanetSceneLevels")] public List<SceneLevelData> MysteryPlanetSceneLevels;
     }

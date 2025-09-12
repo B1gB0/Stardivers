@@ -9,7 +9,7 @@ namespace Project.Scripts.Weapon.CharacteristicsOfWeapon
             fireRate = data.FireRate;
             damage = data.Damage;
             explosionRadius = data.ExplosionRadius;
-            maxCountBullets = data.MaxCountBullets;
+            maxCountShots = data.MaxCountShots;
         }
 
         public override void ApplyImprovement(CharacteristicType type ,float factor)
@@ -24,6 +24,9 @@ namespace Project.Scripts.Weapon.CharacteristicsOfWeapon
                     break;
                 case CharacteristicType.ExplosionRadius :
                     IncreaseExplosionRadius(factor);
+                    break;
+                case CharacteristicType.MaxCountShots :
+                    IncreaseMaxCountBullets((int)factor);
                     break;
             }
         }

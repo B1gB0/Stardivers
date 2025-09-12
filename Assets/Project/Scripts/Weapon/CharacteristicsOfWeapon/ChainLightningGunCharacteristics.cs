@@ -9,7 +9,7 @@ namespace Project.Scripts.Weapon.CharacteristicsOfWeapon
             rangeAttack = data.RangeAttack;
             fireRate = data.FireRate;
             damage = data.Damage;
-            maxCountBullets = data.MaxCountBullets;
+            maxCountShots = data.MaxCountShots;
             reloadTime = data.ReloadTime;
             maxEnemiesInChain = data.MaxEnemiesInChain;
         }
@@ -30,7 +30,7 @@ namespace Project.Scripts.Weapon.CharacteristicsOfWeapon
                 case CharacteristicType.ReloadTime:
                     IncreaseReloadVelocity(factor);
                     break;
-                case CharacteristicType.MaxCountBullets:
+                case CharacteristicType.MaxCountShots:
                     IncreaseMaxCountBullets((int)factor);
                     break;
                 case CharacteristicType.MaxCountEnemiesInChain:

@@ -11,7 +11,7 @@ namespace Project.Scripts.Weapon.CharacteristicsOfWeapon
         protected float fireRate;
         protected float projectileSpeed;
         protected float damage;
-        protected int maxCountBullets;
+        protected int maxCountShots;
         protected float reloadTime;
         protected float explosionRadius;
         protected int maxEnemiesInChain;
@@ -20,7 +20,7 @@ namespace Project.Scripts.Weapon.CharacteristicsOfWeapon
         public float FireRate => fireRate;
         public float ProjectileSpeed => projectileSpeed;
         public float Damage => damage;
-        public int MaxCountBullets => maxCountBullets;
+        public int MaxCountShots => maxCountShots;
         public int MaxEnemiesInChain => maxEnemiesInChain;
         public float ReloadTime => reloadTime;
         public float ExplosionRadius => explosionRadius;
@@ -56,7 +56,7 @@ namespace Project.Scripts.Weapon.CharacteristicsOfWeapon
 
         protected virtual void IncreaseMaxCountBullets(int maxCount)
         {
-            maxCountBullets = maxCount;
+            maxCountShots = maxCount;
         }
         
         protected virtual void IncreaseMaxEnemiesInChain(int maxEnemies)

@@ -66,7 +66,7 @@ namespace Project.Scripts.Weapon.Player
 
         private void Start()
         {
-            _maxCountShots = MachineGunCharacteristics.MaxCountBullets;
+            _maxCountShots = MachineGunCharacteristics.MaxCountShots;
         }
 
         private void FixedUpdate()
@@ -118,7 +118,7 @@ namespace Project.Scripts.Weapon.Player
         {
             yield return new WaitForSeconds(MachineGunCharacteristics.ReloadTime);
 
-            _maxCountShots = MachineGunCharacteristics.MaxCountBullets;
+            _maxCountShots = MachineGunCharacteristics.MaxCountShots;
             _isReloading = false;
         }
 
