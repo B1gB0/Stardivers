@@ -126,8 +126,7 @@ namespace Project.Scripts.Game.Gameplay.Root
 
             _weaponFactory.GetData(_gameInitSystem.PlayerTransform, _weaponHolder);
             await _weaponFactory.CreateEnemyDetector();
-            await _weaponFactory.CreateWeapon(WeaponType.Gun);
-            
+
             _levelUpPanel.GetServices(_weaponFactory, _weaponHolder);
 
             _uiScene = Instantiate(_sceneUIRootPrefab);
@@ -144,9 +143,13 @@ namespace Project.Scripts.Game.Gameplay.Root
             var container = gameObject.scene.GetSceneContainer();
             GameObjectInjector.InjectRecursive(uiRoot.gameObject, container);
             
-            _levelUpPanel.GetStartImprovements();
             _uiScene.GetUIStateMachine(uiRoot.UIStateMachine, uiRoot.UIRootButtons);
             
+            _weaponFactory.WeaponIsCreated += _uiScene.WeaponPanel.SetData;
+            
+            await _weaponFactory.CreateWeapon(WeaponType.Gun);
+            _levelUpPanel.GetStartImprovements();
+
             _gameInitSystem.PlayerHealth.Die += _endGamePanel.Show;
             _gameInitSystem.PlayerHealth.Die += _endGamePanel.SetDefeatPanel;
             _gameInitSystem.PlayerHealth.Die += _progressBar.Hide;
@@ -155,6 +158,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             _level.EndLevelTrigger.IsLevelCompleted += _endGamePanel.Show;
             _level.EndLevelTrigger.IsLevelCompleted += _endGamePanel.SetVictoryPanel;
             
+            _gameInitSystem.PlayerIsSpawned += _uiScene.WeaponPanel.Show;
             _gameInitSystem.PlayerIsSpawned += _healthBar.Show;
             _gameInitSystem.PlayerIsSpawned += _progressBar.Show;
             
@@ -181,6 +185,9 @@ namespace Project.Scripts.Game.Gameplay.Root
         
         private void OnDestroy()
         {
+            _weaponFactory.WeaponIsCreated -= _uiScene.WeaponPanel.SetData;
+            
+            _gameInitSystem.PlayerIsSpawned -= _uiScene.WeaponPanel.Show;
             _gameInitSystem.PlayerIsSpawned -= _healthBar.Show;
             _gameInitSystem.PlayerIsSpawned -= _progressBar.Show;
                 

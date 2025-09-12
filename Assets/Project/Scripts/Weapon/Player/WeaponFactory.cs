@@ -26,6 +26,9 @@ namespace Project.Scripts.Weapon.Player
         private Button _minesButton;
         private Transform _player;
 
+        private int _weaponsCounter;
+
+        public event Action<int, WeaponType> WeaponIsCreated;
         public event Action MinesIsCreated;
 
         [Inject]
@@ -39,6 +42,9 @@ namespace Project.Scripts.Weapon.Player
 
         public async UniTask<PlayerWeapon> CreateWeapon(WeaponType weaponType)
         {
+            WeaponIsCreated?.Invoke(_weaponsCounter, weaponType);
+            _weaponsCounter++;
+            
             switch (weaponType)
             {
                 case WeaponType.Gun :

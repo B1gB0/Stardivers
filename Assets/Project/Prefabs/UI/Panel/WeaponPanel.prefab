@@ -160,6 +160,7 @@ MonoBehaviour:
   - {fileID: 8123176969260636481}
   - {fileID: 3099942333752736311}
   - {fileID: 2766972525487398191}
+  _sprites: []
 --- !u!1001 &745289160581029195
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -589,6 +590,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7733162542634836894, guid: e3bd9a8516f2f2d41b7a400d0ec7fbcc, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8114368347627338304, guid: e3bd9a8516f2f2d41b7a400d0ec7fbcc, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

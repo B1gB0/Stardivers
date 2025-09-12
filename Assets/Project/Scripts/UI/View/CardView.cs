@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Project.Scripts.Cards;
+using Project.Scripts.Weapon.CharacteristicsOfWeapon;
 using Project.Scripts.Weapon.Player;
 using UnityEngine;
 using UnityEngine.UI;
@@ -21,6 +22,10 @@ namespace Project.Scripts.UI.View
         private const string En = "en";
         private const string Tr = "tr";
         
+        private const string Common = "Common";
+        private const string Unusual = "Unusual";
+        private const string Rare = "Rare";
+
         [SerializeField] private List<Sprite> _sprites;
 
         [SerializeField] private Image _icon;
@@ -31,6 +36,10 @@ namespace Project.Scripts.UI.View
         [SerializeField] private Text _characteristics;
 
         [SerializeField] private Button _cardViewButton;
+
+        [SerializeField] private Color _greyColor = Color.gray;
+        [SerializeField] private Color _greenColor = Color.green;
+        [SerializeField] private Color _blueColor = Color.blue;
     
         private Card _card;
 
@@ -93,7 +102,15 @@ namespace Project.Scripts.UI.View
                         Tr => improvementCard.CharacteristicsLocalizationData.DescriptionTr,
                         _ => _description.text
                     };
-                
+
+                    _level.color = improvementCard.ImprovementData.LevelCardEn switch
+                    {
+                        Common => _greyColor,
+                        Unusual => _greenColor,
+                        Rare => _blueColor,
+                        _ => _level.color
+                    };
+
                     _level.text = YG2.lang switch
                     {
                         Ru => improvementCard.ImprovementData.LevelCardRu,
@@ -102,7 +119,11 @@ namespace Project.Scripts.UI.View
                         _ => _level.text
                     };
 
-                    _characteristics.text = _label.text + " " + improvementCard.Value * 10 + "%";
+                    if (improvementCard.CharacteristicType is CharacteristicType.MaxCountShots
+                        or CharacteristicType.MaxCountEnemiesInChain)
+                        _characteristics.text = " +" + improvementCard.Value;
+                    else
+                        _characteristics.text = " +" + improvementCard.Value * 10 + "%";
                     break;
                 case WeaponCard weaponCard:
                     _label.text = YG2.lang switch

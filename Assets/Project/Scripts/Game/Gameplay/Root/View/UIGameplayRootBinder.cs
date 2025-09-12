@@ -1,6 +1,7 @@
 using Project.Game.Scripts;
 using Project.Scripts.Game.GameRoot;
 using Project.Scripts.Services;
+using Project.Scripts.UI.Panel;
 using Project.Scripts.UI.StateMachine;
 using Project.Scripts.UI.StateMachine.States;
 using R3;
@@ -15,6 +16,7 @@ namespace Project.Scripts.Game.Gameplay.Root.View
         [field: SerializeField] public GameplayElements UIScene { get; private set; }
         [field: SerializeField] public Joystick Joystick { get; private set; }
         [field: SerializeField] public Button MinesButton { get; private set; }
+        [field: SerializeField] public WeaponPanel WeaponPanel { get; private set; }
 
         private AudioSoundsService _audioSoundsService;
         private IPauseService _pauseService;
