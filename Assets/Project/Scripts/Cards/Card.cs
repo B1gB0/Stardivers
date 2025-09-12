@@ -1,10 +1,6 @@
-using UnityEngine;
+using Project.Scripts.Weapon.Player;
 
-[CreateAssetMenu(menuName = "Cards/New Card")]
-public class Card : ScriptableObject
+public abstract class Card
 {
-    [field: SerializeField] public string Label { get; private set; }
-    [field: SerializeField] public Sprite Icon { get; private set; }
-    [field: SerializeField] public string Level { get; private set; }
-    [field: SerializeField] public string Description { get; private set; }
+    public WeaponType WeaponType { get; protected set; }
 }

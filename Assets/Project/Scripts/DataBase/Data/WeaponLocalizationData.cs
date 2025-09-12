@@ -17,6 +17,7 @@ namespace Project.Scripts.DataBase.Data
         [SerializeField] private string _descriptionTr;
         
         public string Id => _id;
+        public WeaponType Type => _type;
         public string NameRu => _nameRu;
         public string NameEn => _nameEn;
         public string NameTr => _nameTr;

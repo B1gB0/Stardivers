@@ -57,6 +57,7 @@ namespace Project.Scripts.Game.Gameplay.Root
         private IResourceService _resourceService;
         private IDataBaseService _dataBaseService;
         private ICharacteristicsWeaponDataService _characteristicsWeaponDataService;
+        private ICardService _cardService;
 
         private HealthBar _healthBar;
         private ExperiencePoints _experiencePoints;
@@ -71,7 +72,8 @@ namespace Project.Scripts.Game.Gameplay.Root
         [Inject]
         private void Construct(AudioSoundsService audioSoundsService, IPauseService pauseService, 
             OperationService operationService, IFloatingTextService floatingTextService, IDataBaseService dataBaseService,
-            IResourceService resourceService, ICharacteristicsWeaponDataService characteristicsWeaponDataService)
+            IResourceService resourceService, ICharacteristicsWeaponDataService characteristicsWeaponDataService,
+            ICardService cardService)
         {
             _audioSoundsService = audioSoundsService;
             _pauseService = pauseService;
@@ -80,11 +82,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             _dataBaseService = dataBaseService;
             _resourceService = resourceService;
             _characteristicsWeaponDataService = characteristicsWeaponDataService;
-        }
-
-        private async void Start()
-        {
-            await _characteristicsWeaponDataService.Init();
+            _cardService = cardService;
         }
 
         private void Update()
@@ -104,6 +102,9 @@ namespace Project.Scripts.Game.Gameplay.Root
             _operationService.SetCurrentNumberLevel(enterParameters.CurrentNumberLevel);
 
             await InitData();
+            
+            await _characteristicsWeaponDataService.Init();
+            await _cardService.Init();
 
             FloatingTextView textView = _viewFactory.CreateDamageTextView();
             textView.Hide();
@@ -125,10 +126,9 @@ namespace Project.Scripts.Game.Gameplay.Root
 
             _weaponFactory.GetData(_gameInitSystem.PlayerTransform, _weaponHolder);
             await _weaponFactory.CreateEnemyDetector();
-            await _weaponFactory.CreateWeapon(WeaponType.ChainLightningGun);
+            await _weaponFactory.CreateWeapon(WeaponType.Gun);
             
             _levelUpPanel.GetServices(_weaponFactory, _weaponHolder);
-            _levelUpPanel.GetStartImprovements();
 
             _uiScene = Instantiate(_sceneUIRootPrefab);
             _healthBar.transform.SetParent(_uiScene.transform);
@@ -144,6 +144,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             var container = gameObject.scene.GetSceneContainer();
             GameObjectInjector.InjectRecursive(uiRoot.gameObject, container);
             
+            _levelUpPanel.GetStartImprovements();
             _uiScene.GetUIStateMachine(uiRoot.UIStateMachine, uiRoot.UIRootButtons);
             
             _gameInitSystem.PlayerHealth.Die += _endGamePanel.Show;

@@ -24,27 +24,25 @@ namespace Project.Scripts.UI.Panel
         private readonly Random _random = new ();
 
         [SerializeField] private List<CardView> _cardsView = new ();
-        [SerializeField] private List<ImprovementCard> _improvementCards = new ();
-        [SerializeField] private List<WeaponCard> _weaponCards = new ();
 
         private AudioSoundsService _audioSoundsService;
         private IPauseService _pauseService;
-        private IDataBaseService _dataBaseService;
-        
+        private ICardService _cardService;
+
         private WeaponFactory _weaponFactory;
         private WeaponHolder _weaponHolder;
 
         [Inject]
-        private void Construct(AudioSoundsService audioSoundsService, IPauseService pauseService, IDataBaseService dataBaseService)
+        private void Construct(AudioSoundsService audioSoundsService, IPauseService pauseService, ICardService cardService)
         {
             _audioSoundsService = audioSoundsService;
             _pauseService = pauseService;
-            _dataBaseService = dataBaseService;
+            _cardService = cardService;
         }
 
         private void Start()
         {
-            foreach (WeaponCard card in _weaponCards)
+            foreach (WeaponCard card in _cardService.WeaponCards)
             {
                 _currentWeaponCards.Add(card);
             }
@@ -145,7 +143,7 @@ namespace Project.Scripts.UI.Panel
 
         private void UpdateImprovementCardsByWeapon(PlayerWeapon playerWeapon)
         {
-            foreach (ImprovementCard card in _improvementCards)
+            foreach (ImprovementCard card in _cardService.ImprovementCards)
             {
                 if (card.WeaponType == playerWeapon.Type)
                 {
@@ -172,7 +170,7 @@ namespace Project.Scripts.UI.Panel
             }
             else if (card is WeaponCard weaponCard)
             {
-                PlayerWeapon weapon = await _weaponFactory.CreateWeapon(weaponCard.PlayerWeapon);
+                PlayerWeapon weapon = await _weaponFactory.CreateWeapon(weaponCard.WeaponType);
                 UpdateImprovementCardsByWeapon(weapon);
                 _currentWeaponCards.Remove(weaponCard);
             }

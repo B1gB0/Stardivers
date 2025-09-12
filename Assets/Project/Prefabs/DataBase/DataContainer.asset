@@ -61,7 +61,7 @@ MonoBehaviour:
       _descriptionEn: 'Increase the fire rate '
       _descriptionTr: "Ate\u015F h\u0131z\u0131n\u0131 art\u0131r\u0131n"
     - _id: range_attack
-      _type: 0
+      _type: 2
       _nameRu: "\u0414\u0430\u043B\u044C\u043D\u043E\u0441\u0442\u044C \u0430\u0442\u0430\u043A\u0438"
       _nameEn: Range attack
       _nameTr: "Sald\u0131r\u0131 menzili"
@@ -96,84 +96,31 @@ MonoBehaviour:
         \u0432\u0437\u0440\u044B\u0432\u0430"
       _descriptionEn: Increase the explosion radius
       _descriptionTr: "Patlama yar\u0131\xE7ap\u0131n\u0131 art\u0131r\u0131n"
-    - _id: max_count_bullets
+    - _id: max_count_shots
       _type: 6
-      _nameRu: "\u041A\u043E\u043B\u0438\u0447\u0435\u0441\u0442\u0432\u043E \u0432\u044B\u0441\u0442\u0440\u0435\u043B\u043E\u0432"
-      _nameEn: 
-      _nameTr: 
-      _descriptionRu: 
-      _descriptionEn: 
-      _descriptionTr: 
+      _nameRu: "\u041A\u043E\u043B\u0438\u0447\u0435\u0441\u0442\u0432\u043E \u0432\u044B\u0441\u0442\u0440\u0435\u043B\u043E\u0432
+        (\u0438\u043B\u0438 \u043E\u0447\u0435\u0440\u0435\u0434\u0435\u0439)"
+      _nameEn: Number of shots (or bursts)
+      _nameTr: "At\u0131\u015F say\u0131s\u0131 (veya patlama)"
+      _descriptionRu: "\u0423\u0432\u0435\u043B\u0438\u0447\u0438\u0432\u0430\u0435\u0442
+        \u043A\u043E\u043B\u0438\u0447\u0435\u0441\u0442\u0432\u043E \u0441\u043D\u0430\u0440\u044F\u0434\u043E\u0432
+        (\u0438\u043B\u0438 \u0438\u0445 \u043E\u0447\u0435\u0440\u0435\u0434\u0435\u0439)"
+      _descriptionEn: Increase the number of projectiles (or their bursts)
+      _descriptionTr: "Mermi say\u0131s\u0131n\u0131 (veya patlamalar\u0131n\u0131)
+        art\u0131r\u0131n"
     - _id: max_enemies_in_chain
-      _type: 0
+      _type: 7
       _nameRu: "\u041A\u043E\u043B\u0438\u0447\u0435\u0441\u0442\u0432\u043E \u043F\u043E\u0440\u0430\u0436\u0430\u0435\u043C\u044B\u0445
         \u0432\u0440\u0430\u0433\u043E\u0432"
-      _nameEn: 
-      _nameTr: 
-      _descriptionRu: 
-      _descriptionEn: 
-      _descriptionTr: 
-    CharacteristicsWeaponsData:
-    - _id: gun
-      _weaponType: 0
-      _rangeAttack: 5
-      _fireRate: 1
-      _projectileSpeed: 10
-      _damage: 15
-      _maxCountBullets: 4
-      _reloadTime: 3
-      _explosionRadius: 0
-      _maxEnemiesInChain: 0
-    - _id: machine_gun
-      _weaponType: 1
-      _rangeAttack: 5
-      _fireRate: 3
-      _projectileSpeed: 10
-      _damage: 18
-      _maxCountBullets: 16
-      _reloadTime: 6
-      _explosionRadius: 0
-      _maxEnemiesInChain: 0
-    - _id: mines
-      _weaponType: 2
-      _rangeAttack: 0
-      _fireRate: 5
-      _projectileSpeed: 0
-      _damage: 20
-      _maxCountBullets: 1
-      _reloadTime: 0
-      _explosionRadius: 5
-      _maxEnemiesInChain: 0
-    - _id: frag_grenades
-      _weaponType: 3
-      _rangeAttack: 4
-      _fireRate: 5
-      _projectileSpeed: 10
-      _damage: 10
-      _maxCountBullets: 0
-      _reloadTime: 0
-      _explosionRadius: 3
-      _maxEnemiesInChain: 0
-    - _id: four_barrel_machine_gun
-      _weaponType: 4
-      _rangeAttack: 5
-      _fireRate: 3
-      _projectileSpeed: 10
-      _damage: 18
-      _maxCountBullets: 16
-      _reloadTime: 6
-      _explosionRadius: 0
-      _maxEnemiesInChain: 0
-    - _id: chain_lightning_gun
-      _weaponType: 5
-      _rangeAttack: 6
-      _fireRate: 3
-      _projectileSpeed: 0
-      _damage: 10
-      _maxCountBullets: 4
-      _reloadTime: 5
-      _explosionRadius: 0
-      _maxEnemiesInChain: 3
+      _nameEn: The number of enemies being hit
+      _nameTr: "Vurulan d\xFC\u015Fman say\u0131s\u0131"
+      _descriptionRu: "\u0423\u0432\u0435\u043B\u0438\u0447\u0438\u0432\u0430\u0435\u0442
+        \u043A\u043E\u043B\u0438\u0447\u0435\u0441\u0442\u0432\u043E \u0432\u0440\u0430\u0433\u043E\u0432
+        \u0432 \u044D\u043B\u0435\u043A\u0442\u0440\u0438\u0447\u0435\u0441\u043A\u043E\u0439
+        \u0446\u0435\u043F\u0438"
+      _descriptionEn: Increase the number of enemies in the electrical circuit
+      _descriptionTr: "Elektrik devresindeki d\xFC\u015Fman say\u0131s\u0131n\u0131
+        art\u0131r\u0131n"
     WeaponsLocalization:
     - _id: gun
       _type: 0
@@ -199,15 +146,12 @@ MonoBehaviour:
       _nameEn: Mines
       _nameTr: "Y\xFCzler"
       _descriptionRu: "\u0412\u044B\u0441\u0442\u0430\u0432\u043B\u044F\u0435\u0442
-        \u043C\u0438\u043D\u044B, \u043F\u0440\u0438 \u043F\u0440\u0438\u0431\u043B\u0438\u0436\u0435\u043D\u043D\u0438\u0438
-        \u0432\u0440\u0430\u0433\u0430 \u0432\u0437\u0440\u044B\u0432\u0430\u0435\u0442\u0441\u044F
-        \u0438 \u043D\u0430\u043D\u043E\u0441\u0438\u0442 \u0443\u0440\u043E\u043D
+        \u043C\u0438\u043D\u044B, \u0432\u0440\u0430\u0433\u0438 \u043D\u0430\u0441\u0442\u0443\u043F\u0430\u044E\u0442
+        \u0438 \u043F\u043E\u043B\u0443\u0447\u0430\u044E\u0442 \u0443\u0440\u043E\u043D
         \u043F\u043E \u043E\u0431\u043B\u0430\u0441\u0442\u0438"
-      _descriptionEn: Exposes mines, explodes when an enemy approaches and causes
-        damage to the area
+      _descriptionEn: Exposes mines, enemies advance and take damage in the area
       _descriptionTr: "May\u0131nlar\u0131 a\xE7\u0131\u011Fa \xE7\u0131kar\u0131r,
-        bir d\xFC\u015Fman yakla\u015Ft\u0131\u011F\u0131nda patlar ve b\xF6lgeye
-        zarar verir"
+        d\xFC\u015Fmanlar ilerler ve b\xF6lgeye hasar al\u0131r"
     - _id: frag_grenades
       _type: 3
       _nameRu: "\u041E\u0441\u043A\u043E\u043B\u043E\u0447\u043D\u044B\u0435 \u0433\u0440\u0430\u043D\u0430\u0442\u044B"
@@ -243,6 +187,761 @@ MonoBehaviour:
         \u043C\u043E\u043B\u043D\u0438\u0435\u0439"
       _descriptionEn: Shoots chain lightning
       _descriptionTr: "Zincir \u015Fim\u015Fek \xE7ak\u0131yor"
+    CharacteristicsWeaponsData:
+    - _id: gun
+      _weaponType: 0
+      _rangeAttack: 5
+      _fireRate: 1
+      _projectileSpeed: 10
+      _damage: 15
+      _maxCountShots: 4
+      _reloadTime: 3
+      _explosionRadius: 0
+      _maxEnemiesInChain: 0
+    - _id: machine_gun
+      _weaponType: 1
+      _rangeAttack: 5
+      _fireRate: 3
+      _projectileSpeed: 10
+      _damage: 18
+      _maxCountShots: 16
+      _reloadTime: 6
+      _explosionRadius: 0
+      _maxEnemiesInChain: 0
+    - _id: mines
+      _weaponType: 2
+      _rangeAttack: 0
+      _fireRate: 5
+      _projectileSpeed: 0
+      _damage: 20
+      _maxCountShots: 1
+      _reloadTime: 0
+      _explosionRadius: 5
+      _maxEnemiesInChain: 0
+    - _id: frag_grenades
+      _weaponType: 3
+      _rangeAttack: 4
+      _fireRate: 5
+      _projectileSpeed: 10
+      _damage: 10
+      _maxCountShots: 0
+      _reloadTime: 0
+      _explosionRadius: 3
+      _maxEnemiesInChain: 0
+    - _id: four_barrel_machine_gun
+      _weaponType: 4
+      _rangeAttack: 5
+      _fireRate: 3
+      _projectileSpeed: 10
+      _damage: 18
+      _maxCountShots: 16
+      _reloadTime: 6
+      _explosionRadius: 0
+      _maxEnemiesInChain: 0
+    - _id: chain_lightning_gun
+      _weaponType: 5
+      _rangeAttack: 6
+      _fireRate: 3
+      _projectileSpeed: 10
+      _damage: 10
+      _maxCountShots: 4
+      _reloadTime: 5
+      _explosionRadius: 0
+      _maxEnemiesInChain: 3
+    Improvements:
+    - _id: grenade_range_common
+      _weaponType: 3
+      _characteristicType: 0
+      _levelCardRu: "\u041E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Common
+      _levelCardTr: Normal
+      _value: 0.1
+    - _id: grenade_fire_rate_common
+      _weaponType: 3
+      _characteristicType: 1
+      _levelCardRu: "\u041E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Common
+      _levelCardTr: Normal
+      _value: 0.1
+    - _id: grenade_speed_common
+      _weaponType: 3
+      _characteristicType: 4
+      _levelCardRu: "\u041E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Common
+      _levelCardTr: Normal
+      _value: 0.1
+    - _id: grenade_damage_common
+      _weaponType: 3
+      _characteristicType: 0
+      _levelCardRu: "\u041E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Common
+      _levelCardTr: Normal
+      _value: 0.1
+    - _id: grenade_radius_common
+      _weaponType: 3
+      _characteristicType: 5
+      _levelCardRu: "\u041E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Common
+      _levelCardTr: Normal
+      _value: 0.1
+    - _id: grenade_range_unusual
+      _weaponType: 3
+      _characteristicType: 0
+      _levelCardRu: "\u041D\u0435\u043E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Unusual
+      _levelCardTr: "Olmad\u0131k"
+      _value: 0.2
+    - _id: grenade_fire_rate_unusual
+      _weaponType: 3
+      _characteristicType: 1
+      _levelCardRu: "\u041D\u0435\u043E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Unusual
+      _levelCardTr: "Olmad\u0131k"
+      _value: 0.2
+    - _id: grenade_speed_unusual
+      _weaponType: 3
+      _characteristicType: 4
+      _levelCardRu: "\u041D\u0435\u043E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Unusual
+      _levelCardTr: "Olmad\u0131k"
+      _value: 0.2
+    - _id: grenade_damage_unusual
+      _weaponType: 3
+      _characteristicType: 0
+      _levelCardRu: "\u041D\u0435\u043E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Unusual
+      _levelCardTr: "Olmad\u0131k"
+      _value: 0.2
+    - _id: grenade_radius_unusual
+      _weaponType: 3
+      _characteristicType: 5
+      _levelCardRu: "\u041D\u0435\u043E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Unusual
+      _levelCardTr: "Olmad\u0131k"
+      _value: 0.2
+    - _id: grenade_range_rare
+      _weaponType: 3
+      _characteristicType: 0
+      _levelCardRu: "\u0420\u0435\u0434\u043A\u0438\u0439"
+      _levelCardEn: Rare
+      _levelCardTr: Nadir
+      _value: 0.3
+    - _id: grenade_fire_rate_rare
+      _weaponType: 3
+      _characteristicType: 1
+      _levelCardRu: "\u0420\u0435\u0434\u043A\u0438\u0439"
+      _levelCardEn: Rare
+      _levelCardTr: Nadir
+      _value: 0.3
+    - _id: grenade_speed_rare
+      _weaponType: 3
+      _characteristicType: 4
+      _levelCardRu: "\u0420\u0435\u0434\u043A\u0438\u0439"
+      _levelCardEn: Rare
+      _levelCardTr: Nadir
+      _value: 0.3
+    - _id: grenade_damage_rare
+      _weaponType: 3
+      _characteristicType: 0
+      _levelCardRu: "\u0420\u0435\u0434\u043A\u0438\u0439"
+      _levelCardEn: Rare
+      _levelCardTr: Nadir
+      _value: 0.3
+    - _id: grenade_radius_rare
+      _weaponType: 3
+      _characteristicType: 5
+      _levelCardRu: "\u0420\u0435\u0434\u043A\u0438\u0439"
+      _levelCardEn: Rare
+      _levelCardTr: Nadir
+      _value: 0.3
+    - _id: gun_range_common
+      _weaponType: 0
+      _characteristicType: 0
+      _levelCardRu: "\u041E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Common
+      _levelCardTr: Normal
+      _value: 0.1
+    - _id: gun_fire_rate_common
+      _weaponType: 0
+      _characteristicType: 1
+      _levelCardRu: "\u041E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Common
+      _levelCardTr: Normal
+      _value: 0.1
+    - _id: gun_speed_common
+      _weaponType: 0
+      _characteristicType: 4
+      _levelCardRu: "\u041E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Common
+      _levelCardTr: Normal
+      _value: 0.1
+    - _id: gun_damage_common
+      _weaponType: 0
+      _characteristicType: 0
+      _levelCardRu: "\u041E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Common
+      _levelCardTr: Normal
+      _value: 0.1
+    - _id: gun_max_count_shots_common
+      _weaponType: 0
+      _characteristicType: 6
+      _levelCardRu: "\u041E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Common
+      _levelCardTr: Normal
+      _value: 1
+    - _id: gun_reload_time_common
+      _weaponType: 0
+      _characteristicType: 3
+      _levelCardRu: "\u041E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Common
+      _levelCardTr: Normal
+      _value: 0.1
+    - _id: gun_range_unusual
+      _weaponType: 0
+      _characteristicType: 0
+      _levelCardRu: "\u041D\u0435\u043E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Unusual
+      _levelCardTr: "Olmad\u0131k"
+      _value: 0.2
+    - _id: gun_fire_rate_unusual
+      _weaponType: 0
+      _characteristicType: 1
+      _levelCardRu: "\u041D\u0435\u043E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Unusual
+      _levelCardTr: "Olmad\u0131k"
+      _value: 0.2
+    - _id: gun_speed_unusual
+      _weaponType: 0
+      _characteristicType: 4
+      _levelCardRu: "\u041D\u0435\u043E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Unusual
+      _levelCardTr: "Olmad\u0131k"
+      _value: 0.2
+    - _id: gun_damage_unusual
+      _weaponType: 0
+      _characteristicType: 0
+      _levelCardRu: "\u041D\u0435\u043E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Unusual
+      _levelCardTr: "Olmad\u0131k"
+      _value: 0.2
+    - _id: gun_max_count_shots_unusual
+      _weaponType: 0
+      _characteristicType: 6
+      _levelCardRu: "\u041D\u0435\u043E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Unusual
+      _levelCardTr: "Olmad\u0131k"
+      _value: 2
+    - _id: gun_reload_time_unusual
+      _weaponType: 0
+      _characteristicType: 3
+      _levelCardRu: "\u041D\u0435\u043E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Unusual
+      _levelCardTr: "Olmad\u0131k"
+      _value: 0.2
+    - _id: gun_range_rare
+      _weaponType: 0
+      _characteristicType: 0
+      _levelCardRu: "\u0420\u0435\u0434\u043A\u0438\u0439"
+      _levelCardEn: Rare
+      _levelCardTr: Nadir
+      _value: 0.3
+    - _id: gun_fire_rate_rare
+      _weaponType: 0
+      _characteristicType: 1
+      _levelCardRu: "\u0420\u0435\u0434\u043A\u0438\u0439"
+      _levelCardEn: Rare
+      _levelCardTr: Nadir
+      _value: 0.3
+    - _id: gun_speed_rare
+      _weaponType: 0
+      _characteristicType: 4
+      _levelCardRu: "\u0420\u0435\u0434\u043A\u0438\u0439"
+      _levelCardEn: Rare
+      _levelCardTr: Nadir
+      _value: 0.3
+    - _id: gun_damage_rare
+      _weaponType: 0
+      _characteristicType: 0
+      _levelCardRu: "\u0420\u0435\u0434\u043A\u0438\u0439"
+      _levelCardEn: Rare
+      _levelCardTr: Nadir
+      _value: 0.3
+    - _id: gun_max_count_shots_rare
+      _weaponType: 0
+      _characteristicType: 6
+      _levelCardRu: "\u0420\u0435\u0434\u043A\u0438\u0439"
+      _levelCardEn: Rare
+      _levelCardTr: Nadir
+      _value: 3
+    - _id: gun_reload_time_rare
+      _weaponType: 0
+      _characteristicType: 3
+      _levelCardRu: "\u0420\u0435\u0434\u043A\u0438\u0439"
+      _levelCardEn: Rare
+      _levelCardTr: Nadir
+      _value: 0.3
+    - _id: machine_gun_range_common
+      _weaponType: 1
+      _characteristicType: 0
+      _levelCardRu: "\u041E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Common
+      _levelCardTr: Normal
+      _value: 0.1
+    - _id: machine_gun_fire_rate_common
+      _weaponType: 1
+      _characteristicType: 1
+      _levelCardRu: "\u041E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Common
+      _levelCardTr: Normal
+      _value: 0.1
+    - _id: machine_gun_speed_common
+      _weaponType: 1
+      _characteristicType: 4
+      _levelCardRu: "\u041E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Common
+      _levelCardTr: Normal
+      _value: 0.1
+    - _id: machine_gun_damage_common
+      _weaponType: 1
+      _characteristicType: 0
+      _levelCardRu: "\u041E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Common
+      _levelCardTr: Normal
+      _value: 0.1
+    - _id: machine_gun_max_count_shots_common
+      _weaponType: 1
+      _characteristicType: 6
+      _levelCardRu: "\u041E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Common
+      _levelCardTr: Normal
+      _value: 1
+    - _id: machine_gun_reload_time_common
+      _weaponType: 1
+      _characteristicType: 3
+      _levelCardRu: "\u041E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Common
+      _levelCardTr: Normal
+      _value: 0.1
+    - _id: machine_gun_range_unusual
+      _weaponType: 1
+      _characteristicType: 0
+      _levelCardRu: "\u041D\u0435\u043E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Unusual
+      _levelCardTr: "Olmad\u0131k"
+      _value: 0.2
+    - _id: machine_gun_fire_rate_unusual
+      _weaponType: 1
+      _characteristicType: 1
+      _levelCardRu: "\u041D\u0435\u043E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Unusual
+      _levelCardTr: "Olmad\u0131k"
+      _value: 0.2
+    - _id: machine_gun_speed_unusual
+      _weaponType: 1
+      _characteristicType: 4
+      _levelCardRu: "\u041D\u0435\u043E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Unusual
+      _levelCardTr: "Olmad\u0131k"
+      _value: 0.2
+    - _id: machine_gun_damage_unusual
+      _weaponType: 1
+      _characteristicType: 0
+      _levelCardRu: "\u041D\u0435\u043E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Unusual
+      _levelCardTr: "Olmad\u0131k"
+      _value: 0.2
+    - _id: machine_gun_max_count_shots_unusual
+      _weaponType: 1
+      _characteristicType: 6
+      _levelCardRu: "\u041D\u0435\u043E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Unusual
+      _levelCardTr: "Olmad\u0131k"
+      _value: 2
+    - _id: machine_gun_reload_time_unusual
+      _weaponType: 1
+      _characteristicType: 3
+      _levelCardRu: "\u041D\u0435\u043E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Unusual
+      _levelCardTr: "Olmad\u0131k"
+      _value: 0.2
+    - _id: machine_gun_range_rare
+      _weaponType: 1
+      _characteristicType: 0
+      _levelCardRu: "\u0420\u0435\u0434\u043A\u0438\u0439"
+      _levelCardEn: Rare
+      _levelCardTr: Nadir
+      _value: 0.3
+    - _id: machine_gun_fire_rate_rare
+      _weaponType: 1
+      _characteristicType: 1
+      _levelCardRu: "\u0420\u0435\u0434\u043A\u0438\u0439"
+      _levelCardEn: Rare
+      _levelCardTr: Nadir
+      _value: 0.3
+    - _id: machine_gun_speed_rare
+      _weaponType: 1
+      _characteristicType: 4
+      _levelCardRu: "\u0420\u0435\u0434\u043A\u0438\u0439"
+      _levelCardEn: Rare
+      _levelCardTr: Nadir
+      _value: 0.3
+    - _id: machine_gun_damage_rare
+      _weaponType: 1
+      _characteristicType: 0
+      _levelCardRu: "\u0420\u0435\u0434\u043A\u0438\u0439"
+      _levelCardEn: Rare
+      _levelCardTr: Nadir
+      _value: 0.3
+    - _id: machine_gun_max_count_shots_rare
+      _weaponType: 1
+      _characteristicType: 6
+      _levelCardRu: "\u0420\u0435\u0434\u043A\u0438\u0439"
+      _levelCardEn: Rare
+      _levelCardTr: Nadir
+      _value: 3
+    - _id: machine_gun_reload_time_rare
+      _weaponType: 1
+      _characteristicType: 3
+      _levelCardRu: "\u0420\u0435\u0434\u043A\u0438\u0439"
+      _levelCardEn: Rare
+      _levelCardTr: Nadir
+      _value: 0.3
+    - _id: four_barrel_machine_gun_range_common
+      _weaponType: 4
+      _characteristicType: 0
+      _levelCardRu: "\u041E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Common
+      _levelCardTr: Normal
+      _value: 0.1
+    - _id: four_barrel_machine_gun_fire_rate_common
+      _weaponType: 4
+      _characteristicType: 1
+      _levelCardRu: "\u041E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Common
+      _levelCardTr: Normal
+      _value: 0.1
+    - _id: four_barrel_machine_gun_speed_common
+      _weaponType: 4
+      _characteristicType: 4
+      _levelCardRu: "\u041E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Common
+      _levelCardTr: Normal
+      _value: 0.1
+    - _id: four_barrel_machine_gun_damage_common
+      _weaponType: 4
+      _characteristicType: 0
+      _levelCardRu: "\u041E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Common
+      _levelCardTr: Normal
+      _value: 0.1
+    - _id: four_barrel_machine_gun_max_count_shots_common
+      _weaponType: 4
+      _characteristicType: 6
+      _levelCardRu: "\u041E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Common
+      _levelCardTr: Normal
+      _value: 1
+    - _id: four_barrel_machine_gun_reload_time_common
+      _weaponType: 4
+      _characteristicType: 3
+      _levelCardRu: "\u041E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Common
+      _levelCardTr: Normal
+      _value: 0.1
+    - _id: four_barrel_machine_gun_range_unusual
+      _weaponType: 4
+      _characteristicType: 0
+      _levelCardRu: "\u041D\u0435\u043E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Unusual
+      _levelCardTr: "Olmad\u0131k"
+      _value: 0.2
+    - _id: four_barrel_machine_gun_fire_rate_unusual
+      _weaponType: 4
+      _characteristicType: 1
+      _levelCardRu: "\u041D\u0435\u043E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Unusual
+      _levelCardTr: "Olmad\u0131k"
+      _value: 0.2
+    - _id: four_barrel_machine_gun_speed_unusual
+      _weaponType: 4
+      _characteristicType: 4
+      _levelCardRu: "\u041D\u0435\u043E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Unusual
+      _levelCardTr: "Olmad\u0131k"
+      _value: 0.2
+    - _id: four_barrel_machine_gun_damage_unusual
+      _weaponType: 4
+      _characteristicType: 0
+      _levelCardRu: "\u041D\u0435\u043E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Unusual
+      _levelCardTr: "Olmad\u0131k"
+      _value: 0.2
+    - _id: four_barrel_machine_gun_max_count_shots_unusual
+      _weaponType: 4
+      _characteristicType: 6
+      _levelCardRu: "\u041D\u0435\u043E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Unusual
+      _levelCardTr: "Olmad\u0131k"
+      _value: 2
+    - _id: four_barrel_machine_gun_reload_time_unusual
+      _weaponType: 4
+      _characteristicType: 3
+      _levelCardRu: "\u041D\u0435\u043E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Unusual
+      _levelCardTr: "Olmad\u0131k"
+      _value: 0.2
+    - _id: four_barrel_machine_gun_range_rare
+      _weaponType: 4
+      _characteristicType: 0
+      _levelCardRu: "\u0420\u0435\u0434\u043A\u0438\u0439"
+      _levelCardEn: Rare
+      _levelCardTr: Nadir
+      _value: 0.3
+    - _id: four_barrel_machine_gun_fire_rate_rare
+      _weaponType: 4
+      _characteristicType: 1
+      _levelCardRu: "\u0420\u0435\u0434\u043A\u0438\u0439"
+      _levelCardEn: Rare
+      _levelCardTr: Nadir
+      _value: 0.3
+    - _id: four_barrel_machine_gun_speed_rare
+      _weaponType: 4
+      _characteristicType: 4
+      _levelCardRu: "\u0420\u0435\u0434\u043A\u0438\u0439"
+      _levelCardEn: Rare
+      _levelCardTr: Nadir
+      _value: 0.3
+    - _id: four_barrel_machine_gun_damage_rare
+      _weaponType: 4
+      _characteristicType: 0
+      _levelCardRu: "\u0420\u0435\u0434\u043A\u0438\u0439"
+      _levelCardEn: Rare
+      _levelCardTr: Nadir
+      _value: 0.3
+    - _id: four_barrel_machine_gun_max_count_shots_rare
+      _weaponType: 4
+      _characteristicType: 6
+      _levelCardRu: "\u0420\u0435\u0434\u043A\u0438\u0439"
+      _levelCardEn: Rare
+      _levelCardTr: Nadir
+      _value: 3
+    - _id: four_barrel_machine_gun_reload_time_rare
+      _weaponType: 4
+      _characteristicType: 3
+      _levelCardRu: "\u0420\u0435\u0434\u043A\u0438\u0439"
+      _levelCardEn: Rare
+      _levelCardTr: Nadir
+      _value: 0.3
+    - _id: mines_fire_rate_common
+      _weaponType: 2
+      _characteristicType: 1
+      _levelCardRu: "\u041E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Common
+      _levelCardTr: Normal
+      _value: 0.1
+    - _id: mines_damage_common
+      _weaponType: 2
+      _characteristicType: 0
+      _levelCardRu: "\u041E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Common
+      _levelCardTr: Normal
+      _value: 0.1
+    - _id: mines_radius_common
+      _weaponType: 2
+      _characteristicType: 5
+      _levelCardRu: "\u041E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Common
+      _levelCardTr: Normal
+      _value: 0.1
+    - _id: mines_max_count_shots_common
+      _weaponType: 2
+      _characteristicType: 6
+      _levelCardRu: "\u041E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Common
+      _levelCardTr: Normal
+      _value: 1
+    - _id: mines_fire_rate_unusual
+      _weaponType: 2
+      _characteristicType: 1
+      _levelCardRu: "\u041D\u0435\u043E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Unusual
+      _levelCardTr: "Olmad\u0131k"
+      _value: 0.2
+    - _id: mines_damage_unusual
+      _weaponType: 2
+      _characteristicType: 0
+      _levelCardRu: "\u041D\u0435\u043E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Unusual
+      _levelCardTr: "Olmad\u0131k"
+      _value: 0.2
+    - _id: mines_radius_unusual
+      _weaponType: 2
+      _characteristicType: 5
+      _levelCardRu: "\u041D\u0435\u043E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Unusual
+      _levelCardTr: "Olmad\u0131k"
+      _value: 0.2
+    - _id: mines_max_count_shots_unusual
+      _weaponType: 2
+      _characteristicType: 6
+      _levelCardRu: "\u041D\u0435\u043E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Unusual
+      _levelCardTr: "Olmad\u0131k"
+      _value: 2
+    - _id: mines_fire_rate_rare
+      _weaponType: 2
+      _characteristicType: 1
+      _levelCardRu: "\u0420\u0435\u0434\u043A\u0438\u0439"
+      _levelCardEn: Rare
+      _levelCardTr: Nadir
+      _value: 0.3
+    - _id: mines_damage_rare
+      _weaponType: 2
+      _characteristicType: 0
+      _levelCardRu: "\u0420\u0435\u0434\u043A\u0438\u0439"
+      _levelCardEn: Rare
+      _levelCardTr: Nadir
+      _value: 0.3
+    - _id: mines_radius_rare
+      _weaponType: 2
+      _characteristicType: 5
+      _levelCardRu: "\u0420\u0435\u0434\u043A\u0438\u0439"
+      _levelCardEn: Rare
+      _levelCardTr: Nadir
+      _value: 0.3
+    - _id: mines_max_count_shots_rare
+      _weaponType: 2
+      _characteristicType: 6
+      _levelCardRu: "\u0420\u0435\u0434\u043A\u0438\u0439"
+      _levelCardEn: Rare
+      _levelCardTr: Nadir
+      _value: 3
+    - _id: chain_lightning_gun_range_common
+      _weaponType: 5
+      _characteristicType: 0
+      _levelCardRu: "\u041E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Common
+      _levelCardTr: Normal
+      _value: 0.1
+    - _id: chain_lightning_gun_fire_rate_common
+      _weaponType: 5
+      _characteristicType: 1
+      _levelCardRu: "\u041E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Common
+      _levelCardTr: Normal
+      _value: 0.1
+    - _id: chain_lightning_gun_damage_common
+      _weaponType: 5
+      _characteristicType: 0
+      _levelCardRu: "\u041E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Common
+      _levelCardTr: Normal
+      _value: 0.1
+    - _id: chain_lightning_gun_max_count_shots_common
+      _weaponType: 5
+      _characteristicType: 6
+      _levelCardRu: "\u041E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Common
+      _levelCardTr: Normal
+      _value: 1
+    - _id: chain_lightning_gun_reload_time_common
+      _weaponType: 5
+      _characteristicType: 3
+      _levelCardRu: "\u041E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Common
+      _levelCardTr: Normal
+      _value: 0.1
+    - _id: chain_lightning_gun_max_enemies_in_chain_common
+      _weaponType: 5
+      _characteristicType: 0
+      _levelCardRu: "\u041E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Common
+      _levelCardTr: Normal
+      _value: 1
+    - _id: chain_lightning_gun_range_unusual
+      _weaponType: 5
+      _characteristicType: 0
+      _levelCardRu: "\u041D\u0435\u043E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Unusual
+      _levelCardTr: "Olmad\u0131k"
+      _value: 0.2
+    - _id: chain_lightning_gun_fire_rate_unusual
+      _weaponType: 5
+      _characteristicType: 1
+      _levelCardRu: "\u041D\u0435\u043E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Unusual
+      _levelCardTr: "Olmad\u0131k"
+      _value: 0.2
+    - _id: chain_lightning_gun_damage_unusual
+      _weaponType: 5
+      _characteristicType: 0
+      _levelCardRu: "\u041D\u0435\u043E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Unusual
+      _levelCardTr: "Olmad\u0131k"
+      _value: 0.2
+    - _id: chain_lightning_gun_max_count_shots_unusual
+      _weaponType: 5
+      _characteristicType: 6
+      _levelCardRu: "\u041D\u0435\u043E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Unusual
+      _levelCardTr: "Olmad\u0131k"
+      _value: 2
+    - _id: chain_lightning_gun_reload_time_unusual
+      _weaponType: 5
+      _characteristicType: 3
+      _levelCardRu: "\u041D\u0435\u043E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Unusual
+      _levelCardTr: "Olmad\u0131k"
+      _value: 0.2
+    - _id: chain_lightning_gun_max_enemies_in_chain_unusual
+      _weaponType: 5
+      _characteristicType: 0
+      _levelCardRu: "\u041D\u0435\u043E\u0431\u044B\u0447\u043D\u044B\u0439"
+      _levelCardEn: Unusual
+      _levelCardTr: "Olmad\u0131k"
+      _value: 2
+    - _id: chain_lightning_gun_range_rare
+      _weaponType: 5
+      _characteristicType: 0
+      _levelCardRu: "\u0420\u0435\u0434\u043A\u0438\u0439"
+      _levelCardEn: Rare
+      _levelCardTr: Nadir
+      _value: 0.3
+    - _id: chain_lightning_gun_fire_rate_rare
+      _weaponType: 5
+      _characteristicType: 1
+      _levelCardRu: "\u0420\u0435\u0434\u043A\u0438\u0439"
+      _levelCardEn: Rare
+      _levelCardTr: Nadir
+      _value: 0.3
+    - _id: chain_lightning_gun_damage_rare
+      _weaponType: 5
+      _characteristicType: 0
+      _levelCardRu: "\u0420\u0435\u0434\u043A\u0438\u0439"
+      _levelCardEn: Rare
+      _levelCardTr: Nadir
+      _value: 0.3
+    - _id: chain_lightning_gun_max_count_shots_rare
+      _weaponType: 5
+      _characteristicType: 6
+      _levelCardRu: "\u0420\u0435\u0434\u043A\u0438\u0439"
+      _levelCardEn: Rare
+      _levelCardTr: Nadir
+      _value: 3
+    - _id: chain_lightning_gun_reload_time_rare
+      _weaponType: 5
+      _characteristicType: 3
+      _levelCardRu: "\u0420\u0435\u0434\u043A\u0438\u0439"
+      _levelCardEn: Rare
+      _levelCardTr: Nadir
+      _value: 0.3
+    - _id: chain_lightning_gun_max_enemies_in_chain_rare
+      _weaponType: 5
+      _characteristicType: 0
+      _levelCardRu: "\u0420\u0435\u0434\u043A\u0438\u0439"
+      _levelCardEn: Rare
+      _levelCardTr: Nadir
+      _value: 3
     PlayerLevels:
     - _id: 1
       _requiredExperience: 50
@@ -284,82 +983,6 @@ MonoBehaviour:
       _requiredExperience: 850
     - _id: 20
       _requiredExperience: 900
-    Improvements:
-    - _id: grenade_damage_common
-      _weaponType: 3
-      _characteristicType: 0
-      _levelCard: 0
-      _value: 0.1
-    - _id: grenade_radius_common
-      _weaponType: 3
-      _characteristicType: 5
-      _levelCard: 0
-      _value: 0.1
-    - _id: grenade_speed_common
-      _weaponType: 3
-      _characteristicType: 4
-      _levelCard: 0
-      _value: 0.1
-    - _id: grenade_fire_rate_common
-      _weaponType: 3
-      _characteristicType: 1
-      _levelCard: 0
-      _value: 0.1
-    - _id: grenade_range_common
-      _weaponType: 3
-      _characteristicType: 0
-      _levelCard: 0
-      _value: 0.1
-    - _id: grenade_damage_unusual
-      _weaponType: 3
-      _characteristicType: 0
-      _levelCard: 1
-      _value: 0.2
-    - _id: grenade_radius_unusual
-      _weaponType: 3
-      _characteristicType: 5
-      _levelCard: 1
-      _value: 0.2
-    - _id: grenade_speed_unusual
-      _weaponType: 3
-      _characteristicType: 4
-      _levelCard: 1
-      _value: 0.2
-    - _id: grenade_fire_rate_unusual
-      _weaponType: 3
-      _characteristicType: 1
-      _levelCard: 1
-      _value: 0.2
-    - _id: grenade_range_unusual
-      _weaponType: 3
-      _characteristicType: 0
-      _levelCard: 1
-      _value: 0.2
-    - _id: grenade_damage_rare
-      _weaponType: 3
-      _characteristicType: 0
-      _levelCard: 2
-      _value: 0.3
-    - _id: grenade_radius_rare
-      _weaponType: 3
-      _characteristicType: 5
-      _levelCard: 2
-      _value: 0.3
-    - _id: grenade_speed_rare
-      _weaponType: 3
-      _characteristicType: 4
-      _levelCard: 2
-      _value: 0.3
-    - _id: grenade_fire_rate_rare
-      _weaponType: 3
-      _characteristicType: 1
-      _levelCard: 2
-      _value: 0.3
-    - _id: grenade_range_rare
-      _weaponType: 3
-      _characteristicType: 0
-      _levelCard: 2
-      _value: 0.3
     MarsSceneLevels:
     - _number: 0
       _sceneName: MarsFirstLevel
