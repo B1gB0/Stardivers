@@ -8,9 +8,13 @@ namespace Project.Scripts.Levels.Mars.SecondLevel
     {
         private const float MaxValue = 30f;
         private const float RecoveryRate = 1f;
+        
+        [SerializeField] private float _speedRising = 5f;
+        [SerializeField] private float _speedLaunching = 5f;
 
-        [SerializeField] private float _speed = 5f;
+        [SerializeField] private Transform _startPoint;
         [SerializeField] private Transform _endPoint;
+        [SerializeField] private Transform _launchPad;
         
         private Coroutine _coroutine;
         private float _currentProgress;
@@ -57,31 +61,33 @@ namespace Project.Scripts.Levels.Mars.SecondLevel
 
         private IEnumerator ChangeProgress()
         {
-            while (_currentProgress != _maxProgress)
+            while (_currentProgress < _maxProgress)
             {
-                _currentProgress = Mathf.MoveTowards(_currentProgress, _maxProgress, RecoveryRate * Time.deltaTime);
-            
+                _currentProgress = Mathf.MoveTowards(_currentProgress, _maxProgress, 
+                    RecoveryRate * Time.deltaTime);
+                
+                _launchPad.position = Vector3.MoveTowards(_launchPad.position, _startPoint.position, 
+                    _speedRising * Time.deltaTime);
+                
                 ProgressChanged?.Invoke(_currentProgress, _maxProgress);
-
-                if (_currentProgress >= _maxProgress)
-                    LaunchCompleted?.Invoke();
 
                 yield return null;
             }
+            
+            LaunchCompleted?.Invoke();
         }
 
         private IEnumerator Launch()
         {
             while (transform.position != _endPoint.position)
             {
-                transform.position = Vector3.MoveTowards(transform.position, _endPoint.position, 
-                    _speed * Time.deltaTime);
+                transform.position = Vector3.MoveTowards(transform.position, _endPoint.position,
+                    _speedLaunching * Time.deltaTime);
                 
-                if(transform.position == _endPoint.position)
-                    gameObject.SetActive(false);
-
                 yield return null;
             }
+            
+            gameObject.SetActive(false);
         }
     }
 }

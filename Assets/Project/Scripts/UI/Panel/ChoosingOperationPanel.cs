@@ -5,7 +5,6 @@ using Project.Scripts.UI.StateMachine.States;
 using Project.Scripts.UI.View;
 using Reflex.Attributes;
 using UnityEngine;
-using UnityEngine.Profiling;
 using UnityEngine.UI;
 
 namespace Project.Scripts.UI.Panel

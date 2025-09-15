@@ -22,7 +22,7 @@ namespace Project.Scripts.Services
         {
             foreach (var data in _dataBaseService.Content.CharacteristicsWeaponsData)
             {
-                _characteristicsData.Add(data.WeaponType, data);
+                _characteristicsData.TryAdd(data.WeaponType, data);
             }
             
             return UniTask.CompletedTask;

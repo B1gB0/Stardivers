@@ -1,5 +1,4 @@
-﻿using System;
-using Project.Scripts.Game.Gameplay.Root;
+﻿using Project.Scripts.Game.Gameplay.Root;
 using Project.Scripts.Game.MainMenu.Root;
 using Project.Scripts.Services;
 using Project.Scripts.UI.StateMachine.States;
@@ -89,11 +88,11 @@ namespace Project.Scripts.Game.GameRoot
             {
                 if (_operationService.CurrentOperation.Id == Operations.Mars)
                 {
-                    mainMenuExitParameters.TargetSceneEnterParameters.SetNewSceneName(Scenes.MarsFirstLevel);
+                    mainMenuExitParameters.TargetSceneEnterParameters.SetNewSceneName(_operationService.GetSceneNameByCurrentNumber());
                 }
                 else if (_operationService.CurrentOperation.Id == Operations.MysteryPlanet)
                 {
-                    mainMenuExitParameters.TargetSceneEnterParameters.SetNewSceneName(Scenes.MysteryPlanetFirstLevel);
+                    mainMenuExitParameters.TargetSceneEnterParameters.SetNewSceneName(_operationService.GetSceneNameByCurrentNumber());
                 }
 
                 LoadAndStartGameplay(mainMenuExitParameters

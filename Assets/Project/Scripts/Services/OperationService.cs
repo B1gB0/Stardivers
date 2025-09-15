@@ -8,7 +8,7 @@ namespace Project.Scripts.Services
 {
     public class OperationService : MonoBehaviour
     {
-        private const int DefaultNumberLevel = 0;
+        private const int DefaultNumberLevel = 1;
         
         [field: SerializeField] public List<Operation> Operations { get; private set; } = new();
         
@@ -21,7 +21,7 @@ namespace Project.Scripts.Services
         
         public int CurrentNumberLevel { get; private set; }
         
-        public bool IsInited { get; private set; }
+        public bool IsInitiated { get; private set; }
 
         [Inject]
         public void Construct(IDataBaseService dataBaseService)
@@ -52,7 +52,7 @@ namespace Project.Scripts.Services
                 _mysteryPlanetSceneLevels.Add(mysteryPlanetSceneLevel.Number, mysteryPlanetSceneLevel.SceneName);
             }
 
-            IsInited = true;
+            IsInitiated = true;
         }
         
         public void SetCurrentOperation(int index)
@@ -64,6 +64,11 @@ namespace Project.Scripts.Services
         public void SetCurrentNumberLevel(int numberLevel)
         {
             CurrentNumberLevel = numberLevel;
+        }
+        
+        public string GetSceneNameByCurrentNumber()
+        {
+            return GetSceneNameByNumber(CurrentNumberLevel);
         }
 
         public string GetSceneNameByNumber(int number)

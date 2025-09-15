@@ -29,7 +29,7 @@ namespace Project.Scripts.Game.MainMenu.Root
 
         private async void Start()
         {
-            if(_operationService.IsInited)
+            if(_operationService.IsInitiated)
                 return;
             
             await _dataBaseService.Init();
@@ -58,7 +58,7 @@ namespace Project.Scripts.Game.MainMenu.Root
 
         private void GetMainMenuExitParameters()
         {
-            var sceneName = _operationService.GetSceneNameByNumber(_operationService.CurrentNumberLevel);
+            var sceneName = _operationService.GetSceneNameByCurrentNumber();
 
             var gameplayEnterParameters = new GameplayEnterParameters(_operationService.CurrentOperation,
                 _operationService.CurrentNumberLevel, sceneName);

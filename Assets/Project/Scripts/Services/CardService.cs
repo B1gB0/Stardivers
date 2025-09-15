@@ -31,17 +31,17 @@ namespace Project.Scripts.Services
         {
             foreach (var weapon in _dataBaseService.Content.WeaponsLocalization)
             {
-                _weaponsLocalizationData.Add(weapon.Type, weapon);
+                _weaponsLocalizationData.TryAdd(weapon.Type, weapon);
             }
 
             foreach (var characteristic in _dataBaseService.Content.CharacteristicsLocalization)
             {
-                _characteristicsLocalizationData.Add(characteristic.Type, characteristic);
+                _characteristicsLocalizationData.TryAdd(characteristic.Type, characteristic);
             }
 
             foreach (var improvement in _dataBaseService.Content.Improvements)
             {
-                _improvementsData.Add(improvement.Id, improvement);
+                _improvementsData.TryAdd(improvement.Id, improvement);
             }
             
             CreateImprovementCards();
