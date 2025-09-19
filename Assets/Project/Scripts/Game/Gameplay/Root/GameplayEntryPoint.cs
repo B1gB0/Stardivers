@@ -33,9 +33,9 @@ namespace Project.Scripts.Game.Gameplay.Root
         
         private UIGameplayRootBinder _uiScene;
         private GameplayExitParameters _exitParameters;
-
-        private PlayerInitData _playerData;
+        
         private LevelInitData _levelData;
+        private PlayerInitData _playerInitData;
         private SmallAlienEnemyInitData _smallAlienEnemyData;
         private BigAlienEnemyInitData _bigAlienEnemyData;
         private GunnerAlienEnemyInitData _gunnerEnemyAlienData;
@@ -58,6 +58,8 @@ namespace Project.Scripts.Game.Gameplay.Root
         private IDataBaseService _dataBaseService;
         private ICharacteristicsWeaponDataService _characteristicsWeaponDataService;
         private ICardService _cardService;
+        private IEnemyService _enemyService;
+        private IPlayerService _playerService;
 
         private HealthBar _healthBar;
         private ExperiencePoints _experiencePoints;
@@ -73,7 +75,7 @@ namespace Project.Scripts.Game.Gameplay.Root
         private void Construct(AudioSoundsService audioSoundsService, IPauseService pauseService, 
             OperationService operationService, IFloatingTextService floatingTextService, IDataBaseService dataBaseService,
             IResourceService resourceService, ICharacteristicsWeaponDataService characteristicsWeaponDataService,
-            ICardService cardService)
+            ICardService cardService, IEnemyService enemyService, IPlayerService playerService)
         {
             _audioSoundsService = audioSoundsService;
             _pauseService = pauseService;
@@ -83,6 +85,8 @@ namespace Project.Scripts.Game.Gameplay.Root
             _resourceService = resourceService;
             _characteristicsWeaponDataService = characteristicsWeaponDataService;
             _cardService = cardService;
+            _enemyService = enemyService;
+            _playerService = playerService;
         }
 
         private void Update()
@@ -105,6 +109,8 @@ namespace Project.Scripts.Game.Gameplay.Root
             
             await _characteristicsWeaponDataService.Init();
             await _cardService.Init();
+            await _enemyService.Init();
+            await _playerService.Init();
 
             FloatingTextView textView = _viewFactory.CreateDamageTextView();
             textView.Hide();
@@ -159,8 +165,8 @@ namespace Project.Scripts.Game.Gameplay.Root
             _level.EndLevelTrigger.IsLevelCompleted += _endGamePanel.SetVictoryPanel;
             
             _gameInitSystem.PlayerIsSpawned += _uiScene.WeaponPanel.Show;
-            _gameInitSystem.PlayerIsSpawned += _healthBar.Show;
             _gameInitSystem.PlayerIsSpawned += _progressBar.Show;
+            _gameInitSystem.PlayerIsSpawned += _healthBar.Show;
             
             _endGamePanel.RebornPlayerButton.onClick.AddListener(_gameInitSystem.CreateCapsule);
             
@@ -236,8 +242,8 @@ namespace Project.Scripts.Game.Gameplay.Root
         {
             _levelData = _dataFactory.CreateLevelData(_operationService.CurrentOperation,
                 _operationService.CurrentNumberLevel);
-            
-            _playerData = await _dataFactory.CreatePlayerData();
+
+            _playerInitData = await _dataFactory.CreatePlayerData();
             _smallAlienEnemyData = await _dataFactory.CreateSmallEnemyAlienData();
             _bigAlienEnemyData = await _dataFactory.CreateBigEnemyAlienData();
             _gunnerEnemyAlienData = await _dataFactory.CreateGunnerAlienEnemyData();
@@ -264,8 +270,11 @@ namespace Project.Scripts.Game.Gameplay.Root
             _updateSystems.Inject(_pauseService);
             _updateSystems.Inject(_level);
             _updateSystems.Inject(_dataBaseService);
+            _updateSystems.Inject(_resourceService);
+            _updateSystems.Inject(_enemyService);
+            _updateSystems.Inject(_playerService);
 
-            _updateSystems.Add(_gameInitSystem = new GameInitSystem(_playerData, _smallAlienEnemyData, _bigAlienEnemyData, 
+            _updateSystems.Add(_gameInitSystem = new GameInitSystem(_playerInitData, _smallAlienEnemyData, _bigAlienEnemyData, 
                 _gunnerEnemyAlienData, _stoneData, _capsuleData, _levelData, _healingCoreData, _goldCoreData));
             _updateSystems.Add(new PlayerInputSystem());
             _updateSystems.Add(new MainCameraSystem(_cinemachineVirtualCamera));

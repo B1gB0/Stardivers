@@ -9,7 +9,7 @@ namespace Project.Scripts.ECS.EntityActors
         private const float MinValue = 0f;
 
         [SerializeField] private float _miningRange;
-        [SerializeField] private float _delay;
+        [SerializeField] private float _speed;
         [SerializeField] private float _damage;
         
         [SerializeField] private Transform _detectionPoint;
@@ -17,7 +17,7 @@ namespace Project.Scripts.ECS.EntityActors
         [SerializeField] private ParticleSystem _hitEffect;
 
         private ParticleSystem _hitEffectRef;
-        private ResourceActor resourceRef;
+        private ResourceActor _resourceRef;
         private float _lastHitTime;
         private AudioSoundsService _audioSoundsService;
 
@@ -34,8 +34,8 @@ namespace Project.Scripts.ECS.EntityActors
             if (Physics.Raycast(_detectionPoint.position, _detectionPoint.forward, out var hit,
                     _miningRange))
             {
-                if(resourceRef != null)
-                    resourceRef.Health.SetHit(false);
+                if(_resourceRef != null)
+                    _resourceRef.Health.SetHit(false);
                 
                 if (!hit.collider.TryGetComponent(out ResourceActor resource)) return;
                 
@@ -43,16 +43,16 @@ namespace Project.Scripts.ECS.EntityActors
 
                 if (_lastHitTime <= MinValue)
                 {
-                    resourceRef = resource;
+                    _resourceRef = resource;
 
                     _audioSoundsService.PlaySound(Sounds.Stone);
 
-                    resourceRef.Health.TakeDamage(_damage);
-                    resourceRef.Health.SetHit(true);
+                    _resourceRef.Health.TakeDamage(_damage);
+                    _resourceRef.Health.SetHit(true);
 
                     _hitEffectRef.Play();
 
-                    _lastHitTime = _delay;
+                    _lastHitTime = _speed;
                 }
 
                 _lastHitTime -= Time.deltaTime;

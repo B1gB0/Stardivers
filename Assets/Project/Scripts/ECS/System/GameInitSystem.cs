@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using Leopotam.Ecs;
 using Project.Game.Scripts;
+using Project.Scripts.DataBase.Data;
 using Project.Scripts.ECS.Components;
 using Project.Scripts.ECS.Data;
 using Project.Scripts.ECS.EntityActors;
@@ -20,6 +22,8 @@ namespace Project.Scripts.ECS.System
 {
     public class GameInitSystem : IEcsInitSystem, IEcsRunSystem
     {
+        private const string Stardiver = nameof(Stardiver);
+        
         private const string SmallEnemyAlienPool = nameof(SmallEnemyAlienPool);
         private const string BigEnemyAlienPool = nameof(BigEnemyAlienPool);
         private const string BigAlienEnemyProjectilePool = nameof(BigAlienEnemyProjectilePool);
@@ -37,6 +41,9 @@ namespace Project.Scripts.ECS.System
         
         private readonly IFloatingTextService _textService;
         private readonly IDataBaseService _dataBaseService;
+        private readonly IResourceService _resourceService;
+        private readonly IEnemyService _enemyService;
+        private readonly IPlayerService _playerService;
         private readonly GoldView _goldView;
         private readonly AudioSoundsService _audioSoundsService;
         private readonly ExperiencePoints _experiencePoints;
@@ -45,7 +52,7 @@ namespace Project.Scripts.ECS.System
         private readonly AdviserMessagePanel _adviserMessagePanel;
         private readonly BallisticRocketProgressBar _ballisticRocketProgressBar;
         private readonly Level _level;
-        
+
         private readonly PlayerInitData _playerInitData;
         private readonly SmallAlienEnemyInitData _smallAlienEnemyInitData;
         private readonly BigAlienEnemyInitData _bigAlienEnemyData;
@@ -79,12 +86,12 @@ namespace Project.Scripts.ECS.System
 
         public event Action PlayerIsSpawned;
 
-        public GameInitSystem(PlayerInitData playerData, SmallAlienEnemyInitData smallAlienEnemyData,
+        public GameInitSystem(PlayerInitData playerInitData, SmallAlienEnemyInitData smallAlienEnemyData,
             BigAlienEnemyInitData bigAlienEnemyData, GunnerAlienEnemyInitData gunnerAlienEnemyData,
             StoneInitData stoneData, CapsuleInitData capsuleData, LevelInitData levelData,
             HealingCoreInitData healingCoreData, GoldCoreInitData goldCoreData)
         {
-            _playerInitData = playerData;
+            _playerInitData = playerInitData;
             _smallAlienEnemyInitData = smallAlienEnemyData;
             _bigAlienEnemyData = bigAlienEnemyData;
             _gunnerAlienEnemyData = gunnerAlienEnemyData;
@@ -138,13 +145,16 @@ namespace Project.Scripts.ECS.System
 
         public void SpawnPlayer()
         {
+            PlayerData data = _dataBaseService.Content.Players[0];
+            
             Player.gameObject.SetActive(true);
-            PlayerIsSpawned?.Invoke();
             
             if (Player.Health.TargetHealth <= MinValue)
             {
-                Player.Health.SetHealthValue();
+                Player.Health.SetHealthValue(data.Health);
             }
+            
+            PlayerIsSpawned?.Invoke();
         }
 
         private void LaunchPlayerCapsule()
@@ -161,40 +171,29 @@ namespace Project.Scripts.ECS.System
 
         private PlayerActor CreatePlayer()
         {
-            var playerActor = Object.Instantiate(_playerInitData.Prefab, _playerSpawnPoint, Quaternion.identity);
-            
-            playerActor.MiningToolActor.GetAudioService(_audioSoundsService);
+            var data = _playerService.GetPlayerByType(PlayerActorType.CommonStardiver);
+            PlayerActor playerActor = Object.Instantiate(_playerInitData.Prefab, _playerSpawnPoint, Quaternion.identity);
+
+            MiningToolActor miningToolActor = playerActor.GetComponentInChildren<MiningToolActor>();
+            miningToolActor.GetAudioService(_audioSoundsService);
 
             PlayerTransform = playerActor.transform;
             
-            var player = _world.NewEntity();
-
-            ref var inputEventComponent = ref player.Get<InputEventComponent>();
-            inputEventComponent.PlayerInputController = playerActor.PlayerInputController;
-            
-            ref var playerComponent = ref player.Get<PlayerComponent>();
-            playerComponent.MiningTool = playerActor.MiningToolActor;
-
-            ref var movableComponent = ref player.Get<PlayerMovableComponent>();
-            movableComponent.MoveSpeed = _playerInitData.DefaultMoveSpeed;
-            movableComponent.RotationSpeed = _playerInitData.DefaultRotationSpeed;
-            movableComponent.Transform = playerActor.transform;
-            movableComponent.Rigidbody = playerActor.Rigidbody;
-
-            ref var animationsComponent = ref player.Get<AnimatedComponent>();
-            animationsComponent.Animator = playerActor.Animator;
+            InitPlayer(playerActor, data);
 
             return playerActor;
         }
         
         public SmallAlienEnemy CreateSmallAlienEnemy(PlayerActor target)
         {
+            EnemyData data = _enemyService.GetEnemyDataByType(EnemyAlienActorType.SmallAlien);
+            
             var smallEnemyAlienActor = _smallAlienEnemyPool.GetFreeElement();
             smallEnemyAlienActor.Construct(_experiencePoints, _textService);
 
             if (smallEnemyAlienActor.Health.TargetHealth <= MinValue)
             {
-                smallEnemyAlienActor.Health.SetHealthValue();
+                smallEnemyAlienActor.Health.SetHealthValue(data.Health);
             }
             
             var entity = _world.NewEntity();
@@ -204,6 +203,7 @@ namespace Project.Scripts.ECS.System
 
             ref var enemyMovableComponent = ref entity.Get<EnemyMovableComponent>();
             enemyMovableComponent.Transform = smallEnemyAlienActor.transform;
+            enemyMovableComponent.MoveSpeed = data.Speed;
             enemyMovableComponent.IsMoving = true;
 
             ref var enemyAnimationsComponent = ref entity.Get<AnimatedComponent>();
@@ -214,19 +214,21 @@ namespace Project.Scripts.ECS.System
             followComponent.NavMeshAgent = smallEnemyAlienActor.NavMeshAgent;
 
             ref var attackComponent = ref entity.Get<EnemyMeleeAttackComponent>();
-            attackComponent.Damage = _smallAlienEnemyInitData.DefaultDamage;
+            attackComponent.Damage = data.Damage;
 
             return smallEnemyAlienActor;
         }
 
         public BigAlienEnemy CreateBigAlienEnemy(PlayerActor target)
         {
+            EnemyData data = _enemyService.GetEnemyDataByType(EnemyAlienActorType.BigAlien);
+            
             var bigEnemyAlienActor = _bigAlienEnemyPool.GetFreeElement();
             bigEnemyAlienActor.Construct(_experiencePoints, _textService);
             
             if (bigEnemyAlienActor.Health.TargetHealth <= MinValue)
             {
-                bigEnemyAlienActor.Health.SetHealthValue();
+                bigEnemyAlienActor.Health.SetHealthValue(data.Health);
             }
             
             var entity = _world.NewEntity();
@@ -236,6 +238,7 @@ namespace Project.Scripts.ECS.System
 
             ref var enemyMovableComponent = ref entity.Get<EnemyMovableComponent>();
             enemyMovableComponent.Transform = bigEnemyAlienActor.transform;
+            enemyMovableComponent.MoveSpeed = data.Speed;
             enemyMovableComponent.IsMoving = true;
 
             ref var enemyAnimationsComponent = ref entity.Get<AnimatedComponent>();
@@ -249,19 +252,21 @@ namespace Project.Scripts.ECS.System
 
             ref var attackComponent = ref entity.Get<EnemyBigAlienAttackComponent>();
 
-            bigEnemyAlienActor.Weapon.SetData(target.transform, _bigAlienEnemyProjectilePool);
+            bigEnemyAlienActor.Weapon.SetData(target.transform, _bigAlienEnemyProjectilePool, data.Damage);
 
             return bigEnemyAlienActor;
         }
 
         public GunnerAlienEnemy CreateGunnerAlienEnemy(PlayerActor target)
         {
+            EnemyData data = _enemyService.GetEnemyDataByType(EnemyAlienActorType.GunnerAlien);
+            
             var gunnerEnemyAlienActor = _gunnerAlienEnemyPool.GetFreeElement();
             gunnerEnemyAlienActor.Construct(_experiencePoints, _textService);
             
             if (gunnerEnemyAlienActor.Health.TargetHealth <= MinValue)
             {
-                gunnerEnemyAlienActor.Health.SetHealthValue();
+                gunnerEnemyAlienActor.Health.SetHealthValue(data.Health);
             }
             
             var entity = _world.NewEntity();
@@ -271,6 +276,7 @@ namespace Project.Scripts.ECS.System
 
             ref var enemyMovableComponent = ref entity.Get<EnemyMovableComponent>();
             enemyMovableComponent.Transform = gunnerEnemyAlienActor.transform;
+            enemyMovableComponent.MoveSpeed = data.Speed;
             enemyMovableComponent.IsMoving = true;
 
             ref var enemyAnimationsComponent = ref entity.Get<AnimatedComponent>();
@@ -284,7 +290,7 @@ namespace Project.Scripts.ECS.System
 
             ref var attackComponent = ref entity.Get<EnemyGunnerAlienAttackComponent>();
 
-            gunnerEnemyAlienActor.Weapon.SetData(target.transform, _gunnerAlienEnemyProjectilePool);
+            gunnerEnemyAlienActor.Weapon.SetData(target.transform, _gunnerAlienEnemyProjectilePool, data.Damage);
 
             return gunnerEnemyAlienActor;
         }
@@ -313,6 +319,26 @@ namespace Project.Scripts.ECS.System
             goldCore.GetServices(_textService, _goldView);
             
             InitResource(goldCore);
+        }
+
+        private void InitPlayer(PlayerActor playerActor, PlayerData data)
+        {
+            var player = _world.NewEntity();
+
+            ref var inputEventComponent = ref player.Get<InputEventComponent>();
+            inputEventComponent.PlayerInputController = playerActor.PlayerInputController;
+            
+            ref var playerComponent = ref player.Get<PlayerComponent>();
+            playerComponent.MiningTool = playerActor.MiningToolActor;
+
+            ref var movableComponent = ref player.Get<PlayerMovableComponent>();
+            movableComponent.MoveSpeed = data.MoveSpeed;
+            movableComponent.RotationSpeed = data.RotationSpeed;
+            movableComponent.Transform = playerActor.transform;
+            movableComponent.Rigidbody = playerActor.Rigidbody;
+
+            ref var animationsComponent = ref player.Get<AnimatedComponent>();
+            animationsComponent.Animator = playerActor.Animator;
         }
 
         private void InitResource(ResourceActor resource)

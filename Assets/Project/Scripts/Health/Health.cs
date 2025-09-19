@@ -82,8 +82,9 @@ namespace Project.Scripts.Health
                 TargetHealth = MaxHealth;
         }
 
-        public void SetHealthValue()
+        public void SetHealthValue(float healthValue)
         {
+            _value = healthValue;
             TargetHealth = _value;
             
             OnChangeHealth();

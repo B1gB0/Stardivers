@@ -39,6 +39,8 @@ namespace Project.Scripts.DI
             builder.AddSingleton(typeof(CharacteristicsWeaponDataService), 
                 typeof(ICharacteristicsWeaponDataService));
             builder.AddSingleton(typeof(CardService), typeof(ICardService));
+            builder.AddSingleton(typeof(EnemyService), typeof(IEnemyService));
+            builder.AddSingleton(typeof(PlayerService), typeof(IPlayerService));
             Debug.Log("Регистрация сервисов завершена");
         }
         
