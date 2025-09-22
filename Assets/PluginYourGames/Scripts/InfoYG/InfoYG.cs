@@ -35,9 +35,9 @@ namespace YG
                     infoRes = Resources.Load<InfoYG>(NAME_INFOYG_FILE);
 
                     instance = infoRes;
-#if PLATFORM_WEBGL
+
                     if (EditorUtility.DisplayDialog($"Optimal settings",
-                        "Выставить оптимальные настройки проекта и плагина для платформы по умолчанию «Яндекс Игры»? (Рекомендуется)\n\nSet the optimal project and plugin settings for the default platform «Yandex Games» platform? (Recommended)",
+                        "Установить оптимальные настройки проекта и плагина для платформы по умолчанию «Яндекс Игры»? (Рекомендуется)\n\nSet the optimal project and plugin settings for the default platform «Yandex Games» platform? (Recommended)",
                         "Yes",
                         "No"))
                     {
@@ -46,21 +46,10 @@ namespace YG
                     }
                     else
                     {
-                        NullPlatform();
-                    }
-#else
-                    EditorUtility.DisplayDialog($"Optimal settings",
-                        "В настройках билда не выбрана платформа WebGL. Оптимальные настройки для стандартной платформы «Яндекс Игры» не будут установлены.\nЧтобы их установить: смените платформу на WebGL, в настройках плагина включите опцию Auto Apply Settings и переключите платформу в поле Platforms.\n\nThe WebGL platform is not selected in the build settings. The optimal settings for the standard Yandex Games platform will not be set.\nTo install them: change the platform to WebGL, enable the Auto Apply Settings option in the plugin settings and switch the platform in the Platforms field.",
-                        "Ok");
-
-                    NullPlatform();
-#endif
-                    void NullPlatform()
-                    {
                         instance.Basic.platform = null;
                         instance.Basic.autoApplySettings = false;
                         instance.Basic.archivingBuild = false;
-                        CleanPlatforms();
+                        SetPlatform();
                         CompilationPipeline.RequestScriptCompilation();
                     }
                 }
@@ -74,8 +63,8 @@ namespace YG
             return instance;
         }
 
-        public ProjectSettings platformOptions { get => Basic.platform.projectSettings; }
 #if UNITY_EDITOR
+        public ProjectSettings platformOptions { get => Basic.platform.projectSettings; }
         public static void SetDefaultPlatform()
         {
             string standartPlatformSettingsPath = $"{PATCH_ASSETS_PLATFORMS}/YandexGames/YandexGames.asset";
@@ -96,32 +85,39 @@ namespace YG
             }
         }
 
-        public static void CleanPlatforms(string ignorePlatform = null)
+        public static void SetPlatform(string selectPlatform = null)
         {
             string[] platfFolders = Directory.GetDirectories(PATCH_PC_PLATFORMS);
 
             for (int i = 0; i < platfFolders.Length; i++)
             {
-                platfFolders[i] = platfFolders[i].Replace("\\", "/");
-                string folder = platfFolders[i] + "/SDK";
-
+                string folder = Path.Combine(platfFolders[i], "SDK").Replace("\\", "/");
                 if (!Directory.Exists(folder))
                     continue;
 
-                string[] files = Directory.GetFiles(folder);
-                IEnumerable<string> asmdefFiles = files.Where(file => Path.GetExtension(file).Equals(".asmdef", StringComparison.OrdinalIgnoreCase));
-                List<string> asmdefList = asmdefFiles.ToList();
-
-                for (int a = 0; a < asmdefList.Count; a++)
-                    EditorScr.FileYG.Delete(asmdefList[a]);
-
                 string platformName = Path.GetFileName(platfFolders[i]) + "Platform";
+                string asmdefPath = Path.Combine(folder, platformName + ".asmdef").Replace("\\", "/");
 
-                if (!string.IsNullOrEmpty(ignorePlatform) && platformName != ignorePlatform)
+                bool shouldHaveAsmdef = !string.IsNullOrEmpty(selectPlatform) && platformName != selectPlatform;
+
+                bool asmdefExists = File.Exists(asmdefPath);
+
+                if (shouldHaveAsmdef)
                 {
-                    string content = File.ReadAllText($"{PATCH_PC_YG2}/Scripts/Platform/Editor/AsmdefPlatformCreate.txt");
-                    content = content.Replace("___PLATFORM_NAME___", platformName);
-                    File.WriteAllText($"{folder}/{platformName}.asmdef", content);
+                    if (!asmdefExists)
+                    {
+                        string templatePath = $"{PATCH_PC_YG2}/Scripts/Platform/Editor/AsmdefPlatformCreate.txt";
+                        string content = File.ReadAllText(templatePath);
+                        content = content.Replace("___PLATFORM_NAME___", platformName);
+                        File.WriteAllText(asmdefPath, content);
+                    }
+                }
+                else
+                {
+                    if (asmdefExists)
+                    {
+                        File.Delete(asmdefPath);
+                    }
                 }
             }
         }

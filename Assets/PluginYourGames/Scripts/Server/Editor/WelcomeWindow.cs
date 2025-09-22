@@ -16,11 +16,9 @@ namespace YG.EditorScr
         {
             EditorApplication.delayCall += () =>
             {
-                if (PlayerPrefs.GetInt(InfoYG.FIRST_STARTUP_KEY, 0) == 1)
+                if (PluginPrefs.GetInt(InfoYG.FIRST_STARTUP_KEY, 0) == 1)
                 {
-                    PlayerPrefs.SetInt(InfoYG.FIRST_STARTUP_KEY, 2);
-                    PlayerPrefs.Save();
-
+                    PluginPrefs.SetInt(InfoYG.FIRST_STARTUP_KEY, 2);
                     ShowWindow();
                 }
             };
@@ -30,7 +28,7 @@ namespace YG.EditorScr
         public static void ShowWindow()
         {
             WelcomeWindow window = GetWindow<WelcomeWindow>($"Welcome to {InfoYG.NAME_PLUGIN}!");
-            window.position = new Rect(250, 150, 700, 540);
+            window.position = new Rect(100, 150, 700, 540);
             window.minSize = new Vector2(700, 540);
         }
 
@@ -139,8 +137,8 @@ namespace YG.EditorScr
                 buttonStyle.fontSize = 20;
                 if (GUILayout.Button(Langs.documentation, buttonStyle, GUILayout.Height(35), GUILayout.Width(175)))
                     DocumentationEditor.DocMenuItem();
-                if (GUILayout.Button(Langs.helpChat, buttonStyle, GUILayout.Height(35), GUILayout.Width(175)))
-                    DocumentationEditor.ChatMenuItem();
+                if (GUILayout.Button(Langs.community, buttonStyle, GUILayout.Height(35), GUILayout.Width(175)))
+                    DocumentationEditor.HelpMenuItem();
                 if (GUILayout.Button(Langs.video, buttonStyle, GUILayout.Height(35), GUILayout.Width(175)))
                     DocumentationEditor.VideoMenuItem();
 

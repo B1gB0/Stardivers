@@ -6,11 +6,13 @@ using Project.Scripts.Services;
 using Project.Scripts.UI.Panel;
 using Project.Scripts.UI.View;
 using UnityEngine;
+using YG;
 
 namespace Project.Scripts.Levels
 {
     public abstract class Level : MonoBehaviour
     {
+        private const string LeaderboardName = "BestPlayers";
         protected const float MinValue = 0f;
         
         [field: SerializeField] public bool IsLaunchPlayerCapsule { get; private set; }
@@ -33,6 +35,12 @@ namespace Project.Scripts.Levels
         private ResourcesSpawner _resourcesSpawner;
 
         public event Action IsInitiatedSpawners;
+
+        private void OnDestroy()
+        {
+            YG2.SaveProgress();
+            YG2.SetLeaderboard(LeaderboardName, YG2.saves.AcumulatedScore);
+        }
 
         public virtual void OnStartLevel()
         {

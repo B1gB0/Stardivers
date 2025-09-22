@@ -1,12 +1,7 @@
 using System;
-using Project.Game.Scripts;
-using Project.Scripts.Game.GameRoot;
-using Project.Scripts.Services;
 using Project.Scripts.UI.View;
-using Reflex.Attributes;
 using UnityEngine;
 using UnityEngine.Audio;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace Project.Scripts.UI.Panel
@@ -30,21 +25,11 @@ namespace Project.Scripts.UI.Panel
         [SerializeField] private Slider _musicVolumeSlider;
         [SerializeField] private Slider _effectsVolumeSlider;
 
-        private AudioSoundsService _audioSoundsService;
-        private IPauseService _pauseService;
-
-        public event Action OnExitButtonPressed;
-
-        [Inject]
-        public void Construct(AudioSoundsService audioSoundsService, IPauseService pauseService)
-        {
-            _audioSoundsService = audioSoundsService;
-            _pauseService = pauseService;
-        }
+        public event Action OnBackToSceneButtonPressed;
 
         private void OnEnable()
         {
-            _backToSceneButton.onClick.AddListener(PlayGame);
+            _backToSceneButton.onClick.AddListener(MoveBackToScene);
             _settingsButton.gameObject.SetActive(false);
 
             _musicVolumeSlider.onValueChanged.AddListener(ChangeMusicVolume);
@@ -53,7 +38,7 @@ namespace Project.Scripts.UI.Panel
 
         private void OnDisable()
         {
-            _backToSceneButton.onClick.RemoveListener(PlayGame);
+            _backToSceneButton.onClick.RemoveListener(MoveBackToScene);
             _settingsButton.gameObject.SetActive(true);
 
             _musicVolumeSlider.onValueChanged.RemoveListener(ChangeMusicVolume);
@@ -83,24 +68,9 @@ namespace Project.Scripts.UI.Panel
             }
         }
 
-        public void StopGame()
+        private void MoveBackToScene()
         {
-            if (SceneManager.GetActiveScene().name == Scenes.MainMenu)
-                return;
-
-            _pauseService.StopGame();
-        }
-
-        private void PlayGame()
-        {
-            _audioSoundsService.PlaySound(Sounds.Button);
-
-            OnExitButtonPressed?.Invoke();
-            
-            if (SceneManager.GetActiveScene().name == Scenes.MainMenu)
-                return;
-
-            _pauseService.PlayGame();
+            OnBackToSceneButtonPressed?.Invoke();
         }
 
         private void ChangeMusicVolume(float volume)

@@ -19,7 +19,7 @@ namespace Project.Scripts.Experience
             _currentLevel = DefaultLevel;
             _currentMaxValueOfLevel = _playerProgression.Levels[_counterLevel];
 
-            _currentValue = TargetValue;
+            _currentValue = TargetExperienceValue;
         }
 
         private int _currentMaxValueOfLevel;
@@ -28,8 +28,8 @@ namespace Project.Scripts.Experience
         private int _currentLevel;
         private int _newValue;
         
-        private int TargetValue => _experienceScoreActorVisitor.AccumulatedExperience;
-        
+        private int TargetExperienceValue => _experienceScoreActorVisitor.AccumulatedExperience;
+
         public event Action<float, float, float> ValueIsChanged;
 
         public event Action<int, float, float> ProgressBarLevelIsUpgraded;
@@ -42,18 +42,18 @@ namespace Project.Scripts.Experience
 
             if (_counterLevel > _playerProgression.Levels.Count - 1) return;
             
-            if (TargetValue >= _currentMaxValueOfLevel)
+            if (TargetExperienceValue >= _currentMaxValueOfLevel)
             {
                 _counterLevel++;
                 _currentMaxValueOfLevel = _playerProgression.Levels[_counterLevel];
 
-                _newValue = Math.Abs(_currentMaxValueOfLevel - TargetValue);
+                _newValue = Math.Abs(_currentMaxValueOfLevel - TargetExperienceValue);
                 _experienceScoreActorVisitor.UpdateAccumulatedExperience(_newValue);
 
-                ProgressBarLevelIsUpgraded?.Invoke(_counterLevel, TargetValue, _currentMaxValueOfLevel);
-                _currentValue = TargetValue;
+                ProgressBarLevelIsUpgraded?.Invoke(_counterLevel, TargetExperienceValue, _currentMaxValueOfLevel);
+                _currentValue = TargetExperienceValue;
 
-                if (TargetValue <= _currentMaxValueOfLevel)
+                if (TargetExperienceValue <= _currentMaxValueOfLevel)
                 {
                     for (int i = _currentLevel; i < _counterLevel; i++)
                     {
@@ -67,8 +67,8 @@ namespace Project.Scripts.Experience
             }
             else
             {
-                ValueIsChanged?.Invoke( _currentValue, TargetValue, _currentMaxValueOfLevel );
-                _currentValue = TargetValue;
+                ValueIsChanged?.Invoke( _currentValue, TargetExperienceValue, _currentMaxValueOfLevel );
+                _currentValue = TargetExperienceValue;
             }
         }
     }

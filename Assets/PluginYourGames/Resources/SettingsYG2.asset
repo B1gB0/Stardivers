@@ -147,7 +147,7 @@ MonoBehaviour:
     enable: 1
     saveScoreAnonymousPlayers: 1
     listLBSim:
-    - technoName: test
+    - technoName: BestPlayers
       entries: '1. Max: 10
 
         2. Masha: 15
@@ -367,11 +367,16 @@ MonoBehaviour:
     objectName: NameYourObject
     methodName: NameYourMethod
   RewardedAdv:
-    rewardedAfterClosing: 1
     skipInterAdvAfterReward: 0
     labelAdvSimLabel: 0
   ServerTime:
-    serverTime: 1721201231000
+    manualDateSetup: 0
+    year: 2025
+    month: 6
+    day: 15
+    hour: 12
+    minute: 30
+    second: 30
   Storage:
     saveLocal: 0
     saveCloud: 1
@@ -405,7 +410,7 @@ MonoBehaviour:
       color2: {r: 0.36, g: 0.09, b: 1, a: 1}
     customProgressBar: 1
     progressBarSettigs:
-      round: 1
+      round: 0
       roundAngle: 10
       width: 30
       height: 24
@@ -413,7 +418,10 @@ MonoBehaviour:
       color2: {r: 1, g: 0.831, b: 0.149, a: 0.7}
     fixedAspectRatio: 0
     aspectRatio: 16/9
+    disableForMobile: 1
     fillBackground: 0
+    imageBackground: 0
+    imageName: background.jpg
     gradientBackgroundByAspectRatio:
       radial: 0
       angleInclination: 140
@@ -433,13 +441,14 @@ MonoBehaviour:
     skipInterAdvAfterReward: 0
     saveLocal: 0
     saveCloud: 0
+    autoPauseGame: 0
     selectWebGLTemplate: 1
     runInBackground: 1
     enableExceptions: 1
     compressionFormat: 1
     decompressionFallback: 1
     autoGraphicsAPI: 1
-    minimalCodeCompression: 1
+    managedStrippingLevel: 1
     dataCaching: 0
     colorSpace: 0
     archivingBuild: 0

@@ -16,13 +16,14 @@ namespace YG.Insides
     public partial class PlatformToggles
     {
 #if UNITY_EDITOR
+        public bool autoPauseGame = false;
         public bool selectWebGLTemplate = true;
         public bool runInBackground = true;
         public bool enableExceptions = true;
         public bool compressionFormat = true;
         public bool decompressionFallback = true;
         public bool autoGraphicsAPI = true;
-        public bool minimalCodeCompression = true;
+        public bool managedStrippingLevel = true;
         public bool dataCaching;
         public bool colorSpace;
         public bool archivingBuild;

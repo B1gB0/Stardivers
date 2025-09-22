@@ -51,7 +51,7 @@ namespace YG
 
         public static void SetDefaultSaves()
         {
-            Message("Reset Save Progress");
+            Message("Set Default Saves");
             int idSave = saves.idSave;
             saves = new SavesYG { idSave = idSave };
 
@@ -116,7 +116,7 @@ namespace YG.Insides
 #if UNITY_EDITOR
         private static string PATH_SAVES_EDITOR
         {
-            get { return InfoYG.PATCH_PC_EDITOR + "/SavesEditorYG2.json"; }
+            get { return Path.Combine(InfoYG.PATCH_PC_EDITOR, "SavesEditorYG2.json"); }
         }
 
         public static void SaveEditor()

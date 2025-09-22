@@ -7,7 +7,7 @@ namespace YG
     {
         public int Gold;
         public int RedCrystal;
-        public int CountKilledEnemy;
+        public int AcumulatedScore;
         
         public GunCharacteristics GunCharacteristics;
         public MachineGunCharacteristics MachineGunCharacteristics;
