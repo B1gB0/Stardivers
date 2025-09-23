@@ -40,7 +40,7 @@ namespace Project.Scripts.Weapon.CharacteristicsOfWeapon
         {
             PlayerData data = _playerService.GetPlayerDataByType(PlayerActorType.CommonStardiver);
 
-            float newDiggingSpeed = data.DiggingSpeed + Mathf.Round(data.DiggingSpeed * diggingSpeedFactor);
+            float newDiggingSpeed = data.DiggingSpeed - Mathf.Round(data.DiggingSpeed * diggingSpeedFactor);
 
             _playerService.PlayerActor.MiningToolActor.ChangeDiggingSpeed(newDiggingSpeed);
         }
