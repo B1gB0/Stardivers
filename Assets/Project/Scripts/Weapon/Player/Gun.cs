@@ -39,6 +39,7 @@ namespace Project.Scripts.Weapon.Player
             _detector = detector;
             _audioSoundsService = audioSoundsService;
             GunCharacteristics.SetStartingCharacteristics(data);
+            Type = data.WeaponType;
         }
 
         private void Awake()

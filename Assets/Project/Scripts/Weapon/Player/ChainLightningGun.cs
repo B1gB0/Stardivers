@@ -39,6 +39,7 @@ namespace Project.Scripts.Weapon.Player
             _audioService = audioService;
             _detector = detector;
             ChainLightningGunCharacteristics.SetStartingCharacteristics(data);
+            Type = data.WeaponType;
         }
 
         private void Awake()

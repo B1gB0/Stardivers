@@ -32,6 +32,7 @@ namespace Project.Scripts.Weapon.Player
             _minesButton = button;
             _audioSoundsService = audioSoundsService;
             MineCharacteristics.SetStartingCharacteristics(data);
+            Type = data.WeaponType;
         }
 
         private void Awake()

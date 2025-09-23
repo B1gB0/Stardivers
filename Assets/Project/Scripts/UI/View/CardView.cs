@@ -135,7 +135,7 @@ namespace Project.Scripts.UI.View
                     };
 
                     if (improvementCard.CharacteristicType is CharacteristicType.MaxCountShots
-                        or CharacteristicType.MaxCountEnemiesInChain)
+                        or CharacteristicType.MaxCountEnemiesInChain or CharacteristicType.Health)
                         _characteristics.text = " +" + improvementCard.Value;
                     else
                         _characteristics.text = " +" + improvementCard.Value * 10 + "%";

@@ -35,6 +35,7 @@ namespace Project.Scripts.Weapon.Player
             _detector = detector;
             _audioSoundsService = audioSoundsService;
             FragGrenadeCharacteristics.SetStartingCharacteristics(data);
+            Type = data.WeaponType;
         }
 
         private void Awake()
