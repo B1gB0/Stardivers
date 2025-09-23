@@ -48,6 +48,9 @@ namespace Project.Scripts.UI.Panel
         {
             foreach (WeaponCard card in _cardService.WeaponCards)
             {
+                if (card.WeaponType == _weaponHolder.Weapons[StartWeapon].Type)
+                    continue;
+                
                 _currentWeaponCards.Add(card);
             }
         }

@@ -6,7 +6,7 @@ namespace Project.Scripts.Weapon.Player
 {
     public abstract class PlayerWeapon : MonoBehaviour
     {
-        [field: SerializeField] public WeaponType Type { get; protected set; }
+        public WeaponType Type { get; protected set; }
 
         public abstract void Shoot();
 
