@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Project.Game.Scripts;
 using Project.Scripts.Cards;
 using Project.Scripts.Services;
@@ -28,16 +29,19 @@ namespace Project.Scripts.UI.Panel
         private AudioSoundsService _audioSoundsService;
         private IPauseService _pauseService;
         private ICardService _cardService;
+        private IPlayerService _playerService;
 
         private WeaponFactory _weaponFactory;
         private WeaponHolder _weaponHolder;
 
         [Inject]
-        private void Construct(AudioSoundsService audioSoundsService, IPauseService pauseService, ICardService cardService)
+        private void Construct(AudioSoundsService audioSoundsService, IPauseService pauseService, 
+            ICardService cardService, IPlayerService playerService)
         {
             _audioSoundsService = audioSoundsService;
             _pauseService = pauseService;
             _cardService = cardService;
+            _playerService = playerService;
         }
 
         private void Start()
@@ -72,7 +76,8 @@ namespace Project.Scripts.UI.Panel
 
         public void GetStartImprovements()
         {
-            UpdateImprovementCardsByWeapon(_weaponHolder.Weapons[StartWeapon]);
+            UpdateImprovementCardsByTypeWeapon(_weaponHolder.Weapons[StartWeapon].Type);
+            UpdateImprovementCardsByTypeWeapon(WeaponType.None);
         }
 
         public void Show()
@@ -141,11 +146,11 @@ namespace Project.Scripts.UI.Panel
             }
         }
 
-        private void UpdateImprovementCardsByWeapon(PlayerWeapon playerWeapon)
+        private void UpdateImprovementCardsByTypeWeapon(WeaponType type)
         {
             foreach (ImprovementCard card in _cardService.ImprovementCards)
             {
-                if (card.WeaponType == playerWeapon.Type)
+                if (card.WeaponType == type)
                 {
                     _currentImprovementCards.Add(card);
                 }
@@ -158,20 +163,26 @@ namespace Project.Scripts.UI.Panel
 
             if (card is ImprovementCard improvementCard)
             {
-                foreach (var weapon in _weaponHolder.Weapons)
+                if (improvementCard.WeaponType == WeaponType.None)
                 {
-                    if (improvementCard.WeaponType == weapon.Type)
+                    _playerService.PlayerActor.AcceptImprovement(_weaponVisitor, 
+                        improvementCard.CharacteristicType, improvementCard.Value);
+                }
+                else
+                {
+                    foreach (var weapon in _weaponHolder.Weapons.Where(weapon => improvementCard.WeaponType == weapon.Type))
                     {
-                        weapon.AcceptWeaponImprovement(_weaponVisitor, improvementCard.CharacteristicType, improvementCard.Value);
+                        weapon.AcceptWeaponImprovement(_weaponVisitor, improvementCard.CharacteristicType, 
+                            improvementCard.Value);
                     }
                 }
-                
+
                 _currentImprovementCards.Remove(improvementCard);
             }
             else if (card is WeaponCard weaponCard)
             {
                 PlayerWeapon weapon = await _weaponFactory.CreateWeapon(weaponCard.WeaponType);
-                UpdateImprovementCardsByWeapon(weapon);
+                UpdateImprovementCardsByTypeWeapon(weapon.Type);
                 _currentWeaponCards.Remove(weaponCard);
             }
 

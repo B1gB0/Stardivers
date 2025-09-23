@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
-using Project.Scripts.Player.PlayerInputModule;
-using Project.Scripts.Weapon.Player;
+﻿using Project.Scripts.Player.PlayerInputModule;
+using Project.Scripts.Services;
+using Project.Scripts.Weapon.CharacteristicsOfWeapon;
+using Project.Scripts.Weapon.Improvements;
 using UnityEngine;
 
 namespace Project.Scripts.ECS.EntityActors
@@ -12,7 +13,13 @@ namespace Project.Scripts.ECS.EntityActors
         [field: SerializeField] public Rigidbody Rigidbody { get; private set; }
         [field: SerializeField] public PlayerInputController PlayerInputController { get; private set; }
         [field: SerializeField] public MiningToolActor MiningToolActor { get; private set; }
-        [field: SerializeField] public List<PlayerWeapon> Weapons { get; private set; }
+        
+        public PlayerCharacteristics PlayerCharacteristics { get; private set; }
+
+        public void Construct(IPlayerService playerService)
+        {
+            PlayerCharacteristics = new PlayerCharacteristics(playerService);
+        }
 
         private void OnEnable()
         {
@@ -27,6 +34,11 @@ namespace Project.Scripts.ECS.EntityActors
         private void Die()
         {
             gameObject.SetActive(false);
+        }
+        
+        public void AcceptImprovement(IWeaponVisitor weaponVisitor, CharacteristicType type, float value)
+        {
+            weaponVisitor.Visit(this, type, value);
         }
     }
 }

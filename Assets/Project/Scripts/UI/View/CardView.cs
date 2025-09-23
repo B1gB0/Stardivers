@@ -17,6 +17,9 @@ namespace Project.Scripts.UI.View
         private const int FragGrenades = 3;
         private const int Mines = 4;
         private const int ChainLightningGun = 5;
+        private const int Health = 6;
+        private const int DiggingSpeed = 7;
+        private const int MoveSpeed = 8;
 
         private const string Ru = "ru";
         private const string En = "en";
@@ -87,6 +90,18 @@ namespace Project.Scripts.UI.View
             switch (_card)
             {
                 case ImprovementCard improvementCard:
+                    
+                    if (_card.WeaponType == WeaponType.None)
+                    {
+                        _icon.sprite = improvementCard.CharacteristicType switch
+                        {
+                            CharacteristicType.Health => _sprites[Health],
+                            CharacteristicType.DiggingSpeed => _sprites[DiggingSpeed],
+                            CharacteristicType.MoveSpeed => _sprites[MoveSpeed],
+                            _ => _icon.sprite
+                        };
+                    }
+                    
                     _label.text = YG2.lang switch
                     {
                         Ru => improvementCard.CharacteristicsLocalizationData.NameRu,

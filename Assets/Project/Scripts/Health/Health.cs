@@ -71,6 +71,17 @@ namespace Project.Scripts.Health
                 Die?.Invoke();
         }
 
+        public void ImproveHealth(float newHealthValue)
+        {
+            var currentHealthPercentage = _currentHealth / MaxHealth;
+            var maxHealth = MaxHealth + newHealthValue;
+            
+            MaxHealth = maxHealth;
+            var currentHealth = MaxHealth * currentHealthPercentage;
+            
+            SetHealthValue(currentHealth);
+        }
+
         public void AddHealth(float healthValue)
         {
             IsSpawnedHealingText?.Invoke(healthValue.ToString(), transform, FloatingTextViewType.Healing, _healingColor);

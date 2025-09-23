@@ -9,7 +9,6 @@ namespace Project.Scripts.ECS.EntityActors
         private const float MinValue = 0f;
 
         [SerializeField] private float _miningRange;
-        [SerializeField] private float _speed;
         [SerializeField] private float _damage;
         
         [SerializeField] private Transform _detectionPoint;
@@ -18,10 +17,17 @@ namespace Project.Scripts.ECS.EntityActors
 
         private ParticleSystem _hitEffectRef;
         private ResourceActor _resourceRef;
+        private float _diggingSpeed;
         private float _lastHitTime;
         private AudioSoundsService _audioSoundsService;
 
         public bool IsMining { get; private set; }
+        
+        public void Construct(AudioSoundsService audioSoundsService, float diggingSpeed)
+        {
+            _audioSoundsService = audioSoundsService;
+            _diggingSpeed = diggingSpeed;
+        }
 
         private void Awake()
         {
@@ -52,7 +58,7 @@ namespace Project.Scripts.ECS.EntityActors
 
                     _hitEffectRef.Play();
 
-                    _lastHitTime = _speed;
+                    _lastHitTime = _diggingSpeed;
                 }
 
                 _lastHitTime -= Time.deltaTime;
@@ -63,9 +69,9 @@ namespace Project.Scripts.ECS.EntityActors
             }
         }
 
-        public void GetAudioService(AudioSoundsService audioSoundsService)
+        public void ChangeDiggingSpeed(float newDiggingSpeed)
         {
-            _audioSoundsService = audioSoundsService;
+            _diggingSpeed = newDiggingSpeed;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Project.Scripts.Weapon.CharacteristicsOfWeapon;
+﻿using Project.Scripts.ECS.EntityActors;
+using Project.Scripts.Weapon.CharacteristicsOfWeapon;
 using Project.Scripts.Weapon.Player;
 
 namespace Project.Scripts.Weapon.Improvements
@@ -11,5 +12,6 @@ namespace Project.Scripts.Weapon.Improvements
         public void Visit(FragGrenades fragGrenades, CharacteristicType type, float value);
         public void Visit(MachineGun machineGun, CharacteristicType type, float value);
         public void Visit(ChainLightningGun chainLightningGun, CharacteristicType type, float value);
+        public void Visit(PlayerActor player, CharacteristicType type, float value);
     }
 }

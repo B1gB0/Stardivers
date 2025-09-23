@@ -15,6 +15,7 @@ namespace Project.Scripts.Weapon.Player
     public class ChainLightningGun : PlayerWeapon
     {
         private const bool IsAutoExpandPool = true;
+        private const string PoolName = "ChainLightningPool";
 
         [SerializeField] private Transform _shootPoint;
         [SerializeField] private LightningLineRendererProjectile lightningLineRendererPrefab;
@@ -30,9 +31,7 @@ namespace Project.Scripts.Weapon.Player
         private bool _isShooting;
         private int _currentCharges;
         private Coroutine _chainCoroutine;
-
-        private const string PoolName = "ChainLightningPool";
-
+        
         public ChainLightningGunCharacteristics ChainLightningGunCharacteristics { get; } = new();
 
         public void Construct(AudioSoundsService audioService, EnemyDetector detector, CharacteristicsWeaponData data)
@@ -137,8 +136,6 @@ namespace Project.Scripts.Weapon.Player
 
             var lightning = _lightningPool.GetFreeElement();
             lightning.SetPosition(startPoint, endPoint);
-            // lightning.SetCharacteristics(ChainLightningGunCharacteristics.Damage,
-            //     ChainLightningGunCharacteristics.ProjectileSpeed);
 
             StartCoroutine(ReturnLightningToPool(lightning, _lightningDuration));
         }

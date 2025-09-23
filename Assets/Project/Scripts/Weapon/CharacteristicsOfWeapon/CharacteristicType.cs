@@ -9,6 +9,9 @@
         ProjectileSpeed = 4,
         ExplosionRadius = 5,
         MaxCountShots = 6,
-        MaxCountEnemiesInChain = 7
+        MaxCountEnemiesInChain = 7,
+        Health = 8,
+        DiggingSpeed = 9,
+        MoveSpeed = 10
     }
 }

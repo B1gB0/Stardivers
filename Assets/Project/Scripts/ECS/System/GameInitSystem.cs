@@ -15,6 +15,7 @@ using Project.Scripts.Projectiles.Enemy;
 using Project.Scripts.Services;
 using Project.Scripts.UI.Panel;
 using Project.Scripts.UI.View;
+using Project.Scripts.Weapon.CharacteristicsOfWeapon;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -77,9 +78,9 @@ namespace Project.Scripts.ECS.System
         public Health.Health PlayerHealth { get; private set; }
         public Transform PlayerTransform { get; private set; }
 
-        public List<Vector3> SmallEnemyAlienSpawnPoints { get; private set; }
-        public List<Vector3> BigEnemyAlienSpawnPoints { get; private set; }
-        public List<Vector3> GunnerEnemyAlienSpawnPoints { get; private set; }
+        public List<Vector3> SmallEnemyAlienSpawnPoints { get; }
+        public List<Vector3> BigEnemyAlienSpawnPoints { get; }
+        public List<Vector3> GunnerEnemyAlienSpawnPoints { get; }
         public List<Vector3> StoneSpawnPoints { get; private set; }
         public List<Vector3> GoldCoreSpawnPoints { get; private set; }
         public List<Vector3> HealingCoreSpawnPoints { get; private set; }
@@ -171,11 +172,11 @@ namespace Project.Scripts.ECS.System
 
         private PlayerActor CreatePlayer()
         {
-            var data = _playerService.GetPlayerByType(PlayerActorType.CommonStardiver);
+            var data = _playerService.GetPlayerDataByType(PlayerActorType.CommonStardiver);
             PlayerActor playerActor = Object.Instantiate(_playerInitData.Prefab, _playerSpawnPoint, Quaternion.identity);
 
             MiningToolActor miningToolActor = playerActor.GetComponentInChildren<MiningToolActor>();
-            miningToolActor.GetAudioService(_audioSoundsService);
+            miningToolActor.Construct(_audioSoundsService, data.DiggingSpeed);
 
             PlayerTransform = playerActor.transform;
             
@@ -339,6 +340,9 @@ namespace Project.Scripts.ECS.System
 
             ref var animationsComponent = ref player.Get<AnimatedComponent>();
             animationsComponent.Animator = playerActor.Animator;
+            
+            playerActor.Construct(_playerService);
+            _playerService.GetPlayer(playerActor, movableComponent);
         }
 
         private void InitResource(ResourceActor resource)
