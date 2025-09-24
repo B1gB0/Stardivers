@@ -26,7 +26,7 @@ namespace Project.Scripts.Levels.Triggers
         {
             if (trigger.TryGetComponent(out PlayerActor _))
             {
-                gameObject.SetActive(false);
+                Deactivate();
             }
         }
 
