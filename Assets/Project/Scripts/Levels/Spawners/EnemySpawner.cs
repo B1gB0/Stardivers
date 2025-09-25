@@ -6,6 +6,7 @@ namespace Project.Scripts.Levels.Spawners
 {
     public class EnemySpawner
     {
+        private const int MinValue = 0;
         private const float RandomPositionFactor = 2f;
         
         private readonly GameInitSystem _gameInitSystem;
@@ -17,7 +18,7 @@ namespace Project.Scripts.Levels.Spawners
         
         public void SpawnGunnerAlienEnemy()
         {
-            if(_gameInitSystem.SmallEnemyAlienSpawnPoints.Count == 0)
+            if(_gameInitSystem.SmallEnemyAlienSpawnPoints.Count == MinValue)
                 return;
             
             foreach (var enemySpawnPoint in _gameInitSystem.GunnerEnemyAlienSpawnPoints)
@@ -38,7 +39,7 @@ namespace Project.Scripts.Levels.Spawners
 
         public void SpawnSmallAlienEnemy()
         {
-            if(_gameInitSystem.SmallEnemyAlienSpawnPoints.Count == 0)
+            if(_gameInitSystem.SmallEnemyAlienSpawnPoints.Count == MinValue)
                 return;
             
             foreach (var enemySpawnPoint in _gameInitSystem.SmallEnemyAlienSpawnPoints)
@@ -58,7 +59,7 @@ namespace Project.Scripts.Levels.Spawners
 
         public void SpawnBigEnemyAlien()
         {
-            if(_gameInitSystem.BigEnemyAlienSpawnPoints.Count == 0)
+            if(_gameInitSystem.BigEnemyAlienSpawnPoints.Count == MinValue)
                 return;
             
             foreach (var enemySpawnPoint in _gameInitSystem.BigEnemyAlienSpawnPoints)
