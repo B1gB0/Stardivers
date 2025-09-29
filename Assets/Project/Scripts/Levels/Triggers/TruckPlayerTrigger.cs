@@ -3,13 +3,13 @@ using UnityEngine;
 
 namespace Project.Scripts.Levels.Triggers
 {
-    public class TruckTrigger : Trigger
+    public class TruckPlayerTrigger : Trigger
     {
         public bool IsPlayerNearby { get; private set; }
         
         private void OnTriggerEnter(Collider trigger)
         {
-            if (trigger.TryGetComponent(out PlayerActor player) || trigger.TryGetComponent(out ResourceActor resource))
+            if (trigger.TryGetComponent(out PlayerActor player))
             {
                 IsPlayerNearby = true;
             }
@@ -17,7 +17,7 @@ namespace Project.Scripts.Levels.Triggers
 
         private void OnTriggerExit(Collider trigger)
         {
-            if (trigger.TryGetComponent(out PlayerActor player) || trigger.TryGetComponent(out ResourceActor resource))
+            if (trigger.TryGetComponent(out PlayerActor player))
             {
                 IsPlayerNearby = false;
             }

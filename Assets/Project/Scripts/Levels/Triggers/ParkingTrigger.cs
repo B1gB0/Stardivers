@@ -12,6 +12,7 @@ namespace Project.Scripts.Levels.Triggers
         {
             if (trigger.TryGetComponent(out Truck truck))
             {
+                Debug.Log("грузовик во вратах");
                 Entrance.OpenGate();
             }
         }
@@ -20,6 +21,7 @@ namespace Project.Scripts.Levels.Triggers
         {
             if (trigger.TryGetComponent(out Truck truck))
             {
+                Debug.Log("грузовик во вратах");
                 Entrance.CloseGate();
             }
         }

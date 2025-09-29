@@ -9,7 +9,7 @@ namespace Project.Scripts.Levels.Triggers
         
         private void OnTriggerEnter(Collider trigger)
         {
-            if (trigger.TryGetComponent(out EnemyAlienActor enemy))
+            if (trigger.TryGetComponent(out EnemyAlienActor enemy) || trigger.TryGetComponent(out ResourceActor resource))
             {
                 IsObstacleForward = true;
             }
@@ -17,7 +17,7 @@ namespace Project.Scripts.Levels.Triggers
 
         private void OnTriggerExit(Collider trigger)
         {
-            if (trigger.TryGetComponent(out EnemyAlienActor enemy))
+            if (trigger.TryGetComponent(out EnemyAlienActor enemy)|| trigger.TryGetComponent(out ResourceActor resource))
             {
                 IsObstacleForward = false;
             }

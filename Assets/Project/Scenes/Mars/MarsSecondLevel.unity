@@ -1652,6 +1652,14 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -9042941238362957071, guid: 11fe58ba8ddf59c4d85ccfa71ae3aa91, type: 3}
+      propertyPath: m_VoxelSize
+      value: 0.16666667
+      objectReference: {fileID: 0}
+    - target: {fileID: -9042941238362957071, guid: 11fe58ba8ddf59c4d85ccfa71ae3aa91, type: 3}
+      propertyPath: m_AgentTypeID
+      value: -334000983
+      objectReference: {fileID: 0}
+    - target: {fileID: -9042941238362957071, guid: 11fe58ba8ddf59c4d85ccfa71ae3aa91, type: 3}
       propertyPath: m_NavMeshData
       value: 
       objectReference: {fileID: 23800000, guid: f4d349f7941087c478b96b28de47ae5e, type: 2}
@@ -1659,6 +1667,10 @@ PrefabInstance:
       propertyPath: <_ballisticRocket>k__BackingField
       value: 
       objectReference: {fileID: 91493898}
+    - target: {fileID: 80292158455721610, guid: 11fe58ba8ddf59c4d85ccfa71ae3aa91, type: 3}
+      propertyPath: m_AgentTypeID
+      value: -334000983
+      objectReference: {fileID: 0}
     - target: {fileID: 545786668641304535, guid: 11fe58ba8ddf59c4d85ccfa71ae3aa91, type: 3}
       propertyPath: _ballisticRocket
       value: 
@@ -1671,6 +1683,10 @@ PrefabInstance:
       propertyPath: _rocketBorders.Array.data[0]
       value: 
       objectReference: {fileID: 2125694393}
+    - target: {fileID: 818185436016771117, guid: 11fe58ba8ddf59c4d85ccfa71ae3aa91, type: 3}
+      propertyPath: m_AgentTypeID
+      value: -334000983
+      objectReference: {fileID: 0}
     - target: {fileID: 1361638182506304108, guid: 11fe58ba8ddf59c4d85ccfa71ae3aa91, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -1683,13 +1699,25 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 33.89005
       objectReference: {fileID: 0}
+    - target: {fileID: 2129267722668698856, guid: 11fe58ba8ddf59c4d85ccfa71ae3aa91, type: 3}
+      propertyPath: m_AgentTypeID
+      value: -334000983
+      objectReference: {fileID: 0}
     - target: {fileID: 2827601361234518604, guid: 11fe58ba8ddf59c4d85ccfa71ae3aa91, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 3ffe384898a14344ca7bd93459618d04, type: 2}
+    - target: {fileID: 2943241702007426943, guid: 11fe58ba8ddf59c4d85ccfa71ae3aa91, type: 3}
+      propertyPath: m_AgentTypeID
+      value: -334000983
+      objectReference: {fileID: 0}
     - target: {fileID: 3473994869337256753, guid: 11fe58ba8ddf59c4d85ccfa71ae3aa91, type: 3}
       propertyPath: m_Name
       value: SecondLevel
+      objectReference: {fileID: 0}
+    - target: {fileID: 3883968426774559037, guid: 11fe58ba8ddf59c4d85ccfa71ae3aa91, type: 3}
+      propertyPath: m_AgentTypeID
+      value: -334000983
       objectReference: {fileID: 0}
     - target: {fileID: 4332374129449445548, guid: 11fe58ba8ddf59c4d85ccfa71ae3aa91, type: 3}
       propertyPath: m_IsActive

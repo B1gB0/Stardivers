@@ -4,10 +4,13 @@ using UnityEngine;
 
 namespace Project.Scripts.Levels.Mars.ThirdLevel
 {
+    [RequireComponent(typeof(Rigidbody))]
     public class Truck : MonoBehaviour
     {
         private const int MinCountPoints = 0;
-        private const float MinHeight = 0;
+        private const int NextPoint = 1;
+        
+        private const float MinHeight = 0f;
         private const float MinDistanceToPoint = 1f;
         private const float MoveSpeed = 2f;
         private const float RotationSpeed = 2f;
@@ -16,19 +19,20 @@ namespace Project.Scripts.Levels.Mars.ThirdLevel
         [SerializeField] private List<WheelRotation> _wheels;
         [SerializeField] private TruckObstacleTrigger _obstacleForwardTrigger;
 
-        private TruckTrigger _truckTrigger;
+        private TruckPlayerTrigger _truckPlayerTrigger;
         private int _currentIndexPoint;
         private float _heightAboveGroundLevel;
+        private bool _isFinalPointReached;
 
         private void Start()
         {
-            _truckTrigger = GetComponentInChildren<TruckTrigger>();
+            _truckPlayerTrigger = GetComponentInChildren<TruckPlayerTrigger>();
             _heightAboveGroundLevel = transform.position.y;
         }
 
         private void FixedUpdate()
         {
-            if (_truckTrigger.IsPlayerNearby && !_obstacleForwardTrigger.IsObstacleForward)
+            if (_truckPlayerTrigger.IsPlayerNearby && !_obstacleForwardTrigger.IsObstacleForward && !_isFinalPointReached)
             {
                 Vector3 target = _followPoints[_currentIndexPoint].position;
 
@@ -86,25 +90,15 @@ namespace Project.Scripts.Levels.Mars.ThirdLevel
         {
             if (_followPoints.Length == MinCountPoints) return;
 
-            _currentIndexPoint++;
-        }
+            var nextIndex = _currentIndexPoint + NextPoint;
 
-        void OnDrawGizmos()
-        {
-            if (_followPoints == null || _followPoints.Length < 2) return;
-
-            // Рисуем линии между точками пути
-            Gizmos.color = Color.blue;
-            for (int i = 0; i < _followPoints.Length - 1; i++)
+            if (nextIndex > _followPoints.Length - 1)
             {
-                Gizmos.DrawLine(_followPoints[i].position, _followPoints[i + 1].position);
+                _isFinalPointReached = true;
             }
-
-            // Рисуем сферы в точках пути
-            Gizmos.color = Color.red;
-            foreach (Transform point in _followPoints)
+            else
             {
-                Gizmos.DrawSphere(point.position, 0.2f);
+                _currentIndexPoint = nextIndex;
             }
         }
     }

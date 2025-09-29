@@ -152,7 +152,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbef326efc61174488772c5468beb681, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _colorText: {r: 0, g: 0, b: 0, a: 0}
+  _healingColor: {r: 0, g: 0, b: 0, a: 0}
+  _standardColor: {r: 0, g: 0, b: 0, a: 0}
   _value: 15
   _hitEffectPrefab: {fileID: 198441514564820928, guid: d519ad6ef8ea3cd4f9acf13f6646a601, type: 3}
   _hitPoint: {fileID: 3764755974486383640}
@@ -211,7 +212,7 @@ NavMeshObstacle:
   m_Shape: 1
   m_Extents: {x: 1.207, y: 1.0450001, z: 1.1960001}
   m_MoveThreshold: 0.1
-  m_Carve: 0
+  m_Carve: 1
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.039, y: 0.87900007, z: -0.143}
   m_TimeToStationary: 0.5
