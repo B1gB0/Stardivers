@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using Build.Game.Scripts;
 using Project.Scripts.UI.View;
 using UnityEngine;
 
@@ -21,6 +20,7 @@ namespace Project.Scripts.Health
         private float _currentHealth;
 
         public event Action Die;
+        public event Action<Health> DieHealth;
 
         public event Action<string, Transform, FloatingTextViewType, Color> IsSpawnedDamageText;
         public event Action<string, Transform, FloatingTextViewType, Color> IsSpawnedHealingText;
@@ -66,9 +66,12 @@ namespace Project.Scripts.Health
 
             if (TargetHealth < 0f)
                 TargetHealth = 0f;
-        
-            if(TargetHealth == 0)
+
+            if (TargetHealth == 0)
+            {
                 Die?.Invoke();
+                DieHealth?.Invoke(this);
+            }
         }
 
         public void ImproveHealth(float newHealthValue)

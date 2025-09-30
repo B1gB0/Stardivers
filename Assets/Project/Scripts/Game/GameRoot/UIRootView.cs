@@ -30,6 +30,7 @@ namespace Project.Scripts.Game.GameRoot
         public UIStateMachine UIStateMachine { get; private set; }
 
         public UIRootButtons UIRootButtons => _uiRootButtons;
+        public LocalizationLanguageSwitcher LocalizationLanguageSwitcher => _localizationLanguageSwitcher;
 
         [Inject]
         private void Construct(AudioSoundsService audioSoundsService, IPauseService pauseService)

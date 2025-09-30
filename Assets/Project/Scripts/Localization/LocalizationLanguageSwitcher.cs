@@ -15,7 +15,7 @@ namespace Project.Scripts.Localization
 
         private int _currentIndex;
 
-        public event Action<string> OnLanguageChanged;
+        public event Action OnLanguageChanged;
 
         private void Start()
         {
@@ -57,7 +57,7 @@ namespace Project.Scripts.Localization
         private void SetLanguage(int index)
         {
             YG2.SwitchLanguage(_languages[index]);
-            OnLanguageChanged?.Invoke(_languages[index]);
+            OnLanguageChanged?.Invoke();
         }
     }
 }

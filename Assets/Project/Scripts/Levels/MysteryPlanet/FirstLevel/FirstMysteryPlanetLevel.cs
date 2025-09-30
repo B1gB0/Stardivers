@@ -5,7 +5,7 @@ namespace Project.Scripts.Levels.MysteryPlanet.FirstLevel
 {
     public class FirstMysteryPlanetLevel : Level
     {
-        [SerializeField] private EnemySpawnTrigger _enemySpawnTrigger;
+        [SerializeField] private EnemySpawnFirstWaveTrigger enemySpawnFirstWaveTrigger;
         [SerializeField] private EntranceTrigger _entranceLastLvlTrigger;
         [SerializeField] private int _timeOfWaves = 90;
 
@@ -27,9 +27,9 @@ namespace Project.Scripts.Levels.MysteryPlanet.FirstLevel
 
         private void FixedUpdate()
         {
-            if (_enemySpawnTrigger.IsEnemySpawned)
+            if (enemySpawnFirstWaveTrigger.IsEnemySpawned)
             {
-                CreateWaveOfEnemy();
+                CreateWaveOfEnemy(FirstWaveEnemy);
             }
         }
     }

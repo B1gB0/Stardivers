@@ -1643,6 +1643,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2016585020 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6295654206943081779, guid: 11fe58ba8ddf59c4d85ccfa71ae3aa91, type: 3}
+  m_PrefabInstance: {fileID: 2107447499}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57909a267823416b809bf6cb50567542, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2107447499
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1667,6 +1678,18 @@ PrefabInstance:
       propertyPath: _countEnemyWaves
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -5492763188261115737, guid: 11fe58ba8ddf59c4d85ccfa71ae3aa91, type: 3}
+      propertyPath: _countSmallEnemy
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: -5492763188261115737, guid: 11fe58ba8ddf59c4d85ccfa71ae3aa91, type: 3}
+      propertyPath: _countGunnerEnemy
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: -5492763188261115737, guid: 11fe58ba8ddf59c4d85ccfa71ae3aa91, type: 3}
+      propertyPath: _enemySpawnFirstWaveTrigger
+      value: 
+      objectReference: {fileID: 2016585020}
     - target: {fileID: -5492763188261115737, guid: 11fe58ba8ddf59c4d85ccfa71ae3aa91, type: 3}
       propertyPath: <_ballisticRocket>k__BackingField
       value: 
@@ -1694,6 +1717,10 @@ PrefabInstance:
     - target: {fileID: 1361638182506304108, guid: 11fe58ba8ddf59c4d85ccfa71ae3aa91, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1549504074005501230, guid: 11fe58ba8ddf59c4d85ccfa71ae3aa91, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1960094794979778401, guid: 11fe58ba8ddf59c4d85ccfa71ae3aa91, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1819,6 +1846,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 8.71
       objectReference: {fileID: 0}
+    - target: {fileID: 9174098985013767143, guid: 11fe58ba8ddf59c4d85ccfa71ae3aa91, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4462679037615520784, guid: 11fe58ba8ddf59c4d85ccfa71ae3aa91, type: 3}
     - {fileID: 4948169930733570563, guid: 11fe58ba8ddf59c4d85ccfa71ae3aa91, type: 3}
@@ -1841,6 +1872,9 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 0}
     - targetCorrespondingSourceObject: {fileID: 8077204286505623042, guid: 11fe58ba8ddf59c4d85ccfa71ae3aa91, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
+    - targetCorrespondingSourceObject: {fileID: 1913230163882741109, guid: 11fe58ba8ddf59c4d85ccfa71ae3aa91, type: 3}
       insertIndex: -1
       addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 11fe58ba8ddf59c4d85ccfa71ae3aa91, type: 3}

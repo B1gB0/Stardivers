@@ -1,15 +1,14 @@
 ﻿using System;
 using Project.Scripts.ECS.Data;
 using Project.Scripts.ECS.EntityActors;
-using YG;
 
 namespace Project.Scripts.Experience
 {
     public class ExperiencePoints
     {
         private const int DefaultLevel = 0;
-        
-        private readonly ExperienceScoreActorVisitor _experienceScoreActorVisitor = new ();
+
+        private readonly ExperienceScoreActorVisitor _experienceScoreActorVisitor = new();
         private readonly PlayerProgressionInitData _playerProgression;
 
         public ExperiencePoints(PlayerProgressionInitData playerProgression)
@@ -27,7 +26,7 @@ namespace Project.Scripts.Experience
         private int _counterLevel;
         private int _currentLevel;
         private int _newValue;
-        
+
         private int TargetExperienceValue => _experienceScoreActorVisitor.AccumulatedExperience;
 
         public event Action<float, float, float> ValueIsChanged;
@@ -41,7 +40,7 @@ namespace Project.Scripts.Experience
             experience.AcceptScore(_experienceScoreActorVisitor);
 
             if (_counterLevel > _playerProgression.Levels.Count - 1) return;
-            
+
             if (TargetExperienceValue >= _currentMaxValueOfLevel)
             {
                 _counterLevel++;
@@ -57,17 +56,14 @@ namespace Project.Scripts.Experience
                 {
                     for (int i = _currentLevel; i < _counterLevel; i++)
                     {
-                        if (YG2.isGameplaying)
-                        {
-                            _currentLevel++;
-                            CurrentLevelIsUpgraded?.Invoke(_currentLevel);
-                        }
+                        _currentLevel++;
+                        CurrentLevelIsUpgraded?.Invoke(_currentLevel);
                     }
                 }
             }
             else
             {
-                ValueIsChanged?.Invoke( _currentValue, TargetExperienceValue, _currentMaxValueOfLevel );
+                ValueIsChanged?.Invoke(_currentValue, TargetExperienceValue, _currentMaxValueOfLevel);
                 _currentValue = TargetExperienceValue;
             }
         }

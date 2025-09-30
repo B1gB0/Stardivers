@@ -17,17 +17,19 @@ namespace Project.Scripts.ECS.EntityActors
         {
             Health.Die -= OnDie;
         }
-
-        private void OnDie()
-        {
-            Health.IsSpawnedDamageText -= TextService.OnChangedFloatingText;
-            ExperiencePoints.OnKill(this);
-            gameObject.SetActive(false);
-        }
-
+        
         public void AcceptScore(IScoreActorVisitor visitor)
         {
             visitor.Visit(this);
+        }
+
+        protected override void OnDie()
+        {
+            Health.IsSpawnedDamageText -= TextService.OnChangedFloatingText;
+            ExperiencePoints.OnKill(this);
+            base.OnDie();
+            
+            gameObject.SetActive(false);
         }
     }
 }

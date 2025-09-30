@@ -4,7 +4,7 @@ using System;
 
 namespace Project.Scripts.Levels.Triggers
 {
-    public class EnemySpawnTrigger : Trigger
+    public class EnemySpawnFirstWaveTrigger : Trigger
     {
         [SerializeField] private ParticleSystem _zoneEffect;
         

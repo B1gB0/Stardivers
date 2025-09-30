@@ -6,24 +6,26 @@ namespace Project.Scripts.ECS.EntityActors
     {
         private void OnEnable()
         {
-            Health.Die += Die;
+            Health.Die += OnDie;
         }
 
         private void OnDisable()
         {
-            Health.Die -= Die;
+            Health.Die -= OnDie;
         }
-
-        private void Die()
-        {
-            Health.IsSpawnedDamageText -= TextService.OnChangedFloatingText;
-            ExperiencePoints.OnKill(this);
-            gameObject.SetActive(false);
-        }
-
+        
         public void AcceptScore(IScoreActorVisitor visitor)
         {
             visitor.Visit(this);
+        }
+
+        protected override void OnDie()
+        {
+            Health.IsSpawnedDamageText -= TextService.OnChangedFloatingText;
+            ExperiencePoints.OnKill(this);
+            base.OnDie();
+
+            gameObject.SetActive(false);
         }
     }
 }

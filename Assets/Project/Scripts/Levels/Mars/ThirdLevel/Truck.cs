@@ -57,6 +57,11 @@ namespace Project.Scripts.Levels.Mars.ThirdLevel
             }
         }
 
+        public void ReachFinalPoint()
+        {
+            _isFinalPointReached = true;
+        }
+
         private void MoveTowardsTarget(Vector3 targetPosition)
         {
             targetPosition.y = _heightAboveGroundLevel;

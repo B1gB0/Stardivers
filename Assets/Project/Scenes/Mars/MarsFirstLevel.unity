@@ -1003,14 +1003,30 @@ PrefabInstance:
       propertyPath: m_ReflectionProbeUsage
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 2811220749755573943, guid: 99c52dcbf79d6bf4482197d737c0fd77, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2842802138881804754, guid: 99c52dcbf79d6bf4482197d737c0fd77, type: 3}
       propertyPath: _countEnemyWaves
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2842802138881804754, guid: 99c52dcbf79d6bf4482197d737c0fd77, type: 3}
+      propertyPath: _countSmallEnemy
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 2842802138881804754, guid: 99c52dcbf79d6bf4482197d737c0fd77, type: 3}
       propertyPath: welcomePlanetTextTrigger
       value: 
       objectReference: {fileID: 223593004}
+    - target: {fileID: 2842802138881804754, guid: 99c52dcbf79d6bf4482197d737c0fd77, type: 3}
+      propertyPath: _welcomePlanetTextTrigger
+      value: 
+      objectReference: {fileID: 223593004}
+    - target: {fileID: 2842802138881804754, guid: 99c52dcbf79d6bf4482197d737c0fd77, type: 3}
+      propertyPath: _enemySpawnFirstWaveTrigger
+      value: 
+      objectReference: {fileID: 1112087807}
     - target: {fileID: 2844090986861479541, guid: 99c52dcbf79d6bf4482197d737c0fd77, type: 3}
       propertyPath: m_LightProbeUsage
       value: 0
@@ -1942,6 +1958,10 @@ PrefabInstance:
     - target: {fileID: 5990698712607669141, guid: 99c52dcbf79d6bf4482197d737c0fd77, type: 3}
       propertyPath: m_ReflectionProbeUsage
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6066098164873616212, guid: 99c52dcbf79d6bf4482197d737c0fd77, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6093272647797990314, guid: 99c52dcbf79d6bf4482197d737c0fd77, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -2947,6 +2967,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4841565616584491187, guid: 99c52dcbf79d6bf4482197d737c0fd77, type: 3}
       insertIndex: -1
       addedObject: {fileID: 0}
+    - targetCorrespondingSourceObject: {fileID: 5974129687446410574, guid: 99c52dcbf79d6bf4482197d737c0fd77, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 99c52dcbf79d6bf4482197d737c0fd77, type: 3}
 --- !u!114 &223593003 stripped
 MonoBehaviour:
@@ -3185,6 +3208,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1112087807 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6597233131612524275, guid: 99c52dcbf79d6bf4482197d737c0fd77, type: 3}
+  m_PrefabInstance: {fileID: 223593002}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57909a267823416b809bf6cb50567542, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1182183349

@@ -5,8 +5,11 @@ namespace Project.Scripts.Levels.Mars.ThirdLevel
 {
     public class ThirdMarsLevel : Level
     {
-        [SerializeField] private EnemySpawnTrigger _enemySpawnTrigger;
+        [SerializeField] private EnemySpawnFirstWaveTrigger _enemySpawnFirstWaveTrigger;
+        [SerializeField] private EnemySpawnSecondWaveTrigger _enemySpawnSecondWaveTrigger;
         [SerializeField] private EntranceTrigger _entranceLastLvlTrigger;
+        [SerializeField] private TruckPlayerTrigger _truckPlayerTrigger;
+        [SerializeField] private TruckFinalPointTrigger _truckFinalPointTrigger;
 
         private void OnEnable()
         {
@@ -21,14 +24,63 @@ namespace Project.Scripts.Levels.Mars.ThirdLevel
         public override void OnStartLevel()
         {
             base.OnStartLevel();
+            
+            _enemySpawnFirstWaveTrigger.EnemySpawned += _entranceLastLvlTrigger.Deactivate;
+            _enemySpawnSecondWaveTrigger.EnemySpawned += OnCreateBigEnemiesWave;
+            
+            _truckFinalPointTrigger.IsFinalPointReached += EntranceToNextLvlTrigger.Activate;
+            _truckFinalPointTrigger.IsFinalPointReached += _entranceLastLvlTrigger.Activate;
+            _truckFinalPointTrigger.IsFinalPointReached += EndLevelTrigger.Activate;
+            _truckFinalPointTrigger.IsFinalPointReached += _truckPlayerTrigger.Deactivate;
         }
 
         private void FixedUpdate()
         {
-            if (_enemySpawnTrigger.IsEnemySpawned)
+            if (_enemySpawnFirstWaveTrigger.IsEnemySpawned)
             {
-                CreateWaveOfEnemy();
+                CreateWaveOfEnemy(FirstWaveEnemy);
             }
+            
+            if (_enemySpawnSecondWaveTrigger.IsEnemySpawned)
+            {
+                CreateWaveOfEnemy(SecondWaveEnemy);
+            }
+        }
+
+        protected override void CreateWaveOfEnemy(int numberWaveEnemy)
+        {
+            if (numberWaveEnemy == FirstWaveEnemy)
+            {
+                base.CreateWaveOfEnemy(FirstWaveEnemy);
+            }
+            else
+            {
+                if (LastSpawnTime <= MinValue)
+                {
+                    CreateWaveOfSmallEnemies(numberWaveEnemy);
+                    CreateWaveOfGunnerEnemies(numberWaveEnemy);
+                
+                    LastSpawnTime = SpawnWaveOfEnemyDelay;
+                }
+
+                LastSpawnTime -= Time.fixedDeltaTime;
+            }
+        }
+
+        private void OnCreateBigEnemiesWave()
+        {
+            CreateWaveOfBigEnemies(SecondWaveEnemy);
+        }
+        
+        private void OnDestroy()
+        {
+            _enemySpawnFirstWaveTrigger.EnemySpawned -= _entranceLastLvlTrigger.Deactivate;
+            _enemySpawnSecondWaveTrigger.EnemySpawned -= OnCreateBigEnemiesWave;
+
+            _truckFinalPointTrigger.IsFinalPointReached -= EntranceToNextLvlTrigger.Activate;
+            _truckFinalPointTrigger.IsFinalPointReached -= _entranceLastLvlTrigger.Activate;
+            _truckFinalPointTrigger.IsFinalPointReached -= EndLevelTrigger.Activate;
+            _truckFinalPointTrigger.IsFinalPointReached -= _truckPlayerTrigger.Deactivate;
         }
     }
 }

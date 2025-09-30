@@ -32,6 +32,7 @@ namespace Project.Scripts.Game.Gameplay.Root
         [SerializeField] private Level _level;
         
         private UIGameplayRootBinder _uiScene;
+        private UIRootView _uiRoot;
         private GameplayExitParameters _exitParameters;
         
         private LevelInitData _levelData;
@@ -101,6 +102,7 @@ namespace Project.Scripts.Game.Gameplay.Root
 
         public async UniTask<Observable<GameplayExitParameters>> Run(UIRootView uiRoot, GameplayEnterParameters enterParameters)
         {
+            _uiRoot = uiRoot;
             _pauseService.PlayGame();
             
             _operationService.SetCurrentNumberLevel(enterParameters.CurrentNumberLevel);
@@ -159,6 +161,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             _gameInitSystem.PlayerHealth.Die += _endGamePanel.Show;
             _gameInitSystem.PlayerHealth.Die += _endGamePanel.SetDefeatPanel;
             _gameInitSystem.PlayerHealth.Die += _progressBar.Hide;
+            uiRoot.LocalizationLanguageSwitcher.OnLanguageChanged += _progressBar.ChangeText;
             _gameInitSystem.PlayerHealth.IsSpawnedHealingText += _floatingTextService.OnChangedFloatingText;
             
             _level.EndLevelTrigger.IsLevelCompleted += _endGamePanel.Show;
@@ -196,6 +199,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             _gameInitSystem.PlayerIsSpawned -= _uiScene.WeaponPanel.Show;
             _gameInitSystem.PlayerIsSpawned -= _healthBar.Show;
             _gameInitSystem.PlayerIsSpawned -= _progressBar.Show;
+            _uiRoot.LocalizationLanguageSwitcher.OnLanguageChanged -= _progressBar.ChangeText;
                 
             _gameInitSystem.PlayerHealth.Die -= _endGamePanel.Show;
             _gameInitSystem.PlayerHealth.Die -= _endGamePanel.SetDefeatPanel;

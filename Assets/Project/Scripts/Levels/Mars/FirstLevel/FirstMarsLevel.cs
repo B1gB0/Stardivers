@@ -7,20 +7,20 @@ namespace Project.Scripts.Levels.Mars.FirstLevel
     {
         private readonly FirstLevelAdviserTextsSetter _firstLevelAdviserTextsSetter = new ();
         
-        [SerializeField] private EnemySpawnTrigger _enemySpawnTrigger;
-        [SerializeField] private WelcomePlanetTextTrigger welcomePlanetTextTrigger;
+        [SerializeField] private EnemySpawnFirstWaveTrigger _enemySpawnFirstWaveTrigger;
+        [SerializeField] private WelcomePlanetTextTrigger _welcomePlanetTextTrigger;
         [SerializeField] private int _timeOfWaves = 90;
 
         private void OnEnable()
         {
-            welcomePlanetTextTrigger.IsWelcomeToPlanet += _firstLevelAdviserTextsSetter.SetAndShowWelcomePlanetText;
+            _welcomePlanetTextTrigger.IsWelcomeToPlanet += _firstLevelAdviserTextsSetter.SetAndShowWelcomePlanetText;
             
             IsInitiatedSpawners += SpawnResources;
         }
 
         private void OnDisable()
         {
-            welcomePlanetTextTrigger.IsWelcomeToPlanet -= _firstLevelAdviserTextsSetter.SetAndShowWelcomePlanetText;
+            _welcomePlanetTextTrigger.IsWelcomeToPlanet -= _firstLevelAdviserTextsSetter.SetAndShowWelcomePlanetText;
             
             IsInitiatedSpawners -= SpawnResources;
         }
@@ -36,20 +36,20 @@ namespace Project.Scripts.Levels.Mars.FirstLevel
             PauseService.OnGameStarted += Timer.ResumeTimer;
             PauseService.OnGamePaused += Timer.PauseTimer;
 
-            _enemySpawnTrigger.EnemySpawned += Timer.Show;
-            _enemySpawnTrigger.EnemySpawned += _firstLevelAdviserTextsSetter.SetAndShowEnemySpawnTriggerText;
+            _enemySpawnFirstWaveTrigger.EnemySpawned += Timer.Show;
+            _enemySpawnFirstWaveTrigger.EnemySpawned += _firstLevelAdviserTextsSetter.SetAndShowEnemySpawnFirstWaveTriggerText;
             
             Timer.IsEndAttack += _firstLevelAdviserTextsSetter.SetAndShowEndAttackText;
-            Timer.IsEndAttack += _enemySpawnTrigger.CompleteSpawn;
+            Timer.IsEndAttack += _enemySpawnFirstWaveTrigger.CompleteSpawn;
             Timer.IsEndAttack += EntranceToNextLvlTrigger.Activate;
             Timer.IsEndAttack += EndLevelTrigger.Activate;
         }
 
         private void FixedUpdate()
         {
-            if (_enemySpawnTrigger.IsEnemySpawned)
+            if (_enemySpawnFirstWaveTrigger.IsEnemySpawned)
             {
-                CreateWaveOfEnemy();
+                CreateWaveOfEnemy(FirstWaveEnemy);
             }
         }
 
@@ -58,11 +58,11 @@ namespace Project.Scripts.Levels.Mars.FirstLevel
             PauseService.OnGameStarted -= Timer.ResumeTimer;
             PauseService.OnGamePaused -= Timer.PauseTimer;
             
-            _enemySpawnTrigger.EnemySpawned -= Timer.Show;
-            _enemySpawnTrigger.EnemySpawned -= _firstLevelAdviserTextsSetter.SetAndShowEnemySpawnTriggerText;
+            _enemySpawnFirstWaveTrigger.EnemySpawned -= Timer.Show;
+            _enemySpawnFirstWaveTrigger.EnemySpawned -= _firstLevelAdviserTextsSetter.SetAndShowEnemySpawnFirstWaveTriggerText;
             
             Timer.IsEndAttack -= _firstLevelAdviserTextsSetter.SetAndShowEndAttackText;
-            Timer.IsEndAttack -= _enemySpawnTrigger.CompleteSpawn;
+            Timer.IsEndAttack -= _enemySpawnFirstWaveTrigger.CompleteSpawn;
             Timer.IsEndAttack -= EntranceToNextLvlTrigger.Activate;
             Timer.IsEndAttack -= EndLevelTrigger.Activate;
         }

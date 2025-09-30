@@ -14,14 +14,14 @@ namespace Project.Scripts.Levels
 {
     public abstract class Level : MonoBehaviour
     {
-        private const float MinValue = 0f;
+        protected const float MinValue = 0f;
         private const string LeaderboardName = "BestPlayers";
 
-        private const int FirstWaveEnemy = 0;
-        private const int SecondWaveEnemy = 1;
+        protected const int FirstWaveEnemy = 0;
+        protected const int SecondWaveEnemy = 1;
 
-        private readonly List<EnemyWave> _enemyWaves = new ();
-        
+        protected readonly List<EnemyWave> EnemyWaves = new();
+
         [field: SerializeField] public bool IsLaunchPlayerCapsule { get; private set; }
         [field: SerializeField] public EndLevelTrigger EndLevelTrigger { get; private set; }
         [field: SerializeField] public EntranceTrigger EntranceToNextLvlTrigger { get; private set; }
@@ -29,14 +29,19 @@ namespace Project.Scripts.Levels
         [field: SerializeField] public int QuantityHealingCore { get; private set; }
 
         [SerializeField] protected float SpawnWaveOfEnemyDelay = 10f;
+
+        [SerializeField] protected int CountSmallEnemy;
+        [SerializeField] protected int CountBigEnemy;
+        [SerializeField] protected int CountGunnerEnemy;
+
         [SerializeField] private int _countEnemyWaves;
 
         protected EnemySpawner EnemySpawner;
         protected Timer Timer;
         protected AdviserMessagePanel AdviserMessagePanel;
         protected PauseService PauseService;
+        protected float LastSpawnTime;
 
-        private float _lastSpawnTime;
         private GameInitSystem _gameInitSystem;
         private ResourcesSpawner _resourcesSpawner;
         private LevelInitData _levelInitData;
@@ -55,6 +60,9 @@ namespace Project.Scripts.Levels
 
         public virtual void OnStartLevel()
         {
+            EndLevelTrigger.Deactivate();
+            EntranceToNextLvlTrigger.Deactivate();
+
             SpawnPlayer();
         }
 
@@ -74,18 +82,33 @@ namespace Project.Scripts.Levels
             InitSpawners(gameInitSystem);
         }
 
-        protected virtual void CreateWaveOfEnemy()
+        protected virtual void CreateWaveOfEnemy(int numberWaveEnemy)
         {
-            if (_lastSpawnTime <= MinValue)
+            if (LastSpawnTime <= MinValue)
             {
-                EnemySpawner.SpawnSmallAlienEnemy(_enemyWaves[FirstWaveEnemy].SmallEnemySpawnPositions);
-                EnemySpawner.SpawnBigEnemyAlien(_enemyWaves[FirstWaveEnemy].BigEnemySpawnPositions);
-                EnemySpawner.SpawnGunnerAlienEnemy(_enemyWaves[FirstWaveEnemy].GunnerEnemySpawnPositions);
+                CreateWaveOfSmallEnemies(numberWaveEnemy);
+                CreateWaveOfBigEnemies(numberWaveEnemy);
+                CreateWaveOfGunnerEnemies(numberWaveEnemy);
 
-                _lastSpawnTime = SpawnWaveOfEnemyDelay;
+                LastSpawnTime = SpawnWaveOfEnemyDelay;
             }
 
-            _lastSpawnTime -= Time.fixedDeltaTime;
+            LastSpawnTime -= Time.fixedDeltaTime;
+        }
+
+        protected void CreateWaveOfSmallEnemies(int numberWaveEnemy)
+        {
+            EnemySpawner.SpawnSmallAlienEnemy(EnemyWaves[numberWaveEnemy].SmallEnemySpawnPositions, CountSmallEnemy);
+        }
+        
+        protected void CreateWaveOfBigEnemies(int numberWaveEnemy)
+        {
+            EnemySpawner.SpawnBigEnemyAlien(EnemyWaves[numberWaveEnemy].BigEnemySpawnPositions, CountBigEnemy);
+        }
+        
+        protected void CreateWaveOfGunnerEnemies(int numberWaveEnemy)
+        {
+            EnemySpawner.SpawnGunnerAlienEnemy(EnemyWaves[numberWaveEnemy].GunnerEnemySpawnPositions, CountGunnerEnemy);
         }
 
         protected void SpawnResources()
@@ -95,7 +118,7 @@ namespace Project.Scripts.Levels
 
         private void SetCountSpawnPoints()
         {
-            foreach (var wave in _enemyWaves)
+            foreach (var wave in EnemyWaves)
             {
                 SmallEnemyCountPoints += wave.SmallEnemySpawnPositions.Count;
                 BigEnemyCountPoints += wave.BigEnemySpawnPositions.Count;
@@ -128,8 +151,8 @@ namespace Project.Scripts.Levels
                     default:
                         throw new Exception("There is not enough data for new waves");
                 }
-                
-                _enemyWaves.Add(enemyWave);
+
+                EnemyWaves.Add(enemyWave);
             }
         }
 
@@ -151,7 +174,7 @@ namespace Project.Scripts.Levels
             SetCountSpawnPoints();
 
             _resourcesSpawner = new ResourcesSpawner(gameInitSystem, _levelInitData);
-            EnemySpawner = new EnemySpawner(gameInitSystem, _levelInitData);
+            EnemySpawner = new EnemySpawner(gameInitSystem);
 
             IsInitiatedSpawners?.Invoke();
         }

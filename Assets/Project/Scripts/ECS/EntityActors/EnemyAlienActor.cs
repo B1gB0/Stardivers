@@ -17,16 +17,6 @@ namespace Project.Scripts.ECS.EntityActors
 
         public event Action<EnemyAlienActor> Die;
 
-        private void OnEnable()
-        {
-            Health.Die += OnDie;
-        }
-
-        private void OnDisable()
-        {
-            Health.Die -= OnDie;
-        }
-
         public void Construct(ExperiencePoints experiencePoints, IFloatingTextService textService)
         {
             ExperiencePoints = experiencePoints;
@@ -40,7 +30,7 @@ namespace Project.Scripts.ECS.EntityActors
             NavMeshAgent.speed += speed;
         }
 
-        private void OnDie()
+        protected virtual void OnDie()
         {
             Die?.Invoke(this);
         }

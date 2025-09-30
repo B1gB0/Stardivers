@@ -5,7 +5,7 @@ namespace Project.Scripts.Levels.MysteryPlanet.SecondLevel
 {
     public class SecondMysteryPlanetLevel : Level
     {
-        [SerializeField] private EnemySpawnTrigger _enemySpawnTrigger;
+        [SerializeField] private EnemySpawnFirstWaveTrigger enemySpawnFirstWaveTrigger;
         [SerializeField] private EntranceTrigger _entranceLastLvlTrigger;
 
         private void OnEnable()
@@ -20,9 +20,9 @@ namespace Project.Scripts.Levels.MysteryPlanet.SecondLevel
 
         private void FixedUpdate()
         {
-            if (_enemySpawnTrigger.IsEnemySpawned)
+            if (enemySpawnFirstWaveTrigger.IsEnemySpawned)
             {
-                CreateWaveOfEnemy();
+                CreateWaveOfEnemy(FirstWaveEnemy);
             }
         }
     }

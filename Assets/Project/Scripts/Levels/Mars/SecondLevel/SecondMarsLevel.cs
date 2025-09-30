@@ -9,7 +9,7 @@ namespace Project.Scripts.Levels.Mars.SecondLevel
         [field: SerializeField] public BallisticRocket _ballisticRocket { get; private set; }
         
         [SerializeField] private BallisticRocketTrigger _ballisticRocketTrigger;
-        [SerializeField] private EnemySpawnTrigger _enemySpawnTrigger;
+        [SerializeField] private EnemySpawnFirstWaveTrigger _enemySpawnFirstWaveTrigger;
         [SerializeField] private EntranceTrigger _entranceLastLvlTrigger;
 
         private BallisticRocketProgressBar _ballisticRocketProgressBar;
@@ -28,11 +28,11 @@ namespace Project.Scripts.Levels.Mars.SecondLevel
         {
             base.OnStartLevel();
             
-            _enemySpawnTrigger.EnemySpawned += _ballisticRocketTrigger.Activate;
-            _enemySpawnTrigger.EnemySpawned += _entranceLastLvlTrigger.Deactivate;
-            _enemySpawnTrigger.EnemySpawned += _ballisticRocketProgressBar.Show;
+            _enemySpawnFirstWaveTrigger.EnemySpawned += _ballisticRocketTrigger.Activate;
+            _enemySpawnFirstWaveTrigger.EnemySpawned += _entranceLastLvlTrigger.Deactivate;
+            _enemySpawnFirstWaveTrigger.EnemySpawned += _ballisticRocketProgressBar.Show;
 
-            _ballisticRocket.LaunchCompleted += _enemySpawnTrigger.CompleteSpawn;
+            _ballisticRocket.LaunchCompleted += _enemySpawnFirstWaveTrigger.CompleteSpawn;
             _ballisticRocket.LaunchCompleted += EndLevelTrigger.Activate;
             _ballisticRocket.LaunchCompleted += EntranceToNextLvlTrigger.Activate;
             _ballisticRocket.LaunchCompleted += _entranceLastLvlTrigger.Activate;
@@ -40,9 +40,9 @@ namespace Project.Scripts.Levels.Mars.SecondLevel
 
         private void FixedUpdate()
         {
-            if (_enemySpawnTrigger.IsEnemySpawned)
+            if (_enemySpawnFirstWaveTrigger.IsEnemySpawned)
             {
-                CreateWaveOfEnemy();
+                CreateWaveOfEnemy(FirstWaveEnemy);
             }
         }
         
@@ -52,28 +52,15 @@ namespace Project.Scripts.Levels.Mars.SecondLevel
             _ballisticRocket.ProgressChanged += _ballisticRocketProgressBar.OnChangedValues;
         }
 
-        // protected override void CreateWaveOfEnemy()
-        // {
-        //     if (LastSpawnTime <= MinValue)
-        //     {
-        //         EnemySpawner.SpawnSmallAlienEnemy();
-        //         EnemySpawner.SpawnGunnerAlienEnemy();
-        //
-        //         LastSpawnTime = SpawnWaveOfEnemyDelay;
-        //     }
-        //
-        //     LastSpawnTime -= Time.deltaTime;
-        // }
-
         private void OnDestroy()
         {
             _ballisticRocket.ProgressChanged -= _ballisticRocketProgressBar.OnChangedValues;
             
-            _enemySpawnTrigger.EnemySpawned -= _ballisticRocketTrigger.Activate;
-            _enemySpawnTrigger.EnemySpawned -= _entranceLastLvlTrigger.Deactivate;
-            _enemySpawnTrigger.EnemySpawned -= _ballisticRocketProgressBar.Show;
+            _enemySpawnFirstWaveTrigger.EnemySpawned -= _ballisticRocketTrigger.Activate;
+            _enemySpawnFirstWaveTrigger.EnemySpawned -= _entranceLastLvlTrigger.Deactivate;
+            _enemySpawnFirstWaveTrigger.EnemySpawned -= _ballisticRocketProgressBar.Show;
 
-            _ballisticRocket.LaunchCompleted -= _enemySpawnTrigger.CompleteSpawn;
+            _ballisticRocket.LaunchCompleted -= _enemySpawnFirstWaveTrigger.CompleteSpawn;
             _ballisticRocket.LaunchCompleted -= EndLevelTrigger.Activate;
             _ballisticRocket.LaunchCompleted -= EntranceToNextLvlTrigger.Activate;
             _ballisticRocket.LaunchCompleted -= _entranceLastLvlTrigger.Activate;

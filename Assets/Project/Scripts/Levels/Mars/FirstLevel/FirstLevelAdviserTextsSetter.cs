@@ -28,7 +28,7 @@ namespace Project.Scripts.Levels.Mars.FirstLevel
             _adviserMessagePanel.Show();
         }
 
-        public void SetAndShowEnemySpawnTriggerText()
+        public void SetAndShowEnemySpawnFirstWaveTriggerText()
         {
             _adviserMessagePanel.SetText(EnemySpawnTriggerText);
             _adviserMessagePanel.Show();
