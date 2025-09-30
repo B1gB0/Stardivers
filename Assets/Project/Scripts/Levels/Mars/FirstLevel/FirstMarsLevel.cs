@@ -45,7 +45,7 @@ namespace Project.Scripts.Levels.Mars.FirstLevel
             Timer.IsEndAttack += EndLevelTrigger.Activate;
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             if (_enemySpawnTrigger.IsEnemySpawned)
             {

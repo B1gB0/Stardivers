@@ -23,7 +23,7 @@ namespace Project.Scripts.Levels.Mars.ThirdLevel
             base.OnStartLevel();
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             if (_enemySpawnTrigger.IsEnemySpawned)
             {

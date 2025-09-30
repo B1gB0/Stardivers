@@ -1,4 +1,6 @@
-﻿using Project.Scripts.ECS.EntityActors;
+﻿using System.Collections.Generic;
+using Project.Scripts.ECS.Data;
+using Project.Scripts.ECS.EntityActors;
 using Project.Scripts.ECS.System;
 using UnityEngine;
 
@@ -10,26 +12,28 @@ namespace Project.Scripts.Levels.Spawners
         private const float RandomPositionFactor = 2f;
         
         private readonly GameInitSystem _gameInitSystem;
+        private readonly LevelInitData _levelInitData;
         
-        public EnemySpawner(GameInitSystem gameInitSystem)
+        public EnemySpawner(GameInitSystem gameInitSystem, LevelInitData levelInitData)
         {
             _gameInitSystem = gameInitSystem;
+            _levelInitData = levelInitData;
         }
         
-        public void SpawnGunnerAlienEnemy()
+        public void SpawnGunnerAlienEnemy(List<Vector3> spawnPointPositions)
         {
-            if(_gameInitSystem.SmallEnemyAlienSpawnPoints.Count == MinValue)
+            if(spawnPointPositions.Count == MinValue)
                 return;
             
-            foreach (var enemySpawnPoint in _gameInitSystem.GunnerEnemyAlienSpawnPoints)
+            foreach (var enemyPosition in spawnPointPositions)
             {
                 GunnerAlienEnemy gunnerEnemy = _gameInitSystem.CreateGunnerAlienEnemy(_gameInitSystem.Player);
 
                 gunnerEnemy.NavMeshAgent.enabled = false;
 
-                var enemySpawnPosition = enemySpawnPoint + Vector3.one * Random.Range(-RandomPositionFactor,
+                var enemySpawnPosition = enemyPosition + Vector3.one * Random.Range(-RandomPositionFactor,
                     RandomPositionFactor);
-                enemySpawnPosition.y = enemySpawnPoint.y;
+                enemySpawnPosition.y = enemyPosition.y;
 
                 gunnerEnemy.transform.position = enemySpawnPosition;
                 
@@ -37,19 +41,20 @@ namespace Project.Scripts.Levels.Spawners
             }
         }
 
-        public void SpawnSmallAlienEnemy()
+        public void SpawnSmallAlienEnemy(List<Vector3> spawnPointPositions)
         {
-            if(_gameInitSystem.SmallEnemyAlienSpawnPoints.Count == MinValue)
+            if(spawnPointPositions.Count == MinValue)
                 return;
             
-            foreach (var enemySpawnPoint in _gameInitSystem.SmallEnemyAlienSpawnPoints)
+            foreach (var enemyPosition in spawnPointPositions)
             {
                 SmallAlienEnemy smallAlienEnemy = _gameInitSystem.CreateSmallAlienEnemy(_gameInitSystem.Player);
 
                 smallAlienEnemy.NavMeshAgent.enabled = false;
 
-                var enemySpawnPosition = enemySpawnPoint;
-                enemySpawnPosition.y = enemySpawnPoint.y;
+                var enemySpawnPosition = enemyPosition + Vector3.one * Random.Range(-RandomPositionFactor,
+                    RandomPositionFactor);
+                enemySpawnPosition.y = enemyPosition.y;
 
                 smallAlienEnemy.transform.position = enemySpawnPosition;
 
@@ -57,20 +62,20 @@ namespace Project.Scripts.Levels.Spawners
             }
         }
 
-        public void SpawnBigEnemyAlien()
+        public void SpawnBigEnemyAlien(List<Vector3> spawnPointPositions)
         {
-            if(_gameInitSystem.BigEnemyAlienSpawnPoints.Count == MinValue)
+            if(spawnPointPositions.Count == MinValue)
                 return;
             
-            foreach (var enemySpawnPoint in _gameInitSystem.BigEnemyAlienSpawnPoints)
+            foreach (var enemyPosition in spawnPointPositions)
             {
                 BigAlienEnemy bigEnemy = _gameInitSystem.CreateBigAlienEnemy(_gameInitSystem.Player);
 
                 bigEnemy.NavMeshAgent.enabled = false;
 
-                var enemySpawnPosition = enemySpawnPoint + Vector3.one * Random.Range(-RandomPositionFactor,
+                var enemySpawnPosition = enemyPosition + Vector3.one * Random.Range(-RandomPositionFactor,
                     RandomPositionFactor);
-                enemySpawnPosition.y = enemySpawnPoint.y;
+                enemySpawnPosition.y = enemyPosition.y;
 
                 bigEnemy.transform.position = enemySpawnPosition;
                 

@@ -2264,6 +2264,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -4.84
       objectReference: {fileID: 0}
+    - target: {fileID: 986371115495486204, guid: 8e4904903dc9c9144b2c54509fd92f5b, type: 3}
+      propertyPath: m_TagString
+      value: FirstWaveSmallEnemyAlienSpawnPoint
+      objectReference: {fileID: 0}
     - target: {fileID: 1342116906452740991, guid: 8e4904903dc9c9144b2c54509fd92f5b, type: 3}
       propertyPath: m_LocalPosition.x
       value: -49.144844
@@ -2295,6 +2299,10 @@ PrefabInstance:
     - target: {fileID: 1595570611603615351, guid: 8e4904903dc9c9144b2c54509fd92f5b, type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1744635385344667084, guid: 8e4904903dc9c9144b2c54509fd92f5b, type: 3}
+      propertyPath: m_TagString
+      value: FirstWaveGunnerEnemyAlienSpawnPoint
       objectReference: {fileID: 0}
     - target: {fileID: 1843205512466934445, guid: 8e4904903dc9c9144b2c54509fd92f5b, type: 3}
       propertyPath: m_AgentTypeID
@@ -2392,9 +2400,17 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -20.40041
       objectReference: {fileID: 0}
+    - target: {fileID: 2692552106700972914, guid: 8e4904903dc9c9144b2c54509fd92f5b, type: 3}
+      propertyPath: m_TagString
+      value: FirstWaveSmallEnemyAlienSpawnPoint
+      objectReference: {fileID: 0}
     - target: {fileID: 2851822039123436769, guid: 8e4904903dc9c9144b2c54509fd92f5b, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.322
+      objectReference: {fileID: 0}
+    - target: {fileID: 2888114914798348940, guid: 8e4904903dc9c9144b2c54509fd92f5b, type: 3}
+      propertyPath: m_TagString
+      value: FirstWaveSmallEnemyAlienSpawnPoint
       objectReference: {fileID: 0}
     - target: {fileID: 2922986014330152426, guid: 8e4904903dc9c9144b2c54509fd92f5b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2427,6 +2443,14 @@ PrefabInstance:
     - target: {fileID: 3156311783575543662, guid: 8e4904903dc9c9144b2c54509fd92f5b, type: 3}
       propertyPath: m_AgentTypeID
       value: -334000983
+      objectReference: {fileID: 0}
+    - target: {fileID: 3250542441268201541, guid: 8e4904903dc9c9144b2c54509fd92f5b, type: 3}
+      propertyPath: m_TagString
+      value: SecondWaveSmallEnemyAlienSpawnPoint
+      objectReference: {fileID: 0}
+    - target: {fileID: 3335116462436432381, guid: 8e4904903dc9c9144b2c54509fd92f5b, type: 3}
+      propertyPath: m_TagString
+      value: SecondWaveGunnerEnemyAlienSpawnPoint
       objectReference: {fileID: 0}
     - target: {fileID: 3414903399903200925, guid: 8e4904903dc9c9144b2c54509fd92f5b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2524,6 +2548,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Parking
       objectReference: {fileID: 0}
+    - target: {fileID: 5185906338160753299, guid: 8e4904903dc9c9144b2c54509fd92f5b, type: 3}
+      propertyPath: m_TagString
+      value: SecondWaveBigEnemyAlienSpawnPoint
+      objectReference: {fileID: 0}
+    - target: {fileID: 5665626452512892412, guid: 8e4904903dc9c9144b2c54509fd92f5b, type: 3}
+      propertyPath: m_TagString
+      value: FirstWaveGunnerEnemyAlienSpawnPoint
+      objectReference: {fileID: 0}
+    - target: {fileID: 5909008891188076429, guid: 8e4904903dc9c9144b2c54509fd92f5b, type: 3}
+      propertyPath: m_TagString
+      value: SecondWaveBigEnemyAlienSpawnPoint
+      objectReference: {fileID: 0}
+    - target: {fileID: 5984959688577015169, guid: 8e4904903dc9c9144b2c54509fd92f5b, type: 3}
+      propertyPath: m_TagString
+      value: FirstWaveGunnerEnemyAlienSpawnPoint
+      objectReference: {fileID: 0}
     - target: {fileID: 6020519061779136907, guid: 8e4904903dc9c9144b2c54509fd92f5b, type: 3}
       propertyPath: m_LocalPosition.x
       value: -158.5482
@@ -2575,6 +2615,10 @@ PrefabInstance:
     - target: {fileID: 6134151888099625574, guid: 8e4904903dc9c9144b2c54509fd92f5b, type: 3}
       propertyPath: m_LocalPosition.z
       value: 12.975374
+      objectReference: {fileID: 0}
+    - target: {fileID: 6267174637554616137, guid: 8e4904903dc9c9144b2c54509fd92f5b, type: 3}
+      propertyPath: m_TagString
+      value: SecondWaveSmallEnemyAlienSpawnPoint
       objectReference: {fileID: 0}
     - target: {fileID: 6290484152336483975, guid: 8e4904903dc9c9144b2c54509fd92f5b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2640,6 +2684,14 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 6581606896056402271, guid: 8e4904903dc9c9144b2c54509fd92f5b, type: 3}
+      propertyPath: m_TagString
+      value: SecondWaveGunnerEnemyAlienSpawnPoint
+      objectReference: {fileID: 0}
+    - target: {fileID: 6840153381945820985, guid: 8e4904903dc9c9144b2c54509fd92f5b, type: 3}
+      propertyPath: m_TagString
+      value: SecondWaveSmallEnemyAlienSpawnPoint
+      objectReference: {fileID: 0}
     - target: {fileID: 7118163367087286362, guid: 8e4904903dc9c9144b2c54509fd92f5b, type: 3}
       propertyPath: m_AgentTypeID
       value: -334000983
@@ -2656,6 +2708,14 @@ PrefabInstance:
       propertyPath: m_AgentTypeID
       value: -334000983
       objectReference: {fileID: 0}
+    - target: {fileID: 7572055936211658316, guid: 8e4904903dc9c9144b2c54509fd92f5b, type: 3}
+      propertyPath: m_TagString
+      value: FirstWaveSmallEnemyAlienSpawnPoint
+      objectReference: {fileID: 0}
+    - target: {fileID: 7647822997085880689, guid: 8e4904903dc9c9144b2c54509fd92f5b, type: 3}
+      propertyPath: m_TagString
+      value: FirstWaveSmallEnemyAlienSpawnPoint
+      objectReference: {fileID: 0}
     - target: {fileID: 7748116908571486983, guid: 8e4904903dc9c9144b2c54509fd92f5b, type: 3}
       propertyPath: m_Layer
       value: 10
@@ -2663,6 +2723,10 @@ PrefabInstance:
     - target: {fileID: 7748116908571486983, guid: 8e4904903dc9c9144b2c54509fd92f5b, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 127
+      objectReference: {fileID: 0}
+    - target: {fileID: 8196313628413393305, guid: 8e4904903dc9c9144b2c54509fd92f5b, type: 3}
+      propertyPath: m_TagString
+      value: FirstWaveGunnerEnemyAlienSpawnPoint
       objectReference: {fileID: 0}
     - target: {fileID: 8316295370452910051, guid: 8e4904903dc9c9144b2c54509fd92f5b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2672,9 +2736,17 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -13.46
       objectReference: {fileID: 0}
+    - target: {fileID: 8440292302360521878, guid: 8e4904903dc9c9144b2c54509fd92f5b, type: 3}
+      propertyPath: m_TagString
+      value: SecondWaveBigEnemyAlienSpawnPoint
+      objectReference: {fileID: 0}
     - target: {fileID: 8487235768614667143, guid: 8e4904903dc9c9144b2c54509fd92f5b, type: 3}
       propertyPath: m_Name
       value: Truck
+      objectReference: {fileID: 0}
+    - target: {fileID: 8596552637820253407, guid: 8e4904903dc9c9144b2c54509fd92f5b, type: 3}
+      propertyPath: m_TagString
+      value: SecondWaveSmallEnemyAlienSpawnPoint
       objectReference: {fileID: 0}
     - target: {fileID: 8602286174549808884, guid: 8e4904903dc9c9144b2c54509fd92f5b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2723,6 +2795,10 @@ PrefabInstance:
     - target: {fileID: 8927867300090486249, guid: 8e4904903dc9c9144b2c54509fd92f5b, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 57.07
+      objectReference: {fileID: 0}
+    - target: {fileID: 8983939027841685446, guid: 8e4904903dc9c9144b2c54509fd92f5b, type: 3}
+      propertyPath: _countEnemyWaves
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 9020183134269004851, guid: 8e4904903dc9c9144b2c54509fd92f5b, type: 3}
       propertyPath: m_LocalPosition.x

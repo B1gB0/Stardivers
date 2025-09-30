@@ -38,7 +38,7 @@ namespace Project.Scripts.Levels.Mars.SecondLevel
             _ballisticRocket.LaunchCompleted += _entranceLastLvlTrigger.Activate;
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             if (_enemySpawnTrigger.IsEnemySpawned)
             {
@@ -52,18 +52,18 @@ namespace Project.Scripts.Levels.Mars.SecondLevel
             _ballisticRocket.ProgressChanged += _ballisticRocketProgressBar.OnChangedValues;
         }
 
-        protected override void CreateWaveOfEnemy()
-        {
-            if (LastSpawnTime <= MinValue)
-            {
-                EnemySpawner.SpawnSmallAlienEnemy();
-                EnemySpawner.SpawnGunnerAlienEnemy();
-
-                LastSpawnTime = SpawnWaveOfEnemyDelay;
-            }
-
-            LastSpawnTime -= Time.deltaTime;
-        }
+        // protected override void CreateWaveOfEnemy()
+        // {
+        //     if (LastSpawnTime <= MinValue)
+        //     {
+        //         EnemySpawner.SpawnSmallAlienEnemy();
+        //         EnemySpawner.SpawnGunnerAlienEnemy();
+        //
+        //         LastSpawnTime = SpawnWaveOfEnemyDelay;
+        //     }
+        //
+        //     LastSpawnTime -= Time.deltaTime;
+        // }
 
         private void OnDestroy()
         {

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Project.Scripts.ECS.Data;
 using Project.Scripts.ECS.System;
 using UnityEngine;
 
@@ -10,17 +11,19 @@ namespace Project.Scripts.Levels.Spawners
         private const int MinValue = 0;
 
         private readonly GameInitSystem _gameInitSystem;
+        private readonly LevelInitData _levelInitData;
 
-        public ResourcesSpawner(GameInitSystem gameInitSystem)
+        public ResourcesSpawner(GameInitSystem gameInitSystem, LevelInitData levelInitData)
         {
             _gameInitSystem = gameInitSystem;
+            _levelInitData = levelInitData;
         }
         
         public void Spawn(int quantityGoldCore, int quantityHealingCore)
         {
             List<Vector3> sortedSpawnPoints = new List<Vector3>();
 
-            foreach (var stoneSpawnPoint in _gameInitSystem.StoneSpawnPoints)
+            foreach (var stoneSpawnPoint in _levelInitData.StoneSpawnPositions)
             {
                 var stoneSpawnPosition = stoneSpawnPoint + 
                                          Vector3.one * Random.Range(-RandomPositionFactor, RandomPositionFactor);
@@ -29,7 +32,7 @@ namespace Project.Scripts.Levels.Spawners
                 _gameInitSystem.CreateStone(stoneSpawnPosition);   
             }
 
-            sortedSpawnPoints = GetSortedRandomSpawnPoints(_gameInitSystem.GoldCoreSpawnPoints, quantityGoldCore);
+            sortedSpawnPoints = GetSortedRandomSpawnPoints(_levelInitData.GoldCoreSpawnPositions, quantityGoldCore);
 
             foreach (var goldCoreSpawnPoint in sortedSpawnPoints)
             {
@@ -40,7 +43,7 @@ namespace Project.Scripts.Levels.Spawners
                 _gameInitSystem.CreateGoldCore(goldCoreSpawnPosition);   
             }
             
-            sortedSpawnPoints = GetSortedRandomSpawnPoints(_gameInitSystem.HealingCoreSpawnPoints, quantityHealingCore);
+            sortedSpawnPoints = GetSortedRandomSpawnPoints(_levelInitData.HealingCoreSpawnPositions, quantityHealingCore);
             
             foreach (var healingCoreSpawnPoint in sortedSpawnPoints)
             {

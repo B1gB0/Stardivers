@@ -9,50 +9,73 @@ namespace Project.Scripts.ECS.Data
         [ContextMenu("Save Data")]
         public void SaveDataToConfigLevel()
         {
-            GameObject[] smallEnemyAlienSpawnPoints = GameObject.FindGameObjectsWithTag("SmallEnemyAlienSpawnPoint");
-            GameObject[] bigEnemyAlienSpawnPoints = GameObject.FindGameObjectsWithTag("BigEnemyAlienSpawnPoint");
-            GameObject[] gunnerEnemyAlienSpawnPoints = GameObject.FindGameObjectsWithTag("GunnerEnemyAlienSpawnPoint");
+            GameObject[] firstWaveSmallEnemy = GameObject.FindGameObjectsWithTag("FirstWaveSmallEnemyAlienSpawnPoint");
+            GameObject[] firstWaveBigEnemy = GameObject.FindGameObjectsWithTag("FirstWaveBigEnemyAlienSpawnPoint");
+            GameObject[] firstWaveGunnerEnemy = GameObject.FindGameObjectsWithTag("FirstWaveGunnerEnemyAlienSpawnPoint");
+            
+            GameObject[] secondWaveSmallEnemy = GameObject.FindGameObjectsWithTag("SecondWaveSmallEnemyAlienSpawnPoint");
+            GameObject[] secondWaveBigEnemy = GameObject.FindGameObjectsWithTag("SecondWaveBigEnemyAlienSpawnPoint");
+            GameObject[] secondWaveGunnerEnemy = GameObject.FindGameObjectsWithTag("SecondWaveGunnerEnemyAlienSpawnPoint");
+            
             GameObject[] stoneSpawnPoints = GameObject.FindGameObjectsWithTag("StoneSpawnPoint");
             GameObject[] healingCoreSpawnPoints = GameObject.FindGameObjectsWithTag("HealingCoreSpawnPoint");
             GameObject[] goldCoreSpawnPoints = GameObject.FindGameObjectsWithTag("GoldCoreSpawnPoint");
             GameObject playerSpawnPoint = GameObject.FindGameObjectWithTag("PlayerSpawnPoint");
         
-            levelInitData.PlayerSpawnPoint = playerSpawnPoint.transform.position;
+            levelInitData.PlayerSpawnPosition = playerSpawnPoint.transform.position;
         
-            foreach (var point in smallEnemyAlienSpawnPoints)
+            foreach (var point in firstWaveSmallEnemy)
             {
-                if(smallEnemyAlienSpawnPoints.Length != levelInitData.SmallEnemyAlienSpawnPoints.Count)
-                    levelInitData.SmallEnemyAlienSpawnPoints.Add(point.transform.position);
+                if(firstWaveSmallEnemy.Length != levelInitData.FirstWaveSmallEnemyAlienSpawnPositions.Count)
+                    levelInitData.FirstWaveSmallEnemyAlienSpawnPositions.Add(point.transform.position);
             }
         
-            foreach (var point in bigEnemyAlienSpawnPoints)
+            foreach (var point in firstWaveBigEnemy)
             {
-                if(bigEnemyAlienSpawnPoints.Length != levelInitData.BigEnemyAlienSpawnPoints.Count)
-                    levelInitData.BigEnemyAlienSpawnPoints.Add(point.transform.position);
+                if(firstWaveBigEnemy.Length != levelInitData.FirstWaveBigEnemyAlienSpawnPositions.Count)
+                    levelInitData.FirstWaveBigEnemyAlienSpawnPositions.Add(point.transform.position);
             }
             
-            foreach (var point in gunnerEnemyAlienSpawnPoints)
+            foreach (var point in firstWaveGunnerEnemy)
             {
-                if(gunnerEnemyAlienSpawnPoints.Length != levelInitData.GunnerEnemyAlienSpawnPoints.Count)
-                    levelInitData.GunnerEnemyAlienSpawnPoints.Add(point.transform.position);
+                if(firstWaveGunnerEnemy.Length != levelInitData.FirstWaveGunnerEnemyAlienSpawnPositions.Count)
+                    levelInitData.FirstWaveGunnerEnemyAlienSpawnPositions.Add(point.transform.position);
+            }
+            
+            foreach (var point in secondWaveSmallEnemy)
+            {
+                if(secondWaveSmallEnemy.Length != levelInitData.SecondWaveSmallEnemyAlienSpawnPositions.Count)
+                    levelInitData.SecondWaveSmallEnemyAlienSpawnPositions.Add(point.transform.position);
+            }
+        
+            foreach (var point in secondWaveBigEnemy)
+            {
+                if(secondWaveBigEnemy.Length != levelInitData.SecondWaveBigEnemyAlienSpawnPositions.Count)
+                    levelInitData.SecondWaveBigEnemyAlienSpawnPositions.Add(point.transform.position);
+            }
+            
+            foreach (var point in secondWaveGunnerEnemy)
+            {
+                if(secondWaveGunnerEnemy.Length != levelInitData.SecondWaveGunnerEnemyAlienSpawnPositions.Count)
+                    levelInitData.SecondWaveGunnerEnemyAlienSpawnPositions.Add(point.transform.position);
             }
 
             foreach (var stone in stoneSpawnPoints)
             {
-                if(stoneSpawnPoints.Length != levelInitData.StoneSpawnPoints.Count)
-                    levelInitData.StoneSpawnPoints.Add(stone.transform.position);
+                if(stoneSpawnPoints.Length != levelInitData.StoneSpawnPositions.Count)
+                    levelInitData.StoneSpawnPositions.Add(stone.transform.position);
             }
         
             foreach (var healingCore in healingCoreSpawnPoints)
             {
-                if(healingCoreSpawnPoints.Length != levelInitData.HealingCoreSpawnPoints.Count)
-                    levelInitData.HealingCoreSpawnPoints.Add(healingCore.transform.position);
+                if(healingCoreSpawnPoints.Length != levelInitData.HealingCoreSpawnPositions.Count)
+                    levelInitData.HealingCoreSpawnPositions.Add(healingCore.transform.position);
             }
         
             foreach (var goldCore in goldCoreSpawnPoints)
             {
-                if(goldCoreSpawnPoints.Length != levelInitData.GoldCoreSpawnPoints.Count)
-                    levelInitData.GoldCoreSpawnPoints.Add(goldCore.transform.position);
+                if(goldCoreSpawnPoints.Length != levelInitData.GoldCoreSpawnPositions.Count)
+                    levelInitData.GoldCoreSpawnPositions.Add(goldCore.transform.position);
             }
         }
     }

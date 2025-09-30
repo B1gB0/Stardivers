@@ -18,7 +18,7 @@ namespace Project.Scripts.Levels.MysteryPlanet.ThirdLevel
             IsInitiatedSpawners -= SpawnResources;
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             if (_enemySpawnTrigger.IsEnemySpawned)
             {

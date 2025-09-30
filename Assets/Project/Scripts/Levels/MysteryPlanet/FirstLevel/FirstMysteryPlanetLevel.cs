@@ -25,7 +25,7 @@ namespace Project.Scripts.Levels.MysteryPlanet.FirstLevel
             
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             if (_enemySpawnTrigger.IsEnemySpawned)
             {

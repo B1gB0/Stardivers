@@ -106,7 +106,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             _operationService.SetCurrentNumberLevel(enterParameters.CurrentNumberLevel);
 
             await InitData();
-            
+
             await _characteristicsWeaponDataService.Init();
             await _cardService.Init();
             await _enemyService.Init();
@@ -273,9 +273,17 @@ namespace Project.Scripts.Game.Gameplay.Root
             _updateSystems.Inject(_resourceService);
             _updateSystems.Inject(_enemyService);
             _updateSystems.Inject(_playerService);
+            _updateSystems.Inject(_playerInitData);
+            _updateSystems.Inject(_smallAlienEnemyData);
+            _updateSystems.Inject(_bigAlienEnemyData);
+            _updateSystems.Inject(_gunnerEnemyAlienData);
+            _updateSystems.Inject(_stoneData);
+            _updateSystems.Inject(_goldCoreData);
+            _updateSystems.Inject(_healingCoreData);
+            _updateSystems.Inject(_capsuleData);
+            _updateSystems.Inject(_levelData);
 
-            _updateSystems.Add(_gameInitSystem = new GameInitSystem(_playerInitData, _smallAlienEnemyData, _bigAlienEnemyData, 
-                _gunnerEnemyAlienData, _stoneData, _capsuleData, _levelData, _healingCoreData, _goldCoreData));
+            _updateSystems.Add(_gameInitSystem = new GameInitSystem());
             _updateSystems.Add(new PlayerInputSystem());
             _updateSystems.Add(new MainCameraSystem(_cinemachineVirtualCamera));
             _updateSystems.Add(new PlayerAnimatedSystem());
