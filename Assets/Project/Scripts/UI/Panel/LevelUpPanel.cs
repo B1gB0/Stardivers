@@ -18,6 +18,7 @@ namespace Project.Scripts.UI.Panel
         private const int Remainder = 0;
         private const int StartWeapon = 0;
         private const int Multiplicity = 3;
+        private const int CountWeapons = 4;
         
         private readonly List<Card> _currentImprovementCards = new ();
         private readonly List<Card> _currentWeaponCards = new ();
@@ -33,6 +34,8 @@ namespace Project.Scripts.UI.Panel
 
         private WeaponFactory _weaponFactory;
         private WeaponHolder _weaponHolder;
+
+        public bool IsClosed { get; private set; }
 
         [Inject]
         private void Construct(AudioSoundsService audioSoundsService, IPauseService pauseService, 
@@ -86,10 +89,12 @@ namespace Project.Scripts.UI.Panel
         public void Show()
         {
             gameObject.SetActive(true);
+            IsClosed = false;
         }
 
         public void Hide()
         {
+            IsClosed = true;
             gameObject.SetActive(false);
         }
 
@@ -101,7 +106,7 @@ namespace Project.Scripts.UI.Panel
 
         private void GetCardsForLevelUp(int currentLevel)
         {
-            if (currentLevel % Multiplicity == Remainder)
+            if (currentLevel % Multiplicity == Remainder && _weaponHolder.Weapons.Count < CountWeapons)
             {
                 SortAndGetCards(_currentWeaponCards);
             }

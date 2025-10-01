@@ -32,7 +32,7 @@ namespace Project.Scripts.Weapon.Player
         private EnemyDetector _detector;
         private AudioSoundsService _audioSoundsService;
     
-        private EnemyAlienActor closestAlienEnemy;
+        private EnemyAlienActor _closestAlienEnemy;
         private ObjectPool<MachineGunBullet> _poolBullets;
 
         public MachineGunCharacteristics MachineGunCharacteristics { get; } = new();
@@ -61,9 +61,9 @@ namespace Project.Scripts.Weapon.Player
 
         private void FixedUpdate()
         {
-            closestAlienEnemy = _detector.GetClosestEnemy();
+            _closestAlienEnemy = _detector.GetClosestEnemy();
 
-            if (closestAlienEnemy == null) return;
+            if (_closestAlienEnemy == null) return;
         
             if (_detector.ClosestEnemyDistance <= MachineGunCharacteristics.RangeAttack && !_isReloading)
             {
@@ -75,7 +75,7 @@ namespace Project.Scripts.Weapon.Player
     
         public override void Shoot()
         {
-            if (_lastBurstTime <= MinValue && closestAlienEnemy.Health.TargetHealth > MinValue)
+            if (_lastBurstTime <= MinValue && _closestAlienEnemy.Health.TargetHealth > MinValue)
             {
                 _audioSoundsService.PlaySound(Sounds.MachineGun);
             
@@ -119,7 +119,7 @@ namespace Project.Scripts.Weapon.Player
             
                 _bullet.transform.position = shootPoint.position;
                 
-                _bullet.SetDirection(closestAlienEnemy.transform);
+                _bullet.SetDirection(_closestAlienEnemy.transform.position);
                 _bullet.SetCharacteristics(MachineGunCharacteristics.Damage, MachineGunCharacteristics.ProjectileSpeed);
 
                 yield return new WaitForSeconds(DelayBetweenShots);

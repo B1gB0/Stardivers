@@ -75,7 +75,7 @@ namespace Project.Scripts.Weapon.Player
 
                 _bullet.transform.position = _shootPoint.position;
 
-                _bullet.SetDirection(_closestAlienEnemy.transform);
+                _bullet.SetDirection(_closestAlienEnemy.transform.position);
                 _bullet.SetCharacteristics(GunCharacteristics.Damage, GunCharacteristics.ProjectileSpeed);
 
                 _lastShotTime = GunCharacteristics.FireRate;

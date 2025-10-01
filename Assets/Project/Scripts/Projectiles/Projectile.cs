@@ -6,6 +6,8 @@ namespace Project.Scripts.Projectiles
 {
     public abstract class Projectile : MonoBehaviour
     {
+        private const float DefaultDirectionY = 0f;
+        
         [field: SerializeField] public float LifeTime { get; private set; } = 4f;
         
         protected float Damage;
@@ -51,10 +53,12 @@ namespace Project.Scripts.Projectiles
             gameObject.SetActive(false);
         }
         
-        public virtual void SetDirection(Transform enemy)
+        public virtual void SetDirection(Vector3 targetPosition)
         {
-            Direction = (enemy.position - Transform.position).normalized;
+            Direction = (targetPosition - Transform.position).normalized;
             Transform.forward = Direction;
+            Direction.y = DefaultDirectionY;
+            Direction = Direction.normalized;
         }
 
         public virtual void SetCharacteristics(float damage, float bulletSpeed)

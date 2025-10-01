@@ -9,12 +9,12 @@ namespace  Project.Scripts.Projectiles.Grenades
     {
         private const float ThrowTime = 2f;
 
-        private Transform _enemyPosition;
+        private Vector3 _enemyPosition;
 
         protected override void FixedUpdate()
         {
             StartCoroutine(ThrowGrenade());
-            Transform.position = Vector3.MoveTowards(Transform.position, _enemyPosition.position, 
+            Transform.position = Vector3.MoveTowards(Transform.position, _enemyPosition, 
                 ProjectileSpeed * Time.fixedDeltaTime);
         }
 
@@ -27,9 +27,9 @@ namespace  Project.Scripts.Projectiles.Grenades
             }
         }
 
-        public override void SetDirection(Transform enemyPosition)
+        public override void SetDirection(Vector3 targetPosition)
         {
-            _enemyPosition = enemyPosition;
+            _enemyPosition = targetPosition;
         }
         
         public void SetCharacteristics(float damage, float explosionRadius, float projectileSpeed)

@@ -42,9 +42,9 @@ namespace Project.Scripts.UI.Panel
             _goToMainMenuButton.onClick.AddListener(Hide);
             _rebornPlayerButton.onClick.AddListener(Hide);
             
-            _rebornPlayerButton.onClick.AddListener(_pauseService.PlayGame);
-            _nextLevelButton.onClick.AddListener(_pauseService.PlayGame);
-            _goToMainMenuButton.onClick.AddListener(_pauseService.PlayGame);
+            _rebornPlayerButton.onClick.AddListener(OnPlayGame);
+            _nextLevelButton.onClick.AddListener(OnPlayGame);
+            _goToMainMenuButton.onClick.AddListener(OnPlayGame);
         }
 
         private void OnDisable()
@@ -52,9 +52,9 @@ namespace Project.Scripts.UI.Panel
             _goToMainMenuButton.onClick.RemoveListener(Hide);
             _rebornPlayerButton.onClick.RemoveListener(Hide);
             
-            _rebornPlayerButton.onClick.RemoveListener(_pauseService.PlayGame);
-            _nextLevelButton.onClick.RemoveListener(_pauseService.PlayGame);
-            _goToMainMenuButton.onClick.RemoveListener(_pauseService.PlayGame);
+            _rebornPlayerButton.onClick.RemoveListener(OnPlayGame);
+            _nextLevelButton.onClick.RemoveListener(OnPlayGame);
+            _goToMainMenuButton.onClick.RemoveListener(OnPlayGame);
         }
 
         public void SetVictoryPanel()
@@ -75,14 +75,6 @@ namespace Project.Scripts.UI.Panel
             OnChangeColor(_redColor);
         }
 
-        private void OnChangeColor(Color color)
-        {
-            foreach (var image in _images)
-            {
-                image.color = color;
-            }
-        }
-    
         public void Show()
         {
             _pauseService.StopGame();
@@ -92,6 +84,19 @@ namespace Project.Scripts.UI.Panel
         public void Hide()
         {
             gameObject.SetActive(false);
+        }
+        
+        private void OnChangeColor(Color color)
+        {
+            foreach (var image in _images)
+            {
+                image.color = color;
+            }
+        }
+
+        private void OnPlayGame()
+        {
+            _pauseService.PlayGame();
         }
     }
 }

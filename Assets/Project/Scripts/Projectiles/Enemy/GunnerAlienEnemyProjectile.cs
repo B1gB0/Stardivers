@@ -21,10 +21,10 @@ namespace Project.Scripts.Projectiles.Enemy
             }
         }
 
-        public override void SetDirection(Transform player)
+        public override void SetDirection(Vector3 targetPosition)
         {
-            Direction = (player.position - Transform.position).normalized;
-            Transform.LookAt(player);
+            Direction = (targetPosition - Transform.position).normalized;
+            Transform.LookAt(targetPosition);
         }
 
         public void SetDamage(float damage)

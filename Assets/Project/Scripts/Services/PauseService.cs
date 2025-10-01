@@ -11,18 +11,21 @@ namespace Project.Scripts.Services
         private const int StopTime = 0;
 
         private int _countPauses;
-        
+
         public event Action OnGameStarted;
         public event Action OnGamePaused;
 
-        public void PlayGame()
+        public void PlayGame(bool isYGGameplayStart = false)
         {
             switch (_countPauses)
             {
                 case MinCountPause :
                     _countPauses = 0;
                     OnGameStarted?.Invoke();
-                    YG2.GameplayStart();
+                    
+                    if(isYGGameplayStart)
+                        YG2.GameplayStart();
+                    
                     Time.timeScale = PlayTime;
                     break;
                 case > MinCountPause :
@@ -31,12 +34,15 @@ namespace Project.Scripts.Services
             }
         }
 
-        public void StopGame()
+        public void StopGame(bool isYGGameplayStop = false)
         {
             if (Time.timeScale != StopTime)
             {
                 OnGamePaused?.Invoke();
-                YG2.GameplayStop();
+                
+                if(isYGGameplayStop)
+                    YG2.GameplayStop();
+                
                 Time.timeScale = StopTime;
             }
             

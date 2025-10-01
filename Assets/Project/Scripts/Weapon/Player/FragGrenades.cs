@@ -73,7 +73,7 @@ namespace Project.Scripts.Weapon.Player
 
                 _fragGrenade.transform.position = _shootPoint.position;
 
-                _fragGrenade.SetDirection(_closestAlienEnemy.transform);
+                _fragGrenade.SetDirection(_closestAlienEnemy.transform.position);
                 _fragGrenade.SetCharacteristics(FragGrenadeCharacteristics.Damage, FragGrenadeCharacteristics.ExplosionRadius,
                     FragGrenadeCharacteristics.ProjectileSpeed);
 

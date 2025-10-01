@@ -20,7 +20,7 @@ namespace Project.Scripts.Weapon.Enemy
             _projectile.transform.position = _shootPoint.position;
             
             _projectile.SetDamage(_damage);           
-            _projectile.SetDirection(_target);
+            _projectile.SetDirection(_target.position);
         }
 
         public void SetData(Transform target, ObjectPool<GunnerAlienEnemyProjectile> projectilePool, float damage)

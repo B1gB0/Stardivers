@@ -122,13 +122,14 @@ namespace Project.Scripts.Game.Gameplay.Root
             _adviserMessagePanel = _viewFactory.CreateAdviserMessagePanel();
             _timer = _viewFactory.CreateTimer();
             _ballisticRocketProgressBar = _viewFactory.CreateBallisticRocketProgressBar();
-            
-            _experiencePoints = new ExperiencePoints(_playerProgressionData);
-
-            InitEcs();
 
             _levelUpPanel = _viewFactory.CreateLevelUpPanel();
             _endGamePanel = _viewFactory.CreateEndGamePanel();
+            
+            _experiencePoints = new ExperiencePoints(_playerProgressionData, _levelUpPanel);
+            
+            InitEcs();
+            
             _healthBar = _viewFactory.CreateHealthBar(_gameInitSystem.PlayerHealth);
             _progressBar = _viewFactory.CreateProgressBar(_experiencePoints, _gameInitSystem.PlayerTransform);
 
