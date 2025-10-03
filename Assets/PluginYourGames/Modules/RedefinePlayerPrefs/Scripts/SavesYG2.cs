@@ -8,6 +8,8 @@ namespace YG
         public int Gold;
         public int RedCrystal;
         public int AcumulatedScore;
+        public bool isMarsOperationUnlock = true;
+        public bool isMysteryPlanetUnlock;
         
         public GunCharacteristics GunCharacteristics;
         public MachineGunCharacteristics MachineGunCharacteristics;

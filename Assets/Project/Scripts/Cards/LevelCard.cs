@@ -2,10 +2,10 @@
 {
     public enum LevelCard
     {
-        Common,
-        Unusual,
-        Rare,
-        Epic,
-        Legendary
+        Common = 0,
+        Unusual = 1,
+        Rare = 2,
+        Epic = 3,
+        Legendary = 4
     }
 }

@@ -86,11 +86,11 @@ namespace Project.Scripts.Game.GameRoot
             var sceneEntryPoint = FindFirstObjectByType<MainMenuEntryPoint>();
             sceneEntryPoint.Run(_uiRoot, enterParameters).Subscribe(mainMenuExitParameters =>
             {
-                if (_operationService.CurrentOperation.Id == Operations.Mars)
+                if (_operationService.CurrentOperation.Id == Constant.Operations.Mars)
                 {
                     mainMenuExitParameters.TargetSceneEnterParameters.SetNewSceneName(_operationService.GetSceneNameByCurrentNumber());
                 }
-                else if (_operationService.CurrentOperation.Id == Operations.MysteryPlanet)
+                else if (_operationService.CurrentOperation.Id == Constant.Operations.MysteryPlanet)
                 {
                     mainMenuExitParameters.TargetSceneEnterParameters.SetNewSceneName(_operationService.GetSceneNameByCurrentNumber());
                 }

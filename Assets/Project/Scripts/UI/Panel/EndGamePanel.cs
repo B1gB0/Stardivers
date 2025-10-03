@@ -4,6 +4,7 @@ using Project.Scripts.UI.View;
 using Reflex.Attributes;
 using UnityEngine;
 using UnityEngine.UI;
+using YG;
 
 namespace Project.Scripts.UI.Panel
 {
@@ -11,7 +12,8 @@ namespace Project.Scripts.UI.Panel
     {
         private const string VictoryLabelText = "Victory!";
         private const string DefeatLabelText = "Defeat!";
-        
+        private const int CountCorrectFactor = 1;
+
         private readonly Color _redColor = Color.red;
         private readonly Color _blueColor = Color.blue;
 
@@ -59,8 +61,21 @@ namespace Project.Scripts.UI.Panel
 
         public void SetVictoryPanel()
         {
-            _nextLevelButton.gameObject.SetActive(_operationService.CurrentNumberLevel != 
-                                                  _operationService.CurrentOperation.Maps.Count - 1);
+            if (_operationService.CurrentNumberLevel ==
+                _operationService.CurrentOperation.Maps.Count - CountCorrectFactor)
+            {
+                _nextLevelButton.gameObject.SetActive(false);
+                
+                if (_operationService.CurrentOperation.Id == Game.Constant.Operations.Mars)
+                {
+                    YG2.saves.isMysteryPlanetUnlock = true;
+                    YG2.SaveProgress();
+                }
+            }
+            else
+            {
+                _nextLevelButton.gameObject.SetActive(true);
+            }
 
             _rebornPlayerButton.gameObject.SetActive(false);
             _labelText.text = VictoryLabelText;

@@ -37,7 +37,7 @@ namespace Project.Scripts.Services
                 {
                     if (operation.Id == operationData.Id)
                     {
-                        operation.SetData(operationData.NameRu, operationData.NameEn, operationData.NameTr);
+                        operation.SetData(operationData);
                     }
                 }
             }
@@ -75,8 +75,8 @@ namespace Project.Scripts.Services
         {
             return CurrentOperation.Id switch
             {
-                Game.GameRoot.Operations.Mars => _marsSceneLevels[number],
-                Game.GameRoot.Operations.MysteryPlanet => _mysteryPlanetSceneLevels[number],
+                Game.Constant.Operations.Mars => _marsSceneLevels[number],
+                Game.Constant.Operations.MysteryPlanet => _mysteryPlanetSceneLevels[number],
                 _ => null
             };
         }

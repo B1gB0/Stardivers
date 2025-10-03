@@ -11,8 +11,11 @@ namespace Project.Scripts.UI.Panel
 {
     public class ChoosingOperationPanel : MonoBehaviour, IView
     {
-        [SerializeField] private OperationView _operationView;
+        private const int MinValue = 0;
+        private const int CountCorrectFactor = 1;
         
+        [SerializeField] private OperationView _operationView;
+
         [SerializeField] private Button _backToMainMenuButton;
         [SerializeField] private Button _priviousButton;
         [SerializeField] private Button _nextButton;
@@ -82,8 +85,8 @@ namespace Project.Scripts.UI.Panel
         {
             _audioSoundsService.PlaySound(Sounds.Button);
             
-            if (_currentIndex == _operationService.Operations.Count - 1)
-                _currentIndex = 0;
+            if (_currentIndex == _operationService.Operations.Count - CountCorrectFactor)
+                _currentIndex = MinValue;
             else
                 _currentIndex++;
 
@@ -94,8 +97,8 @@ namespace Project.Scripts.UI.Panel
         {
             _audioSoundsService.PlaySound(Sounds.Button);
             
-            if (_currentIndex == 0)
-                _currentIndex = _operationService.Operations.Count - 1;
+            if (_currentIndex == MinValue)
+                _currentIndex = _operationService.Operations.Count - CountCorrectFactor;
             else
                 _currentIndex--;
         

@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using Project.Scripts.Cards;
+using Project.Scripts.Game.Constant;
+using Project.Scripts.Game.GameRoot;
 using Project.Scripts.Weapon.CharacteristicsOfWeapon;
 using Project.Scripts.Weapon.Player;
 using UnityEngine;
@@ -21,10 +23,6 @@ namespace Project.Scripts.UI.View
         private const int DiggingSpeed = 7;
         private const int MoveSpeed = 8;
 
-        private const string Ru = "ru";
-        private const string En = "en";
-        private const string Tr = "tr";
-        
         private const string Common = "Common";
         private const string Unusual = "Unusual";
         private const string Rare = "Rare";
@@ -104,17 +102,17 @@ namespace Project.Scripts.UI.View
                     
                     _label.text = YG2.lang switch
                     {
-                        Ru => improvementCard.CharacteristicsLocalizationData.NameRu,
-                        En => improvementCard.CharacteristicsLocalizationData.NameEn,
-                        Tr => improvementCard.CharacteristicsLocalizationData.NameTr,
+                        LocalizationCode.Ru => improvementCard.CharacteristicsLocalizationData.NameRu,
+                        LocalizationCode.En => improvementCard.CharacteristicsLocalizationData.NameEn,
+                        LocalizationCode.Tr => improvementCard.CharacteristicsLocalizationData.NameTr,
                         _ => _label.text
                     };
                 
                     _description.text = YG2.lang switch
                     {
-                        Ru => improvementCard.CharacteristicsLocalizationData.DescriptionRu,
-                        En => improvementCard.CharacteristicsLocalizationData.DescriptionEn,
-                        Tr => improvementCard.CharacteristicsLocalizationData.DescriptionTr,
+                        LocalizationCode.Ru => improvementCard.CharacteristicsLocalizationData.DescriptionRu,
+                        LocalizationCode.En => improvementCard.CharacteristicsLocalizationData.DescriptionEn,
+                        LocalizationCode.Tr => improvementCard.CharacteristicsLocalizationData.DescriptionTr,
                         _ => _description.text
                     };
 
@@ -128,9 +126,9 @@ namespace Project.Scripts.UI.View
 
                     _level.text = YG2.lang switch
                     {
-                        Ru => improvementCard.ImprovementData.LevelCardRu,
-                        En => improvementCard.ImprovementData.LevelCardEn,
-                        Tr => improvementCard.ImprovementData.LevelCardTr,
+                        LocalizationCode.Ru => improvementCard.ImprovementData.LevelCardRu,
+                        LocalizationCode.En => improvementCard.ImprovementData.LevelCardEn,
+                        LocalizationCode.Tr => improvementCard.ImprovementData.LevelCardTr,
                         _ => _level.text
                     };
 
@@ -143,17 +141,17 @@ namespace Project.Scripts.UI.View
                 case WeaponCard weaponCard:
                     _label.text = YG2.lang switch
                     {
-                        Ru => weaponCard.WeaponLocalizationData.NameRu,
-                        En => weaponCard.WeaponLocalizationData.NameEn,
-                        Tr => weaponCard.WeaponLocalizationData.NameTr,
+                        LocalizationCode.Ru => weaponCard.WeaponLocalizationData.NameRu,
+                        LocalizationCode.En => weaponCard.WeaponLocalizationData.NameEn,
+                        LocalizationCode.Tr => weaponCard.WeaponLocalizationData.NameTr,
                         _ => _label.text
                     };
                 
                     _description.text = YG2.lang switch
                     {
-                        Ru => weaponCard.WeaponLocalizationData.DescriptionRu,
-                        En => weaponCard.WeaponLocalizationData.DescriptionEn,
-                        Tr => weaponCard.WeaponLocalizationData.DescriptionTr,
+                        LocalizationCode.Ru => weaponCard.WeaponLocalizationData.DescriptionRu,
+                        LocalizationCode.En => weaponCard.WeaponLocalizationData.DescriptionEn,
+                        LocalizationCode.Tr => weaponCard.WeaponLocalizationData.DescriptionTr,
                         _ => _description.text
                     };
 

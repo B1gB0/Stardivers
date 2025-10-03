@@ -1,4 +1,4 @@
-﻿namespace Project.Scripts.Game.GameRoot
+﻿namespace Project.Scripts.Game.Constant
 {
     public static class Operations
     {
