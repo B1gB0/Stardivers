@@ -41,6 +41,7 @@ namespace Project.Scripts.DI
             builder.AddSingleton(typeof(CardService), typeof(ICardService));
             builder.AddSingleton(typeof(EnemyService), typeof(IEnemyService));
             builder.AddSingleton(typeof(PlayerService), typeof(IPlayerService));
+            builder.AddSingleton(typeof(GoldService), typeof(IGoldService));
             Debug.Log("Регистрация сервисов завершена");
         }
         

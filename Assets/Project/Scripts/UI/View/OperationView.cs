@@ -1,6 +1,8 @@
 ﻿using System;
 using Project.Scripts.Game.Constant;
 using Project.Scripts.Levels;
+using Project.Scripts.Services;
+using Reflex.Attributes;
 using UnityEngine;
 using UnityEngine.UI;
 using YG;
@@ -24,6 +26,23 @@ namespace Project.Scripts.UI.View
 
         private Operation _operation;
         private bool _isUnlock;
+        private IGoldService _goldService;
+
+        [Inject]
+        private void Construct(IGoldService goldService)
+        {
+            _goldService = goldService;
+        }
+
+        private void OnEnable()
+        {
+            _purchaseButton.onClick.AddListener(OnPurchaseButtonClicked);
+        }
+
+        private void OnDisable()
+        {
+            _purchaseButton.onClick.RemoveListener(OnPurchaseButtonClicked);
+        }
 
         public void GetOperation(Operation operation)
         {
@@ -100,6 +119,27 @@ namespace Project.Scripts.UI.View
                 case Game.Constant.Operations.MysteryPlanet:
                 {
                     return YG2.saves.isMysteryPlanetUnlock;
+                }
+                default:
+                    throw new Exception("Operation not found");
+            }
+        }
+
+        private void OnPurchaseButtonClicked()
+        {
+            if(_goldService.Gold < _operation.Price)
+                return;
+            
+            _goldService.SpendGold(_operation.Price);
+            
+            switch (_operation.Id)
+            {
+                case Game.Constant.Operations.MysteryPlanet:
+                {
+                    YG2.saves.isMysteryPlanetUnlock = true;
+                    YG2.SaveProgress();
+                    CheckAndSetPurchaseState();
+                    break;
                 }
                 default:
                     throw new Exception("Operation not found");

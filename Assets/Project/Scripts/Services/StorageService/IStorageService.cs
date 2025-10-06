@@ -1,6 +1,6 @@
 using System;
 
-namespace Source.CommonModules.StorageModule
+namespace Project.Scripts.Services.StorageService
 {
     public interface IStorageService
     {

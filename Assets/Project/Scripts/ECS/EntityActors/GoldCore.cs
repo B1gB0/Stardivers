@@ -1,7 +1,6 @@
 ﻿using Project.Scripts.Crystals;
 using Project.Scripts.Experience;
 using Project.Scripts.Services;
-using Project.Scripts.UI.View;
 using UnityEngine;
 
 namespace Project.Scripts.ECS.EntityActors
@@ -21,7 +20,7 @@ namespace Project.Scripts.ECS.EntityActors
         private Vector3 _jumpDirectionCrystal;
         
         private IFloatingTextService _floatingTextService;
-        private GoldView _goldView;
+        private IGoldService _goldService;
 
         private void OnEnable()
         {
@@ -35,10 +34,10 @@ namespace Project.Scripts.ECS.EntityActors
             Health.IsDamaged -= SpawnCrystal;
         }
         
-        public void GetServices(IFloatingTextService floatingTextService, GoldView goldView)
+        public void GetServices(IFloatingTextService floatingTextService, IGoldService goldService)
         {
             _floatingTextService = floatingTextService;
-            _goldView = goldView;
+            _goldService = goldService;
         }
 
         public void AcceptScore(IScoreActorVisitor visitor)
@@ -48,13 +47,17 @@ namespace Project.Scripts.ECS.EntityActors
 
         private void SpawnCrystal()
         {
-            _rotationCrystal = new Vector3(Random.Range(MinAngle, MaxAngle), Random.Range(MinAngle, MaxAngle), Random.Range(MinAngle, MaxAngle));
-            _jumpDirectionCrystal = new Vector3(Random.Range(MinDirection, MaxDirection), MaxDirection, Random.Range(MinDirection, MaxDirection));
+            _rotationCrystal = new Vector3(Random.Range(MinAngle, MaxAngle), Random.Range(MinAngle, MaxAngle),
+                Random.Range(MinAngle, MaxAngle));
+            _jumpDirectionCrystal = new Vector3(Random.Range(MinDirection, MaxDirection), MaxDirection,
+                Random.Range(MinDirection, MaxDirection));
             
-            var crystal = Instantiate(_goldCrystalPrefab, _crystalSpawnPoint.position, Quaternion.Euler(_rotationCrystal));
+            var crystal = Instantiate(_goldCrystalPrefab, _crystalSpawnPoint.position,
+                Quaternion.Euler(_rotationCrystal));
             crystal.GetTextService(_floatingTextService);
-            crystal.GetGoldView(_goldView);
-            crystal.Rigidbody.AddForceAtPosition(_jumpDirectionCrystal * CrystalJumpForce, crystal.transform.position, ForceMode.Impulse);
+            crystal.GetGoldService(_goldService);
+            crystal.Rigidbody.AddForceAtPosition(_jumpDirectionCrystal * CrystalJumpForce,
+                crystal.transform.position, ForceMode.Impulse);
         }
         
         private void Die()

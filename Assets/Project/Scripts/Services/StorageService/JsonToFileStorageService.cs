@@ -1,10 +1,9 @@
 ﻿using System;
 using System.IO;
 using Newtonsoft.Json;
-using Source.CommonModules.StorageModule;
 using UnityEngine;
 
-namespace Build.Game.Scripts.StorageService
+namespace Project.Scripts.Services.StorageService
 {
     public class JsonToFileStorageService : IStorageService
     {

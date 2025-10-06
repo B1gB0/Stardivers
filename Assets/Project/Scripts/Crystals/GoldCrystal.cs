@@ -1,4 +1,5 @@
-﻿using Project.Scripts.UI.View;
+﻿using Project.Scripts.Services;
+using Project.Scripts.UI.View;
 using UnityEngine;
 
 namespace Project.Scripts.Crystals
@@ -8,19 +9,19 @@ namespace Project.Scripts.Crystals
     {
         [field: SerializeField] public int GoldValue { get; private set; }
         [field: SerializeField] public Color Color { get; private set; }
-
-        private GoldView _goldView;
-
-        public void GetGoldView(GoldView goldView)
-        {
-            _goldView = goldView;
-        }
+        
+        private IGoldService _goldService;
 
         public void Destroy()
         {
-            _goldView.SetValue(GoldValue);
+            _goldService.AddGold(GoldValue);
             TextService.OnChangedFloatingText("+" + GoldValue, transform, FloatingTextViewType.Gold, Color);
             Destroy(gameObject);
+        }
+
+        public void GetGoldService(IGoldService goldService)
+        {
+            _goldService = goldService;
         }
     }
 }

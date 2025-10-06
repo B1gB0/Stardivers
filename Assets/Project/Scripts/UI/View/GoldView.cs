@@ -1,7 +1,7 @@
-using System;
+using Project.Scripts.Services;
+using Reflex.Attributes;
 using TMPro;
 using UnityEngine;
-using YG;
 
 namespace Project.Scripts.UI.View
 {
@@ -9,19 +9,24 @@ namespace Project.Scripts.UI.View
     {
         [SerializeField] private TMP_Text _text;
 
-        public int AccumulatedGold { get; private set; }
+        private IGoldService _goldService;
 
-        private void Start()
+        [Inject]
+        private void Construct(IGoldService goldService)
         {
-            AccumulatedGold = YG2.saves.Gold;
-            _text.text = AccumulatedGold.ToString();
+            _goldService = goldService;
+            _text.text = _goldService.Gold.ToString();
+            _goldService.OnValueChanged += SetValue;
         }
 
-        public void SetValue(int value)
+        private void SetValue(int value)
         {
-            AccumulatedGold += value;
-            _text.text = AccumulatedGold.ToString();
-            YG2.saves.Gold = AccumulatedGold;
+            _text.text = _goldService.Gold.ToString();
+        }
+
+        private void OnDestroy()
+        {
+            _goldService.OnValueChanged -= SetValue;
         }
     }
 }

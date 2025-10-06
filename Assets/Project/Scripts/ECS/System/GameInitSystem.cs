@@ -40,7 +40,7 @@ namespace Project.Scripts.ECS.System
         private readonly IResourceService _resourceService;
         private readonly IEnemyService _enemyService;
         private readonly IPlayerService _playerService;
-        private readonly GoldView _goldView;
+        private readonly IGoldService _goldService;
         private readonly AudioSoundsService _audioSoundsService;
         private readonly ExperiencePoints _experiencePoints;
         private readonly Timer _timer;
@@ -283,7 +283,7 @@ namespace Project.Scripts.ECS.System
         {
             var goldCore = Object.Instantiate(_goldCoreInitData.GoldCorePrefab, atPosition, Quaternion.identity);
             goldCore.GetExperiencePoints(_experiencePoints);
-            goldCore.GetServices(_textService, _goldView);
+            goldCore.GetServices(_textService, _goldService);
             
             InitResource(goldCore);
         }

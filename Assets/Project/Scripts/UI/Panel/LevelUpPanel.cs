@@ -4,10 +4,12 @@ using Project.Game.Scripts;
 using Project.Scripts.Cards;
 using Project.Scripts.Services;
 using Project.Scripts.UI.View;
+using Project.Scripts.Weapon.CharacteristicsOfWeapon;
 using Project.Scripts.Weapon.Improvements;
 using Project.Scripts.Weapon.Player;
 using Reflex.Attributes;
 using UnityEngine;
+using UnityEngine.UI;
 using Random = System.Random;
 
 namespace Project.Scripts.UI.Panel
@@ -19,32 +21,38 @@ namespace Project.Scripts.UI.Panel
         private const int StartWeapon = 0;
         private const int Multiplicity = 3;
         private const int CountWeapons = 4;
-        
-        private readonly List<Card> _currentImprovementCards = new ();
-        private readonly List<Card> _currentWeaponCards = new ();
-        private readonly WeaponVisitor _weaponVisitor = new ();
-        private readonly Random _random = new ();
 
-        [SerializeField] private List<CardView> _cardsView = new ();
+        private readonly List<Card> _currentImprovementCards = new();
+        private readonly List<Card> _currentWeaponCards = new();
+        private readonly WeaponVisitor _weaponVisitor = new();
+        private readonly Random _random = new();
+
+        [SerializeField] private List<CardView> _cardsView = new();
+        [SerializeField] private Button _rollButton;
+        [SerializeField] private int _priceOfRoll;
 
         private AudioSoundsService _audioSoundsService;
         private IPauseService _pauseService;
         private ICardService _cardService;
         private IPlayerService _playerService;
+        private IGoldService _goldService;
 
         private WeaponFactory _weaponFactory;
         private WeaponHolder _weaponHolder;
 
+        private int _currentLevel;
+
         public bool IsClosed { get; private set; }
 
         [Inject]
-        private void Construct(AudioSoundsService audioSoundsService, IPauseService pauseService, 
-            ICardService cardService, IPlayerService playerService)
+        private void Construct(AudioSoundsService audioSoundsService, IPauseService pauseService,
+            ICardService cardService, IPlayerService playerService, IGoldService goldService)
         {
             _audioSoundsService = audioSoundsService;
             _pauseService = pauseService;
             _cardService = cardService;
             _playerService = playerService;
+            _goldService = goldService;
         }
 
         private void Start()
@@ -53,7 +61,7 @@ namespace Project.Scripts.UI.Panel
             {
                 if (card.WeaponType == _weaponHolder.Weapons[StartWeapon].Type)
                     continue;
-                
+
                 _currentWeaponCards.Add(card);
             }
         }
@@ -62,16 +70,20 @@ namespace Project.Scripts.UI.Panel
         {
             foreach (CardView cardView in _cardsView)
             {
-                cardView.GetImprovementButtonClicked += OnButtonClicked;
+                cardView.GetImprovementButtonClicked += OnCardViewButtonClicked;
             }
+
+            _rollButton.onClick.AddListener(OnRollButtonClicked);
         }
 
         private void OnDisable()
         {
             foreach (CardView cardView in _cardsView)
             {
-                cardView.GetImprovementButtonClicked -= OnButtonClicked;
+                cardView.GetImprovementButtonClicked -= OnCardViewButtonClicked;
             }
+
+            _rollButton.onClick.RemoveListener(OnRollButtonClicked);
         }
 
         public void GetServices(WeaponFactory weaponFactory, WeaponHolder weaponHolder)
@@ -100,28 +112,35 @@ namespace Project.Scripts.UI.Panel
 
         public void OnCurrentLevelIsUpgraded(int currentLevel)
         {
+            _currentLevel = currentLevel;
             GetCardsForLevelUp(currentLevel);
             Show();
         }
 
         private void GetCardsForLevelUp(int currentLevel)
         {
-            if (currentLevel % Multiplicity == Remainder && _weaponHolder.Weapons.Count < CountWeapons)
-            {
-                SortAndGetCards(_currentWeaponCards);
-            }
-            else
-            {
-                SortAndGetCards(_currentImprovementCards);
-            }
-            
+            GenerateCards(currentLevel);
+
             _pauseService.StopGame();
         }
 
-        private void SortAndGetCards(List<Card> cards)
+        private void GenerateCards(int currentLevel)
         {
-            SortRandomCards(cards);
+            if (currentLevel % Multiplicity == Remainder && _weaponHolder.Weapons.Count < CountWeapons)
+            {
+                SortRandomCards(_currentWeaponCards);
+                GetCards(_currentWeaponCards);
+            }
+            else
+            {
+                SortRandomCards(_currentImprovementCards);
+                var result = FilterDuplicateCards(_currentImprovementCards);
+                GetCards(result);
+            }
+        }
 
+        private void GetCards(List<Card> cards)
+        {
             if (cards.Count >= _cardsView.Count)
             {
                 for (int i = 0; i < _cardsView.Count; i++)
@@ -148,10 +167,29 @@ namespace Project.Scripts.UI.Panel
             {
                 count--;
 
-                int index = _random.Next(count + 1);
-                
+                int index = _random.Next(count + MinIndex);
+
                 (cards[index], cards[count]) = (cards[count], cards[index]);
             }
+        }
+
+        private List<Card> FilterDuplicateCards(List<Card> cards)
+        {
+            List<ImprovementCard> improvementCards = cards.Cast<ImprovementCard>().ToList();
+            var result = new List<ImprovementCard>();
+            var encounteredCombinations = new HashSet<(WeaponType, CharacteristicType)>();
+
+            foreach (var card in improvementCards)
+            {
+                var combination = (card.WeaponType, card.CharacteristicType);
+                
+                if (encounteredCombinations.Add(combination))
+                {
+                    result.Add(card);
+                }
+            }
+
+            return result.Cast<Card>().ToList();
         }
 
         private void UpdateImprovementCardsByTypeWeapon(WeaponType type)
@@ -165,7 +203,7 @@ namespace Project.Scripts.UI.Panel
             }
         }
 
-        private async void OnButtonClicked(Card card, CardView cardView)
+        private async void OnCardViewButtonClicked(Card card, CardView cardView)
         {
             _audioSoundsService.PlaySound(Sounds.CardViewButton);
 
@@ -173,14 +211,15 @@ namespace Project.Scripts.UI.Panel
             {
                 if (improvementCard.WeaponType == WeaponType.None)
                 {
-                    _playerService.PlayerActor.AcceptImprovement(_weaponVisitor, 
+                    _playerService.PlayerActor.AcceptImprovement(_weaponVisitor,
                         improvementCard.CharacteristicType, improvementCard.Value);
                 }
                 else
                 {
-                    foreach (var weapon in _weaponHolder.Weapons.Where(weapon => improvementCard.WeaponType == weapon.Type))
+                    foreach (var weapon in _weaponHolder.Weapons.Where(weapon =>
+                                 improvementCard.WeaponType == weapon.Type))
                     {
-                        weapon.AcceptWeaponImprovement(_weaponVisitor, improvementCard.CharacteristicType, 
+                        weapon.AcceptWeaponImprovement(_weaponVisitor, improvementCard.CharacteristicType,
                             improvementCard.Value);
                     }
                 }
@@ -202,6 +241,15 @@ namespace Project.Scripts.UI.Panel
             _pauseService.PlayGame();
 
             Hide();
+        }
+
+        private void OnRollButtonClicked()
+        {
+            if (_goldService.Gold < _priceOfRoll)
+                return;
+            
+            _goldService.SpendGold(_priceOfRoll);
+            GenerateCards(_currentLevel);
         }
     }
 }

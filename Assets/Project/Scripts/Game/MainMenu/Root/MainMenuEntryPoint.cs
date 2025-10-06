@@ -17,14 +17,17 @@ namespace Project.Scripts.Game.MainMenu.Root
         private UIMainMenuRootBinder _uiScene;
         private OperationService _operationService;
         private IDataBaseService _dataBaseService;
+        private IGoldService _goldService;
         
         private MainMenuExitParameters _exitParameters;
 
         [Inject]
-        private void Construct(OperationService operationService, IDataBaseService dataBaseService)
+        private void Construct(OperationService operationService, IDataBaseService dataBaseService, 
+            IGoldService goldService)
         {
             _dataBaseService = dataBaseService;
             _operationService = operationService;
+            _goldService = goldService;
         }
 
         private async void Start()
@@ -34,6 +37,7 @@ namespace Project.Scripts.Game.MainMenu.Root
             
             await _dataBaseService.Init();
             await _operationService.Init();
+            await _goldService.Init();
         }
 
         public Observable<MainMenuExitParameters> Run(UIRootView uiRoot, MainMenuEnterParameters enterParameters)

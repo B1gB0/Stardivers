@@ -1,13 +1,22 @@
 using System;
-using UnityEngine;
+using Cysharp.Threading.Tasks;
+using YG;
 
-namespace Project.Scripts.Gold
+namespace Project.Scripts.Services
 {
-    public class GoldStorage : MonoBehaviour
+    public class GoldService : Service, IGoldService
     {
         public event Action<int> OnValueChanged;
     
         public int Gold { get; private set; }
+
+        public override UniTask Init()
+        {
+            Gold = YG2.saves.Gold;
+            OnValueChanged?.Invoke(Gold);
+
+            return UniTask.CompletedTask;
+        }
 
         public void SetGold(int gold)
         {

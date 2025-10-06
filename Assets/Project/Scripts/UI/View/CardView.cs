@@ -48,7 +48,6 @@ namespace Project.Scripts.UI.View
 
         private void OnEnable()
         {
-            SetData();
             _cardViewButton.onClick.AddListener(OnButtonClicked);
         }
 
@@ -70,6 +69,7 @@ namespace Project.Scripts.UI.View
         public void GetCard(Card card)
         {
             _card = card;
+            SetData();
         }
 
         private void SetData()
