@@ -1,5 +1,4 @@
-﻿using Project.Scripts.UI.View;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Project.Scripts.Crystals
 {
@@ -11,7 +10,7 @@ namespace Project.Scripts.Crystals
         
         public void Destroy()
         {
-            TextService.OnChangedFloatingText("+" + HealthValue, transform, FloatingTextViewType.RedCrystal, Color);
+            // TextService.OnChangedFloatingText("+" + HealthValue, transform, FloatingTextViewType.RedCrystal, Color);
             Destroy(gameObject);
         }
     }

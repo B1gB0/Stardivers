@@ -61,6 +61,7 @@ namespace Project.Scripts.Game.Gameplay.Root
         private ICardService _cardService;
         private IEnemyService _enemyService;
         private IPlayerService _playerService;
+        private IGoldService _goldService;
 
         private HealthBar _healthBar;
         private ExperiencePoints _experiencePoints;
@@ -76,7 +77,7 @@ namespace Project.Scripts.Game.Gameplay.Root
         private void Construct(AudioSoundsService audioSoundsService, IPauseService pauseService, 
             OperationService operationService, IFloatingTextService floatingTextService, IDataBaseService dataBaseService,
             IResourceService resourceService, ICharacteristicsWeaponDataService characteristicsWeaponDataService,
-            ICardService cardService, IEnemyService enemyService, IPlayerService playerService)
+            ICardService cardService, IEnemyService enemyService, IPlayerService playerService, IGoldService goldService)
         {
             _audioSoundsService = audioSoundsService;
             _pauseService = pauseService;
@@ -88,6 +89,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             _cardService = cardService;
             _enemyService = enemyService;
             _playerService = playerService;
+            _goldService = goldService;
         }
 
         private void Update()
@@ -268,7 +270,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             _updateSystems.Inject(_adviserMessagePanel);
             _updateSystems.Inject(_experiencePoints);
             _updateSystems.Inject(_floatingTextService);
-            _updateSystems.Inject(_goldView);
+            _updateSystems.Inject(_goldService);
             _updateSystems.Inject(_audioSoundsService);
             _updateSystems.Inject(_timer);
             _updateSystems.Inject(_ballisticRocketProgressBar);
@@ -301,6 +303,8 @@ namespace Project.Scripts.Game.Gameplay.Root
             _fixedUpdateSystems.Add(new PlayerMoveSystem());
             _fixedUpdateSystems.Add(new FollowSystem());
             _fixedUpdateSystems.Add(new EnemyRangeAttackSystem());
+            _fixedUpdateSystems.Add(new AttackCheckSystem());
+            _fixedUpdateSystems.Add(new PatrolSystem());
             _fixedUpdateSystems.Init();
         }
     }

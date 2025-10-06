@@ -1,3 +1,4 @@
+using Project.Scripts.ECS.EntityActors;
 using Project.Scripts.Levels.Mars.ThirdLevel;
 using Project.Scripts.Levels.Outpost;
 using UnityEngine;
@@ -10,18 +11,16 @@ namespace Project.Scripts.Levels.Triggers
         
         private void OnTriggerEnter(Collider trigger)
         {
-            if (trigger.TryGetComponent(out Truck truck))
+            if (trigger.TryGetComponent(out Truck truck) || trigger.TryGetComponent(out PlayerActor playerActor))
             {
-                Debug.Log("грузовик во вратах");
                 Entrance.OpenGate();
             }
         }
 
         private void OnTriggerExit(Collider trigger)
         {
-            if (trigger.TryGetComponent(out Truck truck))
+            if (trigger.TryGetComponent(out Truck truck) || trigger.TryGetComponent(out PlayerActor playerActor))
             {
-                Debug.Log("грузовик во вратах");
                 Entrance.CloseGate();
             }
         }

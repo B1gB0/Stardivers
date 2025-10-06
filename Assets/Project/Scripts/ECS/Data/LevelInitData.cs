@@ -6,6 +6,8 @@ namespace Project.Scripts.ECS.Data
     [CreateAssetMenu(menuName = "InitData/LevelData")]
     public class LevelInitData : InitData
     {
+        public List<Vector3> EnemyPatrolPositions; 
+
         public List<Vector3> FirstWaveSmallEnemyAlienSpawnPositions;
         public List<Vector3> FirstWaveBigEnemyAlienSpawnPositions;
         public List<Vector3> FirstWaveGunnerEnemyAlienSpawnPositions;

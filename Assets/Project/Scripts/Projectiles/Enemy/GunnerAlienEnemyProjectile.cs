@@ -6,6 +6,7 @@ namespace Project.Scripts.Projectiles.Enemy
     public class GunnerAlienEnemyProjectile : Projectile
     {
         private const float DefaultBulletSpeed = 5f;
+        private const float DefaultDirectionY = 0f;
         
         private void Start()
         {
@@ -25,6 +26,8 @@ namespace Project.Scripts.Projectiles.Enemy
         {
             Direction = (targetPosition - Transform.position).normalized;
             Transform.LookAt(targetPosition);
+            Direction.y = DefaultDirectionY;
+            Direction = Direction.normalized;
         }
 
         public void SetDamage(float damage)

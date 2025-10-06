@@ -7,7 +7,7 @@ namespace Project.Scripts.ECS.System
 {
     public class EnemyRangeAttackSystem : IEcsRunSystem
     {
-        private const float FireRate = 4f;
+        private const float FireRate = 2f;
         private const float MinValue = 0f;
 
         private readonly EcsFilter<EnemyComponent, FollowPlayerComponent, EnemyMovableComponent, AnimatedComponent,
@@ -16,7 +16,7 @@ namespace Project.Scripts.ECS.System
         private readonly EcsFilter<EnemyComponent, FollowPlayerComponent, EnemyMovableComponent, AnimatedComponent,
             EnemyBigAlienAttackComponent> _bigAlienEnemyAttackFilter;
 
-        private float _lastShotTime = 2f;
+        private float _lastShotTime = 1f;
 
         public void Run()
         {
@@ -28,7 +28,7 @@ namespace Project.Scripts.ECS.System
                 ref var animatedComponent = ref _gunnerAlienEnemyAttackFilter.Get4(entity);
                 ref var attackComponent = ref _gunnerAlienEnemyAttackFilter.Get5(entity);
 
-                if (!movableComponent.IsMoving && followPlayerComponent.Target.Health.TargetHealth > MinValue && 
+                if (movableComponent.IsAttack && followPlayerComponent.Target.Health.TargetHealth > MinValue && 
                     enemyComponent.Health.TargetHealth > MinValue)
                 {
                     if (_lastShotTime <= MinValue)
@@ -59,7 +59,7 @@ namespace Project.Scripts.ECS.System
                 ref var animatedComponent = ref _bigAlienEnemyAttackFilter.Get4(entity);
                 ref var attackComponent = ref _bigAlienEnemyAttackFilter.Get5(entity);
 
-                if (!movableComponent.IsMoving && followPlayerComponent.Target.Health.TargetHealth > MinValue && 
+                if (movableComponent.IsAttack && followPlayerComponent.Target.Health.TargetHealth > MinValue && 
                     enemyComponent.Health.TargetHealth > MinValue)
                 {
                     if (_lastShotTime <= MinValue)

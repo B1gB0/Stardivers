@@ -1,4 +1,5 @@
-﻿using Project.Scripts.Player.PlayerInputModule;
+﻿using System;
+using Project.Scripts.Player.PlayerInputModule;
 using Project.Scripts.Services;
 using Project.Scripts.Weapon.CharacteristicsOfWeapon;
 using Project.Scripts.Weapon.Improvements;
@@ -15,6 +16,7 @@ namespace Project.Scripts.ECS.EntityActors
         [field: SerializeField] public MiningToolActor MiningToolActor { get; private set; }
         
         public PlayerCharacteristics PlayerCharacteristics { get; private set; }
+        public bool CanFollow { get; private set; }
 
         public void Construct(IPlayerService playerService)
         {
@@ -39,6 +41,11 @@ namespace Project.Scripts.ECS.EntityActors
         public void AcceptImprovement(IWeaponVisitor weaponVisitor, CharacteristicType type, float value)
         {
             weaponVisitor.Visit(this, type, value);
+        }
+
+        public void ChangeFollowEnemyState(bool canFollow)
+        {
+            CanFollow = canFollow;
         }
     }
 }

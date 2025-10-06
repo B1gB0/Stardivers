@@ -169,6 +169,7 @@ namespace Project.Scripts.ECS.System
             enemyComponent.Health = smallEnemyAlienActor.Health;
 
             ref var enemyMovableComponent = ref entity.Get<EnemyMovableComponent>();
+            enemyMovableComponent.NavMeshAgent = smallEnemyAlienActor.NavMeshAgent;
             enemyMovableComponent.Transform = smallEnemyAlienActor.transform;
             enemyMovableComponent.MoveSpeed = data.Speed;
             enemyMovableComponent.IsMoving = true;
@@ -178,7 +179,9 @@ namespace Project.Scripts.ECS.System
 
             ref var followComponent = ref entity.Get<FollowPlayerComponent>();
             followComponent.Target = target;
-            followComponent.NavMeshAgent = smallEnemyAlienActor.NavMeshAgent;
+
+            ref var patrolComponent = ref entity.Get<PatrolComponent>();
+            patrolComponent.Points = _levelInitData.EnemyPatrolPositions;
 
             ref var attackComponent = ref entity.Get<EnemyMeleeAttackComponent>();
             attackComponent.Damage = data.Damage;
@@ -204,6 +207,7 @@ namespace Project.Scripts.ECS.System
             enemyComponent.Health = bigEnemyAlienActor.Health;
 
             ref var enemyMovableComponent = ref entity.Get<EnemyMovableComponent>();
+            enemyMovableComponent.NavMeshAgent = bigEnemyAlienActor.NavMeshAgent;
             enemyMovableComponent.Transform = bigEnemyAlienActor.transform;
             enemyMovableComponent.MoveSpeed = data.Speed;
             enemyMovableComponent.IsMoving = true;
@@ -215,7 +219,9 @@ namespace Project.Scripts.ECS.System
 
             ref var followComponent = ref entity.Get<FollowPlayerComponent>();
             followComponent.Target = target;
-            followComponent.NavMeshAgent = bigEnemyAlienActor.NavMeshAgent;
+            
+            ref var patrolComponent = ref entity.Get<PatrolComponent>();
+            patrolComponent.Points = _levelInitData.EnemyPatrolPositions;
 
             ref var attackComponent = ref entity.Get<EnemyBigAlienAttackComponent>();
 
@@ -242,6 +248,7 @@ namespace Project.Scripts.ECS.System
             enemyComponent.Health = gunnerEnemyAlienActor.Health;
 
             ref var enemyMovableComponent = ref entity.Get<EnemyMovableComponent>();
+            enemyMovableComponent.NavMeshAgent = gunnerEnemyAlienActor.NavMeshAgent;
             enemyMovableComponent.Transform = gunnerEnemyAlienActor.transform;
             enemyMovableComponent.MoveSpeed = data.Speed;
             enemyMovableComponent.IsMoving = true;
@@ -253,7 +260,9 @@ namespace Project.Scripts.ECS.System
 
             ref var followComponent = ref entity.Get<FollowPlayerComponent>();
             followComponent.Target = target;
-            followComponent.NavMeshAgent = gunnerEnemyAlienActor.NavMeshAgent;
+            
+            ref var patrolComponent = ref entity.Get<PatrolComponent>();
+            patrolComponent.Points = _levelInitData.EnemyPatrolPositions;
 
             ref var attackComponent = ref entity.Get<EnemyGunnerAlienAttackComponent>();
 

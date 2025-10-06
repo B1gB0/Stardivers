@@ -118,6 +118,9 @@ namespace Project.Scripts.Weapon.Player
                 _maxCountShots--;
             
                 _bullet.transform.position = shootPoint.position;
+
+                if (_closestAlienEnemy == null)
+                    continue;
                 
                 _bullet.SetDirection(_closestAlienEnemy.transform.position);
                 _bullet.SetCharacteristics(MachineGunCharacteristics.Damage, MachineGunCharacteristics.ProjectileSpeed);
