@@ -24,9 +24,7 @@ namespace Project.Scripts.Levels.Spawners
         }
         
         public void SpawnGunnerAlienEnemy(List<Vector3> spawnPointPositions, int countEnemies)
-        {
-            Debug.Log(_counterGunnerEnemies + " GunnerEnemies");
-            
+        {   
             if(spawnPointPositions.Count == MinValue)
                 return;
             
@@ -54,8 +52,6 @@ namespace Project.Scripts.Levels.Spawners
 
         public void SpawnSmallAlienEnemy(List<Vector3> spawnPointPositions, int countEnemies)
         {
-            Debug.Log(_counterSmallEnemies + " SmallEnemies");
-            
             if(spawnPointPositions.Count == MinValue)
                 return;
 
@@ -83,8 +79,6 @@ namespace Project.Scripts.Levels.Spawners
 
         public void SpawnBigEnemyAlien(List<Vector3> spawnPointPositions, int countEnemies)
         {
-            Debug.Log(_counterBigEnemies + " BigEnemies");
-            
             if(spawnPointPositions.Count == MinValue)
                 return;
             
