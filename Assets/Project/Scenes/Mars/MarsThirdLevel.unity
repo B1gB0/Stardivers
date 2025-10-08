@@ -38,7 +38,6 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -212,13 +211,15 @@ ParticleSystemRenderer:
   m_RenderAlignment: 0
   m_Pivot: {x: 0, y: 0, z: 0}
   m_Flip: {x: 0, y: 0, z: 0}
-  m_UseCustomVertexStreams: 0
   m_EnableGPUInstancing: 0
   m_ApplyActiveColorSpace: 0
   m_AllowRoll: 1
   m_FreeformStretching: 0
   m_RotateWithStretchDirection: 1
+  m_UseCustomVertexStreams: 0
   m_VertexStreams: 0001030405
+  m_UseCustomTrailVertexStreams: 0
+  m_TrailVertexStreams: 00010304
   m_Mesh: {fileID: 0}
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
@@ -5223,13 +5224,15 @@ ParticleSystemRenderer:
   m_RenderAlignment: 2
   m_Pivot: {x: 0, y: 0, z: 0}
   m_Flip: {x: 0, y: 0, z: 0}
-  m_UseCustomVertexStreams: 0
   m_EnableGPUInstancing: 0
   m_ApplyActiveColorSpace: 0
   m_AllowRoll: 1
   m_FreeformStretching: 0
   m_RotateWithStretchDirection: 1
+  m_UseCustomVertexStreams: 0
   m_VertexStreams: 0001030405
+  m_UseCustomTrailVertexStreams: 0
+  m_TrailVertexStreams: 00010304
   m_Mesh: {fileID: 4300000, guid: 6499342c3ae53104780ba528bc51f4df, type: 3}
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
@@ -10180,13 +10183,15 @@ ParticleSystemRenderer:
   m_RenderAlignment: 2
   m_Pivot: {x: 0, y: 0, z: 0}
   m_Flip: {x: 0, y: 0, z: 0}
-  m_UseCustomVertexStreams: 0
   m_EnableGPUInstancing: 0
   m_ApplyActiveColorSpace: 0
   m_AllowRoll: 1
   m_FreeformStretching: 0
   m_RotateWithStretchDirection: 1
+  m_UseCustomVertexStreams: 0
   m_VertexStreams: 0001030405
+  m_UseCustomTrailVertexStreams: 0
+  m_TrailVertexStreams: 00010304
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
@@ -16942,6 +16947,14 @@ PrefabInstance:
       propertyPath: m_ReceiveShadows
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 225924677005238750, guid: 8e4904903dc9c9144b2c54509fd92f5b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 2.92
+      objectReference: {fileID: 0}
+    - target: {fileID: 225924677005238750, guid: 8e4904903dc9c9144b2c54509fd92f5b, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.79
+      objectReference: {fileID: 0}
     - target: {fileID: 361577960486114902, guid: 8e4904903dc9c9144b2c54509fd92f5b, type: 3}
       propertyPath: m_LocalPosition.x
       value: -127.47773
@@ -17245,6 +17258,18 @@ PrefabInstance:
     - target: {fileID: 4027163963675420153, guid: 8e4904903dc9c9144b2c54509fd92f5b, type: 3}
       propertyPath: m_LocalPosition.z
       value: -2.13
+      objectReference: {fileID: 0}
+    - target: {fileID: 4148320449594347713, guid: 8e4904903dc9c9144b2c54509fd92f5b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 4.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4148320449594347713, guid: 8e4904903dc9c9144b2c54509fd92f5b, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -1.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4148320449594347713, guid: 8e4904903dc9c9144b2c54509fd92f5b, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4499024352932178938, guid: 8e4904903dc9c9144b2c54509fd92f5b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -17709,7 +17734,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8652685847952313082, guid: 8e4904903dc9c9144b2c54509fd92f5b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1398357967}
-    - targetCorrespondingSourceObject: {fileID: 5315435360521788936, guid: 8e4904903dc9c9144b2c54509fd92f5b, type: 3}
+    - targetCorrespondingSourceObject: {fileID: 7503154053123664380, guid: 8e4904903dc9c9144b2c54509fd92f5b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 0}
     - targetCorrespondingSourceObject: {fileID: 5500039484390546137, guid: 8e4904903dc9c9144b2c54509fd92f5b, type: 3}
