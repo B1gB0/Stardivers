@@ -9,7 +9,7 @@ namespace Project.Scripts.Weapon.Player
 {
     public class WeaponFactory : MonoBehaviour
     {
-        private readonly string _enemyDetectorPath = "EnemyDetector";
+        private readonly string _enemyDetectorPath = "EnemyDetectorForPlayer";
         private readonly string _gunPath = "Gun";
         private readonly string _fourBarrelMachineGunPath = "FourBarrelMachineGun";
         private readonly string _minesPath = "Mines";
@@ -21,7 +21,7 @@ namespace Project.Scripts.Weapon.Player
         private IResourceService _resourceService;
         private ICharacteristicsWeaponDataService _characteristicsWeaponDataService;
         
-        private EnemyDetector _enemyDetector;
+        private EnemyDetectorForPlayer _enemyDetector;
         private WeaponHolder _weaponHolder;
         private Button _minesButton;
         private Transform _player;
@@ -75,11 +75,13 @@ namespace Project.Scripts.Weapon.Player
             _minesButton = button;
         }
 
-        public async UniTask CreateEnemyDetector()
+        public async UniTask CreateEnemyDetectorForPlayer()
         {
             var enemyDetectorTemplate = await _resourceService.Load<GameObject>(_enemyDetectorPath);
-            enemyDetectorTemplate = Instantiate(enemyDetectorTemplate, _player);
-            _enemyDetector = enemyDetectorTemplate.GetComponent<EnemyDetector>();
+            enemyDetectorTemplate = Instantiate(enemyDetectorTemplate);
+            
+            _enemyDetector = enemyDetectorTemplate.GetComponent<EnemyDetectorForPlayer>();
+            _enemyDetector.Construct(_player);
         }
         
         private async UniTask<PlayerWeapon> CreateGun()

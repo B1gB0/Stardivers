@@ -411,6 +411,7 @@ MonoBehaviour:
   m_DeselectOnBackgroundClick: 1
   m_PointerBehavior: 0
   m_CursorLockBehavior: 0
+  m_ScrollDeltaPerTick: 6
 --- !u!1 &6179727823196477766
 GameObject:
   m_ObjectHideFlags: 0
@@ -1205,6 +1206,14 @@ PrefabInstance:
       propertyPath: m_AnchorMin.x
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1393228886005403264, guid: 617e745ee6151534ba1eedd2b0e9a909, type: 3}
+      propertyPath: m_Value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2811958355631167295, guid: 617e745ee6151534ba1eedd2b0e9a909, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2826222212495569772, guid: 617e745ee6151534ba1eedd2b0e9a909, type: 3}
       propertyPath: m_AnchorMax.x
       value: 1
@@ -1215,6 +1224,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2826222212495569772, guid: 617e745ee6151534ba1eedd2b0e9a909, type: 3}
       propertyPath: m_AnchorMin.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3005066768091893381, guid: 617e745ee6151534ba1eedd2b0e9a909, type: 3}
+      propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4171783187803579746, guid: 617e745ee6151534ba1eedd2b0e9a909, type: 3}
@@ -1364,6 +1377,10 @@ PrefabInstance:
     - target: {fileID: 7028106606719644916, guid: 617e745ee6151534ba1eedd2b0e9a909, type: 3}
       propertyPath: m_SizeDelta.y
       value: 6.5546045
+      objectReference: {fileID: 0}
+    - target: {fileID: 8640572283237200208, guid: 617e745ee6151534ba1eedd2b0e9a909, type: 3}
+      propertyPath: m_Value
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

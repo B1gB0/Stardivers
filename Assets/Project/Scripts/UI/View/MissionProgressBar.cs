@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 namespace Project.Scripts.UI.View
 {
-    public class BallisticRocketProgressBar : MonoBehaviour, IView
+    public class MissionProgressBar : MonoBehaviour, IView
     {
         [SerializeField] protected Slider SmoothSlider;
 

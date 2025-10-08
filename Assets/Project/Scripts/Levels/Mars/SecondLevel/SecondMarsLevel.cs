@@ -12,7 +12,7 @@ namespace Project.Scripts.Levels.Mars.SecondLevel
         [SerializeField] private EnemySpawnFirstWaveTrigger _enemySpawnFirstWaveTrigger;
         [SerializeField] private EntranceTrigger _entranceLastLvlTrigger;
 
-        private BallisticRocketProgressBar _ballisticRocketProgressBar;
+        private MissionProgressBar _missionProgressBar;
 
         private void OnEnable()
         {
@@ -30,7 +30,7 @@ namespace Project.Scripts.Levels.Mars.SecondLevel
             
             _enemySpawnFirstWaveTrigger.EnemySpawned += _ballisticRocketTrigger.Activate;
             _enemySpawnFirstWaveTrigger.EnemySpawned += _entranceLastLvlTrigger.Deactivate;
-            _enemySpawnFirstWaveTrigger.EnemySpawned += _ballisticRocketProgressBar.Show;
+            _enemySpawnFirstWaveTrigger.EnemySpawned += _missionProgressBar.Show;
 
             _ballisticRocket.LaunchCompleted += _enemySpawnFirstWaveTrigger.CompleteSpawn;
             _ballisticRocket.LaunchCompleted += EndLevelTrigger.Activate;
@@ -46,19 +46,19 @@ namespace Project.Scripts.Levels.Mars.SecondLevel
             }
         }
         
-        public void GetBallisticProgressBar(BallisticRocketProgressBar ballisticRocketProgressBar)
+        public void GetBallisticProgressBar(MissionProgressBar missionProgressBar)
         {
-            _ballisticRocketProgressBar = ballisticRocketProgressBar;
-            _ballisticRocket.ProgressChanged += _ballisticRocketProgressBar.OnChangedValues;
+            _missionProgressBar = missionProgressBar;
+            _ballisticRocket.ProgressChanged += _missionProgressBar.OnChangedValues;
         }
 
         private void OnDestroy()
         {
-            _ballisticRocket.ProgressChanged -= _ballisticRocketProgressBar.OnChangedValues;
+            _ballisticRocket.ProgressChanged -= _missionProgressBar.OnChangedValues;
             
             _enemySpawnFirstWaveTrigger.EnemySpawned -= _ballisticRocketTrigger.Activate;
             _enemySpawnFirstWaveTrigger.EnemySpawned -= _entranceLastLvlTrigger.Deactivate;
-            _enemySpawnFirstWaveTrigger.EnemySpawned -= _ballisticRocketProgressBar.Show;
+            _enemySpawnFirstWaveTrigger.EnemySpawned -= _missionProgressBar.Show;
 
             _ballisticRocket.LaunchCompleted -= _enemySpawnFirstWaveTrigger.CompleteSpawn;
             _ballisticRocket.LaunchCompleted -= EndLevelTrigger.Activate;

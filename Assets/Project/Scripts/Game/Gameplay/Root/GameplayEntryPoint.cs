@@ -22,7 +22,7 @@ namespace Project.Scripts.Game.Gameplay.Root
 {
     public class GameplayEntryPoint : MonoBehaviour
     {
-        private readonly WeaponHolder _weaponHolder = new ();
+        private readonly WeaponHolder _weaponHolder = new();
 
         [SerializeField] private DataFactory _dataFactory;
         [SerializeField] private WeaponFactory _weaponFactory;
@@ -30,11 +30,11 @@ namespace Project.Scripts.Game.Gameplay.Root
         [SerializeField] private CinemachineVirtualCamera _cinemachineVirtualCamera;
         [SerializeField] private UIGameplayRootBinder _sceneUIRootPrefab;
         [SerializeField] private Level _level;
-        
+
         private UIGameplayRootBinder _uiScene;
         private UIRootView _uiRoot;
         private GameplayExitParameters _exitParameters;
-        
+
         private LevelInitData _levelData;
         private PlayerInitData _playerInitData;
         private SmallAlienEnemyInitData _smallAlienEnemyData;
@@ -50,7 +50,7 @@ namespace Project.Scripts.Game.Gameplay.Root
         private EcsSystems _updateSystems;
         private EcsSystems _fixedUpdateSystems;
         private GameInitSystem _gameInitSystem;
-        
+
         private AudioSoundsService _audioSoundsService;
         private IPauseService _pauseService;
         private OperationService _operationService;
@@ -71,13 +71,15 @@ namespace Project.Scripts.Game.Gameplay.Root
         private Timer _timer;
         private AdviserMessagePanel _adviserMessagePanel;
         private GoldView _goldView;
-        private BallisticRocketProgressBar _ballisticRocketProgressBar;
+        private MissionProgressBar _missionProgressBar;
 
         [Inject]
-        private void Construct(AudioSoundsService audioSoundsService, IPauseService pauseService, 
-            OperationService operationService, IFloatingTextService floatingTextService, IDataBaseService dataBaseService,
+        private void Construct(AudioSoundsService audioSoundsService, IPauseService pauseService,
+            OperationService operationService, IFloatingTextService floatingTextService,
+            IDataBaseService dataBaseService,
             IResourceService resourceService, ICharacteristicsWeaponDataService characteristicsWeaponDataService,
-            ICardService cardService, IEnemyService enemyService, IPlayerService playerService, IGoldService goldService)
+            ICardService cardService, IEnemyService enemyService, IPlayerService playerService,
+            IGoldService goldService)
         {
             _audioSoundsService = audioSoundsService;
             _pauseService = pauseService;
@@ -102,11 +104,12 @@ namespace Project.Scripts.Game.Gameplay.Root
             _fixedUpdateSystems?.Run();
         }
 
-        public async UniTask<Observable<GameplayExitParameters>> Run(UIRootView uiRoot, GameplayEnterParameters enterParameters)
+        public async UniTask<Observable<GameplayExitParameters>> Run(UIRootView uiRoot,
+            GameplayEnterParameters enterParameters)
         {
             _uiRoot = uiRoot;
             _pauseService.PlayGame();
-            
+
             _operationService.SetCurrentNumberLevel(enterParameters.CurrentNumberLevel);
 
             await InitData();
@@ -116,33 +119,33 @@ namespace Project.Scripts.Game.Gameplay.Root
             await _enemyService.Init();
             await _playerService.Init();
 
-            FloatingTextView textView = _viewFactory.CreateDamageTextView();
+            FloatingTextView textView = await _viewFactory.CreateDamageTextView();
             textView.Hide();
             _floatingTextService.Init(textView);
 
-            _goldView = _viewFactory.CreateGoldView();
-            _adviserMessagePanel = _viewFactory.CreateAdviserMessagePanel();
-            _timer = _viewFactory.CreateTimer();
-            _ballisticRocketProgressBar = _viewFactory.CreateBallisticRocketProgressBar();
+            _goldView = await _viewFactory.CreateGoldView();
+            _adviserMessagePanel = await _viewFactory.CreateAdviserMessagePanel();
+            _timer = await _viewFactory.CreateTimer();
+            _missionProgressBar = await _viewFactory.CreateMissionProgressBar();
 
-            _levelUpPanel = _viewFactory.CreateLevelUpPanel();
-            _endGamePanel = _viewFactory.CreateEndGamePanel();
-            
+            _levelUpPanel = await _viewFactory.CreateLevelUpPanel();
+            _endGamePanel = await _viewFactory.CreateEndGamePanel();
+
             _experiencePoints = new ExperiencePoints(_playerProgressionData, _levelUpPanel);
-            
+
             InitEcs();
-            
-            _healthBar = _viewFactory.CreateHealthBar(_gameInitSystem.PlayerHealth);
-            _progressBar = _viewFactory.CreateProgressBar(_experiencePoints, _gameInitSystem.PlayerTransform);
+
+            _healthBar = await _viewFactory.CreateHealthBar(_gameInitSystem.PlayerHealth);
+            _progressBar = await _viewFactory.CreateProgressBar(_experiencePoints, _gameInitSystem.PlayerTransform);
 
             _weaponFactory.GetData(_gameInitSystem.PlayerTransform, _weaponHolder);
-            await _weaponFactory.CreateEnemyDetector();
+            await _weaponFactory.CreateEnemyDetectorForPlayer();
 
             _levelUpPanel.GetServices(_weaponFactory, _weaponHolder);
 
             _uiScene = Instantiate(_sceneUIRootPrefab);
             _healthBar.transform.SetParent(_uiScene.transform);
-            _ballisticRocketProgressBar.transform.SetParent(_uiScene.transform);
+            _missionProgressBar.transform.SetParent(_uiScene.transform);
             _levelUpPanel.transform.SetParent(_uiScene.transform);
             _endGamePanel.transform.SetParent(_uiScene.transform);
             _adviserMessagePanel.transform.SetParent(_uiScene.transform);
@@ -150,14 +153,14 @@ namespace Project.Scripts.Game.Gameplay.Root
             _goldView.transform.SetParent(_uiScene.transform);
             _weaponFactory.GetMinesButton(_uiScene.MinesButton);
             uiRoot.AttachSceneUI(_uiScene.gameObject);
-            
+
             var container = gameObject.scene.GetSceneContainer();
             GameObjectInjector.InjectRecursive(uiRoot.gameObject, container);
-            
+
             _uiScene.GetUIStateMachine(uiRoot.UIStateMachine, uiRoot.UIRootButtons);
-            
+
             _weaponFactory.WeaponIsCreated += _uiScene.WeaponPanel.SetData;
-            
+
             await _weaponFactory.CreateWeapon(WeaponType.Gun);
             _levelUpPanel.GetStartImprovements();
 
@@ -166,22 +169,22 @@ namespace Project.Scripts.Game.Gameplay.Root
             _gameInitSystem.PlayerHealth.Die += _progressBar.Hide;
             uiRoot.LocalizationLanguageSwitcher.OnLanguageChanged += _progressBar.ChangeText;
             _gameInitSystem.PlayerHealth.IsSpawnedHealingText += _floatingTextService.OnChangedFloatingText;
-            
+
             _level.EndLevelTrigger.IsLevelCompleted += _endGamePanel.Show;
             _level.EndLevelTrigger.IsLevelCompleted += _endGamePanel.SetVictoryPanel;
-            
+
             _gameInitSystem.PlayerIsSpawned += _uiScene.WeaponPanel.Show;
             _gameInitSystem.PlayerIsSpawned += _progressBar.Show;
             _gameInitSystem.PlayerIsSpawned += _healthBar.Show;
-            
+
             _endGamePanel.RebornPlayerButton.onClick.AddListener(_gameInitSystem.CreateCapsule);
-            
+
             _endGamePanel.GoToMainMenuButton.onClick.AddListener(GetMainMenuExitParameters);
             _endGamePanel.GoToMainMenuButton.onClick.AddListener(_uiScene.HandleGoToNextSceneButtonClick);
-            
+
             _endGamePanel.NextLevelButton.onClick.AddListener(GetGameplayExitParameters);
             _endGamePanel.NextLevelButton.onClick.AddListener(_uiScene.HandleGoToNextSceneButtonClick);
-            
+
             _weaponFactory.MinesIsCreated += _uiScene.ShowMinesButton;
             _experiencePoints.CurrentLevelIsUpgraded += _levelUpPanel.OnCurrentLevelIsUpgraded;
 
@@ -189,39 +192,39 @@ namespace Project.Scripts.Game.Gameplay.Root
             _uiScene.Bind(exitSceneSignalSubject);
 
             var exitToSceneSignal = exitSceneSignalSubject.Select(_ => _exitParameters);
-            
+
             _level.OnStartLevel();
 
             return exitToSceneSignal;
         }
-        
+
         private void OnDestroy()
         {
             _weaponFactory.WeaponIsCreated -= _uiScene.WeaponPanel.SetData;
-            
+
             _gameInitSystem.PlayerIsSpawned -= _uiScene.WeaponPanel.Show;
             _gameInitSystem.PlayerIsSpawned -= _healthBar.Show;
             _gameInitSystem.PlayerIsSpawned -= _progressBar.Show;
             _uiRoot.LocalizationLanguageSwitcher.OnLanguageChanged -= _progressBar.ChangeText;
-                
+
             _gameInitSystem.PlayerHealth.Die -= _endGamePanel.Show;
             _gameInitSystem.PlayerHealth.Die -= _endGamePanel.SetDefeatPanel;
             _gameInitSystem.PlayerHealth.Die -= _progressBar.Hide;
             _gameInitSystem.PlayerHealth.IsSpawnedHealingText -= _floatingTextService.OnChangedFloatingText;
-                
+
             _level.EndLevelTrigger.IsLevelCompleted -= _endGamePanel.Show;
             _level.EndLevelTrigger.IsLevelCompleted -= _endGamePanel.SetVictoryPanel;
-            
+
             _endGamePanel.GoToMainMenuButton.onClick.RemoveListener(GetMainMenuExitParameters);
             _endGamePanel.GoToMainMenuButton.onClick.RemoveListener(_uiScene.HandleGoToNextSceneButtonClick);
             _endGamePanel.NextLevelButton.onClick.RemoveListener(GetGameplayExitParameters);
             _endGamePanel.NextLevelButton.onClick.RemoveListener(_uiScene.HandleGoToNextSceneButtonClick);
             _endGamePanel.RebornPlayerButton.onClick.RemoveListener(_gameInitSystem.CreateCapsule);
-            
+
             _experiencePoints.CurrentLevelIsUpgraded -= _levelUpPanel.OnCurrentLevelIsUpgraded;
-            
+
             _weaponFactory.MinesIsCreated -= _uiScene.ShowMinesButton;
-            
+
             _updateSystems?.Destroy();
             _fixedUpdateSystems?.Destroy();
             _world?.Destroy();
@@ -232,7 +235,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             var mainMenuEnterParameters = new MainMenuEnterParameters("Enter parameters");
             _exitParameters = new GameplayExitParameters(mainMenuEnterParameters);
         }
-        
+
         private void GetGameplayExitParameters()
         {
             int nextNumberLevel = _operationService.CurrentNumberLevel + 1;
@@ -241,7 +244,7 @@ namespace Project.Scripts.Game.Gameplay.Root
 
             var gameplayEnterParameters = new GameplayEnterParameters(_operationService.CurrentOperation,
                 nextNumberLevel, sceneName);
-            
+
             _exitParameters = new GameplayExitParameters(gameplayEnterParameters);
         }
 
@@ -273,7 +276,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             _updateSystems.Inject(_goldService);
             _updateSystems.Inject(_audioSoundsService);
             _updateSystems.Inject(_timer);
-            _updateSystems.Inject(_ballisticRocketProgressBar);
+            _updateSystems.Inject(_missionProgressBar);
             _updateSystems.Inject(_pauseService);
             _updateSystems.Inject(_level);
             _updateSystems.Inject(_dataBaseService);

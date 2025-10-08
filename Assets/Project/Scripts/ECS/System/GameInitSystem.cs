@@ -46,7 +46,7 @@ namespace Project.Scripts.ECS.System
         private readonly Timer _timer;
         private readonly PauseService _pauseService;
         private readonly AdviserMessagePanel _adviserMessagePanel;
-        private readonly BallisticRocketProgressBar _ballisticRocketProgressBar;
+        private readonly MissionProgressBar _missionProgressBar;
         private readonly Level _level;
 
         private readonly PlayerInitData _playerInitData;
@@ -86,7 +86,7 @@ namespace Project.Scripts.ECS.System
             
             if (_level is SecondMarsLevel secondMarsLevel)
             {
-                secondMarsLevel.GetBallisticProgressBar(_ballisticRocketProgressBar);
+                secondMarsLevel.GetBallisticProgressBar(_missionProgressBar);
             }
 
             CreateEnemyObjectPools();

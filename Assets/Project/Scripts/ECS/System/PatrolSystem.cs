@@ -1,50 +1,53 @@
 using Leopotam.Ecs;
 using Project.Scripts.ECS.Components;
-using UnityEngine;
 using UnityEngine.AI;
 
 namespace Project.Scripts.ECS.System
 {
     public class PatrolSystem : IEcsRunSystem
     {
+        private const int MinValue = 0;
+        private const int StepPoint = 1;
+
         private readonly EcsFilter<PatrolComponent, EnemyMovableComponent, FollowPlayerComponent> _patrolFilter;
 
         public void Run()
         {
             foreach (var entity in _patrolFilter)
             {
-                ref var patrol = ref _patrolFilter.Get1(entity);
-                ref var movable = ref _patrolFilter.Get2(entity);
+                ref var patrolComponent = ref _patrolFilter.Get1(entity);
+                ref var movableComponent = ref _patrolFilter.Get2(entity);
                 ref var followComponent = ref _patrolFilter.Get3(entity);
-                
-                if (patrol.Points.Count == 0) continue;
+
+                if (patrolComponent.Points.Count == MinValue) continue;
 
                 if (followComponent.Target.CanFollow)
                     continue;
-                
-                var navMeshAgent = movable.NavMeshAgent;
-                
+
+                var navMeshAgent = movableComponent.NavMeshAgent;
+
                 if (!navMeshAgent.gameObject.activeSelf) continue;
-                
-                Debug.Log(navMeshAgent.remainingDistance + " требуемая дистанция");
-                Debug.Log(navMeshAgent.stoppingDistance + " остановочная дистанция");
+
+                if (navMeshAgent.destination != patrolComponent.Points[patrolComponent.CurrentPointIndex])
+                    SetPosition(patrolComponent, navMeshAgent, movableComponent);
 
                 if (navMeshAgent.remainingDistance < navMeshAgent.stoppingDistance)
-                {
-                    patrol.CurrentPointIndex = (patrol.CurrentPointIndex + 1) % patrol.Points.Count;
-                    GotoNextPoint(patrol, navMeshAgent);
-                }
+                    SetPosition(patrolComponent, navMeshAgent, movableComponent);
 
-                movable.IsMoving = navMeshAgent.remainingDistance > navMeshAgent.stoppingDistance;
+                movableComponent.IsMoving = navMeshAgent.remainingDistance > navMeshAgent.stoppingDistance;
             }
         }
-    
+
+        private void SetPosition(PatrolComponent patrol, NavMeshAgent agent, EnemyMovableComponent movableComponent)
+        {
+            patrol.CurrentPointIndex = (patrol.CurrentPointIndex + StepPoint) % patrol.Points.Count;
+            GotoNextPoint(patrol, agent);
+        }
+
         private void GotoNextPoint(PatrolComponent patrol, NavMeshAgent agent)
         {
-            Debug.Log(patrol.Points.Count);
-            
-            if (patrol.Points.Count == 0) return;
-            
+            if (patrol.Points.Count == MinValue) return;
+
             agent.destination = patrol.Points[patrol.CurrentPointIndex];
         }
     }
