@@ -1,7 +1,9 @@
+#if UNITY_EDITOR
 using UnityEngine;
 
 namespace Project.Scripts.ECS.Data
 {
+
     public class LevelDataForConfig : MonoBehaviour
     {
         [SerializeField] private LevelInitData levelInitData;
@@ -87,13 +89,12 @@ namespace Project.Scripts.ECS.Data
                 levelInitData.GoldCoreSpawnPositions.Add(goldCore.transform.position);
             }
             
-#if UNITY_EDITOR
             if (!Application.isPlaying)
             {
                 UnityEditor.EditorUtility.SetDirty(levelInitData);
                 UnityEditor.AssetDatabase.SaveAssets();
             }
-#endif
         }
     }
 }
+#endif

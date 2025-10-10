@@ -16,6 +16,11 @@ namespace Project.Scripts.Game.Gameplay.Root.View
         [field: SerializeField] public GameplayElements UIScene { get; private set; }
         [field: SerializeField] public Joystick Joystick { get; private set; }
         [field: SerializeField] public Button MinesButton { get; private set; }
+        
+#if UNITY_EDITOR
+        [field: SerializeField] public Button CheatsButton { get; private set; }
+#endif
+        
         [field: SerializeField] public WeaponPanel WeaponPanel { get; private set; }
 
         private AudioSoundsService _audioSoundsService;
@@ -36,6 +41,10 @@ namespace Project.Scripts.Game.Gameplay.Root.View
             {
                 Joystick.Hide();
             }
+            
+#if UNITY_EDITOR
+            CheatsButton.gameObject.SetActive(true);
+#endif
         }
 
         public void GetUIStateMachine(UIStateMachine uiStateMachine, UIRootButtons uiRootButtons)
@@ -55,12 +64,12 @@ namespace Project.Scripts.Game.Gameplay.Root.View
         {
             MinesButton.gameObject.SetActive(true);
         }
-    
+
         public void HideMinesButton()
         {
             MinesButton.gameObject.SetActive(false);
         }
-    
+
         public void HandleGoToNextSceneButtonClick()
         {
             _audioSoundsService.PlaySound(Sounds.Button);

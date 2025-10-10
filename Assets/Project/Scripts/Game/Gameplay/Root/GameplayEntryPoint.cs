@@ -73,6 +73,10 @@ namespace Project.Scripts.Game.Gameplay.Root
         private GoldView _goldView;
         private MissionProgressBar _missionProgressBar;
 
+#if UNITY_EDITOR
+        private CheatPanel _cheatPanel;
+#endif
+
         [Inject]
         private void Construct(AudioSoundsService audioSoundsService, IPauseService pauseService,
             OperationService operationService, IFloatingTextService floatingTextService,
@@ -125,6 +129,7 @@ namespace Project.Scripts.Game.Gameplay.Root
 
             _goldView = await _viewFactory.CreateGoldView();
             _adviserMessagePanel = await _viewFactory.CreateAdviserMessagePanel();
+
             _timer = await _viewFactory.CreateTimer();
             _missionProgressBar = await _viewFactory.CreateMissionProgressBar();
 
@@ -132,6 +137,10 @@ namespace Project.Scripts.Game.Gameplay.Root
             _endGamePanel = await _viewFactory.CreateEndGamePanel();
 
             _experiencePoints = new ExperiencePoints(_playerProgressionData, _levelUpPanel);
+
+#if UNITY_EDITOR
+            _cheatPanel = await _viewFactory.CreateCheatPanel();
+#endif
 
             InitEcs();
 
@@ -152,6 +161,11 @@ namespace Project.Scripts.Game.Gameplay.Root
             _timer.transform.SetParent(_uiScene.transform);
             _goldView.transform.SetParent(_uiScene.transform);
             _weaponFactory.GetMinesButton(_uiScene.MinesButton);
+
+#if UNITY_EDITOR
+            _cheatPanel.transform.SetParent(_uiScene.transform);
+#endif
+
             uiRoot.AttachSceneUI(_uiScene.gameObject);
 
             var container = gameObject.scene.GetSceneContainer();
@@ -185,6 +199,10 @@ namespace Project.Scripts.Game.Gameplay.Root
             _endGamePanel.NextLevelButton.onClick.AddListener(GetGameplayExitParameters);
             _endGamePanel.NextLevelButton.onClick.AddListener(_uiScene.HandleGoToNextSceneButtonClick);
 
+#if UNITY_EDITOR
+            _uiScene.CheatsButton.onClick.AddListener(_cheatPanel.Show);
+#endif
+            
             _weaponFactory.MinesIsCreated += _uiScene.ShowMinesButton;
             _experiencePoints.CurrentLevelIsUpgraded += _levelUpPanel.OnCurrentLevelIsUpgraded;
 
@@ -224,6 +242,10 @@ namespace Project.Scripts.Game.Gameplay.Root
             _experiencePoints.CurrentLevelIsUpgraded -= _levelUpPanel.OnCurrentLevelIsUpgraded;
 
             _weaponFactory.MinesIsCreated -= _uiScene.ShowMinesButton;
+            
+#if UNITY_EDITOR
+            _uiScene.CheatsButton.onClick.RemoveListener(_cheatPanel.Show);
+#endif
 
             _updateSystems?.Destroy();
             _fixedUpdateSystems?.Destroy();

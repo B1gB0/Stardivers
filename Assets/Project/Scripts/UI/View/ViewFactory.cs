@@ -9,6 +9,10 @@ namespace Project.Scripts.UI.View
 {
     public class ViewFactory : MonoBehaviour
     {
+#if UNITY_EDITOR
+        private const string CheatPanelPath = "CheatPanel";
+#endif
+
         private const string MissionProgressBarPath = "MissionProgressBar";
         private const string HealthBarPath = "HealthBar";
         private const string TextViewPath = "TextView";
@@ -18,7 +22,7 @@ namespace Project.Scripts.UI.View
         private const string TimerPath = "Timer";
         private const string AdviserMessagePanelPath = "AdviserMessagePanel";
         private const string GoldViewPath = "GoldView";
-        
+
         private IResourceService _resourceService;
 
         [Inject]
@@ -68,7 +72,7 @@ namespace Project.Scripts.UI.View
         public async UniTask<EndGamePanel> CreateEndGamePanel()
         {
             var endGamePanelTemplate = await _resourceService.Load<GameObject>(EndGamePanelPath);
-            endGamePanelTemplate  = Instantiate(endGamePanelTemplate);
+            endGamePanelTemplate = Instantiate(endGamePanelTemplate);
 
             EndGamePanel endGamePanel = endGamePanelTemplate.GetComponent<EndGamePanel>();
             return endGamePanel;
@@ -100,7 +104,7 @@ namespace Project.Scripts.UI.View
             GoldView goldView = goldViewTemplate.GetComponent<GoldView>();
             return goldView;
         }
-        
+
         public async UniTask<MissionProgressBar> CreateMissionProgressBar()
         {
             var missionBarTemplate = await _resourceService.Load<GameObject>(MissionProgressBarPath);
@@ -109,5 +113,16 @@ namespace Project.Scripts.UI.View
             MissionProgressBar missionProgressBar = missionBarTemplate.GetComponent<MissionProgressBar>();
             return missionProgressBar;
         }
+
+#if UNITY_EDITOR
+        public async UniTask<CheatPanel> CreateCheatPanel()
+        {
+            var cheatPanelTemplate = await _resourceService.Load<GameObject>(CheatPanelPath);
+            cheatPanelTemplate = Instantiate(cheatPanelTemplate);
+
+            CheatPanel cheatPanel = cheatPanelTemplate.GetComponent<CheatPanel>();
+            return cheatPanel;
+        }
+#endif
     }
 }
