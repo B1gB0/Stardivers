@@ -1,5 +1,6 @@
 using Leopotam.Ecs;
 using Project.Scripts.ECS.Components;
+using UnityEngine.AI;
 
 namespace Project.Scripts.ECS.System
 {
@@ -14,15 +15,17 @@ namespace Project.Scripts.ECS.System
                 ref var followComponent = ref _enemyFilter.Get1(entity);
                 ref var movableComponent = ref _enemyFilter.Get2(entity);
 
-                if (followComponent.Target == null || !movableComponent.NavMeshAgent.isActiveAndEnabled
-                                                   || !followComponent.Target.CanFollow)
+                NavMeshAgent navMeshAgent = movableComponent.NavMeshAgent;
+
+                if (followComponent.Target == null || !navMeshAgent.isActiveAndEnabled
+                                                   || !followComponent.Target.CanFollow 
+                                                   || !float.IsPositiveInfinity(navMeshAgent.remainingDistance))
                 {
                     movableComponent.IsAttack = false;
                     continue;
                 }
 
-                movableComponent.IsAttack = movableComponent.NavMeshAgent.remainingDistance <=
-                                            movableComponent.NavMeshAgent.stoppingDistance;
+                movableComponent.IsAttack = navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance;
             }
         }
     }
