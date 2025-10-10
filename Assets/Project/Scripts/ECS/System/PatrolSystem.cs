@@ -22,32 +22,40 @@ namespace Project.Scripts.ECS.System
                 if (patrolComponent.Points.Count == MinValue) continue;
 
                 if (followComponent.Target.CanFollow)
+                {
+                    patrolComponent.IsPatrol = false;
                     continue;
+                }
 
                 var navMeshAgent = movableComponent.NavMeshAgent;
 
                 if (!navMeshAgent.gameObject.activeSelf) continue;
 
-                if (navMeshAgent.destination != patrolComponent.Points[patrolComponent.CurrentPointIndex])
-                    SetPosition(patrolComponent, navMeshAgent, movableComponent);
-
+                if (!patrolComponent.IsPatrol)
+                {
+                    GotoCurrentPoint(ref patrolComponent, navMeshAgent);
+                    patrolComponent.IsPatrol = true;
+                }
+                
                 if (navMeshAgent.remainingDistance < navMeshAgent.stoppingDistance)
-                    SetPosition(patrolComponent, navMeshAgent, movableComponent);
-
+                {
+                    SetNextPoint(ref patrolComponent);
+                    GotoCurrentPoint(ref patrolComponent, navMeshAgent);
+                }
+                
                 movableComponent.IsMoving = navMeshAgent.remainingDistance > navMeshAgent.stoppingDistance;
             }
         }
 
-        private void SetPosition(PatrolComponent patrol, NavMeshAgent agent, EnemyMovableComponent movableComponent)
+        private void SetNextPoint(ref PatrolComponent patrol)
         {
             patrol.CurrentPointIndex = (patrol.CurrentPointIndex + StepPoint) % patrol.Points.Count;
-            GotoNextPoint(patrol, agent);
         }
 
-        private void GotoNextPoint(PatrolComponent patrol, NavMeshAgent agent)
+        private void GotoCurrentPoint(ref PatrolComponent patrol, NavMeshAgent agent)
         {
             if (patrol.Points.Count == MinValue) return;
-
+            
             agent.destination = patrol.Points[patrol.CurrentPointIndex];
         }
     }

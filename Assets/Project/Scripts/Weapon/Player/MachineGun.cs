@@ -120,7 +120,10 @@ namespace Project.Scripts.Weapon.Player
                 _bullet.transform.position = shootPoint.position;
 
                 if (_closestAlienEnemy == null)
+                {
+                    _bullet.gameObject.SetActive(false);
                     continue;
+                }
                 
                 _bullet.SetDirection(_closestAlienEnemy.transform.position);
                 _bullet.SetCharacteristics(MachineGunCharacteristics.Damage, MachineGunCharacteristics.ProjectileSpeed);

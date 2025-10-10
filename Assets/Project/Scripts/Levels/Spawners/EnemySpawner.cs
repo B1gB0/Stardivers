@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Project.Scripts.ECS.Data;
 using Project.Scripts.ECS.EntityActors;
 using Project.Scripts.ECS.System;
 using UnityEngine;

@@ -22,18 +22,27 @@ namespace Project.Scripts.Services
         {
             Gold = gold;
             OnValueChanged?.Invoke(Gold);
+            SaveGold();
         }
 
         public void AddGold(int gold)
         {
             Gold += gold;
             OnValueChanged?.Invoke(Gold);
+            SaveGold();
         }
 
         public void SpendGold(int gold)
         {
             Gold -= gold;
             OnValueChanged?.Invoke(Gold);
+            SaveGold();
+        }
+
+        private void SaveGold()
+        {
+            YG2.saves.Gold = Gold;
+            YG2.SaveProgress();
         }
     }
 }

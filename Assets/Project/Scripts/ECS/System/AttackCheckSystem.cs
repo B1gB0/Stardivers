@@ -6,6 +6,8 @@ namespace Project.Scripts.ECS.System
 {
     public class AttackCheckSystem : IEcsRunSystem
     {
+        private const float MinRemainingDistance = 1f;
+        
         private readonly EcsFilter<FollowPlayerComponent, EnemyMovableComponent> _enemyFilter;
 
         public void Run()
@@ -19,7 +21,7 @@ namespace Project.Scripts.ECS.System
 
                 if (followComponent.Target == null || !navMeshAgent.isActiveAndEnabled
                                                    || !followComponent.Target.CanFollow 
-                                                   || !float.IsPositiveInfinity(navMeshAgent.remainingDistance))
+                                                   || navMeshAgent.remainingDistance <= MinRemainingDistance)
                 {
                     movableComponent.IsAttack = false;
                     continue;

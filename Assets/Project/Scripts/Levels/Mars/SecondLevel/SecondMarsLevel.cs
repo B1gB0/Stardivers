@@ -1,4 +1,5 @@
-﻿using Project.Scripts.Levels.Triggers;
+﻿using System;
+using Project.Scripts.Levels.Triggers;
 using Project.Scripts.UI.View;
 using UnityEngine;
 
@@ -13,6 +14,11 @@ namespace Project.Scripts.Levels.Mars.SecondLevel
         [SerializeField] private EntranceTrigger _entranceLastLvlTrigger;
 
         private MissionProgressBar _missionProgressBar;
+
+        private void Start()
+        {
+            _ballisticRocketTrigger.Deactivate();
+        }
 
         private void OnEnable()
         {

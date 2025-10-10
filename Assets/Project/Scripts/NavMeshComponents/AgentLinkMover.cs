@@ -14,7 +14,7 @@ namespace Project.Scripts.NavMeshComponents
         private const float NormalizedTimeMaxValue = 1f;
         
         [SerializeField] private OffMeshLinkMoveMethod _method = OffMeshLinkMoveMethod.Parabola;
-        [SerializeField] private AnimationCurve _curve = new AnimationCurve();
+        [SerializeField] private AnimationCurve _curve = new ();
 
         private NavMeshAgent _agent;
         private Coroutine _startBehaviour;
@@ -31,29 +31,43 @@ namespace Project.Scripts.NavMeshComponents
         private void OnDisable()
         {
             if(_changeBehaviour != null)
+            {
                 StopCoroutine(_changeBehaviour);
-            
-            if(_startBehaviour != null)
+                _changeBehaviour = null;
+            }
+
+            if (_startBehaviour != null)
+            {
                 StopCoroutine(_startBehaviour);
+                _startBehaviour = null;
+            }
         }
 
         private IEnumerator ChangeBehaviour()
         {
             _agent = GetComponent<NavMeshAgent>();
-            _agent.Resume();
+            if (_agent == null || !_agent.isActiveAndEnabled) yield break;
+            
+            _agent.isStopped = false;
             _agent.autoTraverseOffMeshLink = false;
 
             while (gameObject.activeSelf)
             {
                 if (_agent.isOnOffMeshLink)
                 {
-                    if (_method == OffMeshLinkMoveMethod.NormalSpeed)
-                        yield return _startBehaviour = StartCoroutine(NormalSpeed(_agent));
-                    else if (_method == OffMeshLinkMoveMethod.Parabola)
-                        yield return _startBehaviour = StartCoroutine(Parabola(_agent, Height, Duration));
-                    else if (_method == OffMeshLinkMoveMethod.Curve)
-                        yield return _startBehaviour = StartCoroutine(Curve(_agent, Duration));
-                    
+                    switch (_method)
+                    {
+                        case OffMeshLinkMoveMethod.NormalSpeed:
+                            yield return _startBehaviour = StartCoroutine(NormalSpeed(_agent));
+                            break;
+                        case OffMeshLinkMoveMethod.Parabola:
+                            yield return _startBehaviour = StartCoroutine(Parabola(_agent, Height, Duration));
+                            break;
+                        case OffMeshLinkMoveMethod.Curve:
+                            yield return _startBehaviour = StartCoroutine(Curve(_agent, Duration));
+                            break;
+                    }
+
                     _agent.CompleteOffMeshLink();
                 }
 
