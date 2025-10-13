@@ -8,7 +8,7 @@ namespace Project.Scripts.Services
     {
         SpreadsheetContainer Data { get; }
         SpreadsheetContent Content { get; }
-        UniTask Init();
-        event Action OnDataLoaded;
+        public UniTask Init();
+        public event Action OnDataLoaded;
     }
 }

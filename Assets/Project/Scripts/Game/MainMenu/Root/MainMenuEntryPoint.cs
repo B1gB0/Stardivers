@@ -18,16 +18,18 @@ namespace Project.Scripts.Game.MainMenu.Root
         private OperationService _operationService;
         private IDataBaseService _dataBaseService;
         private IGoldService _goldService;
+        private ITweenAnimationService _tweenAnimationService;
         
         private MainMenuExitParameters _exitParameters;
 
         [Inject]
         private void Construct(OperationService operationService, IDataBaseService dataBaseService, 
-            IGoldService goldService)
+            IGoldService goldService, ITweenAnimationService tweenAnimationService)
         {
             _dataBaseService = dataBaseService;
             _operationService = operationService;
             _goldService = goldService;
+            _tweenAnimationService = tweenAnimationService;
         }
 
         private async void Start()
@@ -38,6 +40,7 @@ namespace Project.Scripts.Game.MainMenu.Root
             await _dataBaseService.Init();
             await _operationService.Init();
             await _goldService.Init();
+            await _tweenAnimationService.Init();
         }
 
         public Observable<MainMenuExitParameters> Run(UIRootView uiRoot, MainMenuEnterParameters enterParameters)

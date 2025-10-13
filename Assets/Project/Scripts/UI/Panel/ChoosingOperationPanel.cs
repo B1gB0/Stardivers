@@ -1,4 +1,5 @@
-﻿using Project.Game.Scripts;
+﻿using DG.Tweening;
+using Project.Game.Scripts;
 using Project.Scripts.Services;
 using Project.Scripts.UI.StateMachine;
 using Project.Scripts.UI.StateMachine.States;
@@ -25,13 +26,15 @@ namespace Project.Scripts.UI.Panel
 
         private AudioSoundsService _audioSoundsService;
         private OperationService _operationService;
+        private ITweenAnimationService _tweenAnimationService;
 
         [Inject]
         private void Construct(AudioSoundsService audioSoundsService, OperationService operationService, 
-            IDataBaseService dataBaseService)
+            IDataBaseService dataBaseService, ITweenAnimationService tweenAnimationService)
         {
             _audioSoundsService = audioSoundsService;
             _operationService = operationService;
+            _tweenAnimationService = tweenAnimationService;
         }
 
         private void Start()
@@ -48,6 +51,7 @@ namespace Project.Scripts.UI.Panel
 
         private void OnDisable()
         {
+            transform.DOKill(true);
             _priviousButton.onClick.RemoveListener(SetPreviousOperation);
             _nextButton.onClick.RemoveListener(SetNextOperation);
             _backToMainMenuButton.onClick.RemoveListener(HandleBackButtonClick);
@@ -61,12 +65,13 @@ namespace Project.Scripts.UI.Panel
         public void Show()
         {
             gameObject.SetActive(true);
+            _tweenAnimationService.AnimateScale(transform);
             SetOperation(_currentIndex);
         }
 
         public void Hide()
         {
-            gameObject.SetActive(false);
+            _tweenAnimationService.AnimateScale(transform, true);
         }
 
         private void SetOperation(int index)
@@ -103,6 +108,11 @@ namespace Project.Scripts.UI.Panel
                 _currentIndex--;
         
             SetOperation(_currentIndex);
+        }
+
+        private void OnDestroy()
+        {
+            transform.DOKill(true);
         }
     }
 }

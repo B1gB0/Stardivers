@@ -36,6 +36,7 @@ namespace Project.Scripts.UI.Panel
         private ICardService _cardService;
         private IPlayerService _playerService;
         private IGoldService _goldService;
+        private ITweenAnimationService _tweenAnimationService;
 
         private WeaponFactory _weaponFactory;
         private WeaponHolder _weaponHolder;
@@ -46,13 +47,15 @@ namespace Project.Scripts.UI.Panel
 
         [Inject]
         private void Construct(AudioSoundsService audioSoundsService, IPauseService pauseService,
-            ICardService cardService, IPlayerService playerService, IGoldService goldService)
+            ICardService cardService, IPlayerService playerService, IGoldService goldService, 
+            ITweenAnimationService tweenAnimationService)
         {
             _audioSoundsService = audioSoundsService;
             _pauseService = pauseService;
             _cardService = cardService;
             _playerService = playerService;
             _goldService = goldService;
+            _tweenAnimationService = tweenAnimationService;
         }
 
         private void Start()
@@ -101,13 +104,14 @@ namespace Project.Scripts.UI.Panel
         public void Show()
         {
             gameObject.SetActive(true);
+            _tweenAnimationService.AnimateScale(transform);
             IsClosed = false;
         }
 
         public void Hide()
         {
+            _tweenAnimationService.AnimateScale(transform, true);
             IsClosed = true;
-            gameObject.SetActive(false);
         }
 
         public void OnCurrentLevelIsUpgraded(int currentLevel)
