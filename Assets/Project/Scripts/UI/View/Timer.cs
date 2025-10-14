@@ -1,6 +1,9 @@
 using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
+using Project.Scripts.Services;
+using Reflex.Attributes;
 using TMPro;
 using UnityEngine;
 
@@ -12,6 +15,8 @@ namespace Project.Scripts.UI.View
         private const int MinValue = 0;
         
         [SerializeField] private TMP_Text _text;
+        [SerializeField] private Transform _showPoint;
+        [SerializeField] private Transform _hidePoint;
 
         private int _timeInSeconds;
         private bool _isPaused;
@@ -19,7 +24,15 @@ namespace Project.Scripts.UI.View
         private CancellationTokenSource _cts;
         private float _accumulatedTime;
 
+        private ITweenAnimationService _tweenAnimationService;
+
         public event Action IsEndAttack;
+
+        [Inject]
+        public void Construct(ITweenAnimationService tweenAnimationService)
+        {
+            _tweenAnimationService = tweenAnimationService;
+        }
 
         private void Awake()
         {
@@ -38,14 +51,26 @@ namespace Project.Scripts.UI.View
             StopTimer();
         }
 
+        private void OnDestroy()
+        {
+            transform.DOKill();
+        }
+        
+        public void GetPoints(Transform showPoint, Transform hidePoint)
+        {
+            _showPoint = showPoint;
+            _hidePoint = hidePoint;
+        }
+
         public void Show()
         {
             gameObject.SetActive(true);
+            _tweenAnimationService.AnimateMove(transform, _showPoint, _hidePoint);
         }
 
         public void Hide()
         {
-            gameObject.SetActive(false);
+            _tweenAnimationService.AnimateMove(transform, _showPoint, _hidePoint, true);
         }
 
         public void ResumeTimer()
@@ -57,8 +82,14 @@ namespace Project.Scripts.UI.View
         {
             _isPaused = true;
         }
+
+        public void SetTime(int seconds)
+        {
+            _timeInSeconds = seconds;
+            UpdateDisplay();
+        }
         
-        public async void OnLaunchTimer()
+        private async void OnLaunchTimer()
         {
             StopTimer();
             
@@ -71,20 +102,10 @@ namespace Project.Scripts.UI.View
             {
                 await RunTimerAsync(_cts.Token);
             }
-            catch (OperationCanceledException)
-            {
-                // Таймер был остановлен
-            }
             finally
             {
                 _isRunning = false;
             }
-        }
-        
-        public void SetTime(int seconds)
-        {
-            _timeInSeconds = seconds;
-            UpdateDisplay();
         }
         
         private void StopTimer()
@@ -106,30 +127,26 @@ namespace Project.Scripts.UI.View
         {
             while (_timeInSeconds > MinValue && _isRunning && !ct.IsCancellationRequested)
             {
-                // Ждем до следующего кадра
                 await UniTask.Yield(PlayerLoopTiming.Update, ct);
                 
                 if (_isPaused) continue;
                 
-                // Накопление времени с учетом реального времени
                 _accumulatedTime += Time.unscaledDeltaTime;
+
+                if (!(_accumulatedTime >= 1f))
+                    continue;
                 
-                // Проверяем, прошла ли целая секунда
-                if (_accumulatedTime >= 1f)
+                int secondsPassed = Mathf.FloorToInt(_accumulatedTime);
+                _accumulatedTime -= secondsPassed;
+                    
+                _timeInSeconds -= secondsPassed;
+                UpdateDisplay();
+                    
+                if (_timeInSeconds <= MinValue)
                 {
-                    // Вычисляем сколько целых секунд прошло
-                    int secondsPassed = Mathf.FloorToInt(_accumulatedTime);
-                    _accumulatedTime -= secondsPassed;
-                    
-                    _timeInSeconds -= secondsPassed;
-                    UpdateDisplay();
-                    
-                    if (_timeInSeconds <= MinValue)
-                    {
-                        IsEndAttack?.Invoke();
-                        StopTimer();
-                        break;
-                    }
+                    IsEndAttack?.Invoke();
+                    StopTimer();
+                    break;
                 }
             }
         }

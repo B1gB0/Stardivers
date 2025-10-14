@@ -47,12 +47,6 @@ namespace Project.Scripts.Game.GameRoot
             UIStateMachine.AddState(new LeaderboardPanelState(_leaderboardPanel));
         }
 
-        private void Start()
-        {
-            _settingsPanel.SetValuesVolume();
-            _settingsPanel.Hide();
-        }
-
         private void OnEnable()
         {
             _settingsButton.onClick.AddListener(ShowSettingsPanel);

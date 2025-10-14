@@ -37,16 +37,20 @@ namespace Project.Scripts.Services
                 });
         }
 
-        public void AnimateMove(Transform target, Transform targetPoint, float duration, bool isDisableTarget = false)
+        public void AnimateMove(Transform target, Transform showPoint, Transform hidePoint, bool isDisableTarget = false)
         {
             target.DOKill(true);
 
             if (!isDisableTarget)
-                target.localScale = Vector3.zero;
+            {
+                target.localPosition = hidePoint.localPosition;
+            }
 
             Sequence scaleSequence = DOTween.Sequence()
-                .Append(target.DOMove(targetPoint.position, duration))
-                .SetEase(!isDisableTarget ? Ease.OutBounce : Ease.OutSine)
+                .Append(!isDisableTarget
+                    ? target.DOMove(showPoint.position, DurationShow)
+                    : target.DOMove(hidePoint.position, DurationHide))
+                .SetEase(!isDisableTarget ? Ease.InSine : Ease.OutSine)
                 .SetUpdate(true)
                 .OnComplete(() =>
                 {

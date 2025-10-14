@@ -14,7 +14,6 @@ namespace Project.Scripts.Game.Gameplay.Root.View
     public class UIGameplayRootBinder : MonoBehaviour
     {
         [field: SerializeField] public GameplayElements UIScene { get; private set; }
-        [field: SerializeField] public Joystick Joystick { get; private set; }
         [field: SerializeField] public Button MinesButton { get; private set; }
         
 #if UNITY_EDITOR
@@ -22,6 +21,13 @@ namespace Project.Scripts.Game.Gameplay.Root.View
 #endif
         
         [field: SerializeField] public WeaponPanel WeaponPanel { get; private set; }
+
+        [field: SerializeField] public Transform ShowGoldPoint { get; private set; }
+        [field: SerializeField] public Transform HideGoldPoint { get; private set; }
+        [field: SerializeField] public Transform ShowHealthPoint { get; private set; }
+        [field: SerializeField] public Transform HideHealthPoint { get; private set; }
+        [field: SerializeField] public Transform ShowMissionProgressPoint { get; private set; }
+        [field: SerializeField] public Transform HideMissionProgressPoint { get; private set; }
 
         private AudioSoundsService _audioSoundsService;
         private IPauseService _pauseService;
@@ -37,11 +43,6 @@ namespace Project.Scripts.Game.Gameplay.Root.View
 
         private void Awake()
         {
-            if (!Application.isMobilePlatform)
-            {
-                Joystick.Hide();
-            }
-            
 #if UNITY_EDITOR
             CheatsButton.gameObject.SetActive(true);
 #endif

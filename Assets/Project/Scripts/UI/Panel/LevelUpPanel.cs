@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using DG.Tweening;
 using Project.Game.Scripts;
 using Project.Scripts.Cards;
 using Project.Scripts.Services;
@@ -87,6 +88,11 @@ namespace Project.Scripts.UI.Panel
             }
 
             _rollButton.onClick.RemoveListener(OnRollButtonClicked);
+        }
+
+        private void OnDestroy()
+        {
+            transform.DOKill();
         }
 
         public void GetServices(WeaponFactory weaponFactory, WeaponHolder weaponHolder)

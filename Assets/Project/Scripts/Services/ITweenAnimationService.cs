@@ -7,6 +7,6 @@ namespace Project.Scripts.Services
     {
         public UniTask Init();
         public void AnimateScale(Transform target, bool isDisableTarget = false);
-        public void AnimateMove(Transform target, Transform targetPoint, float duration, bool isDisableTarget = false);
+        public void AnimateMove(Transform target, Transform showPoint, Transform hidePoint, bool isDisableTarget = false);
     }
 }

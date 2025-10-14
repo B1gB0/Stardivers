@@ -1,6 +1,9 @@
 using System.Collections.Generic;
+using DG.Tweening;
+using Project.Scripts.Services;
 using Project.Scripts.UI.View;
 using Project.Scripts.Weapon.Player;
+using Reflex.Attributes;
 using UnityEngine;
 
 namespace Project.Scripts.UI.Panel
@@ -16,6 +19,16 @@ namespace Project.Scripts.UI.Panel
         
         [SerializeField] private List<WeaponView> _weaponViews;
         [SerializeField] private List<Sprite> _sprites;
+        [SerializeField] private Transform _showPoint;
+        [SerializeField] private Transform _hidePoint;
+        
+        private ITweenAnimationService _tweenAnimationService;
+    
+        [Inject]
+        private void Construct(ITweenAnimationService tweenAnimationService)
+        {
+            _tweenAnimationService = tweenAnimationService;
+        }
 
         public void SetData(int numberWeapon, WeaponType type)
         {
@@ -45,11 +58,17 @@ namespace Project.Scripts.UI.Panel
         public void Show()
         {
             gameObject.SetActive(true);
+            _tweenAnimationService.AnimateMove(transform, _showPoint, _hidePoint);
         }
 
         public void Hide()
         {
-            gameObject.SetActive(false);
+            _tweenAnimationService.AnimateMove(transform, _showPoint, _hidePoint, true);
+        }
+
+        private void OnDestroy()
+        {
+            transform.DOKill();
         }
     }
 }

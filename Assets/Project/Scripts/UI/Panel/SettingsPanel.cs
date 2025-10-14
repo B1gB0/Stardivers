@@ -1,5 +1,7 @@
 using System;
+using Project.Scripts.Services;
 using Project.Scripts.UI.View;
+using Reflex.Attributes;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
@@ -25,7 +27,21 @@ namespace Project.Scripts.UI.Panel
         [SerializeField] private Slider _musicVolumeSlider;
         [SerializeField] private Slider _effectsVolumeSlider;
 
+        private ITweenAnimationService _tweenAnimationService;
+
         public event Action OnBackToSceneButtonPressed;
+        
+        [Inject]
+        private void Construct(ITweenAnimationService tweenAnimationService)
+        {
+            _tweenAnimationService = tweenAnimationService;
+        }
+
+        private void Start()
+        {
+            SetValuesVolume();
+            gameObject.SetActive(false);
+        }
 
         private void OnEnable()
         {
@@ -48,24 +64,28 @@ namespace Project.Scripts.UI.Panel
         public void Show()
         {
             gameObject.SetActive(true);
+            _tweenAnimationService.AnimateScale(transform);
         }
 
         public void Hide()
         {
-            gameObject.SetActive(false);
+            _tweenAnimationService.AnimateScale(transform, true);
         }
 
-        public void SetValuesVolume()
+        private void SetValuesVolume()
         {
             _musicVolumeSlider.value = PlayerPrefs.GetFloat(MusicVolume);
             _effectsVolumeSlider.value = PlayerPrefs.GetFloat(EffectsVolume);
 
-            if (PlayerPrefs.GetFloat(MusicVolume) == MinValueSlider &&
-                PlayerPrefs.GetFloat(EffectsVolume) == MinValueSlider)
-            {
-                _musicVolumeSlider.value = StartValueSlider;
-                _effectsVolumeSlider.value = StartValueSlider;
-            }
+            if (PlayerPrefs.GetFloat(MusicVolume) != MinValueSlider ||
+                PlayerPrefs.GetFloat(EffectsVolume) != MinValueSlider)
+                return;
+            
+            _musicVolumeSlider.value = StartValueSlider;
+            _effectsVolumeSlider.value = StartValueSlider;
+            
+            ChangeMusicVolume(StartValueSlider);
+            ChangeEffectsVolume(StartValueSlider);
         }
 
         private void MoveBackToScene()

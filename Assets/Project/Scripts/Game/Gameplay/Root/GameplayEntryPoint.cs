@@ -178,6 +178,13 @@ namespace Project.Scripts.Game.Gameplay.Root
             await _weaponFactory.CreateWeapon(WeaponType.Gun);
             _levelUpPanel.GetStartImprovements();
 
+            _goldView.GetPoints(_uiScene.ShowGoldPoint, _uiScene.HideGoldPoint);
+            _healthBar.GetPoints(_uiScene.ShowHealthPoint, _uiScene.HideHealthPoint);
+            _timer.GetPoints(_uiScene.ShowMissionProgressPoint, _uiScene.HideMissionProgressPoint);
+            _missionProgressBar.GetPoints(_uiScene.ShowMissionProgressPoint, _uiScene.HideMissionProgressPoint);
+            
+            _goldView.Show();
+            
             _gameInitSystem.PlayerHealth.Die += _endGamePanel.Show;
             _gameInitSystem.PlayerHealth.Die += _endGamePanel.SetDefeatPanel;
             _gameInitSystem.PlayerHealth.Die += _progressBar.Hide;
