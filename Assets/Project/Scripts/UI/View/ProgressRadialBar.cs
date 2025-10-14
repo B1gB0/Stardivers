@@ -15,7 +15,7 @@ namespace Project.Scripts.UI.View
         private const string LevelTr = "SEV ";
         
         private readonly float _startValueLevel = 0f;
-        private readonly float _height = 0.02f;
+        private readonly float _height = 0.05f;
         private readonly int _stepLevel = 1;
         
         private ExperiencePoints _experiencePoints;
@@ -37,7 +37,7 @@ namespace Project.Scripts.UI.View
             _experiencePoints.ProgressBarLevelIsUpgraded += UpgradeProgressBarLevel;
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             transform.position = new Vector3(_target.position.x, _height, _target.position.z);
         }

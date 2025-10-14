@@ -1,4 +1,5 @@
 using System;
+using DG.Tweening;
 using Project.Scripts.Services;
 using Project.Scripts.UI.View;
 using Reflex.Attributes;
@@ -13,13 +14,15 @@ namespace Project.Scripts.UI.Panel
         [SerializeField] private Text _text;
 
         private IPauseService _pauseService;
+        private ITweenAnimationService _tweenAnimationService;
         
         public Button ContinueButton { get; private set; }
         
         [Inject]
-        private void Construct(IPauseService pauseService)
+        private void Construct(IPauseService pauseService, ITweenAnimationService tweenAnimationService)
         {
             _pauseService = pauseService;
+            _tweenAnimationService = tweenAnimationService;
         }
 
         private void Awake()
@@ -37,6 +40,11 @@ namespace Project.Scripts.UI.Panel
             ContinueButton.onClick.RemoveListener(Hide);
         }
 
+        private void OnDestroy()
+        {
+            transform.DOKill();
+        }
+
         public void SetText(string text)
         {
             _text.text = text;
@@ -46,12 +54,13 @@ namespace Project.Scripts.UI.Panel
         {
             _pauseService.StopGame();
             gameObject.SetActive(true);
+            _tweenAnimationService.AnimateScale(transform);
         }
 
         public void Hide()
         {
             _pauseService.PlayGame();
-            gameObject.SetActive(false);
+            _tweenAnimationService.AnimateScale(transform, true);
         }
     }
 }

@@ -5,8 +5,7 @@ namespace Project.Scripts.Levels.MysteryPlanet.FirstLevel
 {
     public class FirstMysteryPlanetLevel : Level
     {
-        [SerializeField] private EnemySpawnFirstWaveTrigger enemySpawnFirstWaveTrigger;
-        [SerializeField] private EntranceTrigger _entranceLastLvlTrigger;
+        [SerializeField] private EnemySpawnFirstWaveTrigger _enemySpawnFirstWaveTrigger;
         [SerializeField] private int _timeOfWaves = 90;
 
         private void OnEnable()
@@ -23,14 +22,40 @@ namespace Project.Scripts.Levels.MysteryPlanet.FirstLevel
         {
             base.OnStartLevel();
             
+            Timer.SetTime(_timeOfWaves);
+            
+            PauseService.OnGameStarted += Timer.ResumeTimer;
+            PauseService.OnGamePaused += Timer.PauseTimer;
+            
+            _enemySpawnFirstWaveTrigger.EnemySpawned += Timer.Show;
+            // _enemySpawnFirstWaveTrigger.EnemySpawned += _firstLevelAdviserTextsSetter.SetAndShowEnemySpawnFirstWaveTriggerText;
+            //
+            // Timer.IsEndAttack += _firstLevelAdviserTextsSetter.SetAndShowEndAttackText;
+            Timer.IsEndAttack += _enemySpawnFirstWaveTrigger.CompleteSpawn;
+            Timer.IsEndAttack += EntranceToNextLvlTrigger.Activate;
+            Timer.IsEndAttack += EndLevelTrigger.Activate;
         }
 
         private void FixedUpdate()
         {
-            if (enemySpawnFirstWaveTrigger.IsEnemySpawned)
+            if (_enemySpawnFirstWaveTrigger.IsEnemySpawned)
             {
                 CreateWaveOfEnemy(FirstWaveEnemy);
             }
+        }
+
+        private void OnDestroy()
+        {
+            PauseService.OnGameStarted -= Timer.ResumeTimer;
+            PauseService.OnGamePaused -= Timer.PauseTimer;
+            
+            _enemySpawnFirstWaveTrigger.EnemySpawned -= Timer.Show;
+            // _enemySpawnFirstWaveTrigger.EnemySpawned -= _firstLevelAdviserTextsSetter.SetAndShowEnemySpawnFirstWaveTriggerText;
+            //
+            // Timer.IsEndAttack -= _firstLevelAdviserTextsSetter.SetAndShowEndAttackText;
+            Timer.IsEndAttack -= _enemySpawnFirstWaveTrigger.CompleteSpawn;
+            Timer.IsEndAttack -= EntranceToNextLvlTrigger.Activate;
+            Timer.IsEndAttack -= EndLevelTrigger.Activate;
         }
     }
 }

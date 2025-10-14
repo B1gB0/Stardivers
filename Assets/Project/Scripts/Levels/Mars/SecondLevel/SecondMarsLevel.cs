@@ -1,5 +1,4 @@
-﻿using System;
-using Project.Scripts.Levels.Triggers;
+﻿using Project.Scripts.Levels.Triggers;
 using Project.Scripts.UI.View;
 using UnityEngine;
 

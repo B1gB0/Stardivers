@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using DG.Tweening;
 using Project.Scripts.Cards;
 using Project.Scripts.Game.Constant;
 using Project.Scripts.Game.GameRoot;
@@ -54,6 +55,11 @@ namespace Project.Scripts.UI.View
         private void OnDisable()
         {
             _cardViewButton.onClick.RemoveListener(OnButtonClicked);
+        }
+
+        private void OnDestroy()
+        {
+            transform.DOKill();
         }
 
         public void Show()

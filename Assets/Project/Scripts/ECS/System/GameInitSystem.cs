@@ -9,6 +9,7 @@ using Project.Scripts.EnemyAnimation;
 using Project.Scripts.Experience;
 using Project.Scripts.Levels;
 using Project.Scripts.Levels.Mars.SecondLevel;
+using Project.Scripts.Levels.MysteryPlanet.SecondLevel;
 using Project.Scripts.Projectiles.Enemy;
 using Project.Scripts.Services;
 using Project.Scripts.UI.Panel;
@@ -84,9 +85,14 @@ namespace Project.Scripts.ECS.System
 
             _level.GetServices(this, _timer, _adviserMessagePanel, _pauseService, _levelInitData);
             
-            if (_level is SecondMarsLevel secondMarsLevel)
+            switch (_level)
             {
-                secondMarsLevel.GetBallisticProgressBar(_missionProgressBar);
+                case SecondMarsLevel secondMarsLevel:
+                    secondMarsLevel.GetBallisticProgressBar(_missionProgressBar);
+                    break;
+                case SecondMysteryPlanetLevel secondMysteryPlanetLevel:
+                    secondMysteryPlanetLevel.GetRadioTowerProgressBar(_missionProgressBar);
+                    break;
             }
 
             CreateEnemyObjectPools();

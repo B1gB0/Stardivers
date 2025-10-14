@@ -259,7 +259,17 @@ namespace Project.Scripts.UI.Panel
                 return;
             
             _goldService.SpendGold(_priceOfRoll);
+            
+            AnimateCardsView();
             GenerateCards(_currentLevel);
+        }
+
+        private void AnimateCardsView()
+        {
+            foreach (var cardView in _cardsView)
+            {
+                _tweenAnimationService.AnimateScale(cardView.transform);
+            }
         }
     }
 }
