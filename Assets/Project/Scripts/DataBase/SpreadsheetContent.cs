@@ -19,5 +19,6 @@ namespace Project.Scripts.DataBase
         [SpreadsheetPage("Enemies")] public List<EnemyData> Enemies;
         [SpreadsheetPage("MarsSceneLevels")] public List<SceneLevelData> MarsSceneLevels;
         [SpreadsheetPage("MysteryPlanetSceneLevels")] public List<SceneLevelData> MysteryPlanetSceneLevels;
+        [SpreadsheetPage("LevelTexts")] public List<LevelTextData> LevelTexts;
     }
 }

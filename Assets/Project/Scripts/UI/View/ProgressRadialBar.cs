@@ -15,7 +15,7 @@ namespace Project.Scripts.UI.View
         private const string LevelTr = "SEV ";
         
         private readonly float _startValueLevel = 0f;
-        private readonly float _height = 0.05f;
+        private readonly float _height = 0.1f;
         private readonly int _stepLevel = 1;
         
         private ExperiencePoints _experiencePoints;

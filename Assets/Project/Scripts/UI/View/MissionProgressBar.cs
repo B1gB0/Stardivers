@@ -1,6 +1,7 @@
 ﻿using DG.Tweening;
 using Project.Scripts.Services;
 using Reflex.Attributes;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,7 +9,8 @@ namespace Project.Scripts.UI.View
 {
     public class MissionProgressBar : MonoBehaviour, IView
     {
-        [SerializeField] protected Slider SmoothSlider;
+        [SerializeField] private Slider _smoothSlider;
+        [SerializeField] private TMP_Text _text;
         [SerializeField] private Transform _showPoint;
         [SerializeField] private Transform _hidePoint;
 
@@ -41,10 +43,15 @@ namespace Project.Scripts.UI.View
             _showPoint = showPoint;
             _hidePoint = hidePoint;
         }
+
+        public void SetText(string text)
+        {
+            _text.text = text;
+        }
         
         private void SetValue(float currentValue, float maxValue)
         {
-            SmoothSlider.value = currentValue / maxValue;
+            _smoothSlider.value = currentValue / maxValue;
         }
 
         private void OnDestroy()
