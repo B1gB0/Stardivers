@@ -8,21 +8,19 @@ namespace Project.Scripts.Levels.Mars.FirstLevel
 
         private void OnEnable()
         {
-            WelcomePlanetTextTrigger.IsWelcomeToPlanet += DialogueSetter.OnWelcomePlanet;
-            
             IsInitiatedSpawners += SpawnResources;
         }
 
         private void OnDisable()
         {
-            WelcomePlanetTextTrigger.IsWelcomeToPlanet -= DialogueSetter.OnWelcomePlanet;
-            
             IsInitiatedSpawners -= SpawnResources;
         }
 
         public override void OnStartLevel()
         {
             base.OnStartLevel();
+            
+            WelcomePlanetTextTrigger.IsWelcomeToPlanet += DialogueSetter.OnWelcomePlanet;
             
             Timer.SetTime(_timeOfWaves);
 
@@ -48,6 +46,8 @@ namespace Project.Scripts.Levels.Mars.FirstLevel
 
         private void OnDestroy()
         {
+            WelcomePlanetTextTrigger.IsWelcomeToPlanet -= DialogueSetter.OnWelcomePlanet;
+            
             PauseService.OnGameStarted -= Timer.ResumeTimer;
             PauseService.OnGamePaused -= Timer.PauseTimer;
             

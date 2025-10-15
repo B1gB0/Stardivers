@@ -62,6 +62,9 @@ namespace Project.Scripts.UI.View
 
         public void SetText()
         {
+            if(_levelTextData == null)
+                return;
+            
             _text.text = YG2.lang switch
             {
                 LocalizationCode.Ru => _levelTextData.TextRu,

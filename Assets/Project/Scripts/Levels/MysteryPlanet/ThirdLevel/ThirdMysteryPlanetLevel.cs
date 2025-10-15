@@ -9,16 +9,19 @@ namespace Project.Scripts.Levels.MysteryPlanet.ThirdLevel
 
         private void OnEnable()
         {
-            WelcomePlanetTextTrigger.IsWelcomeToPlanet += DialogueSetter.OnWelcomePlanet;
-            
             IsInitiatedSpawners += SpawnResources;
         }
 
         private void OnDisable()
         {
-            WelcomePlanetTextTrigger.IsWelcomeToPlanet -= DialogueSetter.OnWelcomePlanet;
-            
             IsInitiatedSpawners -= SpawnResources;
+        }
+
+        public override void OnStartLevel()
+        {
+            base.OnStartLevel();
+            
+            WelcomePlanetTextTrigger.IsWelcomeToPlanet += DialogueSetter.OnWelcomePlanet;
         }
 
         private void FixedUpdate()
@@ -27,6 +30,11 @@ namespace Project.Scripts.Levels.MysteryPlanet.ThirdLevel
             {
                 CreateWaveOfEnemy(FirstWaveEnemy);
             }
+        }
+
+        private void OnDestroy()
+        {
+            WelcomePlanetTextTrigger.IsWelcomeToPlanet -= DialogueSetter.OnWelcomePlanet;
         }
     }
 }

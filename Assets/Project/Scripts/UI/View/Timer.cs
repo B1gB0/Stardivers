@@ -13,7 +13,7 @@ namespace Project.Scripts.UI.View
     {
         private const int SecondsInMinute = 60;
         private const int MinValue = 0;
-        
+
         [SerializeField] private TMP_Text _text;
         [SerializeField] private Transform _showPoint;
         [SerializeField] private Transform _hidePoint;
@@ -21,7 +21,6 @@ namespace Project.Scripts.UI.View
         private int _timeInSeconds;
         private bool _isPaused;
         private bool _isRunning;
-        private CancellationTokenSource _cts;
         private float _accumulatedTime;
 
         private ITweenAnimationService _tweenAnimationService;
@@ -42,7 +41,6 @@ namespace Project.Scripts.UI.View
         private void OnEnable()
         {
             IsEndAttack += StopTimer;
-            OnLaunchTimer();
         }
 
         private void OnDisable()
@@ -55,7 +53,7 @@ namespace Project.Scripts.UI.View
         {
             transform.DOKill();
         }
-        
+
         public void GetPoints(Transform showPoint, Transform hidePoint)
         {
             _showPoint = showPoint;
@@ -75,11 +73,18 @@ namespace Project.Scripts.UI.View
 
         public void ResumeTimer()
         {
+            if (!gameObject.activeInHierarchy) return;
+            
             _isPaused = false;
+            
+            if(!_isRunning)
+                OnLaunchTimer();
         }
-        
+
         public void PauseTimer()
         {
+            if (!gameObject.activeInHierarchy) return;
+            
             _isPaused = true;
         }
 
@@ -88,32 +93,21 @@ namespace Project.Scripts.UI.View
             _timeInSeconds = seconds;
             UpdateDisplay();
         }
-        
+
         private async void OnLaunchTimer()
         {
             StopTimer();
-            
+
             _isRunning = true;
             _isPaused = false;
             _accumulatedTime = 0f;
-            _cts = new CancellationTokenSource();
-            
-            try
-            {
-                await RunTimerAsync(_cts.Token);
-            }
-            finally
-            {
-                _isRunning = false;
-            }
+
+            await RunTimerAsync(this.GetCancellationTokenOnDestroy());
         }
-        
+
         private void StopTimer()
         {
             _isRunning = false;
-            _cts?.Cancel();
-            _cts?.Dispose();
-            _cts = null;
         }
 
         private void UpdateDisplay()
@@ -125,29 +119,36 @@ namespace Project.Scripts.UI.View
 
         private async UniTask RunTimerAsync(CancellationToken ct)
         {
-            while (_timeInSeconds > MinValue && _isRunning && !ct.IsCancellationRequested)
+            try
             {
-                await UniTask.Yield(PlayerLoopTiming.Update, ct);
-                
-                if (_isPaused) continue;
-                
-                _accumulatedTime += Time.unscaledDeltaTime;
-
-                if (!(_accumulatedTime >= 1f))
-                    continue;
-                
-                int secondsPassed = Mathf.FloorToInt(_accumulatedTime);
-                _accumulatedTime -= secondsPassed;
-                    
-                _timeInSeconds -= secondsPassed;
-                UpdateDisplay();
-                    
-                if (_timeInSeconds <= MinValue)
+                while (_timeInSeconds > MinValue && _isRunning && !ct.IsCancellationRequested)
                 {
-                    IsEndAttack?.Invoke();
-                    StopTimer();
-                    break;
+                    await UniTask.Yield(PlayerLoopTiming.Update, ct);
+            
+                    if (_isPaused) continue;
+            
+                    _accumulatedTime += Time.unscaledDeltaTime;
+
+                    if (!(_accumulatedTime >= 1f))
+                        continue;
+            
+                    int secondsPassed = Mathf.FloorToInt(_accumulatedTime);
+                    _accumulatedTime -= secondsPassed;
+                
+                    _timeInSeconds -= secondsPassed;
+                    UpdateDisplay();
+                
+                    if (_timeInSeconds <= MinValue)
+                    {
+                        IsEndAttack?.Invoke();
+                        StopTimer();
+                        break;
+                    }
                 }
+            }
+            catch (OperationCanceledException)
+            {
+                Debug.Log("Таймер был отменён.");
             }
         }
     }

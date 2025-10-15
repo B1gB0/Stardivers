@@ -20,21 +20,21 @@ namespace Project.Scripts.Levels.MysteryPlanet.SecondLevel
 
         private void OnEnable()
         {
-            WelcomePlanetTextTrigger.IsWelcomeToPlanet += DialogueSetter.OnWelcomePlanet;
-            
             IsInitiatedSpawners += SpawnResources;
         }
 
         private void OnDisable()
         {
-            WelcomePlanetTextTrigger.IsWelcomeToPlanet -= DialogueSetter.OnWelcomePlanet;
-            
             IsInitiatedSpawners -= SpawnResources;
         }
 
         public override void OnStartLevel()
         {
             base.OnStartLevel();
+            
+            _missionProgressBar.SetData();
+            
+            WelcomePlanetTextTrigger.IsWelcomeToPlanet += DialogueSetter.OnWelcomePlanet;
 
             EnemySpawnFirstWaveTrigger.EnemySpawned += _radioTowerTrigger.Activate;
             EnemySpawnFirstWaveTrigger.EnemySpawned += _entranceLastLvlTrigger.Deactivate;
@@ -60,11 +60,12 @@ namespace Project.Scripts.Levels.MysteryPlanet.SecondLevel
         {
             _missionProgressBar = missionProgressBar;
             _radioTower.ProgressChanged += _missionProgressBar.OnChangedValues;
-            _missionProgressBar.SetData();
         }
         
         private void OnDestroy()
         {
+            WelcomePlanetTextTrigger.IsWelcomeToPlanet -= DialogueSetter.OnWelcomePlanet;
+            
             _radioTower.ProgressChanged -= _missionProgressBar.OnChangedValues;
             
             EnemySpawnFirstWaveTrigger.EnemySpawned -= _radioTowerTrigger.Activate;
