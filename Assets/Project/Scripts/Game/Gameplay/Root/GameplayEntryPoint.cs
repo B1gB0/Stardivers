@@ -62,6 +62,7 @@ namespace Project.Scripts.Game.Gameplay.Root
         private IEnemyService _enemyService;
         private IPlayerService _playerService;
         private IGoldService _goldService;
+        private ILevelTextService _levelTextService;
 
         private HealthBar _healthBar;
         private ExperiencePoints _experiencePoints;
@@ -69,7 +70,7 @@ namespace Project.Scripts.Game.Gameplay.Root
         private LevelUpPanel _levelUpPanel;
         private EndGamePanel _endGamePanel;
         private Timer _timer;
-        private AdviserMessagePanel _adviserMessagePanel;
+        private DialoguePanel _dialoguePanel;
         private GoldView _goldView;
         private MissionProgressBar _missionProgressBar;
 
@@ -83,7 +84,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             IDataBaseService dataBaseService,
             IResourceService resourceService, ICharacteristicsWeaponDataService characteristicsWeaponDataService,
             ICardService cardService, IEnemyService enemyService, IPlayerService playerService,
-            IGoldService goldService)
+            IGoldService goldService, ILevelTextService levelTextService)
         {
             _audioSoundsService = audioSoundsService;
             _pauseService = pauseService;
@@ -96,6 +97,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             _enemyService = enemyService;
             _playerService = playerService;
             _goldService = goldService;
+            _levelTextService = levelTextService;
         }
 
         private void Update()
@@ -128,7 +130,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             _floatingTextService.Init(textView);
 
             _goldView = await _viewFactory.CreateGoldView();
-            _adviserMessagePanel = await _viewFactory.CreateAdviserMessagePanel();
+            _dialoguePanel = await _viewFactory.CreateAdviserMessagePanel();
 
             _timer = await _viewFactory.CreateTimer();
             _missionProgressBar = await _viewFactory.CreateMissionProgressBar();
@@ -157,7 +159,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             _missionProgressBar.transform.SetParent(_uiScene.transform);
             _levelUpPanel.transform.SetParent(_uiScene.transform);
             _endGamePanel.transform.SetParent(_uiScene.transform);
-            _adviserMessagePanel.transform.SetParent(_uiScene.transform);
+            _dialoguePanel.transform.SetParent(_uiScene.transform);
             _timer.transform.SetParent(_uiScene.transform);
             _goldView.transform.SetParent(_uiScene.transform);
             _weaponFactory.GetMinesButton(_uiScene.MinesButton);
@@ -189,6 +191,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             _gameInitSystem.PlayerHealth.Die += _endGamePanel.SetDefeatPanel;
             _gameInitSystem.PlayerHealth.Die += _progressBar.Hide;
             uiRoot.LocalizationLanguageSwitcher.OnLanguageChanged += _progressBar.ChangeText;
+            uiRoot.LocalizationLanguageSwitcher.OnLanguageChanged += _missionProgressBar.SetText;
             _gameInitSystem.PlayerHealth.IsSpawnedHealingText += _floatingTextService.OnChangedFloatingText;
 
             _level.EndLevelTrigger.IsLevelCompleted += _endGamePanel.Show;
@@ -231,6 +234,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             _gameInitSystem.PlayerIsSpawned -= _healthBar.Show;
             _gameInitSystem.PlayerIsSpawned -= _progressBar.Show;
             _uiRoot.LocalizationLanguageSwitcher.OnLanguageChanged -= _progressBar.ChangeText;
+            _uiRoot.LocalizationLanguageSwitcher.OnLanguageChanged -= _missionProgressBar.SetText;
 
             _gameInitSystem.PlayerHealth.Die -= _endGamePanel.Show;
             _gameInitSystem.PlayerHealth.Die -= _endGamePanel.SetDefeatPanel;
@@ -299,7 +303,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             _updateSystems = new EcsSystems(_world);
             _fixedUpdateSystems = new EcsSystems(_world);
 
-            _updateSystems.Inject(_adviserMessagePanel);
+            _updateSystems.Inject(_dialoguePanel);
             _updateSystems.Inject(_experiencePoints);
             _updateSystems.Inject(_floatingTextService);
             _updateSystems.Inject(_goldService);
@@ -321,6 +325,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             _updateSystems.Inject(_healingCoreData);
             _updateSystems.Inject(_capsuleData);
             _updateSystems.Inject(_levelData);
+            _updateSystems.Inject(_levelTextService);
 
             _updateSystems.Add(_gameInitSystem = new GameInitSystem());
             _updateSystems.Add(new PlayerInputSystem());

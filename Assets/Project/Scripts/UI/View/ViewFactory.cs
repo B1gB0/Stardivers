@@ -87,13 +87,13 @@ namespace Project.Scripts.UI.View
             return timer;
         }
 
-        public async UniTask<AdviserMessagePanel> CreateAdviserMessagePanel()
+        public async UniTask<DialoguePanel> CreateAdviserMessagePanel()
         {
             var adviserMessagePanelTemplate = await _resourceService.Load<GameObject>(AdviserMessagePanelPath);
             adviserMessagePanelTemplate = Instantiate(adviserMessagePanelTemplate);
 
-            AdviserMessagePanel adviserMessagePanel = adviserMessagePanelTemplate.GetComponent<AdviserMessagePanel>();
-            return adviserMessagePanel;
+            DialoguePanel dialoguePanel = adviserMessagePanelTemplate.GetComponent<DialoguePanel>();
+            return dialoguePanel;
         }
 
         public async UniTask<GoldView> CreateGoldView()

@@ -901,6 +901,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 6845193104714038747}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1417362475 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7038681414387280119, guid: 9cf765dd2d440f345a1374c1789c0a87, type: 3}
+  m_PrefabInstance: {fileID: 6845193104714038743}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ce795dad942430ba3933e63847550ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1606278464
 GameObject:
   m_ObjectHideFlags: 0
@@ -1376,6 +1387,18 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 47.6
       objectReference: {fileID: 0}
+    - target: {fileID: 5049433006829457247, guid: 9cf765dd2d440f345a1374c1789c0a87, type: 3}
+      propertyPath: m_Size.z
+      value: 2.4917746
+      objectReference: {fileID: 0}
+    - target: {fileID: 5049433006829457247, guid: 9cf765dd2d440f345a1374c1789c0a87, type: 3}
+      propertyPath: m_Center.x
+      value: 2.9720345
+      objectReference: {fileID: 0}
+    - target: {fileID: 5049433006829457247, guid: 9cf765dd2d440f345a1374c1789c0a87, type: 3}
+      propertyPath: m_Center.z
+      value: -0.7460375
+      objectReference: {fileID: 0}
     - target: {fileID: 5141825952453811864, guid: 9cf765dd2d440f345a1374c1789c0a87, type: 3}
       propertyPath: m_TagString
       value: FirstWaveBigEnemyAlienSpawnPoint
@@ -1395,6 +1418,34 @@ PrefabInstance:
     - target: {fileID: 5389122834901806741, guid: 9cf765dd2d440f345a1374c1789c0a87, type: 3}
       propertyPath: m_LocalPosition.z
       value: 16.76
+      objectReference: {fileID: 0}
+    - target: {fileID: 5419936219565638955, guid: 9cf765dd2d440f345a1374c1789c0a87, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -16.21
+      objectReference: {fileID: 0}
+    - target: {fileID: 5419936219565638955, guid: 9cf765dd2d440f345a1374c1789c0a87, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -6.52
+      objectReference: {fileID: 0}
+    - target: {fileID: 5419936219565638955, guid: 9cf765dd2d440f345a1374c1789c0a87, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5419936219565638955, guid: 9cf765dd2d440f345a1374c1789c0a87, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5419936219565638955, guid: 9cf765dd2d440f345a1374c1789c0a87, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5419936219565638955, guid: 9cf765dd2d440f345a1374c1789c0a87, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5419936219565638955, guid: 9cf765dd2d440f345a1374c1789c0a87, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5976934141072280099, guid: 9cf765dd2d440f345a1374c1789c0a87, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1548,6 +1599,14 @@ PrefabInstance:
       propertyPath: _entranceLastLvlTrigger
       value: 
       objectReference: {fileID: 662903973}
+    - target: {fileID: 8817686573278558037, guid: 9cf765dd2d440f345a1374c1789c0a87, type: 3}
+      propertyPath: WelcomePlanetTextTrigger
+      value: 
+      objectReference: {fileID: 1417362475}
+    - target: {fileID: 8817686573278558037, guid: 9cf765dd2d440f345a1374c1789c0a87, type: 3}
+      propertyPath: EnemySpawnFirstWaveTrigger
+      value: 
+      objectReference: {fileID: 662903974}
     - target: {fileID: 8817686573278558037, guid: 9cf765dd2d440f345a1374c1789c0a87, type: 3}
       propertyPath: enemySpawnFirstWaveTrigger
       value: 

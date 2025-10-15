@@ -1,9 +1,14 @@
 ﻿using DG.Tweening;
+using Project.Scripts.DataBase.Data;
+using Project.Scripts.Game.Constant;
+using Project.Scripts.Levels;
 using Project.Scripts.Services;
 using Reflex.Attributes;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using YG;
 
 namespace Project.Scripts.UI.View
 {
@@ -15,11 +20,14 @@ namespace Project.Scripts.UI.View
         [SerializeField] private Transform _hidePoint;
 
         private ITweenAnimationService _tweenAnimationService;
+        private ILevelTextService _levelTextService;
+        private LevelTextData _levelTextData;
 
         [Inject]
-        private void Construct(ITweenAnimationService tweenAnimationService)
+        private void Construct(ITweenAnimationService tweenAnimationService, ILevelTextService levelTextService)
         {
             _tweenAnimationService = tweenAnimationService;
+            _levelTextService = levelTextService;
         }
         
         public void OnChangedValues(float currentHealth, float maxHealth)
@@ -44,9 +52,23 @@ namespace Project.Scripts.UI.View
             _hidePoint = hidePoint;
         }
 
-        public void SetText(string text)
+        public void SetData()
         {
-            _text.text = text;
+            _levelTextData = _levelTextService.GetLevelTextData(SceneManager.GetActiveScene().name,
+                LevelTextsType.MissionProgressBarText);
+            
+            SetText();
+        }
+
+        public void SetText()
+        {
+            _text.text = YG2.lang switch
+            {
+                LocalizationCode.Ru => _levelTextData.TextRu,
+                LocalizationCode.En => _levelTextData.TextEn,
+                LocalizationCode.Tr => _levelTextData.TextTr,
+                _ => _text.text
+            };
         }
         
         private void SetValue(float currentValue, float maxValue)

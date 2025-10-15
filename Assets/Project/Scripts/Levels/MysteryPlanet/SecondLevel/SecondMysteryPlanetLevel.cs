@@ -1,6 +1,4 @@
-﻿using System;
-using Project.Scripts.Levels.Mars.SecondLevel;
-using Project.Scripts.Levels.Triggers;
+﻿using Project.Scripts.Levels.Triggers;
 using Project.Scripts.UI.View;
 using UnityEngine;
 
@@ -11,7 +9,6 @@ namespace Project.Scripts.Levels.MysteryPlanet.SecondLevel
         [field: SerializeField] public RadioTower _radioTower { get; private set; }
         
         [SerializeField] private RadioTowerTrigger _radioTowerTrigger;
-        [SerializeField] private EnemySpawnFirstWaveTrigger _enemySpawnFirstWaveTrigger;
         [SerializeField] private EntranceTrigger _entranceLastLvlTrigger;
         
         private MissionProgressBar _missionProgressBar;
@@ -23,25 +20,29 @@ namespace Project.Scripts.Levels.MysteryPlanet.SecondLevel
 
         private void OnEnable()
         {
+            WelcomePlanetTextTrigger.IsWelcomeToPlanet += DialogueSetter.OnWelcomePlanet;
+            
             IsInitiatedSpawners += SpawnResources;
         }
 
         private void OnDisable()
         {
+            WelcomePlanetTextTrigger.IsWelcomeToPlanet -= DialogueSetter.OnWelcomePlanet;
+            
             IsInitiatedSpawners -= SpawnResources;
         }
 
         public override void OnStartLevel()
         {
             base.OnStartLevel();
-            
-            base.OnStartLevel();
-            
-            _enemySpawnFirstWaveTrigger.EnemySpawned += _radioTowerTrigger.Activate;
-            _enemySpawnFirstWaveTrigger.EnemySpawned += _entranceLastLvlTrigger.Deactivate;
-            _enemySpawnFirstWaveTrigger.EnemySpawned += _missionProgressBar.Show;
 
-            _radioTower.InstallationDishCompleted += _enemySpawnFirstWaveTrigger.CompleteSpawn;
+            EnemySpawnFirstWaveTrigger.EnemySpawned += _radioTowerTrigger.Activate;
+            EnemySpawnFirstWaveTrigger.EnemySpawned += _entranceLastLvlTrigger.Deactivate;
+            EnemySpawnFirstWaveTrigger.EnemySpawned += _missionProgressBar.Show;
+            EnemySpawnFirstWaveTrigger.EnemySpawned += DialogueSetter.OnEnemySpawnTrigger;
+
+            _radioTower.InstallationDishCompleted += DialogueSetter.OnEndAttack;
+            _radioTower.InstallationDishCompleted += EnemySpawnFirstWaveTrigger.CompleteSpawn;
             _radioTower.InstallationDishCompleted += EndLevelTrigger.Activate;
             _radioTower.InstallationDishCompleted += EntranceToNextLvlTrigger.Activate;
             _radioTower.InstallationDishCompleted += _entranceLastLvlTrigger.Activate;
@@ -49,7 +50,7 @@ namespace Project.Scripts.Levels.MysteryPlanet.SecondLevel
 
         private void FixedUpdate()
         {
-            if (_enemySpawnFirstWaveTrigger.IsEnemySpawned)
+            if (EnemySpawnFirstWaveTrigger.IsEnemySpawned)
             {
                 CreateWaveOfEnemy(FirstWaveEnemy);
             }
@@ -59,20 +60,23 @@ namespace Project.Scripts.Levels.MysteryPlanet.SecondLevel
         {
             _missionProgressBar = missionProgressBar;
             _radioTower.ProgressChanged += _missionProgressBar.OnChangedValues;
+            _missionProgressBar.SetData();
         }
         
         private void OnDestroy()
         {
             _radioTower.ProgressChanged -= _missionProgressBar.OnChangedValues;
             
-            _enemySpawnFirstWaveTrigger.EnemySpawned -= _radioTowerTrigger.Activate;
-            _enemySpawnFirstWaveTrigger.EnemySpawned -= _entranceLastLvlTrigger.Deactivate;
-            _enemySpawnFirstWaveTrigger.EnemySpawned -= _missionProgressBar.Show;
+            EnemySpawnFirstWaveTrigger.EnemySpawned -= _radioTowerTrigger.Activate;
+            EnemySpawnFirstWaveTrigger.EnemySpawned -= _entranceLastLvlTrigger.Deactivate;
+            EnemySpawnFirstWaveTrigger.EnemySpawned -= _missionProgressBar.Show;
+            EnemySpawnFirstWaveTrigger.EnemySpawned -= DialogueSetter.OnEnemySpawnTrigger;
 
-            _radioTower.InstallationDishCompleted += _enemySpawnFirstWaveTrigger.CompleteSpawn;
-            _radioTower.InstallationDishCompleted += EndLevelTrigger.Activate;
-            _radioTower.InstallationDishCompleted += EntranceToNextLvlTrigger.Activate;
-            _radioTower.InstallationDishCompleted += _entranceLastLvlTrigger.Activate;
+            _radioTower.InstallationDishCompleted -= DialogueSetter.OnEndAttack;
+            _radioTower.InstallationDishCompleted -= EnemySpawnFirstWaveTrigger.CompleteSpawn;
+            _radioTower.InstallationDishCompleted -= EndLevelTrigger.Activate;
+            _radioTower.InstallationDishCompleted -= EntranceToNextLvlTrigger.Activate;
+            _radioTower.InstallationDishCompleted -= _entranceLastLvlTrigger.Activate;
         }
     }
 }

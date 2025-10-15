@@ -42,11 +42,12 @@ namespace Project.Scripts.ECS.System
         private readonly IEnemyService _enemyService;
         private readonly IPlayerService _playerService;
         private readonly IGoldService _goldService;
+        private readonly ILevelTextService _levelTextService;
         private readonly AudioSoundsService _audioSoundsService;
         private readonly ExperiencePoints _experiencePoints;
         private readonly Timer _timer;
         private readonly PauseService _pauseService;
-        private readonly AdviserMessagePanel _adviserMessagePanel;
+        private readonly DialoguePanel _dialoguePanel;
         private readonly MissionProgressBar _missionProgressBar;
         private readonly Level _level;
 
@@ -83,7 +84,8 @@ namespace Project.Scripts.ECS.System
             PlayerHealth = Player.Health;
             Player.gameObject.SetActive(false);
 
-            _level.GetServices(this, _timer, _adviserMessagePanel, _pauseService, _levelInitData);
+            _level.GetServices(this, _timer, _dialoguePanel, _pauseService, _levelInitData,
+                _levelTextService);
             
             switch (_level)
             {

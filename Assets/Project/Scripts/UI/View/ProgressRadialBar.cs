@@ -1,4 +1,5 @@
 ﻿using Project.Scripts.Experience;
+using Project.Scripts.Game.Constant;
 using UnityEngine;
 using YG;
 
@@ -6,10 +7,6 @@ namespace Project.Scripts.UI.View
 {
     public class ProgressRadialBar : RadialBar
     {
-        private const string Ru = "ru";
-        private const string En = "en";
-        private const string Tr = "tr";
-
         private const string LevelRu = "УР ";
         private const string LevelEn = "LVL ";
         private const string LevelTr = "SEV ";
@@ -62,9 +59,9 @@ namespace Project.Scripts.UI.View
         {
             text.text = YG2.lang switch
             {
-                Ru => LevelRu + _currentLevel,
-                En => LevelEn + _currentLevel,
-                Tr => LevelTr + _currentLevel,
+                LocalizationCode.Ru => LevelRu + _currentLevel,
+                LocalizationCode.En => LevelEn + _currentLevel,
+                LocalizationCode.Tr => LevelTr + _currentLevel,
                 _ => text.text
             };
         }

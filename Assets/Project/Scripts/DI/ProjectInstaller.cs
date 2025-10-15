@@ -43,6 +43,7 @@ namespace Project.Scripts.DI
             builder.AddSingleton(typeof(PlayerService), typeof(IPlayerService));
             builder.AddSingleton(typeof(GoldService), typeof(IGoldService));
             builder.AddSingleton(typeof(TweenAnimationService), typeof(ITweenAnimationService));
+            builder.AddSingleton(typeof(LevelTextService), typeof(ILevelTextService));
             Debug.Log("Регистрация сервисов завершена");
         }
         

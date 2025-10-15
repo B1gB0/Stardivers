@@ -5,22 +5,25 @@ namespace Project.Scripts.Levels.MysteryPlanet.ThirdLevel
 {
     public class ThirdMysteryPlanetLevel : Level
     {
-        [SerializeField] private EnemySpawnFirstWaveTrigger enemySpawnFirstWaveTrigger;
         [SerializeField] private EntranceTrigger _entranceLastLvlTrigger;
 
         private void OnEnable()
         {
+            WelcomePlanetTextTrigger.IsWelcomeToPlanet += DialogueSetter.OnWelcomePlanet;
+            
             IsInitiatedSpawners += SpawnResources;
         }
 
         private void OnDisable()
         {
+            WelcomePlanetTextTrigger.IsWelcomeToPlanet -= DialogueSetter.OnWelcomePlanet;
+            
             IsInitiatedSpawners -= SpawnResources;
         }
 
         private void FixedUpdate()
         {
-            if (enemySpawnFirstWaveTrigger.IsEnemySpawned)
+            if (EnemySpawnFirstWaveTrigger.IsEnemySpawned)
             {
                 CreateWaveOfEnemy(FirstWaveEnemy);
             }

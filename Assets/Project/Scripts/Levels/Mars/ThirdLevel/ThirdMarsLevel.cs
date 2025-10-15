@@ -5,7 +5,6 @@ namespace Project.Scripts.Levels.Mars.ThirdLevel
 {
     public class ThirdMarsLevel : Level
     {
-        [SerializeField] private EnemySpawnFirstWaveTrigger _enemySpawnFirstWaveTrigger;
         [SerializeField] private EnemySpawnSecondWaveTrigger _enemySpawnSecondWaveTrigger;
         [SerializeField] private EntranceTrigger _entranceLastLvlTrigger;
         [SerializeField] private TruckPlayerTrigger _truckPlayerTrigger;
@@ -13,11 +12,15 @@ namespace Project.Scripts.Levels.Mars.ThirdLevel
 
         private void OnEnable()
         {
+            WelcomePlanetTextTrigger.IsWelcomeToPlanet += DialogueSetter.OnWelcomePlanet;
+            
             IsInitiatedSpawners += SpawnResources;
         }
 
         private void OnDisable()
         {
+            WelcomePlanetTextTrigger.IsWelcomeToPlanet -= DialogueSetter.OnWelcomePlanet;
+            
             IsInitiatedSpawners -= SpawnResources;
         }
 
@@ -25,9 +28,11 @@ namespace Project.Scripts.Levels.Mars.ThirdLevel
         {
             base.OnStartLevel();
             
-            _enemySpawnFirstWaveTrigger.EnemySpawned += _entranceLastLvlTrigger.Deactivate;
+            EnemySpawnFirstWaveTrigger.EnemySpawned += _entranceLastLvlTrigger.Deactivate;
+            EnemySpawnFirstWaveTrigger.EnemySpawned += DialogueSetter.OnEnemySpawnTrigger;
             _enemySpawnSecondWaveTrigger.EnemySpawned += OnCreateBigEnemiesWave;
-            
+
+            _truckFinalPointTrigger.IsFinalPointReached += DialogueSetter.OnEndAttack;
             _truckFinalPointTrigger.IsFinalPointReached += EntranceToNextLvlTrigger.Activate;
             _truckFinalPointTrigger.IsFinalPointReached += _entranceLastLvlTrigger.Activate;
             _truckFinalPointTrigger.IsFinalPointReached += EndLevelTrigger.Activate;
@@ -36,7 +41,7 @@ namespace Project.Scripts.Levels.Mars.ThirdLevel
 
         private void FixedUpdate()
         {
-            if (_enemySpawnFirstWaveTrigger.IsEnemySpawned)
+            if (EnemySpawnFirstWaveTrigger.IsEnemySpawned)
             {
                 CreateWaveOfEnemy(FirstWaveEnemy);
             }
@@ -74,9 +79,11 @@ namespace Project.Scripts.Levels.Mars.ThirdLevel
         
         private void OnDestroy()
         {
-            _enemySpawnFirstWaveTrigger.EnemySpawned -= _entranceLastLvlTrigger.Deactivate;
+            EnemySpawnFirstWaveTrigger.EnemySpawned -= _entranceLastLvlTrigger.Deactivate;
+            EnemySpawnFirstWaveTrigger.EnemySpawned -= DialogueSetter.OnEnemySpawnTrigger;
             _enemySpawnSecondWaveTrigger.EnemySpawned -= OnCreateBigEnemiesWave;
 
+            _truckFinalPointTrigger.IsFinalPointReached -= DialogueSetter.OnEndAttack;
             _truckFinalPointTrigger.IsFinalPointReached -= EntranceToNextLvlTrigger.Activate;
             _truckFinalPointTrigger.IsFinalPointReached -= _entranceLastLvlTrigger.Activate;
             _truckFinalPointTrigger.IsFinalPointReached -= EndLevelTrigger.Activate;

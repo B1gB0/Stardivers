@@ -15200,15 +15200,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97e180b7a2dc4ae0b15ef52198709e06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _healthBarTemplate: {fileID: 1253890320212022793, guid: 06ade37752b155b49abec3d2b141bc1b, type: 3}
-  textViewTemplate: {fileID: 4202921636403678774, guid: b8b82ebba3f127e4bb3ce6e6696433b9, type: 3}
-  _progressRadialBarPlaneTemplate: {fileID: 1512919815294232957, guid: 289d2f21a6b011a4188945a3b1bfae94, type: 3}
-  _levelUpPanelTemplate: {fileID: 1819995445119654197, guid: 236691d053c4dd1428a1de43f2f55faa, type: 3}
-  _endGamePanelTemplate: {fileID: 8472748444075064197, guid: 7a65b2b2cb355ec439d925f6492bf8ec, type: 3}
-  _timer: {fileID: 626542871292815136, guid: e1a867eb6c529bb4fb3bf99bbe3936c0, type: 3}
-  _adviserMessagePanel: {fileID: 5470805614760437840, guid: e5cf3c4e4607e1c45a9c03f613fbf342, type: 3}
-  _goldView: {fileID: 3215358125355683392, guid: 95288b66127170f4a85a6bc9bfab1783, type: 3}
-  _ballisticRocketBarTemplate: {fileID: 3190558890560446263, guid: e77851854dd54b34a8a389acb0cc0bd0, type: 3}
 --- !u!114 &760174792
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15392,6 +15383,72 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1869314836}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &911225808
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 911225809}
+  - component: {fileID: 911225811}
+  - component: {fileID: 911225810}
+  m_Layer: 0
+  m_Name: WelcomeTextTrigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &911225809
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 911225808}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -183.22, y: 0, z: -10.85}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8978813844444957629}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &911225810
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 911225808}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 0.6186154, z: 17.8249}
+  m_Center: {x: -4.891505e-16, y: 0.89688766, z: -0.21557903}
+--- !u!114 &911225811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 911225808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ce795dad942430ba3933e63847550ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1094403679 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6445340713117902748, guid: 8e4904903dc9c9144b2c54509fd92f5b, type: 3}
@@ -17604,6 +17661,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 565777711}
     - target: {fileID: 8983939027841685446, guid: 8e4904903dc9c9144b2c54509fd92f5b, type: 3}
+      propertyPath: WelcomePlanetTextTrigger
+      value: 
+      objectReference: {fileID: 911225811}
+    - target: {fileID: 8983939027841685446, guid: 8e4904903dc9c9144b2c54509fd92f5b, type: 3}
+      propertyPath: EnemySpawnFirstWaveTrigger
+      value: 
+      objectReference: {fileID: 1906210698}
+    - target: {fileID: 8983939027841685446, guid: 8e4904903dc9c9144b2c54509fd92f5b, type: 3}
       propertyPath: enemySpawnFirstWaveTrigger
       value: 
       objectReference: {fileID: 1906210698}
@@ -17730,6 +17795,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5782435978559969604, guid: 8e4904903dc9c9144b2c54509fd92f5b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2042722258}
+    - targetCorrespondingSourceObject: {fileID: 5782435978559969604, guid: 8e4904903dc9c9144b2c54509fd92f5b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 911225809}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 8652685847952313082, guid: 8e4904903dc9c9144b2c54509fd92f5b, type: 3}
       insertIndex: -1

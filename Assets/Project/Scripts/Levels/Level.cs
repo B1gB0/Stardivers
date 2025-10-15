@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Project.Scripts.ECS.Data;
 using Project.Scripts.ECS.System;
+using Project.Scripts.Levels.Mars.FirstLevel;
 using Project.Scripts.Levels.Spawners;
 using Project.Scripts.Levels.Triggers;
 using Project.Scripts.Services;
@@ -21,6 +22,8 @@ namespace Project.Scripts.Levels
         protected const int SecondWaveEnemy = 1;
 
         protected readonly List<EnemyWave> EnemyWaves = new();
+        
+        protected DialogueSetter DialogueSetter;
 
         [field: SerializeField] public bool IsLaunchPlayerCapsule { get; private set; }
         [field: SerializeField] public EndLevelTrigger EndLevelTrigger { get; private set; }
@@ -28,23 +31,25 @@ namespace Project.Scripts.Levels
         [field: SerializeField] public int QuantityGoldCore { get; private set; }
         [field: SerializeField] public int QuantityHealingCore { get; private set; }
 
+        [SerializeField] protected EnemySpawnFirstWaveTrigger EnemySpawnFirstWaveTrigger;
+        [SerializeField] protected WelcomePlanetTextTrigger WelcomePlanetTextTrigger;
         [SerializeField] protected float SpawnWaveOfEnemyDelay = 10f;
-
         [SerializeField] protected int CountSmallEnemy;
         [SerializeField] protected int CountBigEnemy;
         [SerializeField] protected int CountGunnerEnemy;
-
+        
         [SerializeField] private int _countEnemyWaves;
 
         protected EnemySpawner EnemySpawner;
         protected Timer Timer;
-        protected AdviserMessagePanel AdviserMessagePanel;
+        protected DialoguePanel DialoguePanel;
         protected PauseService PauseService;
         protected float LastSpawnTime;
 
         private GameInitSystem _gameInitSystem;
         private ResourcesSpawner _resourcesSpawner;
         private LevelInitData _levelInitData;
+        private ILevelTextService _levelTextService;
 
         public int SmallEnemyCountPoints { get; private set; }
         public int BigEnemyCountPoints { get; private set; }
@@ -60,6 +65,8 @@ namespace Project.Scripts.Levels
 
         public virtual void OnStartLevel()
         {
+            DialogueSetter = new DialogueSetter(DialoguePanel, _levelTextService);
+            
             EndLevelTrigger.Deactivate();
             EntranceToNextLvlTrigger.Deactivate();
 
@@ -69,15 +76,17 @@ namespace Project.Scripts.Levels
         public void GetServices(
             GameInitSystem gameInitSystem,
             Timer timer,
-            AdviserMessagePanel adviserMessagePanel,
+            DialoguePanel dialoguePanel,
             PauseService pauseService,
-            LevelInitData levelInitData)
+            LevelInitData levelInitData,
+            ILevelTextService levelTextService)
         {
             _gameInitSystem = gameInitSystem;
             PauseService = pauseService;
-            AdviserMessagePanel = adviserMessagePanel;
+            DialoguePanel = dialoguePanel;
             Timer = timer;
             _levelInitData = levelInitData;
+            _levelTextService = levelTextService;
 
             InitSpawners(gameInitSystem);
         }

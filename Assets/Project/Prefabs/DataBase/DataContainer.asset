@@ -31,6 +31,7 @@ MonoBehaviour:
   - Enemy
   - Players
   - Enemies
+  - LevelTexts
   foldoutSerializationGUI: 1
   serializationOutputPath: ../../Configs
   serializationFileName: Configs.v0.1
@@ -1124,3 +1125,198 @@ MonoBehaviour:
       _sceneName: MysteryPlanetSecondLevel
     - _number: 2
       _sceneName: MysteryPlanetThirdLevel
+    LevelTexts:
+    - _id: welcome_mars_first_level
+      _type: 0
+      _sceneName: MarsFirstLevel
+      _textRu: "\u041C\u0430\u0440\u0441 \u0432\u0441\u0442\u0440\u0435\u0447\u0430\u0435\u0442
+        \u0442\u0435\u0431\u044F, \u0437\u0432\u0451\u0437\u0434\u043D\u044B\u0439
+        \u0434\u0435\u0441\u0430\u043D\u0442\u043D\u0438\u043A! \u041C\u044B \u043F\u043E\u043B\u0443\u0447\u0438\u043B\u0438
+        \u0441\u0438\u0433\u043D\u0430\u043B \u0431\u0435\u0434\u0441\u0442\u0432\u0438\u044F
+        \u0441 \u043F\u043B\u0430\u043D\u0435\u0442\u044B. \u041F\u043E\u044D\u0442\u043E\u043C\u0443
+        \u0434\u0435\u0439\u0441\u0442\u0432\u0443\u0435\u043C \u0431\u044B\u0441\u0442\u0440\u043E!
+        \u0422\u0435\u0431\u0435 \u043D\u0443\u0436\u043D\u043E \u043F\u0440\u043E\u0432\u0435\u0440\u0438\u0442\u044C
+        \u0431\u043B\u0438\u0436\u0430\u0439\u0448\u0438\u0439 \u043F\u0435\u0440\u0435\u0434\u0430\u0442\u0447\u0438\u043A
+        \u043E\u043A\u043E\u043B\u043E \u043F\u043E\u0441\u0442\u0430 \u043A\u043E\u043B\u043E\u043D\u0438\u0441\u0442\u043E\u0432."
+      _textEn: Mars greets you, stardiver! We have received a distress signal from
+        the planet. Therefore, we act quickly! You need to check the nearest transmitter
+        near the colonists' post.
+      _textTr: "Mars seni selaml\u0131yor, y\u0131ld\u0131z denizcisi! Gezegenden
+        bir tehlike sinyali ald\u0131k. Bu nedenle h\u0131zl\u0131 hareket ediyoruz!
+        Kolonistlerin karakolunun yak\u0131n\u0131ndaki en yak\u0131n vericiyi kontrol
+        etmeniz gerekiyor."
+    - _id: enemy_spawn_trigger_mars_first_level
+      _type: 1
+      _sceneName: MarsFirstLevel
+      _textRu: "\u0417\u0430\u0444\u0438\u043A\u0441\u0438\u0440\u043E\u0432\u0430\u043D\u044B
+        \u043D\u0435\u043E\u043F\u043E\u0437\u043D\u0430\u043D\u043D\u044B\u0435
+        \u0431\u0438\u043E\u0441\u0438\u0433\u043D\u0430\u043B\u044B. \u041E\u043D\u0438
+        \u0432\u0441\u0451 \u0431\u043B\u0438\u0436\u0435 \u043A \u0442\u0435\u0431\u0435!
+        \u041F\u0440\u0438\u0433\u043E\u0442\u043E\u0432\u044C\u0441\u044F!"
+      _textEn: Unidentified biosignals have been detected. They're getting closer
+        to you! Get ready!
+      _textTr: "Tan\u0131mlanamayan biyosignaller tespit edildi. Sana yakla\u015F\u0131yorlar!
+        Haz\u0131rlan\u0131n!"
+    - _id: end_attack_mars_first_level
+      _type: 2
+      _sceneName: MarsFirstLevel
+      _textRu: "\u0410\u0442\u0430\u043A\u0430 \u0437\u0430\u043A\u043E\u043D\u0447\u0438\u043B\u0430\u0441\u044C!
+        \u041F\u043E\u0440\u0430 \u043E\u0442\u043F\u0440\u0430\u0432\u043B\u044F\u0442\u044C\u0441\u044F
+        \u0432 \u0431\u043B\u0438\u0436\u0430\u0439\u0448\u0438\u0439 \u0430\u0432\u0430\u043D\u043F\u043E\u0441\u0442
+        \u0438 \u043F\u0435\u0440\u0435\u0432\u0435\u0441\u0442\u0438 \u0434\u0443\u0445!"
+      _textEn: The attack is over! It's time to go to the nearest outpost and catch
+        your breath!
+      _textTr: "Sald\u0131r\u0131 sona erdi! En yak\u0131n karakola gitme ve nefes
+        alma zaman\u0131!"
+    - _id: rocket_launch
+      _type: 3
+      _sceneName: MarsSecondLevel
+      _textRu: "\u0425\u043E\u0434 \u0437\u0430\u043F\u0443\u0441\u043A\u0430 \u0440\u0430\u043A\u0435\u0442\u044B"
+      _textEn: Rocket launch progress
+      _textTr: "Roket f\u0131rlatma ilerlemesi"
+    - _id: welcome_mars_second_level
+      _type: 0
+      _sceneName: MarsSecondLevel
+      _textRu: "\u0412\u0442\u043E\u0440\u0436\u0435\u043D\u0438\u0435 \u043D\u0430
+        \u041C\u0430\u0440\u0441 \u043F\u0440\u043E\u0434\u043E\u043B\u0436\u0430\u0435\u0442\u0441\u044F!
+        \u0411\u043E\u0438 \u0441 \u044D\u0442\u0438\u043C\u0438 \u043C\u043E\u043D\u0441\u0442\u0440\u0430\u043C\u0438
+        \u0438\u0434\u0443\u0442 \u043F\u043E \u0432\u0441\u0435\u0439 \u043F\u043B\u0430\u043D\u0435\u0442\u0435.
+        \u041D\u0443\u0436\u043D\u043E \u0443\u0434\u0430\u0440\u0438\u0442\u044C
+        \u043F\u043E \u043D\u0438\u043C \u043F\u043E\u043A\u0430 \u0435\u0449\u0451
+        \u043D\u0435 \u043F\u043E\u0437\u0434\u043D\u043E. \u0418\u0441\u043F\u043E\u043B\u044C\u0437\u0443\u0439
+        \u0431\u0430\u043B\u0438\u0441\u0442\u0438\u0447\u0435\u0441\u043A\u0443\u044E
+        \u0440\u0430\u043A\u0435\u0442\u0443!"
+      _textEn: The invasion of Mars continues! Battles with these monsters are taking
+        place all over the planet. We need to hit them before it's too late. Use
+        the balistic rocket!
+      _textTr: "Mars'a sald\u0131r\u0131 devam ediyor! Bu canavarlarla sava\u015Flar
+        gezegenin her yerinde s\xFCr\xFCyor. Hen\xFCz \xE7ok ge\xE7 olmadan onlara
+        vurmal\u0131y\u0131z. Balistik f\xFCzeyi kullan\u0131n!"
+    - _id: enemy_spawn_trigger_mars_second_level
+      _type: 1
+      _sceneName: MarsSecondLevel
+      _textRu: "\u0420\u0430\u043A\u0435\u0442\u0430 \u0433\u043E\u0442\u043E\u0432\u0438\u0442\u044C\u0441\u044F
+        \u043A \u0437\u0430\u043F\u0443\u0441\u043A\u0443! \u0414\u0435\u0440\u0436\u0438\u0441\u044C
+        \u0440\u044F\u0434\u043E\u043C \u0441 \u043F\u043B\u043E\u0449\u0430\u0434\u043A\u043E\u0439
+        \u0437\u0430\u043F\u0443\u0441\u043A\u0430 \u0438 \u0437\u0430\u0449\u0438\u0449\u0430\u0439
+        \u0435\u0451 \u043F\u043E\u043A\u0430 \u0440\u0430\u043A\u0435\u0442\u0430
+        \u043F\u0440\u0438\u0445\u043E\u0434\u0438\u0442 \u0432 \u0431\u043E\u0435\u0432\u0443\u044E
+        \u0433\u043E\u0442\u043E\u0432\u043D\u043E\u0441\u0442\u044C."
+      _textEn: The rocket is getting ready to launch! Stay close to the launch site
+        and protect it while the rocket is on alert.
+      _textTr: "Roket f\u0131rlat\u0131lmaya haz\u0131rlan\u0131yor! F\u0131rlatma
+        rampas\u0131n\u0131n yak\u0131n\u0131nda kal\u0131n ve roket sava\u015F durumuna
+        gelene kadar onu koruyun."
+    - _id: end_attack_mars_second_level
+      _type: 2
+      _sceneName: MarsSecondLevel
+      _textRu: "\u0420\u0430\u043A\u0435\u0442\u0430 \u0437\u0430\u043F\u0443\u0449\u0435\u043D\u0430
+        \u0438 \u0434\u0432\u0438\u0436\u0435\u0442\u0441\u044F \u0432 \u043C\u0435\u0441\u0442\u043D\u043E\u0441\u0442\u044C
+        \u043E\u0442\u043A\u0443\u0434\u0430 \u044F\u0432\u0438\u043B\u0438\u0441\u044C
+        \u043F\u0440\u0438\u0448\u0435\u043B\u044C\u0446\u044B! \u041A\u043E\u043B\u0438\u0447\u0435\u0441\u0442\u0432\u043E
+        \u0431\u0438\u043E\u0441\u0438\u0433\u043D\u0430\u043B\u043E\u0432 \u0440\u044F\u0434\u043E\u043C
+        \u0441 \u0442\u043E\u0431\u043E\u0439 \u0443\u043C\u0435\u043D\u044C\u0448\u0430\u0435\u0442\u0441\u044F,
+        \u043D\u0430\u0432\u0435\u0440\u043D\u043E\u0435 \u043E\u043D\u0438 \u043F\u044B\u0442\u0430\u044E\u0442\u0441\u044F
+        \u043F\u0435\u0440\u0435\u0433\u0440\u0443\u043F\u043F\u0438\u0440\u043E\u0432\u0430\u0442\u044C\u0441\u044F."
+      _textEn: The rocket has been launched and is moving towards the area where
+        the aliens came from! The number of biosignals next to you is decreasing,
+        they are probably trying to regroup.
+      _textTr: "Roket f\u0131rlat\u0131ld\u0131 ve uzayl\u0131lar\u0131n geldi\u011Fi
+        b\xF6lgeye do\u011Fru ilerliyor! Yak\u0131n\u0131ndaki biyosignal say\u0131s\u0131
+        azal\u0131yor, muhtemelen yeniden toplanmaya \xE7al\u0131\u015F\u0131yorlar."
+    - _id: welcome_mars_third_level
+      _type: 0
+      _sceneName: MarsThirdLevel
+      _textRu: "\u041C\u044B \u043D\u0430\u043D\u0435\u0441\u043B\u0438 \u0441\u0435\u0440\u044C\u0451\u0437\u043D\u044B\u0439
+        \u0443\u0434\u0430\u0440 \u043F\u043E \u043D\u0430\u0448\u0438\u043C \u0432\u0440\u0430\u0433\u0430\u043C,
+        \u043D\u043E \u043D\u0430 \u043F\u043B\u0430\u043D\u0435\u0442\u0435 \u0432\u0441\u0451
+        \u0435\u0449\u0451 \u0437\u0430\u0444\u0438\u043A\u0441\u0438\u0440\u043E\u0432\u0430\u043D\u043E
+        \u043F\u0440\u0438\u0441\u0443\u0442\u0441\u0442\u0432\u0438\u0435  \u0432\u0440\u0430\u0433\u0430.
+        \u041D\u0443\u0436\u043D\u043E \u043F\u0440\u043E\u0432\u0435\u0441\u0442\u0438
+        \u044D\u0432\u0430\u043A\u0443\u0430\u0446\u0438\u044E \u0441\u0430\u043C\u043E\u0433\u043E
+        \u0432\u0430\u0436\u043D\u043E\u0433\u043E \u043F\u0435\u0440\u0441\u043E\u043D\u0430\u043B\u0430
+        \u043D\u0430 \u041C\u0430\u0440\u0441\u0435!"
+      _textEn: We have dealt a serious blow to our enemies, but there is still an
+        enemy presence on the planet. We need to evacuate the most important personnel
+        on Mars!
+      _textTr: "D\xFC\u015Fmanlar\u0131m\u0131za ciddi bir darbe vurduk, ancak gezegende
+        hala bir d\xFC\u015Fman\u0131n varl\u0131\u011F\u0131 kaydediliyor. Mars'taki
+        en \xF6nemli personeli tahliye etmemiz gerekiyor!"
+    - _id: enemy_spawn_trigger_mars_third_level
+      _type: 1
+      _sceneName: MarsThirdLevel
+      _textRu: "\u0421\u043E\u043F\u0440\u043E\u0432\u043E\u0434\u0438 \u0442\u0440\u0430\u043D\u0441\u043F\u043E\u0440\u0442
+        \u0434\u043E \u043C\u0435\u0441\u0442\u0430 \u044D\u0432\u0430\u043A\u0443\u0430\u0446\u0438\u0438.
+        \u0414\u043E\u0440\u043E\u0433\u0430 \u043B\u0435\u0436\u0438\u0442 \u0447\u0435\u0440\u0435\u0437
+        \u0443\u0437\u043A\u0438\u0439 \u043A\u0430\u043D\u044C\u043E\u043D. \u0423\u0441\u0442\u0440\u0430\u043D\u044F\u0439
+        \u0432\u0440\u0430\u0433\u043E\u0432 \u043D\u0430 \u0441\u0432\u043E\u0435\u043C
+        \u043F\u0443\u0442\u0438! \u042D\u0442\u043E \u0444\u0438\u043D\u0430\u043B\u044C\u043D\u0430\u044F
+        \u0447\u0430\u0441\u0442\u044C \u043E\u043F\u0435\u0440\u0430\u0446\u0438\u0438!"
+      _textEn: Escort the transport to the evacuation point. The road runs through
+        a narrow canyon. Eliminate the enemies on your way! This is the final part
+        of the operation!
+      _textTr: "Ta\u015F\u0131mac\u0131l\u0131\u011F\u0131 tahliye noktas\u0131na
+        kadar takip edin. Yol dar bir kanyondan ge\xE7iyor. Yolunuza \xE7\u0131kan
+        d\xFC\u015Fmanlar\u0131 yok edin! Bu operasyonun son k\u0131sm\u0131!"
+    - _id: end_attack_mars_third_level
+      _type: 2
+      _sceneName: MarsThirdLevel
+      _textRu: "\u042D\u0432\u0430\u043A\u0443\u0430\u0446\u0438\u044F \u0437\u0430\u0432\u0435\u0440\u0448\u0435\u043D\u0430,
+        \u0434\u0430\u043B\u044C\u0448\u0435 \u043F\u0435\u0440\u0441\u043E\u043D\u0430\u043B
+        \u0441\u0430\u043C \u0441\u043F\u0440\u0430\u0432\u0438\u0442\u044C\u0441\u044F!
+        \u0422\u044B \u043C\u043E\u0436\u0435\u0448\u044C \u0433\u043E\u0440\u0434\u0438\u0442\u044C\u0441\u044F
+        \u0441\u043E\u0431\u043E\u0439, \u0437\u0432\u0451\u0437\u0434\u043D\u044B\u0439
+        \u0434\u0435\u0441\u0430\u043D\u0442\u043D\u0438\u043A! \u041E\u0442\u043F\u0440\u0430\u0432\u043B\u044F\u0439\u0441\u044F
+        \u043D\u0430 \u0430\u0432\u0430\u043D\u043F\u043E\u0441\u0442!"
+      _textEn: The evacuation is complete, and the staff can handle it themselves!
+        You can be proud of yourself, stardiver! Go to the outpost!
+      _textTr: "Tahliye tamamland\u0131, personel bundan sonra kendi ba\u015F\u0131na
+        halledebilir! Kendinle gurur duyabilirsin, y\u0131ld\u0131z denizcisi! \u0130leri
+        karakola git!"
+    - _id: welcome_mystery_planet_first_level
+      _type: 0
+      _sceneName: MysteryPlanetFirstLevel
+      _textRu: "\u0417\u0432\u0451\u0437\u0434\u043D\u044B\u0439 \u0434\u0435\u0441\u0430\u043D\u0442\u043D\u0438\u043A,
+        \u0431\u0443\u0434\u044C \u043E\u0441\u0442\u043E\u0440\u043E\u0436\u0435\u043D,
+        \u043C\u044B \u043F\u043E\u0442\u0435\u0440\u044F\u043B\u0438 \u0441\u0432\u044F\u0437\u044C
+        \u0441 \u0431\u0430\u0437\u0430\u043C\u0438 \u043D\u0430 \u044D\u0442\u043E\u0439
+        \u043F\u043B\u0430\u043D\u0435\u0442\u043E\u0439 \u0432\u043E \u0432\u0440\u0435\u043C\u044F
+        \u0432\u0442\u043E\u0440\u0436\u0435\u043D\u0438\u044F \u043D\u0430 \u041C\u0430\u0440\u0441!
+        \u042D\u0442\u0430 \u043B\u0435\u0434\u044F\u043D\u0430\u044F \u043F\u043B\u0430\u043D\u0435\u0442\u0430
+        \u043F\u043E\u043B\u043D\u0430 \u043E\u043F\u0430\u0441\u043D\u043E\u0441\u0442\u0435\u0439!"
+      _textEn: Stardiver, be careful, we lost contact with the bases on this planet
+        during the invasion of Mars! This icy planet is full of dangers!
+      _textTr: "Y\u0131ld\u0131z denizcisi, dikkatli olun, Mars'a yap\u0131lan sald\u0131r\u0131
+        s\u0131ras\u0131nda bu gezegendeki \xFCslerle ba\u011Flant\u0131m\u0131z\u0131
+        kaybettik! Bu buz gezegeni tehlikelerle dolu!"
+    - _id: enemy_spawn_trigger_mystery_planet_first_level
+      _type: 1
+      _sceneName: MysteryPlanetFirstLevel
+      _textRu: "\u041F\u043E\u0431\u043B\u0438\u0437\u043E\u0441\u0442\u0438 \u0437\u0430\u043C\u0435\u0447\u0435\u043D\u044B
+        \u0432\u0440\u0430\u0433\u0438! \u0411\u0443\u0434\u044C \u043E\u0441\u0442\u043E\u0440\u043E\u0436\u0435\u043D!"
+      _textEn: Enemies have been spotted nearby! Be careful!
+      _textTr: "D\xFC\u015Fmanlar yak\u0131nlarda g\xF6r\xFCld\xFC! Dikkatli ol!"
+    - _id: radio_tower
+      _type: 3
+      _sceneName: MysteryPlanetSecondLevel
+      _textRu: "\u041F\u0440\u043E\u0433\u0440\u0435\u0441\u0441 \u0443\u0441\u0442\u0430\u043D\u043E\u0432\u043A\u0438
+        \u0440\u0430\u0434\u0438\u043E \u0432\u044B\u0448\u043A\u0438"
+      _textEn: Progress of the radio tower installation
+      _textTr: Radyo kulesi kurulumunun ilerlemesi
+    - _id: welcome_mystery_planet_second_level
+      _type: 0
+      _sceneName: MysteryPlanetSecondLevel
+      _textRu: "\u041D\u0443\u0436\u043D\u043E \u0432\u043E\u0441\u0441\u0442\u0430\u043D\u043E\u0432\u0438\u0442\u044C
+        \u0441\u0432\u044F\u0437\u044C \u043D\u0430 \u043F\u043B\u0430\u043D\u0435\u0442\u0435!
+        \u041F\u043E\u0431\u043B\u0438\u0437\u043E\u0441\u0442\u0438 \u0435\u0441\u0442\u044C
+        \u0440\u0430\u0434\u0438\u043E\u0432\u044B\u0448\u043A\u0430. \u041E\u043D\u0430
+        \u043F\u043E\u0437\u0432\u043E\u043B\u0438\u0442 \u043D\u0430\u043C \u043F\u0440\u043E\u0441\u043A\u0430\u043D\u0438\u0440\u043E\u0432\u0430\u0442\u044C
+        \u043C\u0435\u0441\u0442\u043D\u043E\u0441\u0442\u044C \u0438 \u0443\u0437\u043D\u0430\u0442\u044C
+        \u043E\u0442\u043A\u0443\u0434\u0430 \u0438\u0434\u0451\u0442 \u0443\u0433\u0440\u043E\u0437\u0430
+        \u043F\u0440\u0438\u0448\u0435\u043B\u044C\u0446\u0435\u0432."
+      _textEn: We need to restore communication on the planet! There is a radio tower
+        nearby. It will allow us to scan the area and find out where the alien threat
+        is coming from.
+      _textTr: "Gezegendeki ileti\u015Fimi yeniden kurmam\u0131z gerek!  Yak\u0131nlarda
+        bir radyo kulesi var.  Bu, b\xF6lgeyi taray\u0131p uzayl\u0131 tehdidinin
+        nereden geldi\u011Fini \xF6\u011Frenmemizi sa\u011Flayacak."

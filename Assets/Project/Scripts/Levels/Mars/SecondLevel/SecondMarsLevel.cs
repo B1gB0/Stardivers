@@ -9,7 +9,6 @@ namespace Project.Scripts.Levels.Mars.SecondLevel
         [field: SerializeField] public BallisticRocket _ballisticRocket { get; private set; }
         
         [SerializeField] private BallisticRocketTrigger _ballisticRocketTrigger;
-        [SerializeField] private EnemySpawnFirstWaveTrigger _enemySpawnFirstWaveTrigger;
         [SerializeField] private EntranceTrigger _entranceLastLvlTrigger;
 
         private MissionProgressBar _missionProgressBar;
@@ -21,11 +20,15 @@ namespace Project.Scripts.Levels.Mars.SecondLevel
 
         private void OnEnable()
         {
+            WelcomePlanetTextTrigger.IsWelcomeToPlanet += DialogueSetter.OnWelcomePlanet;
+            
             IsInitiatedSpawners += SpawnResources;
         }
 
         private void OnDisable()
         {
+            WelcomePlanetTextTrigger.IsWelcomeToPlanet -= DialogueSetter.OnWelcomePlanet;
+            
             IsInitiatedSpawners -= SpawnResources;
         }
 
@@ -33,11 +36,13 @@ namespace Project.Scripts.Levels.Mars.SecondLevel
         {
             base.OnStartLevel();
             
-            _enemySpawnFirstWaveTrigger.EnemySpawned += _ballisticRocketTrigger.Activate;
-            _enemySpawnFirstWaveTrigger.EnemySpawned += _entranceLastLvlTrigger.Deactivate;
-            _enemySpawnFirstWaveTrigger.EnemySpawned += _missionProgressBar.Show;
+            EnemySpawnFirstWaveTrigger.EnemySpawned += _ballisticRocketTrigger.Activate;
+            EnemySpawnFirstWaveTrigger.EnemySpawned += _entranceLastLvlTrigger.Deactivate;
+            EnemySpawnFirstWaveTrigger.EnemySpawned += _missionProgressBar.Show;
+            EnemySpawnFirstWaveTrigger.EnemySpawned += DialogueSetter.OnEnemySpawnTrigger;
 
-            _ballisticRocket.LaunchCompleted += _enemySpawnFirstWaveTrigger.CompleteSpawn;
+            _ballisticRocket.LaunchCompleted += DialogueSetter.OnEndAttack;
+            _ballisticRocket.LaunchCompleted += EnemySpawnFirstWaveTrigger.CompleteSpawn;
             _ballisticRocket.LaunchCompleted += EndLevelTrigger.Activate;
             _ballisticRocket.LaunchCompleted += EntranceToNextLvlTrigger.Activate;
             _ballisticRocket.LaunchCompleted += _entranceLastLvlTrigger.Activate;
@@ -45,7 +50,7 @@ namespace Project.Scripts.Levels.Mars.SecondLevel
 
         private void FixedUpdate()
         {
-            if (_enemySpawnFirstWaveTrigger.IsEnemySpawned)
+            if (EnemySpawnFirstWaveTrigger.IsEnemySpawned)
             {
                 CreateWaveOfEnemy(FirstWaveEnemy);
             }
@@ -55,17 +60,20 @@ namespace Project.Scripts.Levels.Mars.SecondLevel
         {
             _missionProgressBar = missionProgressBar;
             _ballisticRocket.ProgressChanged += _missionProgressBar.OnChangedValues;
+            _missionProgressBar.SetData();
         }
 
         private void OnDestroy()
         {
             _ballisticRocket.ProgressChanged -= _missionProgressBar.OnChangedValues;
             
-            _enemySpawnFirstWaveTrigger.EnemySpawned -= _ballisticRocketTrigger.Activate;
-            _enemySpawnFirstWaveTrigger.EnemySpawned -= _entranceLastLvlTrigger.Deactivate;
-            _enemySpawnFirstWaveTrigger.EnemySpawned -= _missionProgressBar.Show;
+            EnemySpawnFirstWaveTrigger.EnemySpawned -= _ballisticRocketTrigger.Activate;
+            EnemySpawnFirstWaveTrigger.EnemySpawned -= _entranceLastLvlTrigger.Deactivate;
+            EnemySpawnFirstWaveTrigger.EnemySpawned -= _missionProgressBar.Show;
+            EnemySpawnFirstWaveTrigger.EnemySpawned -= DialogueSetter.OnEnemySpawnTrigger;
 
-            _ballisticRocket.LaunchCompleted -= _enemySpawnFirstWaveTrigger.CompleteSpawn;
+            _ballisticRocket.LaunchCompleted -= DialogueSetter.OnEndAttack;
+            _ballisticRocket.LaunchCompleted -= EnemySpawnFirstWaveTrigger.CompleteSpawn;
             _ballisticRocket.LaunchCompleted -= EndLevelTrigger.Activate;
             _ballisticRocket.LaunchCompleted -= EntranceToNextLvlTrigger.Activate;
             _ballisticRocket.LaunchCompleted -= _entranceLastLvlTrigger.Activate;

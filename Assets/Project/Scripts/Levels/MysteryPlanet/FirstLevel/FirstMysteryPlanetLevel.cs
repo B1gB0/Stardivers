@@ -1,20 +1,22 @@
-﻿using Project.Scripts.Levels.Triggers;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Project.Scripts.Levels.MysteryPlanet.FirstLevel
 {
     public class FirstMysteryPlanetLevel : Level
     {
-        [SerializeField] private EnemySpawnFirstWaveTrigger _enemySpawnFirstWaveTrigger;
         [SerializeField] private int _timeOfWaves = 90;
 
         private void OnEnable()
         {
+            WelcomePlanetTextTrigger.IsWelcomeToPlanet += DialogueSetter.OnWelcomePlanet;
+            
             IsInitiatedSpawners += SpawnResources;
         }
 
         private void OnDisable()
         {
+            WelcomePlanetTextTrigger.IsWelcomeToPlanet -= DialogueSetter.OnWelcomePlanet;
+            
             IsInitiatedSpawners -= SpawnResources;
         }
 
@@ -27,18 +29,18 @@ namespace Project.Scripts.Levels.MysteryPlanet.FirstLevel
             PauseService.OnGameStarted += Timer.ResumeTimer;
             PauseService.OnGamePaused += Timer.PauseTimer;
             
-            _enemySpawnFirstWaveTrigger.EnemySpawned += Timer.Show;
-            // _enemySpawnFirstWaveTrigger.EnemySpawned += _firstLevelAdviserTextsSetter.SetAndShowEnemySpawnFirstWaveTriggerText;
-            //
-            // Timer.IsEndAttack += _firstLevelAdviserTextsSetter.SetAndShowEndAttackText;
-            Timer.IsEndAttack += _enemySpawnFirstWaveTrigger.CompleteSpawn;
+            EnemySpawnFirstWaveTrigger.EnemySpawned += Timer.Show;
+            EnemySpawnFirstWaveTrigger.EnemySpawned += DialogueSetter.OnEnemySpawnTrigger;
+            
+            Timer.IsEndAttack += DialogueSetter.OnEndAttack;
+            Timer.IsEndAttack += EnemySpawnFirstWaveTrigger.CompleteSpawn;
             Timer.IsEndAttack += EntranceToNextLvlTrigger.Activate;
             Timer.IsEndAttack += EndLevelTrigger.Activate;
         }
 
         private void FixedUpdate()
         {
-            if (_enemySpawnFirstWaveTrigger.IsEnemySpawned)
+            if (EnemySpawnFirstWaveTrigger.IsEnemySpawned)
             {
                 CreateWaveOfEnemy(FirstWaveEnemy);
             }
@@ -49,11 +51,11 @@ namespace Project.Scripts.Levels.MysteryPlanet.FirstLevel
             PauseService.OnGameStarted -= Timer.ResumeTimer;
             PauseService.OnGamePaused -= Timer.PauseTimer;
             
-            _enemySpawnFirstWaveTrigger.EnemySpawned -= Timer.Show;
-            // _enemySpawnFirstWaveTrigger.EnemySpawned -= _firstLevelAdviserTextsSetter.SetAndShowEnemySpawnFirstWaveTriggerText;
-            //
-            // Timer.IsEndAttack -= _firstLevelAdviserTextsSetter.SetAndShowEndAttackText;
-            Timer.IsEndAttack -= _enemySpawnFirstWaveTrigger.CompleteSpawn;
+            EnemySpawnFirstWaveTrigger.EnemySpawned -= Timer.Show;
+            EnemySpawnFirstWaveTrigger.EnemySpawned -= DialogueSetter.OnEnemySpawnTrigger;
+            
+            Timer.IsEndAttack -= DialogueSetter.OnEndAttack;
+            Timer.IsEndAttack -= EnemySpawnFirstWaveTrigger.CompleteSpawn;
             Timer.IsEndAttack -= EntranceToNextLvlTrigger.Activate;
             Timer.IsEndAttack -= EndLevelTrigger.Activate;
         }
