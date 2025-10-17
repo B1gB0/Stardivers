@@ -6,9 +6,9 @@ using Reflex.Attributes;
 
 namespace Project.Scripts.Services
 {
-    public class EnemyService : Service, IEnemyService
+    public class CoreService : Service, ICoreService
     {
-        private readonly Dictionary<EnemyActorType, EnemyData> _enemiesData = new();
+        private readonly Dictionary<CoreType, CoreData> _coresData = new();
         
         private IDataBaseService _dataBaseService;
         
@@ -20,17 +20,17 @@ namespace Project.Scripts.Services
 
         public override UniTask Init()
         {
-            foreach (var enemy in _dataBaseService.Content.Enemies)
+            foreach (var core in _dataBaseService.Content.Cores)
             {
-                _enemiesData.TryAdd(enemy.Type, enemy);
+                _coresData.TryAdd(core.Type, core);
             }
             
             return UniTask.CompletedTask;
         }
 
-        public EnemyData GetEnemyDataByType(EnemyActorType type)
+        public CoreData GetCoreDataByType(CoreType type)
         {
-            return _enemiesData[type];
+            return _coresData[type];
         }
     }
 }

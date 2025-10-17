@@ -27,7 +27,7 @@ namespace Project.Scripts.Projectiles.Mines
                 player.Health.TakeDamage(Damage);
                 StopCoroutine(LifeRoutine());
             }
-            else if(collision.gameObject.TryGetComponent(out EnemyAlienActor enemy))
+            else if(collision.gameObject.TryGetComponent(out EnemyActor enemy))
             {
                 Explode();
                 _player = GetPlayer();
@@ -50,7 +50,7 @@ namespace Project.Scripts.Projectiles.Mines
             ExplosionEffect.Play();
             AudioSoundsService.PlaySound(Sounds.Mines);
 
-            foreach (EnemyAlienActor enemy in GetEnemies())
+            foreach (EnemyActor enemy in GetEnemies())
             {
                 enemy.Health.TakeDamage(Damage);
                 enemy.SetSpeed(DefaultSlowingDownSpeed);

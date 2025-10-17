@@ -91,9 +91,9 @@ namespace Project.Scripts.Weapon.Player
             _chainCoroutine = StartCoroutine(ChainReaction(firstTarget));
         }
 
-        private IEnumerator ChainReaction(EnemyAlienActor firstTarget)
+        private IEnumerator ChainReaction(EnemyActor firstTarget)
         {
-            var hitEnemies = new List<EnemyAlienActor> { firstTarget };
+            var hitEnemies = new List<EnemyActor> { firstTarget };
             var currentTarget = firstTarget;
 
             for (int i = 1; i < ChainLightningGunCharacteristics.MaxEnemiesInChain; i++)
@@ -113,7 +113,7 @@ namespace Project.Scripts.Weapon.Player
             _isShooting = false;
         }
 
-        private EnemyAlienActor FindNextEnemy(EnemyAlienActor lastEnemy, List<EnemyAlienActor> alreadyHit)
+        private EnemyActor FindNextEnemy(EnemyActor lastEnemy, List<EnemyActor> alreadyHit)
         {
             if (lastEnemy == null) return null;
 

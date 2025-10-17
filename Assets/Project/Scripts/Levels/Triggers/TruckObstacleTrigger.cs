@@ -14,7 +14,7 @@ namespace Project.Scripts.Levels.Triggers
 
         private void OnTriggerEnter(Collider trigger)
         {
-            if (trigger.TryGetComponent(out EnemyAlienActor enemy))
+            if (trigger.TryGetComponent(out EnemyActor enemy))
             {
                 enemy.Health.DieHealth += OnObstacleDestroy;
                 
@@ -33,7 +33,7 @@ namespace Project.Scripts.Levels.Triggers
 
         private void OnTriggerExit(Collider trigger)
         {
-            if (trigger.TryGetComponent(out EnemyAlienActor enemy) || trigger.TryGetComponent(out ResourceActor resource))
+            if (trigger.TryGetComponent(out EnemyActor enemy) || trigger.TryGetComponent(out ResourceActor resource))
             {
                 _obstaclesInTrigger.Remove(trigger.gameObject);
                 IsObstacleForward = _obstaclesInTrigger.Count > MinValue;

@@ -20,5 +20,6 @@ namespace Project.Scripts.DataBase
         [SpreadsheetPage("MarsSceneLevels")] public List<SceneLevelData> MarsSceneLevels;
         [SpreadsheetPage("MysteryPlanetSceneLevels")] public List<SceneLevelData> MysteryPlanetSceneLevels;
         [SpreadsheetPage("LevelTexts")] public List<LevelTextData> LevelTexts;
+        [SpreadsheetPage("Cores")] public List<CoreData> Cores;
     }
 }

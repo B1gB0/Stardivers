@@ -34,7 +34,7 @@ namespace Project.Scripts.Projectiles
 
         protected virtual void OnTriggerEnter(Collider collision)
         {
-            if(collision.gameObject.TryGetComponent(out EnemyAlienActor enemy))
+            if(collision.gameObject.TryGetComponent(out EnemyActor enemy))
             {
                 enemy.Health.TakeDamage(Damage);
                 gameObject.SetActive(false);

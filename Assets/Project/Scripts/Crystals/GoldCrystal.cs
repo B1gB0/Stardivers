@@ -7,10 +7,11 @@ namespace Project.Scripts.Crystals
     [RequireComponent(typeof(Rigidbody))]
     public class GoldCrystal : Crystal
     {
-        [field: SerializeField] public int GoldValue { get; private set; }
         [field: SerializeField] public Color Color { get; private set; }
         
         private IGoldService _goldService;
+        
+        public int GoldValue { get; private set; }
 
         public void Destroy()
         {
@@ -19,9 +20,10 @@ namespace Project.Scripts.Crystals
             Destroy(gameObject);
         }
 
-        public void GetGoldService(IGoldService goldService)
+        public void GetGoldService(IGoldService goldService, int goldValue)
         {
             _goldService = goldService;
+            GoldValue = goldValue;
         }
     }
 }

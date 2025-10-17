@@ -23,7 +23,7 @@ namespace Project.Scripts.Weapon.Player
         private AudioSoundsService _audioSoundsService;
         
         private float _lastShotTime;
-        private EnemyAlienActor _closestAlienEnemy;
+        private EnemyActor _closestEnemy;
 
         private ObjectPool<FragGrenade> _poolGrenades;
 
@@ -54,9 +54,9 @@ namespace Project.Scripts.Weapon.Player
 
         private void FixedUpdate()
         {
-            _closestAlienEnemy = _detector.GetClosestEnemy();
+            _closestEnemy = _detector.GetClosestEnemy();
 
-            if (_closestAlienEnemy == null) return;
+            if (_closestEnemy == null) return;
             
             if (_detector.ClosestEnemyDistance <= FragGrenadeCharacteristics.RangeAttack)
             {
@@ -66,14 +66,14 @@ namespace Project.Scripts.Weapon.Player
         
         public override void Shoot()
         {
-            if (_lastShotTime <= MinValue && _closestAlienEnemy.Health.TargetHealth > MinValue)
+            if (_lastShotTime <= MinValue && _closestEnemy.Health.TargetHealth > MinValue)
             {
                 _fragGrenade = _poolGrenades.GetFreeElement();
                 _fragGrenade.GetExplosionEffects(_explosionEffect, _audioSoundsService);
 
                 _fragGrenade.transform.position = _shootPoint.position;
 
-                _fragGrenade.SetDirection(_closestAlienEnemy.transform.position);
+                _fragGrenade.SetDirection(_closestEnemy.transform.position);
                 _fragGrenade.SetCharacteristics(FragGrenadeCharacteristics.Damage, FragGrenadeCharacteristics.ExplosionRadius,
                     FragGrenadeCharacteristics.ProjectileSpeed);
 

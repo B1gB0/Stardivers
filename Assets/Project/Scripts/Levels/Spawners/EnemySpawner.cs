@@ -32,7 +32,7 @@ namespace Project.Scripts.Levels.Spawners
                 if(_counterGunnerEnemies > countEnemies - CorrectCountFactor)
                     return;
                 
-                GunnerAlienEnemy gunnerEnemy = _gameInitSystem.CreateGunnerAlienEnemy(_gameInitSystem.Player);
+                GunnerEnemy gunnerEnemy = _gameInitSystem.CreateGunnerAlienEnemy(_gameInitSystem.Player);
 
                 gunnerEnemy.NavMeshAgent.enabled = false;
 
@@ -59,19 +59,19 @@ namespace Project.Scripts.Levels.Spawners
                 if(_counterSmallEnemies > countEnemies - CorrectCountFactor)
                     return;
                 
-                SmallAlienEnemy smallAlienEnemy = _gameInitSystem.CreateSmallAlienEnemy(_gameInitSystem.Player);
+                SmallEnemy smallEnemy = _gameInitSystem.CreateSmallAlienEnemy(_gameInitSystem.Player);
 
-                smallAlienEnemy.NavMeshAgent.enabled = false;
+                smallEnemy.NavMeshAgent.enabled = false;
 
                 var enemySpawnPosition = enemyPosition + Vector3.one * Random.Range(-RandomPositionFactor,
                     RandomPositionFactor);
                 enemySpawnPosition.y = enemyPosition.y;
 
-                smallAlienEnemy.transform.position = enemySpawnPosition;
+                smallEnemy.transform.position = enemySpawnPosition;
 
-                smallAlienEnemy.NavMeshAgent.enabled = true;
+                smallEnemy.NavMeshAgent.enabled = true;
 
-                smallAlienEnemy.Die += OnKillSmallEnemy;
+                smallEnemy.Die += OnKillSmallEnemy;
                 _counterSmallEnemies++;
             }
         }
@@ -86,7 +86,7 @@ namespace Project.Scripts.Levels.Spawners
                 if(_counterBigEnemies > countEnemies - CorrectCountFactor)
                     return;
                 
-                BigAlienEnemy bigEnemy = _gameInitSystem.CreateBigAlienEnemy(_gameInitSystem.Player);
+                BigEnemy bigEnemy = _gameInitSystem.CreateBigAlienEnemy(_gameInitSystem.Player);
 
                 bigEnemy.NavMeshAgent.enabled = false;
 
@@ -103,22 +103,22 @@ namespace Project.Scripts.Levels.Spawners
             }
         }
 
-        private void OnKillSmallEnemy(EnemyAlienActor enemyAlienActor)
+        private void OnKillSmallEnemy(EnemyActor enemyActor)
         {
             _counterSmallEnemies--;
-            enemyAlienActor.Die -= OnKillSmallEnemy;
+            enemyActor.Die -= OnKillSmallEnemy;
         }
         
-        private void OnKillBigEnemy(EnemyAlienActor enemyAlienActor)
+        private void OnKillBigEnemy(EnemyActor enemyActor)
         {
             _counterBigEnemies--;
-            enemyAlienActor.Die -= OnKillBigEnemy;
+            enemyActor.Die -= OnKillBigEnemy;
         }
         
-        private void OnKillGunnerEnemy(EnemyAlienActor enemyAlienActor)
+        private void OnKillGunnerEnemy(EnemyActor enemyActor)
         {
             _counterGunnerEnemies--;
-            enemyAlienActor.Die -= OnKillGunnerEnemy;
+            enemyActor.Die -= OnKillGunnerEnemy;
         }
     }
 }

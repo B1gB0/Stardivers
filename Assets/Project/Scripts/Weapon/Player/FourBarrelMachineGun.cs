@@ -38,7 +38,7 @@ namespace Project.Scripts.Weapon.Player
         private AudioSoundsService _audioSoundsService;
         private EnemyDetector _detector;
         
-        private EnemyAlienActor _closestAlienEnemy;
+        private EnemyActor _closestEnemy;
 
         private ObjectPool<FourBarrelMachineGunBullet> _poolBullets;
 
@@ -72,9 +72,9 @@ namespace Project.Scripts.Weapon.Player
 
         private void FixedUpdate()
         {
-            _closestAlienEnemy = _detector.GetClosestEnemy();
+            _closestEnemy = _detector.GetClosestEnemy();
             
-            if (_closestAlienEnemy == null) return;
+            if (_closestEnemy == null) return;
             
             if (_detector.ClosestEnemyDistance <= MachineGunCharacteristics.RangeAttack && !_isReloading)
             {

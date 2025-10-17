@@ -2,7 +2,7 @@
 
 namespace Project.Scripts.ECS.EntityActors
 {
-    public class SmallAlienEnemy : EnemyAlienActor, IAcceptable
+    public class SmallEnemy : EnemyActor, IAcceptable
     {
         private void OnEnable()
         {

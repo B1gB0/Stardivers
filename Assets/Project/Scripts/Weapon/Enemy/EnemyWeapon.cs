@@ -1,6 +1,4 @@
-﻿using Project.Scripts.Projectiles;
-using Project.Scripts.Projectiles.Enemy;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Project.Scripts.Weapon.Enemy
 {

@@ -44,6 +44,8 @@ namespace Project.Scripts.ECS.System
         private readonly IGoldService _goldService;
         private readonly ILevelTextService _levelTextService;
         private readonly AudioSoundsService _audioSoundsService;
+        private readonly ICoreService _coreService;
+        
         private readonly ExperiencePoints _experiencePoints;
         private readonly Timer _timer;
         private readonly PauseService _pauseService;
@@ -64,9 +66,9 @@ namespace Project.Scripts.ECS.System
         private Vector3 _playerSpawnPoint;
         private Vector3 _capsuleSpawnPoint;
 
-        private ObjectPool<BigAlienEnemy> _bigAlienEnemyPool;
-        private ObjectPool<SmallAlienEnemy> _smallAlienEnemyPool;
-        private ObjectPool<GunnerAlienEnemy> _gunnerAlienEnemyPool;
+        private ObjectPool<BigEnemy> _bigAlienEnemyPool;
+        private ObjectPool<SmallEnemy> _smallAlienEnemyPool;
+        private ObjectPool<GunnerEnemy> _gunnerAlienEnemyPool;
         private ObjectPool<BigAlienEnemyProjectile> _bigAlienEnemyProjectilePool;
         private ObjectPool<GunnerAlienEnemyProjectile> _gunnerAlienEnemyProjectilePool;
 
@@ -159,12 +161,12 @@ namespace Project.Scripts.ECS.System
             return playerActor;
         }
         
-        public SmallAlienEnemy CreateSmallAlienEnemy(PlayerActor target)
+        public SmallEnemy CreateSmallAlienEnemy(PlayerActor target)
         {
-            EnemyData data = _enemyService.GetEnemyDataByType(EnemyAlienActorType.SmallAlien);
+            var data = _enemyService.GetEnemyDataByType(EnemyActorType.SmallAlien);
             
             var smallEnemyAlienActor = _smallAlienEnemyPool.GetFreeElement();
-            smallEnemyAlienActor.Construct(_experiencePoints, _textService);
+            smallEnemyAlienActor.Construct(_experiencePoints, _textService, data);
 
             if (smallEnemyAlienActor.Health.TargetHealth <= MinValue)
             {
@@ -197,12 +199,12 @@ namespace Project.Scripts.ECS.System
             return smallEnemyAlienActor;
         }
 
-        public BigAlienEnemy CreateBigAlienEnemy(PlayerActor target)
+        public BigEnemy CreateBigAlienEnemy(PlayerActor target)
         {
-            EnemyData data = _enemyService.GetEnemyDataByType(EnemyAlienActorType.BigAlien);
+            var data = _enemyService.GetEnemyDataByType(EnemyActorType.BigAlien);
             
             var bigEnemyAlienActor = _bigAlienEnemyPool.GetFreeElement();
-            bigEnemyAlienActor.Construct(_experiencePoints, _textService);
+            bigEnemyAlienActor.Construct(_experiencePoints, _textService, data);
             
             if (bigEnemyAlienActor.Health.TargetHealth <= MinValue)
             {
@@ -238,12 +240,12 @@ namespace Project.Scripts.ECS.System
             return bigEnemyAlienActor;
         }
 
-        public GunnerAlienEnemy CreateGunnerAlienEnemy(PlayerActor target)
+        public GunnerEnemy CreateGunnerAlienEnemy(PlayerActor target)
         {
-            EnemyData data = _enemyService.GetEnemyDataByType(EnemyAlienActorType.GunnerAlien);
+            var data = _enemyService.GetEnemyDataByType(EnemyActorType.GunnerAlien);
             
             var gunnerEnemyAlienActor = _gunnerAlienEnemyPool.GetFreeElement();
-            gunnerEnemyAlienActor.Construct(_experiencePoints, _textService);
+            gunnerEnemyAlienActor.Construct(_experiencePoints, _textService, data);
             
             if (gunnerEnemyAlienActor.Health.TargetHealth <= MinValue)
             {
@@ -281,26 +283,35 @@ namespace Project.Scripts.ECS.System
 
         public void CreateStone(Vector3 atPosition)
         {
+            var data = _coreService.GetCoreDataByType(CoreType.Stone);
+            
             var stone = Object.Instantiate(_stoneInitData.StoneActorPrefab, atPosition, Quaternion.Euler(_stoneRotation));
-            stone.GetExperiencePoints(_experiencePoints);
+            stone.Construct(_experiencePoints, data);
+            stone.Health.SetHealthValue(data.Health);
 
             InitResource(stone);
         }
 
         public void CreateHealingCore(Vector3 atPosition)
         {
+            var data = _coreService.GetCoreDataByType(CoreType.Healing);
+            
             var healingCore = Object.Instantiate(_healingCoreInitData.HealingCorePrefab, atPosition, Quaternion.identity);
-            healingCore.GetExperiencePoints(_experiencePoints);
+            healingCore.Construct(_experiencePoints, data);
             healingCore.GetServices(_textService);
+            healingCore.Health.SetHealthValue(data.Health);
             
             InitResource(healingCore);
         }
         
         public void CreateGoldCore(Vector3 atPosition)
         {
+            var data = _coreService.GetCoreDataByType(CoreType.Gold);
+            
             var goldCore = Object.Instantiate(_goldCoreInitData.GoldCorePrefab, atPosition, Quaternion.identity);
-            goldCore.GetExperiencePoints(_experiencePoints);
+            goldCore.Construct(_experiencePoints, data);
             goldCore.GetServices(_textService, _goldService);
+            goldCore.Health.SetHealthValue(data.Health);
             
             InitResource(goldCore);
         }
@@ -342,7 +353,7 @@ namespace Project.Scripts.ECS.System
         private void CreateEnemyObjectPools()
         {
             if(_level.SmallEnemyCountPoints > MinValue)
-                _smallAlienEnemyPool = new ObjectPool<SmallAlienEnemy>(_smallAlienEnemyInitData.SmallAlienEnemyPrefab,
+                _smallAlienEnemyPool = new ObjectPool<SmallEnemy>(_smallAlienEnemyInitData.SmallEnemyPrefab,
                     DefaultCountObjectsInPool, new GameObject(SmallEnemyAlienPool).transform)
                 {
                     AutoExpand = IsAutoExpand
@@ -350,7 +361,7 @@ namespace Project.Scripts.ECS.System
 
             if (_level.BigEnemyCountPoints > MinValue)
             {
-                _bigAlienEnemyPool = new ObjectPool<BigAlienEnemy>(_bigAlienEnemyData.BigAlienEnemyPrefab,
+                _bigAlienEnemyPool = new ObjectPool<BigEnemy>(_bigAlienEnemyData.BigEnemyPrefab,
                     DefaultCountObjectsInPool, new GameObject(BigEnemyAlienPool).transform)
                 {
                     AutoExpand = IsAutoExpand
@@ -365,7 +376,7 @@ namespace Project.Scripts.ECS.System
 
             if (_level.GunnerEnemyCountPoints > MinValue)
             {
-                _gunnerAlienEnemyPool = new ObjectPool<GunnerAlienEnemy>(_gunnerAlienEnemyData.GunnerAlienEnemyPrefab, 
+                _gunnerAlienEnemyPool = new ObjectPool<GunnerEnemy>(_gunnerAlienEnemyData.GunnerEnemyPrefab, 
                     DefaultCountObjectsInPool, new GameObject(GunnerAlienEnemyPool).transform)
                 {
                     AutoExpand = IsAutoExpand

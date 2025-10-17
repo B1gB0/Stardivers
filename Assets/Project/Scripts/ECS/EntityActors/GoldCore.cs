@@ -55,7 +55,7 @@ namespace Project.Scripts.ECS.EntityActors
             var crystal = Instantiate(_goldCrystalPrefab, _crystalSpawnPoint.position,
                 Quaternion.Euler(_rotationCrystal));
             crystal.GetTextService(_floatingTextService);
-            crystal.GetGoldService(_goldService);
+            crystal.GetGoldService(_goldService, (int)Data.CrystalValue);
             crystal.Rigidbody.AddForceAtPosition(_jumpDirectionCrystal * CrystalJumpForce,
                 crystal.transform.position, ForceMode.Impulse);
         }

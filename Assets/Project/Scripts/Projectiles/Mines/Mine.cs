@@ -8,7 +8,7 @@ namespace Project.Scripts.Projectiles.Mines
     {
         protected override void OnTriggerEnter(Collider collision)
         {
-            if(collision.gameObject.TryGetComponent(out EnemyAlienActor enemy))
+            if(collision.gameObject.TryGetComponent(out EnemyActor enemy))
             {
                 Explode();
                 StopCoroutine(LifeRoutine());

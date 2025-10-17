@@ -1,4 +1,5 @@
 ﻿using System;
+using Project.Scripts.DataBase.Data;
 using Project.Scripts.Experience;
 using Project.Scripts.Services;
 using UnityEngine;
@@ -6,7 +7,7 @@ using UnityEngine.AI;
 
 namespace Project.Scripts.ECS.EntityActors
 {
-    public abstract class EnemyAlienActor : MonoBehaviour
+    public abstract class EnemyActor : MonoBehaviour
     {
         [field: SerializeField] public Health.Health Health{ get; private set; }
         [field: SerializeField] public Animator Animator { get; private set; }
@@ -14,12 +15,15 @@ namespace Project.Scripts.ECS.EntityActors
         
         protected ExperiencePoints ExperiencePoints;
         protected IFloatingTextService TextService;
+        
+        public EnemyData Data { get; private set; }
 
-        public event Action<EnemyAlienActor> Die;
+        public event Action<EnemyActor> Die;
 
-        public void Construct(ExperiencePoints experiencePoints, IFloatingTextService textService)
+        public void Construct(ExperiencePoints experiencePoints, IFloatingTextService textService, EnemyData data)
         {
             ExperiencePoints = experiencePoints;
+            Data = data;
             
             TextService = textService;
             Health.IsSpawnedDamageText += TextService.OnChangedFloatingText;

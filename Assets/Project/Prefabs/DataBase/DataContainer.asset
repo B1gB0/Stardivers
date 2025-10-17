@@ -32,6 +32,7 @@ MonoBehaviour:
   - Players
   - Enemies
   - LevelTexts
+  - Cores
   foldoutSerializationGUI: 1
   serializationOutputPath: ../../Configs
   serializationFileName: Configs.v0.1
@@ -1101,16 +1102,29 @@ MonoBehaviour:
       _health: 40
       _speed: 3
       _damage: 3
+      _experience: 10
+      _score: 10
     - _id: _gunnerAlien
       _type: 1
       _health: 30
       _speed: 3.5
       _damage: 10
+      _experience: 15
+      _score: 15
     - _id: _bigAlien
       _type: 2
       _health: 70
       _speed: 1.5
-      _damage: 5
+      _damage: 15
+      _experience: 25
+      _score: 25
+    - _id: _turretAlien
+      _type: 3
+      _health: 50
+      _speed: 0
+      _damage: 8
+      _experience: 10
+      _score: 10
     MarsSceneLevels:
     - _number: 0
       _sceneName: MarsFirstLevel
@@ -1320,3 +1334,22 @@ MonoBehaviour:
       _textTr: "Gezegendeki ileti\u015Fimi yeniden kurmam\u0131z gerek!  Yak\u0131nlarda
         bir radyo kulesi var.  Bu, b\xF6lgeyi taray\u0131p uzayl\u0131 tehdidinin
         nereden geldi\u011Fini \xF6\u011Frenmemizi sa\u011Flayacak."
+    Cores:
+    - _id: _gold
+      _type: 0
+      _health: 15
+      _experience: 7
+      _score: 7
+      _crystalValue: 1
+    - _id: _healing
+      _type: 1
+      _health: 12
+      _experience: 5
+      _score: 5
+      _crystalValue: 5
+    - _id: _stone
+      _type: 2
+      _health: 9
+      _experience: 3
+      _score: 3
+      _crystalValue: 0

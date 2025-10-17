@@ -1,10 +1,10 @@
-﻿using Project.Scripts.Experience;
+using Project.Scripts.Experience;
 using Project.Scripts.Weapon.Enemy;
 using UnityEngine;
 
 namespace Project.Scripts.ECS.EntityActors
 {
-    public class BigAlienEnemy : EnemyAlienActor, IAcceptable
+    public class EnemyTurret : EnemyActor, IAcceptable
     {
         [field: SerializeField] public BigEnemyAlienWeapon Weapon { get; private set; }
 
@@ -17,19 +17,19 @@ namespace Project.Scripts.ECS.EntityActors
         {
             Health.Die -= OnDie;
         }
-        
-        public void AcceptScore(IScoreActorVisitor visitor)
-        {
-            visitor.Visit(this);
-        }
 
         protected override void OnDie()
         {
             Health.IsSpawnedDamageText -= TextService.OnChangedFloatingText;
             ExperiencePoints.OnKill(this);
             base.OnDie();
-            
+
             gameObject.SetActive(false);
+        }
+        
+        public void AcceptScore(IScoreActorVisitor visitor)
+        {
+            visitor.Visit(this);
         }
     }
 }

@@ -63,6 +63,7 @@ namespace Project.Scripts.Game.Gameplay.Root
         private IPlayerService _playerService;
         private IGoldService _goldService;
         private ILevelTextService _levelTextService;
+        private ICoreService _coreService;
 
         private HealthBar _healthBar;
         private ExperiencePoints _experiencePoints;
@@ -84,7 +85,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             IDataBaseService dataBaseService,
             IResourceService resourceService, ICharacteristicsWeaponDataService characteristicsWeaponDataService,
             ICardService cardService, IEnemyService enemyService, IPlayerService playerService,
-            IGoldService goldService, ILevelTextService levelTextService)
+            IGoldService goldService, ILevelTextService levelTextService, ICoreService coreService)
         {
             _audioSoundsService = audioSoundsService;
             _pauseService = pauseService;
@@ -98,6 +99,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             _playerService = playerService;
             _goldService = goldService;
             _levelTextService = levelTextService;
+            _coreService = coreService;
         }
 
         private void Update()
@@ -124,6 +126,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             await _cardService.Init();
             await _enemyService.Init();
             await _playerService.Init();
+            await _coreService.Init();
 
             FloatingTextView textView = await _viewFactory.CreateDamageTextView();
             textView.Hide();
@@ -328,6 +331,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             _updateSystems.Inject(_capsuleData);
             _updateSystems.Inject(_levelData);
             _updateSystems.Inject(_levelTextService);
+            _updateSystems.Inject(_coreService);
 
             _updateSystems.Add(_gameInitSystem = new GameInitSystem());
             _updateSystems.Add(new PlayerInputSystem());

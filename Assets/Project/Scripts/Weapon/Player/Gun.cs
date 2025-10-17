@@ -25,7 +25,7 @@ namespace Project.Scripts.Weapon.Player
         private bool _isReloading;
     
         private GunBullet _bullet;
-        private EnemyAlienActor _closestAlienEnemy;
+        private EnemyActor _closestEnemy;
         private ObjectPool<GunBullet> _poolBullets;
 
         private EnemyDetector _detector;
@@ -53,9 +53,9 @@ namespace Project.Scripts.Weapon.Player
 
         private void FixedUpdate()
         {
-            _closestAlienEnemy = _detector.GetClosestEnemy();
+            _closestEnemy = _detector.GetClosestEnemy();
 
-            if (_closestAlienEnemy == null) return;
+            if (_closestEnemy == null) return;
 
             if (_detector.ClosestEnemyDistance <= GunCharacteristics.RangeAttack && !_isReloading)
             {
@@ -67,7 +67,7 @@ namespace Project.Scripts.Weapon.Player
     
         public override void Shoot()
         {
-            if (_lastShotTime <= MinValue && _closestAlienEnemy.Health.TargetHealth > MinValue)
+            if (_lastShotTime <= MinValue && _closestEnemy.Health.TargetHealth > MinValue)
             {
                 _bullet = _poolBullets.GetFreeElement();
             
@@ -75,7 +75,7 @@ namespace Project.Scripts.Weapon.Player
 
                 _bullet.transform.position = _shootPoint.position;
 
-                _bullet.SetDirection(_closestAlienEnemy.transform.position);
+                _bullet.SetDirection(_closestEnemy.transform.position);
                 _bullet.SetCharacteristics(GunCharacteristics.Damage, GunCharacteristics.ProjectileSpeed);
 
                 _lastShotTime = GunCharacteristics.FireRate;

@@ -25,7 +25,7 @@ namespace Project.Scripts.Projectiles
             ExplosionEffect.Play();
             AudioSoundsService.PlaySound(Sounds.Mines);
 
-            foreach (EnemyAlienActor explosiveObject in GetEnemies())
+            foreach (EnemyActor explosiveObject in GetEnemies())
             {
                 explosiveObject.Health.TakeDamage(Damage);
             }
@@ -33,14 +33,14 @@ namespace Project.Scripts.Projectiles
             gameObject.SetActive(false);
         }
     
-        protected List<EnemyAlienActor> GetEnemies()
+        protected List<EnemyActor> GetEnemies()
         {
             Collider[] hits = Physics.OverlapSphere(Transform.position, ExplosionRadius);
 
-            List<EnemyAlienActor> enemies = new();
+            List<EnemyActor> enemies = new();
 
             foreach (Collider hit in hits)
-                if (hit.attachedRigidbody != null && hit.gameObject.TryGetComponent(out EnemyAlienActor enemyActor))
+                if (hit.attachedRigidbody != null && hit.gameObject.TryGetComponent(out EnemyActor enemyActor))
                     enemies.Add(enemyActor);
 
             return enemies;

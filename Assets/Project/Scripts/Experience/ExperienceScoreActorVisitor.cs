@@ -7,40 +7,46 @@ namespace Project.Scripts.Experience
     {
         public int AccumulatedExperience { get; private set; }
 
-        public void Visit(SmallAlienEnemy smallAlienEnemy)
+        public void Visit(SmallEnemy smallEnemy)
         {
-            AccumulatedExperience += 10;
-            YG2.saves.AcumulatedScore += 5;
+            AccumulatedExperience += smallEnemy.Data.Experience;
+            YG2.saves.AcumulatedScore += smallEnemy.Data.Score;
         }
 
-        public void Visit(BigAlienEnemy bigAlienEnemy)
+        public void Visit(BigEnemy bigEnemy)
         {
-            AccumulatedExperience += 25;
-            YG2.saves.AcumulatedScore += 10;
+            AccumulatedExperience += bigEnemy.Data.Experience;
+            YG2.saves.AcumulatedScore += bigEnemy.Data.Score;
         }
 
-        public void Visit(GunnerAlienEnemy gunnerAlienEnemy)
+        public void Visit(GunnerEnemy gunnerEnemy)
         {
-            AccumulatedExperience += 15;
-            YG2.saves.AcumulatedScore += 15;
+            AccumulatedExperience += gunnerEnemy.Data.Experience;
+            YG2.saves.AcumulatedScore += gunnerEnemy.Data.Score;
+        }
+
+        public void Visit(EnemyTurret enemyTurret)
+        {
+            AccumulatedExperience += enemyTurret.Data.Experience;
+            YG2.saves.AcumulatedScore += enemyTurret.Data.Score;
         }
 
         public void Visit(StoneActor stone)
         {
-            AccumulatedExperience += 3;
-            YG2.saves.AcumulatedScore += 5;
+            AccumulatedExperience += stone.Data.Experience;
+            YG2.saves.AcumulatedScore += stone.Data.Score;
         }
 
         public void Visit(HealingCore healingCore)
         {
-            AccumulatedExperience += 5;
-            YG2.saves.AcumulatedScore += 5;
+            AccumulatedExperience += healingCore.Data.Experience;
+            YG2.saves.AcumulatedScore += healingCore.Data.Score;
         }
 
         public void Visit(GoldCore goldCore)
         {
-            AccumulatedExperience += 7;
-            YG2.saves.AcumulatedScore += 5;
+            AccumulatedExperience += goldCore.Data.Experience;
+            YG2.saves.AcumulatedScore += goldCore.Data.Score;
         }
 
         public void UpdateAccumulatedExperience(int newValue)

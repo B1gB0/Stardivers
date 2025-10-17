@@ -20,7 +20,7 @@ namespace  Project.Scripts.Projectiles.Grenades
 
         protected override void OnTriggerEnter(Collider collision)
         {
-            if(collision.gameObject.TryGetComponent(out EnemyAlienActor enemy))
+            if(collision.gameObject.TryGetComponent(out EnemyActor enemy))
             {
                 Explode();
                 StopCoroutine(LifeRoutine());
@@ -52,7 +52,7 @@ namespace  Project.Scripts.Projectiles.Grenades
             ExplosionEffect.Play();
             AudioSoundsService.PlaySound(Sounds.FragGrenades);
         
-            foreach (EnemyAlienActor explosiveObject in GetEnemies())
+            foreach (EnemyActor explosiveObject in GetEnemies())
             {
                 explosiveObject.Health.TakeDamage(Damage);
             }

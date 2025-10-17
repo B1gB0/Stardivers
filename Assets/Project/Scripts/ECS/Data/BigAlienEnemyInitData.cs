@@ -7,7 +7,7 @@ namespace Project.Scripts.ECS.Data
     [CreateAssetMenu(menuName = "InitData/BigAlienEnemyData")]
     public class BigAlienEnemyInitData : InitData
     {
-        [field: SerializeField] public BigAlienEnemy BigAlienEnemyPrefab { get; private set; }
+        [field: SerializeField] public BigEnemy BigEnemyPrefab { get; private set; }
         [field: SerializeField] public BigAlienEnemyProjectile ProjectilePrefab { get; private set; }
     }
 }

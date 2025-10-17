@@ -47,7 +47,9 @@ namespace Project.Scripts.ECS.EntityActors
             
             var crystal = Instantiate(redCrystalPrefab, _crystalSpawnPoint.position, Quaternion.Euler(_rotationCrystal));
             crystal.GetTextService(_floatingTextService);
-            crystal.Rigidbody.AddForceAtPosition(_jumpDirectionCrystal * CrystalJumpForce, _crystalSpawnPoint.position, ForceMode.Impulse);
+            crystal.GetHealthValue(Data.CrystalValue);
+            crystal.Rigidbody.AddForceAtPosition(_jumpDirectionCrystal * CrystalJumpForce,
+                _crystalSpawnPoint.position, ForceMode.Impulse);
         }
 
         private void Die()

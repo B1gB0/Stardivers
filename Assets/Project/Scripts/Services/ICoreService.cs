@@ -4,9 +4,9 @@ using Project.Scripts.ECS.EntityActors;
 
 namespace Project.Scripts.Services
 {
-    public interface IEnemyService
+    public interface ICoreService
     {
         public UniTask Init();
-        public EnemyData GetEnemyDataByType(EnemyActorType type);
+        public CoreData GetCoreDataByType(CoreType type);
     }
 }

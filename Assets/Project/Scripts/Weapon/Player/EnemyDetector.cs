@@ -9,7 +9,7 @@ namespace Project.Scripts.Weapon.Player
     {
         private const int MinValue = 0;
 
-        private readonly HashSet<EnemyAlienActor> _enemiesInRange = new();
+        private readonly HashSet<EnemyActor> _enemiesInRange = new();
 
         private float _closestEnemyDistanceSqr;
 
@@ -17,7 +17,7 @@ namespace Project.Scripts.Weapon.Player
 
         private void OnTriggerEnter(Collider otherCollider)
         {
-            if (!otherCollider.TryGetComponent(out EnemyAlienActor enemyAlienActor))
+            if (!otherCollider.TryGetComponent(out EnemyActor enemyAlienActor))
                 return;
 
             _enemiesInRange.Add(enemyAlienActor);
@@ -27,7 +27,7 @@ namespace Project.Scripts.Weapon.Player
 
         private void OnTriggerExit(Collider otherCollider)
         {
-            if (!otherCollider.TryGetComponent(out EnemyAlienActor enemyAlienActor))
+            if (!otherCollider.TryGetComponent(out EnemyActor enemyAlienActor))
                 return;
             
             _enemiesInRange.Remove(enemyAlienActor);
@@ -35,16 +35,16 @@ namespace Project.Scripts.Weapon.Player
             enemyAlienActor.Die -= OnEnemyDie;
         }
 
-        public EnemyAlienActor GetClosestEnemy()
+        public EnemyActor GetClosestEnemy()
         {
             if (_enemiesInRange.Count <= MinValue)
                 return null;
 
-            EnemyAlienActor bestTarget = null;
+            EnemyActor bestTarget = null;
             _closestEnemyDistanceSqr = Mathf.Infinity;
             var currentPosition = transform.position;
 
-            foreach (EnemyAlienActor closestEnemy in _enemiesInRange)
+            foreach (EnemyActor closestEnemy in _enemiesInRange)
             {
                 var directionToTarget = closestEnemy.transform.position - currentPosition;
                 var dSqrToTarget = directionToTarget.sqrMagnitude;
@@ -59,15 +59,15 @@ namespace Project.Scripts.Weapon.Player
             return bestTarget;
         }
 
-        public HashSet<EnemyAlienActor> GetEnemiesInRange()
+        public HashSet<EnemyActor> GetEnemiesInRange()
         {
             return _enemiesInRange;
         }
 
-        private void OnEnemyDie(EnemyAlienActor enemyAlienActor)
+        private void OnEnemyDie(EnemyActor enemyActor)
         {
-            _enemiesInRange.Remove(enemyAlienActor);
-            enemyAlienActor.Die -= OnEnemyDie;
+            _enemiesInRange.Remove(enemyActor);
+            enemyActor.Die -= OnEnemyDie;
         }
 
         private void OnDestroy()
