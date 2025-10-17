@@ -1,0 +1,348 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Content Update
+  m_EditorClassIdentifier: 
+  m_GroupName: Content Update
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 3b60dd50f829ac5409e93a8daacf60aa
+  m_SerializeEntries:
+  - m_GUID: 758e7b0619140a04eaf51b4b1768deda
+    m_Address: Assets/Third Party/UnityAssetStore/Effects/Epic Toon FX/Prefabs/Combat/Decals/Bullet
+      Decal/BulletDecalStone.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f49f152fbc313b14b8d4b82329b10a1c
+    m_Address: Assets/Third Party/UnityAssetStore/Effects/Epic Toon FX/Materials/Basics/triangle_curve_AB.mat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 28cf82738e24d8446a1c95a26d2815ac
+    m_Address: Assets/Third Party/UnityAssetStore/Effects/Epic Toon FX/Textures/triangle_curve.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4feedb05f33786a41a00ff08bb601fd6
+    m_Address: Assets/Third Party/UnityAssetStore/Effects/Epic Toon FX/Materials/Misc/Decals/decal_gibs_AB.mat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: eb61ee1b78fda2f40b23b2463f6f1436
+    m_Address: Assets/Third Party/UnityAssetStore/Effects/Epic Toon FX/Textures/decal_gibs.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 719f8d52fe2e6b444b41c2f7a8fe587b
+    m_Address: Assets/Third Party/UnityAssetStore/Effects/Epic Toon FX/Materials/Basics/cloud_2x2_soft_AB.mat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d91a7ceceb48b6d4eb7da66199435d99
+    m_Address: Assets/Third Party/UnityAssetStore/Effects/Epic Toon FX/Textures/cloud_2x2_soft.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9a6131cafbc34bd44811b942cf4a853c
+    m_Address: Assets/Third Party/UnityAssetStore/Effects/Epic Toon FX/Materials/Misc/Decals/decal_atlas_AB.mat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 15b6357f26ee271458084e3603b7824c
+    m_Address: Assets/Third Party/UnityAssetStore/Effects/Epic Toon FX/Textures/decal_atlas.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 680cf5ea6c1d41e4f9cce6ab07ce0200
+    m_Address: Explosion_Dirt_FX
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ae3fa6191020bd246ab9645e0c167855
+    m_Address: Assets/Third Party/UnityAssetStore/Enviroment/PolygonBattleRoyale/Materials/FX/PolygonBattleRoyale_FX_Dirt.mat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d167ef288d96bb84ca9743bf908f53cf
+    m_Address: Assets/Third Party/UnityAssetStore/Enviroment/PolygonBattleRoyale/Materials/FX/PolygonBattleRoyale_FX_Default.mat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fa9e67520e3a0c04996a1f31dd165bb9
+    m_Address: Assets/Third Party/UnityAssetStore/Enviroment/PolygonBattleRoyale/Materials/FX/PolygonBattleRoyale_FX_Generic.mat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 46a7e4b4a43090e4482065b5e668a4fc
+    m_Address: MineProjectile
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 80c4266d62d8cde41af244c421252ed6
+    m_Address: Assets/Third Party/UnityAssetStore/Enviroment/LandMine/Materials/LandMine.mat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 334eab0e8b6bb27459033c1108ad8492
+    m_Address: Assets/Third Party/UnityAssetStore/Enviroment/LandMine/Materials/LandMine_M.tga
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ab698834f165f164bb26888e8445966e
+    m_Address: Assets/Third Party/UnityAssetStore/Enviroment/LandMine/Materials/LandMine_D.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fe08d883b075284419a495ac33a35348
+    m_Address: Assets/Third Party/UnityAssetStore/Enviroment/LandMine/Materials/LandMine_E.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 395680334ccac48459ec703e2031215e
+    m_Address: Assets/Third Party/UnityAssetStore/Enviroment/LandMine/Materials/LandMine_N.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5e5c25a554c89934bbc1f28dcc2de951
+    m_Address: Assets/Third Party/UnityAssetStore/Enviroment/LandMine/Meshes/LandMine.fbx
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4fb0bb91599fecf448341b8e51d1ab78
+    m_Address: Assets/Third Party/UnityAssetStore/Enviroment/LandMine/Animation/LandMine.controller
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 289276c1b0a79c446bff8e67d8c2004c
+    m_Address: GunBullet
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5a763297e2dd13d4e8fd7b31cb637eaa
+    m_Address: Assets/Third Party/UnityAssetStore/Enviroment/PolygonBattleRoyale/Models/ConvexCollision/SM_Wep_Bullet_Ammo_01_Convex.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 91319d540e88354488b665f7aeab322e
+    m_Address: Assets/Third Party/UnityAssetStore/Enviroment/PolygonBattleRoyale/Models/FX_Bullet_Trail.fbx
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 43661ff2635bdc947b87d5d0f816367e
+    m_Address: Assets/Third Party/UnityAssetStore/Enviroment/PolygonBattleRoyale/Materials/FX/PolygonBattleRoyale_FX_Emmision.mat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 931a8223b8cb7e449bd50e42d6c0a2d8
+    m_Address: Assets/Third Party/UnityAssetStore/Enviroment/PolygonBattleRoyale/Materials/PolygonBattleRoyale_Wep_01.mat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dc227bf5a2b625742869c6e13c41a4ee
+    m_Address: Assets/Third Party/UnityAssetStore/Enviroment/PolygonBattleRoyale/Textures/Weapons/Wep_Skin_01.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 851ccb37a25a2be49a2df0aa45a61045
+    m_Address: Assets/Third Party/UnityAssetStore/Enviroment/PolygonBattleRoyale/Models/SM_Wep_Bullet_Ammo_01.fbx
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cd8e3a59bc0a01440b20b82f0ec80b34
+    m_Address: Assets/Third Party/UnityAssetStore/Audio/SelectedSounds/Pistol2.mp3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d14ca4454d28f7d4f9eff145534bb2db
+    m_Address: Assets/Project/Audio/AudioMixer.mixer
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 90dac3abf1179b342b84e3c83039fa77
+    m_Address: Assets/Third Party/UnityAssetStore/Characters/FreeAnimatedSpaceMan/Models/space_man_model.FBX
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3fddf5519a321ec4bb1315b9ec0a1a9e
+    m_Address: Assets/Third Party/UnityAssetStore/Characters/FreeAnimatedSpaceMan/animations_mecanim/space_man_controller.controller
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1250a10a613725948a52ca199a8e0f35
+    m_Address: Assets/Third Party/Others/Mixamo/Bash.fbx
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ecb870f8f2783d24aa3d30d80f5e464a
+    m_Address: Assets/Third Party/Others/Mixamo/X Bot@Run With Sword (1).fbx
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 836d02c612522fc4ebb3776710deef01
+    m_Address: Assets/Third Party/Others/Mixamo/Brute@Standing Idle.fbx
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f73a9ff06a3fd4a4ab258a6e427d05f9
+    m_Address: Assets/Third Party/Others/Mixamo/X Bot@Sword And Shield Attack.fbx
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5aa297bdf08ca674caff7a7a7fb33301
+    m_Address: Assets/Third Party/UnityAssetStore/Characters/FreeAnimatedSpaceMan/animations_legacy/Run.FBX
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0869a73c0e0ae734aa743d2ce50a7ad1
+    m_Address: Assets/Third Party/UnityAssetStore/Characters/FreeAnimatedSpaceMan/animations_legacy/Run_Left.FBX
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6d654999dbb48624ca6304d8d5b49be5
+    m_Address: Assets/Third Party/UnityAssetStore/Characters/FreeAnimatedSpaceMan/animations_legacy/Run_Back.FBX
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 338747b53ccb281438ca94866ff1d744
+    m_Address: Assets/Third Party/UnityAssetStore/Characters/FreeAnimatedSpaceMan/animations_legacy/Run_Right.FBX
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: afb6ef035e041ee47bcf60f70f5f1adc
+    m_Address: Assets/Third Party/UnityAssetStore/Characters/FreeAnimatedSpaceMan/animations_legacy/Idle.FBX
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 76957805971dcfa45b689910366d0db4
+    m_Address: Assets/Third Party/UnityAssetStore/Characters/FreeAnimatedSpaceMan/Materials/SpaceMan_Rank_02_Blue.mat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e64442d6c716d0649863c2cd5918df9a
+    m_Address: Assets/Third Party/UnityAssetStore/Characters/FreeAnimatedSpaceMan/Textures/SpaceMan_Rank_02_Blue.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: aca2e5b56ece98b4f86c7303fd74a289
+    m_Address: Assets/Third Party/UnityAssetStore/Tools/Stylized 3D Tools/Materials/Pickaxe01.mat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ed7b6d2efc64d8947a478f9bc1c237b7
+    m_Address: Assets/Third Party/UnityAssetStore/Tools/Stylized 3D Tools/Textures/pickaxe01.psd
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 73715e09af25bec458bd5b4235929c31
+    m_Address: Assets/Third Party/UnityAssetStore/Tools/Stylized 3D Tools/Textures/pickaxe01_normal.psd
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a39a625351fd25445b3797faa80102b0
+    m_Address: Assets/Third Party/UnityAssetStore/Tools/Stylized 3D Tools/Models/pickaxe01.obj
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4f96fd6b5f3a7084a812fdff40614beb
+    m_Address: Assets/Third Party/UnityAssetStore/Characters/AliensAndMarines/AnimationControllers/Mamalien.controller
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c5717d66a63433d46be8ab0996cd7452
+    m_Address: Assets/Third Party/UnityAssetStore/Characters/AliensAndMarines/Artists
+      Assets/Mamalien/Mamalien_LOD.fbx
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f1b62d408f5a7d640a956c195f77cfa7
+    m_Address: Assets/Third Party/UnityAssetStore/Characters/AliensAndMarines/Artists
+      Assets/Mamalien/Puke.anim
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6204e644954a3a24c97e69733150b10a
+    m_Address: Assets/Third Party/UnityAssetStore/Characters/AliensAndMarines/Artists
+      Assets/Mamalien/Materials/Mamalien_skin.mat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 63d59ad7bcc782e4fa4abf43cffd263b
+    m_Address: Assets/Third Party/UnityAssetStore/Characters/AliensAndMarines/Artists
+      Assets/Mamalien/Materials/Mamalien_NM.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3942e155fe420ed41abf40f76bdcba6b
+    m_Address: Assets/Third Party/UnityAssetStore/Characters/AliensAndMarines/Artists
+      Assets/Mamalien/Materials/Mamalien_EM.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d4b6f34402c6c7949a193bb034eda10e
+    m_Address: Assets/Third Party/UnityAssetStore/Characters/AliensAndMarines/Artists
+      Assets/Mamalien/Materials/Mamalien_D.tga
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 714c3836472d60a48818e1200c76f13e
+    m_Address: Assets/Third Party/UnityAssetStore/Characters/AliensAndMarines/AnimationControllers/Alien.controller
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e246eaa80c0374e41a84b1703c2daa56
+    m_Address: Assets/Third Party/UnityAssetStore/Characters/AliensAndMarines/Artists
+      Assets/Alien/Attack.anim
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a39d5c20a054b6b4b98fc4b3efc11358
+    m_Address: Assets/Third Party/UnityAssetStore/Characters/AliensAndMarines/Artists
+      Assets/Alien/Alien_LOD.fbx
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4d6195afcf33152479cc12aa273446eb
+    m_Address: Assets/Third Party/UnityAssetStore/Characters/AliensAndMarines/Artists
+      Assets/Alien/Materials/Alien_skin.mat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5c16d57f7d5dfd44eb636569b7642688
+    m_Address: Assets/Third Party/UnityAssetStore/Characters/AliensAndMarines/Artists
+      Assets/Alien/Materials/Alien_D.tga
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f923a01f6791bfb45abae8eb48a9fb0b
+    m_Address: Assets/Third Party/UnityAssetStore/Characters/AliensAndMarines/Artists
+      Assets/Alien/Materials/Alien_EM.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 47b90f616e34a964d9f9c4efdcc3b0b8
+    m_Address: Assets/Third Party/UnityAssetStore/Characters/AliensAndMarines/Artists
+      Assets/Alien/Materials/Alien_NM.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 56d84991286850f428b4e7df0cca7380
+    m_Address: Assets/Third Party/UnityAssetStore/UI/Sci-Fi UI/_SciFi_GUISkin_/atlas.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 6c586ecba5e1fbd48964accdf9467c20, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 81dc5900c93e0fc4d851c0d02f498afd, type: 2}
+    - {fileID: 11400000, guid: b5bd7818bfc03aa4a99a5370cd9ca1d4, type: 2}

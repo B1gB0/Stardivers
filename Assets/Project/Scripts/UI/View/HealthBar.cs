@@ -3,7 +3,7 @@ namespace Project.Scripts.UI.View
     public class HealthBar : Bar
     {
         private Health.Health _health;
-
+        
         public void Construct(Health.Health health)
         {
             _health = health;

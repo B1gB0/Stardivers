@@ -18,20 +18,25 @@ namespace Project.Scripts.Game.GameRoot
 
         [SerializeField] private LoadingPanel _loadingPanel;
         [SerializeField] private SettingsPanel _settingsPanel;
+        [SerializeField] private LeaderboardPanel _leaderboardPanel;
         [SerializeField] private LocalizationLanguageSwitcher _localizationLanguageSwitcher;
 
         [SerializeField] private Button _settingsButton;
+        [SerializeField] private Button _leaderboardButton;
 
         private AudioSoundsService _audioSoundsService;
+        private IPauseService _pauseService;
 
         public UIStateMachine UIStateMachine { get; private set; }
 
         public UIRootButtons UIRootButtons => _uiRootButtons;
+        public LocalizationLanguageSwitcher LocalizationLanguageSwitcher => _localizationLanguageSwitcher;
 
         [Inject]
-        private void Construct(AudioSoundsService audioSoundsService)
+        private void Construct(AudioSoundsService audioSoundsService, IPauseService pauseService)
         {
             _audioSoundsService = audioSoundsService;
+            _pauseService = pauseService;
         }
 
         private void Awake()
@@ -39,24 +44,29 @@ namespace Project.Scripts.Game.GameRoot
             UIStateMachine = new UIStateMachine();
             UIStateMachine.AddState(new SettingsPanelState(_settingsPanel));
             UIStateMachine.AddState(new LoadingPanelState(_loadingPanel));
-        }
-
-        private void Start()
-        {
-            _settingsPanel.SetValuesVolume();
-            _settingsPanel.Hide();
+            UIStateMachine.AddState(new LeaderboardPanelState(_leaderboardPanel));
         }
 
         private void OnEnable()
         {
             _settingsButton.onClick.AddListener(ShowSettingsPanel);
-            _settingsPanel.OnExitButtonPressed += ShowUIScene;
+            _settingsPanel.OnBackToSceneButtonPressed += ShowUIScene;
+            _settingsPanel.OnBackToSceneButtonPressed += PlayGame;
+            
+            _leaderboardButton.onClick.AddListener(ShowLeaderboardPanel);
+            _leaderboardPanel.OnBackToSceneButtonPressed += ShowUIScene;
+            _leaderboardPanel.OnBackToSceneButtonPressed += PlayGame;
         }
 
         private void OnDisable()
         {
             _settingsButton.onClick.RemoveListener(ShowSettingsPanel);
-            _settingsPanel.OnExitButtonPressed -= ShowUIScene;
+            _settingsPanel.OnBackToSceneButtonPressed -= ShowUIScene;
+            _settingsPanel.OnBackToSceneButtonPressed -= PlayGame;
+            
+            _leaderboardButton.onClick.RemoveListener(ShowLeaderboardPanel);
+            _leaderboardPanel.OnBackToSceneButtonPressed -= ShowUIScene;
+            _leaderboardPanel.OnBackToSceneButtonPressed -= PlayGame;
         }
 
         public void ShowLoadingProgress(float progress)
@@ -71,11 +81,35 @@ namespace Project.Scripts.Game.GameRoot
             sceneUI.transform.SetParent(_uiSceneContainer.transform, false);
         }
 
+        private void StopGame()
+        {
+            if (SceneManager.GetActiveScene().name == Scenes.MainMenu)
+                return;
+
+            _pauseService.StopGame();
+        }
+
+        private void PlayGame()
+        {
+            if (SceneManager.GetActiveScene().name == Scenes.MainMenu)
+                return;
+
+            _pauseService.PlayGame();
+            _audioSoundsService.PlaySound(Sounds.Button);
+        }
+
         private void ShowSettingsPanel()
         {
             _audioSoundsService.PlaySound(Sounds.Button);
             UIStateMachine.EnterIn<SettingsPanelState>();
-            _settingsPanel.StopGame();
+            StopGame();
+        }
+
+        private void ShowLeaderboardPanel()
+        {
+            _audioSoundsService.PlaySound(Sounds.Button);
+            UIStateMachine.EnterIn<LeaderboardPanelState>();
+            StopGame();
         }
 
         private void ShowUIScene()
@@ -87,7 +121,7 @@ namespace Project.Scripts.Game.GameRoot
             if(sceneName == Scenes.MainMenu)
                 UIStateMachine.EnterIn<MainMenuState>();
             
-            if(sceneName == Scenes.Gameplay)
+            if(sceneName != Scenes.MainMenu)
                 UIStateMachine.EnterIn<GameplayState>();
         }
 

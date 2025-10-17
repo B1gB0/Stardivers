@@ -20,7 +20,7 @@ namespace Project.Scripts.Levels.Spawners
 
             if (_gameInitSystem.Player.Health.TargetHealth <= MinValue)
             {
-                _gameInitSystem.Player.Health.SetHealthValue();
+                //_gameInitSystem.Player.Health.SetHealthValue();
             }
         }
 

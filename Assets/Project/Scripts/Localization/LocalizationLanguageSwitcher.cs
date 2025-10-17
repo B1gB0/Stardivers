@@ -15,7 +15,12 @@ namespace Project.Scripts.Localization
 
         private int _currentIndex;
 
-        public event Action<string> OnLanguageChanged;
+        public event Action OnLanguageChanged;
+
+        private void Start()
+        {
+            YG2.SwitchLanguage(YG2.lang);
+        }
 
         private void OnEnable()
         {
@@ -51,8 +56,8 @@ namespace Project.Scripts.Localization
     
         private void SetLanguage(int index)
         {
-            YandexGame.SwitchLanguage(_languages[index]);
-            OnLanguageChanged?.Invoke(_languages[index]);
+            YG2.SwitchLanguage(_languages[index]);
+            OnLanguageChanged?.Invoke();
         }
     }
 }

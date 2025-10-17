@@ -1,57 +1,42 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using Project.Game.Scripts;
 using Project.Scripts.ECS.EntityActors;
-using Project.Scripts.Services;
 using UnityEngine;
 
 namespace  Project.Scripts.Projectiles.Grenades
 {
-    public class FragGrenade : Projectile
+    public class FragGrenade : ExplodingObject
     {
         private const float ThrowTime = 2f;
-        
-        private ParticleSystem _explosionEffect;
-        private AudioSoundsService _audioSoundsService;
-        
-        private Transform _enemyPosition;
-        
-        private float _damage;
-        private float _explosionRadius;
-        private float _grenadeSpeed;
 
-        private void OnTriggerEnter(Collider collision)
+        private Vector3 _enemyPosition;
+
+        protected override void FixedUpdate()
         {
-            if(collision.gameObject.TryGetComponent(out EnemyAlienActor enemy))
+            StartCoroutine(ThrowGrenade());
+            Transform.position = Vector3.MoveTowards(Transform.position, _enemyPosition, 
+                ProjectileSpeed * Time.fixedDeltaTime);
+        }
+
+        protected override void OnTriggerEnter(Collider collision)
+        {
+            if(collision.gameObject.TryGetComponent(out EnemyActor enemy))
             {
                 Explode();
                 StopCoroutine(LifeRoutine());
             }
         }
 
-        private void FixedUpdate()
+        public override void SetDirection(Vector3 targetPosition)
         {
-            StartCoroutine(ThrowGrenade());
-            transform.position = Vector3.MoveTowards(transform.position, _enemyPosition.position, 
-                _grenadeSpeed * Time.fixedDeltaTime);
+            _enemyPosition = targetPosition;
         }
         
-        public void SetDirection(Transform enemyPosition)
+        public void SetCharacteristics(float damage, float explosionRadius, float projectileSpeed)
         {
-            _enemyPosition = enemyPosition;
-        }
-        
-        public void SetCharacteristics(float damage, float explosionRadius, float grenadeSpeed)
-        {
-            _damage = damage;
-            _explosionRadius = explosionRadius;
-            _grenadeSpeed = grenadeSpeed;
-        }
-        
-        public void GetExplosionEffects(ParticleSystem effect, AudioSoundsService audioSoundsService)
-        {
-            _explosionEffect = effect;
-            _audioSoundsService = audioSoundsService;
+            Damage = damage;
+            ProjectileSpeed = projectileSpeed;
+            ExplosionRadius = explosionRadius;
         }
 
         protected override IEnumerator LifeRoutine()
@@ -61,36 +46,23 @@ namespace  Project.Scripts.Projectiles.Grenades
             Explode();
         }
 
-        private void Explode()
+        protected override void Explode()
         {
-            _explosionEffect.transform.position = transform.position;
-            _explosionEffect.Play();
-            _audioSoundsService.PlaySound(Sounds.FragGrenades);
+            ExplosionEffect.transform.position = Transform.position;
+            ExplosionEffect.Play();
+            AudioSoundsService.PlaySound(Sounds.FragGrenades);
         
-            foreach (EnemyAlienActor explosiveObject in GetExplosiveObjects())
+            foreach (EnemyActor explosiveObject in GetEnemies())
             {
-                explosiveObject.Health.TakeDamage(_damage);
+                explosiveObject.Health.TakeDamage(Damage);
             }
                 
             gameObject.SetActive(false);
         }
-        
-        private List<EnemyAlienActor> GetExplosiveObjects()
-        {
-            Collider[] hits = Physics.OverlapSphere(transform.position, _explosionRadius);
-        
-            List<EnemyAlienActor> enemies = new();
-        
-            foreach (Collider hit in hits)
-                if (hit.attachedRigidbody != null && hit.gameObject.TryGetComponent(out EnemyAlienActor enemyActor))
-                    enemies.Add(enemyActor);
-        
-            return enemies;
-        }
-        
+
         private IEnumerator ThrowGrenade()
         {
-            transform.up += Vector3.up;
+            Transform.up += Vector3.up;
 
             yield return new WaitForSeconds(ThrowTime);
         }

@@ -1,9 +1,8 @@
-﻿using System;
-using Project.Scripts.UI.View;
+﻿using Project.Scripts.UI.View;
 
 namespace Project.Scripts.UI.StateMachine.States
 {
-    public class ViewState : UIState
+    public abstract class ViewState : UIState
     {
         private readonly IView _view;
 

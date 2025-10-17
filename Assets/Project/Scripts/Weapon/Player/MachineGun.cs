@@ -1,9 +1,10 @@
 using System.Collections;
 using Project.Game.Scripts;
+using Project.Scripts.DataBase.Data;
 using Project.Scripts.ECS.EntityActors;
 using Project.Scripts.Projectiles.Bullets;
 using Project.Scripts.Services;
-using Project.Scripts.Weapon.Characteristics;
+using Project.Scripts.Weapon.CharacteristicsOfWeapon;
 using Project.Scripts.Weapon.Improvements;
 using UnityEngine;
 
@@ -23,7 +24,7 @@ namespace Project.Scripts.Weapon.Player
 
         private float _lastBurstTime;
         private int _maxCountShots;
-        private bool _isShooting = true;
+        private bool _isReloading;
 
         private Coroutine _coroutine;
         private MachineGunBullet _bullet;
@@ -31,15 +32,18 @@ namespace Project.Scripts.Weapon.Player
         private EnemyDetector _detector;
         private AudioSoundsService _audioSoundsService;
     
-        private EnemyAlienActor closestAlienEnemy;
+        private EnemyActor _closestEnemy;
         private ObjectPool<MachineGunBullet> _poolBullets;
 
         public MachineGunCharacteristics MachineGunCharacteristics { get; } = new();
 
-        public void Construct(EnemyDetector detector, AudioSoundsService audioSoundsService)
+        public void Construct(EnemyDetector detector, AudioSoundsService audioSoundsService,
+            CharacteristicsWeaponData data)
         {
             _detector = detector;
             _audioSoundsService = audioSoundsService;
+            MachineGunCharacteristics.SetStartingCharacteristics(data);
+            Type = data.WeaponType;
         }
 
         private void Awake()
@@ -57,11 +61,11 @@ namespace Project.Scripts.Weapon.Player
 
         private void FixedUpdate()
         {
-            closestAlienEnemy = _detector.NearestAlienEnemy;
+            _closestEnemy = _detector.GetClosestEnemy();
 
-            if (closestAlienEnemy == null) return;
+            if (_closestEnemy == null) return;
         
-            if (Vector3.Distance(closestAlienEnemy.transform.position, transform.position) <= MachineGunCharacteristics.RangeAttack && _isShooting)
+            if (_detector.ClosestEnemyDistance <= MachineGunCharacteristics.RangeAttack && !_isReloading)
             {
                 Shoot();
             }
@@ -71,7 +75,7 @@ namespace Project.Scripts.Weapon.Player
     
         public override void Shoot()
         {
-            if (_lastBurstTime <= MinValue && closestAlienEnemy.Health.TargetHealth > MinValue)
+            if (_lastBurstTime <= MinValue && _closestEnemy.Health.TargetHealth > MinValue)
             {
                 _audioSoundsService.PlaySound(Sounds.MachineGun);
             
@@ -92,7 +96,7 @@ namespace Project.Scripts.Weapon.Player
         {
             if (_maxCountShots <= MinValue)
             {
-                _isShooting = false;
+                _isReloading = true;
                 StartCoroutine(Reload());
             }
         }
@@ -102,7 +106,7 @@ namespace Project.Scripts.Weapon.Player
             yield return new WaitForSeconds(MachineGunCharacteristics.ReloadTime);
 
             _maxCountShots = MachineGunCharacteristics.MaxCountShots;
-            _isShooting = true;
+            _isReloading = false;
         }
 
         private IEnumerator LaunchBullet()
@@ -114,9 +118,15 @@ namespace Project.Scripts.Weapon.Player
                 _maxCountShots--;
             
                 _bullet.transform.position = shootPoint.position;
+
+                if (_closestEnemy == null)
+                {
+                    _bullet.gameObject.SetActive(false);
+                    continue;
+                }
                 
-                _bullet.SetDirection(closestAlienEnemy.transform);
-                _bullet.SetCharacteristics(MachineGunCharacteristics.Damage, MachineGunCharacteristics.BulletSpeed);
+                _bullet.SetDirection(_closestEnemy.transform.position);
+                _bullet.SetCharacteristics(MachineGunCharacteristics.Damage, MachineGunCharacteristics.ProjectileSpeed);
 
                 yield return new WaitForSeconds(DelayBetweenShots);
             }

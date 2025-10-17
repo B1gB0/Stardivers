@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using Leopotam.Ecs;
 using Project.Game.Scripts;
+using Project.Scripts.DataBase.Data;
 using Project.Scripts.ECS.Components;
 using Project.Scripts.ECS.Data;
 using Project.Scripts.ECS.EntityActors;
@@ -9,6 +9,7 @@ using Project.Scripts.EnemyAnimation;
 using Project.Scripts.Experience;
 using Project.Scripts.Levels;
 using Project.Scripts.Levels.Mars.SecondLevel;
+using Project.Scripts.Levels.MysteryPlanet.SecondLevel;
 using Project.Scripts.Projectiles.Enemy;
 using Project.Scripts.Services;
 using Project.Scripts.UI.Panel;
@@ -30,19 +31,28 @@ namespace Project.Scripts.ECS.System
         
         private const float CapsuleHeight = 20f;
         private const int MinValue = 0;
-        private const int CountAlienEnemyProjectile = 3;
+        private const int DefaultCountObjectsInPool = 3;
 
         private readonly Vector3 _stoneRotation = new (0f, 90f, 0f);
         private readonly EcsWorld _world;
         
-        private readonly FloatingTextService _textService;
-        private readonly GoldView _goldView;
+        private readonly IFloatingTextService _textService;
+        private readonly IDataBaseService _dataBaseService;
+        private readonly IResourceService _resourceService;
+        private readonly IEnemyService _enemyService;
+        private readonly IPlayerService _playerService;
+        private readonly IGoldService _goldService;
+        private readonly ILevelTextService _levelTextService;
         private readonly AudioSoundsService _audioSoundsService;
+        private readonly ICoreService _coreService;
+        
         private readonly ExperiencePoints _experiencePoints;
         private readonly Timer _timer;
-        private readonly AdviserMessagePanel _adviserMessagePanel;
-        private readonly BallisticRocketProgressBar _ballisticRocketProgressBar;
-        
+        private readonly PauseService _pauseService;
+        private readonly DialoguePanel _dialoguePanel;
+        private readonly MissionProgressBar _missionProgressBar;
+        private readonly Level _level;
+
         private readonly PlayerInitData _playerInitData;
         private readonly SmallAlienEnemyInitData _smallAlienEnemyInitData;
         private readonly BigAlienEnemyInitData _bigAlienEnemyData;
@@ -51,76 +61,42 @@ namespace Project.Scripts.ECS.System
         private readonly CapsuleInitData _capsuleInitData;
         private readonly HealingCoreInitData _healingCoreInitData;
         private readonly GoldCoreInitData _goldCoreInitData;
-
-        private readonly Vector3 _playerSpawnPoint;
+        private readonly LevelInitData _levelInitData;
         
+        private Vector3 _playerSpawnPoint;
         private Vector3 _capsuleSpawnPoint;
 
-        private ObjectPool<BigAlienEnemy> _bigAlienEnemyPool;
-        private ObjectPool<SmallAlienEnemy> _smallAlienEnemyPool;
-        private ObjectPool<GunnerAlienEnemy> _gunnerAlienEnemyPool;
+        private ObjectPool<BigEnemy> _bigAlienEnemyPool;
+        private ObjectPool<SmallEnemy> _smallAlienEnemyPool;
+        private ObjectPool<GunnerEnemy> _gunnerAlienEnemyPool;
         private ObjectPool<BigAlienEnemyProjectile> _bigAlienEnemyProjectilePool;
         private ObjectPool<GunnerAlienEnemyProjectile> _gunnerAlienEnemyProjectilePool;
 
         public CapsuleActor Capsule { get; private set; }
-        
         public PlayerActor Player { get; private set; }
-        
         public Health.Health PlayerHealth { get; private set; }
-        
         public Transform PlayerTransform { get; private set; }
-        
-        public Level Level { get; private set; }
-
-        public List<Vector3> SmallEnemyAlienSpawnPoints { get; private set; }
-        
-        public List<Vector3> BigEnemyAlienSpawnPoints { get; private set; }
-        
-        public List<Vector3> GunnerEnemyAlienSpawnPoints { get; private set; }
-        
-        public List<Vector3> StoneSpawnPoints { get; private set; }
-        
-        public List<Vector3> GoldCoreSpawnPoints { get; private set; }
-        
-        public List<Vector3> HealingCoreSpawnPoints { get; private set; }
 
         public event Action PlayerIsSpawned;
 
-        public GameInitSystem(PlayerInitData playerData, SmallAlienEnemyInitData smallAlienEnemyData,
-            BigAlienEnemyInitData bigAlienEnemyData, GunnerAlienEnemyInitData gunnerAlienEnemyData,
-            StoneInitData stoneData, CapsuleInitData capsuleData, LevelInitData levelData,
-            HealingCoreInitData healingCoreData, GoldCoreInitData goldCoreData)
-        {
-            _playerInitData = playerData;
-            _smallAlienEnemyInitData = smallAlienEnemyData;
-            _bigAlienEnemyData = bigAlienEnemyData;
-            _gunnerAlienEnemyData = gunnerAlienEnemyData;
-            _stoneInitData = stoneData;
-            _healingCoreInitData = healingCoreData;
-            _goldCoreInitData = goldCoreData;
-            _capsuleInitData = capsuleData;
-            
-            Level = Object.Instantiate(levelData.LevelPrefab);
-            SmallEnemyAlienSpawnPoints = levelData.SmallEnemyAlienSpawnPoints;
-            BigEnemyAlienSpawnPoints = levelData.BigEnemyAlienSpawnPoints;
-            GunnerEnemyAlienSpawnPoints = levelData.GunnerEnemyAlienSpawnPoints;
-            StoneSpawnPoints = levelData.StoneSpawnPoints;
-            GoldCoreSpawnPoints = levelData.GoldCoreSpawnPoints;
-            HealingCoreSpawnPoints = levelData.HealingCoreSpawnPoints;
-            _playerSpawnPoint = levelData.PlayerSpawnPoint;
-        }
-
         public void Init()
         {
+            _playerSpawnPoint = _levelInitData.PlayerSpawnPosition;
             Player = CreatePlayer();
             PlayerHealth = Player.Health;
             Player.gameObject.SetActive(false);
 
-            Level.GetServices(this, _timer, _adviserMessagePanel);
+            _level.GetServices(this, _timer, _dialoguePanel, _pauseService, _levelInitData,
+                _levelTextService);
             
-            if (Level is SecondMarsLevel secondMarsLevel)
+            switch (_level)
             {
-                secondMarsLevel.GetBallisticProgressBar(_ballisticRocketProgressBar);
+                case SecondMarsLevel secondMarsLevel:
+                    secondMarsLevel.GetBallisticProgressBar(_missionProgressBar);
+                    break;
+                case SecondMysteryPlanetLevel secondMysteryPlanetLevel:
+                    secondMysteryPlanetLevel.GetRadioTowerProgressBar(_missionProgressBar);
+                    break;
             }
 
             CreateEnemyObjectPools();
@@ -146,13 +122,16 @@ namespace Project.Scripts.ECS.System
 
         public void SpawnPlayer()
         {
+            PlayerData data = _dataBaseService.Content.Players[0];
+            
             Player.gameObject.SetActive(true);
-            PlayerIsSpawned?.Invoke();
             
             if (Player.Health.TargetHealth <= MinValue)
             {
-                Player.Health.SetHealthValue();
+                Player.Health.SetHealthValue(data.Health);
             }
+            
+            PlayerIsSpawned?.Invoke();
         }
 
         private void LaunchPlayerCapsule()
@@ -169,40 +148,29 @@ namespace Project.Scripts.ECS.System
 
         private PlayerActor CreatePlayer()
         {
-            var playerActor = Object.Instantiate(_playerInitData.Prefab, _playerSpawnPoint, Quaternion.identity);
-            
-            playerActor.MiningToolActor.GetAudioService(_audioSoundsService);
+            var data = _playerService.GetPlayerDataByType(PlayerActorType.CommonStardiver);
+            PlayerActor playerActor = Object.Instantiate(_playerInitData.Prefab, _playerSpawnPoint, Quaternion.identity);
+
+            MiningToolActor miningToolActor = playerActor.GetComponentInChildren<MiningToolActor>();
+            miningToolActor.Construct(_audioSoundsService, data.DiggingSpeed);
 
             PlayerTransform = playerActor.transform;
             
-            var player = _world.NewEntity();
-
-            ref var inputEventComponent = ref player.Get<InputEventComponent>();
-            inputEventComponent.PlayerInputController = playerActor.PlayerInputController;
-            
-            ref var playerComponent = ref player.Get<PlayerComponent>();
-            playerComponent.MiningTool = playerActor.MiningToolActor;
-
-            ref var movableComponent = ref player.Get<PlayerMovableComponent>();
-            movableComponent.MoveSpeed = _playerInitData.DefaultMoveSpeed;
-            movableComponent.RotationSpeed = _playerInitData.DefaultRotationSpeed;
-            movableComponent.Transform = playerActor.transform;
-            movableComponent.Rigidbody = playerActor.Rigidbody;
-
-            ref var animationsComponent = ref player.Get<AnimatedComponent>();
-            animationsComponent.Animator = playerActor.Animator;
+            InitPlayer(playerActor, data);
 
             return playerActor;
         }
         
-        public SmallAlienEnemy CreateSmallAlienEnemy(PlayerActor target)
+        public SmallEnemy CreateSmallAlienEnemy(PlayerActor target)
         {
+            var data = _enemyService.GetEnemyDataByType(EnemyActorType.SmallAlien);
+            
             var smallEnemyAlienActor = _smallAlienEnemyPool.GetFreeElement();
-            smallEnemyAlienActor.Construct(_experiencePoints, _textService);
+            smallEnemyAlienActor.Construct(_experiencePoints, _textService, data);
 
             if (smallEnemyAlienActor.Health.TargetHealth <= MinValue)
             {
-                smallEnemyAlienActor.Health.SetHealthValue();
+                smallEnemyAlienActor.Health.SetHealthValue(data.Health);
             }
             
             var entity = _world.NewEntity();
@@ -211,7 +179,9 @@ namespace Project.Scripts.ECS.System
             enemyComponent.Health = smallEnemyAlienActor.Health;
 
             ref var enemyMovableComponent = ref entity.Get<EnemyMovableComponent>();
+            enemyMovableComponent.NavMeshAgent = smallEnemyAlienActor.NavMeshAgent;
             enemyMovableComponent.Transform = smallEnemyAlienActor.transform;
+            enemyMovableComponent.MoveSpeed = data.Speed;
             enemyMovableComponent.IsMoving = true;
 
             ref var enemyAnimationsComponent = ref entity.Get<AnimatedComponent>();
@@ -219,22 +189,26 @@ namespace Project.Scripts.ECS.System
 
             ref var followComponent = ref entity.Get<FollowPlayerComponent>();
             followComponent.Target = target;
-            followComponent.NavMeshAgent = smallEnemyAlienActor.NavMeshAgent;
+
+            ref var patrolComponent = ref entity.Get<PatrolComponent>();
+            patrolComponent.Points = _levelInitData.EnemyPatrolPositions;
 
             ref var attackComponent = ref entity.Get<EnemyMeleeAttackComponent>();
-            attackComponent.Damage = _smallAlienEnemyInitData.DefaultDamage;
+            attackComponent.Damage = data.Damage;
 
             return smallEnemyAlienActor;
         }
 
-        public BigAlienEnemy CreateBigAlienEnemy(PlayerActor target)
+        public BigEnemy CreateBigAlienEnemy(PlayerActor target)
         {
+            var data = _enemyService.GetEnemyDataByType(EnemyActorType.BigAlien);
+            
             var bigEnemyAlienActor = _bigAlienEnemyPool.GetFreeElement();
-            bigEnemyAlienActor.Construct(_experiencePoints, _textService);
+            bigEnemyAlienActor.Construct(_experiencePoints, _textService, data);
             
             if (bigEnemyAlienActor.Health.TargetHealth <= MinValue)
             {
-                bigEnemyAlienActor.Health.SetHealthValue();
+                bigEnemyAlienActor.Health.SetHealthValue(data.Health);
             }
             
             var entity = _world.NewEntity();
@@ -243,7 +217,9 @@ namespace Project.Scripts.ECS.System
             enemyComponent.Health = bigEnemyAlienActor.Health;
 
             ref var enemyMovableComponent = ref entity.Get<EnemyMovableComponent>();
+            enemyMovableComponent.NavMeshAgent = bigEnemyAlienActor.NavMeshAgent;
             enemyMovableComponent.Transform = bigEnemyAlienActor.transform;
+            enemyMovableComponent.MoveSpeed = data.Speed;
             enemyMovableComponent.IsMoving = true;
 
             ref var enemyAnimationsComponent = ref entity.Get<AnimatedComponent>();
@@ -253,23 +229,27 @@ namespace Project.Scripts.ECS.System
 
             ref var followComponent = ref entity.Get<FollowPlayerComponent>();
             followComponent.Target = target;
-            followComponent.NavMeshAgent = bigEnemyAlienActor.NavMeshAgent;
+            
+            ref var patrolComponent = ref entity.Get<PatrolComponent>();
+            patrolComponent.Points = _levelInitData.EnemyPatrolPositions;
 
             ref var attackComponent = ref entity.Get<EnemyBigAlienAttackComponent>();
 
-            bigEnemyAlienActor.Weapon.SetData(target.transform, _bigAlienEnemyProjectilePool);
+            bigEnemyAlienActor.Weapon.SetData(target.transform, _bigAlienEnemyProjectilePool, data.Damage);
 
             return bigEnemyAlienActor;
         }
 
-        public GunnerAlienEnemy CreateGunnerAlienEnemy(PlayerActor target)
+        public GunnerEnemy CreateGunnerAlienEnemy(PlayerActor target)
         {
+            var data = _enemyService.GetEnemyDataByType(EnemyActorType.GunnerAlien);
+            
             var gunnerEnemyAlienActor = _gunnerAlienEnemyPool.GetFreeElement();
-            gunnerEnemyAlienActor.Construct(_experiencePoints, _textService);
+            gunnerEnemyAlienActor.Construct(_experiencePoints, _textService, data);
             
             if (gunnerEnemyAlienActor.Health.TargetHealth <= MinValue)
             {
-                gunnerEnemyAlienActor.Health.SetHealthValue();
+                gunnerEnemyAlienActor.Health.SetHealthValue(data.Health);
             }
             
             var entity = _world.NewEntity();
@@ -278,7 +258,9 @@ namespace Project.Scripts.ECS.System
             enemyComponent.Health = gunnerEnemyAlienActor.Health;
 
             ref var enemyMovableComponent = ref entity.Get<EnemyMovableComponent>();
+            enemyMovableComponent.NavMeshAgent = gunnerEnemyAlienActor.NavMeshAgent;
             enemyMovableComponent.Transform = gunnerEnemyAlienActor.transform;
+            enemyMovableComponent.MoveSpeed = data.Speed;
             enemyMovableComponent.IsMoving = true;
 
             ref var enemyAnimationsComponent = ref entity.Get<AnimatedComponent>();
@@ -288,39 +270,73 @@ namespace Project.Scripts.ECS.System
 
             ref var followComponent = ref entity.Get<FollowPlayerComponent>();
             followComponent.Target = target;
-            followComponent.NavMeshAgent = gunnerEnemyAlienActor.NavMeshAgent;
+            
+            ref var patrolComponent = ref entity.Get<PatrolComponent>();
+            patrolComponent.Points = _levelInitData.EnemyPatrolPositions;
 
             ref var attackComponent = ref entity.Get<EnemyGunnerAlienAttackComponent>();
 
-            gunnerEnemyAlienActor.Weapon.SetData(target.transform, _gunnerAlienEnemyProjectilePool);
+            gunnerEnemyAlienActor.Weapon.SetData(target.transform, _gunnerAlienEnemyProjectilePool, data.Damage);
 
             return gunnerEnemyAlienActor;
         }
 
         public void CreateStone(Vector3 atPosition)
         {
+            var data = _coreService.GetCoreDataByType(CoreType.Stone);
+            
             var stone = Object.Instantiate(_stoneInitData.StoneActorPrefab, atPosition, Quaternion.Euler(_stoneRotation));
-            stone.GetExperiencePoints(_experiencePoints);
+            stone.Construct(_experiencePoints, data);
+            stone.Health.SetHealthValue(data.Health);
 
             InitResource(stone);
         }
 
         public void CreateHealingCore(Vector3 atPosition)
         {
+            var data = _coreService.GetCoreDataByType(CoreType.Healing);
+            
             var healingCore = Object.Instantiate(_healingCoreInitData.HealingCorePrefab, atPosition, Quaternion.identity);
-            healingCore.GetExperiencePoints(_experiencePoints);
+            healingCore.Construct(_experiencePoints, data);
             healingCore.GetServices(_textService);
+            healingCore.Health.SetHealthValue(data.Health);
             
             InitResource(healingCore);
         }
         
         public void CreateGoldCore(Vector3 atPosition)
         {
+            var data = _coreService.GetCoreDataByType(CoreType.Gold);
+            
             var goldCore = Object.Instantiate(_goldCoreInitData.GoldCorePrefab, atPosition, Quaternion.identity);
-            goldCore.GetExperiencePoints(_experiencePoints);
-            goldCore.GetServices(_textService, _goldView);
+            goldCore.Construct(_experiencePoints, data);
+            goldCore.GetServices(_textService, _goldService);
+            goldCore.Health.SetHealthValue(data.Health);
             
             InitResource(goldCore);
+        }
+
+        private void InitPlayer(PlayerActor playerActor, PlayerData data)
+        {
+            var player = _world.NewEntity();
+
+            ref var inputEventComponent = ref player.Get<InputEventComponent>();
+            inputEventComponent.PlayerInputController = playerActor.PlayerInputController;
+            
+            ref var playerComponent = ref player.Get<PlayerComponent>();
+            playerComponent.MiningTool = playerActor.MiningToolActor;
+
+            ref var movableComponent = ref player.Get<PlayerMovableComponent>();
+            movableComponent.MoveSpeed = data.MoveSpeed;
+            movableComponent.RotationSpeed = data.RotationSpeed;
+            movableComponent.Transform = playerActor.transform;
+            movableComponent.Rigidbody = playerActor.Rigidbody;
+
+            ref var animationsComponent = ref player.Get<AnimatedComponent>();
+            animationsComponent.Animator = playerActor.Animator;
+            
+            playerActor.Construct(_playerService);
+            _playerService.GetPlayer(playerActor, movableComponent);
         }
 
         private void InitResource(ResourceActor resource)
@@ -336,38 +352,38 @@ namespace Project.Scripts.ECS.System
         
         private void CreateEnemyObjectPools()
         {
-            if(SmallEnemyAlienSpawnPoints.Count > 0)
-                _smallAlienEnemyPool = new ObjectPool<SmallAlienEnemy>(_smallAlienEnemyInitData.SmallAlienEnemyPrefab,
-                    SmallEnemyAlienSpawnPoints.Count, new GameObject(SmallEnemyAlienPool).transform)
+            if(_level.SmallEnemyCountPoints > MinValue)
+                _smallAlienEnemyPool = new ObjectPool<SmallEnemy>(_smallAlienEnemyInitData.SmallEnemyPrefab,
+                    DefaultCountObjectsInPool, new GameObject(SmallEnemyAlienPool).transform)
                 {
                     AutoExpand = IsAutoExpand
                 };
 
-            if (BigEnemyAlienSpawnPoints.Count > 0)
+            if (_level.BigEnemyCountPoints > MinValue)
             {
-                _bigAlienEnemyPool = new ObjectPool<BigAlienEnemy>(_bigAlienEnemyData.BigAlienEnemyPrefab,
-                    BigEnemyAlienSpawnPoints.Count, new GameObject(BigEnemyAlienPool).transform)
+                _bigAlienEnemyPool = new ObjectPool<BigEnemy>(_bigAlienEnemyData.BigEnemyPrefab,
+                    DefaultCountObjectsInPool, new GameObject(BigEnemyAlienPool).transform)
                 {
                     AutoExpand = IsAutoExpand
                 };
                 
                 _bigAlienEnemyProjectilePool = new ObjectPool<BigAlienEnemyProjectile>(_bigAlienEnemyData.ProjectilePrefab, 
-                    CountAlienEnemyProjectile, new GameObject(BigAlienEnemyProjectilePool).transform)
+                    DefaultCountObjectsInPool, new GameObject(BigAlienEnemyProjectilePool).transform)
                 {
                     AutoExpand = IsAutoExpand
                 };
             }
 
-            if (GunnerEnemyAlienSpawnPoints.Count > 0)
+            if (_level.GunnerEnemyCountPoints > MinValue)
             {
-                _gunnerAlienEnemyPool = new ObjectPool<GunnerAlienEnemy>(_gunnerAlienEnemyData.GunnerAlienEnemyPrefab, 
-                    GunnerEnemyAlienSpawnPoints.Count, new GameObject(GunnerAlienEnemyPool).transform)
+                _gunnerAlienEnemyPool = new ObjectPool<GunnerEnemy>(_gunnerAlienEnemyData.GunnerEnemyPrefab, 
+                    DefaultCountObjectsInPool, new GameObject(GunnerAlienEnemyPool).transform)
                 {
                     AutoExpand = IsAutoExpand
                 };
                 
                 _gunnerAlienEnemyProjectilePool = new ObjectPool<GunnerAlienEnemyProjectile>(_gunnerAlienEnemyData.ProjectilePrefab, 
-                    CountAlienEnemyProjectile, new GameObject(GunnerAlienEnemyProjectilePool).transform)
+                    DefaultCountObjectsInPool, new GameObject(GunnerAlienEnemyProjectilePool).transform)
                 {
                     AutoExpand = IsAutoExpand
                 };

@@ -1,7 +1,9 @@
+#if UNITY_EDITOR
 using UnityEngine;
 
 namespace Project.Scripts.ECS.Data
 {
+
     public class LevelDataForConfig : MonoBehaviour
     {
         [SerializeField] private LevelInitData levelInitData;
@@ -9,51 +11,90 @@ namespace Project.Scripts.ECS.Data
         [ContextMenu("Save Data")]
         public void SaveDataToConfigLevel()
         {
-            GameObject[] smallEnemyAlienSpawnPoints = GameObject.FindGameObjectsWithTag("SmallEnemyAlienSpawnPoint");
-            GameObject[] bigEnemyAlienSpawnPoints = GameObject.FindGameObjectsWithTag("BigEnemyAlienSpawnPoint");
-            GameObject[] gunnerEnemyAlienSpawnPoints = GameObject.FindGameObjectsWithTag("GunnerEnemyAlienSpawnPoint");
+            GameObject[] enemyPatrolPoints = GameObject.FindGameObjectsWithTag("EnemyPatrolPoints");
+            
+            GameObject[] firstWaveSmallEnemy = GameObject.FindGameObjectsWithTag("FirstWaveSmallEnemyAlienSpawnPoint");
+            GameObject[] firstWaveBigEnemy = GameObject.FindGameObjectsWithTag("FirstWaveBigEnemyAlienSpawnPoint");
+            GameObject[] firstWaveGunnerEnemy = GameObject.FindGameObjectsWithTag("FirstWaveGunnerEnemyAlienSpawnPoint");
+            
+            GameObject[] secondWaveSmallEnemy = GameObject.FindGameObjectsWithTag("SecondWaveSmallEnemyAlienSpawnPoint");
+            GameObject[] secondWaveBigEnemy = GameObject.FindGameObjectsWithTag("SecondWaveBigEnemyAlienSpawnPoint");
+            GameObject[] secondWaveGunnerEnemy = GameObject.FindGameObjectsWithTag("SecondWaveGunnerEnemyAlienSpawnPoint");
+            
             GameObject[] stoneSpawnPoints = GameObject.FindGameObjectsWithTag("StoneSpawnPoint");
             GameObject[] healingCoreSpawnPoints = GameObject.FindGameObjectsWithTag("HealingCoreSpawnPoint");
             GameObject[] goldCoreSpawnPoints = GameObject.FindGameObjectsWithTag("GoldCoreSpawnPoint");
             GameObject playerSpawnPoint = GameObject.FindGameObjectWithTag("PlayerSpawnPoint");
+            
+            levelInitData.EnemyPatrolPositions.Clear();
+            levelInitData.FirstWaveSmallEnemyAlienSpawnPositions.Clear();
+            levelInitData.FirstWaveBigEnemyAlienSpawnPositions.Clear();
+            levelInitData.FirstWaveGunnerEnemyAlienSpawnPositions.Clear();
+            levelInitData.SecondWaveSmallEnemyAlienSpawnPositions.Clear();
+            levelInitData.SecondWaveBigEnemyAlienSpawnPositions.Clear();
+            levelInitData.SecondWaveGunnerEnemyAlienSpawnPositions.Clear();
+            levelInitData.StoneSpawnPositions.Clear();
+            levelInitData.HealingCoreSpawnPositions.Clear();
+            levelInitData.GoldCoreSpawnPositions.Clear();
         
-            levelInitData.PlayerSpawnPoint = playerSpawnPoint.transform.position;
-        
-            foreach (var point in smallEnemyAlienSpawnPoints)
+            levelInitData.PlayerSpawnPosition = playerSpawnPoint.transform.position;
+            
+            foreach (var point in enemyPatrolPoints)
             {
-                if(smallEnemyAlienSpawnPoints.Length != levelInitData.SmallEnemyAlienSpawnPoints.Count)
-                    levelInitData.SmallEnemyAlienSpawnPoints.Add(point.transform.position);
+                levelInitData.EnemyPatrolPositions.Add(point.transform.position);
             }
         
-            foreach (var point in bigEnemyAlienSpawnPoints)
+            foreach (var point in firstWaveSmallEnemy)
             {
-                if(bigEnemyAlienSpawnPoints.Length != levelInitData.BigEnemyAlienSpawnPoints.Count)
-                    levelInitData.BigEnemyAlienSpawnPoints.Add(point.transform.position);
+                levelInitData.FirstWaveSmallEnemyAlienSpawnPositions.Add(point.transform.position);
+            }
+        
+            foreach (var point in firstWaveBigEnemy)
+            {
+                levelInitData.FirstWaveBigEnemyAlienSpawnPositions.Add(point.transform.position);
             }
             
-            foreach (var point in gunnerEnemyAlienSpawnPoints)
+            foreach (var point in firstWaveGunnerEnemy)
             {
-                if(gunnerEnemyAlienSpawnPoints.Length != levelInitData.GunnerEnemyAlienSpawnPoints.Count)
-                    levelInitData.GunnerEnemyAlienSpawnPoints.Add(point.transform.position);
+                levelInitData.FirstWaveGunnerEnemyAlienSpawnPositions.Add(point.transform.position);
+            }
+            
+            foreach (var point in secondWaveSmallEnemy)
+            {
+                levelInitData.SecondWaveSmallEnemyAlienSpawnPositions.Add(point.transform.position);
+            }
+        
+            foreach (var point in secondWaveBigEnemy)
+            {
+                levelInitData.SecondWaveBigEnemyAlienSpawnPositions.Add(point.transform.position);
+            }
+            
+            foreach (var point in secondWaveGunnerEnemy)
+            {
+                levelInitData.SecondWaveGunnerEnemyAlienSpawnPositions.Add(point.transform.position);
             }
 
             foreach (var stone in stoneSpawnPoints)
             {
-                if(stoneSpawnPoints.Length != levelInitData.StoneSpawnPoints.Count)
-                    levelInitData.StoneSpawnPoints.Add(stone.transform.position);
+                levelInitData.StoneSpawnPositions.Add(stone.transform.position);
             }
         
             foreach (var healingCore in healingCoreSpawnPoints)
             {
-                if(healingCoreSpawnPoints.Length != levelInitData.HealingCoreSpawnPoints.Count)
-                    levelInitData.HealingCoreSpawnPoints.Add(healingCore.transform.position);
+                levelInitData.HealingCoreSpawnPositions.Add(healingCore.transform.position);
             }
         
             foreach (var goldCore in goldCoreSpawnPoints)
             {
-                if(goldCoreSpawnPoints.Length != levelInitData.GoldCoreSpawnPoints.Count)
-                    levelInitData.GoldCoreSpawnPoints.Add(goldCore.transform.position);
+                levelInitData.GoldCoreSpawnPositions.Add(goldCore.transform.position);
+            }
+            
+            if (!Application.isPlaying)
+            {
+                UnityEditor.EditorUtility.SetDirty(levelInitData);
+                UnityEditor.AssetDatabase.SaveAssets();
             }
         }
     }
 }
+#endif

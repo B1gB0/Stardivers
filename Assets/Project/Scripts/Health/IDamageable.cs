@@ -1,11 +1,11 @@
 using System;
-using UnityEngine;
 
-namespace Build.Game.Scripts
+namespace Project.Scripts.Health
 {
     public interface IDamageable
     {
         event Action Die;
+        event Action<Health> DieHealth;
 
         void TakeDamage(float damage);
     }

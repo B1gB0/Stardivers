@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Project.Scripts.Levels;
 using UnityEngine;
 
 namespace Project.Scripts.ECS.Data
@@ -7,14 +6,20 @@ namespace Project.Scripts.ECS.Data
     [CreateAssetMenu(menuName = "InitData/LevelData")]
     public class LevelInitData : InitData
     {
-        [field: SerializeField] public Level LevelPrefab { get; private set; }
+        public List<Vector3> EnemyPatrolPositions; 
 
-        public List<Vector3> SmallEnemyAlienSpawnPoints;
-        public List<Vector3> BigEnemyAlienSpawnPoints;
-        public List<Vector3> GunnerEnemyAlienSpawnPoints;
-        public List<Vector3> StoneSpawnPoints;
-        public List<Vector3> GoldCoreSpawnPoints;
-        public List<Vector3> HealingCoreSpawnPoints;
-        public Vector3 PlayerSpawnPoint;
+        public List<Vector3> FirstWaveSmallEnemyAlienSpawnPositions;
+        public List<Vector3> FirstWaveBigEnemyAlienSpawnPositions;
+        public List<Vector3> FirstWaveGunnerEnemyAlienSpawnPositions;
+        
+        public List<Vector3> SecondWaveSmallEnemyAlienSpawnPositions;
+        public List<Vector3> SecondWaveBigEnemyAlienSpawnPositions;
+        public List<Vector3> SecondWaveGunnerEnemyAlienSpawnPositions;
+        
+        public List<Vector3> StoneSpawnPositions;
+        public List<Vector3> GoldCoreSpawnPositions;
+        public List<Vector3> HealingCoreSpawnPositions;
+        
+        public Vector3 PlayerSpawnPosition;
     }
 }

@@ -3,12 +3,10 @@ using UnityEngine;
 
 namespace Project.Scripts.Crystals
 {
-    public class Crystal : MonoBehaviour
+    public abstract class Crystal : MonoBehaviour
     {
-        protected FloatingTextService TextService;
+        protected IFloatingTextService TextService;
 
-        [SerializeField] protected Color ColorText;
-        
         public Rigidbody Rigidbody { get; private set; }
 
         private void Awake()
@@ -16,7 +14,7 @@ namespace Project.Scripts.Crystals
             Rigidbody = GetComponent<Rigidbody>();
         }
 
-        public void GetTextService(FloatingTextService textService)
+        public void GetTextService(IFloatingTextService textService)
         {
             TextService = textService;
         }

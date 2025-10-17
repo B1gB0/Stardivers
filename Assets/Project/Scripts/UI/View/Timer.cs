@@ -1,5 +1,9 @@
 using System;
-using System.Collections;
+using System.Threading;
+using Cysharp.Threading.Tasks;
+using DG.Tweening;
+using Project.Scripts.Services;
+using Reflex.Attributes;
 using TMPro;
 using UnityEngine;
 
@@ -7,32 +11,31 @@ namespace Project.Scripts.UI.View
 {
     public class Timer : MonoBehaviour, IView
     {
-        private const int LastSecondOfMinute = 59;
         private const int SecondsInMinute = 60;
         private const int MinValue = 0;
-        
-        private const float Delay = 1f;
-        
+
         [SerializeField] private TMP_Text _text;
+        [SerializeField] private Transform _showPoint;
+        [SerializeField] private Transform _hidePoint;
 
-        private Coroutine _coroutine;
         private int _timeInSeconds;
-        private int _minutes;
-        private int _seconds;
+        private bool _isPaused;
+        private bool _isRunning;
+        private float _accumulatedTime;
 
-        public event Action IsEndAttack; 
+        private ITweenAnimationService _tweenAnimationService;
+
+        public event Action IsEndAttack;
+
+        [Inject]
+        public void Construct(ITweenAnimationService tweenAnimationService)
+        {
+            _tweenAnimationService = tweenAnimationService;
+        }
 
         private void Awake()
         {
-            _minutes = _timeInSeconds / SecondsInMinute;
-            _seconds = _timeInSeconds;
-
-            if (_minutes != MinValue)
-            {
-                _seconds -= _minutes * SecondsInMinute;
-            }
-
-            DisplayCountdown();
+            UpdateDisplay();
         }
 
         private void OnEnable()
@@ -43,75 +46,109 @@ namespace Project.Scripts.UI.View
         private void OnDisable()
         {
             IsEndAttack -= StopTimer;
+            StopTimer();
+        }
+
+        private void OnDestroy()
+        {
+            transform.DOKill();
+        }
+
+        public void GetPoints(Transform showPoint, Transform hidePoint)
+        {
+            _showPoint = showPoint;
+            _hidePoint = hidePoint;
         }
 
         public void Show()
         {
             gameObject.SetActive(true);
+            _tweenAnimationService.AnimateMove(transform, _showPoint, _hidePoint);
         }
 
         public void Hide()
         {
-            gameObject.SetActive(false);
+            _tweenAnimationService.AnimateMove(transform, _showPoint, _hidePoint, true);
         }
 
-        public void OnLaunchTimer()
+        public void ResumeTimer()
         {
+            if (!gameObject.activeInHierarchy) return;
             
-            _coroutine = StartCoroutine(LaunchTimer());
+            _isPaused = false;
+            
+            if(!_isRunning)
+                OnLaunchTimer();
+        }
+
+        public void PauseTimer()
+        {
+            if (!gameObject.activeInHierarchy) return;
+            
+            _isPaused = true;
         }
 
         public void SetTime(int seconds)
         {
             _timeInSeconds = seconds;
+            UpdateDisplay();
         }
 
-        private void DisplayCountdown()
+        private async void OnLaunchTimer()
         {
-            if (_seconds <= 9)
-            {
-                _text.text = "0" + _minutes + " : 0" + _seconds;
-            }
-            else
-            {
-                _text.text = "0" + _minutes + " : " + _seconds;
-            }
+            StopTimer();
+
+            _isRunning = true;
+            _isPaused = false;
+            _accumulatedTime = 0f;
+
+            await RunTimerAsync(this.GetCancellationTokenOnDestroy());
         }
 
         private void StopTimer()
         {
-            StopCoroutine(_coroutine);
-            Hide();
+            _isRunning = false;
         }
 
-        private IEnumerator LaunchTimer()
+        private void UpdateDisplay()
         {
-            WaitForSeconds waitForSeconds = new WaitForSeconds(Delay);
+            int minutes = _timeInSeconds / SecondsInMinute;
+            int seconds = _timeInSeconds % SecondsInMinute;
+            _text.text = $"{minutes:00} : {seconds:00}";
+        }
 
-            while (_timeInSeconds >= MinValue)
+        private async UniTask RunTimerAsync(CancellationToken ct)
+        {
+            try
             {
-                _timeInSeconds--;
+                while (_timeInSeconds > MinValue && _isRunning && !ct.IsCancellationRequested)
+                {
+                    await UniTask.Yield(PlayerLoopTiming.Update, ct);
+            
+                    if (_isPaused) continue;
+            
+                    _accumulatedTime += Time.unscaledDeltaTime;
+
+                    if (!(_accumulatedTime >= 1f))
+                        continue;
+            
+                    int secondsPassed = Mathf.FloorToInt(_accumulatedTime);
+                    _accumulatedTime -= secondsPassed;
                 
-                if (_timeInSeconds <= MinValue)
-                {
-                    IsEndAttack?.Invoke();
+                    _timeInSeconds -= secondsPassed;
+                    UpdateDisplay();
+                
+                    if (_timeInSeconds <= MinValue)
+                    {
+                        IsEndAttack?.Invoke();
+                        StopTimer();
+                        break;
+                    }
                 }
-
-                if (_seconds == MinValue)
-                {
-                    _seconds = LastSecondOfMinute;
-                    _minutes--;
-                    
-                    DisplayCountdown();
-                    
-                    yield return waitForSeconds;
-                }
-
-                _seconds--;
-
-                DisplayCountdown();
-
-                yield return waitForSeconds;
+            }
+            catch (OperationCanceledException)
+            {
+                Debug.Log("Таймер был отменён.");
             }
         }
     }

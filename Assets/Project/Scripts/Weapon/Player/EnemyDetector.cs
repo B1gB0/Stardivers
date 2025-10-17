@@ -1,4 +1,5 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Project.Scripts.ECS.EntityActors;
 using UnityEngine;
 
@@ -6,47 +7,77 @@ namespace Project.Scripts.Weapon.Player
 {
     public class EnemyDetector : MonoBehaviour
     {
-        private const float MinValue = 0f;
-        private const float SearchRadius = 5f;
-    
-        private readonly List<EnemyAlienActor> _enemies = new ();
-    
-        private float _currentDistanceOfClosestEnemy;
+        private const int MinValue = 0;
 
-        public EnemyAlienActor NearestAlienEnemy { get; private set; }
+        private readonly HashSet<EnemyActor> _enemiesInRange = new();
 
-        private void Update()
+        private float _closestEnemyDistanceSqr;
+
+        public float ClosestEnemyDistance => Mathf.Sqrt(_closestEnemyDistanceSqr);
+
+        private void OnTriggerEnter(Collider otherCollider)
         {
-            SetNearestEnemy();
+            if (!otherCollider.TryGetComponent(out EnemyActor enemyAlienActor))
+                return;
+
+            _enemiesInRange.Add(enemyAlienActor);
+
+            enemyAlienActor.Die += OnEnemyDie;
         }
 
-        private void SetNearestEnemy()
+        private void OnTriggerExit(Collider otherCollider)
         {
-            _enemies.Clear();
-        
-            Collider[] colliders = Physics.OverlapSphere(transform.position, SearchRadius);
-        
-            foreach (Collider collider in colliders)
-                if (collider.attachedRigidbody != null && collider.gameObject.TryGetComponent(out EnemyAlienActor enemyActor))
-                    _enemies.Add(enemyActor);
+            if (!otherCollider.TryGetComponent(out EnemyActor enemyAlienActor))
+                return;
+            
+            _enemiesInRange.Remove(enemyAlienActor);
 
-            float distance = Mathf.Infinity;
+            enemyAlienActor.Die -= OnEnemyDie;
+        }
 
-            Vector3 position = transform.localPosition;
+        public EnemyActor GetClosestEnemy()
+        {
+            if (_enemiesInRange.Count <= MinValue)
+                return null;
 
-            foreach (EnemyAlienActor enemy in _enemies)
+            EnemyActor bestTarget = null;
+            _closestEnemyDistanceSqr = Mathf.Infinity;
+            var currentPosition = transform.position;
+
+            foreach (EnemyActor closestEnemy in _enemiesInRange)
             {
-                if (enemy.Health.TargetHealth > MinValue)
-                {
-                    _currentDistanceOfClosestEnemy = Vector3.Distance(position, enemy.transform.localPosition);
+                var directionToTarget = closestEnemy.transform.position - currentPosition;
+                var dSqrToTarget = directionToTarget.sqrMagnitude;
 
-                    if (_currentDistanceOfClosestEnemy < distance)
-                    {
-                        NearestAlienEnemy = enemy;
-                        distance = _currentDistanceOfClosestEnemy;
-                    }
-                }
+                if (!(dSqrToTarget < _closestEnemyDistanceSqr))
+                    continue;
+
+                _closestEnemyDistanceSqr = dSqrToTarget;
+                bestTarget = closestEnemy;
             }
+
+            return bestTarget;
+        }
+
+        public HashSet<EnemyActor> GetEnemiesInRange()
+        {
+            return _enemiesInRange;
+        }
+
+        private void OnEnemyDie(EnemyActor enemyActor)
+        {
+            _enemiesInRange.Remove(enemyActor);
+            enemyActor.Die -= OnEnemyDie;
+        }
+
+        private void OnDestroy()
+        {
+            foreach (var enemyAlienActor in _enemiesInRange.Where(enemyAlienActor => enemyAlienActor != null))
+            {
+                enemyAlienActor.Die -= OnEnemyDie;
+            }
+
+            _enemiesInRange.Clear();
         }
     }
 }

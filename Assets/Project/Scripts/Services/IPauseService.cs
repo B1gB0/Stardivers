@@ -1,8 +1,12 @@
-﻿namespace Project.Scripts.Services
+﻿using System;
+
+namespace Project.Scripts.Services
 {
     public interface IPauseService
     {
-        void PlayGame();
-        void StopGame();
+        public void PlayGame(bool isYGGameplayStart = false);
+        public void StopGame(bool isYGGameplayStop = false);
+        public event Action OnGameStarted;
+        public event Action OnGamePaused;
     }
 }

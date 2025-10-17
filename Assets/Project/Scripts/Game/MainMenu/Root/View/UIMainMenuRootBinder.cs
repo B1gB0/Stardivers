@@ -1,3 +1,4 @@
+using System;
 using Project.Game.Scripts;
 using Project.Scripts.Game.GameRoot;
 using Project.Scripts.Services;
@@ -22,6 +23,8 @@ namespace Project.Scripts.Game.MainMenu.Root.View
         private Subject<Unit> _exitSceneSubjectSignal;
         private AudioSoundsService _audioSoundsService;
         private UIStateMachine _uiStateMachine;
+
+        public event Action OnGameplayStarted; 
 
         [Inject]
         public void Construct(AudioSoundsService audioSoundsService)
@@ -65,6 +68,7 @@ namespace Project.Scripts.Game.MainMenu.Root.View
     
         private void HandleGoToGameplayButtonClick()
         {
+            OnGameplayStarted?.Invoke();
             _audioSoundsService.PlaySound(Sounds.Button);
             _exitSceneSubjectSignal?.OnNext(Unit.Default);
         }

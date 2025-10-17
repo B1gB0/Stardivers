@@ -4,6 +4,7 @@ using Project.Scripts.UI.View;
 using Reflex.Attributes;
 using UnityEngine;
 using UnityEngine.UI;
+using YG;
 
 namespace Project.Scripts.UI.Panel
 {
@@ -11,7 +12,8 @@ namespace Project.Scripts.UI.Panel
     {
         private const string VictoryLabelText = "Victory!";
         private const string DefeatLabelText = "Defeat!";
-        
+        private const int CountCorrectFactor = 1;
+
         private readonly Color _redColor = Color.red;
         private readonly Color _blueColor = Color.blue;
 
@@ -42,9 +44,9 @@ namespace Project.Scripts.UI.Panel
             _goToMainMenuButton.onClick.AddListener(Hide);
             _rebornPlayerButton.onClick.AddListener(Hide);
             
-            _rebornPlayerButton.onClick.AddListener(_pauseService.PlayGame);
-            _nextLevelButton.onClick.AddListener(_pauseService.PlayGame);
-            _goToMainMenuButton.onClick.AddListener(_pauseService.PlayGame);
+            _rebornPlayerButton.onClick.AddListener(OnPlayGame);
+            _nextLevelButton.onClick.AddListener(OnPlayGame);
+            _goToMainMenuButton.onClick.AddListener(OnPlayGame);
         }
 
         private void OnDisable()
@@ -52,15 +54,28 @@ namespace Project.Scripts.UI.Panel
             _goToMainMenuButton.onClick.RemoveListener(Hide);
             _rebornPlayerButton.onClick.RemoveListener(Hide);
             
-            _rebornPlayerButton.onClick.RemoveListener(_pauseService.PlayGame);
-            _nextLevelButton.onClick.RemoveListener(_pauseService.PlayGame);
-            _goToMainMenuButton.onClick.RemoveListener(_pauseService.PlayGame);
+            _rebornPlayerButton.onClick.RemoveListener(OnPlayGame);
+            _nextLevelButton.onClick.RemoveListener(OnPlayGame);
+            _goToMainMenuButton.onClick.RemoveListener(OnPlayGame);
         }
 
         public void SetVictoryPanel()
         {
-            _nextLevelButton.gameObject.SetActive(_operationService.CurrentNumberLevel != 
-                                                  _operationService.CurrentOperation.Maps.Count - 1);
+            if (_operationService.CurrentNumberLevel ==
+                _operationService.CurrentOperation.Maps.Count - CountCorrectFactor)
+            {
+                _nextLevelButton.gameObject.SetActive(false);
+                
+                if (_operationService.CurrentOperation.Id == Game.Constant.Operations.Mars)
+                {
+                    YG2.saves.isMysteryPlanetUnlock = true;
+                    YG2.SaveProgress();
+                }
+            }
+            else
+            {
+                _nextLevelButton.gameObject.SetActive(true);
+            }
 
             _rebornPlayerButton.gameObject.SetActive(false);
             _labelText.text = VictoryLabelText;
@@ -75,14 +90,6 @@ namespace Project.Scripts.UI.Panel
             OnChangeColor(_redColor);
         }
 
-        private void OnChangeColor(Color color)
-        {
-            foreach (var image in _images)
-            {
-                image.color = color;
-            }
-        }
-    
         public void Show()
         {
             _pauseService.StopGame();
@@ -92,6 +99,19 @@ namespace Project.Scripts.UI.Panel
         public void Hide()
         {
             gameObject.SetActive(false);
+        }
+        
+        private void OnChangeColor(Color color)
+        {
+            foreach (var image in _images)
+            {
+                image.color = color;
+            }
+        }
+
+        private void OnPlayGame()
+        {
+            _pauseService.PlayGame();
         }
     }
 }

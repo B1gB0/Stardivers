@@ -9,7 +9,6 @@ namespace Project.Scripts.ECS.EntityActors
         private const float MinValue = 0f;
 
         [SerializeField] private float _miningRange;
-        [SerializeField] private float _delay;
         [SerializeField] private float _damage;
         
         [SerializeField] private Transform _detectionPoint;
@@ -17,11 +16,18 @@ namespace Project.Scripts.ECS.EntityActors
         [SerializeField] private ParticleSystem _hitEffect;
 
         private ParticleSystem _hitEffectRef;
-        private ResourceActor resourceRef;
+        private ResourceActor _resourceRef;
+        private float _diggingSpeed;
         private float _lastHitTime;
         private AudioSoundsService _audioSoundsService;
 
         public bool IsMining { get; private set; }
+        
+        public void Construct(AudioSoundsService audioSoundsService, float diggingSpeed)
+        {
+            _audioSoundsService = audioSoundsService;
+            _diggingSpeed = diggingSpeed;
+        }
 
         private void Awake()
         {
@@ -34,8 +40,8 @@ namespace Project.Scripts.ECS.EntityActors
             if (Physics.Raycast(_detectionPoint.position, _detectionPoint.forward, out var hit,
                     _miningRange))
             {
-                if(resourceRef != null)
-                    resourceRef.Health.SetHit(false);
+                if(_resourceRef != null)
+                    _resourceRef.Health.SetHit(false);
                 
                 if (!hit.collider.TryGetComponent(out ResourceActor resource)) return;
                 
@@ -43,16 +49,16 @@ namespace Project.Scripts.ECS.EntityActors
 
                 if (_lastHitTime <= MinValue)
                 {
-                    resourceRef = resource;
+                    _resourceRef = resource;
 
                     _audioSoundsService.PlaySound(Sounds.Stone);
 
-                    resourceRef.Health.TakeDamage(_damage);
-                    resourceRef.Health.SetHit(true);
+                    _resourceRef.Health.TakeDamage(_damage);
+                    _resourceRef.Health.SetHit(true);
 
                     _hitEffectRef.Play();
 
-                    _lastHitTime = _delay;
+                    _lastHitTime = _diggingSpeed;
                 }
 
                 _lastHitTime -= Time.deltaTime;
@@ -63,9 +69,9 @@ namespace Project.Scripts.ECS.EntityActors
             }
         }
 
-        public void GetAudioService(AudioSoundsService audioSoundsService)
+        public void ChangeDiggingSpeed(float newDiggingSpeed)
         {
-            _audioSoundsService = audioSoundsService;
+            _diggingSpeed = newDiggingSpeed;
         }
     }
 }

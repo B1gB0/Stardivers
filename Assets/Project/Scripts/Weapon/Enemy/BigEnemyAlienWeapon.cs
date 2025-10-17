@@ -6,8 +6,8 @@ namespace Project.Scripts.Weapon.Enemy
     public class BigEnemyAlienWeapon : EnemyWeapon
     {
         [SerializeField] private Transform _shootPoint;
-        [SerializeField] private float _damage;
 
+        private float _damage;
         private Transform _target;
         private BigAlienEnemyProjectile _projectile;
         
@@ -20,13 +20,14 @@ namespace Project.Scripts.Weapon.Enemy
             _projectile.transform.position = _shootPoint.position;
             
             _projectile.SetDamage(_damage);           
-            _projectile.SetDirection(_target);
+            _projectile.SetDirection(_target.position);
         }
 
-        public void SetData(Transform target, ObjectPool<BigAlienEnemyProjectile> poolProjectile)
+        public void SetData(Transform target, ObjectPool<BigAlienEnemyProjectile> poolProjectile, float damage)
         {
             _target = target;
             _projectilePool = poolProjectile;
+            _damage = damage;
         }
     }
 }

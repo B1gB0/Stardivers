@@ -86,7 +86,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3451118302482216456, guid: 86a2c9836ae8c4932b9c7c1c1a6f85fb, type: 3}
       propertyPath: m_Convex
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3451118302482216456, guid: 86a2c9836ae8c4932b9c7c1c1a6f85fb, type: 3}
       propertyPath: m_Enabled
@@ -148,7 +148,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbef326efc61174488772c5468beb681, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _colorText: {r: 0, g: 0, b: 0, a: 0}
+  _healingColor: {r: 0, g: 0, b: 0, a: 0}
+  _standardColor: {r: 0, g: 0, b: 0, a: 0}
   _value: 9
   _hitEffectPrefab: {fileID: 198441514564820928, guid: d519ad6ef8ea3cd4f9acf13f6646a601, type: 3}
   _hitPoint: {fileID: 696921629099129857}
@@ -164,7 +165,7 @@ NavMeshObstacle:
   m_Shape: 1
   m_Extents: {x: 0.74600005, y: 0.61700004, z: 0.823}
   m_MoveThreshold: 0.1
-  m_Carve: 0
+  m_Carve: 1
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.047000002, y: 0.58100003, z: -0.009000001}
   m_TimeToStationary: 0.5

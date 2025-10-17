@@ -2,7 +2,7 @@
 {
     public abstract class SceneEnterParameters
     {
-        public string SceneName { get; }
+        public string SceneName { get; private set; }
 
         public SceneEnterParameters(string sceneName)
         {
@@ -12,6 +12,11 @@
         public T As<T>() where T : SceneEnterParameters
         {                                            
             return (T) this;                         
+        }
+
+        public void SetNewSceneName(string sceneName)
+        {
+            SceneName = sceneName;
         }
     }
 }

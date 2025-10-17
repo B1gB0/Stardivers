@@ -1,12 +1,9 @@
 using System;
-using Project.Game.Scripts;
-using Project.Scripts.Game.GameRoot;
 using Project.Scripts.Services;
 using Project.Scripts.UI.View;
 using Reflex.Attributes;
 using UnityEngine;
 using UnityEngine.Audio;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace Project.Scripts.UI.Panel
@@ -15,7 +12,7 @@ namespace Project.Scripts.UI.Panel
     {
         private const string MusicVolume = nameof(MusicVolume);
         private const string EffectsVolume = nameof(EffectsVolume);
-        
+
         private const float StartValueSlider = 0.8f;
         private const float MinValueSlider = 0f;
 
@@ -23,28 +20,32 @@ namespace Project.Scripts.UI.Panel
         [SerializeField] private Button _backToSceneButton;
 
         [SerializeField] private AudioMixerGroup _mixer;
-        
+
         [SerializeField] private float _minVolume = -80f;
         [SerializeField] private float _maxVolume;
-        
+
         [SerializeField] private Slider _musicVolumeSlider;
         [SerializeField] private Slider _effectsVolumeSlider;
 
-        private AudioSoundsService _audioSoundsService;
-        private IPauseService _pauseService;
+        private ITweenAnimationService _tweenAnimationService;
 
-        public event Action OnExitButtonPressed;
+        public event Action OnBackToSceneButtonPressed;
         
         [Inject]
-        public void Construct(AudioSoundsService audioSoundsService, IPauseService pauseService)
+        private void Construct(ITweenAnimationService tweenAnimationService)
         {
-            _audioSoundsService = audioSoundsService;
-            _pauseService = pauseService;
+            _tweenAnimationService = tweenAnimationService;
+        }
+
+        private void Start()
+        {
+            SetValuesVolume();
+            gameObject.SetActive(false);
         }
 
         private void OnEnable()
         {
-            _backToSceneButton.onClick.AddListener(PlayGame);
+            _backToSceneButton.onClick.AddListener(MoveBackToScene);
             _settingsButton.gameObject.SetActive(false);
 
             _musicVolumeSlider.onValueChanged.AddListener(ChangeMusicVolume);
@@ -53,7 +54,7 @@ namespace Project.Scripts.UI.Panel
 
         private void OnDisable()
         {
-            _backToSceneButton.onClick.RemoveListener(PlayGame);
+            _backToSceneButton.onClick.RemoveListener(MoveBackToScene);
             _settingsButton.gameObject.SetActive(true);
 
             _musicVolumeSlider.onValueChanged.RemoveListener(ChangeMusicVolume);
@@ -63,42 +64,35 @@ namespace Project.Scripts.UI.Panel
         public void Show()
         {
             gameObject.SetActive(true);
+            _tweenAnimationService.AnimateScale(transform);
         }
 
         public void Hide()
         {
-            gameObject.SetActive(false);
+            _tweenAnimationService.AnimateScale(transform, true);
         }
 
-        public void SetValuesVolume()
+        private void SetValuesVolume()
         {
             _musicVolumeSlider.value = PlayerPrefs.GetFloat(MusicVolume);
             _effectsVolumeSlider.value = PlayerPrefs.GetFloat(EffectsVolume);
 
-            if (PlayerPrefs.GetFloat(MusicVolume) == MinValueSlider &&
-                PlayerPrefs.GetFloat(EffectsVolume) == MinValueSlider)
-            {
-                _musicVolumeSlider.value = StartValueSlider;
-                _effectsVolumeSlider.value = StartValueSlider;
-            }
-        }
-        
-        public void StopGame()
-        {
-            if(SceneManager.GetActiveScene().name == Scenes.Gameplay)
-                _pauseService.StopGame();
-        }
-        
-        private void PlayGame()
-        {
-            _audioSoundsService.PlaySound(Sounds.Button);
+            if (PlayerPrefs.GetFloat(MusicVolume) != MinValueSlider ||
+                PlayerPrefs.GetFloat(EffectsVolume) != MinValueSlider)
+                return;
             
-            if(SceneManager.GetActiveScene().name == Scenes.Gameplay)
-                _pauseService.PlayGame();
+            _musicVolumeSlider.value = StartValueSlider;
+            _effectsVolumeSlider.value = StartValueSlider;
             
-            OnExitButtonPressed?.Invoke();
+            ChangeMusicVolume(StartValueSlider);
+            ChangeEffectsVolume(StartValueSlider);
         }
-        
+
+        private void MoveBackToScene()
+        {
+            OnBackToSceneButtonPressed?.Invoke();
+        }
+
         private void ChangeMusicVolume(float volume)
         {
             _mixer.audioMixer.SetFloat(MusicVolume, Mathf.Lerp(_minVolume, _maxVolume, volume));

@@ -1,6 +1,4 @@
-﻿using System;
-using Cysharp.Threading.Tasks;
-using Project.Scripts.Game.Gameplay.Root;
+﻿using Project.Scripts.Game.Gameplay.Root;
 using Project.Scripts.Game.GameRoot;
 using Project.Scripts.Game.MainMenu.Root.View;
 using Project.Scripts.Services;
@@ -8,7 +6,6 @@ using R3;
 using Reflex.Attributes;
 using Reflex.Extensions;
 using Reflex.Injectors;
-using Source.Game.Scripts;
 using UnityEngine;
 
 namespace Project.Scripts.Game.MainMenu.Root
@@ -20,17 +17,33 @@ namespace Project.Scripts.Game.MainMenu.Root
         private UIMainMenuRootBinder _uiScene;
         private OperationService _operationService;
         private IDataBaseService _dataBaseService;
+        private IGoldService _goldService;
+        private ITweenAnimationService _tweenAnimationService;
+        private ILevelTextService _levelTextService;
+        
+        private MainMenuExitParameters _exitParameters;
 
         [Inject]
-        private void Construct(OperationService operationService, IDataBaseService dataBaseService)
+        private void Construct(OperationService operationService, IDataBaseService dataBaseService, 
+            IGoldService goldService, ITweenAnimationService tweenAnimationService, ILevelTextService levelTextService)
         {
             _dataBaseService = dataBaseService;
             _operationService = operationService;
+            _goldService = goldService;
+            _tweenAnimationService = tweenAnimationService;
+            _levelTextService = levelTextService;
         }
 
         private async void Start()
         {
+            if(_operationService.IsInitiated)
+                return;
+            
             await _dataBaseService.Init();
+            await _operationService.Init();
+            await _goldService.Init();
+            await _tweenAnimationService.Init();
+            await _levelTextService.Init();
         }
 
         public Observable<MainMenuExitParameters> Run(UIRootView uiRoot, MainMenuEnterParameters enterParameters)
@@ -38,23 +51,34 @@ namespace Project.Scripts.Game.MainMenu.Root
             _uiScene = Instantiate(_sceneUIRootPrefab);
             uiRoot.AttachSceneUI(_uiScene.gameObject);
             
+            _uiScene.OnGameplayStarted += GetMainMenuExitParameters;
+            
             var container = gameObject.scene.GetSceneContainer();
             GameObjectInjector.InjectRecursive(uiRoot.gameObject, container);
-            GameObjectInjector.InjectObject(_operationService.gameObject, container);
 
             _uiScene.GetUIStateMachineAndStates(uiRoot.UIStateMachine, uiRoot.UIRootButtons);
-            _operationService.Init();
 
             var exitSignalSubject = new Subject<Unit>();
             _uiScene.Bind(exitSignalSubject);
 
-            var gameplayEnterParameters = new GameplayEnterParameters(_operationService.CurrentOperation,
-                _operationService.CurrentNumberLevel);
-            var mainMenuExitParameters = new MainMenuExitParameters(gameplayEnterParameters);
-
-            var exitToGameplaySceneSignal = exitSignalSubject.Select(_ => mainMenuExitParameters);
+            var exitToGameplaySceneSignal = exitSignalSubject.Select(_ => _exitParameters);
 
             return exitToGameplaySceneSignal;
+        }
+
+        private void GetMainMenuExitParameters()
+        {
+            var sceneName = _operationService.GetSceneNameByCurrentNumber();
+
+            var gameplayEnterParameters = new GameplayEnterParameters(_operationService.CurrentOperation,
+                _operationService.CurrentNumberLevel, sceneName);
+            
+            _exitParameters = new MainMenuExitParameters(gameplayEnterParameters);
+        }
+
+        private void OnDestroy()
+        {
+            _uiScene.OnGameplayStarted -= GetMainMenuExitParameters;
         }
     }
 }

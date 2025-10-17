@@ -4,6 +4,6 @@ namespace Project.Scripts.ECS.EntityActors
 {
     public interface IAcceptable
     {
-        void AcceptScore(IScoreActorVisitor visitor) { }
+        public void AcceptScore(IScoreActorVisitor visitor) { }
     }
 }

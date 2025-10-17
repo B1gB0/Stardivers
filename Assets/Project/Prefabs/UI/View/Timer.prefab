@@ -34,7 +34,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.000038146973}
+  m_AnchoredPosition: {x: 0, y: -0.000061035156}
   m_SizeDelta: {x: 0, y: 0.00010681}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8481307777357306030
@@ -166,11 +166,11 @@ RectTransform:
   - {fileID: 3624350893682300350}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 442}
-  m_SizeDelta: {x: 719.5827, y: 111.8665}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: -30}
+  m_SizeDelta: {x: 719.5827, y: 111.866516}
+  m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &626542871292815136
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -183,5 +183,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef4c1fcbd01002b418ecf17c6bfdfe7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <_timeInSeconds>k__BackingField: 70
   _text: {fileID: 4610704085621498725}

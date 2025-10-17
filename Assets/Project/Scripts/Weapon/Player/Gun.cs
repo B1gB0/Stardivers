@@ -1,9 +1,10 @@
 using System.Collections;
 using Project.Game.Scripts;
+using Project.Scripts.DataBase.Data;
 using Project.Scripts.ECS.EntityActors;
 using Project.Scripts.Projectiles.Bullets;
 using Project.Scripts.Services;
-using Project.Scripts.Weapon.Characteristics;
+using Project.Scripts.Weapon.CharacteristicsOfWeapon;
 using Project.Scripts.Weapon.Improvements;
 using UnityEngine;
 
@@ -21,26 +22,30 @@ namespace Project.Scripts.Weapon.Player
 
         private float _lastShotTime;
         private int _maxCountShots;
-        private bool _isShooting = true;
+        private bool _isReloading;
     
         private GunBullet _bullet;
-        private EnemyAlienActor closestAlienEnemy;
+        private EnemyActor _closestEnemy;
         private ObjectPool<GunBullet> _poolBullets;
 
         private EnemyDetector _detector;
         private AudioSoundsService _audioSoundsService;
 
-        public GunCharacteristics GunCharacteristics { get; } = new();
-
-        public void Construct(EnemyDetector detector, AudioSoundsService audioSoundsService)
+        public GunCharacteristics GunCharacteristics { get; private set; } = new ();
+        
+        public void Construct(EnemyDetector detector, AudioSoundsService audioSoundsService,
+            CharacteristicsWeaponData data)
         {
             _detector = detector;
             _audioSoundsService = audioSoundsService;
+            GunCharacteristics.SetStartingCharacteristics(data);
+            Type = data.WeaponType;
         }
 
         private void Awake()
         {
-            _poolBullets = new ObjectPool<GunBullet>(_bulletPrefab, _countBullets, new GameObject(ObjectPoolBulletName).transform)
+            _poolBullets = new ObjectPool<GunBullet>(_bulletPrefab, _countBullets,
+                new GameObject(ObjectPoolBulletName).transform)
             {
                 AutoExpand = IsAutoExpandPool
             };
@@ -48,11 +53,11 @@ namespace Project.Scripts.Weapon.Player
 
         private void FixedUpdate()
         {
-            closestAlienEnemy = _detector.NearestAlienEnemy;
+            _closestEnemy = _detector.GetClosestEnemy();
 
-            if (closestAlienEnemy == null) return;
-        
-            if (Vector3.Distance(closestAlienEnemy.transform.position, transform.position) <= GunCharacteristics.RangeAttack && _isShooting)
+            if (_closestEnemy == null) return;
+
+            if (_detector.ClosestEnemyDistance <= GunCharacteristics.RangeAttack && !_isReloading)
             {
                 Shoot();
             }
@@ -62,7 +67,7 @@ namespace Project.Scripts.Weapon.Player
     
         public override void Shoot()
         {
-            if (_lastShotTime <= MinValue && closestAlienEnemy.Health.TargetHealth > MinValue)
+            if (_lastShotTime <= MinValue && _closestEnemy.Health.TargetHealth > MinValue)
             {
                 _bullet = _poolBullets.GetFreeElement();
             
@@ -70,8 +75,8 @@ namespace Project.Scripts.Weapon.Player
 
                 _bullet.transform.position = _shootPoint.position;
 
-                _bullet.SetDirection(closestAlienEnemy.transform);
-                _bullet.SetCharacteristics(GunCharacteristics.Damage, GunCharacteristics.BulletSpeed);
+                _bullet.SetDirection(_closestEnemy.transform.position);
+                _bullet.SetCharacteristics(GunCharacteristics.Damage, GunCharacteristics.ProjectileSpeed);
 
                 _lastShotTime = GunCharacteristics.FireRate;
             }
@@ -86,9 +91,9 @@ namespace Project.Scripts.Weapon.Player
     
         private void CheckAmmoAndReload()
         {
-            if (_maxCountShots <= MinValue)
+            if (_maxCountShots <= MinValue && _isReloading)
             {
-                _isShooting = false;
+                _isReloading = false;
                 StartCoroutine(Reload());
             }
         }
@@ -98,7 +103,7 @@ namespace Project.Scripts.Weapon.Player
             yield return new WaitForSeconds(GunCharacteristics.ReloadTime);
 
             _maxCountShots = GunCharacteristics.MaxCountShots;
-            _isShooting = true;
+            _isReloading = true;
         }
     }
 }

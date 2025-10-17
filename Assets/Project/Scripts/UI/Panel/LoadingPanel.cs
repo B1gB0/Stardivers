@@ -4,14 +4,15 @@ using UnityEngine;
 
 public class LoadingPanel : MonoBehaviour, IView
 {
-    private const float ProgressFactor = 0.9f;
     private const int TextFormat = 100;
+    private const float StartProgress = 0f;
     
     [SerializeField] private TMP_Text _progressText;
 
     public void Show()
     {
         gameObject.SetActive(true);
+        _progressText.text = $"{StartProgress * TextFormat:0}%";
     }
 
     public void Hide()
@@ -21,7 +22,6 @@ public class LoadingPanel : MonoBehaviour, IView
 
     public void SetProgressText(float progress)
     {
-        progress /= ProgressFactor; 
         _progressText.text = $"{progress * TextFormat:0}%";
     }
 }

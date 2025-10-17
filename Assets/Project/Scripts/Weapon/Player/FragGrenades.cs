@@ -1,8 +1,8 @@
-﻿using Project.Game.Scripts;
+﻿using Project.Scripts.DataBase.Data;
 using Project.Scripts.ECS.EntityActors;
 using Project.Scripts.Projectiles.Grenades;
 using Project.Scripts.Services;
-using Project.Scripts.Weapon.Characteristics;
+using Project.Scripts.Weapon.CharacteristicsOfWeapon;
 using Project.Scripts.Weapon.Improvements;
 using UnityEngine;
 
@@ -23,16 +23,19 @@ namespace Project.Scripts.Weapon.Player
         private AudioSoundsService _audioSoundsService;
         
         private float _lastShotTime;
-        private EnemyAlienActor closestSmallAlienEnemy;
+        private EnemyActor _closestEnemy;
 
         private ObjectPool<FragGrenade> _poolGrenades;
 
         public FragGrenadeCharacteristics FragGrenadeCharacteristics { get; } = new ();
 
-        public void Construct(EnemyDetector detector, AudioSoundsService audioSoundsService)
+        public void Construct(EnemyDetector detector, AudioSoundsService audioSoundsService,
+            CharacteristicsWeaponData data)
         {
             _detector = detector;
             _audioSoundsService = audioSoundsService;
+            FragGrenadeCharacteristics.SetStartingCharacteristics(data);
+            Type = data.WeaponType;
         }
 
         private void Awake()
@@ -51,29 +54,28 @@ namespace Project.Scripts.Weapon.Player
 
         private void FixedUpdate()
         {
-            closestSmallAlienEnemy = _detector.NearestAlienEnemy;
-        
-            if (closestSmallAlienEnemy != null)
+            _closestEnemy = _detector.GetClosestEnemy();
+
+            if (_closestEnemy == null) return;
+            
+            if (_detector.ClosestEnemyDistance <= FragGrenadeCharacteristics.RangeAttack)
             {
-                if (Vector3.Distance(closestSmallAlienEnemy.transform.position, transform.position) <= FragGrenadeCharacteristics.RangeAttack)
-                {
-                    Shoot();
-                }
+                Shoot();
             }
         }
         
         public override void Shoot()
         {
-            if (_lastShotTime <= MinValue && closestSmallAlienEnemy.Health.TargetHealth > MinValue)
+            if (_lastShotTime <= MinValue && _closestEnemy.Health.TargetHealth > MinValue)
             {
                 _fragGrenade = _poolGrenades.GetFreeElement();
                 _fragGrenade.GetExplosionEffects(_explosionEffect, _audioSoundsService);
 
                 _fragGrenade.transform.position = _shootPoint.position;
 
-                _fragGrenade.SetDirection(closestSmallAlienEnemy.transform);
+                _fragGrenade.SetDirection(_closestEnemy.transform.position);
                 _fragGrenade.SetCharacteristics(FragGrenadeCharacteristics.Damage, FragGrenadeCharacteristics.ExplosionRadius,
-                    FragGrenadeCharacteristics.GrenadeSpeed);
+                    FragGrenadeCharacteristics.ProjectileSpeed);
 
                 _lastShotTime = FragGrenadeCharacteristics.FireRate;
             }

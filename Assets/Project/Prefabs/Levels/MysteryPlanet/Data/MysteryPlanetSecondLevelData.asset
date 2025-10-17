@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20413632e384ba04d8bbd66dc8136d3e, type: 3}
+  m_Name: MysteryPlanetSecondLevelData
+  m_EditorClassIdentifier: 
+  EnemyPatrolPositions:
+  - {x: -15.24, y: 0, z: -3.48}
+  - {x: 14.6, y: 0, z: 15.3}
+  - {x: 7.18, y: 0, z: 39.86}
+  - {x: -11.69, y: 0, z: 55.2}
+  - {x: -38.17, y: 0, z: -0.32}
+  FirstWaveSmallEnemyAlienSpawnPositions:
+  - {x: 36.859997, y: 0, z: 65.62001}
+  - {x: 41.659996, y: 0, z: 60.59001}
+  - {x: -54.37001, y: 0, z: 40.09}
+  - {x: 39.119995, y: 0, z: 64.94002}
+  - {x: -55.660015, y: 0, z: 48.38}
+  - {x: 41.700005, y: 0, z: 12.860004}
+  - {x: -58.54001, y: 0, z: 0.13999176}
+  FirstWaveBigEnemyAlienSpawnPositions:
+  - {x: -58.48001, y: 0, z: 13.659992}
+  - {x: -50.500015, y: 0, z: 50.299995}
+  FirstWaveGunnerEnemyAlienSpawnPositions:
+  - {x: 38.679996, y: 0, z: 71.58002}
+  - {x: -56.040012, y: 0, z: 42.649994}
+  - {x: -59.020008, y: 0, z: 6.6199913}
+  - {x: 43.060005, y: 0, z: 6.390003}
+  SecondWaveSmallEnemyAlienSpawnPositions: []
+  SecondWaveBigEnemyAlienSpawnPositions: []
+  SecondWaveGunnerEnemyAlienSpawnPositions: []
+  StoneSpawnPositions:
+  - {x: 12.419998, y: 0, z: 37.11001}
+  - {x: -6.750003, y: 0, z: 14.660001}
+  - {x: -18.40001, y: 0, z: 51.950005}
+  - {x: -23.080006, y: 0, z: 46.11}
+  - {x: -16.910004, y: 0, z: 6.8599987}
+  - {x: -4.7700014, y: 0, z: 11.290001}
+  - {x: -19.250006, y: 0, z: 44.92}
+  - {x: -3.2000024, y: 0, z: 18.290003}
+  - {x: -1.1900021, y: 0, z: 14.710001}
+  - {x: -21.73001, y: 0, z: 53.230003}
+  - {x: 1.8000002, y: 0, z: -0.3199997}
+  GoldCoreSpawnPositions:
+  - {x: -13.110005, y: 0, z: 37.340004}
+  - {x: 22.389997, y: 0, z: 36.79001}
+  - {x: 25.020004, y: 0, z: -3.4699974}
+  - {x: -39.47001, y: 0, z: 23.219997}
+  - {x: -44.210003, y: 0, z: -2.340004}
+  HealingCoreSpawnPositions:
+  - {x: -9.310001, y: 0, z: 3.539999}
+  - {x: -32.720005, y: 0, z: -6.050005}
+  - {x: -31.020008, y: 0, z: 40.96}
+  - {x: 9.499986, y: 0, z: 135.30002}
+  - {x: 9.58, y: 0, z: 5.0600014}
+  PlayerSpawnPosition: {x: -14.66, y: 0, z: -18.650003}

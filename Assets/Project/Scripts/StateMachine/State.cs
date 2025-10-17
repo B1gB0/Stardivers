@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Project.Scripts.StateMachine;
 using UnityEngine;
 
 namespace Source.CommonModules.StateMachineModule

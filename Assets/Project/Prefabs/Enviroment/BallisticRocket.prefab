@@ -306,23 +306,35 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 974933618854896124, guid: 235a1394891f54e32910b4ebe187d17d, type: 3}
       propertyPath: m_Name
-      value: Rocket.05 Variant
+      value: BallisticRocket
+      objectReference: {fileID: 0}
+    - target: {fileID: 7380867759504398027, guid: 235a1394891f54e32910b4ebe187d17d, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.44444445
+      objectReference: {fileID: 0}
+    - target: {fileID: 7380867759504398027, guid: 235a1394891f54e32910b4ebe187d17d, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.44444448
+      objectReference: {fileID: 0}
+    - target: {fileID: 7380867759504398027, guid: 235a1394891f54e32910b4ebe187d17d, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.44444445
       objectReference: {fileID: 0}
     - target: {fileID: 7380867759504398027, guid: 235a1394891f54e32910b4ebe187d17d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.31
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7380867759504398027, guid: 235a1394891f54e32910b4ebe187d17d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.75
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7380867759504398027, guid: 235a1394891f54e32910b4ebe187d17d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.04
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7380867759504398027, guid: 235a1394891f54e32910b4ebe187d17d, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7380867759504398027, guid: 235a1394891f54e32910b4ebe187d17d, type: 3}
       propertyPath: m_LocalRotation.x
@@ -330,7 +342,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7380867759504398027, guid: 235a1394891f54e32910b4ebe187d17d, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 1
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 7380867759504398027, guid: 235a1394891f54e32910b4ebe187d17d, type: 3}
       propertyPath: m_LocalRotation.z
@@ -357,10 +369,60 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7380867759504398027, guid: 235a1394891f54e32910b4ebe187d17d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1056270715701193771}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 974933618854896124, guid: 235a1394891f54e32910b4ebe187d17d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5204481533972036138}
   m_SourcePrefab: {fileID: 100100000, guid: 235a1394891f54e32910b4ebe187d17d, type: 3}
 --- !u!4 &2336260619925001410 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7380867759504398027, guid: 235a1394891f54e32910b4ebe187d17d, type: 3}
   m_PrefabInstance: {fileID: 5044608520414659081}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &5441936376261452789 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 974933618854896124, guid: 235a1394891f54e32910b4ebe187d17d, type: 3}
+  m_PrefabInstance: {fileID: 5044608520414659081}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5204481533972036138
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5441936376261452789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6bdba01533cb144bbdec15be31546c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _elapsedTime: 0
+  _launchDuration: 3
+  _speedRising: 0.85
+  _accelerationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _startPoint: {fileID: 0}
+  _endPoint: {fileID: 0}
+  _launchPad: {fileID: 0}

@@ -1,5 +1,5 @@
-﻿using Project.Scripts.Experience;
-using Project.Scripts.Levels.Mars.SecondLevel;
+﻿using Cysharp.Threading.Tasks;
+using Project.Scripts.Experience;
 using Project.Scripts.Services;
 using Project.Scripts.UI.Panel;
 using Reflex.Attributes;
@@ -9,79 +9,120 @@ namespace Project.Scripts.UI.View
 {
     public class ViewFactory : MonoBehaviour
     {
-        [SerializeField] private HealthBar _healthBarTemplate;
-        [SerializeField] private FloatingTextView textViewTemplate;
-        [SerializeField] private ProgressRadialBar _progressRadialBarPlaneTemplate;
-        [SerializeField] private LevelUpPanel _levelUpPanelTemplate;
-        [SerializeField] private EndGamePanel _endGamePanelTemplate;
-        [SerializeField] private Timer _timer;
-        [SerializeField] private AdviserMessagePanel _adviserMessagePanel;
-        [SerializeField] private GoldView _goldView;
-        [SerializeField] private BallisticRocketProgressBar _ballisticRocketBarTemplate;
-        
-        private AudioSoundsService _audioSoundsService;
+#if UNITY_EDITOR
+        private const string CheatPanelPath = "CheatPanel";
+#endif
+
+        private const string MissionProgressBarPath = "MissionProgressBar";
+        private const string HealthBarPath = "HealthBar";
+        private const string TextViewPath = "TextView";
+        private const string ProgressRadialBarPath = "ProgressRadialBar";
+        private const string LevelUpPanelPath = "LevelUpPanel";
+        private const string EndGamePanelPath = "EndGamePanel";
+        private const string TimerPath = "Timer";
+        private const string AdviserMessagePanelPath = "AdviserMessagePanel";
+        private const string GoldViewPath = "GoldView";
+
+        private IResourceService _resourceService;
 
         [Inject]
-        public void Construct(AudioSoundsService audioSoundsService)
+        public void Construct(IResourceService resourceService)
         {
-            _audioSoundsService = audioSoundsService;
+            _resourceService = resourceService;
         }
 
-        public HealthBar CreateHealthBar(Health.Health health)
+        public async UniTask<HealthBar> CreateHealthBar(Health.Health health)
         {
-            HealthBar healthBar = Instantiate(_healthBarTemplate);
+            var healthBarTemplate = await _resourceService.Load<GameObject>(HealthBarPath);
+            healthBarTemplate = Instantiate(healthBarTemplate);
+
+            HealthBar healthBar = healthBarTemplate.GetComponent<HealthBar>();
             healthBar.Construct(health);
             return healthBar;
         }
 
-        public ProgressRadialBar CreateProgressBar(ExperiencePoints experiencePoints, Transform target)
+        public async UniTask<ProgressRadialBar> CreateProgressBar(ExperiencePoints experiencePoints, Transform target)
         {
-            ProgressRadialBar progressRadialBar = Instantiate(_progressRadialBarPlaneTemplate);
-            progressRadialBar.Construct(experiencePoints, target);
+            var progressRadialBarPlaneTemplate = await _resourceService.Load<GameObject>(ProgressRadialBarPath);
+            progressRadialBarPlaneTemplate = Instantiate(progressRadialBarPlaneTemplate);
 
+            ProgressRadialBar progressRadialBar = progressRadialBarPlaneTemplate.GetComponent<ProgressRadialBar>();
+            progressRadialBar.Construct(experiencePoints, target);
             return progressRadialBar;
         }
 
-        public FloatingTextView CreateDamageTextView()
+        public async UniTask<FloatingTextView> CreateDamageTextView()
         {
-            FloatingTextView textView = Instantiate(textViewTemplate);
+            var textViewTemplate = await _resourceService.Load<GameObject>(TextViewPath);
+            textViewTemplate = Instantiate(textViewTemplate);
+
+            FloatingTextView textView = textViewTemplate.GetComponent<FloatingTextView>();
             return textView;
         }
 
-        public LevelUpPanel CreateLevelUpPanel()
+        public async UniTask<LevelUpPanel> CreateLevelUpPanel()
         {
-            LevelUpPanel levelUpPanel = Instantiate(_levelUpPanelTemplate);
+            var levelUpPanelTemplate = await _resourceService.Load<GameObject>(LevelUpPanelPath);
+            levelUpPanelTemplate = Instantiate(levelUpPanelTemplate);
+
+            LevelUpPanel levelUpPanel = levelUpPanelTemplate.GetComponent<LevelUpPanel>();
             return levelUpPanel;
         }
 
-        public EndGamePanel CreateEndGamePanel()
+        public async UniTask<EndGamePanel> CreateEndGamePanel()
         {
-            EndGamePanel endGamePanel = Instantiate(_endGamePanelTemplate);
+            var endGamePanelTemplate = await _resourceService.Load<GameObject>(EndGamePanelPath);
+            endGamePanelTemplate = Instantiate(endGamePanelTemplate);
+
+            EndGamePanel endGamePanel = endGamePanelTemplate.GetComponent<EndGamePanel>();
             return endGamePanel;
         }
 
-        public Timer CreateTimer()
+        public async UniTask<Timer> CreateTimer()
         {
-            Timer timer = Instantiate(_timer);
+            var timerTemplate = await _resourceService.Load<GameObject>(TimerPath);
+            timerTemplate = Instantiate(timerTemplate);
+
+            Timer timer = timerTemplate.GetComponent<Timer>();
             return timer;
         }
 
-        public AdviserMessagePanel CreateAdviserMessagePanel()
+        public async UniTask<DialoguePanel> CreateAdviserMessagePanel()
         {
-            AdviserMessagePanel adviserMessagePanel = Instantiate(_adviserMessagePanel);
-            return adviserMessagePanel;
+            var adviserMessagePanelTemplate = await _resourceService.Load<GameObject>(AdviserMessagePanelPath);
+            adviserMessagePanelTemplate = Instantiate(adviserMessagePanelTemplate);
+
+            DialoguePanel dialoguePanel = adviserMessagePanelTemplate.GetComponent<DialoguePanel>();
+            return dialoguePanel;
         }
 
-        public GoldView CreateGoldView()
+        public async UniTask<GoldView> CreateGoldView()
         {
-            GoldView goldView = Instantiate(_goldView);
+            var goldViewTemplate = await _resourceService.Load<GameObject>(GoldViewPath);
+            goldViewTemplate = Instantiate(goldViewTemplate);
+
+            GoldView goldView = goldViewTemplate.GetComponent<GoldView>();
             return goldView;
         }
-        
-        public BallisticRocketProgressBar CreateBallisticRocketProgressBar()
+
+        public async UniTask<MissionProgressBar> CreateMissionProgressBar()
         {
-            BallisticRocketProgressBar ballisticRocketProgressBar = Instantiate(_ballisticRocketBarTemplate);
-            return ballisticRocketProgressBar;
+            var missionBarTemplate = await _resourceService.Load<GameObject>(MissionProgressBarPath);
+            missionBarTemplate = Instantiate(missionBarTemplate);
+
+            MissionProgressBar missionProgressBar = missionBarTemplate.GetComponent<MissionProgressBar>();
+            return missionProgressBar;
         }
+
+#if UNITY_EDITOR
+        public async UniTask<CheatPanel> CreateCheatPanel()
+        {
+            var cheatPanelTemplate = await _resourceService.Load<GameObject>(CheatPanelPath);
+            cheatPanelTemplate = Instantiate(cheatPanelTemplate);
+
+            CheatPanel cheatPanel = cheatPanelTemplate.GetComponent<CheatPanel>();
+            return cheatPanel;
+        }
+#endif
     }
 }

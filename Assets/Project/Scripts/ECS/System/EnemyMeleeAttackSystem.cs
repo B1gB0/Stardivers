@@ -24,7 +24,7 @@ namespace Project.Scripts.ECS.System
                 ref var movableComponent = ref _attackFilter.Get4(entity);
                 ref var animatedComponent = ref _attackFilter.Get5(entity);
 
-                if (!movableComponent.IsMoving && followPlayerComponent.Target.Health.TargetHealth > MinValue && 
+                if (movableComponent.IsAttack && followPlayerComponent.Target.Health.TargetHealth > MinValue && 
                     enemyComponent.Health.TargetHealth > MinValue)
                 {
                     if (_lastHitTime <= MinValue)

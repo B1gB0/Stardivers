@@ -1,16 +1,23 @@
 ﻿using Project.Scripts.Experience;
+using Project.Scripts.Game.Constant;
 using UnityEngine;
+using YG;
 
 namespace Project.Scripts.UI.View
 {
     public class ProgressRadialBar : RadialBar
     {
+        private const string LevelRu = "УР ";
+        private const string LevelEn = "LVL ";
+        private const string LevelTr = "SEV ";
+        
         private readonly float _startValueLevel = 0f;
-        private readonly float _height = 0.02f;
+        private readonly float _height = 0.1f;
         private readonly int _stepLevel = 1;
         
         private ExperiencePoints _experiencePoints;
         private Transform _target;
+        private int _currentLevel;
 
         public void Construct(ExperiencePoints experiencePoints, Transform target)
         {
@@ -20,11 +27,14 @@ namespace Project.Scripts.UI.View
 
         private void OnEnable()
         {
+            _currentLevel += _stepLevel;
+            ChangeText();
+            
             _experiencePoints.ValueIsChanged += OnChangeValue;
             _experiencePoints.ProgressBarLevelIsUpgraded += UpgradeProgressBarLevel;
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             transform.position = new Vector3(_target.position.x, _height, _target.position.z);
         }
@@ -37,11 +47,23 @@ namespace Project.Scripts.UI.View
 
         private void UpgradeProgressBarLevel(int level, float targetValue, float maxValue)
         {
-            level += _stepLevel;
-            text.text = "LVL " + level;
+            _currentLevel += _stepLevel;
+
+            ChangeText();
             
             UpdateLevelValue(_startValueLevel, maxValue);
             OnChangeValue(_startValueLevel, targetValue, maxValue);
+        }
+
+        public void ChangeText()
+        {
+            text.text = YG2.lang switch
+            {
+                LocalizationCode.Ru => LevelRu + _currentLevel,
+                LocalizationCode.En => LevelEn + _currentLevel,
+                LocalizationCode.Tr => LevelTr + _currentLevel,
+                _ => text.text
+            };
         }
     }
 }

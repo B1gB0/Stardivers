@@ -1,5 +1,4 @@
-﻿using Project.Scripts.Game.GameRoot;
-using Project.Scripts.UI.View;
+﻿using Project.Scripts.UI.View;
 
 namespace Project.Scripts.UI.StateMachine.States
 {

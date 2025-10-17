@@ -6,10 +6,10 @@ namespace Project.Scripts.Weapon.Enemy
     public class GunnerEnemyAlienWeapon : EnemyWeapon
     {
         [SerializeField] private Transform _shootPoint;
-        [SerializeField] private float _damage;
 
         private Transform _target;
         private GunnerAlienEnemyProjectile _projectile;
+        private float _damage;
         
         private ObjectPool<GunnerAlienEnemyProjectile> _projectilePool;
         
@@ -20,13 +20,14 @@ namespace Project.Scripts.Weapon.Enemy
             _projectile.transform.position = _shootPoint.position;
             
             _projectile.SetDamage(_damage);           
-            _projectile.SetDirection(_target);
+            _projectile.SetDirection(_target.position);
         }
 
-        public void SetData(Transform target, ObjectPool<GunnerAlienEnemyProjectile> projectilePool)
+        public void SetData(Transform target, ObjectPool<GunnerAlienEnemyProjectile> projectilePool, float damage)
         {
             _target = target;
             _projectilePool = projectilePool;
+            _damage = damage;
         }
     }
 }

@@ -31,6 +31,68 @@ Transform:
   m_Children: []
   m_Father: {fileID: 824788631366712119}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &583851718583800664
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 824788631366712119}
+    m_Modifications:
+    - target: {fileID: 800730094855518991, guid: c93bc09e394c12a4bab5d561aaeec0a2, type: 3}
+      propertyPath: m_Name
+      value: EnemyDetector
+      objectReference: {fileID: 0}
+    - target: {fileID: 6126075125592506577, guid: c93bc09e394c12a4bab5d561aaeec0a2, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6126075125592506577, guid: c93bc09e394c12a4bab5d561aaeec0a2, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6126075125592506577, guid: c93bc09e394c12a4bab5d561aaeec0a2, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6126075125592506577, guid: c93bc09e394c12a4bab5d561aaeec0a2, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6126075125592506577, guid: c93bc09e394c12a4bab5d561aaeec0a2, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6126075125592506577, guid: c93bc09e394c12a4bab5d561aaeec0a2, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6126075125592506577, guid: c93bc09e394c12a4bab5d561aaeec0a2, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6126075125592506577, guid: c93bc09e394c12a4bab5d561aaeec0a2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6126075125592506577, guid: c93bc09e394c12a4bab5d561aaeec0a2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6126075125592506577, guid: c93bc09e394c12a4bab5d561aaeec0a2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c93bc09e394c12a4bab5d561aaeec0a2, type: 3}
+--- !u!4 &6709926758276928393 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6126075125592506577, guid: c93bc09e394c12a4bab5d561aaeec0a2, type: 3}
+  m_PrefabInstance: {fileID: 583851718583800664}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &824788631366574519
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -613,6 +675,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 400000, guid: a39d5c20a054b6b4b98fc4b3efc11358, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5470175713704170343}
+    - targetCorrespondingSourceObject: {fileID: 400000, guid: a39d5c20a054b6b4b98fc4b3efc11358, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6709926758276928393}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 100000, guid: a39d5c20a054b6b4b98fc4b3efc11358, type: 3}
       insertIndex: -1
@@ -700,7 +765,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbef326efc61174488772c5468beb681, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _colorText: {r: 1, g: 1, b: 1, a: 0}
+  _healingColor: {r: 1, g: 1, b: 1, a: 1}
+  _standardColor: {r: 1, g: 1, b: 1, a: 1}
   _value: 40
   _hitEffectPrefab: {fileID: 19889686, guid: de85f8f81ea29ea479250adb36debd92, type: 3}
   _hitPoint: {fileID: 5470175713704170343}
@@ -727,7 +793,7 @@ NavMeshAgent:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 824788631366608663}
   m_Enabled: 1
-  m_AgentTypeID: 0
+  m_AgentTypeID: -334000983
   m_Radius: 0.6
   m_Speed: 3
   m_Acceleration: 8

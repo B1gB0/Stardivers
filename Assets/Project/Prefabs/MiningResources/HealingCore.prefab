@@ -79,6 +79,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: fb9a9bef8f0969c49a9efe49c1f010e7, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: e74ba8446dfb56c478c015016ae5e316, type: 2}
     - target: {fileID: 919132149155446097, guid: fb9a9bef8f0969c49a9efe49c1f010e7, type: 3}
       propertyPath: m_Name
       value: HealingCore
@@ -134,7 +138,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Health>k__BackingField: {fileID: 3090329063166936177}
   <Animator>k__BackingField: {fileID: 6335976667743448501}
-  _healingCrystalPrefab: {fileID: 883261589923405469, guid: b955f0bb2d3f59447a0c1a6f69b5dd80, type: 3}
+  redCrystalPrefab: {fileID: 883261589923405469, guid: b955f0bb2d3f59447a0c1a6f69b5dd80, type: 3}
   _crystalSpawnPoint: {fileID: 4542856625410300882}
 --- !u!114 &3090329063166936177
 MonoBehaviour:
@@ -148,7 +152,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbef326efc61174488772c5468beb681, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _colorText: {r: 0, g: 0, b: 0, a: 0}
+  _healingColor: {r: 0, g: 0, b: 0, a: 0}
+  _standardColor: {r: 0, g: 0, b: 0, a: 0}
   _value: 12
   _hitEffectPrefab: {fileID: 198441514564820928, guid: d519ad6ef8ea3cd4f9acf13f6646a601, type: 3}
   _hitPoint: {fileID: 4736080336239985497}
@@ -171,7 +176,7 @@ MeshCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 5
-  m_Convex: 1
+  m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 7269848554763054708, guid: fb9a9bef8f0969c49a9efe49c1f010e7, type: 3}
 --- !u!95 &6335976667743448501
@@ -207,7 +212,7 @@ NavMeshObstacle:
   m_Shape: 1
   m_Extents: {x: 1.3280001, y: 0.97, z: 1.3000001}
   m_MoveThreshold: 0.1
-  m_Carve: 0
+  m_Carve: 1
   m_CarveOnlyStationary: 1
   m_Center: {x: -0.17500001, y: 0.77900004, z: -0.049000002}
   m_TimeToStationary: 0.5

@@ -1,4 +1,4 @@
-﻿namespace Project.Game.Scripts
+﻿namespace Project.Scripts.Audio.Sounds
 {
     public class CapsuleFlightSound : Sound { }
 }

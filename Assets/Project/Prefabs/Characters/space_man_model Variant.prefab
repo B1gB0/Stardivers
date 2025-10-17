@@ -213,9 +213,41 @@ PrefabInstance:
       value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 2891465084703597491, guid: e7965cb5f3b6b49439772edd4131b2b0, type: 3}
+      propertyPath: _healingColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2891465084703597491, guid: e7965cb5f3b6b49439772edd4131b2b0, type: 3}
+      propertyPath: _healingColor.b
+      value: 0.44897917
+      objectReference: {fileID: 0}
+    - target: {fileID: 2891465084703597491, guid: e7965cb5f3b6b49439772edd4131b2b0, type: 3}
+      propertyPath: _healingColor.g
+      value: 0.9716981
+      objectReference: {fileID: 0}
+    - target: {fileID: 2891465084703597491, guid: e7965cb5f3b6b49439772edd4131b2b0, type: 3}
+      propertyPath: _healingColor.r
+      value: 0.2970096
+      objectReference: {fileID: 0}
+    - target: {fileID: 2891465084703597491, guid: e7965cb5f3b6b49439772edd4131b2b0, type: 3}
       propertyPath: _hitEffectPrefab
       value: 
       objectReference: {fileID: 19845262, guid: fdac75e990da47649b31f10049c400b0, type: 3}
+    - target: {fileID: 2891465084703597491, guid: e7965cb5f3b6b49439772edd4131b2b0, type: 3}
+      propertyPath: _standardColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2891465084703597491, guid: e7965cb5f3b6b49439772edd4131b2b0, type: 3}
+      propertyPath: _standardColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2891465084703597491, guid: e7965cb5f3b6b49439772edd4131b2b0, type: 3}
+      propertyPath: _standardColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2891465084703597491, guid: e7965cb5f3b6b49439772edd4131b2b0, type: 3}
+      propertyPath: _standardColor.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2891465084703597491, guid: e7965cb5f3b6b49439772edd4131b2b0, type: 3}
       propertyPath: <Value>k__BackingField
       value: 100
@@ -229,9 +261,21 @@ PrefabInstance:
       value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4126598008328546204, guid: e7965cb5f3b6b49439772edd4131b2b0, type: 3}
-      propertyPath: <Detector>k__BackingField
+      propertyPath: <Weapons>k__BackingField.Array.data[0]
       value: 
-      objectReference: {fileID: 8263316342230977328}
+      objectReference: {fileID: 0}
+    - target: {fileID: 4126598008328546204, guid: e7965cb5f3b6b49439772edd4131b2b0, type: 3}
+      propertyPath: <Weapons>k__BackingField.Array.data[1]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4350523535585793027, guid: e7965cb5f3b6b49439772edd4131b2b0, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5550235183740354961, guid: e7965cb5f3b6b49439772edd4131b2b0, type: 3}
+      propertyPath: _delay
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5775893173614726368, guid: e7965cb5f3b6b49439772edd4131b2b0, type: 3}
       propertyPath: m_Layer
       value: 8
@@ -258,7 +302,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 39053538073849472, guid: e7965cb5f3b6b49439772edd4131b2b0, type: 3}
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 3866207817161869702, guid: e7965cb5f3b6b49439772edd4131b2b0, type: 3}
+    - {fileID: 9123968819672163052, guid: e7965cb5f3b6b49439772edd4131b2b0, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 1112338128624330, guid: e7965cb5f3b6b49439772edd4131b2b0, type: 3}
@@ -280,16 +326,5 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 840e50db757348a2bc78ab874c650273, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &8263316342230977328 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6226648882022852567, guid: e7965cb5f3b6b49439772edd4131b2b0, type: 3}
-  m_PrefabInstance: {fileID: 2649438493164809447}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90823b70209cca846a54011a1c6932b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

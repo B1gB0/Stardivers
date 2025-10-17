@@ -1,16 +1,22 @@
-﻿using System;
-using Project.Game.Scripts;
-using Project.Scripts.Weapon.Characteristics;
-using Project.Scripts.Weapon.Player;
-using UnityEngine;
+﻿using Project.Scripts.DataBase.Data;
+using Project.Scripts.Weapon.CharacteristicsOfWeapon;
 
-namespace Project.Scripts.Cards.ScriptableObjects
+namespace Project.Scripts.Cards
 {
-    [CreateAssetMenu(menuName = "Cards/Improvement Card")]
     public class ImprovementCard : Card
     {
-        [field: SerializeField] public WeaponType WeaponType { get; private set; }
-        [field: SerializeField] public CharacteristicType CharacteristicType { get; private set; }
-        [field: SerializeField] public float Value { get; private set; }
+        public ImprovementData ImprovementData { get; private set; }
+        public CharacteristicsLocalizationData CharacteristicsLocalizationData { get; private set; }
+        public CharacteristicType CharacteristicType { get; private set; }
+        public float Value { get; private set; }
+
+        public void SetData(ImprovementData improvementData, CharacteristicsLocalizationData characteristicsLocalizationData)
+        {
+            ImprovementData = improvementData;
+            CharacteristicsLocalizationData = characteristicsLocalizationData;
+            CharacteristicType = improvementData.CharacteristicType;
+            Value = improvementData.Value;
+            WeaponType = improvementData.WeaponType;
+        }
     }
 }

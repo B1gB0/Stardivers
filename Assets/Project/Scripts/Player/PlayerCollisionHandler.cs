@@ -19,6 +19,7 @@ namespace Project.Scripts.Player
         {
             if (trigger.TryGetComponent(out EntranceTrigger entranceTrigger))
             {
+                _player.ChangeFollowEnemyState(false);
                 entranceTrigger.Entrance.OpenGate();
             }
         }
@@ -33,7 +34,7 @@ namespace Project.Scripts.Player
 
         private void OnCollisionEnter(Collision collision)
         {
-            if (collision.gameObject.TryGetComponent(out HealingCrystal healingCrystal))
+            if (collision.gameObject.TryGetComponent(out RedCrystal healingCrystal))
             {
                 if(_player.Health.TargetHealth == _player.Health.MaxHealth) return;
             

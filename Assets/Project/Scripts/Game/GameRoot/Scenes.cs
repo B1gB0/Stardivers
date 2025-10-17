@@ -2,8 +2,16 @@ namespace Project.Scripts.Game.GameRoot
 {
     public static class Scenes
     {
-        public const string Boot = "Boot";
-        public const string MainMenu = "MainMenu";
-        public const string Gameplay = "Gameplay";
+        public const string Boot = nameof(Boot);
+        public const string MainMenu = nameof(MainMenu);
+        public const string Gameplay = nameof(Gameplay);
+        
+        public const string MarsFirstLevel = nameof(MarsFirstLevel);
+        public const string MarsSecondLevel = nameof(MarsSecondLevel);
+        public const string MarsThirdLevel = nameof(MarsThirdLevel);
+        
+        public const string MysteryPlanetFirstLevel = nameof(MysteryPlanetFirstLevel);
+        public const string MysteryPlanetSecondLevel = nameof(MysteryPlanetSecondLevel);
+        public const string MysteryPlanetThirdLevel = nameof(MysteryPlanetThirdLevel);
     }
 }

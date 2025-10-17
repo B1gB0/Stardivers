@@ -5,34 +5,34 @@ namespace Project.Scripts.Projectiles.Enemy
 {
     public class GunnerAlienEnemyProjectile : Projectile
     {
-        private const float BulletSpeed = 5f;
+        private const float DefaultBulletSpeed = 5f;
+        private const float DefaultDirectionY = 0f;
         
-        private Vector3 _direction;
-        private float _damage;
-    
-        private void OnTriggerEnter(Collider collision)
+        private void Start()
+        {
+            ProjectileSpeed = DefaultBulletSpeed;
+        }
+        
+        protected override void OnTriggerEnter(Collider collision)
         {
             if(collision.gameObject.TryGetComponent(out PlayerActor player))
             {
-                player.Health.TakeDamage(_damage);
+                player.Health.TakeDamage(Damage);
                 gameObject.SetActive(false);
             }
         }
-        
-        private void FixedUpdate()
-        {
-            transform.position += _direction * (BulletSpeed * Time.fixedDeltaTime);
-        }
 
-        public void SetDirection(Transform player)
+        public override void SetDirection(Vector3 targetPosition)
         {
-            _direction = (player.position - transform.position).normalized;
-            transform.LookAt(player);
+            Direction = (targetPosition - Transform.position).normalized;
+            Transform.LookAt(targetPosition);
+            Direction.y = DefaultDirectionY;
+            Direction = Direction.normalized;
         }
 
         public void SetDamage(float damage)
         {
-            _damage = damage;
+            Damage = damage;
         }
     }
 }

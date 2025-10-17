@@ -1,12 +1,14 @@
-using System;
-using Project.Game.Scripts;
-using Project.Scripts.Weapon;
-using Project.Scripts.Weapon.Player;
-using UnityEngine;
+using Project.Scripts.DataBase.Data;
 
-[CreateAssetMenu(menuName = "Cards/PlayerWeapon Card")]
 public class WeaponCard : Card
 {
-    [field: SerializeField] public string Characteristics { get; private set; }
-    [field: SerializeField] public WeaponType PlayerWeapon { get; private set; }
+    public CharacteristicsWeaponData CharacteristicsWeaponData { get; private set; }
+    public WeaponLocalizationData WeaponLocalizationData { get; private set; }
+
+    public void SetData(WeaponLocalizationData weaponLocalizationData, CharacteristicsWeaponData characteristicsWeaponData)
+    {
+        WeaponLocalizationData = weaponLocalizationData;
+        CharacteristicsWeaponData = characteristicsWeaponData;
+        WeaponType = weaponLocalizationData.Type;
+    }
 }

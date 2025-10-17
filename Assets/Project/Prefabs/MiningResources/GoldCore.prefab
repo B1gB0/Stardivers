@@ -79,6 +79,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 8aa2ce31e1dd42f4b9a3b570d999c4ff, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: e74ba8446dfb56c478c015016ae5e316, type: 2}
     - target: {fileID: 919132149155446097, guid: 8aa2ce31e1dd42f4b9a3b570d999c4ff, type: 3}
       propertyPath: m_Name
       value: GoldCore
@@ -148,7 +152,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbef326efc61174488772c5468beb681, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _colorText: {r: 0, g: 0, b: 0, a: 0}
+  _healingColor: {r: 0, g: 0, b: 0, a: 0}
+  _standardColor: {r: 0, g: 0, b: 0, a: 0}
   _value: 15
   _hitEffectPrefab: {fileID: 198441514564820928, guid: d519ad6ef8ea3cd4f9acf13f6646a601, type: 3}
   _hitPoint: {fileID: 3764755974486383640}
@@ -171,7 +176,7 @@ MeshCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 5
-  m_Convex: 1
+  m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -4483706931034796414, guid: 8aa2ce31e1dd42f4b9a3b570d999c4ff, type: 3}
 --- !u!95 &4933266403635259355
@@ -207,7 +212,7 @@ NavMeshObstacle:
   m_Shape: 1
   m_Extents: {x: 1.207, y: 1.0450001, z: 1.1960001}
   m_MoveThreshold: 0.1
-  m_Carve: 0
+  m_Carve: 1
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.039, y: 0.87900007, z: -0.143}
   m_TimeToStationary: 0.5

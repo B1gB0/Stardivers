@@ -5,28 +5,32 @@ namespace Project.Scripts.ECS.System
 {
     public class FollowSystem : IEcsRunSystem
     {
-        private readonly EcsFilter<FollowPlayerComponent, EnemyMovableComponent> _enemyFollowFilter;
+        private readonly EcsFilter<PatrolComponent, EnemyMovableComponent, FollowPlayerComponent> _enemyFollowFilter;
 
         public void Run()
         {
             foreach (var entity in _enemyFollowFilter)
             {
-                ref var followComponent = ref _enemyFollowFilter.Get1(entity);
+                ref var patrolComponent = ref _enemyFollowFilter.Get1(entity);
                 ref var movableComponent = ref _enemyFollowFilter.Get2(entity);
+                ref var followComponent = ref _enemyFollowFilter.Get3(entity);
 
-                if (followComponent.Target == null)
+                var navMeshAgent = movableComponent.NavMeshAgent;
+
+                if (!navMeshAgent.gameObject.activeSelf) continue;
+
+                if (followComponent.Target == null || !followComponent.Target.CanFollow)
                     continue;
 
-                var navMashAgent = followComponent.NavMeshAgent;
-                var direction = (followComponent.Target.transform.position - movableComponent.Transform.position).normalized;
+                navMeshAgent.destination = followComponent.Target.transform.position;
 
-                if (!navMashAgent.gameObject.activeSelf) continue;
-
-                navMashAgent.destination = followComponent.Target.transform.position;
-                var isMoving = navMashAgent.remainingDistance > navMashAgent.stoppingDistance;
+                var isMoving = navMeshAgent.remainingDistance > navMeshAgent.stoppingDistance;
                 movableComponent.IsMoving = isMoving;
 
-                movableComponent.Transform.forward = isMoving ? navMashAgent.transform.forward : direction;
+                var direction = (followComponent.Target.transform.position - movableComponent.Transform.position)
+                    .normalized;
+                
+                movableComponent.Transform.forward = isMoving ? navMeshAgent.transform.forward : direction;
             }
         }
     }

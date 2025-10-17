@@ -1,4 +1,5 @@
 ﻿using System;
+using Cysharp.Threading.Tasks;
 using Project.Scripts.Services;
 using Reflex.Attributes;
 using UnityEngine;
@@ -8,41 +9,56 @@ namespace Project.Scripts.Weapon.Player
 {
     public class WeaponFactory : MonoBehaviour
     {
-        [SerializeField] private EnemyDetector _enemyDetectorTemplate;
-        [SerializeField] private Gun _gunTemplate;
-        [SerializeField] private FourBarrelMachineGun fourBarrelMachineGunTemplate;
-        [SerializeField] private Mines _minesTemplate;
-        [SerializeField] private FragGrenades _fragGrenadesTemplate;
-        [SerializeField] private MachineGun machineGunTemplate;
+        private readonly string _enemyDetectorPath = "EnemyDetectorForPlayer";
+        private readonly string _gunPath = "Gun";
+        private readonly string _fourBarrelMachineGunPath = "FourBarrelMachineGun";
+        private readonly string _minesPath = "Mines";
+        private readonly string _fragGrenadesPath = "FragGrenades";
+        private readonly string _machineGunPath = "MachineGun";
+        private readonly string _chainLightningGunPath = "ChainLightningGun";
 
         private AudioSoundsService _audioSoundsService;
-        private EnemyDetector _enemyDetector;
+        private IResourceService _resourceService;
+        private ICharacteristicsWeaponDataService _characteristicsWeaponDataService;
+        
+        private EnemyDetectorForPlayer _enemyDetector;
         private WeaponHolder _weaponHolder;
         private Button _minesButton;
         private Transform _player;
 
+        private int _weaponsCounter;
+
+        public event Action<int, WeaponType> WeaponIsCreated;
         public event Action MinesIsCreated;
 
         [Inject]
-        private void Construct(AudioSoundsService audioSoundsService)
+        private void Construct(AudioSoundsService audioSoundsService, IResourceService resourceService,
+            ICharacteristicsWeaponDataService characteristicsWeaponDataService)
         {
             _audioSoundsService = audioSoundsService;
+            _resourceService = resourceService;
+            _characteristicsWeaponDataService = characteristicsWeaponDataService;
         }
 
-        public PlayerWeapon CreateWeapon(WeaponType weaponType)
+        public async UniTask<PlayerWeapon> CreateWeapon(WeaponType weaponType)
         {
+            WeaponIsCreated?.Invoke(_weaponsCounter, weaponType);
+            _weaponsCounter++;
+            
             switch (weaponType)
             {
                 case WeaponType.Gun :
-                    return CreateGun();
+                    return await CreateGun();
                 case WeaponType.MachineGun :
-                    return CreateMachineGun();
+                    return await CreateMachineGun();
                 case WeaponType.Mines :
-                    return CreateMines();
+                    return await CreateMines();
                 case WeaponType.FragGrenades : 
-                    return CreateFragGrenades();
+                    return await CreateFragGrenades();
                 case WeaponType.FourBarrelMachineGun :
-                    return CreateFourBarrelMachineGun();
+                    return await CreateFourBarrelMachineGun();
+                case WeaponType.ChainLightningGun :
+                    return await CreateChainLightningGun();
                 default:
                     return null;
             }
@@ -59,58 +75,96 @@ namespace Project.Scripts.Weapon.Player
             _minesButton = button;
         }
 
-        public void CreateEnemyDetector()
+        public async UniTask CreateEnemyDetectorForPlayer()
         {
-            _enemyDetector = Instantiate(_enemyDetectorTemplate, _player);
+            var enemyDetectorTemplate = await _resourceService.Load<GameObject>(_enemyDetectorPath);
+            enemyDetectorTemplate = Instantiate(enemyDetectorTemplate);
+            
+            _enemyDetector = enemyDetectorTemplate.GetComponent<EnemyDetectorForPlayer>();
+            _enemyDetector.Construct(_player);
         }
         
-        private PlayerWeapon CreateGun()
+        private async UniTask<PlayerWeapon> CreateGun()
         {
-            Gun gun = Instantiate(_gunTemplate, _player);
-            gun.Construct(_enemyDetector, _audioSoundsService);
+            var gunTemplate = await _resourceService.Load<GameObject>(_gunPath);
+            gunTemplate = Instantiate(gunTemplate, _player);
+            
+            Gun gun = gunTemplate.GetComponent<Gun>();
+            var weaponData = _characteristicsWeaponDataService.GetWeaponDataByType(WeaponType.Gun);
+            gun.Construct(_enemyDetector, _audioSoundsService, weaponData);
             _weaponHolder.AddWeapon(gun);
 
             return gun;
         }
         
-        private PlayerWeapon CreateFourBarrelMachineGun()
+        private async UniTask<PlayerWeapon> CreateFourBarrelMachineGun()
         {
-            FourBarrelMachineGun fourBarrelMachineGun = Instantiate(fourBarrelMachineGunTemplate, _player);
-            fourBarrelMachineGun.Construct(_audioSoundsService);
+            var fourBarrelMachineGunTemplate = await _resourceService.Load<GameObject>(_fourBarrelMachineGunPath);
+            fourBarrelMachineGunTemplate = Instantiate(fourBarrelMachineGunTemplate, _player);
+
+            FourBarrelMachineGun fourBarrelMachineGun = fourBarrelMachineGunTemplate.GetComponent<FourBarrelMachineGun>();
+            var weaponData = _characteristicsWeaponDataService.GetWeaponDataByType(WeaponType.FourBarrelMachineGun);
+            fourBarrelMachineGun.Construct(_audioSoundsService, _enemyDetector, weaponData);
             _weaponHolder.AddWeapon(fourBarrelMachineGun);
 
             return fourBarrelMachineGun;
         }
 
-        private PlayerWeapon CreateMines()
+        private async UniTask<PlayerWeapon> CreateMines()
         {
-            MinesIsCreated?.Invoke();
-            
             Vector3 position = new Vector3(_player.position.x, 0f, _player.position.z);
-            Mines mines = Instantiate(_minesTemplate, _player);
+            
+            var minesTemplate = await _resourceService.Load<GameObject>(_minesPath);
+            minesTemplate = Instantiate(minesTemplate, _player);
+
+            Mines mines = minesTemplate.GetComponent<Mines>();
+            var weaponData = _characteristicsWeaponDataService.GetWeaponDataByType(WeaponType.Mines);
             mines.transform.position = position;
-            mines.Construct(_minesButton, _audioSoundsService);
+            mines.Construct(_minesButton, _audioSoundsService, weaponData);
             _weaponHolder.AddWeapon(mines);
+            
+            MinesIsCreated?.Invoke();
 
             return mines;
         }
 
-        private PlayerWeapon CreateFragGrenades()
+        private async UniTask<PlayerWeapon> CreateFragGrenades()
         {
-            FragGrenades fragGrenades = Instantiate(_fragGrenadesTemplate, _player);
-            fragGrenades.Construct(_enemyDetector, _audioSoundsService);
+            var fragGrenadesTemplate = await _resourceService.Load<GameObject>(_fragGrenadesPath);
+            fragGrenadesTemplate = Instantiate(fragGrenadesTemplate, _player);
+
+            FragGrenades fragGrenades = fragGrenadesTemplate.GetComponent<FragGrenades>();
+            var weaponData = _characteristicsWeaponDataService.GetWeaponDataByType(WeaponType.FragGrenades);
+            fragGrenades.Construct(_enemyDetector, _audioSoundsService, weaponData);
             _weaponHolder.AddWeapon(fragGrenades);
 
             return fragGrenades;
         }
 
-        private PlayerWeapon CreateMachineGun()
+        private async UniTask<PlayerWeapon> CreateMachineGun()
         {
-            MachineGun machineGun = Instantiate(machineGunTemplate, _player);
-            machineGun.Construct(_enemyDetector, _audioSoundsService);
+            var machineGunTemplate = await _resourceService.Load<GameObject>(_machineGunPath);
+            machineGunTemplate = Instantiate(machineGunTemplate, _player);
+
+            MachineGun machineGun = machineGunTemplate.GetComponent<MachineGun>();
+            var weaponData = _characteristicsWeaponDataService.GetWeaponDataByType(WeaponType.MachineGun);
+            machineGun.Construct(_enemyDetector, _audioSoundsService, weaponData);
             _weaponHolder.AddWeapon(machineGun);
 
             return machineGun;
+        }
+
+        private async UniTask<PlayerWeapon> CreateChainLightningGun()
+        {
+            var chainLightningGunTemplate = await _resourceService.Load<GameObject>(_chainLightningGunPath);
+            chainLightningGunTemplate = Instantiate(chainLightningGunTemplate, _player);
+
+            ChainLightningGun chainLightningGun = chainLightningGunTemplate.GetComponent<ChainLightningGun>();
+            var weaponData = _characteristicsWeaponDataService.GetWeaponDataByType(WeaponType.ChainLightningGun);
+            chainLightningGun.Construct(_audioSoundsService, _enemyDetector, weaponData);
+            _weaponHolder.AddWeapon(chainLightningGun);
+
+            return chainLightningGun;
         }
     }
 }
