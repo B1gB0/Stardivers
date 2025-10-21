@@ -1,4 +1,5 @@
 using Project.Scripts.ECS.EntityActors;
+using Project.Scripts.Weapon.Enemy;
 
 namespace Project.Scripts.Experience
 {

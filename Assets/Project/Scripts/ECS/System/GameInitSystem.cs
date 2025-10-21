@@ -57,6 +57,7 @@ namespace Project.Scripts.ECS.System
         private readonly SmallAlienEnemyInitData _smallAlienEnemyInitData;
         private readonly BigAlienEnemyInitData _bigAlienEnemyData;
         private readonly GunnerAlienEnemyInitData _gunnerAlienEnemyData;
+        private readonly AlienTurretEnemyInitData _alienTurretEnemyData;
         private readonly StoneInitData _stoneInitData;
         private readonly CapsuleInitData _capsuleInitData;
         private readonly HealingCoreInitData _healingCoreInitData;
@@ -71,6 +72,7 @@ namespace Project.Scripts.ECS.System
         private ObjectPool<GunnerEnemy> _gunnerAlienEnemyPool;
         private ObjectPool<BigAlienEnemyProjectile> _bigAlienEnemyProjectilePool;
         private ObjectPool<GunnerAlienEnemyProjectile> _gunnerAlienEnemyProjectilePool;
+        private ObjectPool<AlienEnemyTurretProjectile> _alienEnemyTurretProjectilePool;
 
         public CapsuleActor Capsule { get; private set; }
         public PlayerActor Player { get; private set; }
@@ -279,6 +281,39 @@ namespace Project.Scripts.ECS.System
             gunnerEnemyAlienActor.Weapon.SetData(target.transform, _gunnerAlienEnemyProjectilePool, data.Damage);
 
             return gunnerEnemyAlienActor;
+        }
+
+        public EnemyTurret CreateEnemyTurret(PlayerActor target, Vector3 atPosition, Vector3 atRotation)
+        {
+            var data = _enemyService.GetEnemyDataByType(EnemyActorType.TurretAlien);
+            
+            var enemyTurret = Object.Instantiate(_alienTurretEnemyData.AlienTurretEnemyPrefab, atPosition,
+                Quaternion.Euler(atRotation));
+            enemyTurret.Construct(_experiencePoints, _textService, data);
+            
+            if (enemyTurret.Health.TargetHealth <= MinValue)
+            {
+                enemyTurret.Health.SetHealthValue(data.Health);
+            }
+            
+            var entity = _world.NewEntity();
+            
+            ref var enemyComponent = ref entity.Get<EnemyComponent>();
+            enemyComponent.Health = enemyTurret.Health;
+
+            ref var enemyAnimationsComponent = ref entity.Get<AnimatedComponent>();
+            AnimatedStateMachine animatedStateMachine = new(enemyTurret.Animator);
+            enemyAnimationsComponent.AnimatedStateMachine = animatedStateMachine;
+            enemyAnimationsComponent.Animator = enemyTurret.Animator;
+
+            ref var followComponent = ref entity.Get<FollowPlayerComponent>();
+            followComponent.Target = target;
+
+            ref var attackComponent = ref entity.Get<EnemyGunnerAlienAttackComponent>();
+
+            enemyTurret.Weapon.SetData(target.transform, _alienEnemyTurretProjectilePool, data.Damage);
+
+            return enemyTurret;
         }
 
         public void CreateStone(Vector3 atPosition)

@@ -1,6 +1,5 @@
 ﻿using Leopotam.Ecs;
 using Project.Scripts.ECS.Components;
-using Project.Scripts.EnemyAnimation.States;
 using UnityEngine;
 
 namespace Project.Scripts.ECS.System

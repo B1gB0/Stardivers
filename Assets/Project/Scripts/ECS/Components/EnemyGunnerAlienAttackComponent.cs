@@ -1,4 +1,7 @@
 ﻿namespace Project.Scripts.ECS.Components
 {
-    public struct EnemyGunnerAlienAttackComponent { }
+    public struct EnemyGunnerAlienAttackComponent
+    {
+        public float FireRate;
+    }
 }

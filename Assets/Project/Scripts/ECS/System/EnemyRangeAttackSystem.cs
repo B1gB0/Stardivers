@@ -15,6 +15,9 @@ namespace Project.Scripts.ECS.System
         
         private readonly EcsFilter<EnemyComponent, FollowPlayerComponent, EnemyMovableComponent, AnimatedComponent,
             EnemyBigAlienAttackComponent> _bigAlienEnemyAttackFilter;
+        
+        private readonly EcsFilter<EnemyComponent, FollowPlayerComponent, EnemyMovableComponent, AnimatedComponent,
+            EnemyAlienTurretAttackComponent> _alienEnemyTurretAttackFilter;
 
         private float _lastShotTime = 1f;
 
@@ -80,6 +83,17 @@ namespace Project.Scripts.ECS.System
                 {
                     animatedComponent.AnimatedStateMachine.EnterIn<MoveState>();
                 }
+            }
+
+            foreach (var entity in _alienEnemyTurretAttackFilter)
+            {
+                ref var enemyComponent = ref _bigAlienEnemyAttackFilter.Get1(entity);
+                ref var followPlayerComponent = ref _bigAlienEnemyAttackFilter.Get2(entity);
+                ref var movableComponent = ref _bigAlienEnemyAttackFilter.Get3(entity);
+                ref var animatedComponent = ref _bigAlienEnemyAttackFilter.Get4(entity);
+                ref var attackComponent = ref _bigAlienEnemyAttackFilter.Get5(entity);
+                
+                
             }
         }
     }
