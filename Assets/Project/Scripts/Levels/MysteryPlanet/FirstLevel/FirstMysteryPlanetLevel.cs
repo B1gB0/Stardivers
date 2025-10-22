@@ -1,9 +1,11 @@
-﻿using UnityEngine;
+﻿using Project.Scripts.Levels.Triggers;
+using UnityEngine;
 
 namespace Project.Scripts.Levels.MysteryPlanet.FirstLevel
 {
     public class FirstMysteryPlanetLevel : Level
     {
+        [SerializeField] private EnemySpawnTriggerWithEffect _enemySpawnTriggerWithEffect;
         [SerializeField] private int _timeOfWaves = 90;
 
         private void OnEnable()
@@ -27,18 +29,18 @@ namespace Project.Scripts.Levels.MysteryPlanet.FirstLevel
             PauseService.OnGameStarted += Timer.ResumeTimer;
             PauseService.OnGamePaused += Timer.PauseTimer;
             
-            EnemySpawnFirstWaveTrigger.EnemySpawned += Timer.Show;
-            EnemySpawnFirstWaveTrigger.EnemySpawned += DialogueSetter.OnEnemySpawnTrigger;
+            _enemySpawnTriggerWithEffect.EnemySpawned += Timer.Show;
+            _enemySpawnTriggerWithEffect.EnemySpawned += DialogueSetter.OnEnemySpawnTriggerWithEffect;
             
             Timer.IsEndAttack += DialogueSetter.OnEndAttack;
-            Timer.IsEndAttack += EnemySpawnFirstWaveTrigger.CompleteSpawn;
+            Timer.IsEndAttack += _enemySpawnTriggerWithEffect.CompleteSpawn;
             Timer.IsEndAttack += EntranceToNextLvlTrigger.Activate;
             Timer.IsEndAttack += EndLevelTrigger.Activate;
         }
 
         private void FixedUpdate()
         {
-            if (EnemySpawnFirstWaveTrigger.IsEnemySpawned)
+            if (_enemySpawnTriggerWithEffect.IsEnemySpawned)
             {
                 CreateWaveOfEnemy(FirstWaveEnemy);
             }
@@ -51,11 +53,11 @@ namespace Project.Scripts.Levels.MysteryPlanet.FirstLevel
             PauseService.OnGameStarted -= Timer.ResumeTimer;
             PauseService.OnGamePaused -= Timer.PauseTimer;
             
-            EnemySpawnFirstWaveTrigger.EnemySpawned -= Timer.Show;
-            EnemySpawnFirstWaveTrigger.EnemySpawned -= DialogueSetter.OnEnemySpawnTrigger;
+            _enemySpawnTriggerWithEffect.EnemySpawned -= Timer.Show;
+            _enemySpawnTriggerWithEffect.EnemySpawned -= DialogueSetter.OnEnemySpawnTriggerWithEffect;
             
             Timer.IsEndAttack -= DialogueSetter.OnEndAttack;
-            Timer.IsEndAttack -= EnemySpawnFirstWaveTrigger.CompleteSpawn;
+            Timer.IsEndAttack -= _enemySpawnTriggerWithEffect.CompleteSpawn;
             Timer.IsEndAttack -= EntranceToNextLvlTrigger.Activate;
             Timer.IsEndAttack -= EndLevelTrigger.Activate;
         }

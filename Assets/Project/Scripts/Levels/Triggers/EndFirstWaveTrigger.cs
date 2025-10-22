@@ -5,13 +5,13 @@ namespace Project.Scripts.Levels.Triggers
 {
     public class EndFirstWaveTrigger : Trigger
     {
-        [SerializeField] private EnemySpawnFirstWaveTrigger _enemySpawnFirstWaveTrigger;
+        [SerializeField] private EnemySpawnTriggerWithEffect enemySpawnTriggerWithEffect;
         
         private void OnTriggerEnter(Collider trigger)
         {
             if (trigger.TryGetComponent(out PlayerActor _))
             {
-                _enemySpawnFirstWaveTrigger.CompleteSpawn();
+                enemySpawnTriggerWithEffect.CompleteSpawn();
             }
         }
 

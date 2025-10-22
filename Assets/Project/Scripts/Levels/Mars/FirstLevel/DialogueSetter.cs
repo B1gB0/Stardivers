@@ -31,7 +31,7 @@ namespace Project.Scripts.Levels.Mars.FirstLevel
             SetText(LevelTextsType.EndAttackText);
         }
 
-        public void OnEnemySpawnTrigger()
+        public void OnEnemySpawnTriggerWithEffect()
         {
             SetText(LevelTextsType.EnemySpawnTriggerText);
         }

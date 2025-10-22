@@ -16,6 +16,9 @@ namespace Project.Scripts.ECS.Data
         public List<Vector3> SecondWaveBigEnemyAlienSpawnPositions;
         public List<Vector3> SecondWaveGunnerEnemyAlienSpawnPositions;
         
+        public List<Vector3> EnemyTurretsSpawnPoints;
+
+        public List<Vector3> AlienCocoonSpawnPoints;
         public List<Vector3> StoneSpawnPositions;
         public List<Vector3> GoldCoreSpawnPositions;
         public List<Vector3> HealingCoreSpawnPositions;

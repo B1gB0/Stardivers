@@ -21,52 +21,76 @@ namespace Project.Scripts.Levels.Spawners
         
         public void Spawn(int quantityGoldCore, int quantityHealingCore)
         {
-            List<Vector3> sortedSpawnPoints = new List<Vector3>();
+            SpawnStones();
+            SpawnGoldCores(quantityGoldCore);
+            SpawnHealingCores(quantityHealingCore);
+            SpawnAlienCocoons();
+        }
 
-            foreach (var stoneSpawnPoint in _levelInitData.StoneSpawnPositions)
+        private void SpawnAlienCocoons()
+        {
+            foreach (var alienCocoonSpawnPoint in _levelInitData.AlienCocoonSpawnPoints)
             {
-                var stoneSpawnPosition = stoneSpawnPoint + 
-                                         Vector3.one * Random.Range(-RandomPositionFactor, RandomPositionFactor);
-                stoneSpawnPosition.y = stoneSpawnPoint.y;
+                var alienCocoonSpawnPosition = alienCocoonSpawnPoint + Vector3.one;
+                alienCocoonSpawnPosition.y = alienCocoonSpawnPoint.y;
 
-                _gameInitSystem.CreateStone(stoneSpawnPosition);   
+                _gameInitSystem.CreateAlienCocoon(alienCocoonSpawnPosition);
             }
+        }
 
-            sortedSpawnPoints = GetSortedRandomSpawnPoints(_levelInitData.GoldCoreSpawnPositions, quantityGoldCore);
+        private void SpawnHealingCores(int quantityHealingCore)
+        {
+            var sortedSpawnPoints = 
+                GetSortedRandomSpawnPoints(_levelInitData.HealingCoreSpawnPositions, quantityHealingCore);
 
-            foreach (var goldCoreSpawnPoint in sortedSpawnPoints)
-            {
-                var goldCoreSpawnPosition = goldCoreSpawnPoint + 
-                                            Vector3.one * Random.Range(-RandomPositionFactor, RandomPositionFactor);
-                goldCoreSpawnPosition.y = goldCoreSpawnPoint.y;
-
-                _gameInitSystem.CreateGoldCore(goldCoreSpawnPosition);   
-            }
-            
-            sortedSpawnPoints = GetSortedRandomSpawnPoints(_levelInitData.HealingCoreSpawnPositions, quantityHealingCore);
-            
             foreach (var healingCoreSpawnPoint in sortedSpawnPoints)
             {
-                var healingCoreSpawnPosition = healingCoreSpawnPoint + 
+                var healingCoreSpawnPosition = healingCoreSpawnPoint +
                                                Vector3.one * Random.Range(-RandomPositionFactor, RandomPositionFactor);
                 healingCoreSpawnPosition.y = healingCoreSpawnPoint.y;
 
-                _gameInitSystem.CreateHealingCore(healingCoreSpawnPosition);   
+                _gameInitSystem.CreateHealingCore(healingCoreSpawnPosition);
+            }
+        }
+
+        private void SpawnGoldCores(int quantityGoldCore)
+        {
+            var sortedSpawnPoints = 
+                GetSortedRandomSpawnPoints(_levelInitData.GoldCoreSpawnPositions, quantityGoldCore);
+
+            foreach (var goldCoreSpawnPoint in sortedSpawnPoints)
+            {
+                var goldCoreSpawnPosition = goldCoreSpawnPoint +
+                                            Vector3.one * Random.Range(-RandomPositionFactor, RandomPositionFactor);
+                goldCoreSpawnPosition.y = goldCoreSpawnPoint.y;
+
+                _gameInitSystem.CreateGoldCore(goldCoreSpawnPosition);
+            }
+        }
+
+        private void SpawnStones()
+        {
+            foreach (var stoneSpawnPoint in _levelInitData.StoneSpawnPositions)
+            {
+                var stoneSpawnPosition = stoneSpawnPoint +
+                                         Vector3.one * Random.Range(-RandomPositionFactor, RandomPositionFactor);
+                stoneSpawnPosition.y = stoneSpawnPoint.y;
+
+                _gameInitSystem.CreateStone(stoneSpawnPosition);
             }
         }
 
         private List<Vector3> GetSortedRandomSpawnPoints(List<Vector3> spawnPointsData, int quantityPoints)
         {
-            List<Vector3> freeSpawnPoints = spawnPointsData;
-            List<Vector3> sortedSpawnPoints = new List<Vector3>();
+            var sortedSpawnPoints = new List<Vector3>();
 
-            int counterSpawnPoints = freeSpawnPoints.Count - 1;
+            int counterSpawnPoints = spawnPointsData.Count - 1;
 
             for (int i = 0; i < quantityPoints; i++)
             {
-                Vector3 randomPoint = freeSpawnPoints[Random.Range(MinValue, counterSpawnPoints)];
+                var randomPoint = spawnPointsData[Random.Range(MinValue, counterSpawnPoints)];
                 sortedSpawnPoints.Add(randomPoint);
-                freeSpawnPoints.Remove(randomPoint);
+                spawnPointsData.Remove(randomPoint);
                 counterSpawnPoints--;
             }
 

@@ -1,9 +1,13 @@
 ﻿using Project.Scripts.Experience;
+using UnityEngine;
+using UnityEngine.AI;
 
 namespace Project.Scripts.ECS.EntityActors
 {
-    public class SmallEnemy : EnemyActor, IAcceptable
+    public class SmallEnemy : EnemyActor, IAcceptable, IFreezable
     {
+        [field: SerializeField] public NavMeshAgent NavMeshAgent { get; private set; }
+        
         private void OnEnable()
         {
             Health.Die += OnDie;
@@ -17,6 +21,11 @@ namespace Project.Scripts.ECS.EntityActors
         public void AcceptScore(IScoreActorVisitor visitor)
         {
             visitor.Visit(this);
+        }
+        
+        public void SetSpeed(float speed)
+        {
+            NavMeshAgent.speed += speed;
         }
 
         protected override void OnDie()

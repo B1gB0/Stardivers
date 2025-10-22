@@ -1,11 +1,13 @@
-using System;
+﻿using System;
 using Project.Scripts.ECS.EntityActors;
 using UnityEngine;
 
 namespace Project.Scripts.Levels.Triggers
 {
-    public class EnemySpawnSecondWaveTrigger : Trigger
+    public class EnemySpawnTriggerWithEffect : Trigger
     {
+        [SerializeField] private ParticleSystem _zoneEffect;
+        
         public bool IsEnemySpawned { get; private set; }
 
         public event Action EnemySpawned;
@@ -15,6 +17,7 @@ namespace Project.Scripts.Levels.Triggers
             if (trigger.TryGetComponent(out PlayerActor _))
             {
                 IsEnemySpawned = true;
+                _zoneEffect.gameObject.SetActive(false);
                 EnemySpawned?.Invoke();
             }
         }

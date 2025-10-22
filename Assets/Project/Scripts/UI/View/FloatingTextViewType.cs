@@ -5,6 +5,7 @@ namespace Project.Scripts.UI.View
         Gold = 0,
         RedCrystal = 1,
         Damage = 2,
-        Healing = 3
+        Healing = 3,
+        AlienCocoon = 4
     }
 }

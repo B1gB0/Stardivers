@@ -15,9 +15,9 @@ namespace Project.Scripts.Levels
 {
     public abstract class Level : MonoBehaviour
     {
-        protected const float MinValue = 0f;
         private const string LeaderboardName = "BestPlayers";
 
+        protected const float MinValue = 0f;
         protected const int FirstWaveEnemy = 0;
         protected const int SecondWaveEnemy = 1;
 
@@ -30,8 +30,7 @@ namespace Project.Scripts.Levels
         [field: SerializeField] public EntranceTrigger EntranceToNextLvlTrigger { get; private set; }
         [field: SerializeField] public int QuantityGoldCore { get; private set; }
         [field: SerializeField] public int QuantityHealingCore { get; private set; }
-
-        [SerializeField] protected EnemySpawnFirstWaveTrigger EnemySpawnFirstWaveTrigger;
+        
         [SerializeField] protected WelcomePlanetTextTrigger WelcomePlanetTextTrigger;
         [SerializeField] protected float SpawnWaveOfEnemyDelay = 10f;
         [SerializeField] protected int CountSmallEnemy;
@@ -118,6 +117,12 @@ namespace Project.Scripts.Levels
         protected void CreateWaveOfGunnerEnemies(int numberWaveEnemy)
         {
             EnemySpawner.SpawnGunnerAlienEnemy(EnemyWaves[numberWaveEnemy].GunnerEnemySpawnPositions, CountGunnerEnemy);
+        }
+        
+        protected void CreateAllAlienEnemyTurrets()
+        {
+            EnemySpawner.SpawnAlienEnemyTurret(_levelInitData.EnemyTurretsSpawnPoints,
+                _levelInitData.PlayerSpawnPosition);
         }
 
         protected void SpawnResources()

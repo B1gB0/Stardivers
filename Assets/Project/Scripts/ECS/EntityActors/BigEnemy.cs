@@ -1,12 +1,14 @@
 ﻿using Project.Scripts.Experience;
 using Project.Scripts.Weapon.Enemy;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Project.Scripts.ECS.EntityActors
 {
-    public class BigEnemy : EnemyActor, IAcceptable
+    public class BigEnemy : EnemyActor, IAcceptable, IFreezable
     {
         [field: SerializeField] public BigEnemyAlienWeapon Weapon { get; private set; }
+        [field: SerializeField] public NavMeshAgent NavMeshAgent { get; private set; }
 
         private void OnEnable()
         {
@@ -21,6 +23,11 @@ namespace Project.Scripts.ECS.EntityActors
         public void AcceptScore(IScoreActorVisitor visitor)
         {
             visitor.Visit(this);
+        }
+        
+        public void SetSpeed(float speed)
+        {
+            NavMeshAgent.speed += speed;
         }
 
         protected override void OnDie()

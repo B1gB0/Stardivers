@@ -15,12 +15,19 @@ namespace Project.Scripts.ECS.Data
             
             GameObject[] firstWaveSmallEnemy = GameObject.FindGameObjectsWithTag("FirstWaveSmallEnemyAlienSpawnPoint");
             GameObject[] firstWaveBigEnemy = GameObject.FindGameObjectsWithTag("FirstWaveBigEnemyAlienSpawnPoint");
-            GameObject[] firstWaveGunnerEnemy = GameObject.FindGameObjectsWithTag("FirstWaveGunnerEnemyAlienSpawnPoint");
+            GameObject[] firstWaveGunnerEnemy = 
+                GameObject.FindGameObjectsWithTag("FirstWaveGunnerEnemyAlienSpawnPoint");
             
-            GameObject[] secondWaveSmallEnemy = GameObject.FindGameObjectsWithTag("SecondWaveSmallEnemyAlienSpawnPoint");
+            GameObject[] secondWaveSmallEnemy = 
+                GameObject.FindGameObjectsWithTag("SecondWaveSmallEnemyAlienSpawnPoint");
             GameObject[] secondWaveBigEnemy = GameObject.FindGameObjectsWithTag("SecondWaveBigEnemyAlienSpawnPoint");
-            GameObject[] secondWaveGunnerEnemy = GameObject.FindGameObjectsWithTag("SecondWaveGunnerEnemyAlienSpawnPoint");
+            GameObject[] secondWaveGunnerEnemy = 
+                GameObject.FindGameObjectsWithTag("SecondWaveGunnerEnemyAlienSpawnPoint");
             
+            GameObject[] enemyTurretSpawnPoints = 
+                GameObject.FindGameObjectsWithTag("EnemyTurretSpawnPoints");
+            
+            GameObject[] alienCocoonSpawnPoints = GameObject.FindGameObjectsWithTag("AlienCocoonSpawnPoints");
             GameObject[] stoneSpawnPoints = GameObject.FindGameObjectsWithTag("StoneSpawnPoint");
             GameObject[] healingCoreSpawnPoints = GameObject.FindGameObjectsWithTag("HealingCoreSpawnPoint");
             GameObject[] goldCoreSpawnPoints = GameObject.FindGameObjectsWithTag("GoldCoreSpawnPoint");
@@ -72,6 +79,16 @@ namespace Project.Scripts.ECS.Data
             foreach (var point in secondWaveGunnerEnemy)
             {
                 levelInitData.SecondWaveGunnerEnemyAlienSpawnPositions.Add(point.transform.position);
+            }
+            
+            foreach (var point in enemyTurretSpawnPoints)
+            {
+                levelInitData.EnemyTurretsSpawnPoints.Add(point.transform.position);
+            }
+            
+            foreach (var point in alienCocoonSpawnPoints)
+            {
+                levelInitData.AlienCocoonSpawnPoints.Add(point.transform.position);
             }
 
             foreach (var stone in stoneSpawnPoints)

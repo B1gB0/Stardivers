@@ -7,7 +7,6 @@ namespace Project.Scripts.ECS.System
 {
     public class EnemyRangeAttackSystem : IEcsRunSystem
     {
-        private const float FireRate = 2f;
         private const float MinValue = 0f;
 
         private readonly EcsFilter<EnemyComponent, FollowPlayerComponent, EnemyMovableComponent, AnimatedComponent,
@@ -38,9 +37,9 @@ namespace Project.Scripts.ECS.System
                     {
                         animatedComponent.IsAttacking = true;
 
-                        _lastShotTime = FireRate;
+                        _lastShotTime = attackComponent.FireRate;
                     }
-                    else if(_lastShotTime <= FireRate)
+                    else if(_lastShotTime <= attackComponent.FireRate)
                     {
                         animatedComponent.IsAttacking = false;
                         animatedComponent.AnimatedStateMachine.EnterIn<GetGunState>();
@@ -69,9 +68,9 @@ namespace Project.Scripts.ECS.System
                     {
                         animatedComponent.IsAttacking = true;
 
-                        _lastShotTime = FireRate;
+                        _lastShotTime = attackComponent.FireRate;
                     }
-                    else if(_lastShotTime <= FireRate)
+                    else if(_lastShotTime <= attackComponent.FireRate)
                     {
                         animatedComponent.IsAttacking = false;
                         animatedComponent.AnimatedStateMachine.EnterIn<IdleState>();

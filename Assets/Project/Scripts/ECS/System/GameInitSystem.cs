@@ -58,6 +58,7 @@ namespace Project.Scripts.ECS.System
         private readonly BigAlienEnemyInitData _bigAlienEnemyData;
         private readonly GunnerAlienEnemyInitData _gunnerAlienEnemyData;
         private readonly AlienTurretEnemyInitData _alienTurretEnemyData;
+        private readonly AlienCocoonInitData _alienCocoonData;
         private readonly StoneInitData _stoneInitData;
         private readonly CapsuleInitData _capsuleInitData;
         private readonly HealingCoreInitData _healingCoreInitData;
@@ -197,6 +198,7 @@ namespace Project.Scripts.ECS.System
 
             ref var attackComponent = ref entity.Get<EnemyMeleeAttackComponent>();
             attackComponent.Damage = data.Damage;
+            attackComponent.FireRate = data.FireRate;
 
             return smallEnemyAlienActor;
         }
@@ -236,6 +238,7 @@ namespace Project.Scripts.ECS.System
             patrolComponent.Points = _levelInitData.EnemyPatrolPositions;
 
             ref var attackComponent = ref entity.Get<EnemyBigAlienAttackComponent>();
+            attackComponent.FireRate = data.FireRate;
 
             bigEnemyAlienActor.Weapon.SetData(target.transform, _bigAlienEnemyProjectilePool, data.Damage);
 
@@ -277,6 +280,7 @@ namespace Project.Scripts.ECS.System
             patrolComponent.Points = _levelInitData.EnemyPatrolPositions;
 
             ref var attackComponent = ref entity.Get<EnemyGunnerAlienAttackComponent>();
+            attackComponent.FireRate = data.FireRate;
 
             gunnerEnemyAlienActor.Weapon.SetData(target.transform, _gunnerAlienEnemyProjectilePool, data.Damage);
 
@@ -300,6 +304,10 @@ namespace Project.Scripts.ECS.System
             
             ref var enemyComponent = ref entity.Get<EnemyComponent>();
             enemyComponent.Health = enemyTurret.Health;
+            
+            ref var enemyMovableComponent = ref entity.Get<EnemyMovableComponent>();
+            enemyMovableComponent.Transform = enemyTurret.transform;
+            enemyMovableComponent.MoveSpeed = data.Speed;
 
             ref var enemyAnimationsComponent = ref entity.Get<AnimatedComponent>();
             AnimatedStateMachine animatedStateMachine = new(enemyTurret.Animator);
@@ -310,6 +318,7 @@ namespace Project.Scripts.ECS.System
             followComponent.Target = target;
 
             ref var attackComponent = ref entity.Get<EnemyGunnerAlienAttackComponent>();
+            attackComponent.FireRate = data.FireRate;
 
             enemyTurret.Weapon.SetData(target.transform, _alienEnemyTurretProjectilePool, data.Damage);
 
@@ -320,11 +329,24 @@ namespace Project.Scripts.ECS.System
         {
             var data = _coreService.GetCoreDataByType(CoreType.Stone);
             
-            var stone = Object.Instantiate(_stoneInitData.StoneActorPrefab, atPosition, Quaternion.Euler(_stoneRotation));
+            var stone = Object.Instantiate(_stoneInitData.StoneActorPrefab, atPosition,
+                Quaternion.Euler(_stoneRotation));
             stone.Construct(_experiencePoints, data);
             stone.Health.SetHealthValue(data.Health);
 
             InitResource(stone);
+        }
+
+        public void CreateAlienCocoon(Vector3 atPosition)
+        {
+            var data = _coreService.GetCoreDataByType(CoreType.AlienCocoon);
+            
+            var alienCocoon = Object.Instantiate(_alienCocoonData.AlienCocoonPrefab, atPosition, 
+                Quaternion.identity);
+            alienCocoon.Construct(_experiencePoints, data);
+            alienCocoon.Health.SetHealthValue(data.Health);
+
+            InitResource(alienCocoon);
         }
 
         public void CreateHealingCore(Vector3 atPosition)

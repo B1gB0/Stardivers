@@ -17,6 +17,7 @@ namespace Project.Scripts.ECS.Data
         private readonly string _playerProgression = "PlayerProgression";
         private readonly string _healingCoreData = "HealingCoreData";
         private readonly string _goldCoreData = "GoldCoreData";
+        private readonly string _alienTurretEnemyData = "AlienTurretEnemyData";
     
         private IResourceService _resourceService;
     
@@ -50,6 +51,11 @@ namespace Project.Scripts.ECS.Data
         public async UniTask<GunnerAlienEnemyInitData> CreateGunnerAlienEnemyData()
         {
             return await _resourceService.Load<GunnerAlienEnemyInitData>(_gunnerEnemyAlienData);
+        }
+        
+        public async UniTask<AlienTurretEnemyInitData> CreateAlienTurretEnemyData()
+        {
+            return await _resourceService.Load<AlienTurretEnemyInitData>(_alienTurretEnemyData);
         }
     
         public async UniTask<StoneInitData> CreateStoneData()

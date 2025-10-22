@@ -103,6 +103,27 @@ namespace Project.Scripts.Levels.Spawners
             }
         }
 
+        public void SpawnAlienEnemyTurret(List<Vector3> spawnPointPositions, Vector3 playerSpawnPoint)
+        {
+            if(spawnPointPositions.Count == MinValue)
+                return;
+
+            foreach (var enemyPosition in spawnPointPositions)
+            {
+                var direction = (playerSpawnPoint - enemyPosition)
+                    .normalized;
+                
+                EnemyTurret enemyTurret = _gameInitSystem.CreateEnemyTurret(_gameInitSystem.Player, enemyPosition, 
+                    direction);
+
+                var enemySpawnPosition = enemyPosition + Vector3.one * Random.Range(-RandomPositionFactor,
+                    RandomPositionFactor);
+                enemySpawnPosition.y = enemyPosition.y;
+
+                enemyTurret.transform.position = enemySpawnPosition;
+            }
+        }
+
         private void OnKillSmallEnemy(EnemyActor enemyActor)
         {
             _counterSmallEnemies--;

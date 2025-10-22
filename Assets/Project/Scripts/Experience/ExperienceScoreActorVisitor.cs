@@ -49,6 +49,12 @@ namespace Project.Scripts.Experience
             YG2.saves.AcumulatedScore += goldCore.Data.Score;
         }
 
+        public void Visit(AlienCocoon alienCocoon)
+        {
+            AccumulatedExperience += alienCocoon.Data.Experience;
+            YG2.saves.AcumulatedScore += alienCocoon.Data.Score;
+        }
+
         public void UpdateAccumulatedExperience(int newValue)
         {
             AccumulatedExperience = newValue;

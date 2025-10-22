@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8807671427727964783}
   - component: {fileID: 1642868418016913489}
   - component: {fileID: 1698099395035355832}
+  - component: {fileID: 5450738649452690825}
   m_Layer: 0
   m_Name: Alien_HQ
   m_TagString: Untagged
@@ -26,13 +27,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2279593459045014380}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalRotation: {x: -0.075790964, y: 0.94198847, z: 0.000000036321577, w: 0.32697633}
+  m_LocalPosition: {x: 0.83539957, y: 0.06721497, z: 0.18385297}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3457148988575173447}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -2.841, y: 141.919, z: -8.219}
 --- !u!33 &1642868418016913489
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -83,6 +84,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &5450738649452690825
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2279593459045014380}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300006, guid: d6b934bc03eaa3f4385d45d723e180b5, type: 3}
 --- !u!1 &4561988019883766024
 GameObject:
   m_ObjectHideFlags: 0

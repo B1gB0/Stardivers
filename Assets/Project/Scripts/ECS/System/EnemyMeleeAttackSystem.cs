@@ -6,7 +6,6 @@ namespace Project.Scripts.ECS.System
 {
     public class EnemyMeleeAttackSystem : IEcsRunSystem
     {
-        private const float Delay = 2f;
         private const float MinValue = 0f;
 
         private readonly EcsFilter<EnemyComponent, FollowPlayerComponent, EnemyMeleeAttackComponent, EnemyMovableComponent,
@@ -32,9 +31,9 @@ namespace Project.Scripts.ECS.System
                         animatedComponent.IsAttacking = true;
                         followPlayerComponent.Target.Health.TakeDamage(attackComponent.Damage);
 
-                        _lastHitTime = Delay;
+                        _lastHitTime = attackComponent.FireRate;
                     }
-                    else if (_lastHitTime <= Delay)
+                    else if (_lastHitTime <= attackComponent.FireRate)
                     {
                         animatedComponent.IsAttacking = false;
                     }

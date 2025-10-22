@@ -53,7 +53,9 @@ namespace Project.Scripts.Projectiles.Mines
             foreach (EnemyActor enemy in GetEnemies())
             {
                 enemy.Health.TakeDamage(Damage);
-                enemy.SetSpeed(DefaultSlowingDownSpeed);
+                
+                if(enemy is IFreezable freezable)
+                    freezable.SetSpeed(DefaultSlowingDownSpeed);
             }
         
             gameObject.SetActive(false);

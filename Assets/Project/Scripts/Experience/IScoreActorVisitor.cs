@@ -12,5 +12,6 @@ namespace Project.Scripts.Experience
         public void Visit(StoneActor stone);
         public void Visit(HealingCore healingCore);
         public void Visit(GoldCore goldCore);
+        public void Visit(AlienCocoon alienCocoon);
     }
 }

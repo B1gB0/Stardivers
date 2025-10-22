@@ -24,6 +24,8 @@ namespace Project.Scripts.Game.Gameplay.Root.View
 
         [field: SerializeField] public Transform ShowGoldPoint { get; private set; }
         [field: SerializeField] public Transform HideGoldPoint { get; private set; }
+        [field: SerializeField] public Transform ShowAlienCocoonPoint { get; private set; }
+        [field: SerializeField] public Transform HideAlienCocoonPoint { get; private set; }
         [field: SerializeField] public Transform ShowHealthPoint { get; private set; }
         [field: SerializeField] public Transform HideHealthPoint { get; private set; }
         [field: SerializeField] public Transform ShowMissionProgressPoint { get; private set; }
