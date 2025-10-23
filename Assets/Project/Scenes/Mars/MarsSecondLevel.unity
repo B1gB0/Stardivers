@@ -1316,6 +1316,10 @@ PrefabInstance:
       propertyPath: EnemySpawnFirstWaveTrigger
       value: 
       objectReference: {fileID: 2107447504}
+    - target: {fileID: -5492763188261115737, guid: 11fe58ba8ddf59c4d85ccfa71ae3aa91, type: 3}
+      propertyPath: _enemySpawnTriggerWithEffect
+      value: 
+      objectReference: {fileID: 2107447504}
     - target: {fileID: 1330538964550387302, guid: 11fe58ba8ddf59c4d85ccfa71ae3aa91, type: 3}
       propertyPath: m_Size.z
       value: 2.9708474
@@ -1331,6 +1335,14 @@ PrefabInstance:
     - target: {fileID: 1509863089878611490, guid: 11fe58ba8ddf59c4d85ccfa71ae3aa91, type: 3}
       propertyPath: m_Center.z
       value: -0.40236273
+      objectReference: {fileID: 0}
+    - target: {fileID: 2676655330303363476, guid: 11fe58ba8ddf59c4d85ccfa71ae3aa91, type: 3}
+      propertyPath: _speedRising
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2676655330303363476, guid: 11fe58ba8ddf59c4d85ccfa71ae3aa91, type: 3}
+      propertyPath: _speedLaunching
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3473994869337256753, guid: 11fe58ba8ddf59c4d85ccfa71ae3aa91, type: 3}
       propertyPath: m_Name

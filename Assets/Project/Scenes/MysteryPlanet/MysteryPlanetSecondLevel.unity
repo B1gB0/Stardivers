@@ -1225,11 +1225,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 147300849548591287, guid: 9cf765dd2d440f345a1374c1789c0a87, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 53.23
+      value: 51.66
       objectReference: {fileID: 0}
     - target: {fileID: 147300849548591287, guid: 9cf765dd2d440f345a1374c1789c0a87, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 21.73
+      value: 21.62
       objectReference: {fileID: 0}
     - target: {fileID: 226499454424297903, guid: 9cf765dd2d440f345a1374c1789c0a87, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1321,11 +1321,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1726425482558868127, guid: 9cf765dd2d440f345a1374c1789c0a87, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 51.95
+      value: 49.64
       objectReference: {fileID: 0}
     - target: {fileID: 1726425482558868127, guid: 9cf765dd2d440f345a1374c1789c0a87, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 18.4
+      value: 17.41
       objectReference: {fileID: 0}
     - target: {fileID: 1902098275956445566, guid: 9cf765dd2d440f345a1374c1789c0a87, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1521,11 +1521,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7365520214972965248, guid: 9cf765dd2d440f345a1374c1789c0a87, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 44.92
+      value: 45.99
       objectReference: {fileID: 0}
     - target: {fileID: 7365520214972965248, guid: 9cf765dd2d440f345a1374c1789c0a87, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 19.25
+      value: 18.86
       objectReference: {fileID: 0}
     - target: {fileID: 7528377951724963215, guid: 9cf765dd2d440f345a1374c1789c0a87, type: 3}
       propertyPath: m_Size.x
@@ -1549,11 +1549,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8530866310264556436, guid: 9cf765dd2d440f345a1374c1789c0a87, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 46.11
+      value: 47.49
       objectReference: {fileID: 0}
     - target: {fileID: 8530866310264556436, guid: 9cf765dd2d440f345a1374c1789c0a87, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 23.08
+      value: 22.24
       objectReference: {fileID: 0}
     - target: {fileID: 8559145624604837324, guid: 9cf765dd2d440f345a1374c1789c0a87, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1619,6 +1619,10 @@ PrefabInstance:
       propertyPath: <_radioTower>k__BackingField
       value: 
       objectReference: {fileID: 6845193104714038749}
+    - target: {fileID: 8817686573278558037, guid: 9cf765dd2d440f345a1374c1789c0a87, type: 3}
+      propertyPath: _enemySpawnTriggerWithEffect
+      value: 
+      objectReference: {fileID: 662903974}
     - target: {fileID: 8817686573278558037, guid: 9cf765dd2d440f345a1374c1789c0a87, type: 3}
       propertyPath: <EndLevelTrigger>k__BackingField
       value: 
@@ -1758,7 +1762,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a383d39209104df1852409b1262614d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speedRising: 0.44
+  _speedRising: 0.2
   _endPoint: {fileID: 1382134183}
   _handleOfDish: {fileID: 665190937}
 --- !u!1660057539 &9223372036854775807

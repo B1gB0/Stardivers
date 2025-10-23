@@ -1102,6 +1102,7 @@ MonoBehaviour:
       _health: 40
       _speed: 3
       _damage: 3
+      _fireRate: 2
       _experience: 10
       _score: 10
     - _id: _gunnerAlien
@@ -1109,6 +1110,7 @@ MonoBehaviour:
       _health: 30
       _speed: 3.5
       _damage: 10
+      _fireRate: 1.5
       _experience: 15
       _score: 15
     - _id: _bigAlien
@@ -1116,15 +1118,17 @@ MonoBehaviour:
       _health: 70
       _speed: 1.5
       _damage: 15
+      _fireRate: 2
       _experience: 25
       _score: 25
     - _id: _turretAlien
       _type: 3
-      _health: 50
+      _health: 100
       _speed: 0
       _damage: 8
-      _experience: 10
-      _score: 10
+      _fireRate: 2
+      _experience: 20
+      _score: 20
     MarsSceneLevels:
     - _number: 0
       _sceneName: MarsFirstLevel
@@ -1334,6 +1338,35 @@ MonoBehaviour:
       _textTr: "Gezegendeki ileti\u015Fimi yeniden kurmam\u0131z gerek!  Yak\u0131nlarda
         bir radyo kulesi var.  Bu, b\xF6lgeyi taray\u0131p uzayl\u0131 tehdidinin
         nereden geldi\u011Fini \xF6\u011Frenmemizi sa\u011Flayacak."
+    - _id: enemy_spawn_trigger_mystery_planet_second_level
+      _type: 1
+      _sceneName: MysteryPlanetSecondLevel
+      _textRu: "\u041F\u0440\u0438\u0448\u0435\u043B\u044C\u0446\u044B \u043F\u044B\u0442\u0430\u044E\u0442\u0441\u044F
+        \u043F\u043E\u043C\u0435\u0448\u0430\u0442\u044C \u0442\u0435\u0431\u0435!
+        \u0417\u0430\u0449\u0438\u0449\u0430\u0439 \u0432\u044B\u0448\u043A\u0443,
+        \u0437\u0432\u0451\u0437\u0434\u043D\u044B\u0439 \u0434\u0435\u0441\u0430\u043D\u0442\u043D\u0438\u043A!"
+      _textEn: The aliens are trying to stop you! Defend the tower, stardiver!
+      _textTr: "Uzayl\u0131lar seni engellemeye \xE7al\u0131\u015F\u0131yor! Kulenin
+        savunucusu, y\u0131ld\u0131z denizcisi!"
+    - _id: welcome_mystery_planet_third_level
+      _type: 0
+      _sceneName: MysteryPlanetThirdLevel
+      _textRu: "\u041C\u044B \u0441\u043C\u043E\u0433\u043B\u0438 \u043E\u0431\u043D\u0430\u0440\u0443\u0436\u0438\u0442\u044C
+        \u043C\u0435\u0441\u0442\u043D\u043E\u0441\u0442\u044C \u043E\u0442\u043A\u0443\u0434\u0430
+        \u0438\u0434\u0443\u0442 \u043F\u0440\u0438\u0448\u0435\u043B\u044C\u0446\u044B!
+        \u0412 \u044D\u0442\u043E\u0439 \u043C\u0435\u0441\u0442\u043D\u043E\u0441\u0442\u0438
+        \u0437\u0430\u0444\u0438\u043A\u0441\u0438\u0440\u043E\u0432\u0430\u043D\u044B
+        \u043D\u043E\u0432\u044B\u0435 \u0431\u0438\u043E\u0441\u0438\u0433\u043D\u0430\u043B\u044B!
+        \u0421\u043A\u043E\u0440\u0435\u0435 \u0432\u0441\u0435\u0433\u043E \u044D\u0442\u043E
+        \u0438\u0445 \u0433\u043D\u0435\u0437\u0434\u043E. \u0421\u043E\u0431\u0435\u0440\u0438
+        \u043E\u0431\u0440\u0430\u0437\u0446\u044B \u0438 \u0432\u044B\u0431\u0438\u0440\u0430\u0439\u0441\u044F
+        \u0441 \u043F\u043B\u0430\u043D\u0435\u0442\u044B."
+      _textEn: We were able to discover the area where the aliens are coming from!
+        New biosignals have been detected in this area! This is most likely their
+        nest. Collect the samples and get off the planet.
+      _textTr: "Uzayl\u0131lar\u0131n geldi\u011Fi yeri tespit edebildik! Bu b\xF6lgede
+        yeni biyolojik sinyaller kaydedildi! B\xFCy\xFCk olas\u0131l\u0131kla bu
+        onlar\u0131n yuvas\u0131. \xD6rnekleri topla ve gezegenden \xE7\u0131k."
     Cores:
     - _id: _gold
       _type: 0
@@ -1350,6 +1383,12 @@ MonoBehaviour:
     - _id: _stone
       _type: 2
       _health: 9
+      _experience: 3
+      _score: 3
+      _crystalValue: 0
+    - _id: _alienCocoon
+      _type: 3
+      _health: 6
       _experience: 3
       _score: 3
       _crystalValue: 0

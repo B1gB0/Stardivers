@@ -407,6 +407,8 @@ MonoBehaviour:
   <WeaponPanel>k__BackingField: {fileID: 6353781227923216795}
   <ShowGoldPoint>k__BackingField: {fileID: 4231368823800550617}
   <HideGoldPoint>k__BackingField: {fileID: 8399421194476099814}
+  <ShowAlienCocoonPoint>k__BackingField: {fileID: 0}
+  <HideAlienCocoonPoint>k__BackingField: {fileID: 0}
   <ShowHealthPoint>k__BackingField: {fileID: 5436155692402522069}
   <HideHealthPoint>k__BackingField: {fileID: 3880216509228269730}
   <ShowMissionProgressPoint>k__BackingField: {fileID: 3648444281765139341}
@@ -747,7 +749,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -30}
+  m_AnchoredPosition: {x: 0, y: -75}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!1 &6408222963301456064

@@ -26,9 +26,7 @@ namespace Project.Scripts.Experience
             _levelUpPanel = levelUpPanel;
             
             _counterLevel = DefaultLevel;
-
             _currentMaxValueOfLevel = _playerProgression.Levels[_counterLevel];
-
             _currentValue = TargetExperienceValue;
         }
 
@@ -49,8 +47,9 @@ namespace Project.Scripts.Experience
             experience.AcceptScore(_experienceScoreActorVisitor);
 
             if (_counterLevel > _playerProgression.Levels.Count - CorrectFactorCounter) return;
-
-            if (TargetExperienceValue >= _currentMaxValueOfLevel)
+            
+            while (_counterLevel < _playerProgression.Levels.Count - CorrectFactorCounter && 
+                   TargetExperienceValue >= _currentMaxValueOfLevel)
             {
                 _counterLevel++;
                 _currentMaxValueOfLevel = _playerProgression.Levels[_counterLevel];
@@ -60,23 +59,23 @@ namespace Project.Scripts.Experience
 
                 ProgressBarLevelIsUpgraded?.Invoke(_counterLevel, TargetExperienceValue, _currentMaxValueOfLevel);
                 _currentValue = TargetExperienceValue;
-
-                if (TargetExperienceValue <= _currentMaxValueOfLevel)
+                
+                for (int i = _currentLevel; i < _counterLevel; i++)
                 {
-                    for (int i = _currentLevel; i < _counterLevel; i++)
-                    {
-                        _currentLevel++;
-                        _pendingLevelUps.Enqueue(_currentLevel);
-                    }
-
-                    if (!_isLevelUpProcessing)
-                        ProcessLevelUps().Forget();
+                    _currentLevel++;
+                    _pendingLevelUps.Enqueue(_currentLevel);
                 }
             }
-            else
+            
+            if (TargetExperienceValue < _currentMaxValueOfLevel)
             {
                 ValueIsChanged?.Invoke(_currentValue, TargetExperienceValue, _currentMaxValueOfLevel);
                 _currentValue = TargetExperienceValue;
+            }
+            
+            if (_pendingLevelUps.Count > 0 && !_isLevelUpProcessing)
+            {
+                ProcessLevelUps().Forget();
             }
         }
 
@@ -87,10 +86,10 @@ namespace Project.Scripts.Experience
             while (_pendingLevelUps.Count > 0)
             {
                 int newLevel = _pendingLevelUps.Dequeue();
-                CurrentLevelIsUpgraded?.Invoke(newLevel);
-
-                await WaitForLevelUpPanelClose();
                 
+                CurrentLevelIsUpgraded?.Invoke(newLevel);
+                
+                await WaitForLevelUpPanelClose();
                 await UniTask.Delay(TimeSpan.FromSeconds(DelayLevelUp));
             }
 

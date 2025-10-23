@@ -12,10 +12,72 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20413632e384ba04d8bbd66dc8136d3e, type: 3}
   m_Name: MysteryPlanetThirdLevelData
   m_EditorClassIdentifier: 
-  SmallEnemyAlienSpawnPoints: []
-  BigEnemyAlienSpawnPoints: []
-  GunnerEnemyAlienSpawnPoints: []
-  StoneSpawnPoints: []
-  GoldCoreSpawnPoints: []
-  HealingCoreSpawnPoints: []
-  PlayerSpawnPoint: {x: 0, y: 0, z: 0}
+  EnemyPatrolPositions:
+  - {x: -35.85, y: 0, z: 26.08}
+  - {x: -27.42, y: 0, z: 53.98}
+  - {x: 1.45, y: 0, z: 47.68}
+  - {x: 14.88, y: 0, z: 23.43}
+  - {x: -15.24, y: 0, z: -3.48}
+  FirstWaveSmallEnemyAlienSpawnPositions:
+  - {x: 44.35, y: 0, z: 40.500008}
+  - {x: 29.690006, y: 0, z: -18.26}
+  - {x: 49.720005, y: 0, z: 42.25001}
+  - {x: 43.280006, y: 0, z: -14.389999}
+  FirstWaveBigEnemyAlienSpawnPositions:
+  - {x: 34.890007, y: 0, z: -16.359997}
+  FirstWaveGunnerEnemyAlienSpawnPositions:
+  - {x: 45.71, y: 0, z: 34.030006}
+  - {x: 40.300003, y: 0, z: -3.3999977}
+  SecondWaveSmallEnemyAlienSpawnPositions:
+  - {x: -58.390007, y: 0, z: 4.909992}
+  - {x: -54.37001, y: 0, z: 40.09}
+  - {x: -58.02001, y: 0, z: 19.959995}
+  - {x: -55.76001, y: 0, z: 30.969997}
+  SecondWaveBigEnemyAlienSpawnPositions:
+  - {x: -55.80001, y: 0, z: 35.829998}
+  SecondWaveGunnerEnemyAlienSpawnPositions:
+  - {x: -58.870007, y: 0, z: 11.389996}
+  - {x: -56.040012, y: 0, z: 42.649994}
+  EnemyTurretsSpawnPoints:
+  - {x: -17.43001, y: 0, z: 67.69001}
+  - {x: -26.040012, y: 0, z: 52.23}
+  - {x: -41.82001, y: 0, z: 48.34}
+  - {x: 23.680002, y: 0, z: -2.039999}
+  - {x: 29.77, y: 0, z: 26.720007}
+  - {x: 12.53, y: 0, z: 13.910004}
+  AlienCocoonSpawnPoints:
+  - {x: -27.150011, y: 0, z: 64.75001}
+  - {x: -32.34001, y: 0, z: 69.68}
+  - {x: -40.450012, y: 0, z: 68.18}
+  - {x: -42.55001, y: 0, z: 60.75}
+  - {x: -34.650013, y: 0, z: 53.030003}
+  - {x: 30.020004, y: 0, z: 2.920004}
+  - {x: 23.400002, y: 0, z: 4.1200027}
+  - {x: 35.04, y: 0, z: 13.720005}
+  - {x: 25.460001, y: 0, z: 18.480005}
+  - {x: 18.48, y: 0, z: 13.040004}
+  StoneSpawnPositions:
+  - {x: 1.8000002, y: 0, z: -0.3199997}
+  - {x: -15.570009, y: 0, z: 54.310005}
+  - {x: 0.0899962, y: 0, z: 32.060005}
+  - {x: -27.870007, y: 0, z: 14.199999}
+  - {x: -8.050009, y: 0, z: 57.460007}
+  - {x: 10.309998, y: 0, z: 31.170006}
+  - {x: -30.740005, y: 0, z: 19.259996}
+  - {x: -9.790009, y: 0, z: 63.390007}
+  - {x: -11.780008, y: 0, z: 51.180008}
+  - {x: -35.410004, y: 0, z: 15.709999}
+  - {x: 6.849997, y: 0, z: 35.750004}
+  GoldCoreSpawnPositions:
+  - {x: -47.490005, y: 0, z: -16.690006}
+  - {x: -42.15001, y: 0, z: 22.239994}
+  - {x: 8.730002, y: 0, z: -15.750001}
+  - {x: 24.53, y: 0, z: 45.99001}
+  - {x: -13.110005, y: 0, z: 37.340004}
+  HealingCoreSpawnPositions:
+  - {x: 9.58, y: 0, z: 5.0600014}
+  - {x: -1.6700078, y: 0, z: 62.130005}
+  - {x: -20.910006, y: 0, z: 33.770004}
+  - {x: 15.749998, y: 0, z: 43.36001}
+  - {x: -29.410004, y: 0, z: 0.7799969}
+  PlayerSpawnPosition: {x: -14.66, y: 0, z: -18.650003}

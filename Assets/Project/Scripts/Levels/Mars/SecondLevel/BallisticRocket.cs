@@ -6,7 +6,7 @@ namespace Project.Scripts.Levels.Mars.SecondLevel
 {
     public class BallisticRocket : MonoBehaviour
     {
-        private const float MaxValue = 30f;
+        private const float MaxValue = 60f;
         private const float RecoveryRate = 1f;
         
         [SerializeField] private float _speedRising = 5f;

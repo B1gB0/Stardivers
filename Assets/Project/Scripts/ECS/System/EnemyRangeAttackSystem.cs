@@ -92,7 +92,27 @@ namespace Project.Scripts.ECS.System
                 ref var animatedComponent = ref _bigAlienEnemyAttackFilter.Get4(entity);
                 ref var attackComponent = ref _bigAlienEnemyAttackFilter.Get5(entity);
                 
-                
+                if (movableComponent.IsAttack && followPlayerComponent.Target.Health.TargetHealth > MinValue && 
+                    enemyComponent.Health.TargetHealth > MinValue)
+                {
+                    if (_lastShotTime <= MinValue)
+                    {
+                        animatedComponent.IsAttacking = true;
+
+                        _lastShotTime = attackComponent.FireRate;
+                    }
+                    else if(_lastShotTime <= attackComponent.FireRate)
+                    {
+                        animatedComponent.IsAttacking = false;
+                        animatedComponent.AnimatedStateMachine.EnterIn<IdleState>();
+                    }
+
+                    _lastShotTime -= Time.fixedDeltaTime;
+                }
+                else
+                {
+                    animatedComponent.AnimatedStateMachine.EnterIn<IdleState>();
+                }
             }
         }
     }

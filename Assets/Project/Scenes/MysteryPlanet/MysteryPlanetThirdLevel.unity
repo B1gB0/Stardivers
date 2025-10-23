@@ -1201,6 +1201,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4020824688928232579, guid: 3f97a65ecccbb004f904c543321b77ed, type: 3}
+      propertyPath: levelInitData
+      value: 
+      objectReference: {fileID: 11400000, guid: 9074208672788114da46d6b3e9748db9, type: 2}
     - target: {fileID: 4102529165967976764, guid: 3f97a65ecccbb004f904c543321b77ed, type: 3}
       propertyPath: _zoneEffect
       value: 
@@ -1518,7 +1522,7 @@ MonoBehaviour:
   CountBigEnemy: 4
   CountGunnerEnemy: 6
   _countEnemyWaves: 1
-  _enemySpawnTriggerWithoutEffect: {fileID: 0}
+  _enemySpawnTriggerWithoutEffect: {fileID: 8446492928542803927}
   _entranceLastLvlTrigger: {fileID: 5005662419584786121}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

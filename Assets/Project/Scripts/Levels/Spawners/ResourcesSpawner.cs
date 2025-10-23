@@ -29,6 +29,9 @@ namespace Project.Scripts.Levels.Spawners
 
         private void SpawnAlienCocoons()
         {
+            if(_levelInitData.AlienCocoonSpawnPoints.Count == MinValue)
+                return;
+            
             foreach (var alienCocoonSpawnPoint in _levelInitData.AlienCocoonSpawnPoints)
             {
                 var alienCocoonSpawnPosition = alienCocoonSpawnPoint + Vector3.one;

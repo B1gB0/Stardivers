@@ -50,10 +50,6 @@ namespace Project.Scripts.Levels
         private LevelInitData _levelInitData;
         private ILevelTextService _levelTextService;
 
-        public int SmallEnemyCountPoints { get; private set; }
-        public int BigEnemyCountPoints { get; private set; }
-        public int GunnerEnemyCountPoints { get; private set; }
-
         public event Action IsInitiatedSpawners;
 
         private void OnDestroy()
@@ -130,16 +126,6 @@ namespace Project.Scripts.Levels
             _resourcesSpawner.Spawn(QuantityGoldCore, QuantityHealingCore);
         }
 
-        private void SetCountSpawnPoints()
-        {
-            foreach (var wave in EnemyWaves)
-            {
-                SmallEnemyCountPoints += wave.SmallEnemySpawnPositions.Count;
-                BigEnemyCountPoints += wave.BigEnemySpawnPositions.Count;
-                GunnerEnemyCountPoints += wave.GunnerEnemySpawnPositions.Count;
-            }
-        }
-
         private void InitEnemyWaves()
         {
             for (int i = 0; i < _countEnemyWaves; i++)
@@ -185,7 +171,6 @@ namespace Project.Scripts.Levels
         private void InitSpawners(GameInitSystem gameInitSystem)
         {
             InitEnemyWaves();
-            SetCountSpawnPoints();
 
             _resourcesSpawner = new ResourcesSpawner(gameInitSystem, _levelInitData);
             EnemySpawner = new EnemySpawner(gameInitSystem);

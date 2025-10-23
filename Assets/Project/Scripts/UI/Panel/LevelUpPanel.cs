@@ -110,14 +110,14 @@ namespace Project.Scripts.UI.Panel
         public void Show()
         {
             gameObject.SetActive(true);
-            _tweenAnimationService.AnimateScale(transform);
             IsClosed = false;
+            _tweenAnimationService.AnimateScale(transform);
         }
 
         public void Hide()
         {
-            _tweenAnimationService.AnimateScale(transform, true);
             IsClosed = true;
+            _tweenAnimationService.AnimateScale(transform, true);
         }
 
         public void OnCurrentLevelIsUpgraded(int currentLevel)
@@ -270,6 +270,11 @@ namespace Project.Scripts.UI.Panel
             {
                 _tweenAnimationService.AnimateScale(cardView.transform);
             }
+        }
+
+        private void OnClosed(bool isClosed)
+        {
+            IsClosed = isClosed;
         }
     }
 }

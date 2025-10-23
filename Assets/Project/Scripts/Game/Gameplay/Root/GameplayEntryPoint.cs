@@ -45,6 +45,8 @@ namespace Project.Scripts.Game.Gameplay.Root
         private PlayerProgressionInitData _playerProgressionData;
         private HealingCoreInitData _healingCoreData;
         private GoldCoreInitData _goldCoreData;
+        private AlienCocoonInitData _alienCocoonData;
+        private AlienTurretEnemyInitData _alienTurretEnemyData;
 
         private EcsWorld _world;
         private EcsSystems _updateSystems;
@@ -300,6 +302,8 @@ namespace Project.Scripts.Game.Gameplay.Root
             _playerProgressionData = await _dataFactory.CreatePlayerProgression();
             _healingCoreData = await _dataFactory.CreateHealingCoreData();
             _goldCoreData = await _dataFactory.CreateGoldCoreData();
+            _alienCocoonData = await _dataFactory.CreateAlienCocoonData();
+            _alienTurretEnemyData = await _dataFactory.CreateAlienTurretEnemyData();
         }
 
         private void InitEcs()
@@ -332,6 +336,8 @@ namespace Project.Scripts.Game.Gameplay.Root
             _updateSystems.Inject(_levelData);
             _updateSystems.Inject(_levelTextService);
             _updateSystems.Inject(_coreService);
+            _updateSystems.Inject(_alienCocoonData);
+            _updateSystems.Inject(_alienTurretEnemyData);
 
             _updateSystems.Add(_gameInitSystem = new GameInitSystem());
             _updateSystems.Add(new PlayerInputSystem());

@@ -5134,7 +5134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92805332cbc7446f919f0f3032435c5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemySpawnSecondWaveTrigger: {fileID: 1906210699}
+  enemySpawnTriggerWithoutEffect: {fileID: 0}
 --- !u!1 &130600895
 GameObject:
   m_ObjectHideFlags: 0
@@ -16814,7 +16814,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e15820111d7c4d62a1aa6671651c3ee4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemySpawnFirstWaveTrigger: {fileID: 1906210698}
+  enemySpawnTriggerWithEffect: {fileID: 0}
 --- !u!1 &2042722257
 GameObject:
   m_ObjectHideFlags: 0
@@ -17678,6 +17678,14 @@ PrefabInstance:
       objectReference: {fileID: 1906210698}
     - target: {fileID: 8983939027841685446, guid: 8e4904903dc9c9144b2c54509fd92f5b, type: 3}
       propertyPath: _enemySpawnSecondWaveTrigger
+      value: 
+      objectReference: {fileID: 1906210699}
+    - target: {fileID: 8983939027841685446, guid: 8e4904903dc9c9144b2c54509fd92f5b, type: 3}
+      propertyPath: _enemySpawnTriggerWithEffect
+      value: 
+      objectReference: {fileID: 1906210698}
+    - target: {fileID: 8983939027841685446, guid: 8e4904903dc9c9144b2c54509fd92f5b, type: 3}
+      propertyPath: _enemySpawnTriggerWithoutEffect
       value: 
       objectReference: {fileID: 1906210699}
     - target: {fileID: 9020183134269004851, guid: 8e4904903dc9c9144b2c54509fd92f5b, type: 3}

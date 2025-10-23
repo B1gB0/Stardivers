@@ -6,10 +6,10 @@ namespace Project.Scripts.Levels.MysteryPlanet.SecondLevel
 {
     public class RadioTower : MonoBehaviour
     {
-        private const float MaxValue = 30f;
+        private const float MaxValue = 60f;
         private const float RecoveryRate = 1f;
         
-        [SerializeField] private float _speedRising = 5f;
+        [SerializeField] private float _speedRising = 2.5f;
 
         [SerializeField] private Transform _endPoint;
         [SerializeField] private Transform _handleOfDish;
