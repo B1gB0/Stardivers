@@ -24,10 +24,9 @@ namespace Project.Scripts.Levels.Spawners
             SpawnStones();
             SpawnGoldCores(quantityGoldCore);
             SpawnHealingCores(quantityHealingCore);
-            SpawnAlienCocoons();
         }
 
-        private void SpawnAlienCocoons()
+        public void SpawnAlienCocoons()
         {
             if(_levelInitData.AlienCocoonSpawnPoints.Count == MinValue)
                 return;

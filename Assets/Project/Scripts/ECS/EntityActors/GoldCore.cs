@@ -20,7 +20,7 @@ namespace Project.Scripts.ECS.EntityActors
         private Vector3 _jumpDirectionCrystal;
         
         private IFloatingTextService _floatingTextService;
-        private IGoldService _goldService;
+        private ICurrencyService _currencyService;
 
         private void OnEnable()
         {
@@ -34,10 +34,10 @@ namespace Project.Scripts.ECS.EntityActors
             Health.IsDamaged -= SpawnCrystal;
         }
         
-        public void GetServices(IFloatingTextService floatingTextService, IGoldService goldService)
+        public void GetServices(IFloatingTextService floatingTextService, ICurrencyService currencyService)
         {
             _floatingTextService = floatingTextService;
-            _goldService = goldService;
+            _currencyService = currencyService;
         }
 
         public void AcceptScore(IScoreActorVisitor visitor)
@@ -55,7 +55,7 @@ namespace Project.Scripts.ECS.EntityActors
             var crystal = Instantiate(_goldCrystalPrefab, _crystalSpawnPoint.position,
                 Quaternion.Euler(_rotationCrystal));
             crystal.GetTextService(_floatingTextService);
-            crystal.GetGoldService(_goldService, (int)Data.CrystalValue);
+            crystal.GetCurrencyService(_currencyService, (int)Data.CrystalValue);
             crystal.Rigidbody.AddForceAtPosition(_jumpDirectionCrystal * CrystalJumpForce,
                 crystal.transform.position, ForceMode.Impulse);
         }

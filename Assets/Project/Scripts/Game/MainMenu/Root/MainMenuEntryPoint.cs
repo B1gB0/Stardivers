@@ -17,7 +17,7 @@ namespace Project.Scripts.Game.MainMenu.Root
         private UIMainMenuRootBinder _uiScene;
         private OperationService _operationService;
         private IDataBaseService _dataBaseService;
-        private IGoldService _goldService;
+        private ICurrencyService _currencyService;
         private ITweenAnimationService _tweenAnimationService;
         private ILevelTextService _levelTextService;
         
@@ -25,11 +25,11 @@ namespace Project.Scripts.Game.MainMenu.Root
 
         [Inject]
         private void Construct(OperationService operationService, IDataBaseService dataBaseService, 
-            IGoldService goldService, ITweenAnimationService tweenAnimationService, ILevelTextService levelTextService)
+            ICurrencyService currencyService, ITweenAnimationService tweenAnimationService, ILevelTextService levelTextService)
         {
             _dataBaseService = dataBaseService;
             _operationService = operationService;
-            _goldService = goldService;
+            _currencyService = currencyService;
             _tweenAnimationService = tweenAnimationService;
             _levelTextService = levelTextService;
         }
@@ -41,7 +41,7 @@ namespace Project.Scripts.Game.MainMenu.Root
             
             await _dataBaseService.Init();
             await _operationService.Init();
-            await _goldService.Init();
+            await _currencyService.Init();
             await _tweenAnimationService.Init();
             await _levelTextService.Init();
         }

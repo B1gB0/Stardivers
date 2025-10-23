@@ -26,12 +26,12 @@ namespace Project.Scripts.UI.View
 
         private Operation _operation;
         private bool _isUnlock;
-        private IGoldService _goldService;
+        private ICurrencyService _currencyService;
 
         [Inject]
-        private void Construct(IGoldService goldService)
+        private void Construct(ICurrencyService currencyService)
         {
-            _goldService = goldService;
+            _currencyService = currencyService;
         }
 
         private void OnEnable()
@@ -127,10 +127,10 @@ namespace Project.Scripts.UI.View
 
         private void OnPurchaseButtonClicked()
         {
-            if(_goldService.Gold < _operation.Price)
+            if(_currencyService.Gold < _operation.Price)
                 return;
             
-            _goldService.SpendGold(_operation.Price);
+            _currencyService.SpendGold(_operation.Price);
             
             switch (_operation.Id)
             {

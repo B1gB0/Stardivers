@@ -63,7 +63,7 @@ namespace Project.Scripts.Game.Gameplay.Root
         private ICardService _cardService;
         private IEnemyService _enemyService;
         private IPlayerService _playerService;
-        private IGoldService _goldService;
+        private ICurrencyService _currencyService;
         private ILevelTextService _levelTextService;
         private ICoreService _coreService;
 
@@ -75,6 +75,7 @@ namespace Project.Scripts.Game.Gameplay.Root
         private Timer _timer;
         private DialoguePanel _dialoguePanel;
         private GoldView _goldView;
+        private AlienCocoonView _alienCocoonView;
         private MissionProgressBar _missionProgressBar;
 
 #if UNITY_EDITOR
@@ -87,7 +88,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             IDataBaseService dataBaseService,
             IResourceService resourceService, ICharacteristicsWeaponDataService characteristicsWeaponDataService,
             ICardService cardService, IEnemyService enemyService, IPlayerService playerService,
-            IGoldService goldService, ILevelTextService levelTextService, ICoreService coreService)
+            ICurrencyService currencyService, ILevelTextService levelTextService, ICoreService coreService)
         {
             _audioSoundsService = audioSoundsService;
             _pauseService = pauseService;
@@ -99,7 +100,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             _cardService = cardService;
             _enemyService = enemyService;
             _playerService = playerService;
-            _goldService = goldService;
+            _currencyService = currencyService;
             _levelTextService = levelTextService;
             _coreService = coreService;
         }
@@ -123,6 +124,8 @@ namespace Project.Scripts.Game.Gameplay.Root
             _operationService.SetCurrentNumberLevel(enterParameters.CurrentNumberLevel);
 
             await InitData();
+            
+            _currencyService.SetMaxAlienCocoons(_levelData.AlienCocoonSpawnPoints.Count);
 
             await _characteristicsWeaponDataService.Init();
             await _cardService.Init();
@@ -135,6 +138,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             _floatingTextService.Init(textView);
 
             _goldView = await _viewFactory.CreateGoldView();
+            _alienCocoonView = await _viewFactory.CreateAlienCocoonView();
             _dialoguePanel = await _viewFactory.CreateAdviserMessagePanel();
 
             _timer = await _viewFactory.CreateTimer();
@@ -167,6 +171,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             _dialoguePanel.transform.SetParent(_uiScene.transform);
             _timer.transform.SetParent(_uiScene.transform);
             _goldView.transform.SetParent(_uiScene.transform);
+            _alienCocoonView.transform.SetParent(_uiScene.transform);
             _weaponFactory.GetMinesButton(_uiScene.MinesButton);
 
 #if UNITY_EDITOR
@@ -186,12 +191,13 @@ namespace Project.Scripts.Game.Gameplay.Root
             _levelUpPanel.GetStartImprovements();
 
             _goldView.GetPoints(_uiScene.ShowGoldPoint, _uiScene.HideGoldPoint);
+            _alienCocoonView.GetPoints(_uiScene.ShowAlienCocoonPoint, _uiScene.HideAlienCocoonPoint);
             _healthBar.GetPoints(_uiScene.ShowHealthPoint, _uiScene.HideHealthPoint);
             _timer.GetPoints(_uiScene.ShowMissionProgressPoint, _uiScene.HideMissionProgressPoint);
             _missionProgressBar.GetPoints(_uiScene.ShowMissionProgressPoint, _uiScene.HideMissionProgressPoint);
             
             _goldView.Show();
-            
+
             _gameInitSystem.PlayerHealth.Die += _endGamePanel.Show;
             _gameInitSystem.PlayerHealth.Die += _endGamePanel.SetDefeatPanel;
             _gameInitSystem.PlayerHealth.Die += _progressBar.Hide;
@@ -202,6 +208,7 @@ namespace Project.Scripts.Game.Gameplay.Root
 
             _level.EndLevelTrigger.IsLevelCompleted += _endGamePanel.Show;
             _level.EndLevelTrigger.IsLevelCompleted += _endGamePanel.SetVictoryPanel;
+            _level.OnAlienCocoonViewShow += _alienCocoonView.Show;
 
             _gameInitSystem.PlayerIsSpawned += _uiScene.WeaponPanel.Show;
             _gameInitSystem.PlayerIsSpawned += _progressBar.Show;
@@ -250,6 +257,7 @@ namespace Project.Scripts.Game.Gameplay.Root
 
             _level.EndLevelTrigger.IsLevelCompleted -= _endGamePanel.Show;
             _level.EndLevelTrigger.IsLevelCompleted -= _endGamePanel.SetVictoryPanel;
+            _level.OnAlienCocoonViewShow -= _alienCocoonView.Show;
 
             _endGamePanel.GoToMainMenuButton.onClick.RemoveListener(GetMainMenuExitParameters);
             _endGamePanel.GoToMainMenuButton.onClick.RemoveListener(_uiScene.HandleGoToNextSceneButtonClick);
@@ -315,7 +323,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             _updateSystems.Inject(_dialoguePanel);
             _updateSystems.Inject(_experiencePoints);
             _updateSystems.Inject(_floatingTextService);
-            _updateSystems.Inject(_goldService);
+            _updateSystems.Inject(_currencyService);
             _updateSystems.Inject(_audioSoundsService);
             _updateSystems.Inject(_timer);
             _updateSystems.Inject(_missionProgressBar);

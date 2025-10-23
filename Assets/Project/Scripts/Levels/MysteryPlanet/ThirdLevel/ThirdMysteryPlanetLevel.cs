@@ -11,11 +11,13 @@ namespace Project.Scripts.Levels.MysteryPlanet.ThirdLevel
         private void OnEnable()
         {
             IsInitiatedSpawners += SpawnResources;
+            IsInitiatedSpawners += SpawnAlienCocoons;
         }
 
         private void OnDisable()
         {
             IsInitiatedSpawners -= SpawnResources;
+            IsInitiatedSpawners -= SpawnAlienCocoons;
         }
 
         public override void OnStartLevel()

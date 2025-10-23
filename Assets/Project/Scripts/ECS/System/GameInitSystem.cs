@@ -42,7 +42,7 @@ namespace Project.Scripts.ECS.System
         private readonly IResourceService _resourceService;
         private readonly IEnemyService _enemyService;
         private readonly IPlayerService _playerService;
-        private readonly IGoldService _goldService;
+        private readonly ICurrencyService _currencyService;
         private readonly ILevelTextService _levelTextService;
         private readonly AudioSoundsService _audioSoundsService;
         private readonly ICoreService _coreService;
@@ -345,6 +345,7 @@ namespace Project.Scripts.ECS.System
             var alienCocoon = Object.Instantiate(_alienCocoonData.AlienCocoonPrefab, atPosition, 
                 Quaternion.identity);
             alienCocoon.Construct(_experiencePoints, data);
+            alienCocoon.GetServices(_currencyService, _textService);
             alienCocoon.Health.SetHealthValue(data.Health);
 
             InitResource(alienCocoon);
@@ -368,7 +369,7 @@ namespace Project.Scripts.ECS.System
             
             var goldCore = Object.Instantiate(_goldCoreInitData.GoldCorePrefab, atPosition, Quaternion.identity);
             goldCore.Construct(_experiencePoints, data);
-            goldCore.GetServices(_textService, _goldService);
+            goldCore.GetServices(_textService, _currencyService);
             goldCore.Health.SetHealthValue(data.Health);
             
             InitResource(goldCore);

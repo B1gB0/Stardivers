@@ -9,20 +9,20 @@ namespace Project.Scripts.Crystals
     {
         [field: SerializeField] public Color Color { get; private set; }
         
-        private IGoldService _goldService;
+        private ICurrencyService _currencyService;
         
         public int GoldValue { get; private set; }
 
         public void Destroy()
         {
-            _goldService.AddGold(GoldValue);
+            _currencyService.AddGold(GoldValue);
             TextService.OnChangedFloatingText("+" + GoldValue, transform, FloatingTextViewType.Gold, Color);
             Destroy(gameObject);
         }
 
-        public void GetGoldService(IGoldService goldService, int goldValue)
+        public void GetCurrencyService(ICurrencyService currencyService, int goldValue)
         {
-            _goldService = goldService;
+            _currencyService = currencyService;
             GoldValue = goldValue;
         }
     }

@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Project.Scripts.UI.View
 {
-    public class GoldView : MonoBehaviour, IView
+    public class AlienCocoonView : MonoBehaviour, IView
     {
         [SerializeField] private TMP_Text _text;
         [SerializeField] private Transform _showPoint;
@@ -21,13 +21,13 @@ namespace Project.Scripts.UI.View
             _currencyService = currencyService;
             _tweenAnimationService = tweenAnimationService;
             
-            _text.text = _currencyService.Gold.ToString();
-            _currencyService.OnGoldValueChanged += SetValue;
+            _text.text = _currencyService.AlienCocoons + "/" + _currencyService.MaxAlienCocoons;
+            _currencyService.OnAlienCocoonValueChanged += SetValue;
         }
 
         private void OnDestroy()
         {
-            _currencyService.OnGoldValueChanged -= SetValue;
+            _currencyService.OnAlienCocoonValueChanged -= SetValue;
             transform.DOKill();
         }
 
@@ -50,7 +50,7 @@ namespace Project.Scripts.UI.View
         
         private void SetValue(int value)
         {
-            _text.text = _currencyService.Gold.ToString();
+            _text.text = _currencyService.AlienCocoons + "/" + _currencyService.MaxAlienCocoons;
         }
     }
 }

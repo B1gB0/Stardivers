@@ -42,7 +42,7 @@ namespace Project.Scripts.UI.Panel
         private IPauseService _pauseService;
         private ICardService _cardService;
         private IPlayerService _playerService;
-        private IGoldService _goldService;
+        private ICurrencyService _currencyService;
         private ITweenAnimationService _tweenAnimationService;
 
         private WeaponFactory _weaponFactory;
@@ -57,14 +57,14 @@ namespace Project.Scripts.UI.Panel
 
         [Inject]
         private void Construct(AudioSoundsService audioSoundsService, IPauseService pauseService,
-            ICardService cardService, IPlayerService playerService, IGoldService goldService, 
+            ICardService cardService, IPlayerService playerService, ICurrencyService currencyService, 
             ITweenAnimationService tweenAnimationService)
         {
             _audioSoundsService = audioSoundsService;
             _pauseService = pauseService;
             _cardService = cardService;
             _playerService = playerService;
-            _goldService = goldService;
+            _currencyService = currencyService;
             _tweenAnimationService = tweenAnimationService;
         }
 
@@ -309,10 +309,10 @@ namespace Project.Scripts.UI.Panel
 
         private void OnRollButtonClicked()
         {
-            if (_goldService.Gold < _priceOfRoll)
+            if (_currencyService.Gold < _priceOfRoll)
                 return;
             
-            _goldService.SpendGold(_priceOfRoll);
+            _currencyService.SpendGold(_priceOfRoll);
             
             AnimateCardsView();
             GenerateCards(_currentLevel);

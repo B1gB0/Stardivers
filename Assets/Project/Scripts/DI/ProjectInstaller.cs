@@ -41,7 +41,7 @@ namespace Project.Scripts.DI
             builder.AddSingleton(typeof(CardService), typeof(ICardService));
             builder.AddSingleton(typeof(EnemyService), typeof(IEnemyService));
             builder.AddSingleton(typeof(PlayerService), typeof(IPlayerService));
-            builder.AddSingleton(typeof(GoldService), typeof(IGoldService));
+            builder.AddSingleton(typeof(CurrencyService), typeof(ICurrencyService));
             builder.AddSingleton(typeof(TweenAnimationService), typeof(ITweenAnimationService));
             builder.AddSingleton(typeof(LevelTextService), typeof(ILevelTextService));
             builder.AddSingleton(typeof(CoreService), typeof(ICoreService));

@@ -16,13 +16,13 @@ namespace Project.Scripts.UI.Panel
         [SerializeField] private Button _addHealth;
         [SerializeField] private Button _exitButton;
         
-        private IGoldService _goldService;
+        private ICurrencyService _currencyService;
         private IPlayerService _playerService;
         
         [Inject]
-        private void Construct(IGoldService goldService, IPlayerService playerService)
+        private void Construct(ICurrencyService currencyService, IPlayerService playerService)
         {
-            _goldService = goldService;
+            _currencyService = currencyService;
             _playerService = playerService;
         }
 
@@ -52,7 +52,7 @@ namespace Project.Scripts.UI.Panel
 
         private void OnAddGoldButtonClicked()
         {
-            _goldService.AddGold(_goldValue);
+            _currencyService.AddGold(_goldValue);
         }
         
         private void OnAddHealthButtonClicked()

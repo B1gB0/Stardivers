@@ -22,6 +22,7 @@ namespace Project.Scripts.UI.View
         private const string TimerPath = "Timer";
         private const string AdviserMessagePanelPath = "AdviserMessagePanel";
         private const string GoldViewPath = "GoldView";
+        private const string AlienCocoonViewPath = "AlienCocoonView";
 
         private IResourceService _resourceService;
 
@@ -103,6 +104,15 @@ namespace Project.Scripts.UI.View
 
             GoldView goldView = goldViewTemplate.GetComponent<GoldView>();
             return goldView;
+        }
+
+        public async UniTask<AlienCocoonView> CreateAlienCocoonView()
+        {
+            var alienCocoonViewTemplate = await _resourceService.Load<GameObject>(AlienCocoonViewPath);
+            alienCocoonViewTemplate = Instantiate(alienCocoonViewTemplate);
+
+            AlienCocoonView alienCocoonView = alienCocoonViewTemplate.GetComponent<AlienCocoonView>();
+            return alienCocoonView;
         }
 
         public async UniTask<MissionProgressBar> CreateMissionProgressBar()

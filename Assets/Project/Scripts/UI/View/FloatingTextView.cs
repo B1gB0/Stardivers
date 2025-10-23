@@ -52,6 +52,10 @@ namespace Project.Scripts.UI.View
             {
                 _icon.sprite = _sprites[1];
             }
+            else if(viewType == FloatingTextViewType.AlienCocoon)
+            {
+                _icon.sprite = _sprites[2];
+            }
             else
             {
                 _icon.sprite = null;
