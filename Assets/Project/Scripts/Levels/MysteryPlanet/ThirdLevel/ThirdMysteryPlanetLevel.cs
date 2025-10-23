@@ -25,6 +25,7 @@ namespace Project.Scripts.Levels.MysteryPlanet.ThirdLevel
             WelcomePlanetTextTrigger.IsWelcomeToPlanet += DialogueSetter.OnWelcomePlanet;
             
             _enemySpawnTriggerWithoutEffect.EnemySpawned += _entranceLastLvlTrigger.Deactivate;
+            // _enemySpawnTriggerWithoutEffect.EnemySpawned += CreateAllAlienEnemyTurrets;
             _enemySpawnTriggerWithoutEffect.EnemySpawned += DialogueSetter.OnEnemySpawnTriggerWithEffect;
         }
 
@@ -41,6 +42,7 @@ namespace Project.Scripts.Levels.MysteryPlanet.ThirdLevel
             WelcomePlanetTextTrigger.IsWelcomeToPlanet -= DialogueSetter.OnWelcomePlanet;
             
             _enemySpawnTriggerWithoutEffect.EnemySpawned -= _entranceLastLvlTrigger.Deactivate;
+            // _enemySpawnTriggerWithoutEffect.EnemySpawned -= CreateAllAlienEnemyTurrets;
             _enemySpawnTriggerWithoutEffect.EnemySpawned -= DialogueSetter.OnEnemySpawnTriggerWithEffect;
         }
     }
