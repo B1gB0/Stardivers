@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Project.Game.Scripts;
 using Project.Scripts.Cards;
@@ -18,10 +20,14 @@ namespace Project.Scripts.UI.Panel
     public class LevelUpPanel : MonoBehaviour, IView
     {
         private const int MinIndex = 1;
+        private const int MinValue = 0;
         private const int Remainder = 0;
         private const int StartWeapon = 0;
         private const int Multiplicity = 3;
         private const int CountWeapons = 4;
+        private const int CorrectFactorCounter = 1;
+        
+        private const float LevelUpDelay = 0.3f;
 
         private readonly List<Card> _currentImprovementCards = new();
         private readonly List<Card> _currentWeaponCards = new();
@@ -42,9 +48,12 @@ namespace Project.Scripts.UI.Panel
         private WeaponFactory _weaponFactory;
         private WeaponHolder _weaponHolder;
 
-        private int _currentLevel;
+        private Queue<int> _pendingLevels = new ();
 
-        public bool IsClosed { get; private set; }
+        private int _currentLevel;
+        private bool _isShowing;
+
+        public bool IsClosed { get; private set; } = true;
 
         [Inject]
         private void Construct(AudioSoundsService audioSoundsService, IPauseService pauseService,
@@ -107,24 +116,69 @@ namespace Project.Scripts.UI.Panel
             UpdateImprovementCardsByTypeWeapon(WeaponType.None);
         }
 
-        public void Show()
+        public async UniTask ShowAsync()
         {
+            if (gameObject.activeSelf)
+            {
+                await ForceHideAsync();
+            }
+            
             gameObject.SetActive(true);
+            await _tweenAnimationService.AnimateScaleAsync(transform);
             IsClosed = false;
-            _tweenAnimationService.AnimateScale(transform);
         }
 
-        public void Hide()
+        public async UniTask HideAsync()
+        {
+            if(IsClosed)
+                return;
+            
+            IsClosed = true;
+            await _tweenAnimationService.AnimateScaleAsync(transform, true);
+
+            await UniTask.NextFrame();
+        }
+
+        public async void OnCurrentLevelIsUpgraded(int currentLevel)
+        {
+            _pendingLevels.Enqueue(currentLevel);
+
+            if (!_isShowing)
+            {
+                await ProcessPendingLevels();
+            }
+        }
+
+        private async UniTask ProcessPendingLevels()
+        {
+            _isShowing = true;
+        
+            while (_pendingLevels.Count > MinValue)
+            {
+                int level = _pendingLevels.Dequeue();
+                
+                await ShowForLevel(level);
+                await UniTask.WaitUntil(() => IsClosed);
+                await UniTask.Delay(TimeSpan.FromSeconds(LevelUpDelay));
+            }
+        
+            _isShowing = false;
+        }
+        
+        private async UniTask ShowForLevel(int level)
+        {
+            _currentLevel = level;
+            GetCardsForLevelUp(level);
+        
+            await ShowAsync();
+        }
+        
+        private async UniTask ForceHideAsync()
         {
             IsClosed = true;
-            _tweenAnimationService.AnimateScale(transform, true);
-        }
-
-        public void OnCurrentLevelIsUpgraded(int currentLevel)
-        {
-            _currentLevel = currentLevel;
-            GetCardsForLevelUp(currentLevel);
-            Show();
+            transform.DOKill();
+            gameObject.SetActive(false);
+            await UniTask.NextFrame();
         }
 
         private void GetCardsForLevelUp(int currentLevel)
@@ -250,7 +304,7 @@ namespace Project.Scripts.UI.Panel
 
             _pauseService.PlayGame();
 
-            Hide();
+            await HideAsync();
         }
 
         private void OnRollButtonClicked()
@@ -270,11 +324,6 @@ namespace Project.Scripts.UI.Panel
             {
                 _tweenAnimationService.AnimateScale(cardView.transform);
             }
-        }
-
-        private void OnClosed(bool isClosed)
-        {
-            IsClosed = isClosed;
         }
     }
 }

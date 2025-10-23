@@ -19,22 +19,21 @@ namespace Project.Scripts.Services
 
         public void AnimateScale(Transform target, bool isDisableTarget = false)
         {
-            target.DOKill(true);
+            var scaleSequence = CreateScaleSequence(target, isDisableTarget);
 
-            if (!isDisableTarget)
-                target.localScale = Vector3.zero;
+            scaleSequence.OnComplete(() =>
+            {
+                TryOffGameObject(target, isDisableTarget);
+            });
+        }
 
-            Sequence scaleSequence = DOTween.Sequence()
-                .Append(!isDisableTarget
-                    ? target.DOScale(ShowScale, DurationShow)
-                    : target.DOScale(HideScale, DurationHide))
-                .SetEase(!isDisableTarget ? Ease.OutBounce : Ease.OutSine)
-                .SetUpdate(true)
-                .OnComplete(() =>
-                {
-                    if (isDisableTarget && target != null)
-                        target.gameObject.SetActive(false);
-                });
+        public async UniTask AnimateScaleAsync(Transform target, bool isDisableTarget = false)
+        {
+            var scaleSequence = CreateScaleSequence(target, isDisableTarget);
+
+            await scaleSequence.AsyncWaitForCompletion();
+
+            TryOffGameObject(target, isDisableTarget);
         }
 
         public void AnimateMove(Transform target, Transform showPoint, Transform hidePoint, bool isDisableTarget = false)
@@ -54,9 +53,30 @@ namespace Project.Scripts.Services
                 .SetUpdate(true)
                 .OnComplete(() =>
                 {
-                    if (isDisableTarget && target != null)
-                        target.gameObject.SetActive(false);
+                    TryOffGameObject(target, isDisableTarget);
                 });
+        }
+        
+        private void TryOffGameObject(Transform target, bool isDisableTarget)
+        {
+            if (isDisableTarget && target != null)
+                target.gameObject.SetActive(false);
+        }
+        
+        private Sequence CreateScaleSequence(Transform target, bool isDisableTarget)
+        {
+            target.DOKill(true);
+
+            if (!isDisableTarget)
+                target.localScale = Vector3.zero;
+
+            Sequence scaleSequence = DOTween.Sequence()
+                .Append(!isDisableTarget
+                    ? target.DOScale(ShowScale, DurationShow)
+                    : target.DOScale(HideScale, DurationHide))
+                .SetEase(!isDisableTarget ? Ease.OutBounce : Ease.OutSine)
+                .SetUpdate(true);
+            return scaleSequence;
         }
     }
 }

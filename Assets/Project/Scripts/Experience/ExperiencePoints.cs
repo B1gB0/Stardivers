@@ -73,7 +73,7 @@ namespace Project.Scripts.Experience
                 _currentValue = TargetExperienceValue;
             }
             
-            if (_pendingLevelUps.Count > 0 && !_isLevelUpProcessing)
+            if (_pendingLevelUps.Count > DefaultLevel && !_isLevelUpProcessing)
             {
                 ProcessLevelUps().Forget();
             }
@@ -83,17 +83,21 @@ namespace Project.Scripts.Experience
         {
             _isLevelUpProcessing = true;
 
-            while (_pendingLevelUps.Count > 0)
+            try
             {
-                int newLevel = _pendingLevelUps.Dequeue();
+                while (_pendingLevelUps.Count > DefaultLevel)
+                {
+                    int newLevel = _pendingLevelUps.Dequeue();
                 
-                CurrentLevelIsUpgraded?.Invoke(newLevel);
-                
-                await WaitForLevelUpPanelClose();
-                await UniTask.Delay(TimeSpan.FromSeconds(DelayLevelUp));
+                    CurrentLevelIsUpgraded?.Invoke(newLevel);
+                    
+                    await UniTask.Delay(TimeSpan.FromSeconds(DelayLevelUp));
+                }
             }
-
-            _isLevelUpProcessing = false;
+            finally
+            {
+                _isLevelUpProcessing = false;
+            }
         }
         
         private async UniTask WaitForLevelUpPanelClose()
