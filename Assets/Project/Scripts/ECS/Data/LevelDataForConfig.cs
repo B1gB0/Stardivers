@@ -43,6 +43,8 @@ namespace Project.Scripts.ECS.Data
             levelInitData.StoneSpawnPositions.Clear();
             levelInitData.HealingCoreSpawnPositions.Clear();
             levelInitData.GoldCoreSpawnPositions.Clear();
+            levelInitData.AlienCocoonSpawnPoints.Clear();
+            levelInitData.EnemyTurretsSpawnPoints.Clear();
         
             levelInitData.PlayerSpawnPosition = playerSpawnPoint.transform.position;
             

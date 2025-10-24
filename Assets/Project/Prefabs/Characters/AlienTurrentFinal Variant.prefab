@@ -91,7 +91,7 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -174,6 +174,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4391003778833301380, guid: 66f7bc3208d06214cbfcc08e86617c0c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 811114888650774933}
+    - targetCorrespondingSourceObject: {fileID: 4391003778833301380, guid: 66f7bc3208d06214cbfcc08e86617c0c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 418087455484095621}
   m_SourcePrefab: {fileID: 100100000, guid: 66f7bc3208d06214cbfcc08e86617c0c, type: 3}
 --- !u!4 &4823267128991933783 stripped
 Transform:
@@ -264,11 +267,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbef326efc61174488772c5468beb681, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _healingColor: {r: 0, g: 0, b: 0, a: 0}
-  _standardColor: {r: 0, g: 0, b: 0, a: 0}
+  _healingColor: {r: 1, g: 1, b: 1, a: 1}
+  _standardColor: {r: 1, g: 1, b: 1, a: 1}
   _value: 0
   _hitEffectPrefab: {fileID: 19889686, guid: de85f8f81ea29ea479250adb36debd92, type: 3}
   _hitPoint: {fileID: 4823267128991933783}
+--- !u!54 &418087455484095621
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5306506219753684973}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!95 &6756042639814830073 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 2921091348362569616, guid: 66f7bc3208d06214cbfcc08e86617c0c, type: 3}

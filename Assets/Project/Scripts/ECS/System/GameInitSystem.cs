@@ -197,9 +197,12 @@ namespace Project.Scripts.ECS.System
             ref var patrolComponent = ref entity.Get<PatrolComponent>();
             patrolComponent.Points = _levelInitData.EnemyPatrolPositions;
 
-            ref var attackComponent = ref entity.Get<EnemyMeleeAttackComponent>();
+            ref var attackComponent = ref entity.Get<EnemySmallAlienAttackComponent>();
             attackComponent.Damage = data.Damage;
             attackComponent.FireRate = data.FireRate;
+            attackComponent.RangeAttack = data.RangeAttack;
+            
+            enemyMovableComponent.NavMeshAgent.stoppingDistance = attackComponent.RangeAttack;
 
             return smallEnemyAlienActor;
         }
@@ -240,6 +243,9 @@ namespace Project.Scripts.ECS.System
 
             ref var attackComponent = ref entity.Get<EnemyBigAlienAttackComponent>();
             attackComponent.FireRate = data.FireRate;
+            attackComponent.RangeAttack = data.RangeAttack;
+            
+            enemyMovableComponent.NavMeshAgent.stoppingDistance = attackComponent.RangeAttack;
 
             bigEnemyAlienActor.Weapon.SetData(target.transform, _bigAlienEnemyProjectilePool, data.Damage);
 
@@ -282,18 +288,21 @@ namespace Project.Scripts.ECS.System
 
             ref var attackComponent = ref entity.Get<EnemyGunnerAlienAttackComponent>();
             attackComponent.FireRate = data.FireRate;
+            attackComponent.RangeAttack = data.RangeAttack;
+
+            enemyMovableComponent.NavMeshAgent.stoppingDistance = attackComponent.RangeAttack;
 
             gunnerEnemyAlienActor.Weapon.SetData(target.transform, _gunnerAlienEnemyProjectilePool, data.Damage);
 
             return gunnerEnemyAlienActor;
         }
 
-        public EnemyTurret CreateEnemyTurret(PlayerActor target, Vector3 atPosition, Vector3 atRotation)
+        public EnemyTurret CreateEnemyTurret(PlayerActor target, Vector3 atPosition)
         {
             var data = _enemyService.GetEnemyDataByType(EnemyActorType.TurretAlien);
             
             var enemyTurret = Object.Instantiate(_alienTurretEnemyData.AlienTurretEnemyPrefab, atPosition,
-                Quaternion.Euler(atRotation));
+                Quaternion.identity);
             enemyTurret.Construct(_experiencePoints, _textService, data);
             
             if (enemyTurret.Health.TargetHealth <= MinValue)
@@ -318,8 +327,9 @@ namespace Project.Scripts.ECS.System
             ref var followComponent = ref entity.Get<FollowPlayerComponent>();
             followComponent.Target = target;
 
-            ref var attackComponent = ref entity.Get<EnemyGunnerAlienAttackComponent>();
+            ref var attackComponent = ref entity.Get<EnemyAlienTurretAttackComponent>();
             attackComponent.FireRate = data.FireRate;
+            attackComponent.RangeAttack = data.RangeAttack;
 
             enemyTurret.Weapon.SetData(target.transform, _alienEnemyTurretProjectilePool, data.Damage);
 

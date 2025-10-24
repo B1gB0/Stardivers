@@ -1,14 +1,17 @@
 using Project.Scripts.DataBase.Data;
 
-public class WeaponCard : Card
+namespace Project.Scripts.Cards
 {
-    public CharacteristicsWeaponData CharacteristicsWeaponData { get; private set; }
-    public WeaponLocalizationData WeaponLocalizationData { get; private set; }
-
-    public void SetData(WeaponLocalizationData weaponLocalizationData, CharacteristicsWeaponData characteristicsWeaponData)
+    public class WeaponCard : Card
     {
-        WeaponLocalizationData = weaponLocalizationData;
-        CharacteristicsWeaponData = characteristicsWeaponData;
-        WeaponType = weaponLocalizationData.Type;
+        public CharacteristicsWeaponData CharacteristicsWeaponData { get; private set; }
+        public WeaponLocalizationData WeaponLocalizationData { get; private set; }
+
+        public void SetData(WeaponLocalizationData weaponLocalizationData, CharacteristicsWeaponData characteristicsWeaponData)
+        {
+            WeaponLocalizationData = weaponLocalizationData;
+            CharacteristicsWeaponData = characteristicsWeaponData;
+            WeaponType = weaponLocalizationData.Type;
+        }
     }
 }

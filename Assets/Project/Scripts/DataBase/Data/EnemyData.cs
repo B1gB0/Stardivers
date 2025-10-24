@@ -13,6 +13,7 @@ namespace Project.Scripts.DataBase.Data
         [SerializeField] private float _speed;
         [SerializeField] private float _damage;
         [SerializeField] private float _fireRate;
+        [SerializeField] private float _rangeAttack;
         [SerializeField] private int _experience;
         [SerializeField] private int _score;
 
@@ -22,6 +23,7 @@ namespace Project.Scripts.DataBase.Data
         public float Speed => _speed;
         public float Damage => _damage;
         public float FireRate => _fireRate;
+        public float RangeAttack => _rangeAttack;
         public int Experience => _experience;
         public int Score => _score;
     }

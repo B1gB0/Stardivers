@@ -110,11 +110,9 @@ namespace Project.Scripts.Levels.Spawners
 
             foreach (var enemyPosition in spawnPointPositions)
             {
-                var direction = (playerSpawnPoint - enemyPosition)
-                    .normalized;
-                
-                EnemyTurret enemyTurret = _gameInitSystem.CreateEnemyTurret(_gameInitSystem.Player, enemyPosition, 
-                    direction);
+
+                EnemyTurret enemyTurret = _gameInitSystem.CreateEnemyTurret(_gameInitSystem.Player, enemyPosition);
+                enemyTurret.transform.LookAt(playerSpawnPoint);
 
                 var enemySpawnPosition = enemyPosition + Vector3.one * Random.Range(-RandomPositionFactor,
                     RandomPositionFactor);

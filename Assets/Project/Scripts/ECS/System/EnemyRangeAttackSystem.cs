@@ -86,11 +86,11 @@ namespace Project.Scripts.ECS.System
 
             foreach (var entity in _alienEnemyTurretAttackFilter)
             {
-                ref var enemyComponent = ref _bigAlienEnemyAttackFilter.Get1(entity);
-                ref var followPlayerComponent = ref _bigAlienEnemyAttackFilter.Get2(entity);
-                ref var movableComponent = ref _bigAlienEnemyAttackFilter.Get3(entity);
-                ref var animatedComponent = ref _bigAlienEnemyAttackFilter.Get4(entity);
-                ref var attackComponent = ref _bigAlienEnemyAttackFilter.Get5(entity);
+                ref var enemyComponent = ref _alienEnemyTurretAttackFilter.Get1(entity);
+                ref var followPlayerComponent = ref _alienEnemyTurretAttackFilter.Get2(entity);
+                ref var movableComponent = ref _alienEnemyTurretAttackFilter.Get3(entity);
+                ref var animatedComponent = ref _alienEnemyTurretAttackFilter.Get4(entity);
+                ref var attackComponent = ref _alienEnemyTurretAttackFilter.Get5(entity);
                 
                 if (movableComponent.IsAttack && followPlayerComponent.Target.Health.TargetHealth > MinValue && 
                     enemyComponent.Health.TargetHealth > MinValue)

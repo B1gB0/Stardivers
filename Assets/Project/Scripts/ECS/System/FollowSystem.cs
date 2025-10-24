@@ -6,8 +6,6 @@ namespace Project.Scripts.ECS.System
 {
     public class FollowSystem : IEcsRunSystem
     {
-        private const float RangeAttack = 6f;
-        
         private readonly EcsFilter<PatrolComponent, EnemyMovableComponent, FollowPlayerComponent>
             _enemyPatrolFollowFilter;
 
@@ -43,12 +41,13 @@ namespace Project.Scripts.ECS.System
             {
                 ref var movableComponent = ref _enemyTurretFollowFilter.Get1(entity);
                 ref var followComponent = ref _enemyTurretFollowFilter.Get2(entity);
-                
-                if (followComponent.Target == null || !followComponent.Target.CanFollow)
+                ref var turretComponent = ref _enemyTurretFollowFilter.Get3(entity);
+
+                if (followComponent.Target == null)
                     continue;
                 
                 var isMoving = Vector3.Distance(movableComponent.Transform.position, 
-                    followComponent.Target.transform.position) < RangeAttack;
+                    followComponent.Target.transform.position) < turretComponent.RangeAttack;
                 movableComponent.IsMoving = isMoving;
                 movableComponent.IsAttack = isMoving;
                 

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Project.Scripts.Weapon.Enemy
 {
-    public class GenericEnemyWeapon<T> : EnemyWeapon where T : Projectile
+    public abstract class GenericEnemyWeapon<T> : EnemyWeapon where T : Projectile
     {
         private const float DefaultBulletSpeed = 5f;
         

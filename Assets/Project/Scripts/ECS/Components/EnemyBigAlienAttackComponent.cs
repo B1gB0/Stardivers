@@ -3,5 +3,6 @@
     public struct EnemyBigAlienAttackComponent
     {
         public float FireRate;
+        public float RangeAttack;
     }
 }

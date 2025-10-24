@@ -1103,6 +1103,7 @@ MonoBehaviour:
       _speed: 3
       _damage: 3
       _fireRate: 2
+      _rangeAttack: 2
       _experience: 10
       _score: 10
     - _id: _gunnerAlien
@@ -1111,6 +1112,7 @@ MonoBehaviour:
       _speed: 3.5
       _damage: 10
       _fireRate: 1.5
+      _rangeAttack: 6
       _experience: 15
       _score: 15
     - _id: _bigAlien
@@ -1118,7 +1120,8 @@ MonoBehaviour:
       _health: 70
       _speed: 1.5
       _damage: 15
-      _fireRate: 2
+      _fireRate: 1.5
+      _rangeAttack: 7
       _experience: 25
       _score: 25
     - _id: _turretAlien
@@ -1127,6 +1130,7 @@ MonoBehaviour:
       _speed: 0
       _damage: 8
       _fireRate: 2
+      _rangeAttack: 5
       _experience: 20
       _score: 20
     MarsSceneLevels:
@@ -1391,4 +1395,4 @@ MonoBehaviour:
       _health: 6
       _experience: 3
       _score: 3
-      _crystalValue: 0
+      _crystalValue: 1
