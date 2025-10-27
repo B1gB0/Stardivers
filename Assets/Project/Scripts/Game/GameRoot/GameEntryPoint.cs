@@ -7,6 +7,7 @@ using Reflex.Core;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Cysharp.Threading.Tasks;
+using Project.Scripts.Audio.Sounds;
 using Reflex.Attributes;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -29,7 +30,8 @@ namespace Project.Scripts.Game.GameRoot
         private OperationService _operationService;
 
         [Inject]
-        private void Construct(UIRootView uiRoot, OperationService operationService)
+        private void Construct(UIRootView uiRoot, OperationService operationService,
+            AudioSoundsService audioSoundsService)
         {
             _operationService = operationService;
             _uiRoot = uiRoot;

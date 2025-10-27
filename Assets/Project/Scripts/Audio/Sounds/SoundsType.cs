@@ -2,15 +2,20 @@
 {
     public enum SoundsType
     {
-        Gun = 0,
-        Stone = 1,
-        MachineGun = 2,
-        ChainLightningGun = 3,
-        Mines = 4,
-        FragGrenades = 5,
-        CapsuleFlight = 6,
-        CardViewButton = 7,
-        FourBarrelMachineGun = 8,
-        Button = 9
+        None = 0,
+        Gun = 1,
+        Stone = 2,
+        MachineGun = 3,
+        ChainLightningGun = 4,
+        Mines = 5,
+        FragGrenades = 6,
+        CapsuleFlight = 7,
+        CardViewButton = 8,
+        FourBarrelMachineGun = 9,
+        Button = 10,
+        CapsuleExplosion = 11,
+        MainMenuMusic = 12,
+        MarsGameplayMusic = 13,
+        MysteryPlanetGameplayMusic = 14
     }
 }

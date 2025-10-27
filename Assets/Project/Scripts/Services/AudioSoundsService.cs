@@ -1,180 +1,298 @@
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using Cysharp.Threading.Tasks;
+using Project.Scripts.Audio;
 using Project.Scripts.Audio.Sounds;
+using Reflex.Attributes;
 using UnityEngine;
+using UnityEngine.Audio;
 
 namespace Project.Scripts.Services
 {
     public class AudioSoundsService : MonoBehaviour
     {
+        private const string GunSoundPath = "GunSound";
+        private const string ButtonSoundPath = "ButtonSound";
+        private const string MinesSoundPath = "MinesSound";
+        private const string MiningStoneSoundPath = "MiningStoneSound";
+        private const string FourBarrelMachineGunSoundPath = "FourBarrelMachineGunSound";
+        private const string MachineGunSoundPath = "MachineGunSound";
+        private const string CardViewButtonSoundPath = "CardViewButtonSound";
+        private const string ChainLightningGunSoundPath = "ChainLightningGunSound";
+        private const string CapsuleFlightSoundPath = "CapsuleFlightSound";
+        private const string CapsuleExplosionSoundPath = "CapsuleExplosionSound";
+        private const string GrenadesSoundPath = "GrenadesSound";
+        private const string MainMenuMusicPath = "MainMenuMusic";
+        private const string MarsGameplayMusicPath = "MarsGameplayMusic";
+        private const string MysteryPlanetGameplayMusicPath = "MysteryPlanetGameplayMusic";
+
+        private const int CountAudioSources = 3;
+
+        private const float MinValue = 0f;
+        private const float FadeDuration = 2f;
         private const float CapsuleFlightDuration = 4.5f;
         private const float CapsuleExplosionDelay = 2.5f;
-        private const int CountSounds = 3;
-        private const bool IsAutoExpandPool = true;
-    
-        [SerializeField] private GunSound _gunSoundPrefab;
-        [SerializeField] private MiningStoneSound _miningStoneSoundPrefab;
-        [SerializeField] private MachineGunSound _machineGunSoundPrefab;
-        [SerializeField] private MinesSound _minesSoundPrefab;
-        [SerializeField] private GrenadesSound _grenadesSoundPrefab;
-        [SerializeField] private CapsuleFlightSound _capsuleFlightSoundPrefab;
-        [SerializeField] private CapsuleExplosionSound _capsuleExplosionSoundPrefab;
-        [SerializeField] private CardViewButtonSound _cardViewButtonSoundPrefab;
-        [SerializeField] private FourBarrelMachineGunSound _fourBarrelMachineGunSoundPrefab;
-        [SerializeField] private ButtonSound _buttonSoundPrefab;
-        [SerializeField] private ChainLightningGunSound _chainLightningGunSoundPrefab;
 
-        private ObjectPool<GunSound> _poolGunSoundsOfShots;
-        private ObjectPool<MiningStoneSound> _poolMiningSoundsOfStone;
-        private ObjectPool<MachineGunSound> _poolMachineGunSounds;
-        private ObjectPool<FourBarrelMachineGunSound> _poolFourBarrelMachineGunSounds;
-        private ObjectPool<ChainLightningGunSound> _poolChainLightningGunSounds;
+        [SerializeField] private AudioMixerGroup _musicGroup;
+        [SerializeField] private AudioMixerGroup _effectsGroup;
 
-        private MinesSound _minesSound;
-        private GrenadesSound _grenadesSound;
-        private CapsuleFlightSound _capsuleFlightSound;
-        private CapsuleExplosionSound _capsuleExplosionSound;
-        private CardViewButtonSound _cardViewButtonSound;
-        private ButtonSound _buttonSound;
+        private AudioSource _musicAudioSource;
+        private SoundsType _currentMusicType;
 
-        private void Awake()
+        private Dictionary<SoundsType, Sound> _soundDictionary;
+        private Queue<AudioSource> _availableAudioSources;
+        private List<AudioSource> _allAudioSources;
+        private IResourceService _resourceService;
+        private bool _isInitialized;
+
+        [Inject]
+        private void Construct(IResourceService resourceService)
         {
-            _poolGunSoundsOfShots = new ObjectPool<GunSound>(_gunSoundPrefab, CountSounds, transform);
-            _poolMiningSoundsOfStone = new ObjectPool<MiningStoneSound>(_miningStoneSoundPrefab, CountSounds, transform);
-            _poolMachineGunSounds = new ObjectPool<MachineGunSound>(_machineGunSoundPrefab, CountSounds, transform);
-            _poolFourBarrelMachineGunSounds =
-                new ObjectPool<FourBarrelMachineGunSound>(_fourBarrelMachineGunSoundPrefab, CountSounds, transform);
-            _poolChainLightningGunSounds =
-                new ObjectPool<ChainLightningGunSound>(_chainLightningGunSoundPrefab, CountSounds, transform);
-
-            _minesSound = Instantiate(_minesSoundPrefab, transform);
-            _grenadesSound = Instantiate(_grenadesSoundPrefab, transform);
-            _capsuleFlightSound = Instantiate(_capsuleFlightSoundPrefab, transform);
-            _capsuleExplosionSound = Instantiate(_capsuleExplosionSoundPrefab, transform);
-            _cardViewButtonSound = Instantiate(_cardViewButtonSoundPrefab, transform);
-            _buttonSound = Instantiate(_buttonSoundPrefab, transform);
-
-            _poolGunSoundsOfShots.AutoExpand = IsAutoExpandPool;
-            _poolMiningSoundsOfStone.AutoExpand = IsAutoExpandPool;
-            _poolMachineGunSounds.AutoExpand = IsAutoExpandPool;
-            _poolFourBarrelMachineGunSounds.AutoExpand = IsAutoExpandPool;
-            _poolChainLightningGunSounds.AutoExpand = IsAutoExpandPool;
+            _resourceService = resourceService;
         }
 
-        public void PlaySound(SoundsType soundType)
+        public async UniTask Init()
         {
-            switch (soundType)
+            await InitializeSoundDictionary();
+            InitializeMusicAudioSource();
+            InitializeAudioSourcePool();
+            _isInitialized = true;
+        }
+
+        public async void PlaySound(SoundsType sound)
+        {
+            if (!_isInitialized) return;
+
+            if (!_soundDictionary.ContainsKey(sound)) return;
+
+            var config = _soundDictionary[sound];
+
+            if (!_availableAudioSources.Any())
             {
-                case SoundsType.Gun :
-                    PlayGunSound();
-                    break;
-                case SoundsType.Stone :
-                    PlaySoundOfMiningStone();
-                    break;
-                case SoundsType.MachineGun :
-                    PlayMachineGunSound();
-                    break;
-                case SoundsType.Mines :
-                    PlayMinesSound();
-                    break;
-                case SoundsType.FragGrenades :
-                    PlayGrenadesSound();
-                    break;
-                case SoundsType.ChainLightningGun :
-                    PlayChainLightningGunSound();
-                    break;
-                case SoundsType.CapsuleFlight :
-                    PlayCapsuleFlightSound();
-                    break;
-                case SoundsType.CardViewButton :
-                    PlayCardViewButtonSound();
-                    break;
-                case SoundsType.FourBarrelMachineGun :
-                    PlayFourBarrelMachineGunSound();
-                    break;
-                case SoundsType.Button :
-                    PlayButtonSound();
-                    break;
+                CreateAudioSource();
+            }
+
+            var audioSource = _availableAudioSources.Dequeue();
+
+            if (sound == SoundsType.CapsuleFlight)
+            {
+                await HandleCapsuleSoundSequence(audioSource, config);
+            }
+            else
+                await PlaySoundAsync(audioSource, config);
+        }
+
+        public void PlayMusic(SoundsType musicType)
+        {
+            if (!_isInitialized) return;
+
+            if (_currentMusicType == musicType && _musicAudioSource.isPlaying) return;
+
+            if (!_soundDictionary.ContainsKey(musicType)) return;
+
+            var musicConfig = _soundDictionary[musicType];
+
+            StopCurrentMusic();
+
+            _musicAudioSource.clip = musicConfig.Clip;
+            _musicAudioSource.volume = musicConfig.Volume;
+            _musicAudioSource.loop = true;
+            _musicAudioSource.Play();
+
+            _currentMusicType = musicType;
+        }
+
+        public void StopCurrentMusic()
+        {
+            if (_musicAudioSource == null || !_musicAudioSource.isPlaying)
+                return;
+
+            _musicAudioSource.Stop();
+            _musicAudioSource.clip = null;
+            _currentMusicType = SoundsType.None;
+        }
+
+        public void CrossFadeMusic(SoundsType newMusicType, float fadeDuration = FadeDuration)
+        {
+            if (!_isInitialized) return;
+
+            StartCoroutine(CrossFadeMusicCoroutine(newMusicType, fadeDuration));
+        }
+
+        public void PauseMusic()
+        {
+            if (_musicAudioSource != null && _musicAudioSource.isPlaying)
+            {
+                _musicAudioSource.Pause();
             }
         }
 
-        private void PlayGunSound()
+        public void ResumeMusic()
         {
-            GunSound sound = _poolGunSoundsOfShots.GetFreeElement();
-        
-            sound.AudioSource.PlayOneShot(sound.AudioSource.clip);
-
-            StartCoroutine(sound.OffPoolSoundAfterPlay());
+            if (_musicAudioSource != null && !_musicAudioSource.isPlaying)
+            {
+                _musicAudioSource.Play();
+            }
         }
 
-        private void PlaySoundOfMiningStone()
+        public void StopSound(AudioSource audioSource)
         {
-            MiningStoneSound miningStoneSound = _poolMiningSoundsOfStone.GetFreeElement();
-        
-            miningStoneSound.AudioSource.PlayOneShot(miningStoneSound.AudioSource.clip);
+            if (audioSource == null) return;
 
-            StartCoroutine(miningStoneSound.OffPoolSoundAfterPlay());
+            if (!audioSource.isPlaying) return;
+
+            audioSource.Stop();
+            _availableAudioSources.Enqueue(audioSource);
         }
 
-        private void PlayMachineGunSound()
+        public void StopAllSounds()
         {
-            MachineGunSound machineGunSound = _poolMachineGunSounds.GetFreeElement();
-        
-            machineGunSound.AudioSource.PlayOneShot(machineGunSound.AudioSource.clip);
-
-            StartCoroutine(machineGunSound.OffPoolSoundAfterPlay());
-        }
-    
-        private void PlayMinesSound()
-        {
-            _minesSound.AudioSource.PlayOneShot(_minesSound.AudioSource.clip);
-        }
-    
-        private void PlayGrenadesSound()
-        {
-            _grenadesSound.AudioSource.PlayOneShot(_grenadesSound.AudioSource.clip);
+            foreach (var audioSource in _allAudioSources)
+            {
+                if (audioSource.isPlaying)
+                {
+                    audioSource.Stop();
+                    if (!_availableAudioSources.Contains(audioSource))
+                    {
+                        _availableAudioSources.Enqueue(audioSource);
+                    }
+                }
+            }
         }
 
-        private void PlayCapsuleFlightSound()
+        private async UniTask HandleCapsuleSoundSequence(AudioSource audioSource, Sound soundConfig)
         {
-            _capsuleFlightSound.AudioSource.PlayOneShot(_capsuleFlightSound.AudioSource.clip);
-
-            StartCoroutine(PlayCapsuleExplosionSound());
-            StartCoroutine(_capsuleFlightSound.OffSoundAfterDurationPlay(CapsuleFlightDuration));
-        }
-    
-        private void PlayCardViewButtonSound()
-        {
-            _cardViewButtonSound.AudioSource.PlayOneShot(_cardViewButtonSoundPrefab.AudioSource.clip);
-        }
-
-        private void PlayFourBarrelMachineGunSound()
-        {
-            FourBarrelMachineGunSound fourBarrelMachineGunSound = _poolFourBarrelMachineGunSounds.GetFreeElement();
-        
-            fourBarrelMachineGunSound.AudioSource.PlayOneShot(fourBarrelMachineGunSound.AudioSource.clip);
-
-            StartCoroutine(fourBarrelMachineGunSound.OffPoolSoundAfterPlay());
-        }
-
-        private void PlayButtonSound()
-        {
-            _buttonSound.AudioSource.PlayOneShot(_buttonSound.AudioSource.clip);
-        }
-
-        private void PlayChainLightningGunSound()
-        {
-            ChainLightningGunSound chainLightningGunSound = _poolChainLightningGunSounds.GetFreeElement();
+            PlaySoundAsync(audioSource, soundConfig).Forget();
             
-            chainLightningGunSound.AudioSource.PlayOneShot(chainLightningGunSound.AudioSource.clip);
-            
-            StartCoroutine(chainLightningGunSound.OffPoolSoundAfterPlay());
+            PlayDelayedSound(SoundsType.CapsuleExplosion, CapsuleExplosionDelay).Forget();
+
+            await UniTask.WaitForSeconds(CapsuleFlightDuration);
+
+            StopSound(audioSource);
         }
-    
-        private IEnumerator PlayCapsuleExplosionSound()
+
+        private async UniTask PlayDelayedSound(SoundsType soundType, float delay)
         {
-            yield return new WaitForSeconds(CapsuleExplosionDelay);
-        
-            _capsuleExplosionSound.AudioSource.PlayOneShot(_capsuleExplosionSound.AudioSource.clip);
+            await UniTask.WaitForSeconds(delay);
+            PlaySound(soundType);
+        }
+
+        private IEnumerator CrossFadeMusicCoroutine(SoundsType newMusicType, float fadeDuration)
+        {
+            var oldSource = _musicAudioSource;
+
+            var oldMusicConfig = _soundDictionary[_currentMusicType];
+
+            var newSource = gameObject.AddComponent<AudioSource>();
+            newSource.playOnAwake = false;
+            newSource.loop = true;
+
+            if (!_soundDictionary.ContainsKey(newMusicType)) yield break;
+
+            var newMusicConfig = _soundDictionary[newMusicType];
+            newSource.clip = newMusicConfig.Clip;
+            newSource.volume = MinValue;
+            newSource.Play();
+
+            float timer = MinValue;
+
+            while (timer < fadeDuration)
+            {
+                timer += Time.deltaTime;
+                float progress = timer / fadeDuration;
+
+                if (oldSource != null && oldSource.isPlaying)
+                {
+                    oldSource.volume = Mathf.Lerp(oldMusicConfig.Volume, MinValue, progress);
+                }
+
+                newSource.volume = Mathf.Lerp(MinValue, newMusicConfig.Volume, progress);
+
+                yield return null;
+            }
+
+            if (oldSource != null)
+            {
+                oldSource.Stop();
+                Destroy(oldSource);
+            }
+
+            _musicAudioSource = newSource;
+            _currentMusicType = newMusicType;
+        }
+
+        private void InitializeAudioSourcePool()
+        {
+            _availableAudioSources = new Queue<AudioSource>();
+            _allAudioSources = new List<AudioSource>();
+
+            for (int i = 0; i < CountAudioSources; i++)
+            {
+                CreateAudioSource();
+            }
+        }
+
+        private void InitializeMusicAudioSource()
+        {
+            _musicAudioSource = gameObject.AddComponent<AudioSource>();
+            _musicAudioSource.playOnAwake = false;
+            _musicAudioSource.loop = true;
+
+            if (_musicGroup != null)
+            {
+                _musicAudioSource.outputAudioMixerGroup = _musicGroup;
+            }
+        }
+
+        private async UniTask InitializeSoundDictionary()
+        {
+            var builder = new AudioSoundBuilder(_resourceService)
+                .AddSound(SoundsType.Gun, GunSoundPath)
+                .AddSound(SoundsType.Button, ButtonSoundPath)
+                .AddSound(SoundsType.Mines, MinesSoundPath)
+                .AddSound(SoundsType.Stone, MiningStoneSoundPath)
+                .AddSound(SoundsType.MachineGun, MachineGunSoundPath)
+                .AddSound(SoundsType.CardViewButton, CardViewButtonSoundPath)
+                .AddSound(SoundsType.FourBarrelMachineGun, FourBarrelMachineGunSoundPath)
+                .AddSound(SoundsType.ChainLightningGun, ChainLightningGunSoundPath)
+                .AddSound(SoundsType.CapsuleFlight, CapsuleFlightSoundPath)
+                .AddSound(SoundsType.CapsuleExplosion, CapsuleExplosionSoundPath)
+                .AddSound(SoundsType.FragGrenades, GrenadesSoundPath)
+                .AddSound(SoundsType.MainMenuMusic, MainMenuMusicPath)
+                .AddSound(SoundsType.MarsGameplayMusic, MarsGameplayMusicPath)
+                .AddSound(SoundsType.MysteryPlanetGameplayMusic, MysteryPlanetGameplayMusicPath);
+
+            _soundDictionary = await builder.Build();
+        }
+
+        private async UniTask PlaySoundAsync(AudioSource audioSource, Sound config)
+        {
+            audioSource.clip = config.Clip;
+            audioSource.volume = config.Volume;
+            audioSource.loop = config.IsLoop;
+            audioSource.Play();
+
+            if (!config.IsLoop)
+            {
+                await UniTask.WaitForSeconds(config.Clip.length);
+                audioSource.Stop();
+                _availableAudioSources.Enqueue(audioSource);
+            }
+        }
+
+        private void CreateAudioSource()
+        {
+            var audioSource = gameObject.AddComponent<AudioSource>();
+            audioSource.playOnAwake = false;
+
+            if (_effectsGroup != null)
+            {
+                audioSource.outputAudioMixerGroup = _effectsGroup;
+            }
+
+            _availableAudioSources.Enqueue(audioSource);
+            _allAudioSources.Add(audioSource);
         }
     }
 }

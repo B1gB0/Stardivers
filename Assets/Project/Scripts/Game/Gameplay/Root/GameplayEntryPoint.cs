@@ -1,6 +1,8 @@
-﻿using Cinemachine;
+﻿using System;
+using Cinemachine;
 using Cysharp.Threading.Tasks;
 using Leopotam.Ecs;
+using Project.Scripts.Audio.Sounds;
 using Project.Scripts.ECS.Data;
 using Project.Scripts.ECS.System;
 using Project.Scripts.Experience;
@@ -103,6 +105,19 @@ namespace Project.Scripts.Game.Gameplay.Root
             _currencyService = currencyService;
             _levelTextService = levelTextService;
             _coreService = coreService;
+        }
+
+        private void Start()
+        {
+            switch (_operationService.CurrentOperation.Id)
+            {
+                case Constant.Operations.Mars:
+                    _audioSoundsService.PlayMusic(SoundsType.MarsGameplayMusic);
+                    break;
+                case Constant.Operations.MysteryPlanet:
+                    _audioSoundsService.PlayMusic(SoundsType.MysteryPlanetGameplayMusic);
+                    break;
+            }
         }
 
         private void Update()

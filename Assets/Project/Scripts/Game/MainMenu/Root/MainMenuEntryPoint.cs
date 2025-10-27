@@ -1,4 +1,5 @@
-﻿using Project.Scripts.Game.Gameplay.Root;
+﻿using Project.Scripts.Audio.Sounds;
+using Project.Scripts.Game.Gameplay.Root;
 using Project.Scripts.Game.GameRoot;
 using Project.Scripts.Game.MainMenu.Root.View;
 using Project.Scripts.Services;
@@ -20,18 +21,21 @@ namespace Project.Scripts.Game.MainMenu.Root
         private ICurrencyService _currencyService;
         private ITweenAnimationService _tweenAnimationService;
         private ILevelTextService _levelTextService;
+        private AudioSoundsService _audioSoundsService;
         
         private MainMenuExitParameters _exitParameters;
 
         [Inject]
         private void Construct(OperationService operationService, IDataBaseService dataBaseService, 
-            ICurrencyService currencyService, ITweenAnimationService tweenAnimationService, ILevelTextService levelTextService)
+            ICurrencyService currencyService, ITweenAnimationService tweenAnimationService,
+            ILevelTextService levelTextService, AudioSoundsService audioSoundsService)
         {
             _dataBaseService = dataBaseService;
             _operationService = operationService;
             _currencyService = currencyService;
             _tweenAnimationService = tweenAnimationService;
             _levelTextService = levelTextService;
+            _audioSoundsService = audioSoundsService;
         }
 
         private async void Start()
@@ -43,7 +47,10 @@ namespace Project.Scripts.Game.MainMenu.Root
             await _operationService.Init();
             await _currencyService.Init();
             await _tweenAnimationService.Init();
+            await _audioSoundsService.Init();
             await _levelTextService.Init();
+            
+            _audioSoundsService.PlayMusic(SoundsType.MainMenuMusic);
         }
 
         public Observable<MainMenuExitParameters> Run(UIRootView uiRoot, MainMenuEnterParameters enterParameters)

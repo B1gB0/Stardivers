@@ -8,7 +8,7 @@ namespace Project.Scripts.Services
 {
     public class OperationService : MonoBehaviour
     {
-        private const int DefaultNumberLevel = 2;
+        private const int DefaultNumberLevel = 0;
         
         [field: SerializeField] public List<Operation> Operations { get; private set; } = new();
         
