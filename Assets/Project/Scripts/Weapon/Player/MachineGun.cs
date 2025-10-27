@@ -1,5 +1,5 @@
 using System.Collections;
-using Project.Game.Scripts;
+using Project.Scripts.Audio.Sounds;
 using Project.Scripts.DataBase.Data;
 using Project.Scripts.ECS.EntityActors;
 using Project.Scripts.Projectiles.Bullets;
@@ -77,7 +77,7 @@ namespace Project.Scripts.Weapon.Player
         {
             if (_lastBurstTime <= MinValue && _closestEnemy.Health.TargetHealth > MinValue)
             {
-                _audioSoundsService.PlaySound(Sounds.MachineGun);
+                _audioSoundsService.PlaySound(SoundsType.MachineGun);
             
                 StartCoroutine(LaunchBullet());
             

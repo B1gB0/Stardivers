@@ -1,5 +1,5 @@
 using System;
-using Project.Game.Scripts;
+using Project.Scripts.Audio.Sounds;
 using Project.Scripts.Game.GameRoot;
 using Project.Scripts.Services;
 using Project.Scripts.UI.Panel;
@@ -69,13 +69,13 @@ namespace Project.Scripts.Game.MainMenu.Root.View
         private void HandleGoToGameplayButtonClick()
         {
             OnGameplayStarted?.Invoke();
-            _audioSoundsService.PlaySound(Sounds.Button);
+            _audioSoundsService.PlaySound(SoundsType.Button);
             _exitSceneSubjectSignal?.OnNext(Unit.Default);
         }
 
         private void HandlePlayButtonClick()
         {
-            _audioSoundsService.PlaySound(Sounds.Button);
+            _audioSoundsService.PlaySound(SoundsType.Button);
             _uiStateMachine.EnterIn<ChoosingOperationPanelState>();
         }
     }

@@ -1,4 +1,4 @@
-using Project.Game.Scripts;
+using Project.Scripts.Audio.Sounds;
 using Project.Scripts.Game.GameRoot;
 using Project.Scripts.Services;
 using Project.Scripts.UI.Panel;
@@ -75,7 +75,7 @@ namespace Project.Scripts.Game.Gameplay.Root.View
 
         public void HandleGoToNextSceneButtonClick()
         {
-            _audioSoundsService.PlaySound(Sounds.Button);
+            _audioSoundsService.PlaySound(SoundsType.Button);
             _exitSceneSignalSubject?.OnNext(Unit.Default);
         }
     }

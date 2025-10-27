@@ -1,6 +1,6 @@
 ﻿using System;
 using Leopotam.Ecs;
-using Project.Game.Scripts;
+using Project.Scripts.Audio.Sounds;
 using Project.Scripts.DataBase.Data;
 using Project.Scripts.ECS.Components;
 using Project.Scripts.ECS.Data;
@@ -116,7 +116,7 @@ namespace Project.Scripts.ECS.System
 
         public void CreateCapsule()
         {
-            _audioSoundsService.PlaySound(Sounds.CapsuleFlight);
+            _audioSoundsService.PlaySound(SoundsType.CapsuleFlight);
             
             _capsuleSpawnPoint = Player.transform.position;
             _capsuleSpawnPoint.y += CapsuleHeight;

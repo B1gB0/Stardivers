@@ -1,5 +1,4 @@
 using System.Collections;
-using Project.Game.Scripts;
 using Project.Scripts.Audio.Sounds;
 using UnityEngine;
 
@@ -22,11 +21,13 @@ namespace Project.Scripts.Services
         [SerializeField] private CardViewButtonSound _cardViewButtonSoundPrefab;
         [SerializeField] private FourBarrelMachineGunSound _fourBarrelMachineGunSoundPrefab;
         [SerializeField] private ButtonSound _buttonSoundPrefab;
+        [SerializeField] private ChainLightningGunSound _chainLightningGunSoundPrefab;
 
         private ObjectPool<GunSound> _poolGunSoundsOfShots;
         private ObjectPool<MiningStoneSound> _poolMiningSoundsOfStone;
         private ObjectPool<MachineGunSound> _poolMachineGunSounds;
         private ObjectPool<FourBarrelMachineGunSound> _poolFourBarrelMachineGunSounds;
+        private ObjectPool<ChainLightningGunSound> _poolChainLightningGunSounds;
 
         private MinesSound _minesSound;
         private GrenadesSound _grenadesSound;
@@ -42,6 +43,8 @@ namespace Project.Scripts.Services
             _poolMachineGunSounds = new ObjectPool<MachineGunSound>(_machineGunSoundPrefab, CountSounds, transform);
             _poolFourBarrelMachineGunSounds =
                 new ObjectPool<FourBarrelMachineGunSound>(_fourBarrelMachineGunSoundPrefab, CountSounds, transform);
+            _poolChainLightningGunSounds =
+                new ObjectPool<ChainLightningGunSound>(_chainLightningGunSoundPrefab, CountSounds, transform);
 
             _minesSound = Instantiate(_minesSoundPrefab, transform);
             _grenadesSound = Instantiate(_grenadesSoundPrefab, transform);
@@ -54,37 +57,41 @@ namespace Project.Scripts.Services
             _poolMiningSoundsOfStone.AutoExpand = IsAutoExpandPool;
             _poolMachineGunSounds.AutoExpand = IsAutoExpandPool;
             _poolFourBarrelMachineGunSounds.AutoExpand = IsAutoExpandPool;
+            _poolChainLightningGunSounds.AutoExpand = IsAutoExpandPool;
         }
 
-        public void PlaySound(Sounds sound)
+        public void PlaySound(SoundsType soundType)
         {
-            switch (sound)
+            switch (soundType)
             {
-                case Sounds.Gun :
+                case SoundsType.Gun :
                     PlayGunSound();
                     break;
-                case Sounds.Stone :
+                case SoundsType.Stone :
                     PlaySoundOfMiningStone();
                     break;
-                case Sounds.MachineGun :
+                case SoundsType.MachineGun :
                     PlayMachineGunSound();
                     break;
-                case Sounds.Mines :
+                case SoundsType.Mines :
                     PlayMinesSound();
                     break;
-                case Sounds.FragGrenades :
+                case SoundsType.FragGrenades :
                     PlayGrenadesSound();
                     break;
-                case Sounds.CapsuleFlight :
+                case SoundsType.ChainLightningGun :
+                    PlayChainLightningGunSound();
+                    break;
+                case SoundsType.CapsuleFlight :
                     PlayCapsuleFlightSound();
                     break;
-                case Sounds.CardViewButton :
+                case SoundsType.CardViewButton :
                     PlayCardViewButtonSound();
                     break;
-                case Sounds.FourBarrelMachineGun :
+                case SoundsType.FourBarrelMachineGun :
                     PlayFourBarrelMachineGunSound();
                     break;
-                case Sounds.Button :
+                case SoundsType.Button :
                     PlayButtonSound();
                     break;
             }
@@ -152,6 +159,15 @@ namespace Project.Scripts.Services
         private void PlayButtonSound()
         {
             _buttonSound.AudioSource.PlayOneShot(_buttonSound.AudioSource.clip);
+        }
+
+        private void PlayChainLightningGunSound()
+        {
+            ChainLightningGunSound chainLightningGunSound = _poolChainLightningGunSounds.GetFreeElement();
+            
+            chainLightningGunSound.AudioSource.PlayOneShot(chainLightningGunSound.AudioSource.clip);
+            
+            StartCoroutine(chainLightningGunSound.OffPoolSoundAfterPlay());
         }
     
         private IEnumerator PlayCapsuleExplosionSound()

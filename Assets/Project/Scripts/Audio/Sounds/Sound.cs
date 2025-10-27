@@ -1,23 +1,26 @@
 using System.Collections;
 using UnityEngine;
 
-public abstract class Sound : MonoBehaviour
+namespace Project.Scripts.Audio.Sounds
 {
-    [field: SerializeField] public AudioSource AudioSource { get; private set; }
-
-    public IEnumerator OffPoolSoundAfterPlay()
+    public abstract class Sound : MonoBehaviour
     {
-        yield return new WaitForSeconds(AudioSource.clip.length);
+        [field: SerializeField] public AudioSource AudioSource { get; private set; }
+
+        public IEnumerator OffPoolSoundAfterPlay()
+        {
+            yield return new WaitForSeconds(AudioSource.clip.length);
             
-        gameObject.SetActive(false);
-    }
+            gameObject.SetActive(false);
+        }
     
-    public IEnumerator OffSoundAfterDurationPlay(float playTime)
-    {
-        AudioSource.PlayOneShot(AudioSource.clip);
+        public IEnumerator OffSoundAfterDurationPlay(float playTime)
+        {
+            AudioSource.PlayOneShot(AudioSource.clip);
         
-        yield return new WaitForSeconds(playTime);
+            yield return new WaitForSeconds(playTime);
 
-        AudioSource.Stop();
+            AudioSource.Stop();
+        }
     }
 }

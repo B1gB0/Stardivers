@@ -1,5 +1,5 @@
 using System.Collections;
-using Project.Game.Scripts;
+using Project.Scripts.Audio.Sounds;
 using Project.Scripts.DataBase.Data;
 using Project.Scripts.ECS.EntityActors;
 using Project.Scripts.Projectiles.Bullets;
@@ -71,7 +71,7 @@ namespace Project.Scripts.Weapon.Player
             {
                 _bullet = _poolBullets.GetFreeElement();
             
-                _audioSoundsService.PlaySound(Sounds.Gun);
+                _audioSoundsService.PlaySound(SoundsType.Gun);
 
                 _bullet.transform.position = _shootPoint.position;
 

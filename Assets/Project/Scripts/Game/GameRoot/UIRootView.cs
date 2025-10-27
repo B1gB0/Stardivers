@@ -1,4 +1,4 @@
-﻿using Project.Game.Scripts;
+﻿using Project.Scripts.Audio.Sounds;
 using Project.Scripts.Localization;
 using Project.Scripts.Services;
 using Project.Scripts.UI.Panel;
@@ -95,26 +95,26 @@ namespace Project.Scripts.Game.GameRoot
                 return;
 
             _pauseService.PlayGame();
-            _audioSoundsService.PlaySound(Sounds.Button);
+            _audioSoundsService.PlaySound(SoundsType.Button);
         }
 
         private void ShowSettingsPanel()
         {
-            _audioSoundsService.PlaySound(Sounds.Button);
+            _audioSoundsService.PlaySound(SoundsType.Button);
             UIStateMachine.EnterIn<SettingsPanelState>();
             StopGame();
         }
 
         private void ShowLeaderboardPanel()
         {
-            _audioSoundsService.PlaySound(Sounds.Button);
+            _audioSoundsService.PlaySound(SoundsType.Button);
             UIStateMachine.EnterIn<LeaderboardPanelState>();
             StopGame();
         }
 
         private void ShowUIScene()
         {
-            _audioSoundsService.PlaySound(Sounds.Button);
+            _audioSoundsService.PlaySound(SoundsType.Button);
             
             var sceneName = SceneManager.GetActiveScene().name;
             

@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using Project.Game.Scripts;
+using Project.Scripts.Audio.Sounds;
 using Project.Scripts.DataBase.Data;
 using Project.Scripts.ECS.EntityActors;
 using Project.Scripts.Projectiles.Bullets;
@@ -88,7 +88,7 @@ namespace Project.Scripts.Weapon.Player
         {
             if (_lastBurstTime <= MinValue)
             {
-                _audioSoundsService.PlaySound(Sounds.FourBarrelMachineGun);
+                _audioSoundsService.PlaySound(SoundsType.FourBarrelMachineGun);
 
                 foreach (Vector3 direction in _directions)
                 {

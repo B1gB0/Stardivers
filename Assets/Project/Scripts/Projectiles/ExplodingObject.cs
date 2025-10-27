@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Project.Game.Scripts;
+using Project.Scripts.Audio.Sounds;
 using Project.Scripts.ECS.EntityActors;
 using Project.Scripts.Services;
 using UnityEngine;
@@ -23,7 +23,7 @@ namespace Project.Scripts.Projectiles
         {
             ExplosionEffect.transform.position = Transform.position;
             ExplosionEffect.Play();
-            AudioSoundsService.PlaySound(Sounds.Mines);
+            AudioSoundsService.PlaySound(SoundsType.Mines);
 
             foreach (EnemyActor explosiveObject in GetEnemies())
             {

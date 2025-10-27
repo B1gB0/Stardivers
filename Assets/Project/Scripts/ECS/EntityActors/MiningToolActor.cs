@@ -1,4 +1,4 @@
-﻿using Project.Game.Scripts;
+﻿using Project.Scripts.Audio.Sounds;
 using Project.Scripts.Services;
 using UnityEngine;
 
@@ -51,7 +51,7 @@ namespace Project.Scripts.ECS.EntityActors
                 {
                     _resourceRef = resource;
 
-                    _audioSoundsService.PlaySound(Sounds.Stone);
+                    _audioSoundsService.PlaySound(SoundsType.Stone);
 
                     _resourceRef.Health.TakeDamage(_damage);
                     _resourceRef.Health.SetHit(true);

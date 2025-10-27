@@ -1,4 +1,4 @@
-﻿using Project.Game.Scripts;
+﻿using Project.Scripts.Audio.Sounds;
 using Project.Scripts.DataBase.Data;
 using Project.Scripts.Projectiles.Mines;
 using Project.Scripts.Services;
@@ -64,7 +64,7 @@ namespace Project.Scripts.Weapon.Player
         {
             if (_lastShotTime <= MinValue)
             {
-                _audioSoundsService.PlaySound(Sounds.Button);
+                _audioSoundsService.PlaySound(SoundsType.Button);
                 
                 _mine = _pool.GetFreeElement();
 

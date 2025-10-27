@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using Project.Game.Scripts;
+using Project.Scripts.Audio.Sounds;
 using Project.Scripts.ECS.EntityActors;
 using UnityEngine;
 
@@ -50,7 +50,7 @@ namespace  Project.Scripts.Projectiles.Grenades
         {
             ExplosionEffect.transform.position = Transform.position;
             ExplosionEffect.Play();
-            AudioSoundsService.PlaySound(Sounds.FragGrenades);
+            AudioSoundsService.PlaySound(SoundsType.FragGrenades);
         
             foreach (EnemyActor explosiveObject in GetEnemies())
             {

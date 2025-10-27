@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
-using Project.Game.Scripts;
+using Project.Scripts.Audio.Sounds;
 using Project.Scripts.Cards;
 using Project.Scripts.Services;
 using Project.Scripts.UI.View;
@@ -269,7 +269,7 @@ namespace Project.Scripts.UI.Panel
 
         private async void OnCardViewButtonClicked(Card card, CardView cardView)
         {
-            _audioSoundsService.PlaySound(Sounds.CardViewButton);
+            _audioSoundsService.PlaySound(SoundsType.CardViewButton);
 
             if (card is ImprovementCard improvementCard)
             {
