@@ -1,4 +1,5 @@
-﻿using Cinemachine;
+﻿using System.Threading.Tasks;
+using Cinemachine;
 using Cysharp.Threading.Tasks;
 using Leopotam.Ecs;
 using Project.Scripts.Audio.Sounds;
@@ -18,6 +19,7 @@ using Reflex.Attributes;
 using Reflex.Extensions;
 using Reflex.Injectors;
 using UnityEngine;
+using YG;
 
 namespace Project.Scripts.Game.Gameplay.Root
 {
@@ -106,7 +108,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             _coreService = coreService;
         }
 
-        private void Start()
+        private async void Start()
         {
             switch (_operationService.CurrentOperation.Id)
             {
@@ -201,7 +203,8 @@ namespace Project.Scripts.Game.Gameplay.Root
 
             _weaponFactory.WeaponIsCreated += _uiScene.WeaponPanel.SetData;
 
-            await _weaponFactory.CreateWeapon(WeaponType.Gun);
+            await TryLoadWeapons();
+            
             _levelUpPanel.GetStartImprovements();
 
             _goldView.GetPoints(_uiScene.ShowGoldPoint, _uiScene.HideGoldPoint);
@@ -290,6 +293,25 @@ namespace Project.Scripts.Game.Gameplay.Root
             _updateSystems?.Destroy();
             _fixedUpdateSystems?.Destroy();
             _world?.Destroy();
+        }
+        
+        private async UniTask TryLoadWeapons()
+        {
+            if (YG2.saves.GunCharacteristics != null)
+                await _weaponFactory.CreateWeapon(WeaponType.Gun);
+            if (YG2.saves.MachineGunCharacteristics != null)
+                await _weaponFactory.CreateWeapon(WeaponType.MachineGun);
+            if (YG2.saves.MinesCharacteristics != null)
+                await _weaponFactory.CreateWeapon(WeaponType.Mines);
+            if (YG2.saves.FragGrenadeCharacteristics != null)
+                await _weaponFactory.CreateWeapon(WeaponType.FragGrenades);
+            if (YG2.saves.FourBarrelMachineGunCharacteristics != null)
+                await _weaponFactory.CreateWeapon(WeaponType.FourBarrelMachineGun);
+            if (YG2.saves.ChainLightningGunCharacteristics != null)
+                await _weaponFactory.CreateWeapon(WeaponType.ChainLightningGun);
+            
+            if(_weaponHolder.Weapons.Count == 0)
+                await _weaponFactory.CreateWeapon(WeaponType.Gun);
         }
 
         private void GetMainMenuExitParameters()

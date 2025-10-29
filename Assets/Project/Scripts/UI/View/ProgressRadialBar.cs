@@ -47,7 +47,7 @@ namespace Project.Scripts.UI.View
 
         private void UpgradeProgressBarLevel(int level, float targetValue, float maxValue)
         {
-            _currentLevel += _stepLevel;
+            _currentLevel = _stepLevel + level;
 
             ChangeText();
             

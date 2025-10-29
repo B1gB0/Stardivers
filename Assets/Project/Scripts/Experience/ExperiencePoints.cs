@@ -88,6 +88,7 @@ namespace Project.Scripts.Experience
         {
             _currentLevel = YG2.saves.CurrentLevel;
             _currentValue = YG2.saves.ExperiencePointsValue;
+            _counterLevel = _currentLevel;
             ProgressBarLevelIsUpgraded?.Invoke(_currentLevel, _currentValue, _playerProgression.Levels[_currentLevel]);
         }
 
