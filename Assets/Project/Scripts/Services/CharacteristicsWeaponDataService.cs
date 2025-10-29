@@ -24,11 +24,8 @@ namespace Project.Scripts.Services
         {
             if(IsInitiated)
                 return UniTask.CompletedTask;
-            
-            foreach (var data in _dataBaseService.Content.CharacteristicsWeaponsData)
-            {
-                _characteristicsData.TryAdd(data.WeaponType, data);
-            }
+
+            LoadAllWeaponsData();
             
             IsInitiated = true;
             
@@ -38,6 +35,14 @@ namespace Project.Scripts.Services
         public CharacteristicsWeaponData GetWeaponDataByType(WeaponType type)
         {
             return _characteristicsData[type];
+        }
+        
+        private void LoadAllWeaponsData()
+        {
+            foreach (var data in _dataBaseService.Content.CharacteristicsWeaponsData)
+            {
+                _characteristicsData.TryAdd(data.WeaponType, data);
+            }
         }
     }
 }

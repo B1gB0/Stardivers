@@ -8,6 +8,7 @@ using Reflex.Attributes;
 using Reflex.Extensions;
 using Reflex.Injectors;
 using UnityEngine;
+using YG;
 
 namespace Project.Scripts.Game.MainMenu.Root
 {
@@ -23,13 +24,14 @@ namespace Project.Scripts.Game.MainMenu.Root
         private ILevelTextService _levelTextService;
         private AudioSoundsService _audioSoundsService;
         private ICardService _cardService;
-        
+
         private MainMenuExitParameters _exitParameters;
 
         [Inject]
         private void Construct(OperationService operationService, IDataBaseService dataBaseService, 
             ICurrencyService currencyService, ITweenAnimationService tweenAnimationService,
-            ILevelTextService levelTextService, AudioSoundsService audioSoundsService, ICardService cardService)
+            ILevelTextService levelTextService, AudioSoundsService audioSoundsService,
+            ICardService cardService)
         {
             _dataBaseService = dataBaseService;
             _operationService = operationService;
@@ -51,6 +53,8 @@ namespace Project.Scripts.Game.MainMenu.Root
             
             if(_cardService.IsInitiated)
                 _cardService.RecreateAllCards();
+            
+            DeleteWeaponsData();
 
             _audioSoundsService.PlayMusic(SoundsType.MainMenuMusic);
         }
@@ -88,6 +92,16 @@ namespace Project.Scripts.Game.MainMenu.Root
         private void OnDestroy()
         {
             _uiScene.OnGameplayStarted -= GetMainMenuExitParameters;
+        }
+
+        private void DeleteWeaponsData()
+        {
+            YG2.saves.GunCharacteristics = null;
+            YG2.saves.MachineGunCharacteristics = null;
+            YG2.saves.MinesCharacteristics = null;
+            YG2.saves.FragGrenadeCharacteristics = null;
+            YG2.saves.FourBarrelMachineGunCharacteristics = null;
+            YG2.saves.ChainLightningGunCharacteristics = null;
         }
     }
 }
