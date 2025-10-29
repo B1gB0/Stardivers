@@ -6,7 +6,7 @@ using Reflex.Attributes;
 
 namespace Project.Scripts.Services
 {
-    public class CharacteristicsWeaponDataService : IService, ICharacteristicsWeaponDataService
+    public class CharacteristicsWeaponDataService : ICharacteristicsWeaponDataService
     {
         private readonly Dictionary<WeaponType, CharacteristicsWeaponData> _characteristicsData = new ();
 

@@ -4,7 +4,7 @@ using YG;
 
 namespace Project.Scripts.Services
 {
-    public class CurrencyService : IService, ICurrencyService
+    public class CurrencyService : ICurrencyService
     {
         public event Action<int> OnGoldValueChanged;
         public event Action<int> OnAlienCocoonValueChanged;

@@ -6,7 +6,7 @@ using Reflex.Attributes;
 
 namespace Project.Scripts.Services
 {
-    public class CoreService : IService, ICoreService
+    public class CoreService : ICoreService
     {
         private readonly Dictionary<CoreType, CoreData> _coresData = new();
         

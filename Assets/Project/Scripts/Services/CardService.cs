@@ -8,7 +8,7 @@ using Reflex.Attributes;
 
 namespace Project.Scripts.Services
 {
-    public class CardService : IService, ICardService
+    public class CardService : ICardService
     {
         private Dictionary<WeaponType, WeaponLocalizationData> _weaponsLocalizationData = new ();
         private Dictionary<CharacteristicType, CharacteristicsLocalizationData> _characteristicsLocalizationData = new ();
@@ -17,8 +17,8 @@ namespace Project.Scripts.Services
         private IDataBaseService _dataBaseService;
         private ICharacteristicsWeaponDataService _characteristicsWeaponDataService;
         
-        public List<ImprovementCard> ImprovementCards { get; private set; } = new();
-        public List<WeaponCard> WeaponCards { get; private set; } = new();
+        public List<ImprovementCard> ImprovementCards { get; } = new();
+        public List<WeaponCard> WeaponCards { get; } = new();
         public bool IsInitiated { get; private set; }
         
         [Inject]

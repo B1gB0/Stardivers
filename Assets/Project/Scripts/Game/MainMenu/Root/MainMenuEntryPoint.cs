@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace Project.Scripts.Game.MainMenu.Root
 {
-    public class MainMenuEntryPoint : MonoBehaviour, IService
+    public class MainMenuEntryPoint : MonoBehaviour
     {
         [SerializeField] private UIMainMenuRootBinder _sceneUIRootPrefab;
         
@@ -22,15 +22,14 @@ namespace Project.Scripts.Game.MainMenu.Root
         private ITweenAnimationService _tweenAnimationService;
         private ILevelTextService _levelTextService;
         private AudioSoundsService _audioSoundsService;
+        private ICardService _cardService;
         
         private MainMenuExitParameters _exitParameters;
-        
-        public bool IsInitiated { get; private set; }
 
         [Inject]
         private void Construct(OperationService operationService, IDataBaseService dataBaseService, 
             ICurrencyService currencyService, ITweenAnimationService tweenAnimationService,
-            ILevelTextService levelTextService, AudioSoundsService audioSoundsService)
+            ILevelTextService levelTextService, AudioSoundsService audioSoundsService, ICardService cardService)
         {
             _dataBaseService = dataBaseService;
             _operationService = operationService;
@@ -38,6 +37,7 @@ namespace Project.Scripts.Game.MainMenu.Root
             _tweenAnimationService = tweenAnimationService;
             _levelTextService = levelTextService;
             _audioSoundsService = audioSoundsService;
+            _cardService = cardService;
         }
 
         private async void Start()
@@ -49,6 +49,9 @@ namespace Project.Scripts.Game.MainMenu.Root
             await _audioSoundsService.Init();
             await _levelTextService.Init();
             
+            if(_cardService.IsInitiated)
+                _cardService.RecreateAllCards();
+
             _audioSoundsService.PlayMusic(SoundsType.MainMenuMusic);
         }
 

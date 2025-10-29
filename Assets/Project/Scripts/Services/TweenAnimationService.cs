@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Project.Scripts.Services
 {
-    public class TweenAnimationService : IService, ITweenAnimationService
+    public class TweenAnimationService : ITweenAnimationService
     {
         private const float ShowScale = 1f;
         private const float HideScale = 0f;

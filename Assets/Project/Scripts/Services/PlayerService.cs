@@ -7,7 +7,7 @@ using Reflex.Attributes;
 
 namespace Project.Scripts.Services
 {
-    public class PlayerService : IService, IPlayerService
+    public class PlayerService : IPlayerService
     {
         private readonly Dictionary<PlayerActorType, PlayerData> _playersData = new();
         

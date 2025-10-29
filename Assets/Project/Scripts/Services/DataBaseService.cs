@@ -5,7 +5,7 @@ using Reflex.Attributes;
 
 namespace Project.Scripts.Services
 {
-    public class DataBaseService : IService, IDataBaseService
+    public class DataBaseService : IDataBaseService
     {
         private const string DataContainer = nameof(DataContainer);
 

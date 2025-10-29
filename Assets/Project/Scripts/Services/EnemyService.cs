@@ -6,7 +6,7 @@ using Reflex.Attributes;
 
 namespace Project.Scripts.Services
 {
-    public class EnemyService : IService, IEnemyService
+    public class EnemyService : IEnemyService
     {
         private readonly Dictionary<EnemyActorType, EnemyData> _enemiesData = new();
         

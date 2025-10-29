@@ -7,7 +7,7 @@ using Reflex.Attributes;
 
 namespace Project.Scripts.Services
 {
-    public class LevelTextService : IService, ILevelTextService
+    public class LevelTextService : ILevelTextService
     {
         private readonly Dictionary<string, LevelTextData> _levelText = new();
 
