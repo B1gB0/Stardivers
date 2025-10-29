@@ -8,6 +8,8 @@ namespace YG
         public int Gold;
         public int RedCrystal;
         public int AcumulatedScore;
+        public int ExperiencePointsValue;
+        public int CurrentLevel;
         public bool isMarsOperationUnlock = true;
         public bool isMysteryPlanetUnlock;
         

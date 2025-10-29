@@ -27,11 +27,11 @@ namespace Project.Scripts.UI.View
 
         private void OnEnable()
         {
-            _currentLevel += _stepLevel;
             ChangeText();
             
             _experiencePoints.ValueIsChanged += OnChangeValue;
             _experiencePoints.ProgressBarLevelIsUpgraded += UpgradeProgressBarLevel;
+            _experiencePoints.LoadLevel();
         }
 
         private void FixedUpdate()

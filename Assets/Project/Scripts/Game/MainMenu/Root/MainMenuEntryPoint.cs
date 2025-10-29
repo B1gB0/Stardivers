@@ -54,7 +54,7 @@ namespace Project.Scripts.Game.MainMenu.Root
             if(_cardService.IsInitiated)
                 _cardService.RecreateAllCards();
             
-            DeleteWeaponsData();
+            DeleteGameplayData();
 
             _audioSoundsService.PlayMusic(SoundsType.MainMenuMusic);
         }
@@ -94,7 +94,7 @@ namespace Project.Scripts.Game.MainMenu.Root
             _uiScene.OnGameplayStarted -= GetMainMenuExitParameters;
         }
 
-        private void DeleteWeaponsData()
+        private void DeleteGameplayData()
         {
             YG2.saves.GunCharacteristics = null;
             YG2.saves.MachineGunCharacteristics = null;
@@ -102,6 +102,8 @@ namespace Project.Scripts.Game.MainMenu.Root
             YG2.saves.FragGrenadeCharacteristics = null;
             YG2.saves.FourBarrelMachineGunCharacteristics = null;
             YG2.saves.ChainLightningGunCharacteristics = null;
+            YG2.saves.ExperiencePointsValue = 0;
+            YG2.saves.CurrentLevel = 0;
         }
     }
 }

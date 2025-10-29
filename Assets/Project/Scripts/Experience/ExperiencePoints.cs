@@ -4,6 +4,7 @@ using Cysharp.Threading.Tasks;
 using Project.Scripts.ECS.Data;
 using Project.Scripts.ECS.EntityActors;
 using Project.Scripts.UI.Panel;
+using YG;
 
 namespace Project.Scripts.Experience
 {
@@ -11,6 +12,7 @@ namespace Project.Scripts.Experience
     {
         private const int DefaultLevel = 0;
         private const int CorrectFactorCounter = 1;
+
         private const float DelayLevelUp = 0.2f;
 
         private readonly ExperienceScoreActorVisitor _experienceScoreActorVisitor = new();
@@ -77,6 +79,16 @@ namespace Project.Scripts.Experience
             {
                 ProcessLevelUps().Forget();
             }
+
+            YG2.saves.ExperiencePointsValue = _currentValue;
+            YG2.saves.CurrentLevel = _currentLevel;
+        }
+
+        public void LoadLevel()
+        {
+            _currentLevel = YG2.saves.CurrentLevel;
+            _currentValue = YG2.saves.ExperiencePointsValue;
+            ProgressBarLevelIsUpgraded?.Invoke(_currentLevel, _currentValue, _playerProgression.Levels[_currentLevel]);
         }
 
         private async UniTaskVoid ProcessLevelUps()
@@ -98,11 +110,6 @@ namespace Project.Scripts.Experience
             {
                 _isLevelUpProcessing = false;
             }
-        }
-        
-        private async UniTask WaitForLevelUpPanelClose()
-        {
-            await UniTask.WaitUntil(() => _levelUpPanel.IsClosed);
         }
     }
 }

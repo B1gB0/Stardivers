@@ -1,6 +1,7 @@
 using System;
 using Project.Scripts.ECS.EntityActors;
 using UnityEngine;
+using YG;
 
 namespace Project.Scripts.Levels.Triggers
 {
@@ -12,6 +13,7 @@ namespace Project.Scripts.Levels.Triggers
         {
             if (trigger.TryGetComponent(out PlayerActor _))
             {
+                YG2.SaveProgress();
                 IsLevelCompleted?.Invoke();
             }
         }
