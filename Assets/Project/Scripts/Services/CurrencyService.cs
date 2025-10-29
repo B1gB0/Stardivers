@@ -4,7 +4,7 @@ using YG;
 
 namespace Project.Scripts.Services
 {
-    public class CurrencyService : Service, ICurrencyService
+    public class CurrencyService : IService, ICurrencyService
     {
         public event Action<int> OnGoldValueChanged;
         public event Action<int> OnAlienCocoonValueChanged;
@@ -12,11 +12,17 @@ namespace Project.Scripts.Services
         public int Gold { get; private set; }
         public int AlienCocoons { get; private set; }
         public int MaxAlienCocoons { get; private set; }
+        public bool IsInitiated { get; private set; }
 
-        public override UniTask Init()
+        public UniTask Init()
         {
+            if(IsInitiated)
+                return UniTask.CompletedTask;
+            
             Gold = YG2.saves.Gold;
             OnGoldValueChanged?.Invoke(Gold);
+
+            IsInitiated = true;
 
             return UniTask.CompletedTask;
         }

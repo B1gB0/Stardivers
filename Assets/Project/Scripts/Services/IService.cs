@@ -2,9 +2,11 @@
 
 namespace Project.Scripts.Services
 {
-    public class Service
+    public interface IService
     {
-        public virtual UniTask Init()
+        public bool IsInitiated { get; }
+        
+        public UniTask Init()
         {
             return UniTask.CompletedTask;
         }

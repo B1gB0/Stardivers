@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace Project.Scripts.Game.MainMenu.Root
 {
-    public class MainMenuEntryPoint : MonoBehaviour
+    public class MainMenuEntryPoint : MonoBehaviour, IService
     {
         [SerializeField] private UIMainMenuRootBinder _sceneUIRootPrefab;
         
@@ -24,6 +24,8 @@ namespace Project.Scripts.Game.MainMenu.Root
         private AudioSoundsService _audioSoundsService;
         
         private MainMenuExitParameters _exitParameters;
+        
+        public bool IsInitiated { get; private set; }
 
         [Inject]
         private void Construct(OperationService operationService, IDataBaseService dataBaseService, 
@@ -40,9 +42,6 @@ namespace Project.Scripts.Game.MainMenu.Root
 
         private async void Start()
         {
-            if(_operationService.IsInitiated)
-                return;
-            
             await _dataBaseService.Init();
             await _operationService.Init();
             await _currencyService.Init();

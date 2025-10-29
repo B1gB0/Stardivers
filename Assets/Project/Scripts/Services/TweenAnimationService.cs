@@ -4,16 +4,24 @@ using UnityEngine;
 
 namespace Project.Scripts.Services
 {
-    public class TweenAnimationService : Service, ITweenAnimationService
+    public class TweenAnimationService : IService, ITweenAnimationService
     {
         private const float ShowScale = 1f;
         private const float HideScale = 0f;
         private const float DurationShow = 0.4f;
         private const float DurationHide = 0.3f;
 
-        public override UniTask Init()
+        public bool IsInitiated { get; private set; }
+
+        public UniTask Init()
         {
+            if(IsInitiated)
+                return UniTask.CompletedTask;
+            
             DOTween.Init(recycleAllByDefault: true, useSafeMode: true, logBehaviour: LogBehaviour.Default);
+
+            IsInitiated = true;
+            
             return UniTask.CompletedTask;
         }
 

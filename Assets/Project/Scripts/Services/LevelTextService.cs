@@ -7,11 +7,13 @@ using Reflex.Attributes;
 
 namespace Project.Scripts.Services
 {
-    public class LevelTextService : Service, ILevelTextService
+    public class LevelTextService : IService, ILevelTextService
     {
         private readonly Dictionary<string, LevelTextData> _levelText = new();
 
         private IDataBaseService _dataBaseService;
+        
+        public bool IsInitiated { get; private set; }
 
         [Inject]
         private void Construct(IDataBaseService dataBaseService)
@@ -19,12 +21,17 @@ namespace Project.Scripts.Services
             _dataBaseService = dataBaseService;
         }
 
-        public override UniTask Init()
+        public UniTask Init()
         {
+            if(IsInitiated)
+                return UniTask.CompletedTask;
+            
             foreach (var levelTextData in _dataBaseService.Content.LevelTexts)
             {
                 _levelText.Add(levelTextData.Id, levelTextData);
             }
+
+            IsInitiated = true;
 
             return UniTask.CompletedTask;
         }

@@ -6,11 +6,13 @@ using Reflex.Attributes;
 
 namespace Project.Scripts.Services
 {
-    public class CoreService : Service, ICoreService
+    public class CoreService : IService, ICoreService
     {
         private readonly Dictionary<CoreType, CoreData> _coresData = new();
         
         private IDataBaseService _dataBaseService;
+        
+        public bool IsInitiated { get; private set; }
         
         [Inject]
         public void Construct(IDataBaseService dataBaseService)
@@ -18,12 +20,17 @@ namespace Project.Scripts.Services
             _dataBaseService = dataBaseService;
         }
 
-        public override UniTask Init()
+        public UniTask Init()
         {
+            if(IsInitiated)
+                return UniTask.CompletedTask;
+            
             foreach (var core in _dataBaseService.Content.Cores)
             {
                 _coresData.TryAdd(core.Type, core);
             }
+
+            IsInitiated = true;
             
             return UniTask.CompletedTask;
         }

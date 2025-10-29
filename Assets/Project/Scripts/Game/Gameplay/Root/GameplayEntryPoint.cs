@@ -1,5 +1,4 @@
-﻿using System;
-using Cinemachine;
+﻿using Cinemachine;
 using Cysharp.Threading.Tasks;
 using Leopotam.Ecs;
 using Project.Scripts.Audio.Sounds;

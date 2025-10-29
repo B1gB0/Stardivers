@@ -10,7 +10,7 @@ using UnityEngine.Audio;
 
 namespace Project.Scripts.Services
 {
-    public class AudioSoundsService : MonoBehaviour
+    public class AudioSoundsService : MonoBehaviour, IService
     {
         private const string GunSoundPath = "GunSound";
         private const string ButtonSoundPath = "ButtonSound";
@@ -44,7 +44,8 @@ namespace Project.Scripts.Services
         private Queue<AudioSource> _availableAudioSources;
         private List<AudioSource> _allAudioSources;
         private IResourceService _resourceService;
-        private bool _isInitialized;
+        
+        public bool IsInitiated { get; private set; }
 
         [Inject]
         private void Construct(IResourceService resourceService)
@@ -54,15 +55,18 @@ namespace Project.Scripts.Services
 
         public async UniTask Init()
         {
+            if(IsInitiated)
+                return;
+            
             await InitializeSoundDictionary();
             InitializeMusicAudioSource();
             InitializeAudioSourcePool();
-            _isInitialized = true;
+            IsInitiated = true;
         }
 
         public async void PlaySound(SoundsType sound)
         {
-            if (!_isInitialized) return;
+            if (!IsInitiated) return;
 
             if (!_soundDictionary.ContainsKey(sound)) return;
 
@@ -85,7 +89,7 @@ namespace Project.Scripts.Services
 
         public void PlayMusic(SoundsType musicType)
         {
-            if (!_isInitialized) return;
+            if (!IsInitiated) return;
 
             if (_currentMusicType == musicType && _musicAudioSource.isPlaying) return;
 
@@ -115,7 +119,7 @@ namespace Project.Scripts.Services
 
         public void CrossFadeMusic(SoundsType newMusicType, float fadeDuration = FadeDuration)
         {
-            if (!_isInitialized) return;
+            if (!IsInitiated) return;
 
             StartCoroutine(CrossFadeMusicCoroutine(newMusicType, fadeDuration));
         }

@@ -7,11 +7,13 @@ using Reflex.Attributes;
 
 namespace Project.Scripts.Services
 {
-    public class PlayerService : Service, IPlayerService
+    public class PlayerService : IService, IPlayerService
     {
         private readonly Dictionary<PlayerActorType, PlayerData> _playersData = new();
         
         private IDataBaseService _dataBaseService;
+        
+        public bool IsInitiated { get; private set; }
 
         [Inject]
         public void Construct(IDataBaseService dataBaseService)
@@ -22,12 +24,17 @@ namespace Project.Scripts.Services
         public PlayerActor PlayerActor { get; private set; }
         public PlayerMovableComponent PlayerMovableComponent { get; private set; }
 
-        public override UniTask Init()
+        public UniTask Init()
         {
+            if(IsInitiated)
+                return UniTask.CompletedTask;
+            
             foreach (var player in _dataBaseService.Content.Players)
             {
                 _playersData.TryAdd(player.Type, player);
             }
+
+            IsInitiated = true;
             
             return UniTask.CompletedTask;
         }

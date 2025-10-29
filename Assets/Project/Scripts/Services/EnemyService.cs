@@ -6,11 +6,13 @@ using Reflex.Attributes;
 
 namespace Project.Scripts.Services
 {
-    public class EnemyService : Service, IEnemyService
+    public class EnemyService : IService, IEnemyService
     {
         private readonly Dictionary<EnemyActorType, EnemyData> _enemiesData = new();
         
         private IDataBaseService _dataBaseService;
+        
+        public bool IsInitiated { get; private set; }
         
         [Inject]
         public void Construct(IDataBaseService dataBaseService)
@@ -18,12 +20,17 @@ namespace Project.Scripts.Services
             _dataBaseService = dataBaseService;
         }
 
-        public override UniTask Init()
+        public UniTask Init()
         {
+            if(IsInitiated)
+                return UniTask.CompletedTask;
+            
             foreach (var enemy in _dataBaseService.Content.Enemies)
             {
                 _enemiesData.TryAdd(enemy.Type, enemy);
             }
+
+            IsInitiated = true;
             
             return UniTask.CompletedTask;
         }

@@ -8,17 +8,18 @@ using Reflex.Attributes;
 
 namespace Project.Scripts.Services
 {
-    public class CardService : Service, ICardService
+    public class CardService : IService, ICardService
     {
         private Dictionary<WeaponType, WeaponLocalizationData> _weaponsLocalizationData = new ();
         private Dictionary<CharacteristicType, CharacteristicsLocalizationData> _characteristicsLocalizationData = new ();
         private Dictionary<string, ImprovementData> _improvementsData = new ();
-
-        public List<ImprovementCard> ImprovementCards { get; private set; } = new();
-        public List<WeaponCard> WeaponCards { get; private set; } = new();
-
+        
         private IDataBaseService _dataBaseService;
         private ICharacteristicsWeaponDataService _characteristicsWeaponDataService;
+        
+        public List<ImprovementCard> ImprovementCards { get; private set; } = new();
+        public List<WeaponCard> WeaponCards { get; private set; } = new();
+        public bool IsInitiated { get; private set; }
         
         [Inject]
         private void Construct(IDataBaseService dataBaseService, ICharacteristicsWeaponDataService characteristicsWeaponDataService)
@@ -27,8 +28,11 @@ namespace Project.Scripts.Services
             _characteristicsWeaponDataService = characteristicsWeaponDataService;
         }
         
-        public override UniTask Init()
+        public UniTask Init()
         {
+            if (IsInitiated)
+                return UniTask.CompletedTask;
+            
             foreach (var weapon in _dataBaseService.Content.WeaponsLocalization)
             {
                 _weaponsLocalizationData.TryAdd(weapon.Type, weapon);
@@ -46,8 +50,18 @@ namespace Project.Scripts.Services
             
             CreateImprovementCards();
             CreateWeaponsCard();
+
+            IsInitiated = true;
             
             return UniTask.CompletedTask;
+        }
+
+        public void RecreateAllCards()
+        {
+            WeaponCards.Clear();
+            ImprovementCards.Clear();
+            CreateWeaponsCard();
+            CreateImprovementCards();
         }
 
         private void CreateWeaponsCard()
