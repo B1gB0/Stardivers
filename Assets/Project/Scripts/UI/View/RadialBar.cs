@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System.Threading;
+using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 
@@ -17,12 +18,17 @@ namespace Project.Scripts.UI.View
         [SerializeField] private Material _backgroundBarMaterial;
         [SerializeField] private Material _barMaterial;
         
-        private Coroutine _coroutine;
+        private CancellationTokenSource _cancellationTokenSource;
 
         private void Start()
         {
             _barMaterial.SetFloat(RemovedSegments, DefaultBarValue);
             _backgroundBarMaterial.SetFloat(RemovedSegments, DefaultBackgroundBarValue);
+        }
+
+        private void OnDestroy()
+        {
+            CancelAnimation();
         }
 
         public void Show()
@@ -37,30 +43,39 @@ namespace Project.Scripts.UI.View
         
         protected void OnChangeValue(float currentValue, float targetValue, float maxValue)
         {
-            if (_coroutine != null)
-            {
-                StopCoroutine(_coroutine);
-            }
-
-            _coroutine = StartCoroutine(SetValue(currentValue, targetValue, maxValue));
-        }
-        
-        protected void UpdateLevelValue(float value, float maxValue)
-        {
-            float valueForView = value / maxValue;
-            _barMaterial.SetFloat(RemovedSegments, valueForView);
+            CancelAnimation();
+            _cancellationTokenSource = new();
+            SetValueAsync(currentValue, targetValue, maxValue, _cancellationTokenSource.Token).Forget();
         }
 
-        private IEnumerator SetValue(float currentValue, float targetValue, float maxValue)
+        private async UniTask SetValueAsync(float currentValue, float targetValue, float maxValue,
+            CancellationToken token)
         {
-            while (currentValue != targetValue)
+            while (Mathf.Abs(currentValue - targetValue) > 0.01f && !token.IsCancellationRequested)
             {
-                currentValue = Mathf.MoveTowards(currentValue, targetValue, RecoveryRate * Time.deltaTime);
+                currentValue =
+                    Mathf.MoveTowards(currentValue, targetValue, RecoveryRate * Time.unscaledDeltaTime);
                 
                 float sliderValue = currentValue / maxValue;
                 _barMaterial.SetFloat(RemovedSegments, sliderValue);
 
-                yield return null;
+                await UniTask.Yield(PlayerLoopTiming.Update, token);
+            }
+            
+            if (!token.IsCancellationRequested)
+            {
+                float finalSliderValue = targetValue / maxValue;
+                _barMaterial.SetFloat(RemovedSegments, finalSliderValue);
+            }
+        }
+        
+        private void CancelAnimation()
+        {
+            if (_cancellationTokenSource != null)
+            {
+                _cancellationTokenSource.Cancel();
+                _cancellationTokenSource.Dispose();
+                _cancellationTokenSource = null;
             }
         }
     }

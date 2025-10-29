@@ -51,7 +51,6 @@ namespace Project.Scripts.UI.View
 
             ChangeText();
             
-            UpdateLevelValue(_startValueLevel, maxValue);
             OnChangeValue(_startValueLevel, targetValue, maxValue);
         }
 

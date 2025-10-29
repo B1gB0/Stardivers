@@ -4,6 +4,7 @@ using Cysharp.Threading.Tasks;
 using Project.Scripts.ECS.Data;
 using Project.Scripts.ECS.EntityActors;
 using Project.Scripts.UI.Panel;
+using UnityEngine;
 using YG;
 
 namespace Project.Scripts.Experience
@@ -61,7 +62,7 @@ namespace Project.Scripts.Experience
 
                 ProgressBarLevelIsUpgraded?.Invoke(_counterLevel, TargetExperienceValue, _currentMaxValueOfLevel);
                 _currentValue = TargetExperienceValue;
-                
+
                 for (int i = _currentLevel; i < _counterLevel; i++)
                 {
                     _currentLevel++;
