@@ -29,13 +29,17 @@ namespace Project.Scripts.Levels.MysteryPlanet.SecondLevel
             IsInitiatedSpawners -= SpawnResources;
         }
 
-        public override void OnStartLevel()
+        public override async void OnStartLevel()
         {
             base.OnStartLevel();
+            
+            _missionProgressBar = await ViewFactory.CreateMissionProgressBar();
             
             _missionProgressBar.SetData();
             
             WelcomePlanetTextTrigger.IsWelcomeToPlanet += DialogueSetter.OnWelcomePlanet;
+            
+            _radioTower.ProgressChanged += _missionProgressBar.OnChangedValues;
 
             _enemySpawnTriggerWithEffect.EnemySpawned += _radioTowerTrigger.Activate;
             _enemySpawnTriggerWithEffect.EnemySpawned += _entranceLastLvlTrigger.Deactivate;
@@ -56,13 +60,7 @@ namespace Project.Scripts.Levels.MysteryPlanet.SecondLevel
                 CreateWaveOfEnemy(FirstWaveEnemy);
             }
         }
-        
-        public void GetRadioTowerProgressBar(MissionProgressBar missionProgressBar)
-        {
-            _missionProgressBar = missionProgressBar;
-            _radioTower.ProgressChanged += _missionProgressBar.OnChangedValues;
-        }
-        
+
         private void OnDestroy()
         {
             WelcomePlanetTextTrigger.IsWelcomeToPlanet -= DialogueSetter.OnWelcomePlanet;

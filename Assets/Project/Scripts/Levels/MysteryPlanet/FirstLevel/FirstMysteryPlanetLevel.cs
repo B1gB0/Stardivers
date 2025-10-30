@@ -1,4 +1,5 @@
 ﻿using Project.Scripts.Levels.Triggers;
+using Project.Scripts.UI.View;
 using UnityEngine;
 
 namespace Project.Scripts.Levels.MysteryPlanet.FirstLevel
@@ -7,6 +8,8 @@ namespace Project.Scripts.Levels.MysteryPlanet.FirstLevel
     {
         [SerializeField] private EnemySpawnTriggerWithEffect _enemySpawnTriggerWithEffect;
         [SerializeField] private int _timeOfWaves = 90;
+        
+        private Timer _timer;
 
         private void OnEnable()
         {
@@ -18,24 +21,26 @@ namespace Project.Scripts.Levels.MysteryPlanet.FirstLevel
             IsInitiatedSpawners -= SpawnResources;
         }
 
-        public override void OnStartLevel()
+        public override async void OnStartLevel()
         {
             base.OnStartLevel();
             
+            _timer = await ViewFactory.CreateTimer();
+            
             WelcomePlanetTextTrigger.IsWelcomeToPlanet += DialogueSetter.OnWelcomePlanet;
             
-            Timer.SetTime(_timeOfWaves);
+            _timer.SetTime(_timeOfWaves);
             
-            PauseService.OnGameStarted += Timer.ResumeTimer;
-            PauseService.OnGamePaused += Timer.PauseTimer;
+            PauseService.OnGameStarted += _timer.ResumeTimer;
+            PauseService.OnGamePaused += _timer.PauseTimer;
             
-            _enemySpawnTriggerWithEffect.EnemySpawned += Timer.Show;
+            _enemySpawnTriggerWithEffect.EnemySpawned += _timer.Show;
             _enemySpawnTriggerWithEffect.EnemySpawned += DialogueSetter.OnEnemySpawnTriggerWithEffect;
             
-            Timer.IsEndAttack += DialogueSetter.OnEndAttack;
-            Timer.IsEndAttack += _enemySpawnTriggerWithEffect.CompleteSpawn;
-            Timer.IsEndAttack += EntranceToNextLvlTrigger.Activate;
-            Timer.IsEndAttack += EndLevelTrigger.Activate;
+            _timer.IsEndAttack += DialogueSetter.OnEndAttack;
+            _timer.IsEndAttack += _enemySpawnTriggerWithEffect.CompleteSpawn;
+            _timer.IsEndAttack += EntranceToNextLvlTrigger.Activate;
+            _timer.IsEndAttack += EndLevelTrigger.Activate;
         }
 
         private void FixedUpdate()
@@ -50,16 +55,16 @@ namespace Project.Scripts.Levels.MysteryPlanet.FirstLevel
         {
             WelcomePlanetTextTrigger.IsWelcomeToPlanet -= DialogueSetter.OnWelcomePlanet;
             
-            PauseService.OnGameStarted -= Timer.ResumeTimer;
-            PauseService.OnGamePaused -= Timer.PauseTimer;
+            PauseService.OnGameStarted -= _timer.ResumeTimer;
+            PauseService.OnGamePaused -= _timer.PauseTimer;
             
-            _enemySpawnTriggerWithEffect.EnemySpawned -= Timer.Show;
+            _enemySpawnTriggerWithEffect.EnemySpawned -= _timer.Show;
             _enemySpawnTriggerWithEffect.EnemySpawned -= DialogueSetter.OnEnemySpawnTriggerWithEffect;
             
-            Timer.IsEndAttack -= DialogueSetter.OnEndAttack;
-            Timer.IsEndAttack -= _enemySpawnTriggerWithEffect.CompleteSpawn;
-            Timer.IsEndAttack -= EntranceToNextLvlTrigger.Activate;
-            Timer.IsEndAttack -= EndLevelTrigger.Activate;
+            _timer.IsEndAttack -= DialogueSetter.OnEndAttack;
+            _timer.IsEndAttack -= _enemySpawnTriggerWithEffect.CompleteSpawn;
+            _timer.IsEndAttack -= EntranceToNextLvlTrigger.Activate;
+            _timer.IsEndAttack -= EndLevelTrigger.Activate;
         }
     }
 }

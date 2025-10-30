@@ -1,47 +1,46 @@
 using DG.Tweening;
 using Project.Scripts.Services;
-using Project.Scripts.UI.View;
 using Reflex.Attributes;
 using UnityEngine;
 
-public class Joystick : MonoBehaviour, IView
+namespace Project.Scripts.UI.View
 {
-    [SerializeField] private Transform _showPoint;
-    [SerializeField] private Transform _hidePoint;
-
-    private ITweenAnimationService _tweenAnimationService;
-
-    [Inject]
-    private void Construct(ITweenAnimationService tweenAnimationService)
+    public class Joystick : MonoBehaviour, IView
     {
-        _tweenAnimationService = tweenAnimationService;
-    }
+        [SerializeField] private Transform _showPoint;
+        [SerializeField] private Transform _hidePoint;
 
-    private void Start()
-    {
-        if (!Application.isMobilePlatform)
+        private ITweenAnimationService _tweenAnimationService;
+
+        [Inject]
+        private void Construct(ITweenAnimationService tweenAnimationService)
         {
-            Hide();
+            _tweenAnimationService = tweenAnimationService;
+            
+            if (!Application.isMobilePlatform)
+            {
+                Hide();
+            }
+            else
+            {
+                Show();
+            }
         }
-        else
+
+        private void OnDestroy()
         {
-            Show();
+            transform.DOKill();
         }
-    }
 
-    private void OnDestroy()
-    {
-        transform.DOKill();
-    }
+        public void Show()
+        {
+            gameObject.SetActive(true);
+            _tweenAnimationService.AnimateMove(transform, _showPoint, _hidePoint);
+        }
 
-    public void Show()
-    {
-        gameObject.SetActive(true);
-        _tweenAnimationService.AnimateMove(transform, _showPoint, _hidePoint);
-    }
-
-    public void Hide()
-    {
-        _tweenAnimationService.AnimateMove(transform, _showPoint, _hidePoint, true);
+        public void Hide()
+        {
+            _tweenAnimationService.AnimateMove(transform, _showPoint, _hidePoint, true);
+        }
     }
 }

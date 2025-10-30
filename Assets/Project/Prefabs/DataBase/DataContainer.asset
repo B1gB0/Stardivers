@@ -1130,7 +1130,7 @@ MonoBehaviour:
       _speed: 0
       _damage: 8
       _fireRate: 2
-      _rangeAttack: 5
+      _rangeAttack: 8
       _experience: 20
       _score: 20
     MarsSceneLevels:
@@ -1190,6 +1190,12 @@ MonoBehaviour:
         your breath!
       _textTr: "Sald\u0131r\u0131 sona erdi! En yak\u0131n karakola gitme ve nefes
         alma zaman\u0131!"
+    - _id: objective_text_first_mars_level
+      _type: 4
+      _sceneName: MarsFirstLevel
+      _textRu: "\u0414\u043E\u0431\u0435\u0440\u0438\u0441\u044C \u0434\u043E \u0430\u0432\u0430\u043D\u043F\u043E\u0441\u0442\u0430"
+      _textEn: Get to the outpost
+      _textTr: Karakola git
     - _id: rocket_launch
       _type: 3
       _sceneName: MarsSecondLevel
@@ -1280,6 +1286,12 @@ MonoBehaviour:
       _textTr: "Ta\u015F\u0131mac\u0131l\u0131\u011F\u0131 tahliye noktas\u0131na
         kadar takip edin. Yol dar bir kanyondan ge\xE7iyor. Yolunuza \xE7\u0131kan
         d\xFC\u015Fmanlar\u0131 yok edin! Bu operasyonun son k\u0131sm\u0131!"
+    - _id: objective_text_third_mars_level
+      _type: 4
+      _sceneName: MarsThirdLevel
+      _textRu: "\u0421\u043E\u043F\u0440\u043E\u0432\u043E\u0434\u0438 \u0442\u0440\u0430\u043D\u0441\u043F\u043E\u0440\u0442"
+      _textEn: Escort the transport
+      _textTr: "Ula\u015F\u0131ma e\u015Flik et"
     - _id: end_attack_mars_third_level
       _type: 2
       _sceneName: MarsThirdLevel
@@ -1352,6 +1364,16 @@ MonoBehaviour:
       _textEn: The aliens are trying to stop you! Defend the tower, stardiver!
       _textTr: "Uzayl\u0131lar seni engellemeye \xE7al\u0131\u015F\u0131yor! Kulenin
         savunucusu, y\u0131ld\u0131z denizcisi!"
+    - _id: end_attack_mystery_planet_second_level
+      _type: 2
+      _sceneName: MysteryPlanetSecondLevel
+      _textRu: "\u0412\u044B\u0448\u043A\u0430 \u0440\u0430\u0431\u043E\u0442\u0430\u0435\u0442!
+        \u041E\u0442\u043F\u0440\u0430\u0432\u043B\u044F\u0439\u0441\u044F \u043D\u0430
+        \u0430\u0432\u0430\u043D\u043F\u043E\u0441\u0442 \u0434\u043B\u044F \u043F\u043E\u043B\u0443\u0447\u0435\u043D\u0438\u044F
+        \u0441\u043B\u0435\u0434\u0443\u044E\u0449\u0438\u0445 \u0440\u0430\u0441\u043F\u043E\u0440\u044F\u0436\u0435\u043D\u0438\u0439."
+      _textEn: The tower is working! Go to the outpost to receive the following orders.
+      _textTr: "Vyshka \xE7al\u0131\u015F\u0131yor! A\u015Fa\u011F\u0131daki talimatlar
+        i\xE7in ileri karakola gidin."
     - _id: welcome_mystery_planet_third_level
       _type: 0
       _sceneName: MysteryPlanetThirdLevel
@@ -1371,6 +1393,24 @@ MonoBehaviour:
       _textTr: "Uzayl\u0131lar\u0131n geldi\u011Fi yeri tespit edebildik! Bu b\xF6lgede
         yeni biyolojik sinyaller kaydedildi! B\xFCy\xFCk olas\u0131l\u0131kla bu
         onlar\u0131n yuvas\u0131. \xD6rnekleri topla ve gezegenden \xE7\u0131k."
+    - _id: objective_text_third_mystery_planet_level
+      _type: 4
+      _sceneName: MysteryPlanetThirdLevel
+      _textRu: "\u0421\u043E\u0431\u0435\u0440\u0438 \u043E\u0431\u0440\u0430\u0437\u0446\u044B
+        \u0438\u0437 \u043A\u043E\u043A\u043E\u043D\u043E\u0432"
+      _textEn: Collect samples from the cocoons
+      _textTr: "Kozalardan \xF6rnekler toplay\u0131n"
+    - _id: end_attack_mystery_planet_third_level
+      _type: 2
+      _sceneName: MysteryPlanetThirdLevel
+      _textRu: "\u041E\u0431\u0440\u0430\u0437\u0446\u044B \u0441\u043E\u0431\u0440\u0430\u043D\u044B!
+        \u041F\u043E\u0440\u0430 \u044D\u0432\u0430\u043A\u0443\u0440\u0438\u043E\u0432\u0430\u0442\u044C\u0441\u044F
+        \u0441 \u044D\u0442\u043E\u0439 \u043F\u043B\u0430\u043D\u0435\u0442\u044B.
+        \u0414\u0432\u0438\u0433\u0430\u0439\u0441\u044F \u043D\u0430 \u0430\u0432\u0430\u043D\u043F\u043E\u0441\u0442."
+      _textEn: Samples have been collected! It's time to evacuate this planet. Move
+        to the outpost.
+      _textTr: "\xD6rnekler topland\u0131! Bu gezegenden tahliye etme zaman\u0131.
+        \u0130leri karakola do\u011Fru ilerleyin."
     Cores:
     - _id: _gold
       _type: 0

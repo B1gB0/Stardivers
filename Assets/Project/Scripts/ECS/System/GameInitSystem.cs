@@ -46,9 +46,9 @@ namespace Project.Scripts.ECS.System
         private readonly ILevelTextService _levelTextService;
         private readonly AudioSoundsService _audioSoundsService;
         private readonly ICoreService _coreService;
-        
+        private readonly ViewFactory _viewFactory;
+
         private readonly ExperiencePoints _experiencePoints;
-        private readonly Timer _timer;
         private readonly PauseService _pauseService;
         private readonly DialoguePanel _dialoguePanel;
         private readonly MissionProgressBar _missionProgressBar;
@@ -90,18 +90,8 @@ namespace Project.Scripts.ECS.System
             PlayerHealth = Player.Health;
             Player.gameObject.SetActive(false);
 
-            _level.GetServices(this, _timer, _dialoguePanel, _pauseService, _levelInitData,
-                _levelTextService);
-            
-            switch (_level)
-            {
-                case SecondMarsLevel secondMarsLevel:
-                    secondMarsLevel.GetBallisticProgressBar(_missionProgressBar);
-                    break;
-                case SecondMysteryPlanetLevel secondMysteryPlanetLevel:
-                    secondMysteryPlanetLevel.GetRadioTowerProgressBar(_missionProgressBar);
-                    break;
-            }
+            _level.GetServices(this, _dialoguePanel, _pauseService, _levelInitData, _levelTextService,
+                _viewFactory, _currencyService);
 
             CreateEnemyObjectPools();
         }

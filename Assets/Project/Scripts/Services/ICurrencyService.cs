@@ -6,6 +6,7 @@ namespace Project.Scripts.Services
     {
         public event Action<int> OnGoldValueChanged;
         public event Action<int> OnAlienCocoonValueChanged;
+        public event Action OnAllAlienCocoonsCollected; 
         
         public int Gold { get; }
         public int AlienCocoons { get; }

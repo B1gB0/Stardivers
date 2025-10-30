@@ -8,7 +8,8 @@ namespace Project.Scripts.Services
     {
         public event Action<int> OnGoldValueChanged;
         public event Action<int> OnAlienCocoonValueChanged;
-    
+        public event Action OnAllAlienCocoonsCollected; 
+
         public int Gold { get; private set; }
         public int AlienCocoons { get; private set; }
         public int MaxAlienCocoons { get; private set; }
@@ -45,6 +46,9 @@ namespace Project.Scripts.Services
         {
             AlienCocoons += alienCocoon;
             OnAlienCocoonValueChanged?.Invoke(AlienCocoons);
+            
+            if(AlienCocoons == MaxAlienCocoons)
+                OnAllAlienCocoonsCollected?.Invoke();
         }
 
         public void SpendGold(int gold)

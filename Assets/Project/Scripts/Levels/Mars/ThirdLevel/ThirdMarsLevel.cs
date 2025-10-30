@@ -1,4 +1,5 @@
 ﻿using Project.Scripts.Levels.Triggers;
+using Project.Scripts.UI.View;
 using UnityEngine;
 
 namespace Project.Scripts.Levels.Mars.ThirdLevel
@@ -11,6 +12,8 @@ namespace Project.Scripts.Levels.Mars.ThirdLevel
         [SerializeField] private TruckPlayerTrigger _truckPlayerTrigger;
         [SerializeField] private TruckFinalPointTrigger _truckFinalPointTrigger;
 
+        private ObjectiveTextView _objectiveTextView;
+
         private void OnEnable()
         {
             IsInitiatedSpawners += SpawnResources;
@@ -21,14 +24,19 @@ namespace Project.Scripts.Levels.Mars.ThirdLevel
             IsInitiatedSpawners -= SpawnResources;
         }
 
-        public override void OnStartLevel()
+        public override async void OnStartLevel()
         {
             base.OnStartLevel();
-            
+
+            _objectiveTextView = await ViewFactory.CreateObjectiveText();
+            _objectiveTextView.Hide();
+
             WelcomePlanetTextTrigger.IsWelcomeToPlanet += DialogueSetter.OnWelcomePlanet;
             
             _enemySpawnTriggerWithEffect.EnemySpawned += _entranceLastLvlTrigger.Deactivate;
             _enemySpawnTriggerWithEffect.EnemySpawned += DialogueSetter.OnEnemySpawnTriggerWithEffect;
+            _enemySpawnTriggerWithEffect.EnemySpawned += _objectiveTextView.Show;
+            
             _enemySpawnTriggerWithoutEffect.EnemySpawned += OnCreateBigEnemiesWave;
 
             _truckFinalPointTrigger.IsFinalPointReached += DialogueSetter.OnEndAttack;
@@ -82,6 +90,8 @@ namespace Project.Scripts.Levels.Mars.ThirdLevel
             
             _enemySpawnTriggerWithEffect.EnemySpawned -= _entranceLastLvlTrigger.Deactivate;
             _enemySpawnTriggerWithEffect.EnemySpawned -= DialogueSetter.OnEnemySpawnTriggerWithEffect;
+            _enemySpawnTriggerWithEffect.EnemySpawned -= _objectiveTextView.Show;
+            
             _enemySpawnTriggerWithoutEffect.EnemySpawned -= OnCreateBigEnemiesWave;
 
             _truckFinalPointTrigger.IsFinalPointReached -= DialogueSetter.OnEndAttack;

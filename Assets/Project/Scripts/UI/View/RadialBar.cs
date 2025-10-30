@@ -8,9 +8,11 @@ namespace Project.Scripts.UI.View
     public class RadialBar : MonoBehaviour, IView
     {
         private const float RecoveryRate = 10f;
+        private const float ApproximateValue = 0.01f;
+        
         private const int DefaultBarValue = 0;
         private const int DefaultBackgroundBarValue = 2;
-        
+
         private readonly int RemovedSegments = Shader.PropertyToID("_RemovedSegments");
         
         [SerializeField] protected TMP_Text text;
@@ -51,7 +53,7 @@ namespace Project.Scripts.UI.View
         private async UniTask SetValueAsync(float currentValue, float targetValue, float maxValue,
             CancellationToken token)
         {
-            while (Mathf.Abs(currentValue - targetValue) > 0.01f && !token.IsCancellationRequested)
+            while (Mathf.Abs(currentValue - targetValue) > ApproximateValue && !token.IsCancellationRequested)
             {
                 currentValue =
                     Mathf.MoveTowards(currentValue, targetValue, RecoveryRate * Time.unscaledDeltaTime);

@@ -29,11 +29,15 @@ namespace Project.Scripts.Levels.Mars.SecondLevel
             IsInitiatedSpawners -= SpawnResources;
         }
 
-        public override void OnStartLevel()
+        public override async void OnStartLevel()
         {
             base.OnStartLevel();
             
+            _missionProgressBar = await ViewFactory.CreateMissionProgressBar();
+            
             _missionProgressBar.SetData();
+            
+            _ballisticRocket.ProgressChanged += _missionProgressBar.OnChangedValues;
 
             WelcomePlanetTextTrigger.IsWelcomeToPlanet += DialogueSetter.OnWelcomePlanet;
             
@@ -55,12 +59,6 @@ namespace Project.Scripts.Levels.Mars.SecondLevel
             {
                 CreateWaveOfEnemy(FirstWaveEnemy);
             }
-        }
-        
-        public void GetBallisticProgressBar(MissionProgressBar missionProgressBar)
-        {
-            _missionProgressBar = missionProgressBar;
-            _ballisticRocket.ProgressChanged += _missionProgressBar.OnChangedValues;
         }
 
         private void OnDestroy()

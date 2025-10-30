@@ -40,9 +40,10 @@ namespace Project.Scripts.Levels
         [SerializeField] private int _countEnemyWaves;
 
         protected EnemySpawner EnemySpawner;
-        protected Timer Timer;
         protected DialoguePanel DialoguePanel;
         protected PauseService PauseService;
+        protected ViewFactory ViewFactory;
+        protected ICurrencyService CurrencyService;
         protected float LastSpawnTime;
 
         private GameInitSystem _gameInitSystem;
@@ -71,18 +72,20 @@ namespace Project.Scripts.Levels
 
         public void GetServices(
             GameInitSystem gameInitSystem,
-            Timer timer,
             DialoguePanel dialoguePanel,
             PauseService pauseService,
             LevelInitData levelInitData,
-            ILevelTextService levelTextService)
+            ILevelTextService levelTextService,
+            ViewFactory viewFactory,
+            ICurrencyService currencyService)
         {
             _gameInitSystem = gameInitSystem;
             PauseService = pauseService;
             DialoguePanel = dialoguePanel;
-            Timer = timer;
             _levelInitData = levelInitData;
             _levelTextService = levelTextService;
+            ViewFactory = viewFactory;
+            CurrencyService = currencyService;
 
             InitSpawners(gameInitSystem);
         }

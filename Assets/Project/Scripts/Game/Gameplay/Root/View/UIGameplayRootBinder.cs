@@ -30,6 +30,8 @@ namespace Project.Scripts.Game.Gameplay.Root.View
         [field: SerializeField] public Transform HideHealthPoint { get; private set; }
         [field: SerializeField] public Transform ShowMissionProgressPoint { get; private set; }
         [field: SerializeField] public Transform HideMissionProgressPoint { get; private set; }
+        [field: SerializeField] public Transform ShowTimerPoint { get; private set; }
+        [field: SerializeField] public Transform HideTimerPoint { get; private set; }
 
         private AudioSoundsService _audioSoundsService;
         private IPauseService _pauseService;

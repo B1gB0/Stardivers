@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Cinemachine;
+﻿using Cinemachine;
 using Cysharp.Threading.Tasks;
 using Leopotam.Ecs;
 using Project.Scripts.Audio.Sounds;
@@ -75,7 +74,6 @@ namespace Project.Scripts.Game.Gameplay.Root
         private ProgressRadialBar _progressBar;
         private LevelUpPanel _levelUpPanel;
         private EndGamePanel _endGamePanel;
-        private Timer _timer;
         private DialoguePanel _dialoguePanel;
         private GoldView _goldView;
         private AlienCocoonView _alienCocoonView;
@@ -108,7 +106,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             _coreService = coreService;
         }
 
-        private async void Start()
+        private void Start()
         {
             switch (_operationService.CurrentOperation.Id)
             {
@@ -148,17 +146,17 @@ namespace Project.Scripts.Game.Gameplay.Root
             await _enemyService.Init();
             await _playerService.Init();
             await _coreService.Init();
+            
+            _uiScene = Instantiate(_sceneUIRootPrefab);
+            
+            _viewFactory.GetUIRootAndUIScene(uiRoot, _uiScene);
 
             FloatingTextView textView = await _viewFactory.CreateDamageTextView();
             textView.Hide();
             _floatingTextService.Init(textView);
 
             _goldView = await _viewFactory.CreateGoldView();
-            _alienCocoonView = await _viewFactory.CreateAlienCocoonView();
-            _dialoguePanel = await _viewFactory.CreateAdviserMessagePanel();
-
-            _timer = await _viewFactory.CreateTimer();
-            _missionProgressBar = await _viewFactory.CreateMissionProgressBar();
+            _dialoguePanel = await _viewFactory.CreateDialoguePanel();
 
             _levelUpPanel = await _viewFactory.CreateLevelUpPanel();
             _endGamePanel = await _viewFactory.CreateEndGamePanel();
@@ -168,7 +166,7 @@ namespace Project.Scripts.Game.Gameplay.Root
 #if UNITY_EDITOR
             _cheatPanel = await _viewFactory.CreateCheatPanel();
 #endif
-
+            
             InitEcs();
 
             _healthBar = await _viewFactory.CreateHealthBar(_gameInitSystem.PlayerHealth);
@@ -178,26 +176,9 @@ namespace Project.Scripts.Game.Gameplay.Root
             await _weaponFactory.CreateEnemyDetectorForPlayer();
 
             _levelUpPanel.GetServices(_weaponFactory, _weaponHolder);
-
-            _uiScene = Instantiate(_sceneUIRootPrefab);
-            _healthBar.transform.SetParent(_uiScene.transform);
-            _missionProgressBar.transform.SetParent(_uiScene.transform);
-            _levelUpPanel.transform.SetParent(_uiScene.transform);
-            _endGamePanel.transform.SetParent(_uiScene.transform);
-            _dialoguePanel.transform.SetParent(_uiScene.transform);
-            _timer.transform.SetParent(_uiScene.transform);
-            _goldView.transform.SetParent(_uiScene.transform);
-            _alienCocoonView.transform.SetParent(_uiScene.transform);
             _weaponFactory.GetMinesButton(_uiScene.MinesButton);
 
-#if UNITY_EDITOR
-            _cheatPanel.transform.SetParent(_uiScene.transform);
-#endif
-
             uiRoot.AttachSceneUI(_uiScene.gameObject);
-
-            var container = gameObject.scene.GetSceneContainer();
-            GameObjectInjector.InjectRecursive(uiRoot.gameObject, container);
 
             _uiScene.GetUIStateMachine(uiRoot.UIStateMachine, uiRoot.UIRootButtons);
 
@@ -207,12 +188,6 @@ namespace Project.Scripts.Game.Gameplay.Root
             
             _levelUpPanel.GetStartImprovements();
 
-            _goldView.GetPoints(_uiScene.ShowGoldPoint, _uiScene.HideGoldPoint);
-            _alienCocoonView.GetPoints(_uiScene.ShowAlienCocoonPoint, _uiScene.HideAlienCocoonPoint);
-            _healthBar.GetPoints(_uiScene.ShowHealthPoint, _uiScene.HideHealthPoint);
-            _timer.GetPoints(_uiScene.ShowMissionProgressPoint, _uiScene.HideMissionProgressPoint);
-            _missionProgressBar.GetPoints(_uiScene.ShowMissionProgressPoint, _uiScene.HideMissionProgressPoint);
-            
             _goldView.Show();
 
             _gameInitSystem.PlayerHealth.Die += _endGamePanel.Show;
@@ -221,11 +196,9 @@ namespace Project.Scripts.Game.Gameplay.Root
             _gameInitSystem.PlayerHealth.IsSpawnedHealingText += _floatingTextService.OnChangedFloatingText;
             
             uiRoot.LocalizationLanguageSwitcher.OnLanguageChanged += _progressBar.ChangeText;
-            uiRoot.LocalizationLanguageSwitcher.OnLanguageChanged += _missionProgressBar.SetText;
 
             _level.EndLevelTrigger.IsLevelCompleted += _endGamePanel.Show;
             _level.EndLevelTrigger.IsLevelCompleted += _endGamePanel.SetVictoryPanel;
-            _level.OnAlienCocoonViewShow += _alienCocoonView.Show;
 
             _gameInitSystem.PlayerIsSpawned += _uiScene.WeaponPanel.Show;
             _gameInitSystem.PlayerIsSpawned += _progressBar.Show;
@@ -265,7 +238,6 @@ namespace Project.Scripts.Game.Gameplay.Root
             _gameInitSystem.PlayerIsSpawned -= _progressBar.Show;
             
             _uiRoot.LocalizationLanguageSwitcher.OnLanguageChanged -= _progressBar.ChangeText;
-            _uiRoot.LocalizationLanguageSwitcher.OnLanguageChanged -= _missionProgressBar.SetText;
 
             _gameInitSystem.PlayerHealth.Die -= _endGamePanel.Show;
             _gameInitSystem.PlayerHealth.Die -= _endGamePanel.SetDefeatPanel;
@@ -274,7 +246,6 @@ namespace Project.Scripts.Game.Gameplay.Root
 
             _level.EndLevelTrigger.IsLevelCompleted -= _endGamePanel.Show;
             _level.EndLevelTrigger.IsLevelCompleted -= _endGamePanel.SetVictoryPanel;
-            _level.OnAlienCocoonViewShow -= _alienCocoonView.Show;
 
             _endGamePanel.GoToMainMenuButton.onClick.RemoveListener(GetMainMenuExitParameters);
             _endGamePanel.GoToMainMenuButton.onClick.RemoveListener(_uiScene.HandleGoToNextSceneButtonClick);
@@ -361,8 +332,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             _updateSystems.Inject(_floatingTextService);
             _updateSystems.Inject(_currencyService);
             _updateSystems.Inject(_audioSoundsService);
-            _updateSystems.Inject(_timer);
-            _updateSystems.Inject(_missionProgressBar);
+            _updateSystems.Inject(_viewFactory);
             _updateSystems.Inject(_pauseService);
             _updateSystems.Inject(_level);
             _updateSystems.Inject(_dataBaseService);

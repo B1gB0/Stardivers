@@ -1,4 +1,5 @@
 ﻿using Project.Scripts.Levels.Triggers;
+using Project.Scripts.UI.View;
 using UnityEngine;
 
 namespace Project.Scripts.Levels.Mars.FirstLevel
@@ -7,6 +8,9 @@ namespace Project.Scripts.Levels.Mars.FirstLevel
     {
         [SerializeField] private EnemySpawnTriggerWithEffect _enemySpawnTriggerWithEffect;
         [SerializeField] private int _timeOfWaves = 90;
+
+        private Timer _timer;
+        private ObjectiveTextView _objectiveTextView;
 
         private void OnEnable()
         {
@@ -18,24 +22,29 @@ namespace Project.Scripts.Levels.Mars.FirstLevel
             IsInitiatedSpawners -= SpawnResources;
         }
 
-        public override void OnStartLevel()
+        public override async void OnStartLevel()
         {
             base.OnStartLevel();
             
+            _timer = await ViewFactory.CreateTimer();
+            _objectiveTextView = await ViewFactory.CreateObjectiveText();
+            _objectiveTextView.Hide();
+            
             WelcomePlanetTextTrigger.IsWelcomeToPlanet += DialogueSetter.OnWelcomePlanet;
             
-            Timer.SetTime(_timeOfWaves);
+            _timer.SetTime(_timeOfWaves);
 
-            PauseService.OnGameStarted += Timer.ResumeTimer;
-            PauseService.OnGamePaused += Timer.PauseTimer;
+            PauseService.OnGameStarted += _timer.ResumeTimer;
+            PauseService.OnGamePaused += _timer.PauseTimer;
 
-            _enemySpawnTriggerWithEffect.EnemySpawned += Timer.Show;
+            _enemySpawnTriggerWithEffect.EnemySpawned += _timer.Show;
             _enemySpawnTriggerWithEffect.EnemySpawned += DialogueSetter.OnEnemySpawnTriggerWithEffect;
             
-            Timer.IsEndAttack += DialogueSetter.OnEndAttack;
-            Timer.IsEndAttack += _enemySpawnTriggerWithEffect.CompleteSpawn;
-            Timer.IsEndAttack += EntranceToNextLvlTrigger.Activate;
-            Timer.IsEndAttack += EndLevelTrigger.Activate;
+            _timer.IsEndAttack += DialogueSetter.OnEndAttack;
+            _timer.IsEndAttack += _enemySpawnTriggerWithEffect.CompleteSpawn;
+            _timer.IsEndAttack += EntranceToNextLvlTrigger.Activate;
+            _timer.IsEndAttack += EndLevelTrigger.Activate;
+            _timer.IsEndAttack += _objectiveTextView.Show;
         }
 
         private void FixedUpdate()
@@ -50,16 +59,17 @@ namespace Project.Scripts.Levels.Mars.FirstLevel
         {
             WelcomePlanetTextTrigger.IsWelcomeToPlanet -= DialogueSetter.OnWelcomePlanet;
             
-            PauseService.OnGameStarted -= Timer.ResumeTimer;
-            PauseService.OnGamePaused -= Timer.PauseTimer;
+            PauseService.OnGameStarted -= _timer.ResumeTimer;
+            PauseService.OnGamePaused -= _timer.PauseTimer;
             
-            _enemySpawnTriggerWithEffect.EnemySpawned -= Timer.Show;
+            _enemySpawnTriggerWithEffect.EnemySpawned -= _timer.Show;
             _enemySpawnTriggerWithEffect.EnemySpawned -= DialogueSetter.OnEnemySpawnTriggerWithEffect;
             
-            Timer.IsEndAttack -= DialogueSetter.OnEndAttack;
-            Timer.IsEndAttack -= _enemySpawnTriggerWithEffect.CompleteSpawn;
-            Timer.IsEndAttack -= EntranceToNextLvlTrigger.Activate;
-            Timer.IsEndAttack -= EndLevelTrigger.Activate;
+            _timer.IsEndAttack -= DialogueSetter.OnEndAttack;
+            _timer.IsEndAttack -= _enemySpawnTriggerWithEffect.CompleteSpawn;
+            _timer.IsEndAttack -= EntranceToNextLvlTrigger.Activate;
+            _timer.IsEndAttack -= EndLevelTrigger.Activate;
+            _timer.IsEndAttack -= _objectiveTextView.Show;
         }
     }
 }
