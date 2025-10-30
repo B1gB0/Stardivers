@@ -10,6 +10,7 @@ namespace Project.Scripts.Services
     public class PlayerService : IPlayerService
     {
         private readonly Dictionary<PlayerActorType, PlayerData> _playersData = new();
+        private readonly List<int> _playerLevels= new();
         
         private IDataBaseService _dataBaseService;
         
@@ -34,6 +35,11 @@ namespace Project.Scripts.Services
                 _playersData.TryAdd(player.Type, player);
             }
 
+            foreach (var playerLevel in _dataBaseService.Content.PlayerLevels)
+            {
+                _playerLevels.Add(playerLevel.RequiredExperience);
+            }
+
             IsInitiated = true;
             
             return UniTask.CompletedTask;
@@ -42,6 +48,11 @@ namespace Project.Scripts.Services
         public PlayerData GetPlayerDataByType(PlayerActorType type)
         {
             return _playersData[type];
+        }
+
+        public List<int> GetPlayerLevels()
+        {
+            return _playerLevels;
         }
 
         public void GetPlayer(PlayerActor playerActor, PlayerMovableComponent playerMovableComponent)

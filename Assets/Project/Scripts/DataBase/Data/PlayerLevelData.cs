@@ -6,10 +6,10 @@ namespace Project.Scripts.DataBase.Data
     [Serializable]
     public class PlayerLevelData
     {
-        [SerializeField] private string _id;
+        [SerializeField] private int _id;
         [SerializeField] private int _requiredExperience;
 
-        public string Id => _id;
+        public int Id => _id;
         public int RequiredExperience => _requiredExperience;
     }
 }

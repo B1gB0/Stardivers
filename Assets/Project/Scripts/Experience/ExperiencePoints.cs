@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using Project.Scripts.DataBase.Data;
 using Project.Scripts.ECS.Data;
 using Project.Scripts.ECS.EntityActors;
+using Project.Scripts.Services;
 using Project.Scripts.UI.Panel;
+using Reflex.Attributes;
 using UnityEngine;
 using YG;
 
@@ -17,19 +20,18 @@ namespace Project.Scripts.Experience
         private const float DelayLevelUp = 0.2f;
 
         private readonly ExperienceScoreActorVisitor _experienceScoreActorVisitor = new();
-        private readonly PlayerProgressionInitData _playerProgression;
         private readonly Queue<int> _pendingLevelUps = new ();
-        private readonly LevelUpPanel _levelUpPanel;
-        
-        private bool _isLevelUpProcessing;
 
-        public ExperiencePoints(PlayerProgressionInitData playerProgression, LevelUpPanel levelUpPanel)
+        private List<int> _playerLevels;
+        private bool _isLevelUpProcessing;
+        private IPlayerService _playerService;
+
+        public ExperiencePoints(IPlayerService playerService)
         {
-            _playerProgression = playerProgression;
-            _levelUpPanel = levelUpPanel;
-            
+            _playerService = playerService;
+            _playerLevels = _playerService.GetPlayerLevels();
+            _currentMaxValueOfLevel = _playerLevels[_counterLevel];
             _counterLevel = DefaultLevel;
-            _currentMaxValueOfLevel = _playerProgression.Levels[_counterLevel];
             _currentValue = TargetExperienceValue;
         }
 
@@ -49,13 +51,13 @@ namespace Project.Scripts.Experience
         {
             experience.AcceptScore(_experienceScoreActorVisitor);
 
-            if (_counterLevel > _playerProgression.Levels.Count - CorrectFactorCounter) return;
+            if (_counterLevel > _playerLevels.Count - CorrectFactorCounter) return;
             
-            while (_counterLevel < _playerProgression.Levels.Count - CorrectFactorCounter && 
+            while (_counterLevel < _playerLevels.Count - CorrectFactorCounter && 
                    TargetExperienceValue >= _currentMaxValueOfLevel)
             {
                 _counterLevel++;
-                _currentMaxValueOfLevel = _playerProgression.Levels[_counterLevel];
+                _currentMaxValueOfLevel = _playerLevels[_counterLevel];
 
                 _newValue = Math.Abs(_currentMaxValueOfLevel - TargetExperienceValue);
                 _experienceScoreActorVisitor.UpdateAccumulatedExperience(_newValue);
@@ -90,7 +92,7 @@ namespace Project.Scripts.Experience
             _currentLevel = YG2.saves.CurrentLevel;
             _currentValue = YG2.saves.ExperiencePointsValue;
             _counterLevel = _currentLevel;
-            ProgressBarLevelIsUpgraded?.Invoke(_currentLevel, _currentValue, _playerProgression.Levels[_currentLevel]);
+            ProgressBarLevelIsUpgraded?.Invoke(_currentLevel, _currentValue, _playerLevels[_currentLevel]);
         }
 
         private async UniTaskVoid ProcessLevelUps()

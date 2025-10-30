@@ -31,6 +31,7 @@ namespace Project.Scripts.UI.View
             
             _experiencePoints.ValueIsChanged += OnChangeValue;
             _experiencePoints.ProgressBarLevelIsUpgraded += UpgradeProgressBarLevel;
+            
             _experiencePoints.LoadLevel();
         }
 

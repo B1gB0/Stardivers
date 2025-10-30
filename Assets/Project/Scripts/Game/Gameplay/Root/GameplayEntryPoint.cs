@@ -44,7 +44,6 @@ namespace Project.Scripts.Game.Gameplay.Root
         private GunnerAlienEnemyInitData _gunnerEnemyAlienData;
         private StoneInitData _stoneData;
         private CapsuleInitData _capsuleData;
-        private PlayerProgressionInitData _playerProgressionData;
         private HealingCoreInitData _healingCoreData;
         private GoldCoreInitData _goldCoreData;
         private AlienCocoonInitData _alienCocoonData;
@@ -161,7 +160,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             _levelUpPanel = await _viewFactory.CreateLevelUpPanel();
             _endGamePanel = await _viewFactory.CreateEndGamePanel();
 
-            _experiencePoints = new ExperiencePoints(_playerProgressionData, _levelUpPanel);
+            _experiencePoints = new ExperiencePoints(_playerService);
 
 #if UNITY_EDITOR
             _cheatPanel = await _viewFactory.CreateCheatPanel();
@@ -314,7 +313,6 @@ namespace Project.Scripts.Game.Gameplay.Root
             _gunnerEnemyAlienData = await _dataFactory.CreateGunnerAlienEnemyData();
             _stoneData = await _dataFactory.CreateStoneData();
             _capsuleData = await _dataFactory.CreateCapsuleData();
-            _playerProgressionData = await _dataFactory.CreatePlayerProgression();
             _healingCoreData = await _dataFactory.CreateHealingCoreData();
             _goldCoreData = await _dataFactory.CreateGoldCoreData();
             _alienCocoonData = await _dataFactory.CreateAlienCocoonData();
