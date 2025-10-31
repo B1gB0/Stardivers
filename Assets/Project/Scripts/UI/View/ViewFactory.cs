@@ -44,11 +44,6 @@ namespace Project.Scripts.UI.View
             _resourceService = resourceService;
         }
 
-        private void Start()
-        {
-            _container = gameObject.scene.GetSceneContainer();
-        }
-
         private void OnDestroy()
         {
             if(_missionProgressBar != null)
@@ -62,6 +57,7 @@ namespace Project.Scripts.UI.View
             _uiRoot = uiRoot;
             _uiScene = uiScene;
             
+            _container = gameObject.scene.GetSceneContainer();
             GameObjectInjector.InjectRecursive(_uiScene.gameObject, _container);
         }
 
@@ -191,7 +187,7 @@ namespace Project.Scripts.UI.View
             _objectiveTextView = objectiveTextTemplate.GetComponent<ObjectiveTextView>();
             GameObjectInjector.InjectObject(_objectiveTextView.gameObject, _container);
             _objectiveTextView.transform.SetParent(_uiScene.transform, false);
-            _objectiveTextView.GetPoints(_uiScene.ShowMissionProgressPoint, _uiScene.HideMissionProgressPoint);
+            _objectiveTextView.GetPoints(_uiScene.ShowTimerPoint, _uiScene.HideTimerPoint);
             _uiRoot.LocalizationLanguageSwitcher.OnLanguageChanged += _objectiveTextView.SetText;
             return _objectiveTextView;
         }

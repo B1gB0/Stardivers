@@ -6,6 +6,7 @@ using Project.Scripts.Weapon.CharacteristicsOfWeapon;
 using Project.Scripts.Weapon.Improvements;
 using UnityEngine;
 using UnityEngine.UI;
+using YG;
 
 namespace Project.Scripts.Weapon.Player
 {
@@ -25,14 +26,21 @@ namespace Project.Scripts.Weapon.Player
         
         private float _lastShotTime;
 
-        public MineCharacteristics MineCharacteristics { get; } = new ();
+        public MineCharacteristics MineCharacteristics { get; private set; } = new ();
 
-        public void Construct(Button button, AudioSoundsService audioSoundsService, CharacteristicsWeaponData data)
+        public void Construct(Button button, AudioSoundsService audioSoundsService, 
+            CharacteristicsWeaponData data, MineCharacteristics mineCharacteristics)
         {
             _minesButton = button;
             _audioSoundsService = audioSoundsService;
-            MineCharacteristics.SetStartingCharacteristics(data);
             Type = data.WeaponType;
+
+            if (mineCharacteristics == null)
+                MineCharacteristics.SetStartingCharacteristics(data);
+            else
+                MineCharacteristics = mineCharacteristics;
+
+            YG2.saves.MinesCharacteristics = MineCharacteristics;
         }
 
         private void Awake()

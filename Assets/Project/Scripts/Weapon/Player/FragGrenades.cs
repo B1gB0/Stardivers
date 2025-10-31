@@ -5,6 +5,7 @@ using Project.Scripts.Services;
 using Project.Scripts.Weapon.CharacteristicsOfWeapon;
 using Project.Scripts.Weapon.Improvements;
 using UnityEngine;
+using YG;
 
 namespace Project.Scripts.Weapon.Player
 {
@@ -27,15 +28,21 @@ namespace Project.Scripts.Weapon.Player
 
         private ObjectPool<FragGrenade> _poolGrenades;
 
-        public FragGrenadeCharacteristics FragGrenadeCharacteristics { get; } = new ();
+        public FragGrenadeCharacteristics FragGrenadeCharacteristics { get; private set; } = new ();
 
         public void Construct(EnemyDetector detector, AudioSoundsService audioSoundsService,
-            CharacteristicsWeaponData data)
+            CharacteristicsWeaponData data, FragGrenadeCharacteristics fragGrenadeCharacteristics)
         {
             _detector = detector;
             _audioSoundsService = audioSoundsService;
-            FragGrenadeCharacteristics.SetStartingCharacteristics(data);
             Type = data.WeaponType;
+            
+            if(fragGrenadeCharacteristics == null)
+                FragGrenadeCharacteristics.SetStartingCharacteristics(data);
+            else
+                FragGrenadeCharacteristics = fragGrenadeCharacteristics;
+
+            YG2.saves.FragGrenadeCharacteristics = FragGrenadeCharacteristics;
         }
 
         private void Awake()

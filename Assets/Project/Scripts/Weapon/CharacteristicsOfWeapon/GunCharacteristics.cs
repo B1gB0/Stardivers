@@ -2,7 +2,7 @@
 
 namespace Project.Scripts.Weapon.CharacteristicsOfWeapon
 {
-    public class GunCharacteristics : Characteristics
+    public class GunCharacteristics : WeaponCharacteristics
     {
         public override void SetStartingCharacteristics(CharacteristicsWeaponData data)
         {

@@ -35,6 +35,7 @@ namespace Project.Scripts.UI.View
 
         private void Awake()
         {
+            gameObject.SetActive(false);
             UpdateDisplay();
         }
 
@@ -142,6 +143,7 @@ namespace Project.Scripts.UI.View
                     {
                         IsEndAttack?.Invoke();
                         StopTimer();
+                        Hide();
                         break;
                     }
                 }

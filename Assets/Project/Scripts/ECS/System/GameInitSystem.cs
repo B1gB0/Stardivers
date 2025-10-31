@@ -15,6 +15,7 @@ using Project.Scripts.Services;
 using Project.Scripts.UI.Panel;
 using Project.Scripts.UI.View;
 using UnityEngine;
+using YG;
 using Object = UnityEngine.Object;
 
 namespace Project.Scripts.ECS.System
@@ -393,8 +394,10 @@ namespace Project.Scripts.ECS.System
 
             ref var animationsComponent = ref player.Get<AnimatedComponent>();
             animationsComponent.Animator = playerActor.Animator;
+
+            var playerCharacteristics = YG2.saves.PlayerCharacteristics;
             
-            playerActor.Construct(_playerService);
+            playerActor.Construct(_playerService, playerCharacteristics);
             _playerService.GetPlayer(playerActor, movableComponent);
         }
 

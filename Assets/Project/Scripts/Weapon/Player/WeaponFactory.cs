@@ -1,6 +1,5 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
-using Project.Scripts.DataBase.Data;
 using Project.Scripts.Services;
 using Reflex.Attributes;
 using UnityEngine;
@@ -22,6 +21,7 @@ namespace Project.Scripts.Weapon.Player
         private AudioSoundsService _audioSoundsService;
         private IResourceService _resourceService;
         private ICharacteristicsWeaponDataService _characteristicsWeaponDataService;
+        private ILevelUpService _levelUpService;
 
         private EnemyDetectorForPlayer _enemyDetector;
         private WeaponHolder _weaponHolder;
@@ -30,39 +30,25 @@ namespace Project.Scripts.Weapon.Player
 
         private int _weaponsCounter;
 
-        private CharacteristicsWeaponData _gunData;
-        private CharacteristicsWeaponData _machineGunData;
-        private CharacteristicsWeaponData _minesData;
-        private CharacteristicsWeaponData _fragGrenadesData;
-        private CharacteristicsWeaponData _fourBarrelMachineGunData;
-        private CharacteristicsWeaponData _chainLightningGunData;
-
         public event Action<int, WeaponType> WeaponIsCreated;
         public event Action MinesIsCreated;
 
         [Inject]
         private void Construct(AudioSoundsService audioSoundsService, IResourceService resourceService,
-            ICharacteristicsWeaponDataService characteristicsWeaponDataService)
+            ICharacteristicsWeaponDataService characteristicsWeaponDataService, ILevelUpService levelUpService)
         {
             _audioSoundsService = audioSoundsService;
             _resourceService = resourceService;
             _characteristicsWeaponDataService = characteristicsWeaponDataService;
-        }
-
-        private void Start()
-        {
-            _gunData = YG2.saves.GunCharacteristics;
-            _machineGunData = YG2.saves.MachineGunCharacteristics;
-            _minesData = YG2.saves.MinesCharacteristics;
-            _fragGrenadesData = YG2.saves.FragGrenadeCharacteristics;
-            _fourBarrelMachineGunData = YG2.saves.FourBarrelMachineGunCharacteristics;
-            _chainLightningGunData = YG2.saves.ChainLightningGunCharacteristics;
+            _levelUpService = levelUpService;
         }
 
         public async UniTask<PlayerWeapon> CreateWeapon(WeaponType weaponType)
         {
             WeaponIsCreated?.Invoke(_weaponsCounter, weaponType);
             _weaponsCounter++;
+
+            _levelUpService.RemoveWeaponCard(weaponType);
 
             switch (weaponType)
             {
@@ -109,16 +95,13 @@ namespace Project.Scripts.Weapon.Player
             gunTemplate = Instantiate(gunTemplate, _player);
 
             Gun gun = gunTemplate.GetComponent<Gun>();
-            
-            if (_gunData == null)
-            {
-                _gunData = _characteristicsWeaponDataService.GetWeaponDataByType(WeaponType.Gun);
-                YG2.saves.GunCharacteristics = _gunData;
-            }
-            
-            gun.Construct(_enemyDetector, _audioSoundsService, _gunData);
+
+            var gunCharacteristics = YG2.saves.GunCharacteristics;
+            var gunCharacteristicsData = _characteristicsWeaponDataService.GetWeaponDataByType(WeaponType.Gun);
+
+            gun.Construct(_enemyDetector, _audioSoundsService, gunCharacteristicsData, gunCharacteristics);
             _weaponHolder.AddWeapon(gun);
-            
+
             return gun;
         }
 
@@ -127,19 +110,17 @@ namespace Project.Scripts.Weapon.Player
             var fourBarrelMachineGunTemplate = await _resourceService.Load<GameObject>(_fourBarrelMachineGunPath);
             fourBarrelMachineGunTemplate = Instantiate(fourBarrelMachineGunTemplate, _player);
 
-            FourBarrelMachineGun fourBarrelMachineGun = 
+            FourBarrelMachineGun fourBarrelMachineGun =
                 fourBarrelMachineGunTemplate.GetComponent<FourBarrelMachineGun>();
-            
-            if (_fourBarrelMachineGunData == null)
-            {
-                _fourBarrelMachineGunData = 
-                    _characteristicsWeaponDataService.GetWeaponDataByType(WeaponType.FourBarrelMachineGun);
-                YG2.saves.FourBarrelMachineGunCharacteristics = _fourBarrelMachineGunData;
-            }
-            
-            fourBarrelMachineGun.Construct(_audioSoundsService, _enemyDetector, _fourBarrelMachineGunData);
+
+            var fourBarrelMachineGunCharacteristics = YG2.saves.FourBarrelMachineGunCharacteristics;
+            var fourBarrelMachineGunData =
+                _characteristicsWeaponDataService.GetWeaponDataByType(WeaponType.FourBarrelMachineGun);
+
+            fourBarrelMachineGun.Construct(_audioSoundsService, _enemyDetector, fourBarrelMachineGunData,
+                fourBarrelMachineGunCharacteristics);
             _weaponHolder.AddWeapon(fourBarrelMachineGun);
-            
+
             return fourBarrelMachineGun;
         }
 
@@ -152,14 +133,11 @@ namespace Project.Scripts.Weapon.Player
 
             Mines mines = minesTemplate.GetComponent<Mines>();
 
-            if (_minesData == null)
-            {
-                _minesData = _characteristicsWeaponDataService.GetWeaponDataByType(WeaponType.Mines);
-                YG2.saves.MinesCharacteristics = _minesData;
-            }
-            
+            var minesCharacteristics = YG2.saves.MinesCharacteristics;
+            var minesData = _characteristicsWeaponDataService.GetWeaponDataByType(WeaponType.Mines);
+
             mines.transform.position = position;
-            mines.Construct(_minesButton, _audioSoundsService, _minesData);
+            mines.Construct(_minesButton, _audioSoundsService, minesData, minesCharacteristics);
             _weaponHolder.AddWeapon(mines);
 
             MinesIsCreated?.Invoke();
@@ -174,13 +152,10 @@ namespace Project.Scripts.Weapon.Player
 
             FragGrenades fragGrenades = fragGrenadesTemplate.GetComponent<FragGrenades>();
 
-            if (_fragGrenadesData == null)
-            {
-                _fragGrenadesData = _characteristicsWeaponDataService.GetWeaponDataByType(WeaponType.FragGrenades);
-                YG2.saves.FragGrenadeCharacteristics = _fragGrenadesData;
-            }
-            
-            fragGrenades.Construct(_enemyDetector, _audioSoundsService, _fragGrenadesData);
+            var fragGrenadesCharacteristics = YG2.saves.FragGrenadeCharacteristics;
+            var fragGrenadesData = _characteristicsWeaponDataService.GetWeaponDataByType(WeaponType.FragGrenades);
+
+            fragGrenades.Construct(_enemyDetector, _audioSoundsService, fragGrenadesData, fragGrenadesCharacteristics);
             _weaponHolder.AddWeapon(fragGrenades);
 
             return fragGrenades;
@@ -193,13 +168,10 @@ namespace Project.Scripts.Weapon.Player
 
             MachineGun machineGun = machineGunTemplate.GetComponent<MachineGun>();
 
-            if (_machineGunData == null)
-            {
-                _machineGunData = _characteristicsWeaponDataService.GetWeaponDataByType(WeaponType.MachineGun);
-                YG2.saves.MachineGunCharacteristics = _machineGunData;
-            }
-            
-            machineGun.Construct(_enemyDetector, _audioSoundsService, _machineGunData);
+            var machineGunCharacteristics = YG2.saves.MachineGunCharacteristics;
+            var machineGunData = _characteristicsWeaponDataService.GetWeaponDataByType(WeaponType.MachineGun);
+
+            machineGun.Construct(_enemyDetector, _audioSoundsService, machineGunData, machineGunCharacteristics);
             _weaponHolder.AddWeapon(machineGun);
 
             return machineGun;
@@ -211,15 +183,13 @@ namespace Project.Scripts.Weapon.Player
             chainLightningGunTemplate = Instantiate(chainLightningGunTemplate, _player);
 
             ChainLightningGun chainLightningGun = chainLightningGunTemplate.GetComponent<ChainLightningGun>();
-            
-            if (_chainLightningGunData == null)
-            {
-                _chainLightningGunData = 
-                    _characteristicsWeaponDataService.GetWeaponDataByType(WeaponType.ChainLightningGun);
-                YG2.saves.ChainLightningGunCharacteristics = _chainLightningGunData;
-            }
-            
-            chainLightningGun.Construct(_audioSoundsService, _enemyDetector, _chainLightningGunData);
+
+            var chainLightningGunCharacteristics = YG2.saves.ChainLightningGunCharacteristics;
+            var chainLightningGunData =
+                _characteristicsWeaponDataService.GetWeaponDataByType(WeaponType.ChainLightningGun);
+
+            chainLightningGun.Construct(_audioSoundsService, _enemyDetector, chainLightningGunData, 
+                chainLightningGunCharacteristics);
             _weaponHolder.AddWeapon(chainLightningGun);
 
             return chainLightningGun;

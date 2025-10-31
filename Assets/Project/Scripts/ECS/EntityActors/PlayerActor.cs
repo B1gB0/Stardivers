@@ -4,6 +4,7 @@ using Project.Scripts.Services;
 using Project.Scripts.Weapon.CharacteristicsOfWeapon;
 using Project.Scripts.Weapon.Improvements;
 using UnityEngine;
+using YG;
 
 namespace Project.Scripts.ECS.EntityActors
 {
@@ -18,9 +19,11 @@ namespace Project.Scripts.ECS.EntityActors
         public PlayerCharacteristics PlayerCharacteristics { get; private set; }
         public bool CanFollow { get; private set; }
 
-        public void Construct(IPlayerService playerService)
+        public void Construct(IPlayerService playerService, PlayerCharacteristics playerCharacteristics)
         {
-            PlayerCharacteristics = new PlayerCharacteristics(playerService);
+            PlayerCharacteristics = playerCharacteristics ?? new PlayerCharacteristics(playerService);
+
+            YG2.saves.PlayerCharacteristics = PlayerCharacteristics;
         }
 
         private void OnEnable()

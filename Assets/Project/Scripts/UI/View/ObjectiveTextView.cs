@@ -30,6 +30,7 @@ namespace Project.Scripts.UI.View
 
         public void Show()
         {
+            SetData();
             gameObject.SetActive(true);
             _tweenAnimationService.AnimateMove(transform, _showPoint, _hidePoint);
         }

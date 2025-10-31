@@ -16,13 +16,14 @@ namespace Project.Scripts.Services
         
         private IDataBaseService _dataBaseService;
         private ICharacteristicsWeaponDataService _characteristicsWeaponDataService;
-        
+
         public List<ImprovementCard> ImprovementCards { get; } = new();
         public List<WeaponCard> WeaponCards { get; } = new();
         public bool IsInitiated { get; private set; }
         
         [Inject]
-        private void Construct(IDataBaseService dataBaseService, ICharacteristicsWeaponDataService characteristicsWeaponDataService)
+        private void Construct(IDataBaseService dataBaseService, 
+            ICharacteristicsWeaponDataService characteristicsWeaponDataService)
         {
             _dataBaseService = dataBaseService;
             _characteristicsWeaponDataService = characteristicsWeaponDataService;
@@ -56,13 +57,13 @@ namespace Project.Scripts.Services
             return UniTask.CompletedTask;
         }
 
-        public void RecreateAllCards()
-        {
-            WeaponCards.Clear();
-            ImprovementCards.Clear();
-            CreateWeaponsCard();
-            CreateImprovementCards();
-        }
+        // public void RecreateAllCards()
+        // {
+        //     WeaponCards.Clear();
+        //     ImprovementCards.Clear();
+        //     CreateWeaponsCard();
+        //     CreateImprovementCards();
+        // }
 
         private void CreateWeaponsCard()
         {

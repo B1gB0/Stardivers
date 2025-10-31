@@ -7,12 +7,10 @@ using Reflex.Core;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Cysharp.Threading.Tasks;
-using Project.Scripts.Audio.Sounds;
 using Reflex.Attributes;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceProviders;
-using YG;
 
 namespace Project.Scripts.Game.GameRoot
 {
@@ -47,11 +45,6 @@ namespace Project.Scripts.Game.GameRoot
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
 
             await StartGame();
-        }
-
-        private void OnDestroy()
-        {
-            YG2.SaveProgress();
         }
 
         private async UniTask StartGame()

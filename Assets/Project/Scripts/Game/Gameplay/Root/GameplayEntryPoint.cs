@@ -67,6 +67,7 @@ namespace Project.Scripts.Game.Gameplay.Root
         private ICurrencyService _currencyService;
         private ILevelTextService _levelTextService;
         private ICoreService _coreService;
+        private ILevelUpService _levelUpService;
 
         private HealthBar _healthBar;
         private ExperiencePoints _experiencePoints;
@@ -88,7 +89,8 @@ namespace Project.Scripts.Game.Gameplay.Root
             IDataBaseService dataBaseService,
             IResourceService resourceService, ICharacteristicsWeaponDataService characteristicsWeaponDataService,
             ICardService cardService, IEnemyService enemyService, IPlayerService playerService,
-            ICurrencyService currencyService, ILevelTextService levelTextService, ICoreService coreService)
+            ICurrencyService currencyService, ILevelTextService levelTextService, ICoreService coreService,
+            ILevelUpService levelUpService)
         {
             _audioSoundsService = audioSoundsService;
             _pauseService = pauseService;
@@ -103,6 +105,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             _currencyService = currencyService;
             _levelTextService = levelTextService;
             _coreService = coreService;
+            _levelUpService = levelUpService;
         }
 
         private void Start()
@@ -142,6 +145,7 @@ namespace Project.Scripts.Game.Gameplay.Root
 
             await _characteristicsWeaponDataService.Init();
             await _cardService.Init();
+            await _levelUpService.Init();
             await _enemyService.Init();
             await _playerService.Init();
             await _coreService.Init();
@@ -183,10 +187,6 @@ namespace Project.Scripts.Game.Gameplay.Root
 
             _weaponFactory.WeaponIsCreated += _uiScene.WeaponPanel.SetData;
 
-            await TryLoadWeapons();
-            
-            _levelUpPanel.GetStartImprovements();
-
             _goldView.Show();
 
             _gameInitSystem.PlayerHealth.Die += _endGamePanel.Show;
@@ -224,12 +224,15 @@ namespace Project.Scripts.Game.Gameplay.Root
             var exitToSceneSignal = exitSceneSignalSubject.Select(_ => _exitParameters);
 
             _level.OnStartLevel();
+            await TryLoadWeapons();
 
             return exitToSceneSignal;
         }
 
         private void OnDestroy()
         {
+            YG2.SaveProgress();
+            
             _weaponFactory.WeaponIsCreated -= _uiScene.WeaponPanel.SetData;
 
             _gameInitSystem.PlayerIsSpawned -= _uiScene.WeaponPanel.Show;
@@ -279,9 +282,12 @@ namespace Project.Scripts.Game.Gameplay.Root
                 await _weaponFactory.CreateWeapon(WeaponType.FourBarrelMachineGun);
             if (YG2.saves.ChainLightningGunCharacteristics != null)
                 await _weaponFactory.CreateWeapon(WeaponType.ChainLightningGun);
-            
-            if(_weaponHolder.Weapons.Count == 0)
+
+            if (_weaponHolder.Weapons.Count == 0)
+            {
                 await _weaponFactory.CreateWeapon(WeaponType.Gun);
+                _levelUpService.UpdateImprovementCardsByTypeWeapon(WeaponType.Gun);
+            }
         }
 
         private void GetMainMenuExitParameters()

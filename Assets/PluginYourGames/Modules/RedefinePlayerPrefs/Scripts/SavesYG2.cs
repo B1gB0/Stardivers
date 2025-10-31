@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Project.Scripts.DataBase.Data;
+using Project.Scripts.Weapon.CharacteristicsOfWeapon;
 
 namespace YG
 {
@@ -13,12 +13,13 @@ namespace YG
         public bool isMarsOperationUnlock = true;
         public bool isMysteryPlanetUnlock;
         
-        public CharacteristicsWeaponData GunCharacteristics;
-        public CharacteristicsWeaponData MachineGunCharacteristics;
-        public CharacteristicsWeaponData FourBarrelMachineGunCharacteristics;
-        public CharacteristicsWeaponData ChainLightningGunCharacteristics;
-        public CharacteristicsWeaponData FragGrenadeCharacteristics;
-        public CharacteristicsWeaponData MinesCharacteristics;
+        public GunCharacteristics GunCharacteristics;
+        public MachineGunCharacteristics MachineGunCharacteristics;
+        public FourBarrelMachineGunCharacteristics FourBarrelMachineGunCharacteristics;
+        public ChainLightningGunCharacteristics ChainLightningGunCharacteristics;
+        public FragGrenadeCharacteristics FragGrenadeCharacteristics;
+        public MineCharacteristics MinesCharacteristics;
+        public PlayerCharacteristics PlayerCharacteristics;
 
         public List<string> stringKeys = new List<string>();
         public List<string> stringValues = new List<string>();

@@ -2,7 +2,7 @@
 
 namespace Project.Scripts.Weapon.CharacteristicsOfWeapon
 {
-    public class FragGrenadeCharacteristics : Characteristics
+    public class FragGrenadeCharacteristics : WeaponCharacteristics
     {
         public override void SetStartingCharacteristics(CharacteristicsWeaponData data)
         {

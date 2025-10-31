@@ -38,6 +38,7 @@ namespace Project.Scripts.DI
             builder.AddSingleton(typeof(FloatingTextService), typeof(IFloatingTextService));
             builder.AddSingleton(typeof(CharacteristicsWeaponDataService), 
                 typeof(ICharacteristicsWeaponDataService));
+            builder.AddSingleton(typeof(LevelUpService), typeof(ILevelUpService));
             builder.AddSingleton(typeof(CardService), typeof(ICardService));
             builder.AddSingleton(typeof(EnemyService), typeof(IEnemyService));
             builder.AddSingleton(typeof(PlayerService), typeof(IPlayerService));

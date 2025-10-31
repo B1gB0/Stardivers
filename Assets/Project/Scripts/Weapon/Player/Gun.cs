@@ -7,6 +7,7 @@ using Project.Scripts.Services;
 using Project.Scripts.Weapon.CharacteristicsOfWeapon;
 using Project.Scripts.Weapon.Improvements;
 using UnityEngine;
+using YG;
 
 namespace Project.Scripts.Weapon.Player
 {
@@ -34,12 +35,18 @@ namespace Project.Scripts.Weapon.Player
         public GunCharacteristics GunCharacteristics { get; private set; } = new ();
         
         public void Construct(EnemyDetector detector, AudioSoundsService audioSoundsService,
-            CharacteristicsWeaponData data)
+            CharacteristicsWeaponData data, GunCharacteristics gunCharacteristics)
         {
             _detector = detector;
             _audioSoundsService = audioSoundsService;
-            GunCharacteristics.SetStartingCharacteristics(data);
             Type = data.WeaponType;
+
+            if (gunCharacteristics == null)
+                GunCharacteristics.SetStartingCharacteristics(data);
+            else
+                GunCharacteristics = gunCharacteristics;
+            
+            YG2.saves.GunCharacteristics = GunCharacteristics;
         }
 
         private void Awake()

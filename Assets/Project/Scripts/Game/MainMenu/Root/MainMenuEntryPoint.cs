@@ -24,6 +24,7 @@ namespace Project.Scripts.Game.MainMenu.Root
         private ILevelTextService _levelTextService;
         private AudioSoundsService _audioSoundsService;
         private ICardService _cardService;
+        private ILevelUpService _levelUpService;
 
         private MainMenuExitParameters _exitParameters;
 
@@ -31,7 +32,7 @@ namespace Project.Scripts.Game.MainMenu.Root
         private void Construct(OperationService operationService, IDataBaseService dataBaseService, 
             ICurrencyService currencyService, ITweenAnimationService tweenAnimationService,
             ILevelTextService levelTextService, AudioSoundsService audioSoundsService,
-            ICardService cardService)
+            ICardService cardService, ILevelUpService levelUpService)
         {
             _dataBaseService = dataBaseService;
             _operationService = operationService;
@@ -40,6 +41,7 @@ namespace Project.Scripts.Game.MainMenu.Root
             _levelTextService = levelTextService;
             _audioSoundsService = audioSoundsService;
             _cardService = cardService;
+            _levelUpService = levelUpService;
         }
 
         private async void Start()
@@ -51,8 +53,11 @@ namespace Project.Scripts.Game.MainMenu.Root
             await _audioSoundsService.Init();
             await _levelTextService.Init();
             
-            if(_cardService.IsInitiated)
-                _cardService.RecreateAllCards();
+            // if(_cardService.IsInitiated)
+            //     _cardService.RecreateAllCards();
+            
+            if(_levelUpService.IsInitiated)
+                _levelUpService.RecreateCards();
             
             DeleteGameplayData();
 
@@ -91,6 +96,7 @@ namespace Project.Scripts.Game.MainMenu.Root
 
         private void OnDestroy()
         {
+            YG2.SaveProgress();
             _uiScene.OnGameplayStarted -= GetMainMenuExitParameters;
         }
 

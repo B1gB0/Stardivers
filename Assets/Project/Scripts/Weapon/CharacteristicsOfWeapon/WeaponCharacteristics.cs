@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Project.Scripts.Weapon.CharacteristicsOfWeapon
 {
     [Serializable]
-    public abstract class Characteristics
+    public abstract class WeaponCharacteristics
     {
         protected float rangeAttack;
         protected float fireRate;
@@ -15,9 +15,6 @@ namespace Project.Scripts.Weapon.CharacteristicsOfWeapon
         protected float reloadTime;
         protected float explosionRadius;
         protected int maxEnemiesInChain;
-        protected float health;
-        protected float diggingSpeed;
-        protected float moveSpeed;
 
         public float RangeAttack => rangeAttack;
         public float FireRate => fireRate;
@@ -27,9 +24,6 @@ namespace Project.Scripts.Weapon.CharacteristicsOfWeapon
         public int MaxEnemiesInChain => maxEnemiesInChain;
         public float ReloadTime => reloadTime;
         public float ExplosionRadius => explosionRadius;
-        public float Health => health;
-        public float DiggingSpeed => diggingSpeed;
-        public float MoveSpeed => moveSpeed;
 
         public abstract void ApplyImprovement(CharacteristicType type, float factor);
 
@@ -73,21 +67,6 @@ namespace Project.Scripts.Weapon.CharacteristicsOfWeapon
         protected virtual void IncreaseExplosionRadius(float explosionRadiusFactor)
         {
             explosionRadius += Mathf.Round(explosionRadius * explosionRadiusFactor);
-        }
-
-        protected virtual void IncreaseHealth(float healthValue)
-        {
-            health += healthValue;
-        }
-
-        protected virtual void IncreaseDiggingSpeed(float diggingSpeedFactor)
-        {
-            diggingSpeed += Mathf.Round(diggingSpeed * diggingSpeedFactor);
-        }
-        
-        protected virtual void IncreaseMoveSpeed(float moveSpeedFactor)
-        {
-            moveSpeed += Mathf.Round(moveSpeed * moveSpeedFactor);
         }
     }
 }

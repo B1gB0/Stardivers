@@ -13,7 +13,7 @@ namespace Project.Scripts.Weapon.Improvements
 
         public void Visit(FourBarrelMachineGun fourBarrelMachineGun, CharacteristicType type, float value)
         {
-            fourBarrelMachineGun.MachineGunCharacteristics.ApplyImprovement(type, value);
+            fourBarrelMachineGun.FourBarrelMachineGunCharacteristics.ApplyImprovement(type, value);
         }
 
         public void Visit(Mines mines, CharacteristicType type, float value)

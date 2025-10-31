@@ -8,6 +8,7 @@ using Project.Scripts.Services;
 using Project.Scripts.Weapon.CharacteristicsOfWeapon;
 using Project.Scripts.Weapon.Improvements;
 using UnityEngine;
+using YG;
 
 namespace Project.Scripts.Weapon.Player
 {
@@ -37,20 +38,27 @@ namespace Project.Scripts.Weapon.Player
 
         private AudioSoundsService _audioSoundsService;
         private EnemyDetector _detector;
-        
+
         private EnemyActor _closestEnemy;
 
         private ObjectPool<FourBarrelMachineGunBullet> _poolBullets;
 
-        public MachineGunCharacteristics MachineGunCharacteristics { get; } = new();
+        public FourBarrelMachineGunCharacteristics FourBarrelMachineGunCharacteristics { get; private set; } = new();
 
         public void Construct(AudioSoundsService audioSoundsService, EnemyDetector detector,
-            CharacteristicsWeaponData data)
+            CharacteristicsWeaponData data, FourBarrelMachineGunCharacteristics fourBarrelMachineGunCharacteristics)
         {
             _audioSoundsService = audioSoundsService;
             _detector = detector;
-            MachineGunCharacteristics.SetStartingCharacteristics(data);
             Type = data.WeaponType;
+
+            if (fourBarrelMachineGunCharacteristics == null)
+                FourBarrelMachineGunCharacteristics.SetStartingCharacteristics(data);
+            
+            else
+                FourBarrelMachineGunCharacteristics = fourBarrelMachineGunCharacteristics;
+
+            YG2.saves.FourBarrelMachineGunCharacteristics = FourBarrelMachineGunCharacteristics;
         }
 
         private void Awake()
@@ -67,16 +75,16 @@ namespace Project.Scripts.Weapon.Player
 
         private void Start()
         {
-            _maxCountShots = MachineGunCharacteristics.MaxCountShots;
+            _maxCountShots = FourBarrelMachineGunCharacteristics.MaxCountShots;
         }
 
         private void FixedUpdate()
         {
             _closestEnemy = _detector.GetClosestEnemy();
-            
+
             if (_closestEnemy == null) return;
-            
-            if (_detector.ClosestEnemyDistance <= MachineGunCharacteristics.RangeAttack && !_isReloading)
+
+            if (_detector.ClosestEnemyDistance <= FourBarrelMachineGunCharacteristics.RangeAttack && !_isReloading)
             {
                 Shoot();
             }
@@ -95,7 +103,7 @@ namespace Project.Scripts.Weapon.Player
                     StartCoroutine(LaunchBullet(direction));
                 }
 
-                _lastBurstTime = MachineGunCharacteristics.FireRate;
+                _lastBurstTime = FourBarrelMachineGunCharacteristics.FireRate;
             }
 
             _lastBurstTime -= Time.fixedDeltaTime;
@@ -117,9 +125,9 @@ namespace Project.Scripts.Weapon.Player
 
         private IEnumerator Reload()
         {
-            yield return new WaitForSeconds(MachineGunCharacteristics.ReloadTime);
+            yield return new WaitForSeconds(FourBarrelMachineGunCharacteristics.ReloadTime);
 
-            _maxCountShots = MachineGunCharacteristics.MaxCountShots;
+            _maxCountShots = FourBarrelMachineGunCharacteristics.MaxCountShots;
             _isReloading = false;
         }
 
@@ -135,7 +143,8 @@ namespace Project.Scripts.Weapon.Player
                     * Random.Range(MinRandomRangePosition, MaxRandomRangePosition);
 
                 _bullet.SetDirection(direction);
-                _bullet.SetCharacteristics(MachineGunCharacteristics.Damage, MachineGunCharacteristics.ProjectileSpeed);
+                _bullet.SetCharacteristics(FourBarrelMachineGunCharacteristics.Damage,
+                    FourBarrelMachineGunCharacteristics.ProjectileSpeed);
 
                 yield return new WaitForSeconds(DelayBetweenShots);
             }

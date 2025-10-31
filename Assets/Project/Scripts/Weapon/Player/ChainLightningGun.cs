@@ -9,6 +9,7 @@ using Project.Scripts.Lightning;
 using Project.Scripts.Services;
 using Project.Scripts.Weapon.CharacteristicsOfWeapon;
 using Project.Scripts.Weapon.Improvements;
+using YG;
 
 namespace Project.Scripts.Weapon.Player
 {
@@ -32,14 +33,21 @@ namespace Project.Scripts.Weapon.Player
         private int _currentCharges;
         private Coroutine _chainCoroutine;
         
-        public ChainLightningGunCharacteristics ChainLightningGunCharacteristics { get; } = new();
+        public ChainLightningGunCharacteristics ChainLightningGunCharacteristics { get; private set; } = new();
 
-        public void Construct(AudioSoundsService audioService, EnemyDetector detector, CharacteristicsWeaponData data)
+        public void Construct(AudioSoundsService audioService, EnemyDetector detector, CharacteristicsWeaponData data,
+            ChainLightningGunCharacteristics chainLightningGunCharacteristics)
         {
             _audioService = audioService;
             _detector = detector;
-            ChainLightningGunCharacteristics.SetStartingCharacteristics(data);
             Type = data.WeaponType;
+            
+            if(chainLightningGunCharacteristics == null)
+                ChainLightningGunCharacteristics.SetStartingCharacteristics(data);
+            else
+                ChainLightningGunCharacteristics = chainLightningGunCharacteristics;
+
+            YG2.saves.ChainLightningGunCharacteristics = ChainLightningGunCharacteristics;
         }
 
         private void Awake()
