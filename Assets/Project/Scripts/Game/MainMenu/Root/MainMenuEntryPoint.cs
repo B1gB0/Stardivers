@@ -23,7 +23,6 @@ namespace Project.Scripts.Game.MainMenu.Root
         private ITweenAnimationService _tweenAnimationService;
         private ILevelTextService _levelTextService;
         private AudioSoundsService _audioSoundsService;
-        private ICardService _cardService;
         private ILevelUpService _levelUpService;
 
         private MainMenuExitParameters _exitParameters;
@@ -31,8 +30,7 @@ namespace Project.Scripts.Game.MainMenu.Root
         [Inject]
         private void Construct(OperationService operationService, IDataBaseService dataBaseService, 
             ICurrencyService currencyService, ITweenAnimationService tweenAnimationService,
-            ILevelTextService levelTextService, AudioSoundsService audioSoundsService,
-            ICardService cardService, ILevelUpService levelUpService)
+            ILevelTextService levelTextService, AudioSoundsService audioSoundsService, ILevelUpService levelUpService)
         {
             _dataBaseService = dataBaseService;
             _operationService = operationService;
@@ -40,7 +38,6 @@ namespace Project.Scripts.Game.MainMenu.Root
             _tweenAnimationService = tweenAnimationService;
             _levelTextService = levelTextService;
             _audioSoundsService = audioSoundsService;
-            _cardService = cardService;
             _levelUpService = levelUpService;
         }
 
@@ -52,10 +49,7 @@ namespace Project.Scripts.Game.MainMenu.Root
             await _tweenAnimationService.Init();
             await _audioSoundsService.Init();
             await _levelTextService.Init();
-            
-            // if(_cardService.IsInitiated)
-            //     _cardService.RecreateAllCards();
-            
+
             if(_levelUpService.IsInitiated)
                 _levelUpService.RecreateCards();
             
@@ -108,6 +102,7 @@ namespace Project.Scripts.Game.MainMenu.Root
             YG2.saves.FragGrenadeCharacteristics = null;
             YG2.saves.FourBarrelMachineGunCharacteristics = null;
             YG2.saves.ChainLightningGunCharacteristics = null;
+            YG2.saves.PlayerCharacteristics = null;
             YG2.saves.ExperiencePointsValue = 0;
             YG2.saves.CurrentLevel = 0;
         }

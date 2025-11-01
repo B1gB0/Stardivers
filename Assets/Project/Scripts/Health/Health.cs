@@ -28,6 +28,7 @@ namespace Project.Scripts.Health
         public event Action IsDamaged; 
 
         public event Action<float, float, float> HealthChanged;
+        public event Action<float> CurrentHealthChanged;
         
         public float MaxHealth { get; private set; }
         
@@ -45,11 +46,8 @@ namespace Project.Scripts.Health
 
         private void Start()
         {
-            MaxHealth = _value;
-            TargetHealth = _value;
-            _currentHealth = _value;
-            
-            HealthChanged?.Invoke(_currentHealth, TargetHealth, MaxHealth);
+            HealthChanged?.Invoke(_currentHealth, MaxHealth, TargetHealth);
+            CurrentHealthChanged?.Invoke(_currentHealth);
         }
 
         public void TakeDamage(float damage)
@@ -85,14 +83,10 @@ namespace Project.Scripts.Health
             SetHealthValue(currentHealth);
         }
 
-        public void SetNewMaxHealth(float newHealthValue)
+        public void LoadHealth(float maxHealth, float currentHealth)
         {
-            var currentHealthPercentage = _currentHealth / MaxHealth;
-            var maxHealth = newHealthValue;
-            
             MaxHealth = maxHealth;
-            var currentHealth = MaxHealth * currentHealthPercentage;
-            
+
             SetHealthValue(currentHealth);
         }
 
@@ -136,6 +130,7 @@ namespace Project.Scripts.Health
             {
                 _currentHealth = Mathf.MoveTowards(_currentHealth, TargetHealth, RecoveryRate * Time.deltaTime);
                 HealthChanged?.Invoke(_currentHealth, MaxHealth, TargetHealth);
+                CurrentHealthChanged?.Invoke(_currentHealth);
 
                 yield return null;
             }

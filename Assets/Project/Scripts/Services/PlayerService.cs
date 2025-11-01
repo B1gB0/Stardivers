@@ -1,19 +1,22 @@
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using Leopotam.Ecs;
 using Project.Scripts.DataBase.Data;
 using Project.Scripts.ECS.Components;
 using Project.Scripts.ECS.EntityActors;
+using Project.Scripts.Weapon.CharacteristicsOfWeapon;
 using Reflex.Attributes;
+using YG;
 
 namespace Project.Scripts.Services
 {
     public class PlayerService : IPlayerService
     {
         private readonly Dictionary<PlayerActorType, PlayerData> _playersData = new();
-        private readonly List<int> _playerLevels= new();
-        
+        private readonly List<int> _playerLevels = new();
+
         private IDataBaseService _dataBaseService;
-        
+
         public bool IsInitiated { get; private set; }
 
         [Inject]
@@ -21,15 +24,15 @@ namespace Project.Scripts.Services
         {
             _dataBaseService = dataBaseService;
         }
-        
+
         public PlayerActor PlayerActor { get; private set; }
-        public PlayerMovableComponent PlayerMovableComponent { get; private set; }
+        public EcsEntity PlayerEntity { get; private set; }
 
         public UniTask Init()
         {
-            if(IsInitiated)
+            if (IsInitiated)
                 return UniTask.CompletedTask;
-            
+
             foreach (var player in _dataBaseService.Content.Players)
             {
                 _playersData.TryAdd(player.Type, player);
@@ -41,7 +44,7 @@ namespace Project.Scripts.Services
             }
 
             IsInitiated = true;
-            
+
             return UniTask.CompletedTask;
         }
 
@@ -55,15 +58,33 @@ namespace Project.Scripts.Services
             return _playerLevels;
         }
 
-        public void GetPlayer(PlayerActor playerActor, PlayerMovableComponent playerMovableComponent)
+        public void GetPlayer(PlayerActor playerActor, EcsEntity playerEntity)
         {
             PlayerActor = playerActor;
-            PlayerMovableComponent = playerMovableComponent;
+            PlayerEntity = playerEntity;
         }
 
-        public void ChangePlayerMovableComponent(PlayerMovableComponent newMovableComponent)
+        public PlayerCharacteristics InitPlayerCharacteristics()
         {
-            PlayerMovableComponent = newMovableComponent;
+            var characteristics = YG2.saves.PlayerCharacteristics;
+
+            if (characteristics != null)
+                characteristics.SetCharacteristics();
+            else
+            {
+                characteristics = new PlayerCharacteristics(this);
+                characteristics.SetStartingCharacteristics(GetPlayerDataByType(PlayerActorType.CommonStardiver));
+            }
+
+            YG2.saves.PlayerCharacteristics = characteristics;
+
+            return characteristics;
+        }
+
+        public void ChangeMoveSpeed(float moveSpeed)
+        {
+            ref var movableComponent = ref PlayerEntity.Get<PlayerMovableComponent>();
+            movableComponent.MoveSpeed = moveSpeed;
         }
     }
 }

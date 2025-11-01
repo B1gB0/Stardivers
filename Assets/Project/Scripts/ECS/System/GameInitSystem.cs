@@ -89,6 +89,10 @@ namespace Project.Scripts.ECS.System
             _playerSpawnPoint = _levelInitData.PlayerSpawnPosition;
             Player = CreatePlayer();
             PlayerHealth = Player.Health;
+            
+            var playerCharacteristics = _playerService.InitPlayerCharacteristics();
+            
+            Player.GetCharacteristics(playerCharacteristics);
             Player.gameObject.SetActive(false);
 
             _level.GetServices(this, _dialoguePanel, _pauseService, _levelInitData, _levelTextService,
@@ -387,18 +391,14 @@ namespace Project.Scripts.ECS.System
             playerComponent.MiningTool = playerActor.MiningToolActor;
 
             ref var movableComponent = ref player.Get<PlayerMovableComponent>();
-            movableComponent.MoveSpeed = data.MoveSpeed;
             movableComponent.RotationSpeed = data.RotationSpeed;
             movableComponent.Transform = playerActor.transform;
             movableComponent.Rigidbody = playerActor.Rigidbody;
 
             ref var animationsComponent = ref player.Get<AnimatedComponent>();
             animationsComponent.Animator = playerActor.Animator;
-
-            var playerCharacteristics = YG2.saves.PlayerCharacteristics;
             
-            playerActor.Construct(_playerService, playerCharacteristics);
-            _playerService.GetPlayer(playerActor, movableComponent);
+            _playerService.GetPlayer(playerActor, player);
         }
 
         private void InitResource(ResourceActor resource)

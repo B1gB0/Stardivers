@@ -1,3 +1,4 @@
+using System;
 using DG.Tweening;
 using Project.Scripts.DataBase.Data;
 using Project.Scripts.Game.Constant;
@@ -26,6 +27,11 @@ namespace Project.Scripts.UI.View
         {
             _tweenAnimationService = tweenAnimationService;
             _levelTextService = levelTextService;
+        }
+
+        private void Awake()
+        {
+            gameObject.SetActive(false);
         }
 
         public void Show()

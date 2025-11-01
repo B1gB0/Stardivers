@@ -1,10 +1,7 @@
-﻿using System;
-using Project.Scripts.Player.PlayerInputModule;
-using Project.Scripts.Services;
+﻿using Project.Scripts.Player.PlayerInputModule;
 using Project.Scripts.Weapon.CharacteristicsOfWeapon;
 using Project.Scripts.Weapon.Improvements;
 using UnityEngine;
-using YG;
 
 namespace Project.Scripts.ECS.EntityActors
 {
@@ -19,11 +16,10 @@ namespace Project.Scripts.ECS.EntityActors
         public PlayerCharacteristics PlayerCharacteristics { get; private set; }
         public bool CanFollow { get; private set; }
 
-        public void Construct(IPlayerService playerService, PlayerCharacteristics playerCharacteristics)
+        public void GetCharacteristics(PlayerCharacteristics playerCharacteristics)
         {
-            PlayerCharacteristics = playerCharacteristics ?? new PlayerCharacteristics(playerService);
-
-            YG2.saves.PlayerCharacteristics = PlayerCharacteristics;
+            PlayerCharacteristics = playerCharacteristics;
+            Health.CurrentHealthChanged += PlayerCharacteristics.SaveCurrentHealth;
         }
 
         private void OnEnable()
@@ -34,6 +30,11 @@ namespace Project.Scripts.ECS.EntityActors
         private void OnDisable()
         {
             Health.Die -= Die;
+        }
+
+        private void OnDestroy()
+        {
+            Health.CurrentHealthChanged -= PlayerCharacteristics.SaveCurrentHealth;
         }
 
         private void Die()

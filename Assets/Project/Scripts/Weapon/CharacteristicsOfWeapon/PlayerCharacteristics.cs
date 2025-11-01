@@ -1,5 +1,4 @@
 using Project.Scripts.DataBase.Data;
-using Project.Scripts.ECS.Components;
 using Project.Scripts.ECS.EntityActors;
 using Project.Scripts.Services;
 using UnityEngine;
@@ -10,33 +9,35 @@ namespace Project.Scripts.Weapon.CharacteristicsOfWeapon
     {
         private readonly IPlayerService _playerService;
         
-        private float _health;
+        private float _maxHealth;
+        private float _currentHealth;
         private float _diggingSpeed;
         private float _moveSpeed;
-        
-        public float Health => _health;
-        public float DiggingSpeed => _diggingSpeed;
-        public float MoveSpeed => _moveSpeed;
 
         public PlayerCharacteristics(IPlayerService playerService)
         {
             _playerService = playerService;
         }
-        
+
         public void SetStartingCharacteristics(PlayerData data)
         {
-            _health = data.Health;
+            _maxHealth = data.Health;
+            _currentHealth = data.Health;
             _diggingSpeed = data.DiggingSpeed;
             _moveSpeed = data.MoveSpeed;
-            
             SetCharacteristics();
         }
 
         public void SetCharacteristics()
         {
-            _playerService.PlayerActor.Health.SetNewMaxHealth(_health);
+            _playerService.PlayerActor.Health.LoadHealth(_maxHealth, _currentHealth);
             _playerService.PlayerActor.MiningToolActor.ChangeDiggingSpeed(_diggingSpeed);
-            SetMovableComponentSpeed(_moveSpeed);
+            ChangeMovableComponentSpeed(_moveSpeed);
+        }
+
+        public void SaveCurrentHealth(float currentHealth)
+        {
+            _currentHealth = currentHealth;
         }
 
         public void ApplyImprovement(CharacteristicType type, float factor)
@@ -57,7 +58,7 @@ namespace Project.Scripts.Weapon.CharacteristicsOfWeapon
 
         private void SetHealth(float healthValue)
         {
-            _health += healthValue;
+            _maxHealth += healthValue;
             _playerService.PlayerActor.Health.ImproveHealth(healthValue);
         }
 
@@ -77,16 +78,13 @@ namespace Project.Scripts.Weapon.CharacteristicsOfWeapon
             
             float newMoveSpeed = data.MoveSpeed + Mathf.Round(data.MoveSpeed * moveSpeedFactor);
 
-            SetMovableComponentSpeed(newMoveSpeed);
+            ChangeMovableComponentSpeed(newMoveSpeed);
         }
 
-        private void SetMovableComponentSpeed(float newMoveSpeed)
+        private void ChangeMovableComponentSpeed(float newMoveSpeed)
         {
-            PlayerMovableComponent newMovableComponent = _playerService.PlayerMovableComponent;
-            newMovableComponent.MoveSpeed = newMoveSpeed;
             _moveSpeed = newMoveSpeed;
-
-            _playerService.ChangePlayerMovableComponent(newMovableComponent);
+            _playerService.ChangeMoveSpeed(_moveSpeed);
         }
 
         private void IncreaseHealth(float healthValue)
