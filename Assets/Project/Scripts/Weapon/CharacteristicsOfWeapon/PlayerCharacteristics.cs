@@ -1,7 +1,6 @@
 using Project.Scripts.DataBase.Data;
 using Project.Scripts.ECS.EntityActors;
 using Project.Scripts.Services;
-using UnityEngine;
 
 namespace Project.Scripts.Weapon.CharacteristicsOfWeapon
 {
@@ -66,7 +65,7 @@ namespace Project.Scripts.Weapon.CharacteristicsOfWeapon
         {
             PlayerData data = _playerService.GetPlayerDataByType(PlayerActorType.CommonStardiver);
 
-            float newDiggingSpeed = data.DiggingSpeed - Mathf.Round(data.DiggingSpeed * diggingSpeedFactor);
+            float newDiggingSpeed = data.DiggingSpeed - data.DiggingSpeed * diggingSpeedFactor;
             _diggingSpeed = newDiggingSpeed;
 
             _playerService.PlayerActor.MiningToolActor.ChangeDiggingSpeed(newDiggingSpeed);
@@ -76,7 +75,7 @@ namespace Project.Scripts.Weapon.CharacteristicsOfWeapon
         {
             PlayerData data = _playerService.GetPlayerDataByType(PlayerActorType.CommonStardiver);
             
-            float newMoveSpeed = data.MoveSpeed + Mathf.Round(data.MoveSpeed * moveSpeedFactor);
+            float newMoveSpeed = data.MoveSpeed + data.MoveSpeed * moveSpeedFactor;
 
             ChangeMovableComponentSpeed(newMoveSpeed);
         }

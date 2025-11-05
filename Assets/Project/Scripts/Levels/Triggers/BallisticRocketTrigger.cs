@@ -16,13 +16,5 @@ namespace Project.Scripts.Levels.Triggers
                     _ballisticRocket.OnChangeProgress();
             }
         }
-
-        private void OnTriggerExit(Collider trigger)
-        {
-            if (trigger.TryGetComponent(out PlayerActor _))
-            {
-                _ballisticRocket.OnChangeProgress();
-            }
-        }
     }
 }

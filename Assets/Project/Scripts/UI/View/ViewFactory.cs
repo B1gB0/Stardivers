@@ -36,6 +36,7 @@ namespace Project.Scripts.UI.View
         private MissionProgressBar _missionProgressBar;
         private ObjectiveTextView _objectiveTextView;
         private AlienCocoonView _alienCocoonView;
+        private LevelUpPanel _levelUpPanel;
         private Container _container;
 
         [Inject]
@@ -50,6 +51,8 @@ namespace Project.Scripts.UI.View
                 _uiRoot.LocalizationLanguageSwitcher.OnLanguageChanged -= _missionProgressBar.SetText;
             if(_objectiveTextView != null)
                 _uiRoot.LocalizationLanguageSwitcher.OnLanguageChanged -= _objectiveTextView.SetText;
+            if (_levelUpPanel != null)
+                _uiRoot.LocalizationLanguageSwitcher.OnLanguageChanged -= _levelUpPanel.OnLanguageChanged;
         }
 
         public void GetUIRootAndUIScene(UIRootView uiRoot, UIGameplayRootBinder uiScene)
@@ -99,11 +102,12 @@ namespace Project.Scripts.UI.View
             var levelUpPanelTemplate = await _resourceService.Load<GameObject>(LevelUpPanelPath);
             levelUpPanelTemplate = Instantiate(levelUpPanelTemplate);
 
-            LevelUpPanel levelUpPanel = levelUpPanelTemplate.GetComponent<LevelUpPanel>();
-            GameObjectInjector.InjectObject(levelUpPanel.gameObject, _container);
-            levelUpPanel.transform.SetParent(_uiScene.transform);
+            _levelUpPanel = levelUpPanelTemplate.GetComponent<LevelUpPanel>();
+            GameObjectInjector.InjectObject(_levelUpPanel.gameObject, _container);
+            _levelUpPanel.transform.SetParent(_uiScene.transform);
+            _uiRoot.LocalizationLanguageSwitcher.OnLanguageChanged += _levelUpPanel.OnLanguageChanged;
 
-            return levelUpPanel;
+            return _levelUpPanel;
         }
 
         public async UniTask<EndGamePanel> CreateEndGamePanel()

@@ -6,6 +6,7 @@ using Project.Scripts.ECS.Components;
 using Project.Scripts.ECS.EntityActors;
 using Project.Scripts.Weapon.CharacteristicsOfWeapon;
 using Reflex.Attributes;
+using UnityEngine;
 using YG;
 
 namespace Project.Scripts.Services

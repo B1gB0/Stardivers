@@ -67,6 +67,8 @@ namespace Project.Scripts.ECS.EntityActors
             {
                 IsMining = false;
             }
+            
+            Debug.Log(_diggingSpeed + " Скорость копания");
         }
 
         public void ChangeDiggingSpeed(float newDiggingSpeed)

@@ -223,7 +223,7 @@ namespace Project.Scripts.Game.Gameplay.Root
 
             var exitToSceneSignal = exitSceneSignalSubject.Select(_ => _exitParameters);
 
-            _level.OnStartLevel();
+            await _level.OnStartLevel();
             await TryLoadWeapons();
 
             return exitToSceneSignal;

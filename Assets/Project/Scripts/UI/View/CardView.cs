@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using DG.Tweening;
 using Project.Scripts.Cards;
 using Project.Scripts.Game.Constant;
-using Project.Scripts.Game.GameRoot;
 using Project.Scripts.Weapon.CharacteristicsOfWeapon;
 using Project.Scripts.Weapon.Player;
 using UnityEngine;
@@ -78,7 +77,7 @@ namespace Project.Scripts.UI.View
             SetData();
         }
 
-        private void SetData()
+        public void SetData()
         {
             _icon.sprite = _card.WeaponType switch
             {
@@ -142,7 +141,7 @@ namespace Project.Scripts.UI.View
                         or CharacteristicType.MaxCountEnemiesInChain or CharacteristicType.Health)
                         _characteristics.text = " +" + improvementCard.Value;
                     else
-                        _characteristics.text = " +" + improvementCard.Value * 10 + "%";
+                        _characteristics.text = " +" + improvementCard.Value * 100 + "%";
                     break;
                 case WeaponCard weaponCard:
                     _label.text = YG2.lang switch

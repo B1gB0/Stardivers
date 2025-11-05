@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using Project.Scripts.ECS.Data;
 using Project.Scripts.ECS.System;
 using Project.Scripts.Levels.Mars.FirstLevel;
@@ -60,7 +61,7 @@ namespace Project.Scripts.Levels
             YG2.SetLeaderboard(LeaderboardName, YG2.saves.AcumulatedScore);
         }
 
-        public virtual void OnStartLevel()
+        public virtual UniTask OnStartLevel()
         {
             DialogueSetter = new DialogueSetter(DialoguePanel, _levelTextService);
             
@@ -68,6 +69,8 @@ namespace Project.Scripts.Levels
             EntranceToNextLvlTrigger.Deactivate();
 
             SpawnPlayer();
+
+            return UniTask.CompletedTask;
         }
 
         public void GetServices(

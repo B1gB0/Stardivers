@@ -35,7 +35,6 @@ namespace Project.Scripts.UI.View
 
         private void Awake()
         {
-            gameObject.SetActive(false);
             UpdateDisplay();
         }
 

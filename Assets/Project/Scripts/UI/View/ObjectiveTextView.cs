@@ -1,4 +1,3 @@
-using System;
 using DG.Tweening;
 using Project.Scripts.DataBase.Data;
 using Project.Scripts.Game.Constant;

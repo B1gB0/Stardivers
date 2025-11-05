@@ -121,6 +121,17 @@ namespace Project.Scripts.UI.Panel
             }
         }
 
+        public void OnLanguageChanged()
+        {
+            if(!gameObject.activeSelf)
+                return;
+            
+            foreach (var cardView in _cardViews)
+            {
+                cardView.SetData();
+            }
+        }
+
         private async UniTask ProcessPendingLevels()
         {
             _isShowing = true;

@@ -1,4 +1,5 @@
-﻿using Project.Scripts.Levels.Triggers;
+﻿using Cysharp.Threading.Tasks;
+using Project.Scripts.Levels.Triggers;
 using Project.Scripts.UI.View;
 using UnityEngine;
 
@@ -24,9 +25,9 @@ namespace Project.Scripts.Levels.Mars.ThirdLevel
             IsInitiatedSpawners -= SpawnResources;
         }
 
-        public override async void OnStartLevel()
+        public override async UniTask OnStartLevel()
         {
-            base.OnStartLevel();
+            await base.OnStartLevel();
 
             _objectiveTextView = await ViewFactory.CreateObjectiveText();
             _objectiveTextView.Hide();
