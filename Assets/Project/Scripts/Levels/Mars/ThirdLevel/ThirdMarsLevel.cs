@@ -30,7 +30,6 @@ namespace Project.Scripts.Levels.Mars.ThirdLevel
             await base.OnStartLevel();
 
             _objectiveTextView = await ViewFactory.CreateObjectiveText();
-            _objectiveTextView.Hide();
 
             WelcomePlanetTextTrigger.IsWelcomeToPlanet += DialogueSetter.OnWelcomePlanet;
             
@@ -45,6 +44,7 @@ namespace Project.Scripts.Levels.Mars.ThirdLevel
             _truckFinalPointTrigger.IsFinalPointReached += _entranceLastLvlTrigger.Activate;
             _truckFinalPointTrigger.IsFinalPointReached += EndLevelTrigger.Activate;
             _truckFinalPointTrigger.IsFinalPointReached += _truckPlayerTrigger.Deactivate;
+            _truckFinalPointTrigger.IsFinalPointReached += _objectiveTextView.Hide;
         }
 
         private void FixedUpdate()
@@ -100,6 +100,7 @@ namespace Project.Scripts.Levels.Mars.ThirdLevel
             _truckFinalPointTrigger.IsFinalPointReached -= _entranceLastLvlTrigger.Activate;
             _truckFinalPointTrigger.IsFinalPointReached -= EndLevelTrigger.Activate;
             _truckFinalPointTrigger.IsFinalPointReached -= _truckPlayerTrigger.Deactivate;
+            _truckFinalPointTrigger.IsFinalPointReached -= _objectiveTextView.Hide;
         }
     }
 }

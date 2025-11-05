@@ -414,14 +414,16 @@ namespace Project.Scripts.ECS.System
         
         private void CreateEnemyObjectPools()
         {
-            if(_levelInitData.FirstWaveSmallEnemyAlienSpawnPositions.Count > MinValue)
+            if(_levelInitData.FirstWaveSmallEnemyAlienSpawnPositions.Count > MinValue ||
+               _levelInitData.SecondWaveSmallEnemyAlienSpawnPositions.Count > MinValue)
                 _smallAlienEnemyPool = new ObjectPool<SmallEnemy>(_smallAlienEnemyInitData.SmallEnemyPrefab,
                     DefaultCountObjectsInPool, new GameObject(SmallEnemyAlienPool).transform)
                 {
                     AutoExpand = IsAutoExpand
                 };
 
-            if (_levelInitData.FirstWaveBigEnemyAlienSpawnPositions.Count > MinValue)
+            if (_levelInitData.FirstWaveBigEnemyAlienSpawnPositions.Count > MinValue ||
+                _levelInitData.SecondWaveBigEnemyAlienSpawnPositions.Count > MinValue)
             {
                 _bigAlienEnemyPool = new ObjectPool<BigEnemy>(_bigAlienEnemyData.BigEnemyPrefab,
                     DefaultCountObjectsInPool, new GameObject(BigEnemyAlienPool).transform)
@@ -437,7 +439,8 @@ namespace Project.Scripts.ECS.System
                 };
             }
 
-            if (_levelInitData.FirstWaveGunnerEnemyAlienSpawnPositions.Count > MinValue)
+            if (_levelInitData.FirstWaveGunnerEnemyAlienSpawnPositions.Count > MinValue || 
+                _levelInitData.SecondWaveGunnerEnemyAlienSpawnPositions.Count > MinValue)
             {
                 _gunnerAlienEnemyPool = new ObjectPool<GunnerEnemy>(_gunnerAlienEnemyData.GunnerEnemyPrefab, 
                     DefaultCountObjectsInPool, new GameObject(GunnerAlienEnemyPool).transform)

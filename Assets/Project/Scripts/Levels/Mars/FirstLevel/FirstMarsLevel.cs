@@ -29,8 +29,7 @@ namespace Project.Scripts.Levels.Mars.FirstLevel
             
             _timer = await ViewFactory.CreateTimer();
             _objectiveTextView = await ViewFactory.CreateObjectiveText();
-            _objectiveTextView.Hide();
-            
+
             WelcomePlanetTextTrigger.IsWelcomeToPlanet += DialogueSetter.OnWelcomePlanet;
             
             _timer.SetTime(_timeOfWaves);

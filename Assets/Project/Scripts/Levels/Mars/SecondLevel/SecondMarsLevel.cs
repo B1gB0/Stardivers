@@ -52,6 +52,7 @@ namespace Project.Scripts.Levels.Mars.SecondLevel
             _ballisticRocket.LaunchCompleted += EndLevelTrigger.Activate;
             _ballisticRocket.LaunchCompleted += EntranceToNextLvlTrigger.Activate;
             _ballisticRocket.LaunchCompleted += _entranceLastLvlTrigger.Activate;
+            _ballisticRocket.LaunchCompleted += _ballisticRocketTrigger.Deactivate;
         }
 
         private void FixedUpdate()

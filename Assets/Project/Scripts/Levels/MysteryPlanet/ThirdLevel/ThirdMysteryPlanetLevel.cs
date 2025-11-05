@@ -31,8 +31,7 @@ namespace Project.Scripts.Levels.MysteryPlanet.ThirdLevel
             
             _alienCocoonView = await ViewFactory.CreateAlienCocoonView();
             _objectiveTextView = await ViewFactory.CreateObjectiveText();
-            _objectiveTextView.Hide();
-            
+
             OnAlienCocoonViewShow += _alienCocoonView.Show;
 
             WelcomePlanetTextTrigger.IsWelcomeToPlanet += DialogueSetter.OnWelcomePlanet;
