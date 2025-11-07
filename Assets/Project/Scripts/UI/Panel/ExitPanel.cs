@@ -12,13 +12,15 @@ namespace Project.Scripts.UI.Panel
     {
         [SerializeField] private Button _noButton;
         [SerializeField] private Button _yesButton;
-        
+
         private IPauseService _pauseService;
         private ITweenAnimationService _tweenAnimationService;
 
+        private bool _isExitToMainMenu;
+
         public event Action OnExitToMainMenu;
         public event Action OnBackToSceneButtonPressed;
-        
+
         [Inject]
         public void Construct(IPauseService pauseService, ITweenAnimationService tweenAnimationService)
         {
@@ -35,7 +37,7 @@ namespace Project.Scripts.UI.Panel
         private void OnDestroy()
         {
             transform.DOKill();
-            
+
             _noButton.onClick.RemoveListener(MoveBackToScene);
             _yesButton.onClick.RemoveListener(OnYesButtonClicked);
         }
@@ -48,16 +50,21 @@ namespace Project.Scripts.UI.Panel
 
         public void Hide()
         {
-            _tweenAnimationService.AnimateScale(transform, true);
+            if (_isExitToMainMenu)
+                gameObject.SetActive(false);
+            else
+                _tweenAnimationService.AnimateScale(transform, true);
         }
-        
+
         private void MoveBackToScene()
         {
+            _isExitToMainMenu = false;
             OnBackToSceneButtonPressed?.Invoke();
         }
 
         private void OnYesButtonClicked()
         {
+            _isExitToMainMenu = true;
             _pauseService.PlayGame();
             OnExitToMainMenu?.Invoke();
         }

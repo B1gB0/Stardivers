@@ -106,25 +106,29 @@ namespace Project.Scripts.Game.GameRoot
 
             var sceneEntryPoint = FindFirstObjectByType<GameplayEntryPoint>();
             var observable = await sceneEntryPoint.Run(_uiRoot, enterParameters);
-            observable.Subscribe(HandleExitGameplayScene);
+            
+            var exitParameters = await observable.FirstAsync();
+            await HandleExitGameplayScene(exitParameters);
         }
 
-        private void HandleExitGameplayScene(GameplayExitParameters gameplayExitParameters)
+        private async UniTask<GameplayExitParameters> HandleExitGameplayScene(GameplayExitParameters gameplayExitParameters)
         {
             var targetSceneName = gameplayExitParameters.TargetSceneEnterParameters.SceneName;
 
             if (targetSceneName == Scenes.MainMenu)
             {
-                LoadAndStartMainMenu(gameplayExitParameters
+                await LoadAndStartMainMenu(gameplayExitParameters
                     .TargetSceneEnterParameters.As<MainMenuEnterParameters>()
-                ).Forget();
+                );
             }
             else
             {
-                LoadAndStartGameplay(gameplayExitParameters
+                await LoadAndStartGameplay(gameplayExitParameters
                     .TargetSceneEnterParameters.As<GameplayEnterParameters>()
-                ).Forget();
+                );
             }
+            
+            return gameplayExitParameters;
         }
 
         private async UniTask LoadScene(string sceneName)
