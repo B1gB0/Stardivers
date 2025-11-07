@@ -198,8 +198,10 @@ namespace Project.Scripts.Game.Gameplay.Root
             
             uiRoot.LocalizationLanguageSwitcher.OnLanguageChanged += _progressBar.ChangeText;
 
-            _level.EndLevelTrigger.IsLevelCompleted += _endGamePanel.Show;
+            _level.EndLevelTrigger.IsLevelCompleted += _levelUpPanel.OnEndGameTriggerIsReached;
             _level.EndLevelTrigger.IsLevelCompleted += _endGamePanel.SetVictoryPanel;
+
+            _levelUpPanel.OnContinueButtonIsClicked += _endGamePanel.Show;
 
             _gameInitSystem.PlayerIsSpawned += _uiScene.WeaponPanel.Show;
             _gameInitSystem.PlayerIsSpawned += _progressBar.Show;
@@ -251,8 +253,10 @@ namespace Project.Scripts.Game.Gameplay.Root
             _gameInitSystem.PlayerHealth.Die -= _progressBar.Hide;
             _gameInitSystem.PlayerHealth.IsSpawnedHealingText -= _floatingTextService.OnChangedFloatingText;
 
-            _level.EndLevelTrigger.IsLevelCompleted -= _endGamePanel.Show;
+            _level.EndLevelTrigger.IsLevelCompleted -= _levelUpPanel.OnEndGameTriggerIsReached;
             _level.EndLevelTrigger.IsLevelCompleted -= _endGamePanel.SetVictoryPanel;
+            
+            _levelUpPanel.OnContinueButtonIsClicked -= _endGamePanel.Show;
 
             _endGamePanel.GoToMainMenuButton.onClick.RemoveListener(GetMainMenuExitParameters);
             _endGamePanel.GoToMainMenuButton.onClick.RemoveListener(_uiScene.HandleGoToNextSceneButtonClick);

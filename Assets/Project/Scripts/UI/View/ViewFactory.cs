@@ -103,7 +103,7 @@ namespace Project.Scripts.UI.View
             levelUpPanelTemplate = Instantiate(levelUpPanelTemplate);
 
             _levelUpPanel = levelUpPanelTemplate.GetComponent<LevelUpPanel>();
-            GameObjectInjector.InjectObject(_levelUpPanel.gameObject, _container);
+            GameObjectInjector.InjectRecursive(_levelUpPanel.gameObject, _container);
             _levelUpPanel.transform.SetParent(_uiScene.transform);
             _uiRoot.LocalizationLanguageSwitcher.OnLanguageChanged += _levelUpPanel.OnLanguageChanged;
 

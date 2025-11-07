@@ -27,6 +27,8 @@ namespace Project.Scripts.Services
 
         public void AnimateScale(Transform target, bool isDisableTarget = false)
         {
+            if (!IsTargetValid(target)) return;
+            
             var scaleSequence = CreateScaleSequence(target, isDisableTarget);
 
             scaleSequence.OnComplete(() =>
@@ -37,6 +39,8 @@ namespace Project.Scripts.Services
 
         public async UniTask AnimateScaleAsync(Transform target, bool isDisableTarget = false)
         {
+            if (!IsTargetValid(target)) return;
+            
             var scaleSequence = CreateScaleSequence(target, isDisableTarget);
 
             await scaleSequence.AsyncWaitForCompletion();
@@ -67,7 +71,7 @@ namespace Project.Scripts.Services
         
         private void TryOffGameObject(Transform target, bool isDisableTarget)
         {
-            if (isDisableTarget && target != null)
+            if (isDisableTarget && IsTargetValid(target))
                 target.gameObject.SetActive(false);
         }
         
@@ -85,6 +89,11 @@ namespace Project.Scripts.Services
                 .SetEase(!isDisableTarget ? Ease.OutBounce : Ease.OutSine)
                 .SetUpdate(true);
             return scaleSequence;
+        }
+        
+        private bool IsTargetValid(Transform target)
+        {
+            return target != null && target.gameObject != null;
         }
     }
 }

@@ -9,7 +9,8 @@ namespace Project.Scripts.Services
     {
         public void RemoveImprovementCard(ImprovementCard improvementCard);
         public void RemoveWeaponCard(WeaponType type);
-        public void GenerateCards(int currentLevel, WeaponHolder weaponHolder, List<CardView> cardViews);
+        public void GenerateCardsByLevel(int currentLevel, WeaponHolder weaponHolder, List<CardView> cardViews);
+        public void GenerateImprovements(List<CardView> cardViews);
         public void RecreateCards();
         public void UpdateImprovementCardsByTypeWeapon(WeaponType type);
     }

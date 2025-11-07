@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using DG.Tweening;
 using Project.Scripts.Cards;
 using Project.Scripts.Game.Constant;
+using Project.Scripts.Services;
 using Project.Scripts.Weapon.CharacteristicsOfWeapon;
 using Project.Scripts.Weapon.Player;
+using Reflex.Attributes;
 using UnityEngine;
 using UnityEngine.UI;
 using YG;
@@ -26,7 +28,14 @@ namespace Project.Scripts.UI.View
         private const string Common = "Common";
         private const string Unusual = "Unusual";
         private const string Rare = "Rare";
+        
+        [SerializeField] private int _priceCommonLevel;
+        [SerializeField] private int _priceUnusualLevel;
+        [SerializeField] private int _priceRareLevel;
 
+        [SerializeField] private GameObject _priceRoot;
+        [SerializeField] private Text _priceText;
+        
         [SerializeField] private List<Sprite> _sprites;
 
         [SerializeField] private Image _icon;
@@ -43,8 +52,15 @@ namespace Project.Scripts.UI.View
         [SerializeField] private Color _blueColor = Color.blue;
     
         private Card _card;
+        private ICurrencyService _currencyService;
 
         public event Action<Card, CardView> GetImprovementButtonClicked;
+
+        [Inject]
+        private void Construct(ICurrencyService currencyService)
+        {
+            _currencyService = currencyService;
+        }
 
         private void OnEnable()
         {
@@ -69,6 +85,16 @@ namespace Project.Scripts.UI.View
         public void Hide()
         {
             gameObject.SetActive(false);
+        }
+
+        public void ShowPriceRoot()
+        {
+            _priceRoot.gameObject.SetActive(true);
+        }
+        
+        public void HidePriceRoot()
+        {
+            _priceRoot.gameObject.SetActive(false);
         }
     
         public void GetCard(Card card)
@@ -128,6 +154,14 @@ namespace Project.Scripts.UI.View
                         Rare => _blueColor,
                         _ => _level.color
                     };
+                    
+                    _priceText.text = Convert.ToString(improvementCard.ImprovementData.LevelCardEn switch
+                    {
+                        Common => _priceCommonLevel,
+                        Unusual => _priceUnusualLevel,
+                        Rare => _priceRareLevel,
+                        _ => _priceText.text
+                    });
 
                     _level.text = YG2.lang switch
                     {
@@ -168,6 +202,20 @@ namespace Project.Scripts.UI.View
 
         private void OnButtonClicked()
         {
+            if (_priceRoot.gameObject.activeSelf)
+            {
+                var price = Convert.ToInt32(_priceText.text);
+
+                if (_currencyService.Gold >= price)
+                {
+                    _currencyService.SpendGold(price);
+                }
+                else
+                {
+                    return;
+                }
+            }
+                
             GetImprovementButtonClicked?.Invoke(_card, this);
         }
     }

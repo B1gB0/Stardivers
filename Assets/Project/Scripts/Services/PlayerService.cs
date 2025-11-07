@@ -6,7 +6,6 @@ using Project.Scripts.ECS.Components;
 using Project.Scripts.ECS.EntityActors;
 using Project.Scripts.Weapon.CharacteristicsOfWeapon;
 using Reflex.Attributes;
-using UnityEngine;
 using YG;
 
 namespace Project.Scripts.Services
@@ -86,6 +85,12 @@ namespace Project.Scripts.Services
         {
             ref var movableComponent = ref PlayerEntity.Get<PlayerMovableComponent>();
             movableComponent.MoveSpeed = moveSpeed;
+        }
+
+        public void AddHealthByFactor(float factorHealth)
+        {
+            var addingHealth = PlayerActor.Health.MaxHealth * factorHealth; 
+            PlayerActor.Health.AddHealth(addingHealth);
         }
     }
 }

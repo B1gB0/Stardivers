@@ -13,7 +13,6 @@ using Reflex.Attributes;
 using UnityEngine;
 using UnityEngine.UI;
 
-
 namespace Project.Scripts.UI.Panel
 {
     public class LevelUpPanel : MonoBehaviour, IView
@@ -25,8 +24,15 @@ namespace Project.Scripts.UI.Panel
         private readonly WeaponVisitor _weaponVisitor = new();
 
         [SerializeField] private List<CardView> _cardViews = new();
+        
         [SerializeField] private Button _rollButton;
+        [SerializeField] private Button _healButton;
+        [SerializeField] private Button _continueButton;
+        
         [SerializeField] private int _priceOfRoll;
+        [SerializeField] private int _priceOfHeal;
+
+        [SerializeField] private float _healthFactor;
 
         private AudioSoundsService _audioSoundsService;
         private IPauseService _pauseService;
@@ -43,6 +49,8 @@ namespace Project.Scripts.UI.Panel
         private int _currentLevel;
         private bool _isShowing;
         private bool _isClosed;
+
+        public event Action OnContinueButtonIsClicked; 
 
         [Inject]
         private void Construct(AudioSoundsService audioSoundsService, IPauseService pauseService, 
@@ -64,7 +72,9 @@ namespace Project.Scripts.UI.Panel
                 cardView.GetImprovementButtonClicked += OnCardViewButtonClicked;
             }
 
+            _healButton.onClick.AddListener(OnHealButtonClicked);
             _rollButton.onClick.AddListener(OnRollButtonClicked);
+            _continueButton.onClick.AddListener(OnContinueButtonClicked);
         }
 
         private void OnDisable()
@@ -74,7 +84,9 @@ namespace Project.Scripts.UI.Panel
                 cardView.GetImprovementButtonClicked -= OnCardViewButtonClicked;
             }
 
+            _healButton.onClick.RemoveListener(OnHealButtonClicked);
             _rollButton.onClick.RemoveListener(OnRollButtonClicked);
+            _continueButton.onClick.RemoveListener(OnContinueButtonClicked);
         }
 
         private void OnDestroy()
@@ -113,12 +125,34 @@ namespace Project.Scripts.UI.Panel
 
         public async void OnCurrentLevelIsUpgraded(int currentLevel)
         {
+            _healButton.gameObject.SetActive(false);
+            _continueButton.gameObject.SetActive(false);
+
+            foreach (var cardView in _cardViews)
+            {
+                cardView.HidePriceRoot();
+            }
+            
             _pendingLevels.Enqueue(currentLevel);
 
             if (!_isShowing)
             {
                 await ProcessPendingLevels();
             }
+        }
+
+        public async void OnEndGameTriggerIsReached()
+        {
+            _healButton.gameObject.SetActive(true);
+            _continueButton.gameObject.SetActive(true);
+
+            foreach (var cardView in _cardViews)
+            {
+                cardView.ShowPriceRoot();
+            }
+            
+            GetImprovements();
+            await ShowAsync();
         }
 
         public void OnLanguageChanged()
@@ -140,7 +174,7 @@ namespace Project.Scripts.UI.Panel
             {
                 int level = _pendingLevels.Dequeue();
                 
-                await ShowForLevel(level);
+                await ShowForLevelUp(level);
                 await UniTask.WaitUntil(() => _isClosed);
                 await UniTask.Delay(TimeSpan.FromSeconds(LevelUpDelay));
             }
@@ -148,7 +182,7 @@ namespace Project.Scripts.UI.Panel
             _isShowing = false;
         }
         
-        private async UniTask ShowForLevel(int level)
+        private async UniTask ShowForLevelUp(int level)
         {
             _currentLevel = level;
             GetCardsForLevelUp(level);
@@ -166,8 +200,15 @@ namespace Project.Scripts.UI.Panel
 
         private void GetCardsForLevelUp(int currentLevel)
         {
-            _levelUpService.GenerateCards(currentLevel, _weaponHolder, _cardViews);
+            _levelUpService.GenerateCardsByLevel(currentLevel, _weaponHolder, _cardViews);
 
+            _pauseService.StopGame();
+        }
+
+        private void GetImprovements()
+        {
+            _levelUpService.GenerateImprovements(_cardViews);
+            
             _pauseService.StopGame();
         }
 
@@ -218,7 +259,23 @@ namespace Project.Scripts.UI.Panel
             _currencyService.SpendGold(_priceOfRoll);
             
             AnimateCardsView();
-            _levelUpService.GenerateCards(_currentLevel, _weaponHolder, _cardViews);
+            _levelUpService.GenerateCardsByLevel(_currentLevel, _weaponHolder, _cardViews);
+        }
+
+        private void OnHealButtonClicked()
+        {
+            if (_currencyService.Gold < _priceOfHeal)
+                return;
+            
+            _currencyService.SpendGold(_priceOfHeal);
+            
+            _playerService.AddHealthByFactor(_healthFactor);
+        }
+
+        private async void OnContinueButtonClicked()
+        {
+            OnContinueButtonIsClicked?.Invoke();
+            await HideAsync();
         }
 
         private void AnimateCardsView()

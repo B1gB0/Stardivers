@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using Leopotam.Ecs;
 using Project.Scripts.DataBase.Data;
-using Project.Scripts.ECS.Components;
 using Project.Scripts.ECS.EntityActors;
 using Project.Scripts.Weapon.CharacteristicsOfWeapon;
 
@@ -16,5 +15,6 @@ namespace Project.Scripts.Services
         public void GetPlayer(PlayerActor playerActor, EcsEntity playerEntity);
         public void ChangeMoveSpeed(float moveSpeed);
         public PlayerCharacteristics InitPlayerCharacteristics();
+        public void AddHealthByFactor(float healthValue);
     }
 }

@@ -66,7 +66,7 @@ namespace Project.Scripts.Services
             Debug.Log(_currentWeaponCards.Count + " После удаления карты оружия");
         }
         
-        public void GenerateCards(int currentLevel, WeaponHolder weaponHolder, List<CardView> cardViews)
+        public void GenerateCardsByLevel(int currentLevel, WeaponHolder weaponHolder, List<CardView> cardViews)
         {
             if (currentLevel % Multiplicity == Remainder && weaponHolder.Weapons.Count < CountWeapons)
             {
@@ -75,12 +75,17 @@ namespace Project.Scripts.Services
             }
             else
             {
-                SortRandomCards(_currentImprovementCards);
-                var result = FilterDuplicateCards(_currentImprovementCards);
-                GetCards(result, cardViews);
+                GenerateImprovements(cardViews);
             }
         }
-        
+
+        public void GenerateImprovements(List<CardView> cardViews)
+        {
+            SortRandomCards(_currentImprovementCards);
+            var result = FilterDuplicateCards(_currentImprovementCards);
+            GetCards(result, cardViews);
+        }
+
         public void RecreateCards()
         {
             _currentWeaponCards.Clear();
