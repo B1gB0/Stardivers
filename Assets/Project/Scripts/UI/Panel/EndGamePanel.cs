@@ -100,7 +100,7 @@ namespace Project.Scripts.UI.Panel
         {
             gameObject.SetActive(false);
         }
-        
+
         private void OnChangeColor(Color color)
         {
             foreach (var image in _images)

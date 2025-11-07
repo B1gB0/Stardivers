@@ -1,4 +1,5 @@
-﻿using Project.Scripts.Services;
+﻿using DG.Tweening;
+using Project.Scripts.Services;
 using Project.Scripts.UI.View;
 using Reflex.Attributes;
 using UnityEngine;
@@ -24,6 +25,11 @@ namespace Project.Scripts.Game.MainMenu.Root.View
         public void Hide()
         {
             _tweenAnimationService.AnimateScale(transform, true);
+        }
+
+        private void OnDestroy()
+        {
+            transform.DOKill();
         }
     }
 }

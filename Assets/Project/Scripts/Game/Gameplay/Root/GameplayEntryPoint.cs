@@ -134,6 +134,8 @@ namespace Project.Scripts.Game.Gameplay.Root
         public async UniTask<Observable<GameplayExitParameters>> Run(UIRootView uiRoot,
             GameplayEnterParameters enterParameters)
         {
+            uiRoot.ExitButton.gameObject.SetActive(true);
+            
             _uiRoot = uiRoot;
             _pauseService.PlayGame();
 
@@ -210,6 +212,9 @@ namespace Project.Scripts.Game.Gameplay.Root
 
             _endGamePanel.NextLevelButton.onClick.AddListener(GetGameplayExitParameters);
             _endGamePanel.NextLevelButton.onClick.AddListener(_uiScene.HandleGoToNextSceneButtonClick);
+            
+            uiRoot.ExitPanel.OnExitToMainMenu += GetMainMenuExitParameters;
+            uiRoot.ExitPanel.OnExitToMainMenu += _uiScene.HandleGoToNextSceneButtonClick;
 
 #if UNITY_EDITOR
             _uiScene.CheatsButton.onClick.AddListener(_cheatPanel.Show);

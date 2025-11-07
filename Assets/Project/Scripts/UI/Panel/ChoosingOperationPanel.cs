@@ -56,6 +56,11 @@ namespace Project.Scripts.UI.Panel
             _nextButton.onClick.RemoveListener(SetNextOperation);
             _backToMainMenuButton.onClick.RemoveListener(HandleBackButtonClick);
         }
+        
+        private void OnDestroy()
+        {
+            transform.DOKill(true);
+        }
 
         public void GetUIStateMachine(UIStateMachine uiStateMachine)
         {
@@ -108,11 +113,6 @@ namespace Project.Scripts.UI.Panel
                 _currentIndex--;
         
             SetOperation(_currentIndex);
-        }
-
-        private void OnDestroy()
-        {
-            transform.DOKill(true);
         }
     }
 }

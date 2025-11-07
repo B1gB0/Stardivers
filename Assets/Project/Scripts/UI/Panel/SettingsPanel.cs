@@ -1,4 +1,5 @@
 using System;
+using DG.Tweening;
 using Project.Scripts.Services;
 using Project.Scripts.UI.View;
 using Reflex.Attributes;
@@ -36,13 +37,7 @@ namespace Project.Scripts.UI.Panel
         {
             _tweenAnimationService = tweenAnimationService;
         }
-
-        private void Start()
-        {
-            SetValuesVolume();
-            gameObject.SetActive(false);
-        }
-
+        
         private void OnEnable()
         {
             _backToSceneButton.onClick.AddListener(MoveBackToScene);
@@ -52,6 +47,12 @@ namespace Project.Scripts.UI.Panel
             _effectsVolumeSlider.onValueChanged.AddListener(ChangeEffectsVolume);
         }
 
+        private void Start()
+        {
+            SetValuesVolume();
+            gameObject.SetActive(false);
+        }
+
         private void OnDisable()
         {
             _backToSceneButton.onClick.RemoveListener(MoveBackToScene);
@@ -59,6 +60,11 @@ namespace Project.Scripts.UI.Panel
 
             _musicVolumeSlider.onValueChanged.RemoveListener(ChangeMusicVolume);
             _effectsVolumeSlider.onValueChanged.RemoveListener(ChangeEffectsVolume);
+        }
+        
+        private void OnDestroy()
+        {
+            transform.DOKill();
         }
 
         public void Show()

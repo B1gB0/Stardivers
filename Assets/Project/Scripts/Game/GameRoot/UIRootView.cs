@@ -19,9 +19,11 @@ namespace Project.Scripts.Game.GameRoot
         [SerializeField] private LoadingPanel _loadingPanel;
         [SerializeField] private SettingsPanel _settingsPanel;
         [SerializeField] private LeaderboardPanel _leaderboardPanel;
+        [SerializeField] private ExitPanel _exitPanel;
         [SerializeField] private LocalizationLanguageSwitcher _localizationLanguageSwitcher;
 
         [SerializeField] private Button _settingsButton;
+        [SerializeField] private Button _exitButton;
         [SerializeField] private Button _leaderboardButton;
 
         private AudioSoundsService _audioSoundsService;
@@ -31,6 +33,8 @@ namespace Project.Scripts.Game.GameRoot
 
         public UIRootButtons UIRootButtons => _uiRootButtons;
         public LocalizationLanguageSwitcher LocalizationLanguageSwitcher => _localizationLanguageSwitcher;
+        public Button ExitButton => _exitButton;
+        public ExitPanel ExitPanel => _exitPanel;
 
         [Inject]
         private void Construct(AudioSoundsService audioSoundsService, IPauseService pauseService)
@@ -45,6 +49,7 @@ namespace Project.Scripts.Game.GameRoot
             UIStateMachine.AddState(new SettingsPanelState(_settingsPanel));
             UIStateMachine.AddState(new LoadingPanelState(_loadingPanel));
             UIStateMachine.AddState(new LeaderboardPanelState(_leaderboardPanel));
+            UIStateMachine.AddState(new ExitPanelState(_exitPanel));
         }
 
         private void OnEnable()
@@ -56,6 +61,10 @@ namespace Project.Scripts.Game.GameRoot
             _leaderboardButton.onClick.AddListener(ShowLeaderboardPanel);
             _leaderboardPanel.OnBackToSceneButtonPressed += ShowUIScene;
             _leaderboardPanel.OnBackToSceneButtonPressed += PlayGame;
+            
+            _exitButton.onClick.AddListener(ShowExitPanel);
+            _exitPanel.OnBackToSceneButtonPressed += ShowUIScene;
+            _exitPanel.OnBackToSceneButtonPressed += PlayGame;
         }
 
         private void OnDisable()
@@ -67,6 +76,10 @@ namespace Project.Scripts.Game.GameRoot
             _leaderboardButton.onClick.RemoveListener(ShowLeaderboardPanel);
             _leaderboardPanel.OnBackToSceneButtonPressed -= ShowUIScene;
             _leaderboardPanel.OnBackToSceneButtonPressed -= PlayGame;
+            
+            _exitButton.onClick.RemoveListener(ShowExitPanel);
+            _exitPanel.OnBackToSceneButtonPressed -= ShowUIScene;
+            _exitPanel.OnBackToSceneButtonPressed -= PlayGame;
         }
 
         public void ShowLoadingProgress(float progress)
@@ -109,6 +122,13 @@ namespace Project.Scripts.Game.GameRoot
         {
             _audioSoundsService.PlaySound(SoundsType.Button);
             UIStateMachine.EnterIn<LeaderboardPanelState>();
+            StopGame();
+        }
+
+        private void ShowExitPanel()
+        {
+            _audioSoundsService.PlaySound(SoundsType.Button);
+            UIStateMachine.EnterIn<ExitPanelState>();
             StopGame();
         }
 
