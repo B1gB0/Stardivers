@@ -32,8 +32,7 @@ namespace Project.Scripts.UI.View
         [SerializeField] private int _priceCommonLevel;
         [SerializeField] private int _priceUnusualLevel;
         [SerializeField] private int _priceRareLevel;
-
-        [SerializeField] private GameObject _priceRoot;
+        
         [SerializeField] private Text _priceText;
         
         [SerializeField] private List<Sprite> _sprites;
@@ -50,6 +49,8 @@ namespace Project.Scripts.UI.View
         [SerializeField] private Color _greyColor = Color.gray;
         [SerializeField] private Color _greenColor = Color.green;
         [SerializeField] private Color _blueColor = Color.blue;
+        [SerializeField] private Color _redColor = Color.red;
+        [SerializeField] private Color _whiteColor = Color.white;
     
         private Card _card;
         private ICurrencyService _currencyService;
@@ -67,6 +68,11 @@ namespace Project.Scripts.UI.View
             _cardViewButton.onClick.AddListener(OnButtonClicked);
         }
 
+        private void Start()
+        {
+            _currencyService.OnGoldValueChanged += OnPriceTextColorChanged;
+        }
+
         private void OnDisable()
         {
             _cardViewButton.onClick.RemoveListener(OnButtonClicked);
@@ -74,6 +80,8 @@ namespace Project.Scripts.UI.View
 
         private void OnDestroy()
         {
+            _currencyService.OnGoldValueChanged -= OnPriceTextColorChanged;
+            
             transform.DOKill();
         }
 
@@ -87,16 +95,6 @@ namespace Project.Scripts.UI.View
             gameObject.SetActive(false);
         }
 
-        public void ShowPriceRoot()
-        {
-            _priceRoot.gameObject.SetActive(true);
-        }
-        
-        public void HidePriceRoot()
-        {
-            _priceRoot.gameObject.SetActive(false);
-        }
-    
         public void GetCard(Card card)
         {
             _card = card;
@@ -200,9 +198,16 @@ namespace Project.Scripts.UI.View
             }
         }
 
+        private void OnPriceTextColorChanged(int gold)
+        {
+            var price = Convert.ToInt32(_priceText.text);
+
+            _priceText.color = gold < price ? _redColor : _whiteColor;
+        }
+
         private void OnButtonClicked()
         {
-            if (_priceRoot.gameObject.activeSelf)
+            if (_priceText.gameObject.activeSelf)
             {
                 var price = Convert.ToInt32(_priceText.text);
 

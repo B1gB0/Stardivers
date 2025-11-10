@@ -20,15 +20,17 @@ namespace Project.Scripts.UI.Panel
         private const int MinValue = 0;
 
         private const float LevelUpDelay = 0.3f;
-        
+
         private readonly WeaponVisitor _weaponVisitor = new();
 
         [SerializeField] private List<CardView> _cardViews = new();
-        
+
         [SerializeField] private Button _rollButton;
         [SerializeField] private Button _healButton;
         [SerializeField] private Button _continueButton;
-        
+
+        [SerializeField] private GameObject _priceRoot;
+
         [SerializeField] private int _priceOfRoll;
         [SerializeField] private int _priceOfHeal;
 
@@ -44,17 +46,17 @@ namespace Project.Scripts.UI.Panel
         private WeaponFactory _weaponFactory;
         private WeaponHolder _weaponHolder;
 
-        private Queue<int> _pendingLevels = new ();
+        private Queue<int> _pendingLevels = new();
 
         private int _currentLevel;
         private bool _isShowing;
         private bool _isClosed;
 
-        public event Action OnContinueButtonIsClicked; 
+        public event Action OnContinueButtonIsClicked;
 
         [Inject]
-        private void Construct(AudioSoundsService audioSoundsService, IPauseService pauseService, 
-            IPlayerService playerService, ICurrencyService currencyService, 
+        private void Construct(AudioSoundsService audioSoundsService, IPauseService pauseService,
+            IPlayerService playerService, ICurrencyService currencyService,
             ITweenAnimationService tweenAnimationService, ILevelUpService levelUpService)
         {
             _audioSoundsService = audioSoundsService;
@@ -106,7 +108,7 @@ namespace Project.Scripts.UI.Panel
             {
                 await ForceHideAsync();
             }
-            
+
             gameObject.SetActive(true);
             await _tweenAnimationService.AnimateScaleAsync(transform);
             _isClosed = false;
@@ -114,9 +116,9 @@ namespace Project.Scripts.UI.Panel
 
         public async UniTask HideAsync()
         {
-            if(_isClosed)
+            if (_isClosed)
                 return;
-            
+
             _isClosed = true;
             await _tweenAnimationService.AnimateScaleAsync(transform, true);
 
@@ -128,11 +130,8 @@ namespace Project.Scripts.UI.Panel
             _healButton.gameObject.SetActive(false);
             _continueButton.gameObject.SetActive(false);
 
-            foreach (var cardView in _cardViews)
-            {
-                cardView.HidePriceRoot();
-            }
-            
+            HidePriceRoot();
+
             _pendingLevels.Enqueue(currentLevel);
 
             if (!_isShowing)
@@ -145,51 +144,58 @@ namespace Project.Scripts.UI.Panel
         {
             _healButton.gameObject.SetActive(true);
             _continueButton.gameObject.SetActive(true);
-
-            foreach (var cardView in _cardViews)
-            {
-                cardView.ShowPriceRoot();
-            }
             
+            ShowPriceRoot();
+
             GetImprovements();
             await ShowAsync();
         }
 
         public void OnLanguageChanged()
         {
-            if(!gameObject.activeSelf)
+            if (!gameObject.activeSelf)
                 return;
-            
+
             foreach (var cardView in _cardViews)
             {
                 cardView.SetData();
             }
         }
+        
+        private void ShowPriceRoot()
+        {
+            _priceRoot.gameObject.SetActive(true);
+        }
+
+        private void HidePriceRoot()
+        {
+            _priceRoot.gameObject.SetActive(false);
+        }
 
         private async UniTask ProcessPendingLevels()
         {
             _isShowing = true;
-        
+
             while (_pendingLevels.Count > MinValue)
             {
                 int level = _pendingLevels.Dequeue();
-                
+
                 await ShowForLevelUp(level);
                 await UniTask.WaitUntil(() => _isClosed);
                 await UniTask.Delay(TimeSpan.FromSeconds(LevelUpDelay));
             }
-        
+
             _isShowing = false;
         }
-        
+
         private async UniTask ShowForLevelUp(int level)
         {
             _currentLevel = level;
             GetCardsForLevelUp(level);
-        
+
             await ShowAsync();
         }
-        
+
         private async UniTask ForceHideAsync()
         {
             _isClosed = true;
@@ -208,7 +214,7 @@ namespace Project.Scripts.UI.Panel
         private void GetImprovements()
         {
             _levelUpService.GenerateImprovements(_cardViews);
-            
+
             _pauseService.StopGame();
         }
 
@@ -255,9 +261,9 @@ namespace Project.Scripts.UI.Panel
         {
             if (_currencyService.Gold < _priceOfRoll)
                 return;
-            
+
             _currencyService.SpendGold(_priceOfRoll);
-            
+
             AnimateCardsView();
             _levelUpService.GenerateCardsByLevel(_currentLevel, _weaponHolder, _cardViews);
         }
@@ -266,9 +272,9 @@ namespace Project.Scripts.UI.Panel
         {
             if (_currencyService.Gold < _priceOfHeal)
                 return;
-            
+
             _currencyService.SpendGold(_priceOfHeal);
-            
+
             _playerService.AddHealthByFactor(_healthFactor);
         }
 
