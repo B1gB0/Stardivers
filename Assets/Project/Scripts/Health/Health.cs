@@ -1,5 +1,7 @@
 using System;
 using System.Collections;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using Project.Scripts.Game.Constant;
 using Project.Scripts.UI.View;
 using UnityEngine;
@@ -15,7 +17,7 @@ namespace Project.Scripts.Health
         [SerializeField] private Transform _hitPoint;
 
         private ParticleSystem _hitEffect;
-        private Coroutine _coroutine;
+        private CancellationTokenSource _healthCts;
         private float _currentHealth;
 
         public event Action Die;
@@ -47,6 +49,11 @@ namespace Project.Scripts.Health
         {
             HealthChanged?.Invoke(_currentHealth, MaxHealth, TargetHealth);
             CurrentHealthChanged?.Invoke(_currentHealth);
+        }
+
+        private void OnDestroy()
+        {
+            _healthCts?.Cancel();
         }
 
         public void TakeDamage(float damage)
@@ -119,23 +126,27 @@ namespace Project.Scripts.Health
 
         private void OnChangeHealth()
         {
-            if (_coroutine != null)
-            {
-                StopCoroutine(_coroutine);
-            }
-
-            _coroutine = StartCoroutine(ChangeHealth());
+            _healthCts?.Cancel();
+            _healthCts = new CancellationTokenSource();
+            
+            ChangeHealthAsync(_healthCts.Token).Forget();
         }
 
-        private IEnumerator ChangeHealth()
+        private async UniTaskVoid ChangeHealthAsync(CancellationToken cancellationToken)
         {
-            while (_currentHealth != TargetHealth)
+            while (!cancellationToken.IsCancellationRequested && 
+                   Math.Abs(_currentHealth - TargetHealth) > Mathf.Epsilon)
             {
-                _currentHealth = Mathf.MoveTowards(_currentHealth, TargetHealth, RecoveryRate * Time.deltaTime);
+                _currentHealth = Mathf.MoveTowards(
+                    _currentHealth, 
+                    TargetHealth, 
+                    RecoveryRate * Time.unscaledDeltaTime
+                );
+                
                 HealthChanged?.Invoke(_currentHealth, MaxHealth, TargetHealth);
                 CurrentHealthChanged?.Invoke(_currentHealth);
-
-                yield return null;
+                
+                await UniTask.NextFrame(PlayerLoopTiming.Update, cancellationToken);
             }
         }
     }

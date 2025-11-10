@@ -98,6 +98,9 @@ namespace Project.Scripts.UI.Panel
             _currencyService.OnGoldValueChanged += OnChangePriceColorText;
 
             OnChangePriceColorText(_currencyService.Gold);
+
+            _healPriceTextButton.text = _priceOfHeal.ToString();
+            _rollPriceTextButton.text = _priceOfRoll.ToString();
         }
 
         private void OnDisable()
