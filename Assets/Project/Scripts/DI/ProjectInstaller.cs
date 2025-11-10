@@ -46,6 +46,7 @@ namespace Project.Scripts.DI
             builder.AddSingleton(typeof(TweenAnimationService), typeof(ITweenAnimationService));
             builder.AddSingleton(typeof(LevelTextService), typeof(ILevelTextService));
             builder.AddSingleton(typeof(CoreService), typeof(ICoreService));
+            builder.AddSingleton(typeof(UILocalizationService), typeof(IUILocalizationService));
             Debug.Log("Регистрация сервисов завершена");
         }
         

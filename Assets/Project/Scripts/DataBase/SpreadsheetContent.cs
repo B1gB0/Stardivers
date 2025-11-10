@@ -21,5 +21,6 @@ namespace Project.Scripts.DataBase
         [SpreadsheetPage("MysteryPlanetSceneLevels")] public List<SceneLevelData> MysteryPlanetSceneLevels;
         [SpreadsheetPage("LevelTexts")] public List<LevelTextData> LevelTexts;
         [SpreadsheetPage("Cores")] public List<CoreData> Cores;
+        [SpreadsheetPage("UILocalization")] public List<UILocalizationData> UILocalizationData;
     }
 }

@@ -68,6 +68,7 @@ namespace Project.Scripts.Game.Gameplay.Root
         private ILevelTextService _levelTextService;
         private ICoreService _coreService;
         private ILevelUpService _levelUpService;
+        private IUILocalizationService _uiLocalizationService;
 
         private HealthBar _healthBar;
         private ExperiencePoints _experiencePoints;
@@ -90,7 +91,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             IResourceService resourceService, ICharacteristicsWeaponDataService characteristicsWeaponDataService,
             ICardService cardService, IEnemyService enemyService, IPlayerService playerService,
             ICurrencyService currencyService, ILevelTextService levelTextService, ICoreService coreService,
-            ILevelUpService levelUpService)
+            ILevelUpService levelUpService, IUILocalizationService uiLocalizationService)
         {
             _audioSoundsService = audioSoundsService;
             _pauseService = pauseService;
@@ -106,6 +107,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             _levelTextService = levelTextService;
             _coreService = coreService;
             _levelUpService = levelUpService;
+            _uiLocalizationService = uiLocalizationService;
         }
 
         private void Start()
@@ -151,6 +153,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             await _enemyService.Init();
             await _playerService.Init();
             await _coreService.Init();
+            await _uiLocalizationService.Init();
             
             _uiScene = Instantiate(_sceneUIRootPrefab);
             
@@ -197,6 +200,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             _gameInitSystem.PlayerHealth.IsSpawnedHealingText += _floatingTextService.OnChangedFloatingText;
             
             uiRoot.LocalizationLanguageSwitcher.OnLanguageChanged += _progressBar.ChangeText;
+            uiRoot.LocalizationLanguageSwitcher.OnLanguageChanged += _levelUpPanel.SetTitle;
 
             _level.EndLevelTrigger.IsLevelCompleted += _levelUpPanel.OnEndGameTriggerIsReached;
             _level.EndLevelTrigger.IsLevelCompleted += _endGamePanel.SetVictoryPanel;
@@ -247,6 +251,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             _gameInitSystem.PlayerIsSpawned -= _progressBar.Show;
             
             _uiRoot.LocalizationLanguageSwitcher.OnLanguageChanged -= _progressBar.ChangeText;
+            _uiRoot.LocalizationLanguageSwitcher.OnLanguageChanged -= _levelUpPanel.SetTitle;
 
             _gameInitSystem.PlayerHealth.Die -= _endGamePanel.Show;
             _gameInitSystem.PlayerHealth.Die -= _endGamePanel.SetDefeatPanel;

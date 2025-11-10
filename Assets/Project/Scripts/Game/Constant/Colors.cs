@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Project.Scripts.Game.Constant
@@ -12,41 +11,15 @@ namespace Project.Scripts.Game.Constant
         {
             LoadPaletteIfNeeded();
 
-            if (_palette == null)
-            {
-                Debug.LogError("Custom Palette not found!");
-                return Color.magenta;
-            }
-
-            return _palette.GetColor(colorName);
-        }
-
-        public static Color GetColor(string colorName)
-        {
-            LoadPaletteIfNeeded();
-
-            if (_palette == null)
-            {
-                Debug.LogError("Custom Palette not found!");
-                return Color.magenta;
-            }
-            
-            if (Enum.TryParse(colorName, true, out ColorName name))
-                return _palette.GetColor(name);
-
-            Debug.LogError($"Color name '{colorName}' is not valid!");
-            return Color.magenta;
+            return _palette != null ? _palette.GetColor(colorName) : Color.magenta;
         }
 
         private static void LoadPaletteIfNeeded()
         {
-            if (_palette == null)
-            {
-                _palette = Resources.Load<CustomPalette>(PalettePath);
-
-                if (_palette == null)
-                    Debug.LogError($"Failed to load palette at path: {PalettePath}");
-            }
+            if (_palette != null)
+                return;
+            
+            _palette = Resources.Load<CustomPalette>(PalettePath);
         }
     }
 }

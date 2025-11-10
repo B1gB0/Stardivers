@@ -34,6 +34,7 @@ namespace Project.Scripts.UI.View
         [SerializeField] private int _priceRareLevel;
         
         [SerializeField] private Text _priceText;
+        [SerializeField] private GameObject _priceHolder;
         
         [SerializeField] private List<Sprite> _sprites;
 
@@ -49,13 +50,13 @@ namespace Project.Scripts.UI.View
         [SerializeField] private Color _greyColor = Color.gray;
         [SerializeField] private Color _greenColor = Color.green;
         [SerializeField] private Color _blueColor = Color.blue;
-        [SerializeField] private Color _redColor = Color.red;
-        [SerializeField] private Color _whiteColor = Color.white;
-    
+
         private Card _card;
         private ICurrencyService _currencyService;
 
         public event Action<Card, CardView> GetImprovementButtonClicked;
+
+        public int Price => Convert.ToInt32(_priceText.text);
 
         [Inject]
         private void Construct(ICurrencyService currencyService)
@@ -93,6 +94,16 @@ namespace Project.Scripts.UI.View
         public void Hide()
         {
             gameObject.SetActive(false);
+        }
+
+        public void ShowPrice()
+        {
+            _priceHolder.gameObject.SetActive(true);
+        }
+        
+        public void HidePrice()
+        {
+            _priceHolder.gameObject.SetActive(false);
         }
 
         public void GetCard(Card card)
@@ -202,25 +213,12 @@ namespace Project.Scripts.UI.View
         {
             var price = Convert.ToInt32(_priceText.text);
 
-            _priceText.color = gold < price ? _redColor : _whiteColor;
+            _priceText.color = gold < price ? Colors.GetColor(ColorName.RedCurrencyColor) :
+                Colors.GetColor(ColorName.DefaultWhiteTextColor);
         }
 
         private void OnButtonClicked()
         {
-            if (_priceText.gameObject.activeSelf)
-            {
-                var price = Convert.ToInt32(_priceText.text);
-
-                if (_currencyService.Gold >= price)
-                {
-                    _currencyService.SpendGold(price);
-                }
-                else
-                {
-                    return;
-                }
-            }
-                
             GetImprovementButtonClicked?.Invoke(_card, this);
         }
     }

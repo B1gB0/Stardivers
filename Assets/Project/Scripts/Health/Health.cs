@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Project.Scripts.Game.Constant;
 using Project.Scripts.UI.View;
 using UnityEngine;
 
@@ -8,9 +9,7 @@ namespace Project.Scripts.Health
     public class Health : MonoBehaviour, IDamageable
     {
         private const float RecoveryRate = 10f;
-
-        [SerializeField] private Color _healingColor;
-        [SerializeField] private Color _standardColor;
+        
         [SerializeField] private float _value;
         [SerializeField] private ParticleSystem _hitEffectPrefab;
         [SerializeField] private Transform _hitPoint;
@@ -52,7 +51,9 @@ namespace Project.Scripts.Health
 
         public void TakeDamage(float damage)
         {
-            IsSpawnedDamageText?.Invoke(damage.ToString(), transform, FloatingTextViewType.Damage, _standardColor);
+            IsSpawnedDamageText?.Invoke(damage.ToString(), transform, FloatingTextViewType.Damage,
+                Colors.GetColor(ColorName.DefaultWhiteTextColor));
+            
             IsDamaged?.Invoke();
 
             _hitEffect.transform.position = _hitPoint.position;
@@ -92,7 +93,9 @@ namespace Project.Scripts.Health
 
         public void AddHealth(float healthValue)
         {
-            IsSpawnedHealingText?.Invoke(healthValue.ToString(), transform, FloatingTextViewType.Healing, _healingColor);
+            IsSpawnedHealingText?.Invoke(healthValue.ToString(), transform, FloatingTextViewType.Healing,
+                Colors.GetColor(ColorName.HealingColor));
+            
             TargetHealth += healthValue;
             
             OnChangeHealth();

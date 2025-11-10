@@ -5,13 +5,17 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Project.Scripts.Audio.Sounds;
 using Project.Scripts.Cards;
+using Project.Scripts.DataBase.Data;
+using Project.Scripts.Game.Constant;
 using Project.Scripts.Services;
 using Project.Scripts.UI.View;
 using Project.Scripts.Weapon.Improvements;
 using Project.Scripts.Weapon.Player;
 using Reflex.Attributes;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using YG;
 
 namespace Project.Scripts.UI.Panel
 {
@@ -29,6 +33,11 @@ namespace Project.Scripts.UI.Panel
         [SerializeField] private Button _healButton;
         [SerializeField] private Button _continueButton;
 
+        [SerializeField] private TMP_Text _rollPriceTextButton;
+        [SerializeField] private TMP_Text _healPriceTextButton;
+
+        [SerializeField] private Text _title;
+
         [SerializeField] private GameObject _priceRoot;
 
         [SerializeField] private int _priceOfRoll;
@@ -42,6 +51,7 @@ namespace Project.Scripts.UI.Panel
         private ICurrencyService _currencyService;
         private ITweenAnimationService _tweenAnimationService;
         private ILevelUpService _levelUpService;
+        private IUILocalizationService _uiLocalizationService;
 
         private WeaponFactory _weaponFactory;
         private WeaponHolder _weaponHolder;
@@ -52,12 +62,15 @@ namespace Project.Scripts.UI.Panel
         private bool _isShowing;
         private bool _isClosed;
 
+        private UILocalizationData _uiLocalizationData;
+
         public event Action OnContinueButtonIsClicked;
 
         [Inject]
         private void Construct(AudioSoundsService audioSoundsService, IPauseService pauseService,
             IPlayerService playerService, ICurrencyService currencyService,
-            ITweenAnimationService tweenAnimationService, ILevelUpService levelUpService)
+            ITweenAnimationService tweenAnimationService, ILevelUpService levelUpService,
+            IUILocalizationService uiLocalizationService)
         {
             _audioSoundsService = audioSoundsService;
             _pauseService = pauseService;
@@ -65,6 +78,7 @@ namespace Project.Scripts.UI.Panel
             _currencyService = currencyService;
             _tweenAnimationService = tweenAnimationService;
             _levelUpService = levelUpService;
+            _uiLocalizationService = uiLocalizationService;
         }
 
         private void OnEnable()
@@ -77,6 +91,13 @@ namespace Project.Scripts.UI.Panel
             _healButton.onClick.AddListener(OnHealButtonClicked);
             _rollButton.onClick.AddListener(OnRollButtonClicked);
             _continueButton.onClick.AddListener(OnContinueButtonClicked);
+        }
+
+        private void Start()
+        {
+            _currencyService.OnGoldValueChanged += OnChangePriceColorText;
+
+            OnChangePriceColorText(_currencyService.Gold);
         }
 
         private void OnDisable()
@@ -93,6 +114,8 @@ namespace Project.Scripts.UI.Panel
 
         private void OnDestroy()
         {
+            _currencyService.OnGoldValueChanged -= OnChangePriceColorText;
+
             transform.DOKill();
         }
 
@@ -130,6 +153,8 @@ namespace Project.Scripts.UI.Panel
             _healButton.gameObject.SetActive(false);
             _continueButton.gameObject.SetActive(false);
 
+            SetLocalizationData(UITextType.LevelUpPanelTitle);
+
             HidePriceRoot();
 
             _pendingLevels.Enqueue(currentLevel);
@@ -144,10 +169,13 @@ namespace Project.Scripts.UI.Panel
         {
             _healButton.gameObject.SetActive(true);
             _continueButton.gameObject.SetActive(true);
-            
+
+            SetLocalizationData(UITextType.ShopPanelTitle);
+
             ShowPriceRoot();
 
             GetImprovements();
+            ShowAndAnimateCardsView();
             await ShowAsync();
         }
 
@@ -161,7 +189,37 @@ namespace Project.Scripts.UI.Panel
                 cardView.SetData();
             }
         }
-        
+
+        public void SetTitle()
+        {
+            if (_uiLocalizationData == null)
+                return;
+
+            _title.text = YG2.lang switch
+            {
+                LocalizationCode.Ru => _uiLocalizationData.NameRu,
+                LocalizationCode.En => _uiLocalizationData.NameEn,
+                LocalizationCode.Tr => _uiLocalizationData.NameTr,
+                _ => _title.text
+            };
+        }
+
+        private void SetLocalizationData(UITextType type)
+        {
+            _uiLocalizationData = _uiLocalizationService.GetLevelTextData(type);
+
+            SetTitle();
+        }
+
+        private void OnChangePriceColorText(int gold)
+        {
+            _rollPriceTextButton.color =
+                Colors.GetColor(gold < _priceOfRoll ? ColorName.RedCurrencyColor : ColorName.DefaultWhiteTextColor);
+
+            _healPriceTextButton.color =
+                Colors.GetColor(gold < _priceOfHeal ? ColorName.RedCurrencyColor : ColorName.DefaultWhiteTextColor);
+        }
+
         private void ShowPriceRoot()
         {
             _priceRoot.gameObject.SetActive(true);
@@ -193,6 +251,7 @@ namespace Project.Scripts.UI.Panel
             _currentLevel = level;
             GetCardsForLevelUp(level);
 
+            ShowAndAnimateCardsView();
             await ShowAsync();
         }
 
@@ -222,6 +281,19 @@ namespace Project.Scripts.UI.Panel
         {
             _audioSoundsService.PlaySound(SoundsType.CardViewButton);
 
+            if (_priceRoot.gameObject.activeSelf)
+            {
+                if (_currencyService.Gold >= cardView.Price)
+                {
+                    _currencyService.SpendGold(cardView.Price);
+                    cardView.HidePrice();
+                }
+                else
+                {
+                    return;
+                }
+            }
+
             if (card is ImprovementCard improvementCard)
             {
                 if (improvementCard.WeaponType == WeaponType.None)
@@ -247,14 +319,21 @@ namespace Project.Scripts.UI.Panel
                 _levelUpService.UpdateImprovementCardsByTypeWeapon(weapon.Type);
             }
 
-            foreach (CardView view in _cardViews)
+            if (_priceRoot.gameObject.activeSelf)
             {
-                view.Hide();
+                cardView.gameObject.SetActive(false);
             }
+            else
+            {
+                foreach (CardView view in _cardViews)
+                {
+                    view.Hide();
+                }
 
-            _pauseService.PlayGame();
+                _pauseService.PlayGame();
 
-            await HideAsync();
+                await HideAsync();
+            }
         }
 
         private void OnRollButtonClicked()
@@ -264,8 +343,19 @@ namespace Project.Scripts.UI.Panel
 
             _currencyService.SpendGold(_priceOfRoll);
 
-            AnimateCardsView();
-            _levelUpService.GenerateCardsByLevel(_currentLevel, _weaponHolder, _cardViews);
+            ShowAndAnimateCardsView();
+            
+            if(!_priceRoot.activeSelf)
+                _levelUpService.GenerateCardsByLevel(_currentLevel, _weaponHolder, _cardViews);
+            else
+            {
+                foreach (var cardView in _cardViews)
+                {
+                    cardView.ShowPrice();
+                }
+                
+                _levelUpService.GenerateImprovements(_cardViews);
+            }
         }
 
         private void OnHealButtonClicked()
@@ -280,14 +370,18 @@ namespace Project.Scripts.UI.Panel
 
         private async void OnContinueButtonClicked()
         {
-            OnContinueButtonIsClicked?.Invoke();
+            _pauseService.PlayGame();
+            
             await HideAsync();
+            
+            OnContinueButtonIsClicked?.Invoke();
         }
 
-        private void AnimateCardsView()
+        private void ShowAndAnimateCardsView()
         {
             foreach (var cardView in _cardViews)
             {
+                cardView.gameObject.SetActive(true);
                 _tweenAnimationService.AnimateScale(cardView.transform);
             }
         }

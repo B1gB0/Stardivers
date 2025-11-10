@@ -12,8 +12,7 @@ namespace Project.Scripts.Game.Constant
             foreach (var entry in colors)
                 if (entry.name == colorName)
                     return entry.color;
-
-            Debug.LogError($"Color {colorName} not found in palette!");
+            
             return Color.magenta;
         }
     }

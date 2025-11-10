@@ -6,6 +6,6 @@ namespace Project.Scripts.Levels
         EnemySpawnTriggerText = 1,
         EndAttackText = 2,
         MissionProgressBarText = 3,
-        ObjectiveText = 4
+        ObjectiveText = 4,
     }
 }
