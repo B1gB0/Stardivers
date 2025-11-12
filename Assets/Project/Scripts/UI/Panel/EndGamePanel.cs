@@ -1,4 +1,8 @@
 using System.Collections.Generic;
+using DG.Tweening;
+using Project.Scripts.DataBase.Data;
+using Project.Scripts.Experience;
+using Project.Scripts.Game.Constant;
 using Project.Scripts.Services;
 using Project.Scripts.UI.View;
 using Reflex.Attributes;
@@ -10,33 +14,44 @@ namespace Project.Scripts.UI.Panel
 {
     public class EndGamePanel : MonoBehaviour, IView
     {
-        private const string VictoryLabelText = "Victory!";
-        private const string DefeatLabelText = "Defeat!";
         private const int CountCorrectFactor = 1;
 
-        private readonly Color _redColor = Color.red;
-        private readonly Color _blueColor = Color.blue;
-
         [SerializeField] private Text _labelText;
+        [SerializeField] private Text _accumulatedKillsText;
+        [SerializeField] private Text _accumulatedGoldText;
+        [SerializeField] private Text _accumulatedScoreText;
+        
         [SerializeField] private Button _goToMainMenuButton;
         [SerializeField] private Button _rebornPlayerButton;
         [SerializeField] private Button _nextLevelButton;
+        
         [SerializeField] private List<Image> _images;
+
+        [SerializeField] private GameObject _rootWindow;
         
         private IPauseService _pauseService;
         private OperationService _operationService;
+        private ICurrencyService _currencyService;
+        private IUILocalizationService _uiLocalizationService;
+        private ITweenAnimationService _tweenAnimationService;
+        private ExperiencePoints _experiencePoints;
+        
+        private UILocalizationData _uiLocalizationData;
 
         public Button GoToMainMenuButton => _goToMainMenuButton;
-        
         public Button RebornPlayerButton => _rebornPlayerButton;
-        
         public Button NextLevelButton => _nextLevelButton;
 
         [Inject]
-        public void Construct(IPauseService pauseService, OperationService operationService)
+        public void Construct(IPauseService pauseService, OperationService operationService,
+            ICurrencyService currencyService, IUILocalizationService uiLocalizationService,
+            ITweenAnimationService tweenAnimationService)
         {
             _pauseService = pauseService;
             _operationService = operationService;
+            _currencyService = currencyService;
+            _uiLocalizationService = uiLocalizationService;
+            _tweenAnimationService = tweenAnimationService;
         }
 
         private void OnEnable()
@@ -59,6 +74,11 @@ namespace Project.Scripts.UI.Panel
             _goToMainMenuButton.onClick.RemoveListener(OnPlayGame);
         }
 
+        private void OnDestroy()
+        {
+            _rootWindow.transform.DOKill();
+        }
+
         public void SetVictoryPanel()
         {
             if (_operationService.CurrentNumberLevel ==
@@ -78,27 +98,65 @@ namespace Project.Scripts.UI.Panel
             }
 
             _rebornPlayerButton.gameObject.SetActive(false);
-            _labelText.text = VictoryLabelText;
-            OnChangeColor(_blueColor);
+            
+            SetLocalizationData(UITextType.VictoryPanelTitle);
+            
+            OnChangeColor(Colors.GetColor(ColorName.BlueUIPanelColor));
         }
 
         public void SetDefeatPanel()
         {
             _rebornPlayerButton.gameObject.SetActive(true);
             _nextLevelButton.gameObject.SetActive(false);
-            _labelText.text = DefeatLabelText;
-            OnChangeColor(_redColor);
+            
+            SetLocalizationData(UITextType.DefeatPanelTitle);
+            
+            OnChangeColor(Colors.GetColor(ColorName.RedUIPanelColor));
         }
 
         public void Show()
         {
+            _accumulatedGoldText.text = _currencyService.AccumulatedGold.ToString();
+            _accumulatedKillsText.text = _experiencePoints.AccumulatedKills.ToString();
+            _accumulatedScoreText.text = _experiencePoints.AccumulatedScore.ToString();
+            
             _pauseService.StopGame();
             gameObject.SetActive(true);
+            _tweenAnimationService.AnimateScale(_rootWindow.transform);
         }
 
         public void Hide()
         {
+            _currencyService.ResetAccumulatedGold();
+            _experiencePoints.ResetAccumulatedValues();
+            
             gameObject.SetActive(false);
+        }
+
+        public void SetLabelText()
+        {
+            if (_uiLocalizationData == null)
+                return;
+
+            _labelText.text = YG2.lang switch
+            {
+                LocalizationCode.Ru => _uiLocalizationData.NameRu,
+                LocalizationCode.En => _uiLocalizationData.NameEn,
+                LocalizationCode.Tr => _uiLocalizationData.NameTr,
+                _ => _labelText.text
+            };
+        }
+
+        public void GetExperiencePoints(ExperiencePoints experiencePoints)
+        {
+            _experiencePoints = experiencePoints;
+        }
+        
+        private void SetLocalizationData(UITextType type)
+        {
+            _uiLocalizationData = _uiLocalizationService.GetLevelTextData(type);
+
+            SetLabelText();
         }
 
         private void OnChangeColor(Color color)

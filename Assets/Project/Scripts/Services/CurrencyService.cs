@@ -6,11 +6,14 @@ namespace Project.Scripts.Services
 {
     public class CurrencyService : ICurrencyService
     {
+        private const int MinValue = 0;
+        
         public event Action<int> OnGoldValueChanged;
         public event Action<int> OnAlienCocoonValueChanged;
         public event Action OnAllAlienCocoonsCollected; 
 
         public int Gold { get; private set; }
+        public int AccumulatedGold { get; private set; }
         public int AlienCocoons { get; private set; }
         public int MaxAlienCocoons { get; private set; }
         public bool IsInitiated { get; private set; }
@@ -38,8 +41,21 @@ namespace Project.Scripts.Services
         public void AddGold(int gold)
         {
             Gold += gold;
+            AccumulatedGold += gold;
             OnGoldValueChanged?.Invoke(Gold);
             SaveGold();
+        }
+        
+        public void SpendGold(int gold)
+        {
+            Gold -= gold;
+            OnGoldValueChanged?.Invoke(Gold);
+            SaveGold();
+        }
+        
+        public void ResetAccumulatedGold()
+        {
+            AccumulatedGold = MinValue;
         }
 
         public void AddAlienCocoon(int alienCocoon)
@@ -49,13 +65,6 @@ namespace Project.Scripts.Services
             
             if(AlienCocoons == MaxAlienCocoons)
                 OnAllAlienCocoonsCollected?.Invoke();
-        }
-
-        public void SpendGold(int gold)
-        {
-            Gold -= gold;
-            OnGoldValueChanged?.Invoke(Gold);
-            SaveGold();
         }
 
         public void SetMaxAlienCocoons(int maxAlienCocoons)

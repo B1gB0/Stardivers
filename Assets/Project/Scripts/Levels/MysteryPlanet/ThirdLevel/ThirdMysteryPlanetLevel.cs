@@ -42,6 +42,8 @@ namespace Project.Scripts.Levels.MysteryPlanet.ThirdLevel
             _enemySpawnTriggerWithoutEffect.EnemySpawned += DialogueSetter.OnEnemySpawnTriggerWithEffect;
             
             CurrencyService.OnAllAlienCocoonsCollected += DialogueSetter.OnEndAttack;
+            CurrencyService.OnAllAlienCocoonsCollected += EntranceToNextLvlTrigger.Activate;
+            CurrencyService.OnAllAlienCocoonsCollected += EndLevelTrigger.Activate;
         }
 
         private void FixedUpdate()
@@ -64,6 +66,8 @@ namespace Project.Scripts.Levels.MysteryPlanet.ThirdLevel
             _enemySpawnTriggerWithoutEffect.EnemySpawned -= DialogueSetter.OnEnemySpawnTriggerWithEffect;
             
             CurrencyService.OnAllAlienCocoonsCollected -= DialogueSetter.OnEndAttack;
+            CurrencyService.OnAllAlienCocoonsCollected -= EntranceToNextLvlTrigger.Activate;
+            CurrencyService.OnAllAlienCocoonsCollected -= EndLevelTrigger.Activate;
         }
     }
 }

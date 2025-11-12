@@ -170,6 +170,8 @@ namespace Project.Scripts.Game.Gameplay.Root
             _endGamePanel = await _viewFactory.CreateEndGamePanel();
 
             _experiencePoints = new ExperiencePoints(_playerService);
+            
+            _endGamePanel.GetExperiencePoints(_experiencePoints);
 
 #if UNITY_EDITOR
             _cheatPanel = await _viewFactory.CreateCheatPanel();
@@ -201,6 +203,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             
             uiRoot.LocalizationLanguageSwitcher.OnLanguageChanged += _progressBar.ChangeText;
             uiRoot.LocalizationLanguageSwitcher.OnLanguageChanged += _levelUpPanel.SetTitle;
+            uiRoot.LocalizationLanguageSwitcher.OnLanguageChanged += _endGamePanel.SetLabelText;
 
             _level.EndLevelTrigger.IsLevelCompleted += _levelUpPanel.OnEndGameTriggerIsReached;
             _level.EndLevelTrigger.IsLevelCompleted += _endGamePanel.SetVictoryPanel;
@@ -252,6 +255,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             
             _uiRoot.LocalizationLanguageSwitcher.OnLanguageChanged -= _progressBar.ChangeText;
             _uiRoot.LocalizationLanguageSwitcher.OnLanguageChanged -= _levelUpPanel.SetTitle;
+            _uiRoot.LocalizationLanguageSwitcher.OnLanguageChanged -= _endGamePanel.SetLabelText;
 
             _gameInitSystem.PlayerHealth.Die -= _endGamePanel.Show;
             _gameInitSystem.PlayerHealth.Die -= _endGamePanel.SetDefeatPanel;

@@ -6,5 +6,7 @@ namespace Project.Scripts.Game.Constant
         RedCurrencyColor = 1,
         GoldColor = 2,
         DefaultWhiteTextColor = 3,
+        BlueUIPanelColor = 4,
+        RedUIPanelColor = 5,
     }
 }

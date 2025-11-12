@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
-using Project.Scripts.DataBase.Data;
-using Project.Scripts.ECS.Data;
 using Project.Scripts.ECS.EntityActors;
 using Project.Scripts.Services;
-using Project.Scripts.UI.Panel;
-using Reflex.Attributes;
-using UnityEngine;
 using YG;
 
 namespace Project.Scripts.Experience
@@ -40,12 +35,14 @@ namespace Project.Scripts.Experience
         private int _currentLevel;
         private int _counterLevel;
         private int _newValue;
-
-        private int TargetExperienceValue => _experienceScoreActorVisitor.AccumulatedExperience;
-
+        
         public event Action<float, float, float> ValueIsChanged;
         public event Action<int, float, float> ProgressBarLevelIsUpgraded;
         public event Action<int> CurrentLevelIsUpgraded;
+        
+        public int AccumulatedKills => _experienceScoreActorVisitor.AccumulatedEnemyKills;
+        public int AccumulatedScore => _experienceScoreActorVisitor.AccumulatedScore;
+        private int TargetExperienceValue => _experienceScoreActorVisitor.AccumulatedExperience;
 
         public void OnKill(IAcceptable experience)
         {
@@ -93,6 +90,11 @@ namespace Project.Scripts.Experience
             _currentValue = YG2.saves.ExperiencePointsValue;
             _counterLevel = _currentLevel;
             ProgressBarLevelIsUpgraded?.Invoke(_currentLevel, _currentValue, _playerLevels[_currentLevel]);
+        }
+
+        public void ResetAccumulatedValues()
+        {
+            _experienceScoreActorVisitor.ResetAccumulatedValues();
         }
 
         private async UniTaskVoid ProcessLevelUps()
