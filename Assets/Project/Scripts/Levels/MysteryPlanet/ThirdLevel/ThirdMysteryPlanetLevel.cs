@@ -7,7 +7,8 @@ namespace Project.Scripts.Levels.MysteryPlanet.ThirdLevel
 {
     public class ThirdMysteryPlanetLevel : Level
     {
-        [SerializeField] private EnemySpawnTriggerWithoutEffect _enemySpawnTriggerWithoutEffect;
+        [SerializeField] private EnemySpawnTriggerWithoutEffect _enemySpawnFirstTriggerWithoutEffect;
+        [SerializeField] private EnemySpawnTriggerWithoutEffect _enemySpawnSecondTriggerWithoutEffect;
         [SerializeField] private EntranceTrigger _entranceLastLvlTrigger;
 
         private AlienCocoonView _alienCocoonView;
@@ -36,21 +37,28 @@ namespace Project.Scripts.Levels.MysteryPlanet.ThirdLevel
 
             WelcomePlanetTextTrigger.IsWelcomeToPlanet += DialogueSetter.OnWelcomePlanet;
 
-            _enemySpawnTriggerWithoutEffect.EnemySpawned += _entranceLastLvlTrigger.Deactivate;
-            _enemySpawnTriggerWithoutEffect.EnemySpawned += _objectiveTextView.Show;
-            _enemySpawnTriggerWithoutEffect.EnemySpawned += CreateAllAlienEnemyTurrets;
-            _enemySpawnTriggerWithoutEffect.EnemySpawned += DialogueSetter.OnEnemySpawnTriggerWithEffect;
+            _enemySpawnFirstTriggerWithoutEffect.EnemySpawned += _entranceLastLvlTrigger.Deactivate;
+            _enemySpawnFirstTriggerWithoutEffect.EnemySpawned += _objectiveTextView.Show;
+            _enemySpawnFirstTriggerWithoutEffect.EnemySpawned += CreateAllAlienEnemyTurrets;
+            _enemySpawnFirstTriggerWithoutEffect.EnemySpawned += DialogueSetter.OnEnemySpawnTriggerWithEffect;
             
             CurrencyService.OnAllAlienCocoonsCollected += DialogueSetter.OnEndAttack;
+            CurrencyService.OnAllAlienCocoonsCollected += _enemySpawnFirstTriggerWithoutEffect.CompleteSpawn;
+            CurrencyService.OnAllAlienCocoonsCollected += _enemySpawnSecondTriggerWithoutEffect.CompleteSpawn;
             CurrencyService.OnAllAlienCocoonsCollected += EntranceToNextLvlTrigger.Activate;
             CurrencyService.OnAllAlienCocoonsCollected += EndLevelTrigger.Activate;
         }
 
         private void FixedUpdate()
         {
-            if (_enemySpawnTriggerWithoutEffect.IsEnemySpawned)
+            if (_enemySpawnFirstTriggerWithoutEffect.IsEnemySpawned)
             {
                 CreateWaveOfEnemy(FirstWaveEnemy);
+            }
+
+            if (_enemySpawnSecondTriggerWithoutEffect.IsEnemySpawned)
+            {
+                CreateWaveOfEnemy(SecondWaveEnemy);
             }
         }
 
@@ -60,12 +68,14 @@ namespace Project.Scripts.Levels.MysteryPlanet.ThirdLevel
             
             OnAlienCocoonViewShow -= _alienCocoonView.Show;
             
-            _enemySpawnTriggerWithoutEffect.EnemySpawned -= _entranceLastLvlTrigger.Deactivate;
-            _enemySpawnTriggerWithoutEffect.EnemySpawned -= _objectiveTextView.Show;
-            _enemySpawnTriggerWithoutEffect.EnemySpawned -= CreateAllAlienEnemyTurrets;
-            _enemySpawnTriggerWithoutEffect.EnemySpawned -= DialogueSetter.OnEnemySpawnTriggerWithEffect;
+            _enemySpawnFirstTriggerWithoutEffect.EnemySpawned -= _entranceLastLvlTrigger.Deactivate;
+            _enemySpawnFirstTriggerWithoutEffect.EnemySpawned -= _objectiveTextView.Show;
+            _enemySpawnFirstTriggerWithoutEffect.EnemySpawned -= CreateAllAlienEnemyTurrets;
+            _enemySpawnFirstTriggerWithoutEffect.EnemySpawned -= DialogueSetter.OnEnemySpawnTriggerWithEffect;
             
             CurrencyService.OnAllAlienCocoonsCollected -= DialogueSetter.OnEndAttack;
+            CurrencyService.OnAllAlienCocoonsCollected -= _enemySpawnFirstTriggerWithoutEffect.CompleteSpawn;
+            CurrencyService.OnAllAlienCocoonsCollected -= _enemySpawnSecondTriggerWithoutEffect.CompleteSpawn;
             CurrencyService.OnAllAlienCocoonsCollected -= EntranceToNextLvlTrigger.Activate;
             CurrencyService.OnAllAlienCocoonsCollected -= EndLevelTrigger.Activate;
         }
