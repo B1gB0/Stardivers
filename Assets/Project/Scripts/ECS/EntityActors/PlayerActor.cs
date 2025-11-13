@@ -34,6 +34,7 @@ namespace Project.Scripts.ECS.EntityActors
 
         private void OnDestroy()
         {
+            PlayerCharacteristics.Dispose();
             Health.CurrentHealthChanged -= PlayerCharacteristics.SaveCurrentHealth;
         }
 

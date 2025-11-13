@@ -122,6 +122,11 @@ namespace Project.Scripts.Levels.Spawners
             }
         }
 
+        public void SpawnIceCrystal()
+        {
+            
+        }
+
         private void OnKillSmallEnemy(EnemyActor enemyActor)
         {
             _counterSmallEnemies--;

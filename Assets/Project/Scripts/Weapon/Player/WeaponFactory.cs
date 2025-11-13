@@ -10,13 +10,13 @@ namespace Project.Scripts.Weapon.Player
 {
     public class WeaponFactory : MonoBehaviour
     {
-        private readonly string _enemyDetectorPath = "EnemyDetectorForPlayer";
-        private readonly string _gunPath = "Gun";
-        private readonly string _fourBarrelMachineGunPath = "FourBarrelMachineGun";
-        private readonly string _minesPath = "Mines";
-        private readonly string _fragGrenadesPath = "FragGrenades";
-        private readonly string _machineGunPath = "MachineGun";
-        private readonly string _chainLightningGunPath = "ChainLightningGun";
+        private const string EnemyDetectorPath = "EnemyDetectorForPlayer";
+        private const string GunPath = "Gun";
+        private const string FourBarrelMachineGunPath = "FourBarrelMachineGun";
+        private const string MinesPath = "Mines";
+        private const string FragGrenadesPath = "FragGrenades";
+        private const string MachineGunPath = "MachineGun";
+        private const string ChainLightningGunPath = "ChainLightningGun";
 
         private AudioSoundsService _audioSoundsService;
         private IResourceService _resourceService;
@@ -82,7 +82,7 @@ namespace Project.Scripts.Weapon.Player
 
         public async UniTask CreateEnemyDetectorForPlayer()
         {
-            var enemyDetectorTemplate = await _resourceService.Load<GameObject>(_enemyDetectorPath);
+            var enemyDetectorTemplate = await _resourceService.Load<GameObject>(EnemyDetectorPath);
             enemyDetectorTemplate = Instantiate(enemyDetectorTemplate);
 
             _enemyDetector = enemyDetectorTemplate.GetComponent<EnemyDetectorForPlayer>();
@@ -91,7 +91,7 @@ namespace Project.Scripts.Weapon.Player
 
         private async UniTask<PlayerWeapon> CreateGun()
         {
-            var gunTemplate = await _resourceService.Load<GameObject>(_gunPath);
+            var gunTemplate = await _resourceService.Load<GameObject>(GunPath);
             gunTemplate = Instantiate(gunTemplate, _player);
 
             Gun gun = gunTemplate.GetComponent<Gun>();
@@ -107,7 +107,7 @@ namespace Project.Scripts.Weapon.Player
 
         private async UniTask<PlayerWeapon> CreateFourBarrelMachineGun()
         {
-            var fourBarrelMachineGunTemplate = await _resourceService.Load<GameObject>(_fourBarrelMachineGunPath);
+            var fourBarrelMachineGunTemplate = await _resourceService.Load<GameObject>(FourBarrelMachineGunPath);
             fourBarrelMachineGunTemplate = Instantiate(fourBarrelMachineGunTemplate, _player);
 
             FourBarrelMachineGun fourBarrelMachineGun =
@@ -128,7 +128,7 @@ namespace Project.Scripts.Weapon.Player
         {
             Vector3 position = new Vector3(_player.position.x, 0f, _player.position.z);
 
-            var minesTemplate = await _resourceService.Load<GameObject>(_minesPath);
+            var minesTemplate = await _resourceService.Load<GameObject>(MinesPath);
             minesTemplate = Instantiate(minesTemplate, _player);
 
             Mines mines = minesTemplate.GetComponent<Mines>();
@@ -147,7 +147,7 @@ namespace Project.Scripts.Weapon.Player
 
         private async UniTask<PlayerWeapon> CreateFragGrenades()
         {
-            var fragGrenadesTemplate = await _resourceService.Load<GameObject>(_fragGrenadesPath);
+            var fragGrenadesTemplate = await _resourceService.Load<GameObject>(FragGrenadesPath);
             fragGrenadesTemplate = Instantiate(fragGrenadesTemplate, _player);
 
             FragGrenades fragGrenades = fragGrenadesTemplate.GetComponent<FragGrenades>();
@@ -163,7 +163,7 @@ namespace Project.Scripts.Weapon.Player
 
         private async UniTask<PlayerWeapon> CreateMachineGun()
         {
-            var machineGunTemplate = await _resourceService.Load<GameObject>(_machineGunPath);
+            var machineGunTemplate = await _resourceService.Load<GameObject>(MachineGunPath);
             machineGunTemplate = Instantiate(machineGunTemplate, _player);
 
             MachineGun machineGun = machineGunTemplate.GetComponent<MachineGun>();
@@ -179,7 +179,7 @@ namespace Project.Scripts.Weapon.Player
 
         private async UniTask<PlayerWeapon> CreateChainLightningGun()
         {
-            var chainLightningGunTemplate = await _resourceService.Load<GameObject>(_chainLightningGunPath);
+            var chainLightningGunTemplate = await _resourceService.Load<GameObject>(ChainLightningGunPath);
             chainLightningGunTemplate = Instantiate(chainLightningGunTemplate, _player);
 
             ChainLightningGun chainLightningGun = chainLightningGunTemplate.GetComponent<ChainLightningGun>();

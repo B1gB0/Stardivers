@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using Project.Scripts.Audio.Sounds;
-using Project.Scripts.ECS.Components;
+﻿using Project.Scripts.Audio.Sounds;
 using Project.Scripts.ECS.EntityActors;
 using UnityEngine;
 
@@ -9,10 +7,13 @@ namespace Project.Scripts.Projectiles.Mines
     public class IceCrystal : ExplodingObject
     {
         private const float DefaultDamage = 5f;
-        private const float DefaultSlowingDownSpeed = -1f;
+        private const float DefaultSlowingDownSpeed = -0.5f;
+        private const float SlowDuration = 3f;
 
         private PlayerActor _player;
-        private PlayerMovableComponent _playerMovableComponent;
+
+        protected override void OnEnable() { }
+        protected override void OnDisable() { }
 
         private void Start()
         {
@@ -25,23 +26,19 @@ namespace Project.Scripts.Projectiles.Mines
             {
                 Explode();
                 player.Health.TakeDamage(Damage);
-                StopCoroutine(LifeRoutine());
+                player.PlayerCharacteristics.ApplyTemporarySpeedModifier(DefaultSlowingDownSpeed, SlowDuration);
             }
             else if(collision.gameObject.TryGetComponent(out EnemyActor enemy))
             {
                 Explode();
                 _player = GetPlayer();
 
-                if (_player != null)
-                {
-                    _player.Health.TakeDamage(Damage);
-                }
+                if (_player == null)
+                    return;
+                
+                _player.Health.TakeDamage(Damage);
+                _player.PlayerCharacteristics.ApplyTemporarySpeedModifier(DefaultSlowingDownSpeed, SlowDuration);
             }
-        }
-
-        protected override IEnumerator LifeRoutine()
-        {
-            yield break;
         }
 
         protected override void Explode()

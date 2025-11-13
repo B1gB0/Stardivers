@@ -1,3 +1,5 @@
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using Project.Scripts.DataBase.Data;
 using Project.Scripts.ECS.EntityActors;
 using Project.Scripts.Services;
@@ -6,16 +8,32 @@ namespace Project.Scripts.Weapon.CharacteristicsOfWeapon
 {
     public class PlayerCharacteristics
     {
+        private const float MinValue = 0f;
+        private const float MoveSpeedFactor = 1f;
+        
+        private const int DurationFactor = 1000;
+        
         private readonly IPlayerService _playerService;
         
         private float _maxHealth;
         private float _currentHealth;
         private float _diggingSpeed;
         private float _moveSpeed;
+        
+        private float _baseMoveSpeed;
+        private float _currentSpeedModifier;
+        private CancellationTokenSource _speedModifierCts;
 
         public PlayerCharacteristics(IPlayerService playerService)
         {
             _playerService = playerService;
+        }
+        
+        public void Dispose()
+        {
+            _speedModifierCts?.Cancel();
+            _speedModifierCts?.Dispose();
+            _speedModifierCts = null;
         }
 
         public void SetStartingCharacteristics(PlayerData data)
@@ -24,6 +42,7 @@ namespace Project.Scripts.Weapon.CharacteristicsOfWeapon
             _currentHealth = data.Health;
             _diggingSpeed = data.DiggingSpeed;
             _moveSpeed = data.MoveSpeed;
+            _baseMoveSpeed = data.MoveSpeed;
             SetCharacteristics();
         }
 
@@ -54,6 +73,46 @@ namespace Project.Scripts.Weapon.CharacteristicsOfWeapon
                     break;
             }
         }
+        
+        public void ApplyTemporarySpeedModifier(float modifier, float duration)
+        {
+            _speedModifierCts?.Cancel();
+            _speedModifierCts = new CancellationTokenSource();
+            
+            TemporarySpeedModifierTask(modifier, duration, _speedModifierCts.Token).Forget();
+        }
+        
+        private async UniTaskVoid TemporarySpeedModifierTask(float modifier, float duration,
+            CancellationToken cancellationToken)
+        {
+            try
+            {
+                _currentSpeedModifier = modifier;
+                UpdateCurrentSpeed();
+                
+                await UniTask.Delay((int)(duration * DurationFactor), cancellationToken: cancellationToken);
+                
+                if (!cancellationToken.IsCancellationRequested)
+                {
+                    _currentSpeedModifier = MinValue;
+                    UpdateCurrentSpeed();
+                }
+            }
+            finally
+            {
+                if (_speedModifierCts != null && _speedModifierCts.Token == cancellationToken)
+                {
+                    _speedModifierCts?.Dispose();
+                    _speedModifierCts = null;
+                }
+            }
+        }
+        
+        private void UpdateCurrentSpeed()
+        {
+            _moveSpeed = _baseMoveSpeed * (MoveSpeedFactor + _currentSpeedModifier);
+            ChangeMovableComponentSpeed(_moveSpeed);
+        }
 
         private void SetHealth(float healthValue)
         {
@@ -75,9 +134,9 @@ namespace Project.Scripts.Weapon.CharacteristicsOfWeapon
         {
             PlayerData data = _playerService.GetPlayerDataByType(PlayerActorType.CommonStardiver);
             
-            float newMoveSpeed = data.MoveSpeed + data.MoveSpeed * moveSpeedFactor;
+            _baseMoveSpeed = data.MoveSpeed + data.MoveSpeed * moveSpeedFactor;
 
-            ChangeMovableComponentSpeed(newMoveSpeed);
+            UpdateCurrentSpeed();
         }
 
         private void ChangeMovableComponentSpeed(float newMoveSpeed)

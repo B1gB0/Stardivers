@@ -9,7 +9,6 @@ namespace Project.Scripts.Services
     public interface IPlayerService : IService
     {
         public PlayerActor PlayerActor { get; }
-        public EcsEntity PlayerEntity { get; }
         public PlayerData GetPlayerDataByType(PlayerActorType type);
         public List<int> GetPlayerLevels();
         public void GetPlayer(PlayerActor playerActor, EcsEntity playerEntity);

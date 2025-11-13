@@ -1,5 +1,7 @@
 ﻿using System;
+using Leopotam.Ecs;
 using Project.Scripts.DataBase.Data;
+using Project.Scripts.ECS.Components;
 using Project.Scripts.Experience;
 using Project.Scripts.Services;
 using UnityEngine;
@@ -13,6 +15,8 @@ namespace Project.Scripts.ECS.EntityActors
 
         protected ExperiencePoints ExperiencePoints;
         protected IFloatingTextService TextService;
+
+        private EcsEntity _enemyEntity;
         
         public EnemyData Data { get; private set; }
 
@@ -25,6 +29,12 @@ namespace Project.Scripts.ECS.EntityActors
             
             TextService = textService;
             Health.IsSpawnedDamageText += TextService.OnChangedFloatingText;
+        }
+        
+        public void ChangeMoveSpeed(float moveSpeed)
+        {
+            ref var movableComponent = ref _enemyEntity.Get<EnemyMovableComponent>();
+            movableComponent.MoveSpeed = moveSpeed;
         }
 
         protected virtual void OnDie()

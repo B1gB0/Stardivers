@@ -16,8 +16,7 @@ namespace Project.Scripts.Services
         private readonly List<int> _playerLevels = new();
 
         private IDataBaseService _dataBaseService;
-
-        public bool IsInitiated { get; private set; }
+        private EcsEntity _playerEntity;
 
         [Inject]
         public void Construct(IDataBaseService dataBaseService)
@@ -25,8 +24,8 @@ namespace Project.Scripts.Services
             _dataBaseService = dataBaseService;
         }
 
+        public bool IsInitiated { get; private set; }
         public PlayerActor PlayerActor { get; private set; }
-        public EcsEntity PlayerEntity { get; private set; }
 
         public UniTask Init()
         {
@@ -61,7 +60,7 @@ namespace Project.Scripts.Services
         public void GetPlayer(PlayerActor playerActor, EcsEntity playerEntity)
         {
             PlayerActor = playerActor;
-            PlayerEntity = playerEntity;
+            _playerEntity = playerEntity;
         }
 
         public PlayerCharacteristics InitPlayerCharacteristics()
@@ -83,7 +82,7 @@ namespace Project.Scripts.Services
 
         public void ChangeMoveSpeed(float moveSpeed)
         {
-            ref var movableComponent = ref PlayerEntity.Get<PlayerMovableComponent>();
+            ref var movableComponent = ref _playerEntity.Get<PlayerMovableComponent>();
             movableComponent.MoveSpeed = moveSpeed;
         }
 

@@ -48,6 +48,7 @@ namespace Project.Scripts.Game.Gameplay.Root
         private GoldCoreInitData _goldCoreData;
         private AlienCocoonInitData _alienCocoonData;
         private AlienTurretEnemyInitData _alienTurretEnemyData;
+        private IceCrystalInitData _iceCrystalData;
 
         private EcsWorld _world;
         private EcsSystems _updateSystems;
@@ -341,6 +342,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             _goldCoreData = await _dataFactory.CreateGoldCoreData();
             _alienCocoonData = await _dataFactory.CreateAlienCocoonData();
             _alienTurretEnemyData = await _dataFactory.CreateAlienTurretEnemyData();
+            _iceCrystalData = await _dataFactory.CreateIceCrystalData();
         }
 
         private void InitEcs()
@@ -374,6 +376,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             _updateSystems.Inject(_coreService);
             _updateSystems.Inject(_alienCocoonData);
             _updateSystems.Inject(_alienTurretEnemyData);
+            _updateSystems.Inject(_iceCrystalData);
 
             _updateSystems.Add(_gameInitSystem = new GameInitSystem());
             _updateSystems.Add(new PlayerInputSystem());

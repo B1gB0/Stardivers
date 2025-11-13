@@ -66,6 +66,7 @@ namespace Project.Scripts.ECS.System
         private readonly HealingCoreInitData _healingCoreInitData;
         private readonly GoldCoreInitData _goldCoreInitData;
         private readonly LevelInitData _levelInitData;
+        private readonly IceCrystalInitData _iceCrystalInitData;
         
         private Vector3 _playerSpawnPoint;
         private Vector3 _capsuleSpawnPoint;
@@ -378,6 +379,11 @@ namespace Project.Scripts.ECS.System
             goldCore.Health.SetHealthValue(data.Health);
             
             InitResource(goldCore);
+        }
+
+        public void CreateIceCrystal(Vector3 atPosition)
+        {
+            var iceCrystal = Object.Instantiate(_iceCrystalInitData.IceCrystalPrefab, atPosition, Quaternion.identity);
         }
 
         private void InitPlayer(PlayerActor playerActor, PlayerData data)
