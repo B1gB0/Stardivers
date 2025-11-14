@@ -16,6 +16,7 @@
         CapsuleExplosion = 11,
         MainMenuMusic = 12,
         MarsGameplayMusic = 13,
-        MysteryPlanetGameplayMusic = 14
+        MysteryPlanetGameplayMusic = 14,
+        IceCrystalExplosion = 15,
     }
 }

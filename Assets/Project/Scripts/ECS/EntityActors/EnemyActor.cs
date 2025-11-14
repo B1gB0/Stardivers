@@ -4,42 +4,53 @@ using Project.Scripts.DataBase.Data;
 using Project.Scripts.ECS.Components;
 using Project.Scripts.Experience;
 using Project.Scripts.Services;
-using UnityEngine;
 
 namespace Project.Scripts.ECS.EntityActors
 {
-    public abstract class EnemyActor : MonoBehaviour
+    public abstract class EnemyActor : EntityActor
     {
-        [field: SerializeField] public Health.Health Health{ get; private set; }
-        [field: SerializeField] public Animator Animator { get; private set; }
-
+        private const float MoveSpeedFactor = 1f;
+        
         protected ExperiencePoints ExperiencePoints;
         protected IFloatingTextService TextService;
 
-        private EcsEntity _enemyEntity;
-        
+        protected EcsEntity EnemyEntity;
+
         public EnemyData Data { get; private set; }
 
         public event Action<EnemyActor> Die;
 
-        public void Construct(ExperiencePoints experiencePoints, IFloatingTextService textService, EnemyData data)
+        public void Construct(ExperiencePoints experiencePoints, IFloatingTextService textService, EnemyData data,
+            EcsEntity enemyEntity)
         {
             ExperiencePoints = experiencePoints;
             Data = data;
+            EnemyEntity = enemyEntity;
             
             TextService = textService;
+            
             Health.IsSpawnedDamageText += TextService.OnChangedFloatingText;
+            OnChangeSpeed += UpdateCurrentSpeed;
         }
         
-        public void ChangeMoveSpeed(float moveSpeed)
+        private void UpdateCurrentSpeed()
         {
-            ref var movableComponent = ref _enemyEntity.Get<EnemyMovableComponent>();
-            movableComponent.MoveSpeed = moveSpeed;
+            var moveSpeed = Data.Speed * (MoveSpeedFactor + GetCurrentModifier());
+            ChangeMoveSpeed(moveSpeed);
         }
 
         protected virtual void OnDie()
         {
+            ResetModifiers();
+            Health.IsSpawnedDamageText -= TextService.OnChangedFloatingText;
+            OnChangeSpeed -= UpdateCurrentSpeed;
             Die?.Invoke(this);
+        }
+        
+        private void ChangeMoveSpeed(float moveSpeed)
+        {
+            ref var movableComponent = ref EnemyEntity.Get<EnemyMovableComponent>();
+            movableComponent.MoveSpeed = moveSpeed;
         }
     }
 }

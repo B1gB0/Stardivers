@@ -18,12 +18,14 @@ namespace Project.Scripts.Levels.MysteryPlanet.ThirdLevel
         {
             IsInitiatedSpawners += SpawnResources;
             IsInitiatedSpawners += SpawnAlienCocoons;
+            IsInitiatedSpawners += SpawnIceCrystals;
         }
 
         private void OnDisable()
         {
             IsInitiatedSpawners -= SpawnResources;
             IsInitiatedSpawners -= SpawnAlienCocoons;
+            IsInitiatedSpawners -= SpawnIceCrystals;
         }
 
         public override async UniTask OnStartLevel()

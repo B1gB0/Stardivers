@@ -5,10 +5,8 @@ using UnityEngine;
 
 namespace Project.Scripts.ECS.EntityActors
 {
-    public class PlayerActor : MonoBehaviour
+    public class PlayerActor : EntityActor
     {
-        [field: SerializeField] public Health.Health Health { get; private set; }
-        [field: SerializeField] public Animator Animator { get; private set; }
         [field: SerializeField] public Rigidbody Rigidbody { get; private set; }
         [field: SerializeField] public PlayerInputController PlayerInputController { get; private set; }
         [field: SerializeField] public MiningToolActor MiningToolActor { get; private set; }
@@ -19,7 +17,19 @@ namespace Project.Scripts.ECS.EntityActors
         public void GetCharacteristics(PlayerCharacteristics playerCharacteristics)
         {
             PlayerCharacteristics = playerCharacteristics;
+            
             Health.CurrentHealthChanged += PlayerCharacteristics.SaveCurrentHealth;
+            OnChangeSpeed += PlayerCharacteristics.UpdateCurrentSpeed;
+        }
+
+        public void AcceptImprovement(IWeaponVisitor weaponVisitor, CharacteristicType type, float value)
+        {
+            weaponVisitor.Visit(this, type, value);
+        }
+
+        public void ChangeFollowEnemyState(bool canFollow)
+        {
+            CanFollow = canFollow;
         }
 
         private void OnEnable()
@@ -34,23 +44,14 @@ namespace Project.Scripts.ECS.EntityActors
 
         private void OnDestroy()
         {
-            PlayerCharacteristics.Dispose();
             Health.CurrentHealthChanged -= PlayerCharacteristics.SaveCurrentHealth;
+            OnChangeSpeed -= PlayerCharacteristics.UpdateCurrentSpeed;
         }
 
         private void Die()
         {
+            ResetModifiers();
             gameObject.SetActive(false);
-        }
-        
-        public void AcceptImprovement(IWeaponVisitor weaponVisitor, CharacteristicType type, float value)
-        {
-            weaponVisitor.Visit(this, type, value);
-        }
-
-        public void ChangeFollowEnemyState(bool canFollow)
-        {
-            CanFollow = canFollow;
         }
     }
 }

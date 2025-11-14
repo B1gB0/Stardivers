@@ -30,6 +30,7 @@ namespace Project.Scripts.ECS.Data
             GameObject[] alienCocoonSpawnPoints = GameObject.FindGameObjectsWithTag("AlienCocoonSpawnPoints");
             GameObject[] stoneSpawnPoints = GameObject.FindGameObjectsWithTag("StoneSpawnPoint");
             GameObject[] healingCoreSpawnPoints = GameObject.FindGameObjectsWithTag("HealingCoreSpawnPoint");
+            GameObject[] iceCrystalSpawnPoints = GameObject.FindGameObjectsWithTag("IceCrystalSpawnPoint");
             GameObject[] goldCoreSpawnPoints = GameObject.FindGameObjectsWithTag("GoldCoreSpawnPoint");
             GameObject playerSpawnPoint = GameObject.FindGameObjectWithTag("PlayerSpawnPoint");
             
@@ -45,6 +46,7 @@ namespace Project.Scripts.ECS.Data
             levelInitData.GoldCoreSpawnPositions.Clear();
             levelInitData.AlienCocoonSpawnPoints.Clear();
             levelInitData.EnemyTurretsSpawnPoints.Clear();
+            levelInitData.IceCrystalsSpawnPositions.Clear();
         
             levelInitData.PlayerSpawnPosition = playerSpawnPoint.transform.position;
             
@@ -106,6 +108,11 @@ namespace Project.Scripts.ECS.Data
             foreach (var goldCore in goldCoreSpawnPoints)
             {
                 levelInitData.GoldCoreSpawnPositions.Add(goldCore.transform.position);
+            }
+            
+            foreach (var iceCrystal in iceCrystalSpawnPoints)
+            {
+                levelInitData.IceCrystalsSpawnPositions.Add(iceCrystal.transform.position);
             }
             
             if (!Application.isPlaying)

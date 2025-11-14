@@ -1,5 +1,6 @@
 ﻿using Project.Scripts.Audio.Sounds;
 using Project.Scripts.ECS.EntityActors;
+using Project.Scripts.Services;
 using UnityEngine;
 
 namespace Project.Scripts.Projectiles.Mines
@@ -10,9 +11,10 @@ namespace Project.Scripts.Projectiles.Mines
         private const float DefaultSlowingDownSpeed = -0.5f;
         private const float SlowDuration = 3f;
 
-        private PlayerActor _player;
+        [SerializeField] private ParticleSystem _effects;
 
         protected override void OnEnable() { }
+
         protected override void OnDisable() { }
 
         private void Start()
@@ -20,24 +22,31 @@ namespace Project.Scripts.Projectiles.Mines
             Damage = DefaultDamage;
         }
 
+        public void Construct(AudioSoundsService audioSoundsService)
+        {
+            _effects = Instantiate(_effects);
+            _effects.Stop();
+            GetExplosionEffects(_effects, audioSoundsService);
+        }
+
         protected override void OnTriggerEnter(Collider collision)
         {
-            if(collision.gameObject.TryGetComponent(out PlayerActor player))
+            if (collision.gameObject.TryGetComponent(out PlayerActor player))
             {
                 Explode();
                 player.Health.TakeDamage(Damage);
-                player.PlayerCharacteristics.ApplyTemporarySpeedModifier(DefaultSlowingDownSpeed, SlowDuration);
+                player.ApplyTemporaryModifier(DefaultSlowingDownSpeed, SlowDuration);
             }
-            else if(collision.gameObject.TryGetComponent(out EnemyActor enemy))
+            else if (collision.gameObject.TryGetComponent(out EnemyActor _))
             {
                 Explode();
-                _player = GetPlayer();
+                var playerActor = GetPlayer();
 
-                if (_player == null)
+                if (playerActor == null)
                     return;
-                
-                _player.Health.TakeDamage(Damage);
-                _player.PlayerCharacteristics.ApplyTemporarySpeedModifier(DefaultSlowingDownSpeed, SlowDuration);
+
+                playerActor.Health.TakeDamage(Damage);
+                playerActor.ApplyTemporaryModifier(DefaultSlowingDownSpeed, SlowDuration);
             }
         }
 
@@ -45,16 +54,14 @@ namespace Project.Scripts.Projectiles.Mines
         {
             ExplosionEffect.transform.position = Transform.position;
             ExplosionEffect.Play();
-            AudioSoundsService.PlaySound(SoundsType.Mines);
+            AudioSoundsService.PlaySound(SoundsType.IceCrystalExplosion);
 
             foreach (EnemyActor enemy in GetEnemies())
             {
                 enemy.Health.TakeDamage(Damage);
-                
-                if(enemy is IFreezable freezable)
-                    freezable.SetSpeed(DefaultSlowingDownSpeed);
+                enemy.ApplyTemporaryModifier(DefaultSlowingDownSpeed, SlowDuration);
             }
-        
+
             gameObject.SetActive(false);
         }
 

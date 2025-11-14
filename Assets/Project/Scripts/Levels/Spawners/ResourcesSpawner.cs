@@ -39,6 +39,21 @@ namespace Project.Scripts.Levels.Spawners
                 _gameInitSystem.CreateAlienCocoon(alienCocoonSpawnPosition);
             }
         }
+        
+        public void SpawnIceCrystal(int quantityIceCrystals)
+        {
+            var sortedSpawnPoints = 
+                GetSortedRandomSpawnPoints(_levelInitData.IceCrystalsSpawnPositions, quantityIceCrystals);
+            
+            foreach (var iceCrystalSpawnPoint in sortedSpawnPoints)
+            {
+                var iceCrystalSpawnPosition = iceCrystalSpawnPoint +
+                                               Vector3.one * Random.Range(-RandomPositionFactor, RandomPositionFactor);
+                iceCrystalSpawnPosition.y = iceCrystalSpawnPoint.y;
+
+                _gameInitSystem.CreateIceCrystal(iceCrystalSpawnPosition);
+            }
+        }
 
         private void SpawnHealingCores(int quantityHealingCore)
         {

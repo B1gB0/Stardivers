@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4053166486635229309}
   - component: {fileID: 6927446702034945501}
   - component: {fileID: 7673974367836607259}
+  - component: {fileID: 5711072251411873696}
   m_Layer: 0
   m_Name: IceCrystal
   m_TagString: Untagged
@@ -97,3 +98,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <LifeTime>k__BackingField: 4
+  _effects: {fileID: 19870976, guid: ef697b4cb271b7642af97a1a70394631, type: 3}
+--- !u!65 &5711072251411873696
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3992953346312055565}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.4211631, y: 0.3798305, z: 0.43048495}
+  m_Center: {x: 0.01723124, y: 0.18991525, z: -0.005901657}

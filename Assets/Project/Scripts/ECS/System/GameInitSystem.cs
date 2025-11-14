@@ -165,16 +165,15 @@ namespace Project.Scripts.ECS.System
         {
             var data = _enemyService.GetEnemyDataByType(EnemyActorType.SmallAlien);
             
+            var entity = _world.NewEntity();
             var smallEnemyAlienActor = _smallAlienEnemyPool.GetFreeElement();
-            smallEnemyAlienActor.Construct(_experiencePoints, _textService, data);
+            smallEnemyAlienActor.Construct(_experiencePoints, _textService, data, entity);
 
             if (smallEnemyAlienActor.Health.TargetHealth <= MinValue)
             {
                 smallEnemyAlienActor.Health.SetHealthValue(data.Health);
             }
-            
-            var entity = _world.NewEntity();
-            
+
             ref var enemyComponent = ref entity.Get<EnemyComponent>();
             enemyComponent.Health = smallEnemyAlienActor.Health;
 
@@ -207,16 +206,15 @@ namespace Project.Scripts.ECS.System
         {
             var data = _enemyService.GetEnemyDataByType(EnemyActorType.BigAlien);
             
+            var entity = _world.NewEntity();
             var bigEnemyAlienActor = _bigAlienEnemyPool.GetFreeElement();
-            bigEnemyAlienActor.Construct(_experiencePoints, _textService, data);
+            bigEnemyAlienActor.Construct(_experiencePoints, _textService, data, entity);
             
             if (bigEnemyAlienActor.Health.TargetHealth <= MinValue)
             {
                 bigEnemyAlienActor.Health.SetHealthValue(data.Health);
             }
-            
-            var entity = _world.NewEntity();
-            
+
             ref var enemyComponent = ref entity.Get<EnemyComponent>();
             enemyComponent.Health = bigEnemyAlienActor.Health;
 
@@ -252,16 +250,15 @@ namespace Project.Scripts.ECS.System
         {
             var data = _enemyService.GetEnemyDataByType(EnemyActorType.GunnerAlien);
             
+            var entity = _world.NewEntity();
             var gunnerEnemyAlienActor = _gunnerAlienEnemyPool.GetFreeElement();
-            gunnerEnemyAlienActor.Construct(_experiencePoints, _textService, data);
+            gunnerEnemyAlienActor.Construct(_experiencePoints, _textService, data, entity);
             
             if (gunnerEnemyAlienActor.Health.TargetHealth <= MinValue)
             {
                 gunnerEnemyAlienActor.Health.SetHealthValue(data.Health);
             }
-            
-            var entity = _world.NewEntity();
-            
+
             ref var enemyComponent = ref entity.Get<EnemyComponent>();
             enemyComponent.Health = gunnerEnemyAlienActor.Health;
 
@@ -297,17 +294,16 @@ namespace Project.Scripts.ECS.System
         {
             var data = _enemyService.GetEnemyDataByType(EnemyActorType.TurretAlien);
             
+            var entity = _world.NewEntity();
             var enemyTurret = Object.Instantiate(_alienTurretEnemyData.AlienTurretEnemyPrefab, atPosition,
                 Quaternion.identity);
-            enemyTurret.Construct(_experiencePoints, _textService, data);
+            enemyTurret.Construct(_experiencePoints, _textService, data, entity);
             
             if (enemyTurret.Health.TargetHealth <= MinValue)
             {
                 enemyTurret.Health.SetHealthValue(data.Health);
             }
-            
-            var entity = _world.NewEntity();
-            
+
             ref var enemyComponent = ref entity.Get<EnemyComponent>();
             enemyComponent.Health = enemyTurret.Health;
             
@@ -384,6 +380,7 @@ namespace Project.Scripts.ECS.System
         public void CreateIceCrystal(Vector3 atPosition)
         {
             var iceCrystal = Object.Instantiate(_iceCrystalInitData.IceCrystalPrefab, atPosition, Quaternion.identity);
+            iceCrystal.Construct(_audioSoundsService);
         }
 
         private void InitPlayer(PlayerActor playerActor, PlayerData data)

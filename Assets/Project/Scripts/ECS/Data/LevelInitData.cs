@@ -22,6 +22,7 @@ namespace Project.Scripts.ECS.Data
         public List<Vector3> StoneSpawnPositions;
         public List<Vector3> GoldCoreSpawnPositions;
         public List<Vector3> HealingCoreSpawnPositions;
+        public List<Vector3> IceCrystalsSpawnPositions;
         
         public Vector3 PlayerSpawnPosition;
     }

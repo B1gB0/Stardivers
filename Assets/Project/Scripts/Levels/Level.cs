@@ -31,6 +31,7 @@ namespace Project.Scripts.Levels
         [field: SerializeField] public EntranceTrigger EntranceToNextLvlTrigger { get; private set; }
         [field: SerializeField] public int QuantityGoldCore { get; private set; }
         [field: SerializeField] public int QuantityHealingCore { get; private set; }
+        [field: SerializeField] public int QuantityIceCrystals { get; private set; }
         
         [SerializeField] protected WelcomePlanetTextTrigger WelcomePlanetTextTrigger;
         [SerializeField] protected float SpawnWaveOfEnemyDelay = 10f;
@@ -137,6 +138,11 @@ namespace Project.Scripts.Levels
         {
             _resourcesSpawner.SpawnAlienCocoons();
             OnAlienCocoonViewShow?.Invoke();
+        }
+
+        protected void SpawnIceCrystals()
+        {
+            _resourcesSpawner.SpawnIceCrystal(QuantityIceCrystals);
         }
 
         private void InitEnemyWaves()

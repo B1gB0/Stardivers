@@ -1,10 +1,12 @@
-﻿using Project.Scripts.Experience;
+﻿using Leopotam.Ecs;
+using Project.Scripts.ECS.Components;
+using Project.Scripts.Experience;
 using UnityEngine;
 using UnityEngine.AI;
 
 namespace Project.Scripts.ECS.EntityActors
 {
-    public class SmallEnemy : EnemyActor, IAcceptable, IFreezable
+    public class SmallEnemy : EnemyActor, IAcceptable
     {
         [field: SerializeField] public NavMeshAgent NavMeshAgent { get; private set; }
         
@@ -23,9 +25,11 @@ namespace Project.Scripts.ECS.EntityActors
             visitor.Visit(this);
         }
         
-        public void SetSpeed(float speed)
+        public void ChangeMoveSpeed(float moveSpeed)
         {
-            NavMeshAgent.speed += speed;
+            ref var movableComponent = ref EnemyEntity.Get<EnemyMovableComponent>();
+            movableComponent.MoveSpeed = moveSpeed;
+            movableComponent.NavMeshAgent.speed = moveSpeed;
         }
 
         protected override void OnDie()
