@@ -11,6 +11,7 @@ namespace Project.Scripts.DI
     public class ProjectInstaller : MonoBehaviour, IInstaller
     {
         [SerializeField] private AudioSoundsService _audioSoundsServicePrefab;
+        [SerializeField] private ParticleEffectsService _particleEffectsService;
         [SerializeField] private OperationService _operationServicePrefab;
         [SerializeField] private UIRootView _uiRootViewPrefab;
         [SerializeField] private GameEntryPoint _gameEntryPointPrefab;
@@ -55,6 +56,7 @@ namespace Project.Scripts.DI
             Debug.Log("Создание моно сервисов");
 
             CreateService(_audioSoundsServicePrefab);
+            CreateService(_particleEffectsService);
             CreateService(_operationServicePrefab);
             CreateService(_uiRootViewPrefab);
             CreateService(_gameEntryPointPrefab);

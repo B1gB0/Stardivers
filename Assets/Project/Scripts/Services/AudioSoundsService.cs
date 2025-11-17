@@ -253,21 +253,21 @@ namespace Project.Scripts.Services
         private async UniTask InitializeSoundDictionary()
         {
             var builder = new AudioSoundBuilder(_resourceService)
-                .AddSound(SoundsType.Gun, GunSoundPath)
-                .AddSound(SoundsType.Button, ButtonSoundPath)
-                .AddSound(SoundsType.Mines, MinesSoundPath)
-                .AddSound(SoundsType.Stone, MiningStoneSoundPath)
-                .AddSound(SoundsType.MachineGun, MachineGunSoundPath)
-                .AddSound(SoundsType.CardViewButton, CardViewButtonSoundPath)
-                .AddSound(SoundsType.FourBarrelMachineGun, FourBarrelMachineGunSoundPath)
-                .AddSound(SoundsType.ChainLightningGun, ChainLightningGunSoundPath)
-                .AddSound(SoundsType.CapsuleFlight, CapsuleFlightSoundPath)
-                .AddSound(SoundsType.CapsuleExplosion, CapsuleExplosionSoundPath)
-                .AddSound(SoundsType.FragGrenades, GrenadesSoundPath)
-                .AddSound(SoundsType.MainMenuMusic, MainMenuMusicPath)
-                .AddSound(SoundsType.MarsGameplayMusic, MarsGameplayMusicPath)
-                .AddSound(SoundsType.MysteryPlanetGameplayMusic, MysteryPlanetGameplayMusicPath)
-                .AddSound(SoundsType.IceCrystalExplosion, IceCrystalSoundPath);
+                .AddScriptableObject(SoundsType.Gun, GunSoundPath)
+                .AddScriptableObject(SoundsType.Button, ButtonSoundPath)
+                .AddScriptableObject(SoundsType.Mines, MinesSoundPath)
+                .AddScriptableObject(SoundsType.Stone, MiningStoneSoundPath)
+                .AddScriptableObject(SoundsType.MachineGun, MachineGunSoundPath)
+                .AddScriptableObject(SoundsType.CardViewButton, CardViewButtonSoundPath)
+                .AddScriptableObject(SoundsType.FourBarrelMachineGun, FourBarrelMachineGunSoundPath)
+                .AddScriptableObject(SoundsType.ChainLightningGun, ChainLightningGunSoundPath)
+                .AddScriptableObject(SoundsType.CapsuleFlight, CapsuleFlightSoundPath)
+                .AddScriptableObject(SoundsType.CapsuleExplosion, CapsuleExplosionSoundPath)
+                .AddScriptableObject(SoundsType.FragGrenades, GrenadesSoundPath)
+                .AddScriptableObject(SoundsType.MainMenuMusic, MainMenuMusicPath)
+                .AddScriptableObject(SoundsType.MarsGameplayMusic, MarsGameplayMusicPath)
+                .AddScriptableObject(SoundsType.MysteryPlanetGameplayMusic, MysteryPlanetGameplayMusicPath)
+                .AddScriptableObject(SoundsType.IceCrystalExplosion, IceCrystalSoundPath);
 
             _soundDictionary = await builder.Build();
         }
