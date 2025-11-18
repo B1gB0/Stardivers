@@ -15,8 +15,6 @@ using Project.Scripts.UI.View;
 using Project.Scripts.Weapon.Player;
 using R3;
 using Reflex.Attributes;
-using Reflex.Extensions;
-using Reflex.Injectors;
 using UnityEngine;
 using YG;
 
@@ -212,6 +210,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             uiRoot.LocalizationLanguageSwitcher.OnLanguageChanged += _endGamePanel.SetLabelText;
 
             _level.EndLevelTrigger.IsLevelCompleted += _levelUpPanel.OnEndGameTriggerIsReached;
+            _level.EndLevelTrigger.IsLevelCompleted += _uiRoot.UIRootButtons.Hide;
             _level.EndLevelTrigger.IsLevelCompleted += _endGamePanel.SetVictoryPanel;
 
             _levelUpPanel.OnContinueButtonIsClicked += _endGamePanel.Show;
@@ -269,6 +268,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             _gameInitSystem.PlayerHealth.IsSpawnedHealingText -= _floatingTextService.OnChangedFloatingText;
 
             _level.EndLevelTrigger.IsLevelCompleted -= _levelUpPanel.OnEndGameTriggerIsReached;
+            _level.EndLevelTrigger.IsLevelCompleted -= _uiRoot.UIRootButtons.Hide;
             _level.EndLevelTrigger.IsLevelCompleted -= _endGamePanel.SetVictoryPanel;
             
             _levelUpPanel.OnContinueButtonIsClicked -= _endGamePanel.Show;
@@ -316,12 +316,16 @@ namespace Project.Scripts.Game.Gameplay.Root
 
         private void GetMainMenuExitParameters()
         {
+            _uiRoot.UIRootButtons.Show();
+            
             var mainMenuEnterParameters = new MainMenuEnterParameters("Enter parameters");
             _exitParameters = new GameplayExitParameters(mainMenuEnterParameters);
         }
 
         private void GetGameplayExitParameters()
         {
+            _uiRoot.UIRootButtons.Show();
+            
             int nextNumberLevel = _operationService.CurrentNumberLevel + 1;
 
             var sceneName = _operationService.GetSceneNameByNumber(nextNumberLevel);

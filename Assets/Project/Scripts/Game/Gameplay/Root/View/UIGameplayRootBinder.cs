@@ -35,14 +35,17 @@ namespace Project.Scripts.Game.Gameplay.Root.View
 
         private AudioSoundsService _audioSoundsService;
         private IPauseService _pauseService;
+        private ITweenAnimationService _tweenAnimationService;
 
         private Subject<Unit> _exitSceneSignalSubject;
         private UIStateMachine _uiStateMachine;
 
         [Inject]
-        public void Construct(AudioSoundsService audioSoundsService, IPauseService pauseService)
+        public void Construct(AudioSoundsService audioSoundsService, IPauseService pauseService,
+            ITweenAnimationService tweenAnimationService)
         {
             _audioSoundsService = audioSoundsService;
+            _tweenAnimationService = tweenAnimationService;
         }
 
         private void Awake()
