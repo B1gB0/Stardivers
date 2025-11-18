@@ -16,6 +16,7 @@ namespace Project.Scripts.Services
         private const string MineExplosionEffectPath = "MineExplosionEffect";
         private const string FragGrenadeExplosionEffectPath = "FragGrenadeExplosionEffect";
         private const string IceCrystalExplosionEffectPath = "IceCrystalExplosionEffect";
+        private const string CapsuleExplosionEffectPath = "CapsuleExplosionEffect";
         
         private const string ParticleEffects = nameof(ParticleEffects);
 
@@ -47,12 +48,12 @@ namespace Project.Scripts.Services
             IsInitiated = true;
         }
 
-        public void PlayEffect(ParticleEffectType effectType, Vector3 position, Quaternion rotation)
+        public void PlayEffect(ParticleEffectType effectType, Vector3 position)
         {
             if (!IsInitiated) return;
             if (!_effectDictionary.ContainsKey(effectType)) return;
 
-            PlayEffectAsync(effectType, position, rotation).Forget();
+            PlayEffectAsync(effectType, position).Forget();
         }
 
         private async UniTask InitializeEffectDictionary()
@@ -64,19 +65,19 @@ namespace Project.Scripts.Services
                 .AddScriptableObject(ParticleEffectType.StoneHit, StoneHitEffectPath)
                 .AddScriptableObject(ParticleEffectType.MineExplosion, MineExplosionEffectPath)
                 .AddScriptableObject(ParticleEffectType.FragGrenadeExplosion, FragGrenadeExplosionEffectPath)
-                .AddScriptableObject(ParticleEffectType.IceCrystalExplosion, IceCrystalExplosionEffectPath);
+                .AddScriptableObject(ParticleEffectType.IceCrystalExplosion, IceCrystalExplosionEffectPath)
+                .AddScriptableObject(ParticleEffectType.CapsulePartsExplosion, CapsuleExplosionEffectPath);
 
             _effectDictionary = await builder.Build();
         }
 
-        private async UniTaskVoid PlayEffectAsync(ParticleEffectType effectType, Vector3 position, Quaternion rotation)
+        private async UniTaskVoid PlayEffectAsync(ParticleEffectType effectType, Vector3 position)
         {
             var particleEffect = GetOrCreateParticleSystem(effectType);
 
             var transformOfEffect = particleEffect.transform;
             transformOfEffect.position = position;
-            transformOfEffect.rotation = rotation;
-            
+
             particleEffect.Play(true);
             
             await WaitForParticleSystem(particleEffect);
@@ -114,10 +115,6 @@ namespace Project.Scripts.Services
             var config = _effectDictionary[effectType];
             var particleEffect = Instantiate(config.Effect, _particleParent);
             
-            var main = particleEffect.main;
-            main.stopAction = ParticleSystemStopAction.None;
-            
-            particleEffect.gameObject.SetActive(false);
             return particleEffect;
         }
 

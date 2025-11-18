@@ -252,6 +252,10 @@ PrefabInstance:
       propertyPath: <Value>k__BackingField
       value: 100
       objectReference: {fileID: 0}
+    - target: {fileID: 2891465084703597491, guid: e7965cb5f3b6b49439772edd4131b2b0, type: 3}
+      propertyPath: <_hitPoint>k__BackingField
+      value: 
+      objectReference: {fileID: 1792860455044173713}
     - target: {fileID: 2972073382085908621, guid: e7965cb5f3b6b49439772edd4131b2b0, type: 3}
       propertyPath: m_Layer
       value: 8
@@ -311,6 +315,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 3755005719539609785}
   m_SourcePrefab: {fileID: 100100000, guid: e7965cb5f3b6b49439772edd4131b2b0, type: 3}
+--- !u!4 &1792860455044173713 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4333931033512993654, guid: e7965cb5f3b6b49439772edd4131b2b0, type: 3}
+  m_PrefabInstance: {fileID: 2649438493164809447}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2650159403844728365 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1112338128624330, guid: e7965cb5f3b6b49439772edd4131b2b0, type: 3}

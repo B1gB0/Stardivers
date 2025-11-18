@@ -1,6 +1,5 @@
-﻿using Leopotam.Ecs;
-using Project.Scripts.ECS.Components;
-using Project.Scripts.Experience;
+﻿using Project.Scripts.Experience;
+using Project.Scripts.ParticleEffects.Effects;
 using Project.Scripts.Weapon.Enemy;
 using UnityEngine;
 using UnityEngine.AI;
@@ -15,23 +14,18 @@ namespace Project.Scripts.ECS.EntityActors
         private void OnEnable()
         {
             Health.Die += OnDie;
+            Health.IsDamaged += OnPlayParticleEffect;
         }
 
         private void OnDisable()
         {
             Health.Die -= OnDie;
+            Health.IsDamaged -= OnPlayParticleEffect;
         }
         
         public void AcceptScore(IScoreActorVisitor visitor)
         {
             visitor.Visit(this);
-        }
-        
-        public void ChangeMoveSpeed(float moveSpeed)
-        {
-            ref var movableComponent = ref EnemyEntity.Get<EnemyMovableComponent>();
-            movableComponent.MoveSpeed = moveSpeed;
-            movableComponent.NavMeshAgent.speed = moveSpeed;
         }
 
         protected override void OnDie()
@@ -41,6 +35,11 @@ namespace Project.Scripts.ECS.EntityActors
             base.OnDie();
             
             gameObject.SetActive(false);
+        }
+
+        protected override void OnPlayParticleEffect()
+        {
+            ParticleEffectsService.PlayEffect(ParticleEffectType.BigEnemyHit, Health.HitPoint.position);
         }
     }
 }

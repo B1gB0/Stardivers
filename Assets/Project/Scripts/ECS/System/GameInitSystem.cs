@@ -8,14 +8,12 @@ using Project.Scripts.ECS.EntityActors;
 using Project.Scripts.EnemyAnimation;
 using Project.Scripts.Experience;
 using Project.Scripts.Levels;
-using Project.Scripts.Levels.Mars.SecondLevel;
-using Project.Scripts.Levels.MysteryPlanet.SecondLevel;
+using Project.Scripts.ParticleEffects.Effects;
 using Project.Scripts.Projectiles.Enemy;
 using Project.Scripts.Services;
 using Project.Scripts.UI.Panel;
 using Project.Scripts.UI.View;
 using UnityEngine;
-using YG;
 using Object = UnityEngine.Object;
 
 namespace Project.Scripts.ECS.System
@@ -47,6 +45,7 @@ namespace Project.Scripts.ECS.System
         private readonly ILevelTextService _levelTextService;
         private readonly AudioSoundsService _audioSoundsService;
         private readonly ICoreService _coreService;
+        private readonly ParticleEffectsService _particleEffectsService;
         private readonly ViewFactory _viewFactory;
 
         private readonly ExperiencePoints _experiencePoints;
@@ -93,7 +92,7 @@ namespace Project.Scripts.ECS.System
             
             var playerCharacteristics = _playerService.InitPlayerCharacteristics();
             
-            Player.GetCharacteristics(playerCharacteristics);
+            Player.Construct(_particleEffectsService, playerCharacteristics);
             Player.gameObject.SetActive(false);
 
             _level.GetServices(this, _dialoguePanel, _pauseService, _levelInitData, _levelTextService,
@@ -142,6 +141,7 @@ namespace Project.Scripts.ECS.System
             if (Capsule.transform.position == Player.transform.position)
             {
                 SpawnPlayer();
+                _particleEffectsService.PlayEffect(ParticleEffectType.CapsulePartsExplosion, Player.transform.position);
                 Capsule.Destroy();
             }
         }
@@ -167,7 +167,7 @@ namespace Project.Scripts.ECS.System
             
             var entity = _world.NewEntity();
             var smallEnemyAlienActor = _smallAlienEnemyPool.GetFreeElement();
-            smallEnemyAlienActor.Construct(_experiencePoints, _textService, data, entity);
+            smallEnemyAlienActor.Construct(_experiencePoints, _textService, data, entity, _particleEffectsService);
 
             if (smallEnemyAlienActor.Health.TargetHealth <= MinValue)
             {
@@ -208,7 +208,7 @@ namespace Project.Scripts.ECS.System
             
             var entity = _world.NewEntity();
             var bigEnemyAlienActor = _bigAlienEnemyPool.GetFreeElement();
-            bigEnemyAlienActor.Construct(_experiencePoints, _textService, data, entity);
+            bigEnemyAlienActor.Construct(_experiencePoints, _textService, data, entity, _particleEffectsService);
             
             if (bigEnemyAlienActor.Health.TargetHealth <= MinValue)
             {
@@ -252,7 +252,7 @@ namespace Project.Scripts.ECS.System
             
             var entity = _world.NewEntity();
             var gunnerEnemyAlienActor = _gunnerAlienEnemyPool.GetFreeElement();
-            gunnerEnemyAlienActor.Construct(_experiencePoints, _textService, data, entity);
+            gunnerEnemyAlienActor.Construct(_experiencePoints, _textService, data, entity, _particleEffectsService);
             
             if (gunnerEnemyAlienActor.Health.TargetHealth <= MinValue)
             {
@@ -297,7 +297,7 @@ namespace Project.Scripts.ECS.System
             var entity = _world.NewEntity();
             var enemyTurret = Object.Instantiate(_alienTurretEnemyData.AlienTurretEnemyPrefab, atPosition,
                 Quaternion.identity);
-            enemyTurret.Construct(_experiencePoints, _textService, data, entity);
+            enemyTurret.Construct(_experiencePoints, _textService, data, entity, _particleEffectsService);
             
             if (enemyTurret.Health.TargetHealth <= MinValue)
             {
@@ -334,7 +334,7 @@ namespace Project.Scripts.ECS.System
             
             var stone = Object.Instantiate(_stoneInitData.StoneActorPrefab, atPosition,
                 Quaternion.Euler(_stoneRotation));
-            stone.Construct(_experiencePoints, data);
+            stone.Construct(_experiencePoints, data, _particleEffectsService);
             stone.Health.SetHealthValue(data.Health);
 
             InitResource(stone);
@@ -346,7 +346,7 @@ namespace Project.Scripts.ECS.System
             
             var alienCocoon = Object.Instantiate(_alienCocoonData.AlienCocoonPrefab, atPosition, 
                 Quaternion.identity);
-            alienCocoon.Construct(_experiencePoints, data);
+            alienCocoon.Construct(_experiencePoints, data, _particleEffectsService);
             alienCocoon.GetServices(_currencyService, _textService);
             alienCocoon.Health.SetHealthValue(data.Health);
 
@@ -358,7 +358,7 @@ namespace Project.Scripts.ECS.System
             var data = _coreService.GetCoreDataByType(CoreType.Healing);
             
             var healingCore = Object.Instantiate(_healingCoreInitData.HealingCorePrefab, atPosition, Quaternion.identity);
-            healingCore.Construct(_experiencePoints, data);
+            healingCore.Construct(_experiencePoints, data, _particleEffectsService);
             healingCore.GetServices(_textService);
             healingCore.Health.SetHealthValue(data.Health);
             
@@ -370,7 +370,7 @@ namespace Project.Scripts.ECS.System
             var data = _coreService.GetCoreDataByType(CoreType.Gold);
             
             var goldCore = Object.Instantiate(_goldCoreInitData.GoldCorePrefab, atPosition, Quaternion.identity);
-            goldCore.Construct(_experiencePoints, data);
+            goldCore.Construct(_experiencePoints, data, _particleEffectsService);
             goldCore.GetServices(_textService, _currencyService);
             goldCore.Health.SetHealthValue(data.Health);
             
@@ -380,7 +380,7 @@ namespace Project.Scripts.ECS.System
         public void CreateIceCrystal(Vector3 atPosition)
         {
             var iceCrystal = Object.Instantiate(_iceCrystalInitData.IceCrystalPrefab, atPosition, Quaternion.identity);
-            iceCrystal.Construct(_audioSoundsService);
+            iceCrystal.Construct(_particleEffectsService, _audioSoundsService);
         }
 
         private void InitPlayer(PlayerActor playerActor, PlayerData data)

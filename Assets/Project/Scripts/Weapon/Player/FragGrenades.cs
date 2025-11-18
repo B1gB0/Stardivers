@@ -15,13 +15,13 @@ namespace Project.Scripts.Weapon.Player
         private const int CountGrenades = 1;
         private const bool IsAutoExpandPool = true;
         private const float MinValue = 0f;
-
-        [SerializeField] private ParticleSystem _explosionEffect;
+        
         [SerializeField] private FragGrenade _fragGrenade;
         [SerializeField] private Transform _shootPoint;
 
         private EnemyDetector _detector;
         private AudioSoundsService _audioSoundsService;
+        private ParticleEffectsService _particleEffectsService;
         
         private float _lastShotTime;
         private EnemyActor _closestEnemy;
@@ -31,10 +31,12 @@ namespace Project.Scripts.Weapon.Player
         public FragGrenadeCharacteristics FragGrenadeCharacteristics { get; private set; } = new ();
 
         public void Construct(EnemyDetector detector, AudioSoundsService audioSoundsService,
-            CharacteristicsWeaponData data, FragGrenadeCharacteristics fragGrenadeCharacteristics)
+            CharacteristicsWeaponData data, FragGrenadeCharacteristics fragGrenadeCharacteristics, 
+            ParticleEffectsService particleEffectsService)
         {
             _detector = detector;
             _audioSoundsService = audioSoundsService;
+            _particleEffectsService = particleEffectsService;
             Type = data.WeaponType;
             
             if(fragGrenadeCharacteristics == null)
@@ -51,12 +53,6 @@ namespace Project.Scripts.Weapon.Player
             {
                 AutoExpand = IsAutoExpandPool
             };
-        }
-
-        private void Start()
-        {
-            _explosionEffect = Instantiate(_explosionEffect);
-            _explosionEffect.Stop();
         }
 
         private void FixedUpdate()
@@ -76,7 +72,7 @@ namespace Project.Scripts.Weapon.Player
             if (_lastShotTime <= MinValue && _closestEnemy.Health.TargetHealth > MinValue)
             {
                 _fragGrenade = _poolGrenades.GetFreeElement();
-                _fragGrenade.GetExplosionEffects(_explosionEffect, _audioSoundsService);
+                _fragGrenade.GetExplosionEffects(_particleEffectsService, _audioSoundsService);
 
                 _fragGrenade.transform.position = _shootPoint.position;
 

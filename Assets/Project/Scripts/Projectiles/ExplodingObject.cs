@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Project.Scripts.Audio.Sounds;
 using Project.Scripts.ECS.EntityActors;
+using Project.Scripts.ParticleEffects.Effects;
 using Project.Scripts.Services;
 using UnityEngine;
 
@@ -10,19 +11,18 @@ namespace Project.Scripts.Projectiles
     {
         protected float ExplosionRadius;
         
-        protected ParticleSystem ExplosionEffect;
         protected AudioSoundsService AudioSoundsService;
+        protected ParticleEffectsService ParticleEffectsService;
 
-        public void GetExplosionEffects(ParticleSystem effect, AudioSoundsService audioSoundsService)
+        public void GetExplosionEffects(ParticleEffectsService particleEffectsService, 
+            AudioSoundsService audioSoundsService)
         {
-            ExplosionEffect = effect;
+            ParticleEffectsService = particleEffectsService;
             AudioSoundsService = audioSoundsService;
         }
         
         protected virtual void Explode()
         {
-            ExplosionEffect.transform.position = Transform.position;
-            ExplosionEffect.Play();
             AudioSoundsService.PlaySound(SoundsType.Mines);
 
             foreach (EnemyActor explosiveObject in GetEnemies())

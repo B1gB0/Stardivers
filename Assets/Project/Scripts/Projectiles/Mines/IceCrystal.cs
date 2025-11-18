@@ -1,5 +1,6 @@
 ﻿using Project.Scripts.Audio.Sounds;
 using Project.Scripts.ECS.EntityActors;
+using Project.Scripts.ParticleEffects.Effects;
 using Project.Scripts.Services;
 using UnityEngine;
 
@@ -11,8 +12,6 @@ namespace Project.Scripts.Projectiles.Mines
         private const float DefaultSlowingDownSpeed = -0.5f;
         private const float SlowDuration = 3f;
 
-        [SerializeField] private ParticleSystem _effects;
-
         protected override void OnEnable() { }
 
         protected override void OnDisable() { }
@@ -22,11 +21,9 @@ namespace Project.Scripts.Projectiles.Mines
             Damage = DefaultDamage;
         }
 
-        public void Construct(AudioSoundsService audioSoundsService)
+        public void Construct(ParticleEffectsService particleEffectsService, AudioSoundsService audioSoundsService)
         {
-            _effects = Instantiate(_effects);
-            _effects.Stop();
-            GetExplosionEffects(_effects, audioSoundsService);
+            GetExplosionEffects(particleEffectsService, audioSoundsService);
         }
 
         protected override void OnTriggerEnter(Collider collision)
@@ -52,8 +49,7 @@ namespace Project.Scripts.Projectiles.Mines
 
         protected override void Explode()
         {
-            ExplosionEffect.transform.position = Transform.position;
-            ExplosionEffect.Play();
+            ParticleEffectsService.PlayEffect(ParticleEffectType.IceCrystalExplosion, Transform.position);
             AudioSoundsService.PlaySound(SoundsType.IceCrystalExplosion);
 
             foreach (EnemyActor enemy in GetEnemies())

@@ -26,12 +26,14 @@ namespace Project.Scripts.ECS.EntityActors
         {
             Health.Die += Die;
             Health.IsDamaged += SpawnCrystal;
+            Health.IsDamaged += OnPlayParticleEffect;
         }
 
         private void OnDisable()
         {
             Health.Die -= Die;
             Health.IsDamaged -= SpawnCrystal;
+            Health.IsDamaged -= OnPlayParticleEffect;
         }
         
         public void GetServices(IFloatingTextService floatingTextService, ICurrencyService currencyService)

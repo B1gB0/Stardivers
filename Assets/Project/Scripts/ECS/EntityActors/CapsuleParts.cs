@@ -11,16 +11,13 @@ namespace Project.Scripts.ECS.EntityActors
         private const float Force = 300f;
         private const float DefaultExplodingRigidbodyRadius = 40f;
         private const float DefaultExplodingDamageRadius = 30f;
-
-        [SerializeField] private ParticleSystem _effect;
+        
         [SerializeField] private LayerMask _layer;
 
         private void Start()
         {
             Damage = DefaultDamage;
             ExplosionRadius = DefaultExplodingDamageRadius;
-            
-            _effect = Instantiate(_effect, transform);
 
             foreach (Rigidbody explodingObject in GetExplodingRigidbodyObjects())
             {

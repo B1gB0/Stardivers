@@ -1,4 +1,6 @@
-﻿using Project.Scripts.Player.PlayerInputModule;
+﻿using Project.Scripts.ParticleEffects.Effects;
+using Project.Scripts.Player.PlayerInputModule;
+using Project.Scripts.Services;
 using Project.Scripts.Weapon.CharacteristicsOfWeapon;
 using Project.Scripts.Weapon.Improvements;
 using UnityEngine;
@@ -11,11 +13,15 @@ namespace Project.Scripts.ECS.EntityActors
         [field: SerializeField] public PlayerInputController PlayerInputController { get; private set; }
         [field: SerializeField] public MiningToolActor MiningToolActor { get; private set; }
         
+        private ParticleEffectsService _particleEffectsService;
+        
         public PlayerCharacteristics PlayerCharacteristics { get; private set; }
         public bool CanFollow { get; private set; }
 
-        public void GetCharacteristics(PlayerCharacteristics playerCharacteristics)
+        public void Construct(ParticleEffectsService particleEffectsService, PlayerCharacteristics playerCharacteristics)
         {
+            _particleEffectsService = particleEffectsService;
+            
             PlayerCharacteristics = playerCharacteristics;
             
             Health.CurrentHealthChanged += PlayerCharacteristics.SaveCurrentHealth;
@@ -35,11 +41,13 @@ namespace Project.Scripts.ECS.EntityActors
         private void OnEnable()
         {
             Health.Die += Die;
+            Health.IsDamaged += OnPlayParticleEffect;
         }
 
         private void OnDisable()
         {
             Health.Die -= Die;
+            Health.IsDamaged -= OnPlayParticleEffect;
         }
 
         private void OnDestroy()
@@ -52,6 +60,11 @@ namespace Project.Scripts.ECS.EntityActors
         {
             ResetModifiers();
             gameObject.SetActive(false);
+        }
+        
+        private void OnPlayParticleEffect()
+        {
+            _particleEffectsService.PlayEffect(ParticleEffectType.PlayerHit, Health.HitPoint.position);
         }
     }
 }

@@ -3,6 +3,7 @@ using Leopotam.Ecs;
 using Project.Scripts.DataBase.Data;
 using Project.Scripts.ECS.Components;
 using Project.Scripts.Experience;
+using Project.Scripts.ParticleEffects.Effects;
 using Project.Scripts.Services;
 
 namespace Project.Scripts.ECS.EntityActors
@@ -13,6 +14,7 @@ namespace Project.Scripts.ECS.EntityActors
         
         protected ExperiencePoints ExperiencePoints;
         protected IFloatingTextService TextService;
+        protected ParticleEffectsService ParticleEffectsService;
 
         protected EcsEntity EnemyEntity;
 
@@ -21,22 +23,17 @@ namespace Project.Scripts.ECS.EntityActors
         public event Action<EnemyActor> Die;
 
         public void Construct(ExperiencePoints experiencePoints, IFloatingTextService textService, EnemyData data,
-            EcsEntity enemyEntity)
+            EcsEntity enemyEntity, ParticleEffectsService particleEffectsService)
         {
             ExperiencePoints = experiencePoints;
             Data = data;
             EnemyEntity = enemyEntity;
+            ParticleEffectsService = particleEffectsService;
             
             TextService = textService;
             
             Health.IsSpawnedDamageText += TextService.OnChangedFloatingText;
             OnChangeSpeed += UpdateCurrentSpeed;
-        }
-        
-        private void UpdateCurrentSpeed()
-        {
-            var moveSpeed = Data.Speed * (MoveSpeedFactor + GetCurrentModifier());
-            ChangeMoveSpeed(moveSpeed);
         }
 
         protected virtual void OnDie()
@@ -45,6 +42,17 @@ namespace Project.Scripts.ECS.EntityActors
             Health.IsSpawnedDamageText -= TextService.OnChangedFloatingText;
             OnChangeSpeed -= UpdateCurrentSpeed;
             Die?.Invoke(this);
+        }
+        
+        protected virtual void OnPlayParticleEffect()
+        {
+            ParticleEffectsService.PlayEffect(ParticleEffectType.EnemyHit, Health.HitPoint.position);
+        }
+        
+        private void UpdateCurrentSpeed()
+        {
+            var moveSpeed = Data.Speed * (MoveSpeedFactor + GetCurrentModifier());
+            ChangeMoveSpeed(moveSpeed);
         }
         
         private void ChangeMoveSpeed(float moveSpeed)

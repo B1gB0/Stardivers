@@ -3,7 +3,9 @@ using System.Collections;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Project.Scripts.Game.Constant;
+using Project.Scripts.Services;
 using Project.Scripts.UI.View;
+using Reflex.Attributes;
 using UnityEngine;
 
 namespace Project.Scripts.Health
@@ -13,10 +15,8 @@ namespace Project.Scripts.Health
         private const float RecoveryRate = 10f;
         
         [SerializeField] private float _value;
-        [SerializeField] private ParticleSystem _hitEffectPrefab;
         [SerializeField] private Transform _hitPoint;
-
-        private ParticleSystem _hitEffect;
+        
         private CancellationTokenSource _healthCts;
         private float _currentHealth;
 
@@ -32,18 +32,13 @@ namespace Project.Scripts.Health
         public event Action<float> CurrentHealthChanged;
         
         public float MaxHealth { get; private set; }
-        
         public float TargetHealth { get; private set; }
 
         public bool IsHitting { get; private set; }
         
         public bool IsHealing { get; private set; }
-
-        private void Awake()
-        {
-            _hitEffect = Instantiate(_hitEffectPrefab);
-            _hitEffect.Stop();
-        }
+        
+        public Transform HitPoint => _hitPoint;
 
         private void Start()
         {
@@ -60,11 +55,8 @@ namespace Project.Scripts.Health
         {
             IsSpawnedDamageText?.Invoke(damage.ToString(), transform, FloatingTextViewType.Damage,
                 Colors.GetColor(ColorName.DefaultWhiteTextColor));
-            
-            IsDamaged?.Invoke();
 
-            _hitEffect.transform.position = _hitPoint.position;
-            _hitEffect.Play();
+            IsDamaged?.Invoke();
 
             TargetHealth -= damage;
 

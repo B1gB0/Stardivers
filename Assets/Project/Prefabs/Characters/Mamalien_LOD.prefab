@@ -704,10 +704,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbef326efc61174488772c5468beb681, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _healingColor: {r: 1, g: 1, b: 1, a: 1}
-  _standardColor: {r: 1, g: 1, b: 1, a: 1}
   _value: 70
-  _hitEffectPrefab: {fileID: 2505167390030652998, guid: c5f344500c55ab64db42ad890f988745, type: 3}
   _hitPoint: {fileID: 7012782083852387894}
 --- !u!114 &2774489045408133602
 MonoBehaviour:
@@ -723,8 +720,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Health>k__BackingField: {fileID: 8894253457751917587}
   <Animator>k__BackingField: {fileID: 5436888960896288277}
-  <NavMeshAgent>k__BackingField: {fileID: 5703868975293681217}
   <Weapon>k__BackingField: {fileID: 3349985577781054129}
+  <NavMeshAgent>k__BackingField: {fileID: 5703868975293681217}
 --- !u!136 &882404680993714590
 CapsuleCollider:
   m_ObjectHideFlags: 0

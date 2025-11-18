@@ -19,6 +19,7 @@ namespace Project.Scripts.Weapon.Player
         private const string ChainLightningGunPath = "ChainLightningGun";
 
         private AudioSoundsService _audioSoundsService;
+        private ParticleEffectsService _particleEffectsService;
         private IResourceService _resourceService;
         private ICharacteristicsWeaponDataService _characteristicsWeaponDataService;
         private ILevelUpService _levelUpService;
@@ -35,9 +36,11 @@ namespace Project.Scripts.Weapon.Player
 
         [Inject]
         private void Construct(AudioSoundsService audioSoundsService, IResourceService resourceService,
-            ICharacteristicsWeaponDataService characteristicsWeaponDataService, ILevelUpService levelUpService)
+            ICharacteristicsWeaponDataService characteristicsWeaponDataService, ILevelUpService levelUpService,
+            ParticleEffectsService particleEffectsService)
         {
             _audioSoundsService = audioSoundsService;
+            _particleEffectsService = particleEffectsService;
             _resourceService = resourceService;
             _characteristicsWeaponDataService = characteristicsWeaponDataService;
             _levelUpService = levelUpService;
@@ -137,7 +140,8 @@ namespace Project.Scripts.Weapon.Player
             var minesData = _characteristicsWeaponDataService.GetWeaponDataByType(WeaponType.Mines);
 
             mines.transform.position = position;
-            mines.Construct(_minesButton, _audioSoundsService, minesData, minesCharacteristics);
+            mines.Construct(_minesButton, _audioSoundsService, minesData, minesCharacteristics,
+                _particleEffectsService);
             _weaponHolder.AddWeapon(mines);
 
             MinesIsCreated?.Invoke();
@@ -155,7 +159,8 @@ namespace Project.Scripts.Weapon.Player
             var fragGrenadesCharacteristics = YG2.saves.FragGrenadeCharacteristics;
             var fragGrenadesData = _characteristicsWeaponDataService.GetWeaponDataByType(WeaponType.FragGrenades);
 
-            fragGrenades.Construct(_enemyDetector, _audioSoundsService, fragGrenadesData, fragGrenadesCharacteristics);
+            fragGrenades.Construct(_enemyDetector, _audioSoundsService, fragGrenadesData, fragGrenadesCharacteristics,
+                _particleEffectsService);
             _weaponHolder.AddWeapon(fragGrenades);
 
             return fragGrenades;

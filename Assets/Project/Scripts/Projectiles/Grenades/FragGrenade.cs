@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using Project.Scripts.Audio.Sounds;
 using Project.Scripts.ECS.EntityActors;
+using Project.Scripts.ParticleEffects.Effects;
 using UnityEngine;
 
 namespace  Project.Scripts.Projectiles.Grenades
@@ -48,8 +49,7 @@ namespace  Project.Scripts.Projectiles.Grenades
 
         protected override void Explode()
         {
-            ExplosionEffect.transform.position = Transform.position;
-            ExplosionEffect.Play();
+            ParticleEffectsService.PlayEffect(ParticleEffectType.FragGrenadeExplosion, Transform.position);
             AudioSoundsService.PlaySound(SoundsType.FragGrenades);
         
             foreach (EnemyActor explosiveObject in GetEnemies())

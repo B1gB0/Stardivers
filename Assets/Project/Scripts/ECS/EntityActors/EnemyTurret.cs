@@ -11,11 +11,18 @@ namespace Project.Scripts.ECS.EntityActors
         private void OnEnable()
         {
             Health.Die += OnDie;
+            Health.IsDamaged += OnPlayParticleEffect;
         }
 
         private void OnDisable()
         {
             Health.Die -= OnDie;
+            Health.IsDamaged -= OnPlayParticleEffect;
+        }
+        
+        public void AcceptScore(IScoreActorVisitor visitor)
+        {
+            visitor.Visit(this);
         }
 
         protected override void OnDie()
@@ -25,11 +32,6 @@ namespace Project.Scripts.ECS.EntityActors
             base.OnDie();
 
             gameObject.SetActive(false);
-        }
-        
-        public void AcceptScore(IScoreActorVisitor visitor)
-        {
-            visitor.Visit(this);
         }
     }
 }

@@ -7,11 +7,13 @@ namespace Project.Scripts.ECS.EntityActors
         private void OnEnable()
         {
             Health.Die += Die;
+            Health.IsDamaged += OnPlayParticleEffect;
         }
 
         private void OnDisable()
         {
             Health.Die -= Die;
+            Health.IsDamaged -= OnPlayParticleEffect;
         }
 
         private void Die()

@@ -14,8 +14,7 @@ namespace Project.Scripts.Weapon.Player
     {
         private const float MinValue = 0f;
         private const bool IsAutoExpandPool = true;
-
-        [SerializeField] private ParticleSystem _explosionEffect;
+        
         [SerializeField] private int _countMines;
         [SerializeField] private Mine _mine;
         [SerializeField] private Transform _installPoint;
@@ -23,16 +22,19 @@ namespace Project.Scripts.Weapon.Player
         private ObjectPool<Mine> _pool;
         private Button _minesButton;
         private AudioSoundsService _audioSoundsService;
+        private ParticleEffectsService _particleEffectsService;
         
         private float _lastShotTime;
 
         public MineCharacteristics MineCharacteristics { get; private set; } = new ();
 
         public void Construct(Button button, AudioSoundsService audioSoundsService, 
-            CharacteristicsWeaponData data, MineCharacteristics mineCharacteristics)
+            CharacteristicsWeaponData data, MineCharacteristics mineCharacteristics, 
+            ParticleEffectsService particleEffectsService)
         {
             _minesButton = button;
             _audioSoundsService = audioSoundsService;
+            _particleEffectsService = particleEffectsService;
             Type = data.WeaponType;
 
             if (mineCharacteristics == null)
@@ -53,8 +55,6 @@ namespace Project.Scripts.Weapon.Player
 
         private void Start()
         {
-            _explosionEffect = Instantiate(_explosionEffect);
-            _explosionEffect.Stop();
             _minesButton.onClick.AddListener(Shoot);
         }
 
@@ -76,7 +76,7 @@ namespace Project.Scripts.Weapon.Player
                 
                 _mine = _pool.GetFreeElement();
 
-                _mine.GetExplosionEffects(_explosionEffect, _audioSoundsService);
+                _mine.GetExplosionEffects(_particleEffectsService, _audioSoundsService);
                 
                 _mine.transform.position = _installPoint.position;
                 _mine.SetCharacteristics(MineCharacteristics.Damage, MineCharacteristics.ExplosionRadius);

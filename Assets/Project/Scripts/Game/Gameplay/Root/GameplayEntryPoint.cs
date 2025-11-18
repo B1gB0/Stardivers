@@ -56,8 +56,10 @@ namespace Project.Scripts.Game.Gameplay.Root
         private GameInitSystem _gameInitSystem;
 
         private AudioSoundsService _audioSoundsService;
-        private IPauseService _pauseService;
+        private ParticleEffectsService _particleEffectsService;
         private OperationService _operationService;
+        
+        private IPauseService _pauseService;
         private IFloatingTextService _floatingTextService;
         private IResourceService _resourceService;
         private IDataBaseService _dataBaseService;
@@ -92,7 +94,8 @@ namespace Project.Scripts.Game.Gameplay.Root
             IResourceService resourceService, ICharacteristicsWeaponDataService characteristicsWeaponDataService,
             ICardService cardService, IEnemyService enemyService, IPlayerService playerService,
             ICurrencyService currencyService, ILevelTextService levelTextService, ICoreService coreService,
-            ILevelUpService levelUpService, IUILocalizationService uiLocalizationService)
+            ILevelUpService levelUpService, IUILocalizationService uiLocalizationService, 
+            ParticleEffectsService particleEffectsService)
         {
             _audioSoundsService = audioSoundsService;
             _pauseService = pauseService;
@@ -109,6 +112,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             _coreService = coreService;
             _levelUpService = levelUpService;
             _uiLocalizationService = uiLocalizationService;
+            _particleEffectsService = particleEffectsService;
         }
 
         private void Start()
@@ -155,6 +159,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             await _playerService.Init();
             await _coreService.Init();
             await _uiLocalizationService.Init();
+            await _particleEffectsService.Init();
             
             _uiScene = Instantiate(_sceneUIRootPrefab);
             
@@ -377,6 +382,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             _updateSystems.Inject(_alienCocoonData);
             _updateSystems.Inject(_alienTurretEnemyData);
             _updateSystems.Inject(_iceCrystalData);
+            _updateSystems.Inject(_particleEffectsService);
 
             _updateSystems.Add(_gameInitSystem = new GameInitSystem());
             _updateSystems.Add(new PlayerInputSystem());

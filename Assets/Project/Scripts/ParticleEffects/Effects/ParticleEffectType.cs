@@ -9,5 +9,6 @@ namespace Project.Scripts.ParticleEffects.Effects
         MineExplosion = 4,
         FragGrenadeExplosion = 5,
         IceCrystalExplosion = 6,
+        CapsulePartsExplosion = 7,
     }
 }

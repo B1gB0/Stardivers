@@ -1,4 +1,5 @@
 using Project.Scripts.Experience;
+using Project.Scripts.ParticleEffects.Effects;
 using Project.Scripts.Services;
 using Project.Scripts.UI.View;
 using UnityEngine;
@@ -15,11 +16,13 @@ namespace Project.Scripts.ECS.EntityActors
         private void OnEnable()
         {
             Health.Die += Die;
+            Health.IsDamaged += OnPlayParticleEffect;
         }
 
         private void OnDisable()
         {
             Health.Die -= Die;
+            Health.IsDamaged -= OnPlayParticleEffect;
         }
         
         public void AcceptScore(IScoreActorVisitor visitor)
@@ -31,6 +34,11 @@ namespace Project.Scripts.ECS.EntityActors
         {
             _currencyService = currencyService;
             _textService = textService;
+        }
+
+        protected override void OnPlayParticleEffect()
+        {
+            ParticleEffectsService.PlayEffect(ParticleEffectType.EnemyHit, Health.HitPoint.position);
         }
 
         private void Die()
