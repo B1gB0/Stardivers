@@ -392,14 +392,15 @@ MonoBehaviour:
     syncInitSDK: 0
     loadSceneIfSDKLate: 0
     loadSceneIndex: 0
-    simulationLoadScene: 0
+    initDelaySimulation: 0
+    buildNumber: 0
   Simulation:
     device: 0
     language: ru
     advIntervalSimulation: 60
     durationAdv: 0.5
     loadAdv: 0
-    testFailAds: 0
+    testFailAds: 1
   Templates:
     logoImageFormat: 1
     backgroundImgFormat: 3
@@ -436,6 +437,7 @@ MonoBehaviour:
     showFirstAdv: 0
     interAdvInterval: 0
     postponeCallByFail: 0
+    setLanguageMod: 0
     useYandexMetrica: 0
     metricaCounterID: 0
     skipInterAdvAfterReward: 0

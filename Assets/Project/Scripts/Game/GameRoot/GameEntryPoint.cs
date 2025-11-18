@@ -11,6 +11,7 @@ using Reflex.Attributes;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceProviders;
+using YG;
 
 namespace Project.Scripts.Game.GameRoot
 {
@@ -113,6 +114,8 @@ namespace Project.Scripts.Game.GameRoot
 
         private async UniTask<GameplayExitParameters> HandleExitGameplayScene(GameplayExitParameters gameplayExitParameters)
         {
+            YG2.InterstitialAdvShow();
+            
             var targetSceneName = gameplayExitParameters.TargetSceneEnterParameters.SceneName;
 
             if (targetSceneName == Scenes.MainMenu)

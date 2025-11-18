@@ -15,6 +15,7 @@ namespace Project.Scripts.UI.Panel
     public class EndGamePanel : MonoBehaviour, IView
     {
         private const int CountCorrectFactor = 1;
+        private const string RewardAdRebornId = "RebornPlayer";
 
         [SerializeField] private Text _labelText;
         [SerializeField] private Text _accumulatedKillsText;
@@ -58,6 +59,7 @@ namespace Project.Scripts.UI.Panel
         {
             _goToMainMenuButton.onClick.AddListener(Hide);
             _rebornPlayerButton.onClick.AddListener(Hide);
+            _rebornPlayerButton.onClick.AddListener(OnShowRewardAd);
             
             _rebornPlayerButton.onClick.AddListener(OnPlayGame);
             _nextLevelButton.onClick.AddListener(OnPlayGame);
@@ -68,6 +70,7 @@ namespace Project.Scripts.UI.Panel
         {
             _goToMainMenuButton.onClick.RemoveListener(Hide);
             _rebornPlayerButton.onClick.RemoveListener(Hide);
+            _rebornPlayerButton.onClick.RemoveListener(OnShowRewardAd);
             
             _rebornPlayerButton.onClick.RemoveListener(OnPlayGame);
             _nextLevelButton.onClick.RemoveListener(OnPlayGame);
@@ -170,6 +173,11 @@ namespace Project.Scripts.UI.Panel
         private void OnPlayGame()
         {
             _pauseService.PlayGame();
+        }
+
+        private void OnShowRewardAd()
+        {
+            YG2.RewardedAdvShow(RewardAdRebornId);
         }
     }
 }
