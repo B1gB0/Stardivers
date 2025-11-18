@@ -1,4 +1,4 @@
-#if UNITY_EDITOR
+// #if UNITY_EDITOR
 using Project.Scripts.Services;
 using Project.Scripts.UI.View;
 using Reflex.Attributes;
@@ -61,4 +61,4 @@ namespace Project.Scripts.UI.Panel
         }
     }
 }
-#endif
+// #endif

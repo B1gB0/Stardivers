@@ -196,7 +196,7 @@ namespace Project.Scripts.UI.View
             return _objectiveTextView;
         }
 
-#if UNITY_EDITOR
+// #if UNITY_EDITOR
         public async UniTask<CheatPanel> CreateCheatPanel()
         {
             var cheatPanelTemplate = await _resourceService.Load<GameObject>(CheatPanelPath);
@@ -207,6 +207,6 @@ namespace Project.Scripts.UI.View
             cheatPanel.transform.SetParent(_uiScene.transform);
             return cheatPanel;
         }
-#endif
+// #endif
     }
 }

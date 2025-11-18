@@ -81,9 +81,9 @@ namespace Project.Scripts.Game.Gameplay.Root
         private AlienCocoonView _alienCocoonView;
         private MissionProgressBar _missionProgressBar;
 
-#if UNITY_EDITOR
+// #if UNITY_EDITOR
         private CheatPanel _cheatPanel;
-#endif
+// #endif
 
         [Inject]
         private void Construct(AudioSoundsService audioSoundsService, IPauseService pauseService,
@@ -177,9 +177,9 @@ namespace Project.Scripts.Game.Gameplay.Root
             
             _endGamePanel.GetExperiencePoints(_experiencePoints);
 
-#if UNITY_EDITOR
+// #if UNITY_EDITOR
             _cheatPanel = await _viewFactory.CreateCheatPanel();
-#endif
+// #endif
             
             InitEcs();
 
@@ -232,9 +232,9 @@ namespace Project.Scripts.Game.Gameplay.Root
             uiRoot.ExitPanel.OnExitToMainMenu += GetMainMenuExitParameters;
             uiRoot.ExitPanel.OnExitToMainMenu += _uiScene.HandleGoToNextSceneButtonClick;
 
-#if UNITY_EDITOR
+// #if UNITY_EDITOR
             _uiScene.CheatsButton.onClick.AddListener(_cheatPanel.Show);
-#endif
+// #endif
             
             _weaponFactory.MinesIsCreated += _uiScene.ShowMinesButton;
             _experiencePoints.CurrentLevelIsUpgraded += _levelUpPanel.OnCurrentLevelIsUpgraded;
@@ -289,9 +289,9 @@ namespace Project.Scripts.Game.Gameplay.Root
 
             _weaponFactory.MinesIsCreated -= _uiScene.ShowMinesButton;
             
-#if UNITY_EDITOR
+// #if UNITY_EDITOR
             _uiScene.CheatsButton.onClick.RemoveListener(_cheatPanel.Show);
-#endif
+// #endif
 
             _updateSystems?.Destroy();
             _fixedUpdateSystems?.Destroy();
