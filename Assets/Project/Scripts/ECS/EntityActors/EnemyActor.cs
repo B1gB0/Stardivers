@@ -64,6 +64,10 @@ namespace Project.Scripts.ECS.EntityActors
         {
             ref var movableComponent = ref EnemyEntity.Get<EnemyMovableComponent>();
             movableComponent.MoveSpeed = moveSpeed;
+            
+            if(movableComponent.NavMeshAgent == null)
+                return;
+            
             movableComponent.NavMeshAgent.speed = moveSpeed;
         }
     }

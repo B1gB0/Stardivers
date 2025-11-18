@@ -26,8 +26,9 @@ namespace Project.Scripts.UI.View
 
         public void SetFloatingText(string value, Transform target, FloatingTextViewType viewType, Color color)
         {
+            _text.text = viewType == FloatingTextViewType.Healing ? $"+{value}" : $"{value}";
             _text.color = color;
-            _text.text = $"{value}";
+
             SetIcon(viewType);
             transform.position = new Vector3 (target.position.x, target.position.y, target.position.z - Offset);
         }

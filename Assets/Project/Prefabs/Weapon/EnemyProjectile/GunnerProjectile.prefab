@@ -136,7 +136,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 109206, guid: 70c86803749c1ba46872b9f38746446e, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 433414, guid: 70c86803749c1ba46872b9f38746446e, type: 3}
       propertyPath: m_LocalScale.x
@@ -264,6 +264,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6874928439425866749}
     m_Modifications:
+    - target: {fileID: 139172, guid: ab277be0b43f1824090ab10e4ce64cef, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 185492, guid: ab277be0b43f1824090ab10e4ce64cef, type: 3}
       propertyPath: m_Name
       value: BulletFatBlue
@@ -416,7 +420,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 130626, guid: e7208592fcd84db46be48b5bce0525a5, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 405816, guid: e7208592fcd84db46be48b5bce0525a5, type: 3}
       propertyPath: m_LocalPosition.y

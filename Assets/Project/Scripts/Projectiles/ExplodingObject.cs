@@ -23,6 +23,7 @@ namespace Project.Scripts.Projectiles
         
         protected virtual void Explode()
         {
+            ParticleEffectsService.PlayEffect(ParticleEffectType.MineExplosion, Transform.position);
             AudioSoundsService.PlaySound(SoundsType.Mines);
 
             foreach (EnemyActor explosiveObject in GetEnemies())
