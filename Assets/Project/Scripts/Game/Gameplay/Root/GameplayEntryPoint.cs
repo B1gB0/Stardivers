@@ -201,6 +201,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             _goldView.Show();
 
             _gameInitSystem.PlayerHealth.Die += _endGamePanel.Show;
+            _gameInitSystem.PlayerHealth.Die += _uiRoot.UIRootButtons.Hide;
             _gameInitSystem.PlayerHealth.Die += _endGamePanel.SetDefeatPanel;
             _gameInitSystem.PlayerHealth.Die += _progressBar.Hide;
             _gameInitSystem.PlayerHealth.IsSpawnedHealingText += _floatingTextService.OnChangedFloatingText;
@@ -220,6 +221,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             _gameInitSystem.PlayerIsSpawned += _healthBar.Show;
 
             _endGamePanel.RebornPlayerButton.onClick.AddListener(_gameInitSystem.CreateCapsule);
+            _endGamePanel.RebornPlayerButton.onClick.AddListener(uiRoot.UIRootButtons.Show);
 
             _endGamePanel.GoToMainMenuButton.onClick.AddListener(GetMainMenuExitParameters);
             _endGamePanel.GoToMainMenuButton.onClick.AddListener(_uiScene.HandleGoToNextSceneButtonClick);
@@ -263,6 +265,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             _uiRoot.LocalizationLanguageSwitcher.OnLanguageChanged -= _endGamePanel.SetLabelText;
 
             _gameInitSystem.PlayerHealth.Die -= _endGamePanel.Show;
+            _gameInitSystem.PlayerHealth.Die -= _uiRoot.UIRootButtons.Hide;
             _gameInitSystem.PlayerHealth.Die -= _endGamePanel.SetDefeatPanel;
             _gameInitSystem.PlayerHealth.Die -= _progressBar.Hide;
             _gameInitSystem.PlayerHealth.IsSpawnedHealingText -= _floatingTextService.OnChangedFloatingText;
@@ -275,9 +278,12 @@ namespace Project.Scripts.Game.Gameplay.Root
 
             _endGamePanel.GoToMainMenuButton.onClick.RemoveListener(GetMainMenuExitParameters);
             _endGamePanel.GoToMainMenuButton.onClick.RemoveListener(_uiScene.HandleGoToNextSceneButtonClick);
+            
             _endGamePanel.NextLevelButton.onClick.RemoveListener(GetGameplayExitParameters);
             _endGamePanel.NextLevelButton.onClick.RemoveListener(_uiScene.HandleGoToNextSceneButtonClick);
+            
             _endGamePanel.RebornPlayerButton.onClick.RemoveListener(_gameInitSystem.CreateCapsule);
+            _endGamePanel.RebornPlayerButton.onClick.RemoveListener(_uiRoot.UIRootButtons.Show);
 
             _experiencePoints.CurrentLevelIsUpgraded -= _levelUpPanel.OnCurrentLevelIsUpgraded;
 
