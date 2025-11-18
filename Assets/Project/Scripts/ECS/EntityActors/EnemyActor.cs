@@ -5,7 +5,6 @@ using Project.Scripts.ECS.Components;
 using Project.Scripts.Experience;
 using Project.Scripts.ParticleEffects.Effects;
 using Project.Scripts.Services;
-using UnityEngine;
 
 namespace Project.Scripts.ECS.EntityActors
 {
@@ -44,6 +43,11 @@ namespace Project.Scripts.ECS.EntityActors
             OnChangeSpeed -= UpdateCurrentSpeed;
             Die?.Invoke(this);
         }
+
+        private void OnDestroy()
+        {
+            OnChangeSpeed -= UpdateCurrentSpeed;
+        }
         
         protected virtual void OnPlayParticleEffect()
         {
@@ -53,7 +57,6 @@ namespace Project.Scripts.ECS.EntityActors
         private void UpdateCurrentSpeed()
         {
             var moveSpeed = Data.Speed * (MoveSpeedFactor + GetCurrentModifier());
-            Debug.Log(moveSpeed + " Скорость маленького врага");
             ChangeMoveSpeed(moveSpeed);
         }
         
@@ -62,7 +65,6 @@ namespace Project.Scripts.ECS.EntityActors
             ref var movableComponent = ref EnemyEntity.Get<EnemyMovableComponent>();
             movableComponent.MoveSpeed = moveSpeed;
             movableComponent.NavMeshAgent.speed = moveSpeed;
-            Debug.Log(movableComponent.MoveSpeed  + " Скорость маленького врага компонента");
         }
     }
 }

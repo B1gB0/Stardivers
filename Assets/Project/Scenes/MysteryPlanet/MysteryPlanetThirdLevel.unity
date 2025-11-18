@@ -122,6 +122,37 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &276868407
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 276868408}
+  m_Layer: 0
+  m_Name: IceCrystalSpawnPoint (4)
+  m_TagString: IceCrystalSpawnPoint
+  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &276868408
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 276868407}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -16.29, y: 0, z: 40.16}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7597658098664656055}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &465260082
 GameObject:
   m_ObjectHideFlags: 0
@@ -211,63 +242,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &577929123
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 2650159403844728365, guid: 7a40e9f4b43c0b94e846518deaa5e919, type: 3}
-      propertyPath: m_Name
-      value: space_man_model Variant
-      objectReference: {fileID: 0}
-    - target: {fileID: 2651222296210486889, guid: 7a40e9f4b43c0b94e846518deaa5e919, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -30.785276
-      objectReference: {fileID: 0}
-    - target: {fileID: 2651222296210486889, guid: 7a40e9f4b43c0b94e846518deaa5e919, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.06883359
-      objectReference: {fileID: 0}
-    - target: {fileID: 2651222296210486889, guid: 7a40e9f4b43c0b94e846518deaa5e919, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -4.8279963
-      objectReference: {fileID: 0}
-    - target: {fileID: 2651222296210486889, guid: 7a40e9f4b43c0b94e846518deaa5e919, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2651222296210486889, guid: 7a40e9f4b43c0b94e846518deaa5e919, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2651222296210486889, guid: 7a40e9f4b43c0b94e846518deaa5e919, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2651222296210486889, guid: 7a40e9f4b43c0b94e846518deaa5e919, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2651222296210486889, guid: 7a40e9f4b43c0b94e846518deaa5e919, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2651222296210486889, guid: 7a40e9f4b43c0b94e846518deaa5e919, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2651222296210486889, guid: 7a40e9f4b43c0b94e846518deaa5e919, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 7a40e9f4b43c0b94e846518deaa5e919, type: 3}
 --- !u!1 &608092037
 GameObject:
   m_ObjectHideFlags: 0
@@ -310,6 +284,99 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &796418421
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 796418422}
+  m_Layer: 0
+  m_Name: IceCrystalSpawnPoint (2)
+  m_TagString: IceCrystalSpawnPoint
+  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &796418422
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 796418421}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 26.15, y: 0, z: 28.26}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7597658098664656055}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &917213849
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 917213850}
+  m_Layer: 0
+  m_Name: IceCrystalSpawnPoint (5)
+  m_TagString: IceCrystalSpawnPoint
+  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &917213850
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 917213849}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -11.29, y: 0, z: -5.15}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7597658098664656055}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &920177381
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 920177382}
+  m_Layer: 0
+  m_Name: IceCrystalSpawnPoint (6)
+  m_TagString: IceCrystalSpawnPoint
+  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &920177382
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 920177381}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 35.42, y: 0, z: -14.23}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7597658098664656055}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &947219526
 GameObject:
@@ -399,6 +466,68 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &965658837
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 965658838}
+  m_Layer: 0
+  m_Name: IceCrystalSpawnPoint (7)
+  m_TagString: IceCrystalSpawnPoint
+  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &965658838
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 965658837}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 41.62, y: 0, z: -22.74}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7597658098664656055}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1168970073
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1168970074}
+  m_Layer: 0
+  m_Name: IceCrystalSpawnPoint (1)
+  m_TagString: IceCrystalSpawnPoint
+  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1168970074
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1168970073}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 37.34, y: 0, z: 18.28}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7597658098664656055}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1287232941
 GameObject:
   m_ObjectHideFlags: 0
@@ -532,6 +661,99 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 41.009, y: 0, z: 0}
+--- !u!1 &1347544526
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1347544527}
+  m_Layer: 0
+  m_Name: IceCrystalSpawnPoint
+  m_TagString: IceCrystalSpawnPoint
+  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1347544527
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1347544526}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 21.03, y: 0, z: 15.18}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7597658098664656055}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1594296210
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1594296211}
+  m_Layer: 0
+  m_Name: IceCrystalSpawnPoint (3)
+  m_TagString: IceCrystalSpawnPoint
+  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1594296211
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1594296210}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 16.89, y: 0, z: 27.99}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7597658098664656055}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1595669770
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1595669771}
+  m_Layer: 0
+  m_Name: IceCrystalSpawnPoint (9)
+  m_TagString: IceCrystalSpawnPoint
+  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1595669771
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1595669770}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 34.42, y: 0, z: 30.67}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7597658098664656055}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1606278464
 GameObject:
   m_ObjectHideFlags: 0
@@ -758,6 +980,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2087410911
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2087410912}
+  m_Layer: 0
+  m_Name: IceCrystalSpawnPoint (8)
+  m_TagString: IceCrystalSpawnPoint
+  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2087410912
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2087410911}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 64.79, y: 0, z: 13.79}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7597658098664656055}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &7597658098664656054
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -808,7 +1061,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4252444207919990978, guid: 3f97a65ecccbb004f904c543321b77ed, type: 3}
       propertyPath: <QuantityIceCrystals>k__BackingField
-      value: 3
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5488531101929240012, guid: 3f97a65ecccbb004f904c543321b77ed, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 2.18
+      objectReference: {fileID: 0}
+    - target: {fileID: 5488531101929240012, guid: 3f97a65ecccbb004f904c543321b77ed, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5488531101929240012, guid: 3f97a65ecccbb004f904c543321b77ed, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -1.6
       objectReference: {fileID: 0}
     - target: {fileID: 8541945433536480237, guid: 3f97a65ecccbb004f904c543321b77ed, type: 3}
       propertyPath: m_Name
@@ -816,7 +1081,37 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 6545671193571024470, guid: 3f97a65ecccbb004f904c543321b77ed, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1347544527}
+    - targetCorrespondingSourceObject: {fileID: 6545671193571024470, guid: 3f97a65ecccbb004f904c543321b77ed, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1168970074}
+    - targetCorrespondingSourceObject: {fileID: 6545671193571024470, guid: 3f97a65ecccbb004f904c543321b77ed, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 796418422}
+    - targetCorrespondingSourceObject: {fileID: 6545671193571024470, guid: 3f97a65ecccbb004f904c543321b77ed, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1594296211}
+    - targetCorrespondingSourceObject: {fileID: 6545671193571024470, guid: 3f97a65ecccbb004f904c543321b77ed, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 276868408}
+    - targetCorrespondingSourceObject: {fileID: 6545671193571024470, guid: 3f97a65ecccbb004f904c543321b77ed, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 917213850}
+    - targetCorrespondingSourceObject: {fileID: 6545671193571024470, guid: 3f97a65ecccbb004f904c543321b77ed, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 920177382}
+    - targetCorrespondingSourceObject: {fileID: 6545671193571024470, guid: 3f97a65ecccbb004f904c543321b77ed, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 965658838}
+    - targetCorrespondingSourceObject: {fileID: 6545671193571024470, guid: 3f97a65ecccbb004f904c543321b77ed, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2087410912}
+    - targetCorrespondingSourceObject: {fileID: 6545671193571024470, guid: 3f97a65ecccbb004f904c543321b77ed, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1595669771}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 5441219630319197311, guid: 3f97a65ecccbb004f904c543321b77ed, type: 3}
       insertIndex: -1
@@ -828,6 +1123,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 3f97a65ecccbb004f904c543321b77ed, type: 3}
+--- !u!4 &7597658098664656055 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6545671193571024470, guid: 3f97a65ecccbb004f904c543321b77ed, type: 3}
+  m_PrefabInstance: {fileID: 7597658098664656054}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &8799340793351976435 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4252444207919990978, guid: 3f97a65ecccbb004f904c543321b77ed, type: 3}
@@ -850,4 +1150,3 @@ SceneRoots:
   - {fileID: 1729391322}
   - {fileID: 7597658098664656054}
   - {fileID: 608092039}
-  - {fileID: 577929123}
