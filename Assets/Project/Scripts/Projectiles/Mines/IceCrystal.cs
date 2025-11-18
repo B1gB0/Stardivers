@@ -9,6 +9,7 @@ namespace Project.Scripts.Projectiles.Mines
     public class IceCrystal : ExplodingObject
     {
         private const float DefaultDamage = 5f;
+        private const float DefaultExplodingRadius = 5f;
         private const float DefaultSlowingDownSpeed = -0.5f;
         private const float SlowDuration = 3f;
 
@@ -19,6 +20,7 @@ namespace Project.Scripts.Projectiles.Mines
         private void Start()
         {
             Damage = DefaultDamage;
+            ExplosionRadius = DefaultExplodingRadius;
         }
 
         public void Construct(ParticleEffectsService particleEffectsService, AudioSoundsService audioSoundsService)
