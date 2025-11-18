@@ -65,7 +65,7 @@ namespace Project.Scripts.UI.Panel
         private void OnYesButtonClicked()
         {
             _isExitToMainMenu = true;
-            _pauseService.PlayGame();
+            _pauseService.PlayGameAndResetAllPauses();
             OnExitToMainMenu?.Invoke();
         }
     }

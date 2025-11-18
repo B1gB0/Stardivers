@@ -15,18 +15,23 @@ namespace Project.Scripts.Services
         public event Action OnGameStarted;
         public event Action OnGamePaused;
 
+        public void PlayGameAndResetAllPauses(bool isYGGameplayStart = false)
+        {
+            _countPauses = 0;
+            OnGameStarted?.Invoke();
+                    
+            if(isYGGameplayStart)
+                YG2.GameplayStart();
+                    
+            Time.timeScale = PlayTime;
+        }
+
         public void PlayGame(bool isYGGameplayStart = false)
         {
             switch (_countPauses)
             {
                 case MinCountPause :
-                    _countPauses = 0;
-                    OnGameStarted?.Invoke();
-                    
-                    if(isYGGameplayStart)
-                        YG2.GameplayStart();
-                    
-                    Time.timeScale = PlayTime;
+                    PlayGameAndResetAllPauses();
                     break;
                 case > MinCountPause :
                     _countPauses--;
