@@ -3,7 +3,22 @@ guid: 0c20def574c85b1419f60f8ff59714d3
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Capsule
+    second: {fileID: 3017301235057627950, guid: b40bd3bda2d093c4998cadec3bf0eac2, type: 3}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Sci fi Wall
+    second: {fileID: 2100000, guid: f80f1729d6fc02c4992b0472f5598880, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Sci fi wall
+    second: {fileID: 2100000, guid: f80f1729d6fc02c4992b0472f5598880, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
