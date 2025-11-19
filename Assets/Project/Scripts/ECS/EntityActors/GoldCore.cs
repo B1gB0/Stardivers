@@ -21,6 +21,7 @@ namespace Project.Scripts.ECS.EntityActors
         
         private IFloatingTextService _floatingTextService;
         private ICurrencyService _currencyService;
+        private Transform _rootForObjects;
 
         private void OnEnable()
         {
@@ -36,10 +37,12 @@ namespace Project.Scripts.ECS.EntityActors
             Health.IsDamaged -= OnPlayParticleEffect;
         }
         
-        public void GetServices(IFloatingTextService floatingTextService, ICurrencyService currencyService)
+        public void GetServices(IFloatingTextService floatingTextService, ICurrencyService currencyService, 
+            Transform rootForObjects)
         {
             _floatingTextService = floatingTextService;
             _currencyService = currencyService;
+            _rootForObjects = rootForObjects;
         }
 
         public void AcceptScore(IScoreActorVisitor visitor)
@@ -56,6 +59,7 @@ namespace Project.Scripts.ECS.EntityActors
             
             var crystal = Instantiate(_goldCrystalPrefab, _crystalSpawnPoint.position,
                 Quaternion.Euler(_rotationCrystal));
+            crystal.transform.SetParent(_rootForObjects);
             crystal.GetTextService(_floatingTextService);
             crystal.GetCurrencyService(_currencyService, (int)Data.CrystalValue);
             crystal.Rigidbody.AddForceAtPosition(_jumpDirectionCrystal * CrystalJumpForce,

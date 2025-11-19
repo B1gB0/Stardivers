@@ -1,18 +1,27 @@
 {
   "Gold": 14,
   "RedCrystal": 0,
-  "AcumulatedScore": 34868,
+  "AcumulatedScore": 35028,
   "ExperiencePointsValue": 0,
   "CurrentLevel": 0,
   "isMarsOperationUnlock": true,
   "isMysteryPlanetUnlock": true,
-  "GunCharacteristics": null,
+  "GunCharacteristics": {
+    "RangeAttack": 5.0,
+    "FireRate": 1.0,
+    "ProjectileSpeed": 10.0,
+    "Damage": 15.0,
+    "MaxCountShots": 4,
+    "MaxEnemiesInChain": 0,
+    "ReloadTime": 3.0,
+    "ExplosionRadius": 0.0
+  },
   "MachineGunCharacteristics": null,
   "FourBarrelMachineGunCharacteristics": null,
   "ChainLightningGunCharacteristics": null,
   "FragGrenadeCharacteristics": null,
   "MinesCharacteristics": null,
-  "PlayerCharacteristics": null,
+  "PlayerCharacteristics": {},
   "stringKeys": [],
   "stringValues": [],
   "floatKeys": [],
@@ -27,5 +36,5 @@
     false,
     false
   ],
-  "idSave": 1245
+  "idSave": 1260
 }

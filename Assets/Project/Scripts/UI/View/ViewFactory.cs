@@ -14,9 +14,9 @@ namespace Project.Scripts.UI.View
 {
     public class ViewFactory : MonoBehaviour
     {
-#if UNITY_EDITOR
+// #if UNITY_EDITOR
         private const string CheatPanelPath = "CheatPanel";
-#endif
+// #endif
 
         private const string MissionProgressBarPath = "MissionProgressBar";
         private const string HealthBarPath = "HealthBar";

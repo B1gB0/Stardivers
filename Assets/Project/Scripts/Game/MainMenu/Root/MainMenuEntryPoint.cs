@@ -8,7 +8,6 @@ using Reflex.Attributes;
 using Reflex.Extensions;
 using Reflex.Injectors;
 using UnityEngine;
-using UnityEngine.UI;
 using YG;
 
 namespace Project.Scripts.Game.MainMenu.Root

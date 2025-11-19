@@ -1,5 +1,4 @@
-﻿using System;
-using Project.Scripts.DataBase.Data;
+﻿using Project.Scripts.DataBase.Data;
 using Project.Scripts.Experience;
 using Project.Scripts.ParticleEffects.Effects;
 using Project.Scripts.Services;
@@ -14,7 +13,7 @@ namespace Project.Scripts.ECS.EntityActors
         
         protected ExperiencePoints ExperiencePoints;
         protected ParticleEffectsService ParticleEffectsService;
-        
+
         public CoreData Data { get; private set; }
 
         public void Construct(ExperiencePoints experiencePoints, CoreData data,

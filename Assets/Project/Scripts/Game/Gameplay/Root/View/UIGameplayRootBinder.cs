@@ -16,9 +16,9 @@ namespace Project.Scripts.Game.Gameplay.Root.View
         [field: SerializeField] public GameplayElements UIScene { get; private set; }
         [field: SerializeField] public Button MinesButton { get; private set; }
         
-#if UNITY_EDITOR
+// #if UNITY_EDITOR
         [field: SerializeField] public Button CheatsButton { get; private set; }
-#endif
+// #endif
         
         [field: SerializeField] public WeaponPanel WeaponPanel { get; private set; }
 
@@ -50,9 +50,9 @@ namespace Project.Scripts.Game.Gameplay.Root.View
 
         private void Awake()
         {
-#if UNITY_EDITOR
+// #if UNITY_EDITOR
             CheatsButton.gameObject.SetActive(true);
-#endif
+// #endif
         }
 
         public void GetUIStateMachine(UIStateMachine uiStateMachine, UIRootButtons uiRootButtons)

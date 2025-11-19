@@ -17,6 +17,7 @@ namespace Project.Scripts.ECS.EntityActors
         private Vector3 _rotationCrystal;
         private Vector3 _jumpDirectionCrystal;
         private IFloatingTextService _floatingTextService;
+        private Transform _rootForObjects;
 
         private void OnEnable()
         {
@@ -32,9 +33,10 @@ namespace Project.Scripts.ECS.EntityActors
             Health.IsDamaged -= OnPlayParticleEffect;
         }
 
-        public void GetServices(IFloatingTextService floatingTextService)
+        public void GetServices(IFloatingTextService floatingTextService, Transform rootForObjects)
         {
             _floatingTextService = floatingTextService;
+            _rootForObjects = rootForObjects;
         }
         
         public void AcceptScore(IScoreActorVisitor visitor)
@@ -47,7 +49,9 @@ namespace Project.Scripts.ECS.EntityActors
             _rotationCrystal = new Vector3(MinAngle, Random.Range(MinAngle, MaxAngle), MinAngle);
             _jumpDirectionCrystal = new Vector3(Random.Range(-1, 1), 1, Random.Range(-1, 1));
             
-            var crystal = Instantiate(redCrystalPrefab, _crystalSpawnPoint.position, Quaternion.Euler(_rotationCrystal));
+            var crystal = Instantiate(redCrystalPrefab, _crystalSpawnPoint.position,
+                Quaternion.Euler(_rotationCrystal));
+            crystal.transform.SetParent(_rootForObjects);
             crystal.GetTextService(_floatingTextService);
             crystal.GetHealthValue(Data.CrystalValue);
             crystal.Rigidbody.AddForceAtPosition(_jumpDirectionCrystal * CrystalJumpForce,

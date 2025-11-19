@@ -26,6 +26,7 @@ namespace Project.Scripts.ECS.System
         private const string GunnerAlienEnemyPool = nameof(GunnerAlienEnemyPool);
         private const string GunnerAlienEnemyProjectilePool = nameof(GunnerAlienEnemyProjectilePool);
         private const string AlienEnemyTurretProjectilePool = nameof(AlienEnemyTurretProjectilePool);
+        private const string RootForObjects = nameof(RootForObjects);
 
         private const bool IsAutoExpand = true;
         
@@ -77,6 +78,8 @@ namespace Project.Scripts.ECS.System
         private ObjectPool<GunnerAlienEnemyProjectile> _gunnerAlienEnemyProjectilePool;
         private ObjectPool<AlienEnemyTurretProjectile> _alienEnemyTurretProjectilePool;
 
+        private Transform _rootForObjects;
+
         public CapsuleActor Capsule { get; private set; }
         public PlayerActor Player { get; private set; }
         public Health.Health PlayerHealth { get; private set; }
@@ -86,6 +89,8 @@ namespace Project.Scripts.ECS.System
 
         public void Init()
         {
+            CreateRootForObjects();
+            
             _playerSpawnPoint = _levelInitData.PlayerSpawnPosition;
             Player = CreatePlayer();
             PlayerHealth = Player.Health;
@@ -133,34 +138,6 @@ namespace Project.Scripts.ECS.System
             PlayerIsSpawned?.Invoke();
         }
 
-        private void LaunchPlayerCapsule()
-        {
-            Capsule.transform.position = Vector3.MoveTowards(Capsule.transform.position, Player.transform.position,
-                _capsuleInitData.DefaultMoveSpeed * Time.deltaTime);
-
-            if (Capsule.transform.position == Player.transform.position)
-            {
-                SpawnPlayer();
-                _particleEffectsService.PlayEffect(ParticleEffectType.CapsulePartsExplosion, Player.transform.position);
-                Capsule.Destroy();
-            }
-        }
-
-        private PlayerActor CreatePlayer()
-        {
-            var data = _playerService.GetPlayerDataByType(PlayerActorType.CommonStardiver);
-            PlayerActor playerActor = Object.Instantiate(_playerInitData.Prefab, _playerSpawnPoint, Quaternion.identity);
-
-            MiningToolActor miningToolActor = playerActor.GetComponentInChildren<MiningToolActor>();
-            miningToolActor.Construct(_audioSoundsService, data.DiggingSpeed);
-
-            PlayerTransform = playerActor.transform;
-            
-            InitPlayer(playerActor, data);
-
-            return playerActor;
-        }
-        
         public SmallEnemy CreateSmallAlienEnemy(PlayerActor target)
         {
             var data = _enemyService.GetEnemyDataByType(EnemyActorType.SmallAlien);
@@ -336,6 +313,7 @@ namespace Project.Scripts.ECS.System
                 Quaternion.Euler(_stoneRotation));
             stone.Construct(_experiencePoints, data, _particleEffectsService);
             stone.Health.SetHealthValue(data.Health);
+            stone.transform.SetParent(_rootForObjects);
 
             InitResource(stone);
         }
@@ -349,6 +327,7 @@ namespace Project.Scripts.ECS.System
             alienCocoon.Construct(_experiencePoints, data, _particleEffectsService);
             alienCocoon.GetServices(_currencyService, _textService);
             alienCocoon.Health.SetHealthValue(data.Health);
+            alienCocoon.transform.SetParent(_rootForObjects);
 
             InitResource(alienCocoon);
         }
@@ -359,8 +338,9 @@ namespace Project.Scripts.ECS.System
             
             var healingCore = Object.Instantiate(_healingCoreInitData.HealingCorePrefab, atPosition, Quaternion.identity);
             healingCore.Construct(_experiencePoints, data, _particleEffectsService);
-            healingCore.GetServices(_textService);
+            healingCore.GetServices(_textService, _rootForObjects);
             healingCore.Health.SetHealthValue(data.Health);
+            healingCore.transform.SetParent(_rootForObjects);
             
             InitResource(healingCore);
         }
@@ -371,8 +351,9 @@ namespace Project.Scripts.ECS.System
             
             var goldCore = Object.Instantiate(_goldCoreInitData.GoldCorePrefab, atPosition, Quaternion.identity);
             goldCore.Construct(_experiencePoints, data, _particleEffectsService);
-            goldCore.GetServices(_textService, _currencyService);
+            goldCore.GetServices(_textService, _currencyService, _rootForObjects);
             goldCore.Health.SetHealthValue(data.Health);
+            goldCore.transform.SetParent(_rootForObjects);
             
             InitResource(goldCore);
         }
@@ -381,6 +362,41 @@ namespace Project.Scripts.ECS.System
         {
             var iceCrystal = Object.Instantiate(_iceCrystalInitData.IceCrystalPrefab, atPosition, Quaternion.identity);
             iceCrystal.Construct(_particleEffectsService, _audioSoundsService);
+            iceCrystal.transform.SetParent(_rootForObjects);
+        }
+        
+        private void CreateRootForObjects()
+        {
+            _rootForObjects = new GameObject(RootForObjects).transform;
+            _rootForObjects.position = Vector3.zero;
+        }
+
+        private void LaunchPlayerCapsule()
+        {
+            Capsule.transform.position = Vector3.MoveTowards(Capsule.transform.position, Player.transform.position,
+                _capsuleInitData.DefaultMoveSpeed * Time.deltaTime);
+
+            if (Capsule.transform.position == Player.transform.position)
+            {
+                SpawnPlayer();
+                _particleEffectsService.PlayEffect(ParticleEffectType.CapsulePartsExplosion, Player.transform.position);
+                Capsule.Destroy();
+            }
+        }
+
+        private PlayerActor CreatePlayer()
+        {
+            var data = _playerService.GetPlayerDataByType(PlayerActorType.CommonStardiver);
+            PlayerActor playerActor = Object.Instantiate(_playerInitData.Prefab, _playerSpawnPoint, Quaternion.identity);
+
+            MiningToolActor miningToolActor = playerActor.GetComponentInChildren<MiningToolActor>();
+            miningToolActor.Construct(_audioSoundsService, data.DiggingSpeed);
+
+            PlayerTransform = playerActor.transform;
+            
+            InitPlayer(playerActor, data);
+
+            return playerActor;
         }
 
         private void InitPlayer(PlayerActor playerActor, PlayerData data)

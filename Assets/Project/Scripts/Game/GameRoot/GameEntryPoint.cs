@@ -1,4 +1,5 @@
-﻿using Project.Scripts.Game.Gameplay.Root;
+﻿using System;
+using Project.Scripts.Game.Gameplay.Root;
 using Project.Scripts.Game.MainMenu.Root;
 using Project.Scripts.Services;
 using Project.Scripts.UI.StateMachine.States;
@@ -18,12 +19,16 @@ namespace Project.Scripts.Game.GameRoot
     public class GameEntryPoint : MonoBehaviour
     {
         private const float TargetValue = 1f;
+        private const float MinValue = 0f;
         private const float SpeedLoadingScene = 5f;
         private const float SpeedFinalLoadingScene = 0.5f;
         private const float MinLoadTime = 2.0f;
         private const float ActivationThreshold = 0.9f;
+        
+        private const int DelayOfTransition = 100;
 
         private AsyncOperationHandle<SceneInstance> _sceneHandle;
+        private bool _isLoadingScene;
 
         private UIRootView _uiRoot;
         private OperationService _operationService;
@@ -136,60 +141,78 @@ namespace Project.Scripts.Game.GameRoot
 
         private async UniTask LoadScene(string sceneName)
         {
-            if (_sceneHandle.IsValid())
+            if(_isLoadingScene) return;
+            _isLoadingScene = true;
+
+            try
             {
-                Addressables.Release(_sceneHandle);
-            }
+                var newSceneHandle = Addressables.LoadSceneAsync(
+                    sceneName,
+                    LoadSceneMode.Single,
+                    false
+                );
 
-            _sceneHandle = Addressables.LoadSceneAsync(
-                sceneName,
-                LoadSceneMode.Single,
-                false
-            );
+                await newSceneHandle.Task;
 
-            await _sceneHandle.Task;
-
-            if (sceneName != Scenes.Boot)
-            {
-                float timer = 0f;
-                float fakeProgress = 0f;
-
-                while (fakeProgress < ActivationThreshold)
+                if (sceneName != Scenes.Boot)
                 {
-                    timer += Time.deltaTime;
-
-                    float realProgress = _sceneHandle.PercentComplete;
-
-                    fakeProgress = Mathf.Lerp(fakeProgress, realProgress, Time.deltaTime * SpeedLoadingScene);
-                    fakeProgress = Mathf.Clamp01(Mathf.Max(fakeProgress, timer / MinLoadTime));
-                    fakeProgress = Mathf.Min(fakeProgress, ActivationThreshold);
-
-                    _uiRoot.ShowLoadingProgress(fakeProgress);
-                    await UniTask.Yield(PlayerLoopTiming.Update);
+                    await SimulateLoadingProgress(newSceneHandle);
                 }
 
-                fakeProgress = ActivationThreshold;
+                await UniTask.Yield();
 
-                while (fakeProgress < TargetValue)
+                var activateOp = newSceneHandle.Result.ActivateAsync();
+                await activateOp;
+
+                if (_sceneHandle.IsValid())
                 {
-                    fakeProgress = Mathf.MoveTowards(fakeProgress, TargetValue,
-                        Time.deltaTime * SpeedFinalLoadingScene);
-
-                    _uiRoot.ShowLoadingProgress(fakeProgress);
-                    await UniTask.Yield(PlayerLoopTiming.Update);
+                    await UniTask.Delay(DelayOfTransition);
+                    Addressables.Release(_sceneHandle);
                 }
 
-                _uiRoot.ShowLoadingProgress(TargetValue);
+                _sceneHandle = newSceneHandle;
+
+                Scene loadedScene = SceneManager.GetSceneByName(sceneName);
+                ReflexSceneManager.PreInstallScene(loadedScene,
+                    builder => builder.AddSingleton("Container"));
+            }
+            finally
+            {
+                _isLoadingScene = false;
+            }
+        }
+        
+        private async UniTask SimulateLoadingProgress(AsyncOperationHandle<SceneInstance> sceneHandle)
+        {
+            float timer = MinValue;
+            float fakeProgress = MinValue;
+
+            while (fakeProgress < ActivationThreshold)
+            {
+                timer += Time.deltaTime;
+
+                float realProgress = sceneHandle.PercentComplete;
+
+                fakeProgress = Mathf.Lerp(fakeProgress, realProgress, Time.deltaTime * SpeedLoadingScene);
+                fakeProgress = Mathf.Clamp01(Mathf.Max(fakeProgress, timer / MinLoadTime));
+                fakeProgress = Mathf.Min(fakeProgress, ActivationThreshold);
+
+                _uiRoot.ShowLoadingProgress(fakeProgress);
+                await UniTask.Yield(PlayerLoopTiming.Update);
             }
 
-            await UniTask.Yield();
+            fakeProgress = ActivationThreshold;
 
-            var activateOp = _sceneHandle.Result.ActivateAsync();
-            await activateOp;
+            while (fakeProgress < TargetValue)
+            {
+                fakeProgress = Mathf.MoveTowards(fakeProgress, TargetValue,
+                    Time.deltaTime * SpeedFinalLoadingScene);
 
-            Scene loadedScene = SceneManager.GetSceneByName(sceneName);
-            ReflexSceneManager.PreInstallScene(loadedScene,
-                builder => builder.AddSingleton("Container"));
+                _uiRoot.ShowLoadingProgress(fakeProgress);
+                await UniTask.Yield(PlayerLoopTiming.Update);
+            }
+
+            _uiRoot.ShowLoadingProgress(TargetValue);
         }
     }
 }
