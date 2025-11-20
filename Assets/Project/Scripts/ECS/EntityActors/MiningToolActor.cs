@@ -34,6 +34,7 @@ namespace Project.Scripts.ECS.EntityActors
         private Vector3 _detectionForward;
 
         public bool IsMining { get; private set; }
+        public Transform TargetResource => _resourceRef.transform;
 
         public void Construct(AudioSoundsService audioSoundsService, float diggingSpeed,
             ParticleEffectsService particleEffectsService)

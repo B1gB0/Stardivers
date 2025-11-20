@@ -101,7 +101,7 @@ namespace Project.Scripts.ECS.System
             
             var playerCharacteristics = _playerService.InitPlayerCharacteristics();
             
-            Player.Construct(_particleEffectsService, playerCharacteristics);
+            Player.Construct(_particleEffectsService, _playerService, playerCharacteristics);
             Player.gameObject.SetActive(false);
 
             _level.GetServices(this, _dialoguePanel, _pauseService, _levelInitData, _levelTextService,
