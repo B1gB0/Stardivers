@@ -10,6 +10,7 @@ namespace Project.Scripts.Services
     {
         public PlayerActor PlayerActor { get; }
         public PlayerData GetPlayerDataByType(PlayerActorType type);
+        public bool CheckMoveSystem();
         public List<int> GetPlayerLevels();
         public void GetPlayer(PlayerActor playerActor, EcsEntity playerEntity);
         public void ChangeMoveSpeed(float moveSpeed);

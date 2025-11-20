@@ -86,6 +86,12 @@ namespace Project.Scripts.Services
             movableComponent.MoveSpeed = moveSpeed;
         }
 
+        public bool CheckMoveSystem()
+        {
+            ref var movableComponent = ref _playerEntity.Get<PlayerMovableComponent>();
+            return movableComponent.IsMoving;
+        }
+
         public void AddHealthByFactor(float factorHealth)
         {
             var addingHealth = PlayerActor.Health.MaxHealth * factorHealth; 

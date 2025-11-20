@@ -280,6 +280,22 @@ PrefabInstance:
       propertyPath: _delay
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5550235183740354961, guid: e7965cb5f3b6b49439772edd4131b2b0, type: 3}
+      propertyPath: _miningAngle
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 5550235183740354961, guid: e7965cb5f3b6b49439772edd4131b2b0, type: 3}
+      propertyPath: _miningRange
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5550235183740354961, guid: e7965cb5f3b6b49439772edd4131b2b0, type: 3}
+      propertyPath: _obstacleLayerMask.m_Bits
+      value: 129
+      objectReference: {fileID: 0}
+    - target: {fileID: 5550235183740354961, guid: e7965cb5f3b6b49439772edd4131b2b0, type: 3}
+      propertyPath: _resourceLayerMask.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
     - target: {fileID: 5775893173614726368, guid: e7965cb5f3b6b49439772edd4131b2b0, type: 3}
       propertyPath: m_Layer
       value: 8
@@ -287,6 +303,14 @@ PrefabInstance:
     - target: {fileID: 6913941837235879903, guid: e7965cb5f3b6b49439772edd4131b2b0, type: 3}
       propertyPath: m_Layer
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6915466480692665080, guid: e7965cb5f3b6b49439772edd4131b2b0, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.0027
+      objectReference: {fileID: 0}
+    - target: {fileID: 6915466480692665080, guid: e7965cb5f3b6b49439772edd4131b2b0, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.0713
       objectReference: {fileID: 0}
     - target: {fileID: 7222311027893444193, guid: e7965cb5f3b6b49439772edd4131b2b0, type: 3}
       propertyPath: m_Layer

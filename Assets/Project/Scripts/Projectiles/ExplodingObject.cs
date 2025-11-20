@@ -9,6 +9,9 @@ namespace Project.Scripts.Projectiles
 {
     public abstract class ExplodingObject : Projectile
     {
+        private readonly Collider[] _colliderBuffer = new Collider[32];
+        private readonly List<EnemyActor> _enemyBuffer = new(32); 
+        
         protected float ExplosionRadius;
         
         protected AudioSoundsService AudioSoundsService;
@@ -36,15 +39,32 @@ namespace Project.Scripts.Projectiles
     
         protected List<EnemyActor> GetEnemies()
         {
-            Collider[] hits = Physics.OverlapSphere(Transform.position, ExplosionRadius);
+            _enemyBuffer.Clear();
+            
+            int hitCount = Physics.OverlapSphereNonAlloc(Transform.position, ExplosionRadius, _colliderBuffer);
+            
+            for (int i = 0; i < hitCount; i++)
+            {
+                Collider hit = _colliderBuffer[i];
+                
+                if (hit.attachedRigidbody != null && 
+                    hit.gameObject.TryGetComponent(out EnemyActor enemyActor))
+                {
+                    _enemyBuffer.Add(enemyActor);
+                }
+            }
 
-            List<EnemyActor> enemies = new();
-
-            foreach (Collider hit in hits)
-                if (hit.attachedRigidbody != null && hit.gameObject.TryGetComponent(out EnemyActor enemyActor))
-                    enemies.Add(enemyActor);
-
-            return enemies;
+            return _enemyBuffer;
+            
+            // Collider[] hits = Physics.OverlapSphere(Transform.position, ExplosionRadius);
+            //
+            // List<EnemyActor> enemies = new();
+            //
+            // foreach (Collider hit in hits)
+            //     if (hit.attachedRigidbody != null && hit.gameObject.TryGetComponent(out EnemyActor enemyActor))
+            //         enemies.Add(enemyActor);
+            //
+            // return enemies;
         }
     }
 }

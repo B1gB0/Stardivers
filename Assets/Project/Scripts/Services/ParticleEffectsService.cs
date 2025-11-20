@@ -17,6 +17,7 @@ namespace Project.Scripts.Services
         private const string FragGrenadeExplosionEffectPath = "FragGrenadeExplosionEffect";
         private const string IceCrystalExplosionEffectPath = "IceCrystalExplosionEffect";
         private const string CapsuleExplosionEffectPath = "CapsuleExplosionEffect";
+        private const string MiningToolStoneHitEffectPath = "MiningToolStoneHitEffect";
         
         private const string ParticleEffects = nameof(ParticleEffects);
 
@@ -66,7 +67,8 @@ namespace Project.Scripts.Services
                 .AddScriptableObject(ParticleEffectType.MineExplosion, MineExplosionEffectPath)
                 .AddScriptableObject(ParticleEffectType.FragGrenadeExplosion, FragGrenadeExplosionEffectPath)
                 .AddScriptableObject(ParticleEffectType.IceCrystalExplosion, IceCrystalExplosionEffectPath)
-                .AddScriptableObject(ParticleEffectType.CapsulePartsExplosion, CapsuleExplosionEffectPath);
+                .AddScriptableObject(ParticleEffectType.CapsulePartsExplosion, CapsuleExplosionEffectPath)
+                .AddScriptableObject(ParticleEffectType.MiningToolStoneHitEffect, MiningToolStoneHitEffectPath);
 
             _effectDictionary = await builder.Build();
         }

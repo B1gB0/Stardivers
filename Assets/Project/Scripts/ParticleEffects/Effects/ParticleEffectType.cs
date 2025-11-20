@@ -10,5 +10,6 @@ namespace Project.Scripts.ParticleEffects.Effects
         FragGrenadeExplosion = 5,
         IceCrystalExplosion = 6,
         CapsulePartsExplosion = 7,
+        MiningToolStoneHitEffect = 8,
     }
 }

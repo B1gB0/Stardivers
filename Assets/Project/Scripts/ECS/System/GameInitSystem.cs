@@ -13,6 +13,8 @@ using Project.Scripts.Projectiles.Enemy;
 using Project.Scripts.Services;
 using Project.Scripts.UI.Panel;
 using Project.Scripts.UI.View;
+using Reflex.Core;
+using Reflex.Injectors;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -67,6 +69,8 @@ namespace Project.Scripts.ECS.System
         private readonly GoldCoreInitData _goldCoreInitData;
         private readonly LevelInitData _levelInitData;
         private readonly IceCrystalInitData _iceCrystalInitData;
+        
+        private readonly Container _container;
         
         private Vector3 _playerSpawnPoint;
         private Vector3 _capsuleSpawnPoint;
@@ -390,11 +394,13 @@ namespace Project.Scripts.ECS.System
             PlayerActor playerActor = Object.Instantiate(_playerInitData.Prefab, _playerSpawnPoint, Quaternion.identity);
 
             MiningToolActor miningToolActor = playerActor.GetComponentInChildren<MiningToolActor>();
-            miningToolActor.Construct(_audioSoundsService, data.DiggingSpeed);
+            miningToolActor.Construct(_audioSoundsService, data.DiggingSpeed, _particleEffectsService);
 
             PlayerTransform = playerActor.transform;
             
             InitPlayer(playerActor, data);
+            
+            GameObjectInjector.InjectRecursive(playerActor.gameObject, _container);
 
             return playerActor;
         }

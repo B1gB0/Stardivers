@@ -15,6 +15,8 @@ using Project.Scripts.UI.View;
 using Project.Scripts.Weapon.Player;
 using R3;
 using Reflex.Attributes;
+using Reflex.Core;
+using Reflex.Extensions;
 using UnityEngine;
 using YG;
 
@@ -81,6 +83,8 @@ namespace Project.Scripts.Game.Gameplay.Root
         private AlienCocoonView _alienCocoonView;
         private MissionProgressBar _missionProgressBar;
 
+        private Container _container;
+
 // #if UNITY_EDITOR
         private CheatPanel _cheatPanel;
 // #endif
@@ -115,6 +119,8 @@ namespace Project.Scripts.Game.Gameplay.Root
 
         private void Start()
         {
+            _container = gameObject.scene.GetSceneContainer();
+            
             switch (_operationService.CurrentOperation.Id)
             {
                 case Constant.Operations.Mars:
@@ -161,7 +167,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             
             _uiScene = Instantiate(_sceneUIRootPrefab);
             
-            _viewFactory.GetUIRootAndUIScene(uiRoot, _uiScene);
+            _viewFactory.GetUIRootAndUIScene(uiRoot, _uiScene, _container);
 
             FloatingTextView textView = await _viewFactory.CreateDamageTextView();
             textView.Hide();
@@ -395,6 +401,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             _updateSystems.Inject(_alienTurretEnemyData);
             _updateSystems.Inject(_iceCrystalData);
             _updateSystems.Inject(_particleEffectsService);
+            _updateSystems.Inject(_container);
 
             _updateSystems.Add(_gameInitSystem = new GameInitSystem());
             _updateSystems.Add(new PlayerInputSystem());

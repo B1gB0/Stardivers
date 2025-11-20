@@ -48,6 +48,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1640463644577081020, guid: e520ba918214137409b8ce104cedbf3f, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 2570500017404300848, guid: e520ba918214137409b8ce104cedbf3f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -112,9 +116,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6414812275921624606, guid: e520ba918214137409b8ce104cedbf3f, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6565101502407178397, guid: e520ba918214137409b8ce104cedbf3f, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 7960716651626027584, guid: e520ba918214137409b8ce104cedbf3f, type: 3}
       propertyPath: m_Name
       value: Alien_Cocoon Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 7960716651626027584, guid: e520ba918214137409b8ce104cedbf3f, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8970895660851891939, guid: e520ba918214137409b8ce104cedbf3f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -200,10 +216,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbef326efc61174488772c5468beb681, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _healingColor: {r: 0, g: 0, b: 0, a: 0}
-  _standardColor: {r: 0, g: 0, b: 0, a: 0}
   _value: 0
-  _hitEffectPrefab: {fileID: 19889686, guid: de85f8f81ea29ea479250adb36debd92, type: 3}
   _hitPoint: {fileID: 7345702426859251887}
 --- !u!95 &8119039203545138812
 Animator:

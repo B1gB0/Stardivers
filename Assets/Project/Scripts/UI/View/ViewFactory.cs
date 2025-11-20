@@ -55,12 +55,12 @@ namespace Project.Scripts.UI.View
                 _uiRoot.LocalizationLanguageSwitcher.OnLanguageChanged -= _levelUpPanel.OnLanguageChanged;
         }
 
-        public void GetUIRootAndUIScene(UIRootView uiRoot, UIGameplayRootBinder uiScene)
+        public void GetUIRootAndUIScene(UIRootView uiRoot, UIGameplayRootBinder uiScene, Container container)
         {
             _uiRoot = uiRoot;
             _uiScene = uiScene;
+            _container = container;
             
-            _container = gameObject.scene.GetSceneContainer();
             GameObjectInjector.InjectRecursive(_uiScene.gameObject, _container);
         }
 

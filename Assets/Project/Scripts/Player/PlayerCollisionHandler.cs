@@ -1,6 +1,8 @@
 ﻿using Project.Scripts.Crystals;
 using Project.Scripts.ECS.EntityActors;
 using Project.Scripts.Levels.Triggers;
+using Project.Scripts.Services;
+using Reflex.Attributes;
 using UnityEngine;
 
 namespace Project.Scripts.Player
@@ -8,18 +10,19 @@ namespace Project.Scripts.Player
     [RequireComponent(typeof(PlayerActor))]
     public class PlayerCollisionHandler : MonoBehaviour
     {
-        private PlayerActor _player;
-        
-        private void Start()
+        private IPlayerService _playerService;
+
+        [Inject]
+        private void Construct(IPlayerService playerService)
         {
-            _player = GetComponent<PlayerActor>();
+            _playerService = playerService;
         }
 
         private void OnTriggerEnter(Collider trigger)
         {
             if (trigger.TryGetComponent(out EntranceTrigger entranceTrigger))
             {
-                _player.ChangeFollowEnemyState(false);
+                _playerService.PlayerActor.ChangeFollowEnemyState(false);
                 entranceTrigger.Entrance.OpenGate();
             }
         }
@@ -36,9 +39,10 @@ namespace Project.Scripts.Player
         {
             if (collision.gameObject.TryGetComponent(out RedCrystal healingCrystal))
             {
-                if(_player.Health.TargetHealth == _player.Health.MaxHealth) return;
+                if(_playerService.PlayerActor.Health.TargetHealth == _playerService.PlayerActor.Health.MaxHealth)
+                    return;
             
-                _player.Health.AddHealth(healingCrystal.HealthValue);
+                _playerService.PlayerActor.Health.AddHealth(healingCrystal.HealthValue);
                 healingCrystal.Destroy();
             }
             else if (collision.gameObject.TryGetComponent(out GoldCrystal goldCrystal))
