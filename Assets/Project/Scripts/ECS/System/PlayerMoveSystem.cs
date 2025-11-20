@@ -34,8 +34,6 @@ namespace Project.Scripts.ECS.System
                     rigidbody.rotation = Quaternion.RotateTowards(rigidbody.rotation, toRotation, 
                         movableComponent.RotationSpeed * Time.fixedDeltaTime);
                 }
-                
-                Debug.Log(movableComponent.MoveSpeed + " Скороксть бега");
 
                 movableComponent.IsMoving = playerInputController.MoveDirection.sqrMagnitude > MinMagnitude;
             }
