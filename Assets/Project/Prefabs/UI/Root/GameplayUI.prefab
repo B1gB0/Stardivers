@@ -440,6 +440,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <UIScene>k__BackingField: {fileID: 6790533584527879096}
   <MinesButton>k__BackingField: {fileID: 8418306886228452045}
+  <Joystick>k__BackingField: {fileID: 7770764998351715415}
   <CheatsButton>k__BackingField: {fileID: 2006114692671524896}
   <WeaponPanel>k__BackingField: {fileID: 6353781227923216795}
   <ShowGoldPoint>k__BackingField: {fileID: 4231368823800550617}
@@ -978,7 +979,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6641940642567430317
 RectTransform:
   m_ObjectHideFlags: 0
@@ -997,7 +998,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: -192.77808, y: 331.0664}
-  m_SizeDelta: {x: 143.4478, y: 0}
+  m_SizeDelta: {x: 143.4478, y: 142.02753}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &7770764998351715415
 MonoBehaviour:

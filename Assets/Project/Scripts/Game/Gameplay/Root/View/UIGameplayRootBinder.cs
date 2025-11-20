@@ -4,6 +4,7 @@ using Project.Scripts.Services;
 using Project.Scripts.UI.Panel;
 using Project.Scripts.UI.StateMachine;
 using Project.Scripts.UI.StateMachine.States;
+using Project.Scripts.UI.View;
 using R3;
 using Reflex.Attributes;
 using UnityEngine;
@@ -15,6 +16,7 @@ namespace Project.Scripts.Game.Gameplay.Root.View
     {
         [field: SerializeField] public GameplayElements UIScene { get; private set; }
         [field: SerializeField] public Button MinesButton { get; private set; }
+        [field: SerializeField] public Joystick Joystick { get; private set; }
         
 // #if UNITY_EDITOR
         [field: SerializeField] public Button CheatsButton { get; private set; }
@@ -35,17 +37,14 @@ namespace Project.Scripts.Game.Gameplay.Root.View
 
         private AudioSoundsService _audioSoundsService;
         private IPauseService _pauseService;
-        private ITweenAnimationService _tweenAnimationService;
 
         private Subject<Unit> _exitSceneSignalSubject;
         private UIStateMachine _uiStateMachine;
 
         [Inject]
-        public void Construct(AudioSoundsService audioSoundsService, IPauseService pauseService,
-            ITweenAnimationService tweenAnimationService)
+        public void Construct(AudioSoundsService audioSoundsService, IPauseService pauseService)
         {
             _audioSoundsService = audioSoundsService;
-            _tweenAnimationService = tweenAnimationService;
         }
 
         private void Awake()

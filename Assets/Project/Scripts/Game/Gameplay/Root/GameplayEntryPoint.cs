@@ -219,6 +219,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             _gameInitSystem.PlayerIsSpawned += _uiScene.WeaponPanel.Show;
             _gameInitSystem.PlayerIsSpawned += _progressBar.Show;
             _gameInitSystem.PlayerIsSpawned += _healthBar.Show;
+            _gameInitSystem.PlayerIsSpawned += OnShowJoystick;
 
             _endGamePanel.RebornPlayerButton.onClick.AddListener(_gameInitSystem.CreateCapsule);
             _endGamePanel.RebornPlayerButton.onClick.AddListener(uiRoot.UIRootButtons.Show);
@@ -259,6 +260,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             _gameInitSystem.PlayerIsSpawned -= _uiScene.WeaponPanel.Show;
             _gameInitSystem.PlayerIsSpawned -= _healthBar.Show;
             _gameInitSystem.PlayerIsSpawned -= _progressBar.Show;
+            _gameInitSystem.PlayerIsSpawned -= OnShowJoystick;
             
             _uiRoot.LocalizationLanguageSwitcher.OnLanguageChanged -= _progressBar.ChangeText;
             _uiRoot.LocalizationLanguageSwitcher.OnLanguageChanged -= _levelUpPanel.SetTitle;
@@ -410,6 +412,18 @@ namespace Project.Scripts.Game.Gameplay.Root
             _fixedUpdateSystems.Add(new AttackCheckSystem());
             _fixedUpdateSystems.Add(new PatrolSystem());
             _fixedUpdateSystems.Init();
+        }
+
+        private void OnShowJoystick()
+        {
+            if (YG2.envir.isDesktop)
+            {
+                _uiScene.Joystick.Hide();
+            }
+            else
+            {
+                _uiScene.Joystick.Show();
+            }
         }
     }
 }

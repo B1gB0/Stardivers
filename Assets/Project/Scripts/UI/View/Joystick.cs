@@ -16,15 +16,6 @@ namespace Project.Scripts.UI.View
         private void Construct(ITweenAnimationService tweenAnimationService)
         {
             _tweenAnimationService = tweenAnimationService;
-            
-            if (!Application.isMobilePlatform)
-            {
-                Hide();
-            }
-            else
-            {
-                Show();
-            }
         }
 
         private void OnDestroy()
