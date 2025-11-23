@@ -282,7 +282,7 @@ namespace Project.Scripts.UI.Panel
 
         private async void OnCardViewButtonClicked(Card card, CardView cardView)
         {
-            await _audioSoundsService.PlaySound(SoundsType.CardViewButton);
+            _audioSoundsService.PlaySound(SoundsType.CardViewButton).Forget();
 
             if (_priceRoot.gameObject.activeSelf)
             {

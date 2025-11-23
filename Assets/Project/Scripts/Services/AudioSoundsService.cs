@@ -160,10 +160,13 @@ namespace Project.Scripts.Services
 
         public void StopAllSounds()
         {
-            _capsuleSoundToken?.Cancel();
-            _capsuleSoundToken?.Dispose();
-            _capsuleSoundToken = null;
-            
+            if (_capsuleSoundToken != null)
+            {
+                _capsuleSoundToken?.Cancel();
+                _capsuleSoundToken?.Dispose();
+                _capsuleSoundToken = null;
+            }
+
             foreach (var audioSource in _allAudioSources)
             {
                 if (audioSource.isPlaying)
@@ -216,6 +219,7 @@ namespace Project.Scripts.Services
             finally
             {
                 _capsuleSoundToken?.Dispose();
+                _capsuleSoundToken = null;
             }
         }
 

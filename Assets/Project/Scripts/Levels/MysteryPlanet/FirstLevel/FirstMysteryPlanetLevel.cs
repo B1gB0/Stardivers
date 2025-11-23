@@ -40,6 +40,7 @@ namespace Project.Scripts.Levels.MysteryPlanet.FirstLevel
             PauseService.OnGamePaused += _timer.PauseTimer;
             
             _enemySpawnTriggerWithEffect.EnemySpawned += _timer.Show;
+            _enemySpawnTriggerWithEffect.EnemySpawned += Arrow.Hide;
             _enemySpawnTriggerWithEffect.EnemySpawned += DialogueSetter.OnEnemySpawnTriggerWithEffect;
             
             _timer.IsEndAttack += DialogueSetter.OnEndAttack;
@@ -66,6 +67,7 @@ namespace Project.Scripts.Levels.MysteryPlanet.FirstLevel
             PauseService.OnGamePaused -= _timer.PauseTimer;
             
             _enemySpawnTriggerWithEffect.EnemySpawned -= _timer.Show;
+            _enemySpawnTriggerWithEffect.EnemySpawned -= Arrow.Hide;
             _enemySpawnTriggerWithEffect.EnemySpawned -= DialogueSetter.OnEnemySpawnTriggerWithEffect;
             
             _timer.IsEndAttack -= DialogueSetter.OnEndAttack;
