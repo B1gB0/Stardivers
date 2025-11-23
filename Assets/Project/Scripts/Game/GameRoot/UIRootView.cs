@@ -137,9 +137,9 @@ namespace Project.Scripts.Game.GameRoot
             StopGame();
         }
 
-        private async void ShowUIScene()
+        private void ShowUIScene()
         {
-            await _audioSoundsService.PlaySound(SoundsType.Button);
+            _audioSoundsService.PlaySound(SoundsType.Button).Forget();
             
             var sceneName = SceneManager.GetActiveScene().name;
             
