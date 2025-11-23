@@ -1,4 +1,5 @@
-﻿using Project.Scripts.Audio.Sounds;
+﻿using Cysharp.Threading.Tasks;
+using Project.Scripts.Audio.Sounds;
 using Project.Scripts.Localization;
 using Project.Scripts.Services;
 using Project.Scripts.UI.Panel;
@@ -108,33 +109,37 @@ namespace Project.Scripts.Game.GameRoot
                 return;
 
             _pauseService.PlayGame();
-            _audioSoundsService.PlaySound(SoundsType.Button);
+            _audioSoundsService.PlaySound(SoundsType.Button).Forget();
+            _audioSoundsService.ResumeAllSounds();
         }
 
         private void ShowSettingsPanel()
         {
-            _audioSoundsService.PlaySound(SoundsType.Button);
+            _audioSoundsService.PauseAllSounds();
+            _audioSoundsService.PlaySound(SoundsType.Button).Forget();
             UIStateMachine.EnterIn<SettingsPanelState>();
             StopGame();
         }
 
         private void ShowLeaderboardPanel()
         {
-            _audioSoundsService.PlaySound(SoundsType.Button);
+            _audioSoundsService.PauseAllSounds();
+            _audioSoundsService.PlaySound(SoundsType.Button).Forget();
             UIStateMachine.EnterIn<LeaderboardPanelState>();
             StopGame();
         }
 
         private void ShowExitPanel()
         {
-            _audioSoundsService.PlaySound(SoundsType.Button);
+            _audioSoundsService.PauseAllSounds();
+            _audioSoundsService.PlaySound(SoundsType.Button).Forget();
             UIStateMachine.EnterIn<ExitPanelState>();
             StopGame();
         }
 
-        private void ShowUIScene()
+        private async void ShowUIScene()
         {
-            _audioSoundsService.PlaySound(SoundsType.Button);
+            await _audioSoundsService.PlaySound(SoundsType.Button);
             
             var sceneName = SceneManager.GetActiveScene().name;
             

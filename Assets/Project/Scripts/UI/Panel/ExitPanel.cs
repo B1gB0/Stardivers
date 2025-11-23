@@ -1,5 +1,7 @@
 using System;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using Project.Scripts.Audio.Sounds;
 using Project.Scripts.Services;
 using Project.Scripts.UI.View;
 using Reflex.Attributes;
@@ -15,6 +17,7 @@ namespace Project.Scripts.UI.Panel
 
         private IPauseService _pauseService;
         private ITweenAnimationService _tweenAnimationService;
+        private AudioSoundsService _audioSoundsService;
 
         private bool _isExitToMainMenu;
 
@@ -22,10 +25,12 @@ namespace Project.Scripts.UI.Panel
         public event Action OnBackToSceneButtonPressed;
 
         [Inject]
-        public void Construct(IPauseService pauseService, ITweenAnimationService tweenAnimationService)
+        public void Construct(IPauseService pauseService, ITweenAnimationService tweenAnimationService,
+            AudioSoundsService audioSoundsService)
         {
             _tweenAnimationService = tweenAnimationService;
             _pauseService = pauseService;
+            _audioSoundsService = audioSoundsService;
         }
 
         private void Start()
@@ -58,12 +63,16 @@ namespace Project.Scripts.UI.Panel
 
         private void MoveBackToScene()
         {
+            _audioSoundsService.PlaySound(SoundsType.Button).Forget();
             _isExitToMainMenu = false;
             OnBackToSceneButtonPressed?.Invoke();
         }
 
         private void OnYesButtonClicked()
         {
+            _audioSoundsService.StopAllSounds();
+            _audioSoundsService.PlaySound(SoundsType.Button).Forget();
+            
             _isExitToMainMenu = true;
             _pauseService.PlayGameAndResetAllPauses();
             OnExitToMainMenu?.Invoke();

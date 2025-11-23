@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using Project.Scripts.Audio.Sounds;
 using Project.Scripts.Game.GameRoot;
 using Project.Scripts.Services;
@@ -79,7 +80,7 @@ namespace Project.Scripts.Game.Gameplay.Root.View
 
         public void HandleGoToNextSceneButtonClick()
         {
-            _audioSoundsService.PlaySound(SoundsType.Button);
+            _audioSoundsService.PlaySound(SoundsType.Button).Forget();
             _exitSceneSignalSubject?.OnNext(Unit.Default);
         }
     }

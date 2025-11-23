@@ -1,4 +1,5 @@
 ﻿using System;
+using Cysharp.Threading.Tasks;
 using Leopotam.Ecs;
 using Project.Scripts.Audio.Sounds;
 using Project.Scripts.DataBase.Data;
@@ -120,7 +121,7 @@ namespace Project.Scripts.ECS.System
 
         public void CreateCapsule()
         {
-            _audioSoundsService.PlaySound(SoundsType.CapsuleFlight);
+            _audioSoundsService.PlaySound(SoundsType.CapsuleFlight).Forget();
             
             _capsuleSpawnPoint = Player.transform.position;
             _capsuleSpawnPoint.y += CapsuleHeight;

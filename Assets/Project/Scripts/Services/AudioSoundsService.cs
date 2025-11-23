@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using Project.Scripts.Audio;
 using Project.Scripts.Audio.Sounds;
@@ -40,12 +42,13 @@ namespace Project.Scripts.Services
 
         private AudioSource _musicAudioSource;
         private SoundsType _currentMusicType;
+        private CancellationTokenSource _capsuleSoundToken;
 
         private Dictionary<SoundsType, Sound> _soundDictionary;
         private Queue<AudioSource> _availableAudioSources;
         private List<AudioSource> _allAudioSources;
         private IResourceService _resourceService;
-        
+
         public bool IsInitiated { get; private set; }
 
         [Inject]
@@ -65,27 +68,31 @@ namespace Project.Scripts.Services
             IsInitiated = true;
         }
 
-        public async void PlaySound(SoundsType sound)
+        public async UniTask PlaySound(SoundsType sound)
         {
-            if (!IsInitiated) return;
-
-            if (!_soundDictionary.ContainsKey(sound)) return;
-
-            var config = _soundDictionary[sound];
-
-            if (!_availableAudioSources.Any())
+            try
             {
-                CreateAudioSource();
-            }
+                if (!IsInitiated) return;
 
-            var audioSource = _availableAudioSources.Dequeue();
+                if (!_soundDictionary.ContainsKey(sound)) return;
 
-            if (sound == SoundsType.CapsuleFlight)
-            {
-                await HandleCapsuleSoundSequence(audioSource, config);
+                var config = _soundDictionary[sound];
+
+                if (!_availableAudioSources.Any())
+                {
+                    CreateAudioSource();
+                }
+
+                var audioSource = _availableAudioSources.Dequeue();
+
+                if (sound == SoundsType.CapsuleFlight)
+                {
+                    await HandleCapsuleSoundSequence(audioSource, config);
+                }
+                else
+                    await PlaySoundAsync(audioSource, config);
             }
-            else
-                await PlaySoundAsync(audioSource, config);
+            catch (OperationCanceledException) { }
         }
 
         public void PlayMusic(SoundsType musicType)
@@ -153,6 +160,10 @@ namespace Project.Scripts.Services
 
         public void StopAllSounds()
         {
+            _capsuleSoundToken?.Cancel();
+            _capsuleSoundToken?.Dispose();
+            _capsuleSoundToken = null;
+            
             foreach (var audioSource in _allAudioSources)
             {
                 if (audioSource.isPlaying)
@@ -165,22 +176,61 @@ namespace Project.Scripts.Services
                 }
             }
         }
+        
+        public void PauseAllSounds()
+        {
+            foreach (var audioSource in _allAudioSources)
+            {
+                if (audioSource.isPlaying)
+                {
+                    audioSource.Pause();
+                }
+            }
+        }
+        
+        public void ResumeAllSounds()
+        {
+            foreach (var audioSource in _allAudioSources)
+            {
+                if (audioSource.isPlaying)
+                {
+                    audioSource.Play();
+                }
+            }
+        }
 
         private async UniTask HandleCapsuleSoundSequence(AudioSource audioSource, Sound soundConfig)
         {
-            PlaySoundAsync(audioSource, soundConfig).Forget();
+            _capsuleSoundToken = new CancellationTokenSource();
+
+            try
+            {
+                PlaySoundAsync(audioSource, soundConfig).Forget();
             
-            PlayDelayedSound(SoundsType.CapsuleExplosion, CapsuleExplosionDelay).Forget();
+                PlayDelayedSound(SoundsType.CapsuleExplosion, CapsuleExplosionDelay, _capsuleSoundToken.Token).Forget();
 
-            await UniTask.WaitForSeconds(CapsuleFlightDuration);
+                await UniTask.WaitForSeconds(CapsuleFlightDuration, cancellationToken: _capsuleSoundToken.Token);
 
-            StopSound(audioSource);
+                StopSound(audioSource);
+            }
+            finally
+            {
+                _capsuleSoundToken?.Dispose();
+            }
         }
 
-        private async UniTask PlayDelayedSound(SoundsType soundType, float delay)
+        private async UniTask PlayDelayedSound(SoundsType soundType, float delay,
+            CancellationToken cancellationToken = default)
         {
-            await UniTask.WaitForSeconds(delay);
-            PlaySound(soundType);
+            try
+            {
+                await UniTask.WaitForSeconds(delay, cancellationToken: cancellationToken);
+                if (!cancellationToken.IsCancellationRequested)
+                {
+                    await PlaySound(soundType);
+                }
+            }
+            catch (OperationCanceledException) { }
         }
 
         private IEnumerator CrossFadeMusicCoroutine(SoundsType newMusicType, float fadeDuration)

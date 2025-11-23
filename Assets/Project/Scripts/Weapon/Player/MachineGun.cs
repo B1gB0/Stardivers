@@ -1,4 +1,5 @@
 using System.Collections;
+using Cysharp.Threading.Tasks;
 using Project.Scripts.Audio.Sounds;
 using Project.Scripts.DataBase.Data;
 using Project.Scripts.ECS.EntityActors;
@@ -84,7 +85,7 @@ namespace Project.Scripts.Weapon.Player
         {
             if (_lastBurstTime <= MinValue && _closestEnemy.Health.TargetHealth > MinValue)
             {
-                _audioSoundsService.PlaySound(SoundsType.MachineGun);
+                _audioSoundsService.PlaySound(SoundsType.MachineGun).Forget();
             
                 StartCoroutine(LaunchBullet());
             

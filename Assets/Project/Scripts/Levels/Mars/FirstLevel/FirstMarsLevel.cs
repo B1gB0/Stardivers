@@ -27,6 +27,8 @@ namespace Project.Scripts.Levels.Mars.FirstLevel
         {
             await base.OnStartLevel();
             
+            Arrow.OnLookAtTarget(_enemySpawnTriggerWithEffect.transform);
+            
             _timer = await ViewFactory.CreateTimer();
             _objectiveTextView = await ViewFactory.CreateObjectiveText();
 
@@ -38,9 +40,12 @@ namespace Project.Scripts.Levels.Mars.FirstLevel
             PauseService.OnGamePaused += _timer.PauseTimer;
 
             _enemySpawnTriggerWithEffect.EnemySpawned += _timer.Show;
+            _enemySpawnTriggerWithEffect.EnemySpawned += Arrow.Hide;
             _enemySpawnTriggerWithEffect.EnemySpawned += DialogueSetter.OnEnemySpawnTriggerWithEffect;
             
             _timer.IsEndAttack += DialogueSetter.OnEndAttack;
+            _timer.IsEndAttack += Arrow.Show;
+            _timer.IsEndAttack += ArrowLookAtOutpost;
             _timer.IsEndAttack += _enemySpawnTriggerWithEffect.CompleteSpawn;
             _timer.IsEndAttack += EntranceToNextLvlTrigger.Activate;
             _timer.IsEndAttack += EndLevelTrigger.Activate;
@@ -63,9 +68,12 @@ namespace Project.Scripts.Levels.Mars.FirstLevel
             PauseService.OnGamePaused -= _timer.PauseTimer;
             
             _enemySpawnTriggerWithEffect.EnemySpawned -= _timer.Show;
+            _enemySpawnTriggerWithEffect.EnemySpawned -= Arrow.Hide;
             _enemySpawnTriggerWithEffect.EnemySpawned -= DialogueSetter.OnEnemySpawnTriggerWithEffect;
             
             _timer.IsEndAttack -= DialogueSetter.OnEndAttack;
+            _timer.IsEndAttack -= Arrow.Show;
+            _timer.IsEndAttack -= ArrowLookAtOutpost;
             _timer.IsEndAttack -= _enemySpawnTriggerWithEffect.CompleteSpawn;
             _timer.IsEndAttack -= EntranceToNextLvlTrigger.Activate;
             _timer.IsEndAttack -= EndLevelTrigger.Activate;

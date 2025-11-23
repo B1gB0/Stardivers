@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using Project.Scripts.Audio.Sounds;
 using Project.Scripts.ECS.EntityActors;
 using Project.Scripts.ParticleEffects.Effects;
@@ -27,7 +28,7 @@ namespace Project.Scripts.Projectiles
         protected virtual void Explode()
         {
             ParticleEffectsService.PlayEffect(ParticleEffectType.MineExplosion, Transform.position);
-            AudioSoundsService.PlaySound(SoundsType.Mines);
+            AudioSoundsService.PlaySound(SoundsType.Mines).Forget();
 
             foreach (EnemyActor explosiveObject in GetEnemies())
             {
@@ -55,16 +56,6 @@ namespace Project.Scripts.Projectiles
             }
 
             return _enemyBuffer;
-            
-            // Collider[] hits = Physics.OverlapSphere(Transform.position, ExplosionRadius);
-            //
-            // List<EnemyActor> enemies = new();
-            //
-            // foreach (Collider hit in hits)
-            //     if (hit.attachedRigidbody != null && hit.gameObject.TryGetComponent(out EnemyActor enemyActor))
-            //         enemies.Add(enemyActor);
-            //
-            // return enemies;
         }
     }
 }

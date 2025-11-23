@@ -1,4 +1,5 @@
-﻿using Project.Scripts.Audio.Sounds;
+﻿using Cysharp.Threading.Tasks;
+using Project.Scripts.Audio.Sounds;
 using Project.Scripts.DataBase.Data;
 using Project.Scripts.Projectiles.Mines;
 using Project.Scripts.Services;
@@ -72,7 +73,7 @@ namespace Project.Scripts.Weapon.Player
         {
             if (_lastShotTime <= MinValue)
             {
-                _audioSoundsService.PlaySound(SoundsType.Button);
+                _audioSoundsService.PlaySound(SoundsType.Button).Forget();
                 
                 _mine = _pool.GetFreeElement();
 

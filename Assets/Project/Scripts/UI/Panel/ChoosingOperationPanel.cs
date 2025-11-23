@@ -1,4 +1,5 @@
-﻿using DG.Tweening;
+﻿using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using Project.Scripts.Audio.Sounds;
 using Project.Scripts.Services;
 using Project.Scripts.UI.StateMachine;
@@ -87,13 +88,13 @@ namespace Project.Scripts.UI.Panel
 
         private void HandleBackButtonClick()
         {
-            _audioSoundsService.PlaySound(SoundsType.Button);
+            _audioSoundsService.PlaySound(SoundsType.Button).Forget();
             _uiStateMachine.EnterIn<MainMenuState>();
         }
 
         private void SetNextOperation()
         {
-            _audioSoundsService.PlaySound(SoundsType.Button);
+            _audioSoundsService.PlaySound(SoundsType.Button).Forget();
             
             if (_currentIndex == _operationService.Operations.Count - CountCorrectFactor)
                 _currentIndex = MinValue;
@@ -105,7 +106,7 @@ namespace Project.Scripts.UI.Panel
 
         private void SetPreviousOperation()
         {
-            _audioSoundsService.PlaySound(SoundsType.Button);
+            _audioSoundsService.PlaySound(SoundsType.Button).Forget();
             
             if (_currentIndex == MinValue)
                 _currentIndex = _operationService.Operations.Count - CountCorrectFactor;

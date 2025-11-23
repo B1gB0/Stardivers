@@ -1,4 +1,5 @@
 using System;
+using Cysharp.Threading.Tasks;
 using Project.Scripts.Audio.Sounds;
 using Project.Scripts.Game.GameRoot;
 using Project.Scripts.Services;
@@ -69,13 +70,13 @@ namespace Project.Scripts.Game.MainMenu.Root.View
         private void HandleGoToGameplayButtonClick()
         {
             OnGameplayStarted?.Invoke();
-            _audioSoundsService.PlaySound(SoundsType.Button);
+            _audioSoundsService.PlaySound(SoundsType.Button).Forget();
             _exitSceneSubjectSignal?.OnNext(Unit.Default);
         }
 
         private void HandlePlayButtonClick()
         {
-            _audioSoundsService.PlaySound(SoundsType.Button);
+            _audioSoundsService.PlaySound(SoundsType.Button).Forget();
             _uiStateMachine.EnterIn<ChoosingOperationPanelState>();
         }
     }

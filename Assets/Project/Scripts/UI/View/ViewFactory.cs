@@ -6,7 +6,6 @@ using Project.Scripts.Services;
 using Project.Scripts.UI.Panel;
 using Reflex.Attributes;
 using Reflex.Core;
-using Reflex.Extensions;
 using Reflex.Injectors;
 using UnityEngine;
 
@@ -29,8 +28,10 @@ namespace Project.Scripts.UI.View
         private const string GoldViewPath = "GoldView";
         private const string AlienCocoonViewPath = "AlienCocoonView";
         private const string ObjectiveTextViewPath = "ObjectiveTextView";
+        private const string ArrowPath = "Arrow";
 
         private IResourceService _resourceService;
+
         private UIRootView _uiRoot;
         private UIGameplayRootBinder _uiScene;
         private MissionProgressBar _missionProgressBar;
@@ -62,6 +63,17 @@ namespace Project.Scripts.UI.View
             _container = container;
             
             GameObjectInjector.InjectRecursive(_uiScene.gameObject, _container);
+        }
+        
+        public async UniTask<Arrow> CreateArrow(Transform target)
+        {
+            var arrowTemplate = await _resourceService.Load<GameObject>(ArrowPath);
+            arrowTemplate = Instantiate(arrowTemplate);
+
+            Arrow arrow = arrowTemplate.GetComponent<Arrow>();
+            arrow.Construct(target);
+
+            return arrow;
         }
 
         public async UniTask<HealthBar> CreateHealthBar(Health.Health health)

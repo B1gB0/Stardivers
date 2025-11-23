@@ -1,4 +1,5 @@
-﻿using Project.Scripts.Audio.Sounds;
+﻿using Cysharp.Threading.Tasks;
+using Project.Scripts.Audio.Sounds;
 using Project.Scripts.ECS.EntityActors;
 using Project.Scripts.ParticleEffects.Effects;
 using Project.Scripts.Services;
@@ -52,7 +53,7 @@ namespace Project.Scripts.Projectiles.Mines
         protected override void Explode()
         {
             ParticleEffectsService.PlayEffect(ParticleEffectType.IceCrystalExplosion, Transform.position);
-            AudioSoundsService.PlaySound(SoundsType.IceCrystalExplosion);
+            AudioSoundsService.PlaySound(SoundsType.IceCrystalExplosion).Forget();
 
             foreach (EnemyActor enemy in GetEnemies())
             {

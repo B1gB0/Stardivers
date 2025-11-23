@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Cysharp.Threading.Tasks;
 using Project.Scripts.Audio.Sounds;
 using Project.Scripts.DataBase.Data;
 using Project.Scripts.ECS.EntityActors;
@@ -86,7 +87,7 @@ namespace Project.Scripts.Weapon.Player
             var firstTarget = _detector.GetClosestEnemy();
             if (firstTarget == null || firstTarget.Health.TargetHealth <= 0) return;
 
-            _audioService.PlaySound(SoundsType.ChainLightningGun);
+            _audioService.PlaySound(SoundsType.ChainLightningGun).Forget();
             _currentCharges--;
             _lastShotTime = ChainLightningGunCharacteristics.FireRate;
 

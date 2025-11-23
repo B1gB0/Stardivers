@@ -119,8 +119,6 @@ namespace Project.Scripts.Game.Gameplay.Root
 
         private void Start()
         {
-            _container = gameObject.scene.GetSceneContainer();
-            
             switch (_operationService.CurrentOperation.Id)
             {
                 case Constant.Operations.Mars:
@@ -146,6 +144,8 @@ namespace Project.Scripts.Game.Gameplay.Root
             GameplayEnterParameters enterParameters)
         {
             uiRoot.ExitButton.gameObject.SetActive(true);
+            
+            _container = gameObject.scene.GetSceneContainer();
             
             _uiRoot = uiRoot;
             _pauseService.PlayGame();

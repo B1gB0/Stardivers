@@ -34,6 +34,8 @@ namespace Project.Scripts.Levels.Mars.SecondLevel
         {
             await base.OnStartLevel();
             
+            Arrow.OnLookAtTarget(_enemySpawnTriggerWithEffect.transform);
+            
             _missionProgressBar = await ViewFactory.CreateMissionProgressBar();
             
             _missionProgressBar.SetData();
@@ -43,11 +45,13 @@ namespace Project.Scripts.Levels.Mars.SecondLevel
             WelcomePlanetTextTrigger.IsWelcomeToPlanet += DialogueSetter.OnWelcomePlanet;
             
             _enemySpawnTriggerWithEffect.EnemySpawned += _ballisticRocketTrigger.Activate;
+            _enemySpawnTriggerWithEffect.EnemySpawned += LookArrowAtBallisticRocketTrigger;
             _enemySpawnTriggerWithEffect.EnemySpawned += _entranceLastLvlTrigger.Deactivate;
             _enemySpawnTriggerWithEffect.EnemySpawned += _missionProgressBar.Show;
             _enemySpawnTriggerWithEffect.EnemySpawned += DialogueSetter.OnEnemySpawnTriggerWithEffect;
 
             _ballisticRocket.LaunchCompleted += DialogueSetter.OnEndAttack;
+            _ballisticRocket.LaunchCompleted += ArrowLookAtOutpost;
             _ballisticRocket.LaunchCompleted += _enemySpawnTriggerWithEffect.CompleteSpawn;
             _ballisticRocket.LaunchCompleted += EndLevelTrigger.Activate;
             _ballisticRocket.LaunchCompleted += EntranceToNextLvlTrigger.Activate;
@@ -70,15 +74,22 @@ namespace Project.Scripts.Levels.Mars.SecondLevel
             _ballisticRocket.ProgressChanged -= _missionProgressBar.OnChangedValues;
             
             _enemySpawnTriggerWithEffect.EnemySpawned -= _ballisticRocketTrigger.Activate;
+            _enemySpawnTriggerWithEffect.EnemySpawned -= LookArrowAtBallisticRocketTrigger;
             _enemySpawnTriggerWithEffect.EnemySpawned -= _entranceLastLvlTrigger.Deactivate;
             _enemySpawnTriggerWithEffect.EnemySpawned -= _missionProgressBar.Show;
             _enemySpawnTriggerWithEffect.EnemySpawned -= DialogueSetter.OnEnemySpawnTriggerWithEffect;
 
             _ballisticRocket.LaunchCompleted -= DialogueSetter.OnEndAttack;
+            _ballisticRocket.LaunchCompleted -= ArrowLookAtOutpost;
             _ballisticRocket.LaunchCompleted -= _enemySpawnTriggerWithEffect.CompleteSpawn;
             _ballisticRocket.LaunchCompleted -= EndLevelTrigger.Activate;
             _ballisticRocket.LaunchCompleted -= EntranceToNextLvlTrigger.Activate;
             _ballisticRocket.LaunchCompleted -= _entranceLastLvlTrigger.Activate;
+        }
+
+        private void LookArrowAtBallisticRocketTrigger()
+        {
+            Arrow.OnLookAtTarget(_ballisticRocketTrigger.transform);
         }
     }
 }

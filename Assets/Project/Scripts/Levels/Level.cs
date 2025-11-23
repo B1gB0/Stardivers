@@ -16,19 +16,18 @@ namespace Project.Scripts.Levels
 {
     public abstract class Level : MonoBehaviour
     {
-        private const string LeaderboardName = "BestPlayers";
-
         protected const float MinValue = 0f;
         protected const int FirstWaveEnemy = 0;
         protected const int SecondWaveEnemy = 1;
-
-        protected readonly List<EnemyWave> EnemyWaves = new();
         
-        protected DialogueSetter DialogueSetter;
+        private const string LeaderboardName = "BestPlayers";
+        
+        private readonly List<EnemyWave> EnemyWaves = new();
 
         [field: SerializeField] public bool IsLaunchPlayerCapsule { get; private set; }
         [field: SerializeField] public EndLevelTrigger EndLevelTrigger { get; private set; }
         [field: SerializeField] public EntranceTrigger EntranceToNextLvlTrigger { get; private set; }
+        [field: SerializeField] public Transform ArrowPoint { get; private set; }
         [field: SerializeField] public int QuantityGoldCore { get; private set; }
         [field: SerializeField] public int QuantityHealingCore { get; private set; }
         [field: SerializeField] public int QuantityIceCrystals { get; private set; }
@@ -42,11 +41,13 @@ namespace Project.Scripts.Levels
         [SerializeField] private int _countEnemyWaves;
 
         protected EnemySpawner EnemySpawner;
+        protected DialogueSetter DialogueSetter;
         protected DialoguePanel DialoguePanel;
         protected PauseService PauseService;
         protected ViewFactory ViewFactory;
         protected ICurrencyService CurrencyService;
         protected float LastSpawnTime;
+        protected Arrow Arrow;
 
         private GameInitSystem _gameInitSystem;
         private ResourcesSpawner _resourcesSpawner;
@@ -62,16 +63,15 @@ namespace Project.Scripts.Levels
             YG2.SetLeaderboard(LeaderboardName, YG2.saves.AcumulatedScore);
         }
 
-        public virtual UniTask OnStartLevel()
+        public virtual async UniTask OnStartLevel()
         {
             DialogueSetter = new DialogueSetter(DialoguePanel, _levelTextService);
+            Arrow = await ViewFactory.CreateArrow(ArrowPoint);
             
             EndLevelTrigger.Deactivate();
             EntranceToNextLvlTrigger.Deactivate();
 
             SpawnPlayer();
-
-            return UniTask.CompletedTask;
         }
 
         public void GetServices(
@@ -143,6 +143,11 @@ namespace Project.Scripts.Levels
         protected void SpawnIceCrystals()
         {
             _resourcesSpawner.SpawnIceCrystal(QuantityIceCrystals);
+        }
+        
+        protected void ArrowLookAtOutpost()
+        {
+            Arrow.OnLookAtTarget(EndLevelTrigger.transform);
         }
 
         private void InitEnemyWaves()

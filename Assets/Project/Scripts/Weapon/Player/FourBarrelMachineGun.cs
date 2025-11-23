@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using Project.Scripts.Audio.Sounds;
 using Project.Scripts.DataBase.Data;
 using Project.Scripts.ECS.EntityActors;
@@ -96,7 +97,7 @@ namespace Project.Scripts.Weapon.Player
         {
             if (_lastBurstTime <= MinValue)
             {
-                _audioSoundsService.PlaySound(SoundsType.FourBarrelMachineGun);
+                _audioSoundsService.PlaySound(SoundsType.FourBarrelMachineGun).Forget();
 
                 foreach (Vector3 direction in _directions)
                 {

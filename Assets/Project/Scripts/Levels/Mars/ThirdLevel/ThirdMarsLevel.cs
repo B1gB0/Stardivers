@@ -29,17 +29,21 @@ namespace Project.Scripts.Levels.Mars.ThirdLevel
         {
             await base.OnStartLevel();
 
+            Arrow.OnLookAtTarget(_enemySpawnTriggerWithEffect.transform);
+            
             _objectiveTextView = await ViewFactory.CreateObjectiveText();
 
             WelcomePlanetTextTrigger.IsWelcomeToPlanet += DialogueSetter.OnWelcomePlanet;
             
             _enemySpawnTriggerWithEffect.EnemySpawned += _entranceLastLvlTrigger.Deactivate;
+            _enemySpawnTriggerWithEffect.EnemySpawned += LookAtTransport;
             _enemySpawnTriggerWithEffect.EnemySpawned += DialogueSetter.OnEnemySpawnTriggerWithEffect;
             _enemySpawnTriggerWithEffect.EnemySpawned += _objectiveTextView.Show;
             
             _enemySpawnTriggerWithoutEffect.EnemySpawned += OnCreateBigEnemiesWave;
 
             _truckFinalPointTrigger.IsFinalPointReached += DialogueSetter.OnEndAttack;
+            _truckFinalPointTrigger.IsFinalPointReached += ArrowLookAtOutpost;
             _truckFinalPointTrigger.IsFinalPointReached += EntranceToNextLvlTrigger.Activate;
             _truckFinalPointTrigger.IsFinalPointReached += _entranceLastLvlTrigger.Activate;
             _truckFinalPointTrigger.IsFinalPointReached += EndLevelTrigger.Activate;
@@ -84,18 +88,25 @@ namespace Project.Scripts.Levels.Mars.ThirdLevel
         {
             CreateWaveOfBigEnemies(SecondWaveEnemy);
         }
+
+        private void LookAtTransport()
+        {
+            Arrow.OnLookAtTarget(_truckPlayerTrigger.transform);
+        }
         
         private void OnDestroy()
         {
             WelcomePlanetTextTrigger.IsWelcomeToPlanet -= DialogueSetter.OnWelcomePlanet;
             
             _enemySpawnTriggerWithEffect.EnemySpawned -= _entranceLastLvlTrigger.Deactivate;
+            _enemySpawnTriggerWithEffect.EnemySpawned -= LookAtTransport;
             _enemySpawnTriggerWithEffect.EnemySpawned -= DialogueSetter.OnEnemySpawnTriggerWithEffect;
             _enemySpawnTriggerWithEffect.EnemySpawned -= _objectiveTextView.Show;
             
             _enemySpawnTriggerWithoutEffect.EnemySpawned -= OnCreateBigEnemiesWave;
 
             _truckFinalPointTrigger.IsFinalPointReached -= DialogueSetter.OnEndAttack;
+            _truckFinalPointTrigger.IsFinalPointReached -= ArrowLookAtOutpost;
             _truckFinalPointTrigger.IsFinalPointReached -= EntranceToNextLvlTrigger.Activate;
             _truckFinalPointTrigger.IsFinalPointReached -= _entranceLastLvlTrigger.Activate;
             _truckFinalPointTrigger.IsFinalPointReached -= EndLevelTrigger.Activate;

@@ -28,6 +28,8 @@ namespace Project.Scripts.Levels.MysteryPlanet.FirstLevel
         {
             await base.OnStartLevel();
             
+            Arrow.OnLookAtTarget(_enemySpawnTriggerWithEffect.transform);
+            
             _timer = await ViewFactory.CreateTimer();
             
             WelcomePlanetTextTrigger.IsWelcomeToPlanet += DialogueSetter.OnWelcomePlanet;
@@ -41,6 +43,8 @@ namespace Project.Scripts.Levels.MysteryPlanet.FirstLevel
             _enemySpawnTriggerWithEffect.EnemySpawned += DialogueSetter.OnEnemySpawnTriggerWithEffect;
             
             _timer.IsEndAttack += DialogueSetter.OnEndAttack;
+            _timer.IsEndAttack += Arrow.Show;
+            _timer.IsEndAttack += ArrowLookAtOutpost;
             _timer.IsEndAttack += _enemySpawnTriggerWithEffect.CompleteSpawn;
             _timer.IsEndAttack += EntranceToNextLvlTrigger.Activate;
             _timer.IsEndAttack += EndLevelTrigger.Activate;
@@ -65,6 +69,8 @@ namespace Project.Scripts.Levels.MysteryPlanet.FirstLevel
             _enemySpawnTriggerWithEffect.EnemySpawned -= DialogueSetter.OnEnemySpawnTriggerWithEffect;
             
             _timer.IsEndAttack -= DialogueSetter.OnEndAttack;
+            _timer.IsEndAttack -= Arrow.Show;
+            _timer.IsEndAttack -= ArrowLookAtOutpost;
             _timer.IsEndAttack -= _enemySpawnTriggerWithEffect.CompleteSpawn;
             _timer.IsEndAttack -= EntranceToNextLvlTrigger.Activate;
             _timer.IsEndAttack -= EndLevelTrigger.Activate;
