@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Cysharp.Threading.Tasks;
 using Project.Scripts.Audio.Sounds;
 using Project.Scripts.ECS.EntityActors;
 using Project.Scripts.ParticleEffects.Effects;
@@ -50,7 +51,7 @@ namespace  Project.Scripts.Projectiles.Grenades
         protected override void Explode()
         {
             ParticleEffectsService.PlayEffect(ParticleEffectType.FragGrenadeExplosion, Transform.position);
-            AudioSoundsService.PlaySound(SoundsType.FragGrenades);
+            AudioSoundsService.PlaySound(SoundsType.FragGrenades).Forget();
         
             foreach (EnemyActor explosiveObject in GetEnemies())
             {

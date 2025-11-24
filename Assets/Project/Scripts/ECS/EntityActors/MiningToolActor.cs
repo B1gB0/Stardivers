@@ -1,4 +1,5 @@
-﻿using Project.Scripts.Audio.Sounds;
+﻿using Cysharp.Threading.Tasks;
+using Project.Scripts.Audio.Sounds;
 using Project.Scripts.ParticleEffects.Effects;
 using Project.Scripts.Services;
 using UnityEngine;
@@ -62,7 +63,7 @@ namespace Project.Scripts.ECS.EntityActors
 
                 if (_lastHitTime <= MinValue)
                 {
-                    _audioSoundsService.PlaySound(SoundsType.Stone);
+                    _audioSoundsService.PlaySound(SoundsType.Stone).Forget();
                     _resourceRef.Health.TakeDamage(_damage);
                     _resourceRef.Health.SetHit(true);
 
