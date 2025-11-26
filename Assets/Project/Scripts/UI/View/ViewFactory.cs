@@ -209,13 +209,14 @@ namespace Project.Scripts.UI.View
         }
 
 // #if UNITY_EDITOR
-        public async UniTask<CheatPanel> CreateCheatPanel()
+        public async UniTask<CheatPanel> CreateCheatPanel(ExperiencePoints experiencePoints)
         {
             var cheatPanelTemplate = await _resourceService.Load<GameObject>(CheatPanelPath);
             cheatPanelTemplate = Instantiate(cheatPanelTemplate);
 
             CheatPanel cheatPanel = cheatPanelTemplate.GetComponent<CheatPanel>();
             GameObjectInjector.InjectObject(cheatPanel.gameObject, _container);
+            cheatPanel.GetServices(experiencePoints);
             cheatPanel.transform.SetParent(_uiScene.transform);
             return cheatPanel;
         }

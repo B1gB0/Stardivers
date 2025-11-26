@@ -25,7 +25,7 @@ namespace Project.Scripts.Weapon.Player
         [SerializeField] private Transform[] _shootPoints;
 
         private float _lastBurstTime;
-        private int _maxCountShots;
+        private int _currentCountShots;
         private bool _isReloading;
 
         private Coroutine _coroutine;
@@ -52,6 +52,8 @@ namespace Project.Scripts.Weapon.Player
                 MachineGunCharacteristics = machineGunCharacteristics;
 
             YG2.saves.MachineGunCharacteristics = MachineGunCharacteristics;
+            
+            _currentCountShots = MachineGunCharacteristics.MaxCountShots;
         }
 
         private void Awake()
@@ -60,11 +62,6 @@ namespace Project.Scripts.Weapon.Player
             {
                 AutoExpand = IsAutoExpandPool
             };
-        }
-
-        private void Start()
-        {
-            _maxCountShots = MachineGunCharacteristics.MaxCountShots;
         }
 
         private void FixedUpdate()
@@ -102,18 +99,18 @@ namespace Project.Scripts.Weapon.Player
 
         private void CheckAmmoAndReload()
         {
-            if (_maxCountShots <= MinValue)
+            if (_currentCountShots <= MinValue && !_isReloading)
             {
-                _isReloading = true;
                 StartCoroutine(Reload());
             }
         }
 
         private IEnumerator Reload()
         {
+            _isReloading = true;
             yield return new WaitForSeconds(MachineGunCharacteristics.ReloadTime);
 
-            _maxCountShots = MachineGunCharacteristics.MaxCountShots;
+            _currentCountShots = MachineGunCharacteristics.MaxCountShots;
             _isReloading = false;
         }
 
@@ -123,7 +120,7 @@ namespace Project.Scripts.Weapon.Player
             {
                 _bullet = _poolBullets.GetFreeElement();
 
-                _maxCountShots--;
+                _currentCountShots--;
             
                 _bullet.transform.position = shootPoint.position;
 

@@ -17,13 +17,14 @@ namespace Project.Scripts.Weapon.Player
         private const string ObjectPoolBulletName = "PoolGunBullets";
         private const bool IsAutoExpandPool = true;
         private const float MinValue = 0f;
+        private const int MinCountShots = 0;
 
         [SerializeField] private GunBullet _bulletPrefab;
         [SerializeField] private int _countBullets;
         [SerializeField] private Transform _shootPoint;
 
         private float _lastShotTime;
-        private int _maxCountShots;
+        private int _currentCountShots;
         private bool _isReloading;
     
         private GunBullet _bullet;
@@ -48,6 +49,8 @@ namespace Project.Scripts.Weapon.Player
                 GunCharacteristics = gunCharacteristics;
             
             YG2.saves.GunCharacteristics = GunCharacteristics;
+            
+            _currentCountShots = GunCharacteristics.MaxCountShots;
         }
 
         private void Awake()
@@ -65,18 +68,21 @@ namespace Project.Scripts.Weapon.Player
 
             if (_closestEnemy == null) return;
 
-            if (_detector.ClosestEnemyDistance <= GunCharacteristics.RangeAttack && !_isReloading)
+            if (_detector.ClosestEnemyDistance <= GunCharacteristics.RangeAttack && _currentCountShots > MinCountShots)
             {
                 Shoot();
             }
         
             CheckAmmoAndReload();
+            
+            _lastShotTime -= Time.fixedDeltaTime;
         }
     
         public override void Shoot()
         {
             if (_lastShotTime <= MinValue && _closestEnemy.Health.TargetHealth > MinValue)
             {
+                _currentCountShots--;
                 _bullet = _poolBullets.GetFreeElement();
             
                 _audioSoundsService.PlaySound(SoundsType.Gun).Forget();
@@ -88,8 +94,6 @@ namespace Project.Scripts.Weapon.Player
 
                 _lastShotTime = GunCharacteristics.FireRate;
             }
-
-            _lastShotTime -= Time.fixedDeltaTime;
         }
 
         public override void AcceptWeaponImprovement(IWeaponVisitor weaponVisitor, CharacteristicType type, float value)
@@ -99,19 +103,19 @@ namespace Project.Scripts.Weapon.Player
     
         private void CheckAmmoAndReload()
         {
-            if (_maxCountShots <= MinValue && _isReloading)
+            if (_currentCountShots <= MinValue)
             {
-                _isReloading = false;
                 StartCoroutine(Reload());
             }
         }
 
         private IEnumerator Reload()
         {
+            _isReloading = true;
             yield return new WaitForSeconds(GunCharacteristics.ReloadTime);
 
-            _maxCountShots = GunCharacteristics.MaxCountShots;
-            _isReloading = true;
+            _currentCountShots = GunCharacteristics.MaxCountShots;
+            _isReloading = false;
         }
     }
 }

@@ -184,7 +184,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             _endGamePanel.GetExperiencePoints(_experiencePoints);
 
 // #if UNITY_EDITOR
-            _cheatPanel = await _viewFactory.CreateCheatPanel();
+            _cheatPanel = await _viewFactory.CreateCheatPanel(_experiencePoints);
 // #endif
             
             InitEcs();

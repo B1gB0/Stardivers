@@ -19,10 +19,11 @@ namespace Project.Scripts.Weapon.Player
         private const bool IsAutoExpandPool = true;
 
         private const int MinValue = 0;
+        private const int CountBullets = 4;
+        
         private const float DelayBetweenShots = 0.1f;
         private const float MinRandomRangePosition = -0.2f;
         private const float MaxRandomRangePosition = 0.2f;
-        private const int CountBullets = 4;
 
         private readonly List<Vector3> _directions = new();
 
@@ -31,7 +32,7 @@ namespace Project.Scripts.Weapon.Player
         [SerializeField] private Transform _shootPoint;
 
         private float _lastBurstTime;
-        private int _maxCountShots;
+        private int _currentCountShots;
         private bool _isReloading;
 
         private Coroutine _coroutine;
@@ -60,6 +61,8 @@ namespace Project.Scripts.Weapon.Player
                 FourBarrelMachineGunCharacteristics = fourBarrelMachineGunCharacteristics;
 
             YG2.saves.FourBarrelMachineGunCharacteristics = FourBarrelMachineGunCharacteristics;
+            
+            _currentCountShots = FourBarrelMachineGunCharacteristics.MaxCountShots;
         }
 
         private void Awake()
@@ -72,11 +75,6 @@ namespace Project.Scripts.Weapon.Player
             _directions.Add(transform.right);
             _directions.Add(-transform.forward);
             _directions.Add(-transform.right);
-        }
-
-        private void Start()
-        {
-            _maxCountShots = FourBarrelMachineGunCharacteristics.MaxCountShots;
         }
 
         private void FixedUpdate()
@@ -117,28 +115,28 @@ namespace Project.Scripts.Weapon.Player
 
         private void CheckAmmoAndReload()
         {
-            if (_maxCountShots <= MinValue)
+            if (_currentCountShots <= MinValue && !_isReloading)
             {
-                _isReloading = true;
                 StartCoroutine(Reload());
             }
         }
 
         private IEnumerator Reload()
         {
+            _isReloading = true;
             yield return new WaitForSeconds(FourBarrelMachineGunCharacteristics.ReloadTime);
 
-            _maxCountShots = FourBarrelMachineGunCharacteristics.MaxCountShots;
+            _currentCountShots = FourBarrelMachineGunCharacteristics.MaxCountShots;
             _isReloading = false;
         }
 
         private IEnumerator LaunchBullet(Vector3 direction)
         {
-            for (int i = 0; i < CountBullets; i++)
+            for (int i = MinValue; i < CountBullets; i++)
             {
                 _bullet = _poolBullets.GetFreeElement();
 
-                _maxCountShots--;
+                _currentCountShots--;
 
                 _bullet.transform.position = _shootPoint.position + Vector3.one
                     * Random.Range(MinRandomRangePosition, MaxRandomRangePosition);

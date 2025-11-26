@@ -1,4 +1,5 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using System.Collections;
+using Cysharp.Threading.Tasks;
 using Project.Scripts.Audio.Sounds;
 using Project.Scripts.DataBase.Data;
 using Project.Scripts.Projectiles.Mines;
@@ -26,6 +27,8 @@ namespace Project.Scripts.Weapon.Player
         private ParticleEffectsService _particleEffectsService;
         
         private float _lastShotTime;
+        private int _currentCountShots;
+        private bool _isReloading;
 
         public MineCharacteristics MineCharacteristics { get; private set; } = new ();
 
@@ -44,6 +47,8 @@ namespace Project.Scripts.Weapon.Player
                 MineCharacteristics = mineCharacteristics;
 
             YG2.saves.MinesCharacteristics = MineCharacteristics;
+            
+            _currentCountShots = MineCharacteristics.MaxCountShots;
         }
 
         private void Awake()
@@ -61,6 +66,11 @@ namespace Project.Scripts.Weapon.Player
 
         private void FixedUpdate()
         {
+            Debug.Log(_currentCountShots);
+            Debug.Log(_isReloading);
+
+            CheckAmmoAndReload();
+            
             _lastShotTime -= Time.fixedDeltaTime;
         }
 
@@ -71,11 +81,12 @@ namespace Project.Scripts.Weapon.Player
 
         public override void Shoot()
         {
-            if (_lastShotTime <= MinValue)
+            if (_lastShotTime <= MinValue && _currentCountShots > MinValue && !_isReloading)
             {
                 _audioSoundsService.PlaySound(SoundsType.Button).Forget();
                 
                 _mine = _pool.GetFreeElement();
+                _currentCountShots--;
 
                 _mine.GetExplosionEffects(_particleEffectsService, _audioSoundsService);
                 
@@ -89,6 +100,23 @@ namespace Project.Scripts.Weapon.Player
         public override void AcceptWeaponImprovement(IWeaponVisitor weaponVisitor, CharacteristicType type, float value)
         {
             weaponVisitor.Visit(this, type, value);
+        }
+        
+        private void CheckAmmoAndReload()
+        {
+            if (_currentCountShots <= MinValue && !_isReloading)
+            {
+                StartCoroutine(Reload());
+            }
+        }
+
+        private IEnumerator Reload()
+        {
+            _isReloading = true;
+            yield return new WaitForSeconds(MineCharacteristics.ReloadTime);
+
+            _currentCountShots = MineCharacteristics.MaxCountShots;
+            _isReloading = false;
         }
     }
 }

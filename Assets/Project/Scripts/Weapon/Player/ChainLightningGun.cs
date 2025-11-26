@@ -18,6 +18,9 @@ namespace Project.Scripts.Weapon.Player
     {
         private const bool IsAutoExpandPool = true;
         private const string PoolName = "ChainLightningPool";
+        private const float MinValue = 0f;
+        private const int FirstElement = 0;
+        private const int FirstTargetIndex = 1;
 
         [SerializeField] private Transform _shootPoint;
         [SerializeField] private LightningLineRendererProjectile lightningLineRendererPrefab;
@@ -67,14 +70,14 @@ namespace Project.Scripts.Weapon.Player
         {
             _lastShotTime -= Time.deltaTime;
 
-            if (_currentCharges <= 0)
+            if (_currentCharges <= MinValue)
             {
                 StartCoroutine(Reload());
                 return;
             }
 
             if (_detector.GetClosestEnemy() != null && _detector.ClosestEnemyDistance
-                <= ChainLightningGunCharacteristics.RangeAttack && _lastShotTime <= 0)
+                <= ChainLightningGunCharacteristics.RangeAttack && _lastShotTime <= MinValue)
             {
                 Shoot();
             }
@@ -82,10 +85,10 @@ namespace Project.Scripts.Weapon.Player
 
         public override void Shoot()
         {
-            if (_isShooting || _currentCharges <= 0) return;
+            if (_isShooting || _currentCharges <= MinValue) return;
 
             var firstTarget = _detector.GetClosestEnemy();
-            if (firstTarget == null || firstTarget.Health.TargetHealth <= 0) return;
+            if (firstTarget == null || firstTarget.Health.TargetHealth <= MinValue) return;
 
             _audioService.PlaySound(SoundsType.ChainLightningGun).Forget();
             _currentCharges--;
@@ -105,12 +108,12 @@ namespace Project.Scripts.Weapon.Player
             var hitEnemies = new List<EnemyActor> { firstTarget };
             var currentTarget = firstTarget;
 
-            for (int i = 1; i < ChainLightningGunCharacteristics.MaxEnemiesInChain; i++)
+            for (int i = FirstTargetIndex; i < ChainLightningGunCharacteristics.MaxEnemiesInChain; i++)
             {
                 yield return new WaitForSeconds(_chainDelay);
 
                 var nextEnemy = FindNextEnemy(currentTarget, hitEnemies);
-                if (nextEnemy == null || nextEnemy.Health.TargetHealth <= 0) break;
+                if (nextEnemy == null || nextEnemy.Health.TargetHealth <= MinValue) break;
 
                 CreateLightning(currentTarget.transform, nextEnemy.transform);
                 nextEnemy.Health.TakeDamage(ChainLightningGunCharacteristics.Damage);
@@ -133,7 +136,7 @@ namespace Project.Scripts.Weapon.Player
                 .OrderBy(enemy => Vector3.Distance(lastEnemy.transform.position, enemy.transform.position))
                 .ToList();
 
-            return enemiesInRange.Count > 0 ? enemiesInRange[0] : null;
+            return enemiesInRange.Count > MinValue ? enemiesInRange[FirstElement] : null;
         }
 
         private void CreateLightning(Transform start, Transform end)

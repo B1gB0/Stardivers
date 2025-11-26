@@ -10,6 +10,7 @@ namespace Project.Scripts.Weapon.CharacteristicsOfWeapon
             damage = data.Damage;
             explosionRadius = data.ExplosionRadius;
             maxCountShots = data.MaxCountShots;
+            reloadTime = data.ReloadTime;
         }
 
         public override void ApplyImprovement(CharacteristicType type ,float factor)

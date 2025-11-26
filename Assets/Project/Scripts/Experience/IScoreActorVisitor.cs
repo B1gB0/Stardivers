@@ -1,4 +1,5 @@
 using Project.Scripts.ECS.EntityActors;
+using Project.Scripts.UI.Panel;
 using Project.Scripts.Weapon.Enemy;
 
 namespace Project.Scripts.Experience
@@ -13,5 +14,6 @@ namespace Project.Scripts.Experience
         public void Visit(HealingCore healingCore);
         public void Visit(GoldCore goldCore);
         public void Visit(AlienCocoon alienCocoon);
+        public void Visit(CheatPanel cheatPanel);
     }
 }

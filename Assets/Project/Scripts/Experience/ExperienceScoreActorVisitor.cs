@@ -1,4 +1,5 @@
 using Project.Scripts.ECS.EntityActors;
+using Project.Scripts.UI.Panel;
 using YG;
 
 namespace Project.Scripts.Experience
@@ -80,5 +81,12 @@ namespace Project.Scripts.Experience
             AccumulatedScore += alienCocoon.Data.Score;
             YG2.saves.AcumulatedScore += alienCocoon.Data.Score;
         }
+
+// #if UNITY_EDITOR
+        public void Visit(CheatPanel cheatPanel)
+        {
+            AccumulatedExperience += cheatPanel.ExpValue;
+        }
+// #endif
     }
 }
