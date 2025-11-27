@@ -24,6 +24,9 @@ namespace Project.Scripts.Game.Gameplay.Root
 {
     public class GameplayEntryPoint : MonoBehaviour
     {
+        private const int MinCountValue = 0;
+        private const int NextOperationStep = 1;
+        
         private readonly WeaponHolder _weaponHolder = new();
 
         [SerializeField] private DataFactory _dataFactory;
@@ -321,10 +324,10 @@ namespace Project.Scripts.Game.Gameplay.Root
             if (YG2.saves.ChainLightningGunCharacteristics != null)
                 await _weaponFactory.CreateWeapon(WeaponType.ChainLightningGun);
 
-            if (_weaponHolder.Weapons.Count == 0)
+            if (_weaponHolder.Weapons.Count == MinCountValue)
             {
-                await _weaponFactory.CreateWeapon(WeaponType.Gun);
-                _levelUpService.UpdateImprovementCardsByTypeWeapon(WeaponType.Gun);
+                await _weaponFactory.CreateWeapon(WeaponType.ChainLightningGun);
+                _levelUpService.UpdateImprovementCardsByTypeWeapon(WeaponType.ChainLightningGun);
             }
         }
 
@@ -340,7 +343,7 @@ namespace Project.Scripts.Game.Gameplay.Root
         {
             _uiRoot.UIRootButtons.Show();
             
-            int nextNumberLevel = _operationService.CurrentNumberLevel + 1;
+            int nextNumberLevel = _operationService.CurrentNumberLevel + NextOperationStep;
 
             var sceneName = _operationService.GetSceneNameByNumber(nextNumberLevel);
 

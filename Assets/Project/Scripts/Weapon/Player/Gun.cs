@@ -64,9 +64,6 @@ namespace Project.Scripts.Weapon.Player
 
         private void FixedUpdate()
         {
-            Debug.Log(_currentCountShots);
-            Debug.Log(_isReloading);
-            
             _closestEnemy = _detector.GetClosestEnemy();
 
             if (_closestEnemy == null) return;
