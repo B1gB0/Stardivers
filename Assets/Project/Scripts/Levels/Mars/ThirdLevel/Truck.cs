@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Project.Scripts.Levels.Triggers;
 using UnityEngine;
@@ -24,10 +25,14 @@ namespace Project.Scripts.Levels.Mars.ThirdLevel
         private float _heightAboveGroundLevel;
         private bool _isFinalPointReached;
 
+        public event Action<float, float> ProgressChanged;
+
         private void Start()
         {
             _truckPlayerTrigger = GetComponentInChildren<TruckPlayerTrigger>();
             _heightAboveGroundLevel = transform.position.y;
+            
+            ProgressChanged?.Invoke(_currentIndexPoint, _followPoints.Length);
         }
 
         private void FixedUpdate()
@@ -105,6 +110,8 @@ namespace Project.Scripts.Levels.Mars.ThirdLevel
             {
                 _currentIndexPoint = nextIndex;
             }
+            
+            ProgressChanged?.Invoke(_currentIndexPoint, _followPoints.Length);
         }
     }
 }

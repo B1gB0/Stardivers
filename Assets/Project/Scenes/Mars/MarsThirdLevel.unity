@@ -16888,6 +16888,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8862289e261148399b70d4dfeb88684d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8736093322130028395 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1821529192887210589, guid: faf3682de22cc1f42b2308d6ea8561ca, type: 3}
+  m_PrefabInstance: {fileID: 8736093322130028393}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23155f83d6954072bcb55ce0c07ea1c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &8978813844444957625
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17536,6 +17547,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: 57.07
       objectReference: {fileID: 0}
+    - target: {fileID: 8983939027841685446, guid: 8e4904903dc9c9144b2c54509fd92f5b, type: 3}
+      propertyPath: _truck
+      value: 
+      objectReference: {fileID: 8736093322130028395}
     - target: {fileID: 8983939027841685446, guid: 8e4904903dc9c9144b2c54509fd92f5b, type: 3}
       propertyPath: CountBigEnemy
       value: 1

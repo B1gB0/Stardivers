@@ -56,7 +56,8 @@ namespace Project.Scripts.Weapon.Player
 
         private void OnDestroy()
         {
-            _playerService.PlayerActor.PlayerInputController.OnWeaponButtonPressed -= _mines.Shoot;
+            if(_mines != null)
+                _playerService.PlayerActor.PlayerInputController.OnWeaponButtonPressed -= _mines.Shoot;
         }
 
         public async UniTask<PlayerWeapon> CreateWeapon(WeaponType weaponType)

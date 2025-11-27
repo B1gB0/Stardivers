@@ -12,8 +12,9 @@ namespace Project.Scripts.Levels.Mars.ThirdLevel
         [SerializeField] private EntranceTrigger _entranceLastLvlTrigger;
         [SerializeField] private TruckPlayerTrigger _truckPlayerTrigger;
         [SerializeField] private TruckFinalPointTrigger _truckFinalPointTrigger;
-
-        private ObjectiveTextView _objectiveTextView;
+        [SerializeField] private Truck _truck;
+        
+        private MissionProgressBar _missionProgressBar;
 
         private void OnEnable()
         {
@@ -31,14 +32,17 @@ namespace Project.Scripts.Levels.Mars.ThirdLevel
 
             Arrow.OnLookAtTarget(_enemySpawnTriggerWithEffect.transform);
             
-            _objectiveTextView = await ViewFactory.CreateObjectiveText();
+            _missionProgressBar = await ViewFactory.CreateMissionProgressBar();
+            _missionProgressBar.SetData();
 
             WelcomePlanetTextTrigger.IsWelcomeToPlanet += DialogueSetter.OnWelcomePlanet;
             
+            _truck.ProgressChanged += _missionProgressBar.OnChangeValuesSmoothly;
+
             _enemySpawnTriggerWithEffect.EnemySpawned += _entranceLastLvlTrigger.Deactivate;
             _enemySpawnTriggerWithEffect.EnemySpawned += LookAtTransport;
             _enemySpawnTriggerWithEffect.EnemySpawned += DialogueSetter.OnEnemySpawnTriggerWithEffect;
-            _enemySpawnTriggerWithEffect.EnemySpawned += _objectiveTextView.Show;
+            _enemySpawnTriggerWithEffect.EnemySpawned += _missionProgressBar.Show;
             
             _enemySpawnTriggerWithoutEffect.EnemySpawned += OnCreateBigEnemiesWave;
 
@@ -48,7 +52,7 @@ namespace Project.Scripts.Levels.Mars.ThirdLevel
             _truckFinalPointTrigger.IsFinalPointReached += _entranceLastLvlTrigger.Activate;
             _truckFinalPointTrigger.IsFinalPointReached += EndLevelTrigger.Activate;
             _truckFinalPointTrigger.IsFinalPointReached += _truckPlayerTrigger.Deactivate;
-            _truckFinalPointTrigger.IsFinalPointReached += _objectiveTextView.Hide;
+            _truckFinalPointTrigger.IsFinalPointReached += _missionProgressBar.Hide;
         }
 
         private void FixedUpdate()
@@ -98,10 +102,12 @@ namespace Project.Scripts.Levels.Mars.ThirdLevel
         {
             WelcomePlanetTextTrigger.IsWelcomeToPlanet -= DialogueSetter.OnWelcomePlanet;
             
+            _truck.ProgressChanged -= _missionProgressBar.OnChangeValuesSmoothly;
+            
             _enemySpawnTriggerWithEffect.EnemySpawned -= _entranceLastLvlTrigger.Deactivate;
             _enemySpawnTriggerWithEffect.EnemySpawned -= LookAtTransport;
             _enemySpawnTriggerWithEffect.EnemySpawned -= DialogueSetter.OnEnemySpawnTriggerWithEffect;
-            _enemySpawnTriggerWithEffect.EnemySpawned -= _objectiveTextView.Show;
+            _enemySpawnTriggerWithEffect.EnemySpawned -= _missionProgressBar.Show;
             
             _enemySpawnTriggerWithoutEffect.EnemySpawned -= OnCreateBigEnemiesWave;
 
@@ -111,7 +117,7 @@ namespace Project.Scripts.Levels.Mars.ThirdLevel
             _truckFinalPointTrigger.IsFinalPointReached -= _entranceLastLvlTrigger.Activate;
             _truckFinalPointTrigger.IsFinalPointReached -= EndLevelTrigger.Activate;
             _truckFinalPointTrigger.IsFinalPointReached -= _truckPlayerTrigger.Deactivate;
-            _truckFinalPointTrigger.IsFinalPointReached -= _objectiveTextView.Hide;
+            _truckFinalPointTrigger.IsFinalPointReached -= _missionProgressBar.Hide;
         }
     }
 }
