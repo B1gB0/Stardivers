@@ -1,4 +1,6 @@
+using System;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using Project.Scripts.Audio.Sounds;
 using Project.Scripts.Game.GameRoot;
 using Project.Scripts.Services;
@@ -25,6 +27,8 @@ namespace Project.Scripts.Game.Gameplay.Root.View
         
         [field: SerializeField] public WeaponPanel WeaponPanel { get; private set; }
 
+        [field: SerializeField] public Transform ShowMinesButtonPoint { get; private set; }
+        [field: SerializeField] public Transform HideMinesButtonPoint { get; private set; }
         [field: SerializeField] public Transform ShowGoldPoint { get; private set; }
         [field: SerializeField] public Transform HideGoldPoint { get; private set; }
         [field: SerializeField] public Transform ShowAlienCocoonPoint { get; private set; }
@@ -38,14 +42,17 @@ namespace Project.Scripts.Game.Gameplay.Root.View
 
         private AudioSoundsService _audioSoundsService;
         private IPauseService _pauseService;
+        private ITweenAnimationService _tweenAnimationService;
 
         private Subject<Unit> _exitSceneSignalSubject;
         private UIStateMachine _uiStateMachine;
 
         [Inject]
-        public void Construct(AudioSoundsService audioSoundsService, IPauseService pauseService)
+        public void Construct(AudioSoundsService audioSoundsService, IPauseService pauseService,
+            ITweenAnimationService tweenAnimationService)
         {
             _audioSoundsService = audioSoundsService;
+            _tweenAnimationService = tweenAnimationService;
         }
 
         private void Awake()
@@ -71,17 +78,24 @@ namespace Project.Scripts.Game.Gameplay.Root.View
         public void ShowMinesButton()
         {
             MinesButton.gameObject.SetActive(true);
+            _tweenAnimationService.AnimateMove(MinesButton.transform, ShowMinesButtonPoint, HideMinesButtonPoint);
         }
 
         public void HideMinesButton()
         {
-            MinesButton.gameObject.SetActive(false);
+            _tweenAnimationService.AnimateMove(MinesButton.transform, ShowMinesButtonPoint, HideMinesButtonPoint,
+                true);
         }
 
         public void HandleGoToNextSceneButtonClick()
         {
             _audioSoundsService.PlaySound(SoundsType.Button).Forget();
             _exitSceneSignalSubject?.OnNext(Unit.Default);
+        }
+
+        private void OnDestroy()
+        {
+            MinesButton.transform.DOKill();
         }
     }
 }

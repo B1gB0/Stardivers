@@ -426,7 +426,7 @@ namespace Project.Scripts.Game.Gameplay.Root
 
         private void OnShowJoystick()
         {
-            if (!YG2.envir.isDesktop)
+            if (YG2.envir.isDesktop)
             {
                 _uiScene.Joystick.Hide();
             }

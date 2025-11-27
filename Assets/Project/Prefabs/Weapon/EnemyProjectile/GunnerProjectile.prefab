@@ -349,6 +349,10 @@ PrefabInstance:
       value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8294600, guid: ab277be0b43f1824090ab10e4ce64cef, type: 3}
+      propertyPath: m_Volume
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8294600, guid: ab277be0b43f1824090ab10e4ce64cef, type: 3}
       propertyPath: OutputAudioMixerGroup
       value: 
       objectReference: {fileID: 8586873106109324532, guid: d14ca4454d28f7d4f9eff145534bb2db, type: 2}
@@ -509,6 +513,10 @@ PrefabInstance:
     - target: {fileID: 480566, guid: e7208592fcd84db46be48b5bce0525a5, type: 3}
       propertyPath: m_LocalPosition.z
       value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8270642, guid: e7208592fcd84db46be48b5bce0525a5, type: 3}
+      propertyPath: m_Volume
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 8270642, guid: e7208592fcd84db46be48b5bce0525a5, type: 3}
       propertyPath: OutputAudioMixerGroup
