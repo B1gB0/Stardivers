@@ -1,6 +1,7 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
 using Project.Scripts.Services;
+using Project.Scripts.UI.Panel;
 using Reflex.Attributes;
 using UnityEngine;
 using UnityEngine.UI;
@@ -26,6 +27,7 @@ namespace Project.Scripts.Weapon.Player
 
         private EnemyDetectorForPlayer _enemyDetector;
         private WeaponHolder _weaponHolder;
+        private WeaponPanel _weaponPanel;
         private Button _minesButton;
         private Transform _player;
 
@@ -72,9 +74,10 @@ namespace Project.Scripts.Weapon.Player
             }
         }
 
-        public void GetData(Transform player, WeaponHolder weaponHolder)
+        public void GetData(Transform player, WeaponHolder weaponHolder, WeaponPanel weaponPanel)
         {
             _weaponHolder = weaponHolder;
+            _weaponPanel = weaponPanel;
             _player = player;
         }
 
@@ -102,7 +105,7 @@ namespace Project.Scripts.Weapon.Player
             var gunCharacteristics = YG2.saves.GunCharacteristics;
             var gunCharacteristicsData = _characteristicsWeaponDataService.GetWeaponDataByType(WeaponType.Gun);
 
-            gun.Construct(_enemyDetector, _audioSoundsService, gunCharacteristicsData, gunCharacteristics);
+            gun.Construct(_enemyDetector, _audioSoundsService, gunCharacteristicsData, gunCharacteristics, _weaponPanel);
             _weaponHolder.AddWeapon(gun);
 
             return gun;
@@ -121,7 +124,7 @@ namespace Project.Scripts.Weapon.Player
                 _characteristicsWeaponDataService.GetWeaponDataByType(WeaponType.FourBarrelMachineGun);
 
             fourBarrelMachineGun.Construct(_audioSoundsService, _enemyDetector, fourBarrelMachineGunData,
-                fourBarrelMachineGunCharacteristics);
+                fourBarrelMachineGunCharacteristics, _weaponPanel);
             _weaponHolder.AddWeapon(fourBarrelMachineGun);
 
             return fourBarrelMachineGun;
@@ -141,7 +144,7 @@ namespace Project.Scripts.Weapon.Player
 
             mines.transform.position = position;
             mines.Construct(_minesButton, _audioSoundsService, minesData, minesCharacteristics,
-                _particleEffectsService);
+                _particleEffectsService, _weaponPanel);
             _weaponHolder.AddWeapon(mines);
 
             MinesIsCreated?.Invoke();
@@ -176,7 +179,8 @@ namespace Project.Scripts.Weapon.Player
             var machineGunCharacteristics = YG2.saves.MachineGunCharacteristics;
             var machineGunData = _characteristicsWeaponDataService.GetWeaponDataByType(WeaponType.MachineGun);
 
-            machineGun.Construct(_enemyDetector, _audioSoundsService, machineGunData, machineGunCharacteristics);
+            machineGun.Construct(_enemyDetector, _audioSoundsService, machineGunData, machineGunCharacteristics
+            , _weaponPanel);
             _weaponHolder.AddWeapon(machineGun);
 
             return machineGun;
@@ -194,7 +198,7 @@ namespace Project.Scripts.Weapon.Player
                 _characteristicsWeaponDataService.GetWeaponDataByType(WeaponType.ChainLightningGun);
 
             chainLightningGun.Construct(_audioSoundsService, _enemyDetector, chainLightningGunData, 
-                chainLightningGunCharacteristics);
+                chainLightningGunCharacteristics, _weaponPanel);
             _weaponHolder.AddWeapon(chainLightningGun);
 
             return chainLightningGun;

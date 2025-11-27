@@ -6,6 +6,8 @@ using Project.Scripts.DataBase.Data;
 using Project.Scripts.ECS.EntityActors;
 using Project.Scripts.Projectiles.Bullets;
 using Project.Scripts.Services;
+using Project.Scripts.UI.Panel;
+using Project.Scripts.UI.View;
 using Project.Scripts.Weapon.CharacteristicsOfWeapon;
 using Project.Scripts.Weapon.Improvements;
 using UnityEngine;
@@ -32,6 +34,8 @@ namespace Project.Scripts.Weapon.Player
         [SerializeField] private Transform _shootPoint;
 
         private float _lastBurstTime;
+        private float _reloadTimer;
+        
         private int _currentCountShots;
         private bool _isReloading;
 
@@ -42,17 +46,20 @@ namespace Project.Scripts.Weapon.Player
         private EnemyDetector _detector;
 
         private EnemyActor _closestEnemy;
+        private WeaponView _weaponView;
 
         private ObjectPool<FourBarrelMachineGunBullet> _poolBullets;
 
         public FourBarrelMachineGunCharacteristics FourBarrelMachineGunCharacteristics { get; private set; } = new();
 
         public void Construct(AudioSoundsService audioSoundsService, EnemyDetector detector,
-            CharacteristicsWeaponData data, FourBarrelMachineGunCharacteristics fourBarrelMachineGunCharacteristics)
+            CharacteristicsWeaponData data, FourBarrelMachineGunCharacteristics fourBarrelMachineGunCharacteristics,
+            WeaponPanel weaponPanel)
         {
             _audioSoundsService = audioSoundsService;
             _detector = detector;
             Type = data.WeaponType;
+            WeaponPanel = weaponPanel;
 
             if (fourBarrelMachineGunCharacteristics == null)
                 FourBarrelMachineGunCharacteristics.SetStartingCharacteristics(data);
@@ -63,6 +70,7 @@ namespace Project.Scripts.Weapon.Player
             YG2.saves.FourBarrelMachineGunCharacteristics = FourBarrelMachineGunCharacteristics;
             
             _currentCountShots = FourBarrelMachineGunCharacteristics.MaxCountShots;
+            _weaponView = WeaponPanel.GetWeaponViewByType(Type);
         }
 
         private void Awake()
@@ -86,6 +94,11 @@ namespace Project.Scripts.Weapon.Player
             if (_detector.ClosestEnemyDistance <= FourBarrelMachineGunCharacteristics.RangeAttack && !_isReloading)
             {
                 Shoot();
+            }
+            
+            if (_isReloading)
+            {
+                _weaponView.AnimateFiller(_reloadTimer, FourBarrelMachineGunCharacteristics.ReloadTime);
             }
 
             CheckAmmoAndReload();
@@ -123,11 +136,20 @@ namespace Project.Scripts.Weapon.Player
 
         private IEnumerator Reload()
         {
+            _reloadTimer = MinValue;
+            
             _isReloading = true;
-            yield return new WaitForSeconds(FourBarrelMachineGunCharacteristics.ReloadTime);
+            _weaponView.ActivateFiller();
+
+            while (_reloadTimer < FourBarrelMachineGunCharacteristics.ReloadTime)
+            {
+                _reloadTimer += Time.fixedDeltaTime;
+                yield return null;
+            }
 
             _currentCountShots = FourBarrelMachineGunCharacteristics.MaxCountShots;
             _isReloading = false;
+            _weaponView.DeactivateFiller();
         }
 
         private IEnumerator LaunchBullet(Vector3 direction)

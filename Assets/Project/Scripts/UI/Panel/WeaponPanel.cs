@@ -17,11 +17,13 @@ namespace Project.Scripts.UI.Panel
         private const int Mines = 4;
         private const int ElectricGun = 5;
         
+        private readonly Dictionary<WeaponType, WeaponView> _weaponViewsDictionary = new();
+        
         [SerializeField] private List<WeaponView> _weaponViews;
         [SerializeField] private List<Sprite> _sprites;
         [SerializeField] private Transform _showPoint;
         [SerializeField] private Transform _hidePoint;
-        
+
         private ITweenAnimationService _tweenAnimationService;
     
         [Inject]
@@ -53,6 +55,8 @@ namespace Project.Scripts.UI.Panel
                     _weaponViews[numberWeapon].SetWeaponData(_sprites[ElectricGun]);
                     break;
             }
+            
+            _weaponViewsDictionary.Add(type, _weaponViews[numberWeapon]);
         }
         
         public void Show()
@@ -64,6 +68,11 @@ namespace Project.Scripts.UI.Panel
         public void Hide()
         {
             _tweenAnimationService.AnimateMove(transform, _showPoint, _hidePoint, true);
+        }
+
+        public WeaponView GetWeaponViewByType(WeaponType type)
+        {
+            return _weaponViewsDictionary[type];
         }
 
         private void OnDestroy()

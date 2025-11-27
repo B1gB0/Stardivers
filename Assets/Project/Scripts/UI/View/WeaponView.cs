@@ -14,7 +14,7 @@ namespace Project.Scripts.UI.View
             _filler.gameObject.SetActive(false);
             _icon.sprite = sprite;
         }
-        
+
         public void Show()
         {
             gameObject.SetActive(true);
@@ -23,6 +23,24 @@ namespace Project.Scripts.UI.View
         public void Hide()
         {
             gameObject.SetActive(true);
+        }
+
+        public void ActivateFiller()
+        {
+            _filler.gameObject.SetActive(true);
+            _filler.fillAmount = 1f;
+        }
+
+        public void DeactivateFiller()
+        {
+            _filler.gameObject.SetActive(false);
+            _filler.fillAmount = 0f;
+        }
+
+        public void AnimateFiller(float reloadTimer, float reloadTime)
+        {
+            float reloadProgress = 1f - (reloadTimer / reloadTime);
+            _filler.fillAmount = reloadProgress;
         }
     }
 }

@@ -4,6 +4,8 @@ using Project.Scripts.Audio.Sounds;
 using Project.Scripts.DataBase.Data;
 using Project.Scripts.Projectiles.Mines;
 using Project.Scripts.Services;
+using Project.Scripts.UI.Panel;
+using Project.Scripts.UI.View;
 using Project.Scripts.Weapon.CharacteristicsOfWeapon;
 using Project.Scripts.Weapon.Improvements;
 using UnityEngine;
@@ -27,19 +29,23 @@ namespace Project.Scripts.Weapon.Player
         private ParticleEffectsService _particleEffectsService;
         
         private float _lastShotTime;
+        private float _reloadTimer;
+        
         private int _currentCountShots;
         private bool _isReloading;
+        private WeaponView _weaponView;
 
         public MineCharacteristics MineCharacteristics { get; private set; } = new ();
 
         public void Construct(Button button, AudioSoundsService audioSoundsService, 
             CharacteristicsWeaponData data, MineCharacteristics mineCharacteristics, 
-            ParticleEffectsService particleEffectsService)
+            ParticleEffectsService particleEffectsService, WeaponPanel weaponPanel)
         {
             _minesButton = button;
             _audioSoundsService = audioSoundsService;
             _particleEffectsService = particleEffectsService;
             Type = data.WeaponType;
+            WeaponPanel = weaponPanel;
 
             if (mineCharacteristics == null)
                 MineCharacteristics.SetStartingCharacteristics(data);
@@ -49,6 +55,7 @@ namespace Project.Scripts.Weapon.Player
             YG2.saves.MinesCharacteristics = MineCharacteristics;
             
             _currentCountShots = MineCharacteristics.MaxCountShots;
+            _weaponView = WeaponPanel.GetWeaponViewByType(Type);
         }
 
         private void Awake()
@@ -66,6 +73,11 @@ namespace Project.Scripts.Weapon.Player
 
         private void FixedUpdate()
         {
+            if (_isReloading)
+            {
+                _weaponView.AnimateFiller(_reloadTimer, MineCharacteristics.ReloadTime);
+            }
+            
             CheckAmmoAndReload();
             
             _lastShotTime -= Time.fixedDeltaTime;
@@ -109,11 +121,20 @@ namespace Project.Scripts.Weapon.Player
 
         private IEnumerator Reload()
         {
+            _reloadTimer = MinValue;
+            
             _isReloading = true;
-            yield return new WaitForSeconds(MineCharacteristics.ReloadTime);
+            _weaponView.ActivateFiller();
+
+            while (_reloadTimer < MineCharacteristics.ReloadTime)
+            {
+                _reloadTimer += Time.fixedDeltaTime;
+                yield return null;
+            }
 
             _currentCountShots = MineCharacteristics.MaxCountShots;
             _isReloading = false;
+            _weaponView.DeactivateFiller();
         }
     }
 }

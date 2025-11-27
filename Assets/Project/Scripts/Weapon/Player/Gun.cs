@@ -5,6 +5,8 @@ using Project.Scripts.DataBase.Data;
 using Project.Scripts.ECS.EntityActors;
 using Project.Scripts.Projectiles.Bullets;
 using Project.Scripts.Services;
+using Project.Scripts.UI.Panel;
+using Project.Scripts.UI.View;
 using Project.Scripts.Weapon.CharacteristicsOfWeapon;
 using Project.Scripts.Weapon.Improvements;
 using UnityEngine;
@@ -24,6 +26,8 @@ namespace Project.Scripts.Weapon.Player
         [SerializeField] private Transform _shootPoint;
 
         private float _lastShotTime;
+        private float _reloadTimer;
+        
         private int _currentCountShots;
         private bool _isReloading;
     
@@ -33,15 +37,17 @@ namespace Project.Scripts.Weapon.Player
 
         private EnemyDetector _detector;
         private AudioSoundsService _audioSoundsService;
+        private WeaponView _weaponView;
 
         public GunCharacteristics GunCharacteristics { get; private set; } = new ();
         
         public void Construct(EnemyDetector detector, AudioSoundsService audioSoundsService,
-            CharacteristicsWeaponData data, GunCharacteristics gunCharacteristics)
+            CharacteristicsWeaponData data, GunCharacteristics gunCharacteristics, WeaponPanel weaponPanel)
         {
             _detector = detector;
             _audioSoundsService = audioSoundsService;
             Type = data.WeaponType;
+            WeaponPanel = weaponPanel;
 
             if (gunCharacteristics == null)
                 GunCharacteristics.SetStartingCharacteristics(data);
@@ -51,6 +57,7 @@ namespace Project.Scripts.Weapon.Player
             YG2.saves.GunCharacteristics = GunCharacteristics;
             
             _currentCountShots = GunCharacteristics.MaxCountShots;
+            _weaponView = WeaponPanel.GetWeaponViewByType(Type);
         }
 
         private void Awake()
@@ -77,6 +84,11 @@ namespace Project.Scripts.Weapon.Player
             CheckAmmoAndReload();
             
             _lastShotTime -= Time.fixedDeltaTime;
+
+            if (_isReloading)
+            {
+                _weaponView.AnimateFiller(_reloadTimer, GunCharacteristics.ReloadTime);
+            }
         }
     
         public override void Shoot()
@@ -112,11 +124,20 @@ namespace Project.Scripts.Weapon.Player
 
         private IEnumerator Reload()
         {
+            _reloadTimer = MinValue;
+            
             _isReloading = true;
-            yield return new WaitForSeconds(GunCharacteristics.ReloadTime);
+            _weaponView.ActivateFiller();
+
+            while (_reloadTimer < GunCharacteristics.ReloadTime)
+            {
+                _reloadTimer += Time.fixedDeltaTime;
+                yield return null;
+            }
 
             _currentCountShots = GunCharacteristics.MaxCountShots;
             _isReloading = false;
+            _weaponView.DeactivateFiller();
         }
     }
 }

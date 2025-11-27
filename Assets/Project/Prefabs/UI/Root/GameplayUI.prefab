@@ -1291,6 +1291,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -65
       objectReference: {fileID: 0}
+    - target: {fileID: 1272303812962191918, guid: 8801463e21f8334428f11f80f063cae6, type: 3}
+      propertyPath: m_FillAmount
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2693132138926565059, guid: 8801463e21f8334428f11f80f063cae6, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1435,34 +1439,6 @@ PrefabInstance:
       propertyPath: _showPoint
       value: 
       objectReference: {fileID: 6210157040030096837}
-    - target: {fileID: 8850852120803381787, guid: 8801463e21f8334428f11f80f063cae6, type: 3}
-      propertyPath: _sprites.Array.size
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 8850852120803381787, guid: 8801463e21f8334428f11f80f063cae6, type: 3}
-      propertyPath: _sprites.Array.data[0]
-      value: 
-      objectReference: {fileID: 21300000, guid: 2684aa15e1a0e3f4fac5d03923a85e4e, type: 3}
-    - target: {fileID: 8850852120803381787, guid: 8801463e21f8334428f11f80f063cae6, type: 3}
-      propertyPath: _sprites.Array.data[1]
-      value: 
-      objectReference: {fileID: 21300000, guid: a8d1d707f8fa3564fbe58b2afc513285, type: 3}
-    - target: {fileID: 8850852120803381787, guid: 8801463e21f8334428f11f80f063cae6, type: 3}
-      propertyPath: _sprites.Array.data[2]
-      value: 
-      objectReference: {fileID: 21300000, guid: 5dbc317a1b523ee4b8432a808bcbddf0, type: 3}
-    - target: {fileID: 8850852120803381787, guid: 8801463e21f8334428f11f80f063cae6, type: 3}
-      propertyPath: _sprites.Array.data[3]
-      value: 
-      objectReference: {fileID: 21300000, guid: fdfc2ce99a8575f4092b5f0c23fecfe8, type: 3}
-    - target: {fileID: 8850852120803381787, guid: 8801463e21f8334428f11f80f063cae6, type: 3}
-      propertyPath: _sprites.Array.data[4]
-      value: 
-      objectReference: {fileID: 21300000, guid: 1e27b04f82af9a44889884252aa4215f, type: 3}
-    - target: {fileID: 8850852120803381787, guid: 8801463e21f8334428f11f80f063cae6, type: 3}
-      propertyPath: _sprites.Array.data[5]
-      value: 
-      objectReference: {fileID: 21300000, guid: b9c241d97afd5f34c943a0664baca2ac, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

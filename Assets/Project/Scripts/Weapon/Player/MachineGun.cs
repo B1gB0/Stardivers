@@ -5,6 +5,8 @@ using Project.Scripts.DataBase.Data;
 using Project.Scripts.ECS.EntityActors;
 using Project.Scripts.Projectiles.Bullets;
 using Project.Scripts.Services;
+using Project.Scripts.UI.Panel;
+using Project.Scripts.UI.View;
 using Project.Scripts.Weapon.CharacteristicsOfWeapon;
 using Project.Scripts.Weapon.Improvements;
 using UnityEngine;
@@ -25,6 +27,8 @@ namespace Project.Scripts.Weapon.Player
         [SerializeField] private Transform[] _shootPoints;
 
         private float _lastBurstTime;
+        private float _reloadTimer;
+        
         private int _currentCountShots;
         private bool _isReloading;
 
@@ -36,15 +40,18 @@ namespace Project.Scripts.Weapon.Player
     
         private EnemyActor _closestEnemy;
         private ObjectPool<MachineGunBullet> _poolBullets;
+        private WeaponView _weaponView;
 
         public MachineGunCharacteristics MachineGunCharacteristics { get; private set; } = new();
 
         public void Construct(EnemyDetector detector, AudioSoundsService audioSoundsService,
-            CharacteristicsWeaponData data, MachineGunCharacteristics machineGunCharacteristics)
+            CharacteristicsWeaponData data, MachineGunCharacteristics machineGunCharacteristics,
+            WeaponPanel weaponPanel)
         {
             _detector = detector;
             _audioSoundsService = audioSoundsService;
             Type = data.WeaponType;
+            WeaponPanel = weaponPanel;
             
             if(machineGunCharacteristics == null)
                 MachineGunCharacteristics.SetStartingCharacteristics(data);
@@ -54,6 +61,7 @@ namespace Project.Scripts.Weapon.Player
             YG2.saves.MachineGunCharacteristics = MachineGunCharacteristics;
             
             _currentCountShots = MachineGunCharacteristics.MaxCountShots;
+            _weaponView = WeaponPanel.GetWeaponViewByType(Type);
         }
 
         private void Awake()
@@ -66,9 +74,6 @@ namespace Project.Scripts.Weapon.Player
 
         private void FixedUpdate()
         {
-            Debug.Log(_currentCountShots);
-            Debug.Log(_isReloading);
-            
             _closestEnemy = _detector.GetClosestEnemy();
 
             if (_closestEnemy == null) return;
@@ -76,6 +81,11 @@ namespace Project.Scripts.Weapon.Player
             if (_detector.ClosestEnemyDistance <= MachineGunCharacteristics.RangeAttack && !_isReloading)
             {
                 Shoot();
+            }
+            
+            if (_isReloading)
+            {
+                _weaponView.AnimateFiller(_reloadTimer, MachineGunCharacteristics.ReloadTime);
             }
         
             CheckAmmoAndReload();
@@ -110,11 +120,20 @@ namespace Project.Scripts.Weapon.Player
 
         private IEnumerator Reload()
         {
+            _reloadTimer = MinValue;
+            
             _isReloading = true;
-            yield return new WaitForSeconds(MachineGunCharacteristics.ReloadTime);
+            _weaponView.ActivateFiller();
+
+            while (_reloadTimer < MachineGunCharacteristics.ReloadTime)
+            {
+                _reloadTimer += Time.fixedDeltaTime;
+                yield return null;
+            }
 
             _currentCountShots = MachineGunCharacteristics.MaxCountShots;
             _isReloading = false;
+            _weaponView.DeactivateFiller();
         }
 
         private IEnumerator LaunchBullet()

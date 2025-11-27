@@ -195,7 +195,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             _healthBar = await _viewFactory.CreateHealthBar(_gameInitSystem.PlayerHealth);
             _progressBar = await _viewFactory.CreateProgressBar(_experiencePoints, _gameInitSystem.PlayerTransform);
 
-            _weaponFactory.GetData(_gameInitSystem.PlayerTransform, _weaponHolder);
+            _weaponFactory.GetData(_gameInitSystem.PlayerTransform, _weaponHolder, _uiScene.WeaponPanel);
             await _weaponFactory.CreateEnemyDetectorForPlayer();
 
             _levelUpPanel.GetServices(_weaponFactory, _weaponHolder);
@@ -326,8 +326,8 @@ namespace Project.Scripts.Game.Gameplay.Root
 
             if (_weaponHolder.Weapons.Count == MinCountValue)
             {
-                await _weaponFactory.CreateWeapon(WeaponType.ChainLightningGun);
-                _levelUpService.UpdateImprovementCardsByTypeWeapon(WeaponType.ChainLightningGun);
+                await _weaponFactory.CreateWeapon(WeaponType.Gun);
+                _levelUpService.UpdateImprovementCardsByTypeWeapon(WeaponType.Gun);
             }
         }
 
