@@ -1,4 +1,5 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using Project.Scripts.Levels.Triggers;
 using Project.Scripts.UI.View;
 using UnityEngine;
@@ -8,6 +9,9 @@ namespace Project.Scripts.Levels.Mars.SecondLevel
     public class SecondMarsLevel : Level
     {
         [field: SerializeField] public BallisticRocket _ballisticRocket { get; private set; }
+        
+        [SerializeField] private List<GameObject> _enemySpawnedPointers;
+        [SerializeField] private List<GameObject> _enemyOutpostPointers;
         
         [SerializeField] private EnemySpawnTriggerWithEffect _enemySpawnTriggerWithEffect;
         [SerializeField] private BallisticRocketTrigger _ballisticRocketTrigger;
@@ -32,6 +36,8 @@ namespace Project.Scripts.Levels.Mars.SecondLevel
 
         public override async UniTask OnStartLevel()
         {
+            HideOutpostPointers();
+            
             await base.OnStartLevel();
             
             Arrow.OnLookAtTarget(_enemySpawnTriggerWithEffect.transform);
@@ -45,12 +51,14 @@ namespace Project.Scripts.Levels.Mars.SecondLevel
             WelcomePlanetTextTrigger.IsWelcomeToPlanet += DialogueSetter.OnWelcomePlanet;
             
             _enemySpawnTriggerWithEffect.EnemySpawned += _ballisticRocketTrigger.Activate;
+            _enemySpawnTriggerWithEffect.EnemySpawned += HideEnemySpawnedPointers;
             _enemySpawnTriggerWithEffect.EnemySpawned += LookArrowAtBallisticRocketTrigger;
             _enemySpawnTriggerWithEffect.EnemySpawned += _entranceLastLvlTrigger.Deactivate;
             _enemySpawnTriggerWithEffect.EnemySpawned += _missionProgressBar.Show;
             _enemySpawnTriggerWithEffect.EnemySpawned += DialogueSetter.OnEnemySpawnTriggerWithEffect;
 
             _ballisticRocket.LaunchCompleted += DialogueSetter.OnEndAttack;
+            _ballisticRocket.LaunchCompleted += ShowOutpostPointers;
             _ballisticRocket.LaunchCompleted += ArrowLookAtOutpost;
             _ballisticRocket.LaunchCompleted += _enemySpawnTriggerWithEffect.CompleteSpawn;
             _ballisticRocket.LaunchCompleted += EndLevelTrigger.Activate;
@@ -74,12 +82,14 @@ namespace Project.Scripts.Levels.Mars.SecondLevel
             _ballisticRocket.ProgressChanged -= _missionProgressBar.OnChangedValues;
             
             _enemySpawnTriggerWithEffect.EnemySpawned -= _ballisticRocketTrigger.Activate;
+            _enemySpawnTriggerWithEffect.EnemySpawned -= HideEnemySpawnedPointers;
             _enemySpawnTriggerWithEffect.EnemySpawned -= LookArrowAtBallisticRocketTrigger;
             _enemySpawnTriggerWithEffect.EnemySpawned -= _entranceLastLvlTrigger.Deactivate;
             _enemySpawnTriggerWithEffect.EnemySpawned -= _missionProgressBar.Show;
             _enemySpawnTriggerWithEffect.EnemySpawned -= DialogueSetter.OnEnemySpawnTriggerWithEffect;
 
             _ballisticRocket.LaunchCompleted -= DialogueSetter.OnEndAttack;
+            _ballisticRocket.LaunchCompleted -= ShowOutpostPointers;
             _ballisticRocket.LaunchCompleted -= ArrowLookAtOutpost;
             _ballisticRocket.LaunchCompleted -= _enemySpawnTriggerWithEffect.CompleteSpawn;
             _ballisticRocket.LaunchCompleted -= EndLevelTrigger.Activate;
@@ -90,6 +100,30 @@ namespace Project.Scripts.Levels.Mars.SecondLevel
         private void LookArrowAtBallisticRocketTrigger()
         {
             Arrow.OnLookAtTarget(_ballisticRocketTrigger.transform);
+        }
+        
+        private void ShowOutpostPointers()
+        {
+            foreach (var pointer in _enemyOutpostPointers)
+            {
+                pointer.gameObject.SetActive(true);
+            }
+        }
+        
+        private void HideOutpostPointers()
+        {
+            foreach (var pointer in _enemyOutpostPointers)
+            {
+                pointer.gameObject.SetActive(false);
+            }
+        }
+
+        private void HideEnemySpawnedPointers()
+        {
+            foreach (var pointer in _enemySpawnedPointers)
+            {
+                pointer.gameObject.SetActive(false);
+            }
         }
     }
 }

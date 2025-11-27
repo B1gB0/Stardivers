@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Project.Scripts.Levels.Triggers;
@@ -9,6 +10,9 @@ namespace Project.Scripts.Levels.MysteryPlanet.ThirdLevel
 {
     public class ThirdMysteryPlanetLevel : Level
     {
+        [SerializeField] private List<GameObject> _alienCocoonsPointers;
+        [SerializeField] private List<GameObject> _enemyOutpostPointers;
+        
         [SerializeField] private EnemySpawnTriggerWithoutEffect _enemySpawnFirstTriggerWithoutEffect;
         [SerializeField] private EnemySpawnTriggerWithoutEffect _enemySpawnSecondTriggerWithoutEffect;
         [SerializeField] private EntranceTrigger _entranceLastLvlTrigger;
@@ -38,6 +42,8 @@ namespace Project.Scripts.Levels.MysteryPlanet.ThirdLevel
 
         public override async UniTask OnStartLevel()
         {
+            HideOutpostPointers();
+            
             await base.OnStartLevel();
 
             _alienCocoonView = await ViewFactory.CreateAlienCocoonView();
@@ -56,6 +62,8 @@ namespace Project.Scripts.Levels.MysteryPlanet.ThirdLevel
             _enemySpawnSecondTriggerWithoutEffect.EnemySpawned += StartSecondWaveSpawning;
 
             CurrencyService.OnAllAlienCocoonsCollected += DialogueSetter.OnEndAttack;
+            CurrencyService.OnAllAlienCocoonsCollected += HideAliensCocoonsPointers;
+            CurrencyService.OnAllAlienCocoonsCollected += ShowOutpostPointers;
             CurrencyService.OnAllAlienCocoonsCollected += _enemySpawnFirstTriggerWithoutEffect.CompleteSpawn;
             CurrencyService.OnAllAlienCocoonsCollected += _enemySpawnSecondTriggerWithoutEffect.CompleteSpawn;
             CurrencyService.OnAllAlienCocoonsCollected += EntranceToNextLvlTrigger.Activate;
@@ -111,6 +119,8 @@ namespace Project.Scripts.Levels.MysteryPlanet.ThirdLevel
             _enemySpawnSecondTriggerWithoutEffect.EnemySpawned -= StartSecondWaveSpawning;
 
             CurrencyService.OnAllAlienCocoonsCollected -= DialogueSetter.OnEndAttack;
+            CurrencyService.OnAllAlienCocoonsCollected -= HideAliensCocoonsPointers;
+            CurrencyService.OnAllAlienCocoonsCollected -= ShowOutpostPointers;
             CurrencyService.OnAllAlienCocoonsCollected -= _enemySpawnFirstTriggerWithoutEffect.CompleteSpawn;
             CurrencyService.OnAllAlienCocoonsCollected -= _enemySpawnSecondTriggerWithoutEffect.CompleteSpawn;
             CurrencyService.OnAllAlienCocoonsCollected -= EntranceToNextLvlTrigger.Activate;
@@ -118,6 +128,30 @@ namespace Project.Scripts.Levels.MysteryPlanet.ThirdLevel
 
             _firstWaveCts?.Cancel();
             _secondWaveCts?.Cancel();
+        }
+        
+        private void ShowOutpostPointers()
+        {
+            foreach (var pointer in _enemyOutpostPointers)
+            {
+                pointer.gameObject.SetActive(true);
+            }
+        }
+        
+        private void HideOutpostPointers()
+        {
+            foreach (var pointer in _enemyOutpostPointers)
+            {
+                pointer.gameObject.SetActive(false);
+            }
+        }
+
+        private void HideAliensCocoonsPointers()
+        {
+            foreach (var pointer in _alienCocoonsPointers)
+            {
+                pointer.gameObject.SetActive(false);
+            }
         }
     }
 }

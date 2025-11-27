@@ -31,6 +31,7 @@ namespace Project.Scripts.UI.View
         private const string ArrowPath = "Arrow";
 
         private IResourceService _resourceService;
+        private IPlayerService _playerService;
 
         private UIRootView _uiRoot;
         private UIGameplayRootBinder _uiScene;
@@ -41,9 +42,10 @@ namespace Project.Scripts.UI.View
         private Container _container;
 
         [Inject]
-        public void Construct(IResourceService resourceService)
+        public void Construct(IResourceService resourceService, IPlayerService playerService)
         {
             _resourceService = resourceService;
+            _playerService = playerService;
         }
 
         private void OnDestroy()
@@ -71,7 +73,7 @@ namespace Project.Scripts.UI.View
             arrowTemplate = Instantiate(arrowTemplate);
 
             Arrow arrow = arrowTemplate.GetComponent<Arrow>();
-            arrow.Construct(target);
+            arrow.Construct(_playerService.PlayerActor.transform);
 
             return arrow;
         }
