@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Duplicate Asset Isolation3
+  m_EditorClassIdentifier: 
+  m_GroupName: Duplicate Asset Isolation3
+  m_Data:
+    m_SerializedData: []
+  m_GUID: dbc1e27e86d181444956c3f6a5d48d72
+  m_SerializeEntries:
+  - m_GUID: 17d2d2a2c2cc8984395286736ac8da73
+    m_Address: Assets/Project/Materials/Bar/ArrowPlane.mat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 49e3d7ac1757e964ba766bfffb4a0c0f
+    m_Address: "Assets/Third Party/UnityAssetStore/UI/Sci-Fi UI/_SciFi_GUISkin_/\u0410\u0442\u043B\u0430\u0441
+      \u043A\u043D\u043E\u043F\u043E\u043A.png"
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f3473d623b066d64ea5761c97241b4b7
+    m_Address: Assets/Third Party/UnityAssetStore/Effects/Travis Game Assets/Hit
+      Impact Effects/Demo Scene/Textures/NewArrow.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 6c586ecba5e1fbd48964accdf9467c20, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: c5944a8654fa32047b535bbd845c8512, type: 2}
+    - {fileID: 11400000, guid: 0892098f9ca81854194dc5f854257428, type: 2}

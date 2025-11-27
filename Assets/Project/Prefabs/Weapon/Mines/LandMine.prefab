@@ -249,8 +249,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb74a8eef0c82734ebdf22b3611d208d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <ExplosionEffect>k__BackingField: {fileID: 198247709403516784, guid: 680cf5ea6c1d41e4f9cce6ab07ce0200, type: 3}
   <LifeTime>k__BackingField: 5
+  _layerEnemy:
+    serializedVersion: 2
+    m_Bits: 2048
 --- !u!1 &1805766668470550765
 GameObject:
   m_ObjectHideFlags: 0

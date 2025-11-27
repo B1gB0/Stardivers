@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6460514313615962048}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: ShootPoint
   m_TagString: Untagged
   m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 9183413930704850142}
   - component: {fileID: 1536433701639129361}
   - component: {fileID: 3567020386747821481}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: EnemyDetector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -105,6 +105,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1101106372672195640, guid: 66f7bc3208d06214cbfcc08e86617c0c, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 1536899476136440622, guid: 66f7bc3208d06214cbfcc08e86617c0c, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 2951706780943751823, guid: 66f7bc3208d06214cbfcc08e86617c0c, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 4009375750010561854, guid: 66f7bc3208d06214cbfcc08e86617c0c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -148,6 +160,34 @@ PrefabInstance:
     - target: {fileID: 4391003778833301380, guid: 66f7bc3208d06214cbfcc08e86617c0c, type: 3}
       propertyPath: m_Name
       value: AlienTurrentFinal Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 4391003778833301380, guid: 66f7bc3208d06214cbfcc08e86617c0c, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 5875848416334807018, guid: 66f7bc3208d06214cbfcc08e86617c0c, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 6142186075478726582, guid: 66f7bc3208d06214cbfcc08e86617c0c, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 6970123826016771463, guid: 66f7bc3208d06214cbfcc08e86617c0c, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 7620477078007938300, guid: 66f7bc3208d06214cbfcc08e86617c0c, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 8069101341155217264, guid: 66f7bc3208d06214cbfcc08e86617c0c, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 8272572171660708191, guid: 66f7bc3208d06214cbfcc08e86617c0c, type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

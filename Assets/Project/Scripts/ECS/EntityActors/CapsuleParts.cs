@@ -9,10 +9,13 @@ namespace Project.Scripts.ECS.EntityActors
     {
         private const float DefaultDamage = 100f;
         private const float Force = 300f;
-        private const float DefaultExplodingRigidbodyRadius = 40f;
-        private const float DefaultExplodingDamageRadius = 30f;
+        private const float DefaultExplodingRigidbodyRadius = 20f;
+        private const float DefaultExplodingDamageRadius = 20f;
         
-        [SerializeField] private LayerMask _layer;
+        private readonly Collider[] _hitsBuffer = new Collider[32];
+        private readonly List<Rigidbody> _cachedRigidbodies = new ();
+        
+        [SerializeField] private LayerMask _layerCapsuleParts;
 
         private void Start()
         {
@@ -21,7 +24,7 @@ namespace Project.Scripts.ECS.EntityActors
 
             foreach (Rigidbody explodingObject in GetExplodingRigidbodyObjects())
             {
-                 explodingObject.AddExplosionForce(Force, transform.position, DefaultExplodingRigidbodyRadius); 
+                explodingObject.AddExplosionForce(Force, transform.position, DefaultExplodingRigidbodyRadius); 
             }
 
             foreach (var enemy in GetEnemies())
@@ -39,15 +42,22 @@ namespace Project.Scripts.ECS.EntityActors
 
         private List<Rigidbody> GetExplodingRigidbodyObjects()
         {
-            Collider[] hits = Physics.OverlapSphere(transform.position, DefaultExplodingRigidbodyRadius, _layer);
+            _cachedRigidbodies.Clear();
+    
+            int hitCount = Physics.OverlapSphereNonAlloc(
+                transform.position, 
+                DefaultExplodingRigidbodyRadius, 
+                _hitsBuffer, 
+                _layerCapsuleParts
+            );
 
-            List<Rigidbody> parts = new List<Rigidbody>();
+            for (int i = 0; i < hitCount; i++)
+            {
+                if (_hitsBuffer[i].attachedRigidbody != null)
+                    _cachedRigidbodies.Add(_hitsBuffer[i].attachedRigidbody);
+            }
 
-            foreach (Collider hit in hits)
-                if (hit.attachedRigidbody != null)
-                    parts.Add(hit.attachedRigidbody);
-
-            return parts;
+            return _cachedRigidbodies;
         }
     }
 }

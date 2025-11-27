@@ -11,7 +11,9 @@ namespace Project.Scripts.Projectiles
     public abstract class ExplodingObject : Projectile
     {
         private readonly Collider[] _colliderBuffer = new Collider[32];
-        private readonly List<EnemyActor> _enemyBuffer = new(32); 
+        private readonly List<EnemyActor> _enemyBuffer = new(64); 
+        
+        [SerializeField] private LayerMask _layerEnemy;
         
         protected float ExplosionRadius;
         
@@ -42,7 +44,8 @@ namespace Project.Scripts.Projectiles
         {
             _enemyBuffer.Clear();
             
-            int hitCount = Physics.OverlapSphereNonAlloc(Transform.position, ExplosionRadius, _colliderBuffer);
+            int hitCount = Physics.OverlapSphereNonAlloc(Transform.position, ExplosionRadius, _colliderBuffer,
+                _layerEnemy);
             
             for (int i = 0; i < hitCount; i++)
             {

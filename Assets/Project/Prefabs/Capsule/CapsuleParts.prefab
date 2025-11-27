@@ -245,8 +245,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaa5fc4afa354f80ab84faae9a200fe2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _effect: {fileID: 198247709403516784, guid: 680cf5ea6c1d41e4f9cce6ab07ce0200, type: 3}
-  _layer:
+  <LifeTime>k__BackingField: 4
+  _layerEnemy:
+    serializedVersion: 2
+    m_Bits: 2048
+  _layerCapsuleParts:
     serializedVersion: 2
     m_Bits: 128
 --- !u!1 &1188757661685385938 stripped

@@ -365,7 +365,8 @@ namespace Project.Scripts.ECS.System
 
         public void CreateIceCrystal(Vector3 atPosition)
         {
-            var iceCrystal = Object.Instantiate(_iceCrystalInitData.IceCrystalPrefab, atPosition, Quaternion.identity);
+            var iceCrystal = Object.Instantiate(_iceCrystalInitData.BigIceCrystalPrefab, atPosition,
+                Quaternion.identity);
             iceCrystal.Construct(_particleEffectsService, _audioSoundsService);
             iceCrystal.transform.SetParent(_rootForObjects);
         }
