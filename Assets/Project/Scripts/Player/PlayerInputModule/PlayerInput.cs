@@ -113,7 +113,16 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""name"": ""Button"",
                     ""type"": ""Button"",
                     ""id"": ""f0f8fb4c-e3d1-46d6-9b7c-c013b5b2cb96"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ActivateWeapon"",
+                    ""type"": ""Button"",
+                    ""id"": ""611d0524-b331-4c29-808f-b19a7e8afdd7"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -218,6 +227,17 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""Button"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c1e0e596-e5ff-4141-b0f3-38770aa4687e"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard and mouse"",
+                    ""action"": ""ActivateWeapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -257,6 +277,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Button = m_Player.FindAction("Button", throwIfNotFound: true);
+        m_Player_ActivateWeapon = m_Player.FindAction("ActivateWeapon", throwIfNotFound: true);
     }
 
     ~@PlayerInput()
@@ -340,6 +361,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_Button;
+    private readonly InputAction m_Player_ActivateWeapon;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -363,6 +385,10 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/Button".
         /// </summary>
         public InputAction @Button => m_Wrapper.m_Player_Button;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/ActivateWeapon".
+        /// </summary>
+        public InputAction @ActivateWeapon => m_Wrapper.m_Player_ActivateWeapon;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -398,6 +424,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Button.started += instance.OnButton;
             @Button.performed += instance.OnButton;
             @Button.canceled += instance.OnButton;
+            @ActivateWeapon.started += instance.OnActivateWeapon;
+            @ActivateWeapon.performed += instance.OnActivateWeapon;
+            @ActivateWeapon.canceled += instance.OnActivateWeapon;
         }
 
         /// <summary>
@@ -418,6 +447,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Button.started -= instance.OnButton;
             @Button.performed -= instance.OnButton;
             @Button.canceled -= instance.OnButton;
+            @ActivateWeapon.started -= instance.OnActivateWeapon;
+            @ActivateWeapon.performed -= instance.OnActivateWeapon;
+            @ActivateWeapon.canceled -= instance.OnActivateWeapon;
         }
 
         /// <summary>
@@ -505,5 +537,12 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnButton(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ActivateWeapon" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnActivateWeapon(InputAction.CallbackContext context);
     }
 }

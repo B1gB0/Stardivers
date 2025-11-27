@@ -27,7 +27,16 @@
                     "name": "Button",
                     "type": "Button",
                     "id": "f0f8fb4c-e3d1-46d6-9b7c-c013b5b2cb96",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ActivateWeapon",
+                    "type": "Button",
+                    "id": "611d0524-b331-4c29-808f-b19a7e8afdd7",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -130,6 +139,17 @@
                     "processors": "",
                     "groups": "Keyboard and mouse",
                     "action": "Button",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c1e0e596-e5ff-4141-b0f3-38770aa4687e",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard and mouse",
+                    "action": "ActivateWeapon",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

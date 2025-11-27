@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,6 +10,8 @@ namespace Project.Scripts.Player.PlayerInputModule
 
         public Vector2 MoveDirection { get; private set; }
 
+        public event Action OnWeaponButtonPressed;
+
         private void Awake()
         {
             _playerInput = new PlayerInput();
@@ -18,6 +21,9 @@ namespace Project.Scripts.Player.PlayerInputModule
         {
             _playerInput.Player.Move.performed += OnMove;
             _playerInput.Player.Move.canceled += OnMove;
+            
+            _playerInput.Player.ActivateWeapon.performed += OnActivateWeapon;
+            _playerInput.Player.ActivateWeapon.canceled += OnActivateWeapon;
         }
 
         private void OnEnable()
@@ -33,6 +39,11 @@ namespace Project.Scripts.Player.PlayerInputModule
         private void OnMove(InputAction.CallbackContext context)
         {
             MoveDirection = context.action.ReadValue<Vector2>();
+        }
+
+        private void OnActivateWeapon(InputAction.CallbackContext context)
+        {
+            OnWeaponButtonPressed?.Invoke();
         }
     }
 }

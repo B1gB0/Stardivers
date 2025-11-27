@@ -19,17 +19,22 @@ namespace Project.Scripts.Weapon.Player
         private const string MachineGunPath = "MachineGun";
         private const string ChainLightningGunPath = "ChainLightningGun";
 
+        private const float Height = 0f;
+
         private AudioSoundsService _audioSoundsService;
         private ParticleEffectsService _particleEffectsService;
         private IResourceService _resourceService;
         private ICharacteristicsWeaponDataService _characteristicsWeaponDataService;
         private ILevelUpService _levelUpService;
+        private IPlayerService _playerService;
 
         private EnemyDetectorForPlayer _enemyDetector;
         private WeaponHolder _weaponHolder;
         private WeaponPanel _weaponPanel;
         private Button _minesButton;
         private Transform _player;
+        
+        private Mines _mines;
 
         private int _weaponsCounter;
 
@@ -39,13 +44,19 @@ namespace Project.Scripts.Weapon.Player
         [Inject]
         private void Construct(AudioSoundsService audioSoundsService, IResourceService resourceService,
             ICharacteristicsWeaponDataService characteristicsWeaponDataService, ILevelUpService levelUpService,
-            ParticleEffectsService particleEffectsService)
+            ParticleEffectsService particleEffectsService, IPlayerService playerService)
         {
             _audioSoundsService = audioSoundsService;
             _particleEffectsService = particleEffectsService;
             _resourceService = resourceService;
             _characteristicsWeaponDataService = characteristicsWeaponDataService;
             _levelUpService = levelUpService;
+            _playerService = playerService;
+        }
+
+        private void OnDestroy()
+        {
+            _playerService.PlayerActor.PlayerInputController.OnWeaponButtonPressed -= _mines.Shoot;
         }
 
         public async UniTask<PlayerWeapon> CreateWeapon(WeaponType weaponType)
@@ -132,7 +143,7 @@ namespace Project.Scripts.Weapon.Player
 
         private async UniTask<PlayerWeapon> CreateMines()
         {
-            Vector3 position = new Vector3(_player.position.x, 0f, _player.position.z);
+            Vector3 position = new Vector3(_player.position.x, Height, _player.position.z);
 
             var minesTemplate = await _resourceService.Load<GameObject>(MinesPath);
             minesTemplate = Instantiate(minesTemplate, _player);
@@ -148,6 +159,9 @@ namespace Project.Scripts.Weapon.Player
             _weaponHolder.AddWeapon(mines);
 
             MinesIsCreated?.Invoke();
+
+            _mines = mines;
+            _playerService.PlayerActor.PlayerInputController.OnWeaponButtonPressed += _mines.Shoot;
 
             return mines;
         }

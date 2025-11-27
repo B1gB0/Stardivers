@@ -37,22 +37,22 @@ namespace Project.Scripts.UI.Panel
             switch (type)
             {
                 case WeaponType.Gun :
-                    _weaponViews[numberWeapon].SetWeaponData(_sprites[Gun]);
+                    _weaponViews[numberWeapon].SetWeaponData(_sprites[Gun], type);
                     break;
                 case WeaponType.MachineGun : 
-                    _weaponViews[numberWeapon].SetWeaponData(_sprites[MachineGun]);
+                    _weaponViews[numberWeapon].SetWeaponData(_sprites[MachineGun], type);
                     break;
                 case WeaponType.FourBarrelMachineGun : 
-                    _weaponViews[numberWeapon].SetWeaponData(_sprites[FourBarrelMachineGun]);
+                    _weaponViews[numberWeapon].SetWeaponData(_sprites[FourBarrelMachineGun], type);
                     break;
                 case WeaponType.FragGrenades : 
-                    _weaponViews[numberWeapon].SetWeaponData(_sprites[Grenades]);
+                    _weaponViews[numberWeapon].SetWeaponData(_sprites[Grenades], type);
                     break;
                 case WeaponType.Mines : 
-                    _weaponViews[numberWeapon].SetWeaponData(_sprites[Mines]);
+                    _weaponViews[numberWeapon].SetWeaponData(_sprites[Mines], type);
                     break;
                 case WeaponType.ChainLightningGun : 
-                    _weaponViews[numberWeapon].SetWeaponData(_sprites[ElectricGun]);
+                    _weaponViews[numberWeapon].SetWeaponData(_sprites[ElectricGun], type);
                     break;
             }
             
