@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,11 +8,13 @@ namespace Project.Scripts.UI.View
     {
         [SerializeField] private Image _filler;
         [SerializeField] private Image _icon;
+        [SerializeField] private TMP_Text _text;
 
         public void SetWeaponData(Sprite sprite)
         {
             _icon.gameObject.SetActive(true);
             _filler.gameObject.SetActive(false);
+            _text.gameObject.SetActive(true);
             _icon.sprite = sprite;
         }
 
@@ -35,6 +38,11 @@ namespace Project.Scripts.UI.View
         {
             _filler.gameObject.SetActive(false);
             _filler.fillAmount = 0f;
+        }
+
+        public void SetText(int currentCountShots, int maxShots)
+        {
+            _text.text = $"{currentCountShots}/{maxShots}";
         }
 
         public void AnimateFiller(float reloadTimer, float reloadTime)

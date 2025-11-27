@@ -58,6 +58,7 @@ namespace Project.Scripts.Weapon.Player
             
             _currentCountShots = GunCharacteristics.MaxCountShots;
             _weaponView = WeaponPanel.GetWeaponViewByType(Type);
+            _weaponView.SetText(_currentCountShots, GunCharacteristics.MaxCountShots);
         }
 
         private void Awake()
@@ -72,6 +73,11 @@ namespace Project.Scripts.Weapon.Player
         private void FixedUpdate()
         {
             _closestEnemy = _detector.GetClosestEnemy();
+            
+            if (_isReloading)
+            {
+                _weaponView.AnimateFiller(_reloadTimer, GunCharacteristics.ReloadTime);
+            }
 
             if (_closestEnemy == null) return;
 
@@ -84,11 +90,6 @@ namespace Project.Scripts.Weapon.Player
             CheckAmmoAndReload();
             
             _lastShotTime -= Time.fixedDeltaTime;
-
-            if (_isReloading)
-            {
-                _weaponView.AnimateFiller(_reloadTimer, GunCharacteristics.ReloadTime);
-            }
         }
     
         public override void Shoot()
@@ -106,6 +107,8 @@ namespace Project.Scripts.Weapon.Player
                 _bullet.SetCharacteristics(GunCharacteristics.Damage, GunCharacteristics.ProjectileSpeed);
 
                 _lastShotTime = GunCharacteristics.FireRate;
+                
+                _weaponView.SetText(_currentCountShots, GunCharacteristics.MaxCountShots);
             }
         }
 
@@ -137,6 +140,7 @@ namespace Project.Scripts.Weapon.Player
 
             _currentCountShots = GunCharacteristics.MaxCountShots;
             _isReloading = false;
+            _weaponView.SetText(_currentCountShots, GunCharacteristics.MaxCountShots);
             _weaponView.DeactivateFiller();
         }
     }

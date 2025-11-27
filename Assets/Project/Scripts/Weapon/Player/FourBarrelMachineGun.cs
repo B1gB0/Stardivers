@@ -88,17 +88,17 @@ namespace Project.Scripts.Weapon.Player
         private void FixedUpdate()
         {
             _closestEnemy = _detector.GetClosestEnemy();
+            
+            if (_isReloading)
+            {
+                _weaponView.AnimateFiller(_reloadTimer, FourBarrelMachineGunCharacteristics.ReloadTime);
+            }
 
             if (_closestEnemy == null) return;
 
             if (_detector.ClosestEnemyDistance <= FourBarrelMachineGunCharacteristics.RangeAttack && !_isReloading)
             {
                 Shoot();
-            }
-            
-            if (_isReloading)
-            {
-                _weaponView.AnimateFiller(_reloadTimer, FourBarrelMachineGunCharacteristics.ReloadTime);
             }
 
             CheckAmmoAndReload();
