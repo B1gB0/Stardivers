@@ -66,9 +66,6 @@ namespace Project.Scripts.Weapon.Player
 
         private void FixedUpdate()
         {
-            Debug.Log(_currentCountShots);
-            Debug.Log(_isReloading);
-
             CheckAmmoAndReload();
             
             _lastShotTime -= Time.fixedDeltaTime;

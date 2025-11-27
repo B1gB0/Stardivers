@@ -56,12 +56,12 @@ namespace Project.Scripts.Weapon.CharacteristicsOfWeapon
 
         protected virtual void IncreaseMaxCountBullets(int maxCount)
         {
-            maxCountShots = maxCount;
+            maxCountShots += maxCount;
         }
         
         protected virtual void IncreaseMaxEnemiesInChain(int maxEnemies)
         {
-            maxEnemiesInChain = maxEnemies;
+            maxEnemiesInChain += maxEnemies;
         }
         
         protected virtual void IncreaseExplosionRadius(float explosionRadiusFactor)

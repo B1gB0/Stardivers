@@ -64,11 +64,15 @@ namespace Project.Scripts.Weapon.Player
 
         private void FixedUpdate()
         {
+            Debug.Log(_currentCountShots);
+            Debug.Log(_isReloading);
+            
             _closestEnemy = _detector.GetClosestEnemy();
 
             if (_closestEnemy == null) return;
 
-            if (_detector.ClosestEnemyDistance <= GunCharacteristics.RangeAttack && _currentCountShots > MinCountShots)
+            if (_detector.ClosestEnemyDistance <= GunCharacteristics.RangeAttack && _currentCountShots > MinCountShots
+                && !_isReloading)
             {
                 Shoot();
             }
@@ -103,7 +107,7 @@ namespace Project.Scripts.Weapon.Player
     
         private void CheckAmmoAndReload()
         {
-            if (_currentCountShots <= MinValue)
+            if (_currentCountShots <= MinValue && !_isReloading)
             {
                 StartCoroutine(Reload());
             }
