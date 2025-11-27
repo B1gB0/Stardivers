@@ -86,14 +86,13 @@ namespace Project.Scripts.Weapon.Player
                 _weaponView.AnimateFiller(_reloadTimer, ChainLightningGunCharacteristics.ReloadTime);
             }
 
-            if (_currentCharges <= MinValue)
+            if (_currentCharges <= MinValue && !_isReloading)
             {
                 StartCoroutine(Reload());
-                return;
             }
 
             if (_detector.GetClosestEnemy() != null && _detector.ClosestEnemyDistance
-                <= ChainLightningGunCharacteristics.RangeAttack && _lastShotTime <= MinValue)
+                <= ChainLightningGunCharacteristics.RangeAttack && _lastShotTime <= MinValue && !_isReloading)
             {
                 Shoot();
             }
