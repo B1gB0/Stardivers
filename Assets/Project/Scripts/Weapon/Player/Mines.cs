@@ -56,6 +56,7 @@ namespace Project.Scripts.Weapon.Player
             
             _currentCountShots = MineCharacteristics.MaxCountShots;
             _weaponView = WeaponPanel.GetWeaponViewByType(Type);
+            _weaponView.SetText(_currentCountShots, MineCharacteristics.MaxCountShots);
         }
 
         private void Awake()
@@ -103,12 +104,15 @@ namespace Project.Scripts.Weapon.Player
                 _mine.SetCharacteristics(MineCharacteristics.Damage, MineCharacteristics.ExplosionRadius);
 
                 _lastShotTime = MineCharacteristics.FireRate;
+                
+                _weaponView.SetText(_currentCountShots, MineCharacteristics.MaxCountShots);
             }
         }
         
         public override void AcceptWeaponImprovement(IWeaponVisitor weaponVisitor, CharacteristicType type, float value)
         {
             weaponVisitor.Visit(this, type, value);
+            _weaponView.SetText(_currentCountShots, MineCharacteristics.MaxCountShots);
         }
         
         private void CheckAmmoAndReload()
@@ -135,6 +139,7 @@ namespace Project.Scripts.Weapon.Player
             _currentCountShots = MineCharacteristics.MaxCountShots;
             _isReloading = false;
             _weaponView.DeactivateFiller();
+            _weaponView.SetText(_currentCountShots, MineCharacteristics.MaxCountShots);
         }
     }
 }

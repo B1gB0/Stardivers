@@ -71,6 +71,7 @@ namespace Project.Scripts.Weapon.Player
             
             _currentCountShots = FourBarrelMachineGunCharacteristics.MaxCountShots;
             _weaponView = WeaponPanel.GetWeaponViewByType(Type);
+            _weaponView.SetText(_currentCountShots, FourBarrelMachineGunCharacteristics.MaxCountShots);
         }
 
         private void Awake()
@@ -124,6 +125,7 @@ namespace Project.Scripts.Weapon.Player
         public override void AcceptWeaponImprovement(IWeaponVisitor weaponVisitor, CharacteristicType type, float value)
         {
             weaponVisitor.Visit(this, type, value);
+            _weaponView.SetText(_currentCountShots, FourBarrelMachineGunCharacteristics.MaxCountShots);
         }
 
         private void CheckAmmoAndReload()
@@ -150,6 +152,7 @@ namespace Project.Scripts.Weapon.Player
             _currentCountShots = FourBarrelMachineGunCharacteristics.MaxCountShots;
             _isReloading = false;
             _weaponView.DeactivateFiller();
+            _weaponView.SetText(_currentCountShots, FourBarrelMachineGunCharacteristics.MaxCountShots);
         }
 
         private IEnumerator LaunchBullet(Vector3 direction)
@@ -159,6 +162,7 @@ namespace Project.Scripts.Weapon.Player
                 _bullet = _poolBullets.GetFreeElement();
 
                 _currentCountShots--;
+                _weaponView.SetText(_currentCountShots, FourBarrelMachineGunCharacteristics.MaxCountShots);
 
                 _bullet.transform.position = _shootPoint.position + Vector3.one
                     * Random.Range(MinRandomRangePosition, MaxRandomRangePosition);

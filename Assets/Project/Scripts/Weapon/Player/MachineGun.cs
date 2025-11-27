@@ -62,6 +62,7 @@ namespace Project.Scripts.Weapon.Player
             
             _currentCountShots = MachineGunCharacteristics.MaxCountShots;
             _weaponView = WeaponPanel.GetWeaponViewByType(Type);
+            _weaponView.SetText(_currentCountShots, MachineGunCharacteristics.MaxCountShots);
         }
 
         private void Awake()
@@ -108,6 +109,7 @@ namespace Project.Scripts.Weapon.Player
         public override void AcceptWeaponImprovement(IWeaponVisitor weaponVisitor, CharacteristicType type, float value)
         {
             weaponVisitor.Visit(this, type, value);
+            _weaponView.SetText(_currentCountShots, MachineGunCharacteristics.MaxCountShots);
         }
 
         private void CheckAmmoAndReload()
@@ -134,6 +136,7 @@ namespace Project.Scripts.Weapon.Player
             _currentCountShots = MachineGunCharacteristics.MaxCountShots;
             _isReloading = false;
             _weaponView.DeactivateFiller();
+            _weaponView.SetText(_currentCountShots, MachineGunCharacteristics.MaxCountShots);
         }
 
         private IEnumerator LaunchBullet()
@@ -143,6 +146,7 @@ namespace Project.Scripts.Weapon.Player
                 _bullet = _poolBullets.GetFreeElement();
 
                 _currentCountShots--;
+                _weaponView.SetText(_currentCountShots, MachineGunCharacteristics.MaxCountShots);
             
                 _bullet.transform.position = shootPoint.position;
 

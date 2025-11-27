@@ -62,6 +62,7 @@ namespace Project.Scripts.Weapon.Player
 
             YG2.saves.ChainLightningGunCharacteristics = ChainLightningGunCharacteristics;
             _weaponView = WeaponPanel.GetWeaponViewByType(Type);
+            _weaponView.SetText(_currentCharges, ChainLightningGunCharacteristics.MaxCountShots);
         }
 
         private void Awake()
@@ -107,6 +108,7 @@ namespace Project.Scripts.Weapon.Player
 
             _audioService.PlaySound(SoundsType.ChainLightningGun).Forget();
             _currentCharges--;
+            _weaponView.SetText(_currentCharges, ChainLightningGunCharacteristics.MaxCountShots);
             _lastShotTime = ChainLightningGunCharacteristics.FireRate;
 
             _isShooting = true;
@@ -190,11 +192,13 @@ namespace Project.Scripts.Weapon.Player
             _isReloading = false;
             _currentCharges = ChainLightningGunCharacteristics.MaxCountShots;
             _weaponView.DeactivateFiller();
+            _weaponView.SetText(_currentCharges, ChainLightningGunCharacteristics.MaxCountShots);
         }
 
         public override void AcceptWeaponImprovement(IWeaponVisitor weaponVisitor, CharacteristicType type, float value)
         {
             weaponVisitor.Visit(this, type, value);
+            _weaponView.SetText(_currentCharges, ChainLightningGunCharacteristics.MaxCountShots);
         }
 
         private void OnDisable()

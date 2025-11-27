@@ -115,6 +115,7 @@ namespace Project.Scripts.Weapon.Player
         public override void AcceptWeaponImprovement(IWeaponVisitor weaponVisitor, CharacteristicType type, float value)
         {
             weaponVisitor.Visit(this, type, value);
+            _weaponView.SetText(_currentCountShots, GunCharacteristics.MaxCountShots);
         }
     
         private void CheckAmmoAndReload()
