@@ -1,9 +1,9 @@
 {
   "Gold": 11,
   "RedCrystal": 0,
-  "AcumulatedScore": 6589,
-  "ExperiencePointsValue": 73,
-  "CurrentLevel": 6,
+  "AcumulatedScore": 7020,
+  "ExperiencePointsValue": 90,
+  "CurrentLevel": 4,
   "isMarsOperationUnlock": true,
   "isMysteryPlanetUnlock": true,
   "GunCharacteristics": {
@@ -11,33 +11,24 @@
     "FireRate": 1.0,
     "ProjectileSpeed": 10.0,
     "Damage": 15.0,
-    "MaxCountShots": 6,
+    "MaxCountShots": 4,
     "MaxEnemiesInChain": 0,
     "ReloadTime": 2.0,
     "ExplosionRadius": 0.0
   },
-  "MachineGunCharacteristics": null,
-  "FourBarrelMachineGunCharacteristics": null,
-  "ChainLightningGunCharacteristics": {
-    "RangeAttack": 6.0,
+  "MachineGunCharacteristics": {
+    "RangeAttack": 5.0,
     "FireRate": 3.0,
-    "ProjectileSpeed": 0.0,
-    "Damage": 10.0,
-    "MaxCountShots": 7,
-    "MaxEnemiesInChain": 3,
-    "ReloadTime": 4.0,
+    "ProjectileSpeed": 10.0,
+    "Damage": 12.0,
+    "MaxCountShots": 20,
+    "MaxEnemiesInChain": 0,
+    "ReloadTime": 6.0,
     "ExplosionRadius": 0.0
   },
-  "FragGrenadeCharacteristics": {
-    "RangeAttack": 4.0,
-    "FireRate": 5.0,
-    "ProjectileSpeed": 10.0,
-    "Damage": 10.0,
-    "MaxCountShots": 1,
-    "MaxEnemiesInChain": 0,
-    "ReloadTime": 5.0,
-    "ExplosionRadius": 3.0
-  },
+  "FourBarrelMachineGunCharacteristics": null,
+  "ChainLightningGunCharacteristics": null,
+  "FragGrenadeCharacteristics": null,
   "MinesCharacteristics": null,
   "PlayerCharacteristics": {},
   "stringKeys": [],
@@ -54,5 +45,5 @@
     false,
     false
   ],
-  "idSave": 306
+  "idSave": 316
 }

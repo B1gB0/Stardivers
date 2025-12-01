@@ -45,7 +45,7 @@ namespace Project.Scripts.Weapon.Player
 
             while (ReloadTimer < WeaponCharacteristics.ReloadTime)
             {
-                ReloadTimer += Time.fixedDeltaTime;
+                ReloadTimer += Time.deltaTime;
                 yield return null;
             }
 

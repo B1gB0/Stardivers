@@ -70,7 +70,7 @@ namespace Project.Scripts.Weapon.Player
             };
         }
 
-        private void FixedUpdate()
+        private void Update()
         {
             LastShotTime -= Time.deltaTime;
             

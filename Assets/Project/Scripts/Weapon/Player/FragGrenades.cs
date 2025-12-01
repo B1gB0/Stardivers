@@ -60,7 +60,7 @@ namespace Project.Scripts.Weapon.Player
             };
         }
 
-        private void FixedUpdate()
+        private void Update()
         {
             _closestEnemy = _detector.GetClosestEnemy();
             
@@ -98,7 +98,7 @@ namespace Project.Scripts.Weapon.Player
                 LastShotTime = FragGrenadeCharacteristics.FireRate;
             }
 
-            LastShotTime -= Time.fixedDeltaTime;
+            LastShotTime -= Time.deltaTime;
         }
         
         public override void AcceptWeaponImprovement(IWeaponVisitor weaponVisitor, CharacteristicType type, float value)
