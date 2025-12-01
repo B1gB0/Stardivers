@@ -82,14 +82,14 @@ namespace Project.Scripts.Weapon.Player
                 _weaponView.AnimateFiller(_reloadTimer, MachineGunCharacteristics.ReloadTime);
             }
 
+            CheckAmmoAndReload();
+            
             if (_closestEnemy == null) return;
         
             if (_detector.ClosestEnemyDistance <= MachineGunCharacteristics.RangeAttack && !_isReloading)
             {
                 Shoot();
             }
-
-            CheckAmmoAndReload();
         }
     
         public override void Shoot()

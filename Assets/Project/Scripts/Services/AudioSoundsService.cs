@@ -29,6 +29,7 @@ namespace Project.Scripts.Services
         private const string MarsGameplayMusicPath = "MarsGameplayMusic";
         private const string MysteryPlanetGameplayMusicPath = "MysteryPlanetGameplayMusic";
         private const string IceCrystalSoundPath = "IceCrystalSound";
+        private const string GunnerEnemyAlienSoundPath = "GunnerEnemyAlienSound";
 
         private const int CountAudioSources = 3;
 
@@ -321,7 +322,8 @@ namespace Project.Scripts.Services
                 .AddScriptableObject(SoundsType.MainMenuMusic, MainMenuMusicPath)
                 .AddScriptableObject(SoundsType.MarsGameplayMusic, MarsGameplayMusicPath)
                 .AddScriptableObject(SoundsType.MysteryPlanetGameplayMusic, MysteryPlanetGameplayMusicPath)
-                .AddScriptableObject(SoundsType.IceCrystalExplosion, IceCrystalSoundPath);
+                .AddScriptableObject(SoundsType.IceCrystalExplosion, IceCrystalSoundPath)
+                .AddScriptableObject(SoundsType.GunnerEnemyAlien, GunnerEnemyAlienSoundPath);
 
             _soundDictionary = await builder.Build();
         }

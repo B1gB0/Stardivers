@@ -18,7 +18,6 @@ namespace Project.Scripts.ECS.EntityActors
         [SerializeField] private float _damage;
         
         [SerializeField] private LayerMask _resourceLayerMask = 1;
-        [SerializeField] private LayerMask _obstacleLayerMask = 1;
 
         [SerializeField] private Transform _detectionPoint;
         [SerializeField] private Transform _hitEffectPoint;

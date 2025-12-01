@@ -15,6 +15,7 @@ namespace Project.Scripts.ECS.EntityActors
         protected ExperiencePoints ExperiencePoints;
         protected IFloatingTextService TextService;
         protected ParticleEffectsService ParticleEffectsService;
+        protected AudioSoundsService AudioSoundsService;
 
         protected EcsEntity EnemyEntity;
 
@@ -23,12 +24,13 @@ namespace Project.Scripts.ECS.EntityActors
         public event Action<EnemyActor> Die;
 
         public void Construct(ExperiencePoints experiencePoints, IFloatingTextService textService, EnemyData data,
-            EcsEntity enemyEntity, ParticleEffectsService particleEffectsService)
+            EcsEntity enemyEntity, ParticleEffectsService particleEffectsService, AudioSoundsService audioSoundsService)
         {
             ExperiencePoints = experiencePoints;
             Data = data;
             EnemyEntity = enemyEntity;
             ParticleEffectsService = particleEffectsService;
+            AudioSoundsService = audioSoundsService;
             
             TextService = textService;
             

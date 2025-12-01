@@ -8,8 +8,8 @@ namespace Project.Scripts.ECS.System
     {
         private const float MinValue = 0f;
 
-        private readonly EcsFilter<EnemyComponent, FollowPlayerComponent, EnemySmallAlienAttackComponent, EnemyMovableComponent,
-            AnimatedComponent> _attackFilter;
+        private readonly EcsFilter<EnemyComponent, FollowPlayerComponent, EnemySmallAlienAttackComponent,
+            EnemyMovableComponent, AnimatedComponent> _attackFilter;
 
         private float _lastHitTime = 0.2f;
 

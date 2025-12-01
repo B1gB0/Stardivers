@@ -1,5 +1,4 @@
-﻿using System;
-using Project.Scripts.Game.Gameplay.Root;
+﻿using Project.Scripts.Game.Gameplay.Root;
 using Project.Scripts.Game.MainMenu.Root;
 using Project.Scripts.Services;
 using Project.Scripts.UI.StateMachine.States;

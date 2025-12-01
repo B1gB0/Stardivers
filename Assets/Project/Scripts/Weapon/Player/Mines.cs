@@ -93,10 +93,10 @@ namespace Project.Scripts.Weapon.Player
         {
             if (_lastShotTime <= MinValue && _currentCountShots > MinValue && !_isReloading)
             {
-                _audioSoundsService.PlaySound(SoundsType.Button).Forget();
-                
                 _mine = _pool.GetFreeElement();
                 _currentCountShots--;
+                
+                _audioSoundsService.PlaySound(SoundsType.Button).Forget();
 
                 _mine.GetExplosionEffects(_particleEffectsService, _audioSoundsService);
                 
@@ -140,6 +140,8 @@ namespace Project.Scripts.Weapon.Player
             _isReloading = false;
             _weaponView.DeactivateFiller();
             _weaponView.SetText(_currentCountShots, MineCharacteristics.MaxCountShots);
+            
+            Debug.Log(_reloadTimer + " время перезарядки");
         }
     }
 }

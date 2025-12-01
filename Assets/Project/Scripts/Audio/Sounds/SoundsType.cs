@@ -18,5 +18,7 @@
         MarsGameplayMusic = 13,
         MysteryPlanetGameplayMusic = 14,
         IceCrystalExplosion = 15,
+        GunnerEnemyAlien = 16,
+        
     }
 }

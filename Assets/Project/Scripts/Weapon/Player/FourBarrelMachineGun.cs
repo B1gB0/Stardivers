@@ -95,14 +95,14 @@ namespace Project.Scripts.Weapon.Player
                 _weaponView.AnimateFiller(_reloadTimer, FourBarrelMachineGunCharacteristics.ReloadTime);
             }
 
+            CheckAmmoAndReload();
+            
             if (_closestEnemy == null) return;
 
             if (_detector.ClosestEnemyDistance <= FourBarrelMachineGunCharacteristics.RangeAttack && !_isReloading)
             {
                 Shoot();
             }
-
-            CheckAmmoAndReload();
         }
 
         public override void Shoot()

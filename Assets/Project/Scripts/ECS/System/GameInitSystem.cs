@@ -149,7 +149,8 @@ namespace Project.Scripts.ECS.System
             
             var entity = _world.NewEntity();
             var smallEnemyAlienActor = _smallAlienEnemyPool.GetFreeElement();
-            smallEnemyAlienActor.Construct(_experiencePoints, _textService, data, entity, _particleEffectsService);
+            smallEnemyAlienActor.Construct(_experiencePoints, _textService, data, entity, _particleEffectsService,
+                _audioSoundsService);
 
             if (smallEnemyAlienActor.Health.TargetHealth <= MinValue)
             {
@@ -190,7 +191,8 @@ namespace Project.Scripts.ECS.System
             
             var entity = _world.NewEntity();
             var bigEnemyAlienActor = _bigAlienEnemyPool.GetFreeElement();
-            bigEnemyAlienActor.Construct(_experiencePoints, _textService, data, entity, _particleEffectsService);
+            bigEnemyAlienActor.Construct(_experiencePoints, _textService, data, entity, _particleEffectsService,
+                _audioSoundsService);
             
             if (bigEnemyAlienActor.Health.TargetHealth <= MinValue)
             {
@@ -234,7 +236,8 @@ namespace Project.Scripts.ECS.System
             
             var entity = _world.NewEntity();
             var gunnerEnemyAlienActor = _gunnerAlienEnemyPool.GetFreeElement();
-            gunnerEnemyAlienActor.Construct(_experiencePoints, _textService, data, entity, _particleEffectsService);
+            gunnerEnemyAlienActor.Construct(_experiencePoints, _textService, data, entity, _particleEffectsService, 
+                _audioSoundsService);
             
             if (gunnerEnemyAlienActor.Health.TargetHealth <= MinValue)
             {
@@ -279,7 +282,8 @@ namespace Project.Scripts.ECS.System
             var entity = _world.NewEntity();
             var enemyTurret = Object.Instantiate(_alienTurretEnemyData.AlienTurretEnemyPrefab, atPosition,
                 Quaternion.identity);
-            enemyTurret.Construct(_experiencePoints, _textService, data, entity, _particleEffectsService);
+            enemyTurret.Construct(_experiencePoints, _textService, data, entity, _particleEffectsService, 
+                _audioSoundsService);
             
             if (enemyTurret.Health.TargetHealth <= MinValue)
             {

@@ -411,15 +411,15 @@ namespace Project.Scripts.Game.Gameplay.Root
             _updateSystems.Add(new MainCameraSystem(_cinemachineVirtualCamera));
             _updateSystems.Add(new PlayerAnimatedSystem());
             _updateSystems.Add(new EnemyAnimatedSystem());
-            _updateSystems.Add(new EnemyMeleeAttackSystem());
             _updateSystems.Add(new ResourcesAnimatedSystem());
+            _updateSystems.Add(new EnemyMeleeAttackSystem());
+            _updateSystems.Add(new EnemyRangeAttackSystem());
+            _updateSystems.Add(new AttackCheckSystem());
             _updateSystems.Init();
 
             _fixedUpdateSystems.Inject(_bigAlienEnemyData.ProjectilePrefab);
             _fixedUpdateSystems.Add(new PlayerMoveSystem());
             _fixedUpdateSystems.Add(new FollowSystem());
-            _fixedUpdateSystems.Add(new EnemyRangeAttackSystem());
-            _fixedUpdateSystems.Add(new AttackCheckSystem());
             _fixedUpdateSystems.Add(new PatrolSystem());
             _fixedUpdateSystems.Init();
         }

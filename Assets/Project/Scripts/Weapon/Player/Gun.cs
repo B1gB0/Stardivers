@@ -70,7 +70,7 @@ namespace Project.Scripts.Weapon.Player
             };
         }
 
-        private void FixedUpdate()
+        private void Update()
         {
             _closestEnemy = _detector.GetClosestEnemy();
             
@@ -79,6 +79,8 @@ namespace Project.Scripts.Weapon.Player
                 _weaponView.AnimateFiller(_reloadTimer, GunCharacteristics.ReloadTime);
             }
 
+            CheckAmmoAndReload();
+            
             if (_closestEnemy == null) return;
 
             if (_detector.ClosestEnemyDistance <= GunCharacteristics.RangeAttack && _currentCountShots > MinCountShots
@@ -86,10 +88,8 @@ namespace Project.Scripts.Weapon.Player
             {
                 Shoot();
             }
-        
-            CheckAmmoAndReload();
             
-            _lastShotTime -= Time.fixedDeltaTime;
+            _lastShotTime -= Time.deltaTime;
         }
     
         public override void Shoot()

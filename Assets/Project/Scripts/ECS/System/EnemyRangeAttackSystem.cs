@@ -45,7 +45,7 @@ namespace Project.Scripts.ECS.System
                         animatedComponent.AnimatedStateMachine.EnterIn<GetGunState>();
                     }
 
-                    _lastShotTime -= Time.fixedDeltaTime;
+                    _lastShotTime -= Time.deltaTime;
                 }
                 else
                 {
@@ -76,7 +76,7 @@ namespace Project.Scripts.ECS.System
                         animatedComponent.AnimatedStateMachine.EnterIn<IdleState>();
                     }
 
-                    _lastShotTime -= Time.fixedDeltaTime;
+                    _lastShotTime -= Time.deltaTime;
                 }
                 else
                 {
@@ -107,7 +107,7 @@ namespace Project.Scripts.ECS.System
                         animatedComponent.AnimatedStateMachine.EnterIn<IdleState>();
                     }
 
-                    _lastShotTime -= Time.fixedDeltaTime;
+                    _lastShotTime -= Time.deltaTime;
                 }
                 else
                 {
