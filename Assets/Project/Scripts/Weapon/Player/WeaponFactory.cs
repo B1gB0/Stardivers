@@ -178,7 +178,7 @@ namespace Project.Scripts.Weapon.Player
             var fragGrenadesData = _characteristicsWeaponDataService.GetWeaponDataByType(WeaponType.FragGrenades);
 
             fragGrenades.Construct(_enemyDetector, _audioSoundsService, fragGrenadesData, fragGrenadesCharacteristics,
-                _particleEffectsService);
+                _particleEffectsService, _weaponPanel);
             _weaponHolder.AddWeapon(fragGrenades);
 
             return fragGrenades;
@@ -194,8 +194,8 @@ namespace Project.Scripts.Weapon.Player
             var machineGunCharacteristics = YG2.saves.MachineGunCharacteristics;
             var machineGunData = _characteristicsWeaponDataService.GetWeaponDataByType(WeaponType.MachineGun);
 
-            machineGun.Construct(_enemyDetector, _audioSoundsService, machineGunData, machineGunCharacteristics
-            , _weaponPanel);
+            machineGun.Construct(_enemyDetector, _audioSoundsService, machineGunData, machineGunCharacteristics,
+                _weaponPanel);
             _weaponHolder.AddWeapon(machineGun);
 
             return machineGun;

@@ -1,4 +1,3 @@
-using System.Collections;
 using Cysharp.Threading.Tasks;
 using Project.Scripts.Audio.Sounds;
 using Project.Scripts.DataBase.Data;
@@ -6,7 +5,6 @@ using Project.Scripts.ECS.EntityActors;
 using Project.Scripts.Projectiles.Bullets;
 using Project.Scripts.Services;
 using Project.Scripts.UI.Panel;
-using Project.Scripts.UI.View;
 using Project.Scripts.Weapon.CharacteristicsOfWeapon;
 using Project.Scripts.Weapon.Improvements;
 using UnityEngine;
@@ -18,26 +16,17 @@ namespace Project.Scripts.Weapon.Player
     {
         private const string ObjectPoolBulletName = "PoolGunBullets";
         private const bool IsAutoExpandPool = true;
-        private const float MinValue = 0f;
-        private const int MinCountShots = 0;
 
         [SerializeField] private GunBullet _bulletPrefab;
         [SerializeField] private int _countBullets;
         [SerializeField] private Transform _shootPoint;
 
-        private float _lastShotTime;
-        private float _reloadTimer;
-        
-        private int _currentCountShots;
-        private bool _isReloading;
-    
         private GunBullet _bullet;
         private EnemyActor _closestEnemy;
         private ObjectPool<GunBullet> _poolBullets;
 
         private EnemyDetector _detector;
         private AudioSoundsService _audioSoundsService;
-        private WeaponView _weaponView;
 
         public GunCharacteristics GunCharacteristics { get; private set; } = new ();
         
@@ -49,6 +38,8 @@ namespace Project.Scripts.Weapon.Player
             Type = data.WeaponType;
             WeaponPanel = weaponPanel;
 
+            WeaponCharacteristics = GunCharacteristics;
+
             if (gunCharacteristics == null)
                 GunCharacteristics.SetStartingCharacteristics(data);
             else
@@ -56,9 +47,9 @@ namespace Project.Scripts.Weapon.Player
             
             YG2.saves.GunCharacteristics = GunCharacteristics;
             
-            _currentCountShots = GunCharacteristics.MaxCountShots;
-            _weaponView = WeaponPanel.GetWeaponViewByType(Type);
-            _weaponView.SetText(_currentCountShots, GunCharacteristics.MaxCountShots);
+            CurrentCountShots = GunCharacteristics.MaxCountShots;
+            WeaponView = WeaponPanel.GetWeaponViewByType(Type);
+            WeaponView.SetText(CurrentCountShots, GunCharacteristics.MaxCountShots);
         }
 
         private void Awake()
@@ -74,29 +65,29 @@ namespace Project.Scripts.Weapon.Player
         {
             _closestEnemy = _detector.GetClosestEnemy();
             
-            if (_isReloading)
+            if (IsReloading)
             {
-                _weaponView.AnimateFiller(_reloadTimer, GunCharacteristics.ReloadTime);
+                WeaponView.AnimateFiller(ReloadTimer, GunCharacteristics.ReloadTime);
             }
 
             CheckAmmoAndReload();
             
             if (_closestEnemy == null) return;
 
-            if (_detector.ClosestEnemyDistance <= GunCharacteristics.RangeAttack && _currentCountShots > MinCountShots
-                && !_isReloading)
+            if (_detector.ClosestEnemyDistance <= GunCharacteristics.RangeAttack && CurrentCountShots > MinCountShots
+                && !IsReloading)
             {
                 Shoot();
             }
             
-            _lastShotTime -= Time.deltaTime;
+            LastShotTime -= Time.deltaTime;
         }
     
         public override void Shoot()
         {
-            if (_lastShotTime <= MinValue && _closestEnemy.Health.TargetHealth > MinValue)
+            if (LastShotTime <= MinValue && _closestEnemy.Health.TargetHealth > MinValue)
             {
-                _currentCountShots--;
+                CurrentCountShots--;
                 _bullet = _poolBullets.GetFreeElement();
             
                 _audioSoundsService.PlaySound(SoundsType.Gun).Forget();
@@ -106,43 +97,16 @@ namespace Project.Scripts.Weapon.Player
                 _bullet.SetDirection(_closestEnemy.transform.position);
                 _bullet.SetCharacteristics(GunCharacteristics.Damage, GunCharacteristics.ProjectileSpeed);
 
-                _lastShotTime = GunCharacteristics.FireRate;
+                LastShotTime = GunCharacteristics.FireRate;
                 
-                _weaponView.SetText(_currentCountShots, GunCharacteristics.MaxCountShots);
+                WeaponView.SetText(CurrentCountShots, GunCharacteristics.MaxCountShots);
             }
         }
 
         public override void AcceptWeaponImprovement(IWeaponVisitor weaponVisitor, CharacteristicType type, float value)
         {
             weaponVisitor.Visit(this, type, value);
-            _weaponView.SetText(_currentCountShots, GunCharacteristics.MaxCountShots);
-        }
-    
-        private void CheckAmmoAndReload()
-        {
-            if (_currentCountShots <= MinValue && !_isReloading)
-            {
-                StartCoroutine(Reload());
-            }
-        }
-
-        private IEnumerator Reload()
-        {
-            _reloadTimer = MinValue;
-            
-            _isReloading = true;
-            _weaponView.ActivateFiller();
-
-            while (_reloadTimer < GunCharacteristics.ReloadTime)
-            {
-                _reloadTimer += Time.fixedDeltaTime;
-                yield return null;
-            }
-
-            _currentCountShots = GunCharacteristics.MaxCountShots;
-            _isReloading = false;
-            _weaponView.SetText(_currentCountShots, GunCharacteristics.MaxCountShots);
-            _weaponView.DeactivateFiller();
+            WeaponView.SetText(CurrentCountShots, GunCharacteristics.MaxCountShots);
         }
     }
 }

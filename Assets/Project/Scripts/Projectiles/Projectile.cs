@@ -14,7 +14,6 @@ namespace Project.Scripts.Projectiles
         protected float ProjectileSpeed;
     
         protected Vector3 Direction;
-
         protected Transform Transform;
 
         private void Awake()

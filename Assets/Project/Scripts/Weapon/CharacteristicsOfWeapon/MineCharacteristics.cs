@@ -29,6 +29,9 @@ namespace Project.Scripts.Weapon.CharacteristicsOfWeapon
                 case CharacteristicType.MaxCountShots :
                     IncreaseMaxCountBullets((int)factor);
                     break;
+                case CharacteristicType.ReloadTime :
+                    IncreaseReloadVelocity(factor);
+                    break;
             }
         }
     }
