@@ -38,8 +38,6 @@ namespace Project.Scripts.Weapon.Player
             Type = data.WeaponType;
             WeaponPanel = weaponPanel;
 
-            WeaponCharacteristics = GunCharacteristics;
-
             if (gunCharacteristics == null)
                 GunCharacteristics.SetStartingCharacteristics(data);
             else
@@ -47,6 +45,7 @@ namespace Project.Scripts.Weapon.Player
             
             YG2.saves.GunCharacteristics = GunCharacteristics;
             
+            WeaponCharacteristics = GunCharacteristics;
             CurrentCountShots = GunCharacteristics.MaxCountShots;
             WeaponView = WeaponPanel.GetWeaponViewByType(Type);
             WeaponView.SetText(CurrentCountShots, GunCharacteristics.MaxCountShots);

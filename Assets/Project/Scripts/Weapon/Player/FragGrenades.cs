@@ -38,8 +38,6 @@ namespace Project.Scripts.Weapon.Player
             Type = data.WeaponType;
             WeaponPanel = weaponPanel;
 
-            WeaponCharacteristics = FragGrenadeCharacteristics;
-            
             if(fragGrenadeCharacteristics == null)
                 FragGrenadeCharacteristics.SetStartingCharacteristics(data);
             else
@@ -47,6 +45,7 @@ namespace Project.Scripts.Weapon.Player
 
             YG2.saves.FragGrenadeCharacteristics = FragGrenadeCharacteristics;
             
+            WeaponCharacteristics = FragGrenadeCharacteristics;
             CurrentCountShots = FragGrenadeCharacteristics.MaxCountShots;
             WeaponView = WeaponPanel.GetWeaponViewByType(Type);
             WeaponView.SetText(CurrentCountShots, FragGrenadeCharacteristics.MaxCountShots);

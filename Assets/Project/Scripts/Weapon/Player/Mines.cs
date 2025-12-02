@@ -53,7 +53,8 @@ namespace Project.Scripts.Weapon.Player
                 MineCharacteristics = mineCharacteristics;
 
             YG2.saves.MinesCharacteristics = MineCharacteristics;
-            
+
+            WeaponCharacteristics = MineCharacteristics;
             _currentCountShots = MineCharacteristics.MaxCountShots;
             _weaponView = WeaponPanel.GetWeaponViewByType(Type);
             _weaponView.SetText(_currentCountShots, MineCharacteristics.MaxCountShots);

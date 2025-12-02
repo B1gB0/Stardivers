@@ -45,8 +45,6 @@ namespace Project.Scripts.Weapon.Player
             _detector = detector;
             Type = data.WeaponType;
             WeaponPanel = weaponPanel;
-
-            WeaponCharacteristics = ChainLightningGunCharacteristics;
             
             if(chainLightningGunCharacteristics == null)
                 ChainLightningGunCharacteristics.SetStartingCharacteristics(data);
@@ -55,6 +53,7 @@ namespace Project.Scripts.Weapon.Player
 
             YG2.saves.ChainLightningGunCharacteristics = ChainLightningGunCharacteristics;
             
+            WeaponCharacteristics = ChainLightningGunCharacteristics;
             CurrentCountShots = ChainLightningGunCharacteristics.MaxCountShots;
             WeaponView = WeaponPanel.GetWeaponViewByType(Type);
             WeaponView.SetText(CurrentCountShots, ChainLightningGunCharacteristics.MaxCountShots);

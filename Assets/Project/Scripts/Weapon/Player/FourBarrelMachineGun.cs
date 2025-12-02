@@ -48,8 +48,6 @@ namespace Project.Scripts.Weapon.Player
             Type = data.WeaponType;
             WeaponPanel = weaponPanel;
 
-            WeaponCharacteristics = FourBarrelMachineGunCharacteristics;
-
             if (fourBarrelMachineGunCharacteristics == null)
                 FourBarrelMachineGunCharacteristics.SetStartingCharacteristics(data);
             
@@ -58,6 +56,7 @@ namespace Project.Scripts.Weapon.Player
 
             YG2.saves.FourBarrelMachineGunCharacteristics = FourBarrelMachineGunCharacteristics;
             
+            WeaponCharacteristics = FourBarrelMachineGunCharacteristics;
             CurrentCountShots = FourBarrelMachineGunCharacteristics.MaxCountShots;
             WeaponView = WeaponPanel.GetWeaponViewByType(Type);
             WeaponView.SetText(CurrentCountShots, FourBarrelMachineGunCharacteristics.MaxCountShots);
