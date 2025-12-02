@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using DG.Tweening;
 using Project.Scripts.DataBase.Data;
@@ -39,8 +40,9 @@ namespace Project.Scripts.UI.Panel
         
         private UILocalizationData _uiLocalizationData;
 
+        public event Action OnRewardAdSuccessShowed;
+
         public Button GoToMainMenuButton => _goToMainMenuButton;
-        public Button RebornPlayerButton => _rebornPlayerButton;
         public Button NextLevelButton => _nextLevelButton;
 
         [Inject]
@@ -58,23 +60,23 @@ namespace Project.Scripts.UI.Panel
         private void OnEnable()
         {
             _goToMainMenuButton.onClick.AddListener(Hide);
-            _rebornPlayerButton.onClick.AddListener(Hide);
             _rebornPlayerButton.onClick.AddListener(OnShowRewardAd);
             
-            _rebornPlayerButton.onClick.AddListener(OnPlayGame);
             _nextLevelButton.onClick.AddListener(OnPlayGame);
             _goToMainMenuButton.onClick.AddListener(OnPlayGame);
+
+            YG2.onRewardAdv += OnRewardSuccess;
         }
 
         private void OnDisable()
         {
             _goToMainMenuButton.onClick.RemoveListener(Hide);
-            _rebornPlayerButton.onClick.RemoveListener(Hide);
             _rebornPlayerButton.onClick.RemoveListener(OnShowRewardAd);
             
-            _rebornPlayerButton.onClick.RemoveListener(OnPlayGame);
             _nextLevelButton.onClick.RemoveListener(OnPlayGame);
             _goToMainMenuButton.onClick.RemoveListener(OnPlayGame);
+            
+            YG2.onRewardAdv -= OnRewardSuccess;
         }
 
         private void OnDestroy()
@@ -173,6 +175,13 @@ namespace Project.Scripts.UI.Panel
         private void OnPlayGame()
         {
             _pauseService.PlayGame();
+        }
+
+        private void OnRewardSuccess(string id)
+        {
+            Hide();
+            OnPlayGame();
+            OnRewardAdSuccessShowed?.Invoke();
         }
 
         private void OnShowRewardAd()

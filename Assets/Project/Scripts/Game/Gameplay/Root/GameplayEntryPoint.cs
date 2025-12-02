@@ -230,8 +230,8 @@ namespace Project.Scripts.Game.Gameplay.Root
             _gameInitSystem.PlayerIsSpawned += _healthBar.Show;
             _gameInitSystem.PlayerIsSpawned += OnShowJoystick;
 
-            _endGamePanel.RebornPlayerButton.onClick.AddListener(_gameInitSystem.CreateCapsule);
-            _endGamePanel.RebornPlayerButton.onClick.AddListener(uiRoot.UIRootButtons.Show);
+            _endGamePanel.OnRewardAdSuccessShowed += _gameInitSystem.CreateCapsule;
+            _endGamePanel.OnRewardAdSuccessShowed += uiRoot.UIRootButtons.Show;
 
             _endGamePanel.GoToMainMenuButton.onClick.AddListener(GetMainMenuExitParameters);
             _endGamePanel.GoToMainMenuButton.onClick.AddListener(_uiScene.HandleGoToNextSceneButtonClick);
@@ -293,8 +293,8 @@ namespace Project.Scripts.Game.Gameplay.Root
             _endGamePanel.NextLevelButton.onClick.RemoveListener(GetGameplayExitParameters);
             _endGamePanel.NextLevelButton.onClick.RemoveListener(_uiScene.HandleGoToNextSceneButtonClick);
             
-            _endGamePanel.RebornPlayerButton.onClick.RemoveListener(_gameInitSystem.CreateCapsule);
-            _endGamePanel.RebornPlayerButton.onClick.RemoveListener(_uiRoot.UIRootButtons.Show);
+            _endGamePanel.OnRewardAdSuccessShowed -= _gameInitSystem.CreateCapsule;
+            _endGamePanel.OnRewardAdSuccessShowed -= _uiRoot.UIRootButtons.Show;
 
             _experiencePoints.CurrentLevelIsUpgraded -= _levelUpPanel.OnCurrentLevelIsUpgraded;
 
