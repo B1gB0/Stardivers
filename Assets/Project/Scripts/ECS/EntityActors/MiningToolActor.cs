@@ -44,7 +44,7 @@ namespace Project.Scripts.ECS.EntityActors
             _particleEffectsService = particleEffectsService;
         }
 
-        private void FixedUpdate()
+        private void Update()
         {
             ResourceActor bestResource = FindBestResourceInCone();
 
@@ -71,8 +71,12 @@ namespace Project.Scripts.ECS.EntityActors
 
                     _lastHitTime = _diggingSpeed;
                 }
+                else
+                {
+                    _resourceRef.Health.SetHit(false);
+                }
 
-                _lastHitTime -= Time.fixedDeltaTime;
+                _lastHitTime -= Time.deltaTime;
             }
             else
             {

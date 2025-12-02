@@ -377,6 +377,13 @@ namespace Project.Scripts.Game.Gameplay.Root
             _updateSystems = new EcsSystems(_world);
             _fixedUpdateSystems = new EcsSystems(_world);
 
+            _fixedUpdateSystems.Inject(_bigAlienEnemyData.ProjectilePrefab);
+            
+            _fixedUpdateSystems.Add(new PlayerMoveSystem());
+            _fixedUpdateSystems.Add(new FollowSystem());
+            _fixedUpdateSystems.Add(new PatrolSystem());
+            _fixedUpdateSystems.Init();
+            
             _updateSystems.Inject(_dialoguePanel);
             _updateSystems.Inject(_experiencePoints);
             _updateSystems.Inject(_floatingTextService);
@@ -405,7 +412,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             _updateSystems.Inject(_iceCrystalData);
             _updateSystems.Inject(_particleEffectsService);
             _updateSystems.Inject(_container);
-
+            
             _updateSystems.Add(_gameInitSystem = new GameInitSystem());
             _updateSystems.Add(new PlayerInputSystem());
             _updateSystems.Add(new MainCameraSystem(_cinemachineVirtualCamera));
@@ -416,12 +423,6 @@ namespace Project.Scripts.Game.Gameplay.Root
             _updateSystems.Add(new EnemyRangeAttackSystem());
             _updateSystems.Add(new AttackCheckSystem());
             _updateSystems.Init();
-
-            _fixedUpdateSystems.Inject(_bigAlienEnemyData.ProjectilePrefab);
-            _fixedUpdateSystems.Add(new PlayerMoveSystem());
-            _fixedUpdateSystems.Add(new FollowSystem());
-            _fixedUpdateSystems.Add(new PatrolSystem());
-            _fixedUpdateSystems.Init();
         }
 
         private void OnShowJoystick()

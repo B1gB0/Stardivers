@@ -64,6 +64,11 @@ namespace Project.Scripts.UI.Panel
             
             _nextLevelButton.onClick.AddListener(OnPlayGame);
             _goToMainMenuButton.onClick.AddListener(OnPlayGame);
+            
+#if UNITY_EDITOR
+            _rebornPlayerButton.onClick.AddListener(Hide);
+            _rebornPlayerButton.onClick.AddListener(OnPlayGame);
+#endif
 
             YG2.onRewardAdv += OnRewardSuccess;
         }
@@ -75,6 +80,11 @@ namespace Project.Scripts.UI.Panel
             
             _nextLevelButton.onClick.RemoveListener(OnPlayGame);
             _goToMainMenuButton.onClick.RemoveListener(OnPlayGame);
+
+#if UNITY_EDITOR
+            _rebornPlayerButton.onClick.RemoveListener(Hide);
+            _rebornPlayerButton.onClick.RemoveListener(OnPlayGame);
+#endif
             
             YG2.onRewardAdv -= OnRewardSuccess;
         }
@@ -177,7 +187,7 @@ namespace Project.Scripts.UI.Panel
             _pauseService.PlayGame();
         }
 
-        private void OnRewardSuccess(string id)
+        private void OnRewardSuccess(string id = null)
         {
             Hide();
             OnPlayGame();
