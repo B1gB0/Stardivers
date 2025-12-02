@@ -7,6 +7,9 @@ namespace Project.Scripts.UI.View
 {
     public class WeaponView : MonoBehaviour, IView
     {
+        private const float MinValue = 0f;
+        private const float MaxValue = 1f;
+        
         [SerializeField] private Image _filler;
         [SerializeField] private Image _icon;
         [SerializeField] private TMP_Text _text;
@@ -33,13 +36,13 @@ namespace Project.Scripts.UI.View
         public void ActivateFiller()
         {
             _filler.gameObject.SetActive(true);
-            _filler.fillAmount = 1f;
+            _filler.fillAmount = MaxValue;
         }
 
         public void DeactivateFiller()
         {
             _filler.gameObject.SetActive(false);
-            _filler.fillAmount = 0f;
+            _filler.fillAmount = MinValue;
         }
 
         public void SetText(int currentCountShots, int maxShots)
@@ -49,7 +52,7 @@ namespace Project.Scripts.UI.View
 
         public void AnimateFiller(float reloadTimer, float reloadTime)
         {
-            float reloadProgress = 1f - (reloadTimer / reloadTime);
+            float reloadProgress = MaxValue - (reloadTimer / reloadTime);
             _filler.fillAmount = reloadProgress;
         }
     }

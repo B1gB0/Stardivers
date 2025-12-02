@@ -73,11 +73,6 @@ namespace Project.Scripts.Weapon.Player
         private void Update()
         {
             LastShotTime -= Time.deltaTime;
-            
-            if (IsReloading)
-            {
-                WeaponView.AnimateFiller(ReloadTimer, ChainLightningGunCharacteristics.ReloadTime);
-            }
 
             CheckAmmoAndReload();
 

@@ -31,7 +31,7 @@ namespace Project.Scripts.Services
         private const string IceCrystalSoundPath = "IceCrystalSound";
         private const string GunnerEnemyAlienSoundPath = "GunnerEnemyAlienSound";
 
-        private const int CountAudioSources = 3;
+        private const int CountAudioSources = 10;
 
         private const float MinValue = 0f;
         private const float FadeDuration = 2f;

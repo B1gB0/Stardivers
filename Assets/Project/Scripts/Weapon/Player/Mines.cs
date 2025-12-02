@@ -74,11 +74,6 @@ namespace Project.Scripts.Weapon.Player
 
         private void FixedUpdate()
         {
-            if (_isReloading)
-            {
-                _weaponView.AnimateFiller(_reloadTimer, MineCharacteristics.ReloadTime);
-            }
-            
             CheckAmmoAndReload();
             
             _lastShotTime -= Time.fixedDeltaTime;

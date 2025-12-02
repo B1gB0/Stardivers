@@ -1,4 +1,5 @@
 using System.Collections;
+using Cysharp.Threading.Tasks;
 using Project.Scripts.UI.Panel;
 using Project.Scripts.UI.View;
 using Project.Scripts.Weapon.CharacteristicsOfWeapon;
@@ -32,11 +33,11 @@ namespace Project.Scripts.Weapon.Player
         {
             if (CurrentCountShots <= MinCountShots && !IsReloading)
             {
-                StartCoroutine(Reload());
+                Reload().Forget();
             }
         }
 
-        private IEnumerator Reload()
+        private async UniTask Reload()
         {
             ReloadTimer = MinValue;
             
@@ -45,8 +46,9 @@ namespace Project.Scripts.Weapon.Player
 
             while (ReloadTimer < WeaponCharacteristics.ReloadTime)
             {
+                WeaponView.AnimateFiller(ReloadTimer, WeaponCharacteristics.ReloadTime);
                 ReloadTimer += Time.deltaTime;
-                yield return null;
+                await UniTask.NextFrame();
             }
 
             CurrentCountShots = WeaponCharacteristics.MaxCountShots;

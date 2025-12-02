@@ -67,11 +67,6 @@ namespace Project.Scripts.Weapon.Player
         private void Update()
         {
             _closestEnemy = _detector.GetClosestEnemy();
-            
-            if (IsReloading)
-            {
-                WeaponView.AnimateFiller(ReloadTimer, MachineGunCharacteristics.ReloadTime);
-            }
 
             CheckAmmoAndReload();
             
