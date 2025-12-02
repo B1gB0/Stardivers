@@ -16,7 +16,6 @@ namespace Project.Scripts.Weapon.Player
 {
     public class Mines : PlayerWeapon
     {
-        private const float MinValue = 0f;
         private const bool IsAutoExpandPool = true;
         
         [SerializeField] private int _countMines;

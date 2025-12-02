@@ -1,17 +1,18 @@
 using Project.Scripts.ECS.EntityActors;
+using Project.Scripts.Levels.Mars.ThirdLevel;
 using UnityEngine;
 
 namespace Project.Scripts.Levels.Triggers
 {
     public class TruckPlayerTrigger : Trigger
     {
-        public bool IsPlayerNearby { get; private set; }
+        [SerializeField] private Truck _truck;
         
         private void OnTriggerEnter(Collider trigger)
         {
             if (trigger.TryGetComponent(out PlayerActor player))
             {
-                IsPlayerNearby = true;
+                _truck.OnPlayerIsNearby(player);
             }
         }
 
@@ -19,7 +20,7 @@ namespace Project.Scripts.Levels.Triggers
         {
             if (trigger.TryGetComponent(out PlayerActor player))
             {
-                IsPlayerNearby = false;
+                _truck.OnPlayerIsNotNearby();
             }
         }
     }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Project.Scripts.ECS.EntityActors;
 using UnityEngine;
 
 namespace Project.Scripts.Levels.MysteryPlanet.SecondLevel
@@ -7,6 +8,7 @@ namespace Project.Scripts.Levels.MysteryPlanet.SecondLevel
     public class RadioTower : MonoBehaviour
     {
         private const float MaxValue = 60f;
+        private const float MinValue = 0f;
         private const float RecoveryRate = 1f;
         
         [SerializeField] private float _speedRising = 2.5f;
@@ -29,7 +31,7 @@ namespace Project.Scripts.Levels.MysteryPlanet.SecondLevel
             ProgressChanged?.Invoke(_currentProgress, _maxProgress);
         }
 
-        public void OnChangeProgress()
+        public void OnChangeProgress(PlayerActor player)
         {
             if (_coroutine != null)
             {
@@ -38,14 +40,28 @@ namespace Project.Scripts.Levels.MysteryPlanet.SecondLevel
             }
             else
             {
-                _coroutine = StartCoroutine(ChangeProgress());
+                _coroutine = StartCoroutine(ChangeProgress(player));
+            }
+        }
+        
+        public void OnStopChangeProgress()
+        {
+            if (_coroutine != null)
+            {
+                StopCoroutine(_coroutine);
+                _coroutine = null;
             }
         }
 
-        private IEnumerator ChangeProgress()
+        private IEnumerator ChangeProgress(PlayerActor player)
         {
             while (_currentProgress < _maxProgress)
             {
+                if (player.Health.TargetHealth <= MinValue)
+                {
+                    OnStopChangeProgress();
+                }
+                
                 _currentProgress = Mathf.MoveTowards(_currentProgress, _maxProgress, 
                     RecoveryRate * Time.deltaTime);
 

@@ -10,18 +10,17 @@ namespace Project.Scripts.Levels.Triggers
 
         private void OnTriggerEnter(Collider trigger)
         {
-            if (trigger.TryGetComponent(out PlayerActor _))
+            if (trigger.TryGetComponent(out PlayerActor player))
             {
-                if(_radioTower.gameObject.activeSelf)
-                    _radioTower.OnChangeProgress();
+                _radioTower.OnChangeProgress(player);
             }
         }
 
         private void OnTriggerExit(Collider trigger)
         {
-            if (trigger.TryGetComponent(out PlayerActor _))
+            if (trigger.TryGetComponent(out PlayerActor player))
             {
-                _radioTower.OnChangeProgress();
+                _radioTower.OnStopChangeProgress();
             }
         }
     }

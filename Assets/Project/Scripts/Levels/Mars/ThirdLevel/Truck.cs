@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Project.Scripts.ECS.EntityActors;
 using Project.Scripts.Levels.Triggers;
 using UnityEngine;
 
@@ -11,7 +12,7 @@ namespace Project.Scripts.Levels.Mars.ThirdLevel
         private const int MinCountPoints = 0;
         private const int NextPoint = 1;
         
-        private const float MinHeight = 0f;
+        private const float MinValue = 0f;
         private const float MinDistanceToPoint = 1f;
         private const float MoveSpeed = 2f;
         private const float RotationSpeed = 2f;
@@ -19,17 +20,18 @@ namespace Project.Scripts.Levels.Mars.ThirdLevel
         [SerializeField] private Transform[] _followPoints;
         [SerializeField] private List<WheelRotation> _wheels;
         [SerializeField] private TruckObstacleTrigger _obstacleForwardTrigger;
-
-        private TruckPlayerTrigger _truckPlayerTrigger;
+        
         private int _currentIndexPoint;
         private float _heightAboveGroundLevel;
         private bool _isFinalPointReached;
+        private bool _isPlayerNearby;
+
+        private PlayerActor _player;
 
         public event Action<float, float> ProgressChanged;
 
         private void Start()
         {
-            _truckPlayerTrigger = GetComponentInChildren<TruckPlayerTrigger>();
             _heightAboveGroundLevel = transform.position.y;
             
             ProgressChanged?.Invoke(_currentIndexPoint, _followPoints.Length);
@@ -37,7 +39,9 @@ namespace Project.Scripts.Levels.Mars.ThirdLevel
 
         private void FixedUpdate()
         {
-            if (_truckPlayerTrigger.IsPlayerNearby && !_obstacleForwardTrigger.IsObstacleForward && !_isFinalPointReached)
+            CheckPlayer();
+            
+            if (_isPlayerNearby && !_obstacleForwardTrigger.IsObstacleForward && !_isFinalPointReached)
             {
                 Vector3 target = _followPoints[_currentIndexPoint].position;
 
@@ -62,9 +66,29 @@ namespace Project.Scripts.Levels.Mars.ThirdLevel
             }
         }
 
+        public void OnPlayerIsNearby(PlayerActor player)
+        {
+            _player = player;
+            _isPlayerNearby = true;
+        }
+        
+        public void OnPlayerIsNotNearby()
+        {
+            _isPlayerNearby = false;
+        }
+
         public void ReachFinalPoint()
         {
             _isFinalPointReached = true;
+        }
+
+        private void CheckPlayer()
+        {
+            if(_player == null)
+                return;
+            
+            if(_player.Health.TargetHealth <= MinValue)
+                OnPlayerIsNotNearby();
         }
 
         private void MoveTowardsTarget(Vector3 targetPosition)
@@ -82,7 +106,7 @@ namespace Project.Scripts.Levels.Mars.ThirdLevel
         {
             Vector3 direction = (targetPosition - transform.position).normalized;
 
-            direction.y = MinHeight;
+            direction.y = MinValue;
 
             if (direction != Vector3.zero)
             {
