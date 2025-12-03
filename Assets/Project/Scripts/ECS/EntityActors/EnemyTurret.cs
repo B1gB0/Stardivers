@@ -7,6 +7,11 @@ namespace Project.Scripts.ECS.EntityActors
     public class EnemyTurret : EnemyActor, IAcceptable
     {
         [field: SerializeField] public AlienTurretWeapon Weapon { get; private set; }
+        
+        private void Start()
+        {
+            Weapon.GetServices(AudioSoundsService);
+        }
 
         private void OnEnable()
         {

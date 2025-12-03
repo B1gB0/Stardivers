@@ -1,4 +1,5 @@
 using Project.Scripts.Projectiles;
+using Project.Scripts.Services;
 using UnityEngine;
 
 namespace Project.Scripts.Weapon.Enemy
@@ -9,11 +10,17 @@ namespace Project.Scripts.Weapon.Enemy
         
         [SerializeField] private Transform _shootPoint;
 
+        protected AudioSoundsService AudioSoundsService;
         private Transform _target;
         private T _projectile;
         private float _damage;
         
         private ObjectPool<T> _projectilePool;
+        
+        public void GetServices(AudioSoundsService audioSoundsService)
+        {
+            AudioSoundsService = audioSoundsService;
+        }
 
         public override void Shoot()
         {

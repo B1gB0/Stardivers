@@ -32,6 +32,9 @@ namespace Project.Scripts.UI.View
 
         public void OnLookAtTarget(Transform target)
         {
+            if(target != null && target == _currentTarget)
+                return;
+            
             _currentTarget = target;
         }
     }

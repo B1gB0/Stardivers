@@ -19,6 +19,6 @@
         MysteryPlanetGameplayMusic = 14,
         IceCrystalExplosion = 15,
         GunnerEnemyAlien = 16,
-        
+        SplashSound = 17,
     }
 }

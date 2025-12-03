@@ -16,6 +16,8 @@ namespace Project.Scripts.Levels.MysteryPlanet.ThirdLevel
         [SerializeField] private EnemySpawnTriggerWithoutEffect _enemySpawnFirstTriggerWithoutEffect;
         [SerializeField] private EnemySpawnTriggerWithoutEffect _enemySpawnSecondTriggerWithoutEffect;
         [SerializeField] private EntranceTrigger _entranceLastLvlTrigger;
+        [SerializeField] private NestTriggerForNavigation _firstNestTrigger;
+        [SerializeField] private NestTriggerForNavigation _secondNestTrigger;
 
         private AlienCocoonView _alienCocoonView;
         private ObjectiveTextView _objectiveTextView;
@@ -45,6 +47,9 @@ namespace Project.Scripts.Levels.MysteryPlanet.ThirdLevel
             HideOutpostPointers();
             
             await base.OnStartLevel();
+            
+            _firstNestTrigger.GetArrow(Arrow);
+            _secondNestTrigger.GetArrow(Arrow);
 
             _alienCocoonView = await ViewFactory.CreateAlienCocoonView();
             _objectiveTextView = await ViewFactory.CreateObjectiveText();

@@ -10,6 +10,11 @@ namespace Project.Scripts.ECS.EntityActors
     {
         [field: SerializeField] public BigEnemyAlienWeapon Weapon { get; private set; }
         [field: SerializeField] public NavMeshAgent NavMeshAgent { get; private set; }
+        
+        private void Start()
+        {
+            Weapon.GetServices(AudioSoundsService);
+        }
 
         private void OnEnable()
         {
