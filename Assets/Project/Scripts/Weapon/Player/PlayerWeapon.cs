@@ -1,4 +1,3 @@
-using System.Collections;
 using Cysharp.Threading.Tasks;
 using Project.Scripts.UI.Panel;
 using Project.Scripts.UI.View;

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Project.Scripts.ECS.Data;
+using Project.Scripts.ECS.EntityActors;
 using Project.Scripts.ECS.System;
 using UnityEngine;
 
@@ -7,11 +8,13 @@ namespace Project.Scripts.Levels.Spawners
 {
     public class ResourcesSpawner
     {
-        private const float RandomPositionFactor = 2f;
+        private const float RandomPositionFactor = 1f;
         private const int MinValue = 0;
 
         private readonly GameInitSystem _gameInitSystem;
         private readonly LevelInitData _levelInitData;
+
+        public List<AlienCocoon> AlienCocoons { get; private set; } = new();
 
         public ResourcesSpawner(GameInitSystem gameInitSystem, LevelInitData levelInitData)
         {
@@ -36,7 +39,8 @@ namespace Project.Scripts.Levels.Spawners
                 var alienCocoonSpawnPosition = alienCocoonSpawnPoint + Vector3.one;
                 alienCocoonSpawnPosition.y = alienCocoonSpawnPoint.y;
 
-                _gameInitSystem.CreateAlienCocoon(alienCocoonSpawnPosition);
+                AlienCocoon cocoon = _gameInitSystem.CreateAlienCocoon(alienCocoonSpawnPosition);
+                AlienCocoons.Add(cocoon);
             }
         }
         

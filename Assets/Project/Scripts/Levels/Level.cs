@@ -40,6 +40,7 @@ namespace Project.Scripts.Levels
         
         [SerializeField] private int _countEnemyWaves;
 
+        protected ResourcesSpawner ResourcesSpawner;
         protected EnemySpawner EnemySpawner;
         protected DialogueSetter DialogueSetter;
         protected DialoguePanel DialoguePanel;
@@ -50,7 +51,6 @@ namespace Project.Scripts.Levels
         protected Arrow Arrow;
 
         private GameInitSystem _gameInitSystem;
-        private ResourcesSpawner _resourcesSpawner;
         private LevelInitData _levelInitData;
         private ILevelTextService _levelTextService;
 
@@ -131,18 +131,18 @@ namespace Project.Scripts.Levels
 
         protected void SpawnResources()
         {
-            _resourcesSpawner.Spawn(QuantityGoldCore, QuantityHealingCore);
+            ResourcesSpawner.Spawn(QuantityGoldCore, QuantityHealingCore);
         }
 
         protected void SpawnAlienCocoons()
         {
-            _resourcesSpawner.SpawnAlienCocoons();
+            ResourcesSpawner.SpawnAlienCocoons();
             OnAlienCocoonViewShow?.Invoke();
         }
 
         protected void SpawnIceCrystals()
         {
-            _resourcesSpawner.SpawnIceCrystal(QuantityIceCrystals);
+            ResourcesSpawner.SpawnIceCrystal(QuantityIceCrystals);
         }
         
         protected void ArrowLookAtOutpost()
@@ -196,7 +196,7 @@ namespace Project.Scripts.Levels
         {
             InitEnemyWaves();
 
-            _resourcesSpawner = new ResourcesSpawner(gameInitSystem, _levelInitData);
+            ResourcesSpawner = new ResourcesSpawner(gameInitSystem, _levelInitData);
             EnemySpawner = new EnemySpawner(gameInitSystem);
 
             IsInitiatedSpawners?.Invoke();

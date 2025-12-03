@@ -1,3 +1,4 @@
+using System;
 using Project.Scripts.Experience;
 using Project.Scripts.ParticleEffects.Effects;
 using Project.Scripts.Services;
@@ -12,6 +13,8 @@ namespace Project.Scripts.ECS.EntityActors
         
         private IFloatingTextService _textService;
         private ICurrencyService _currencyService;
+
+        public event Action<AlienCocoon> OnDied;
         
         private void OnEnable()
         {
@@ -48,6 +51,8 @@ namespace Project.Scripts.ECS.EntityActors
             _currencyService.AddAlienCocoon((int)Data.CrystalValue);
             ExperiencePoints.OnKill(this);
             gameObject.SetActive(false);
+            
+            OnDied?.Invoke(this);
         }
     }
 }

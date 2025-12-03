@@ -327,7 +327,7 @@ namespace Project.Scripts.ECS.System
             InitResource(stone);
         }
 
-        public void CreateAlienCocoon(Vector3 atPosition)
+        public AlienCocoon CreateAlienCocoon(Vector3 atPosition)
         {
             var data = _coreService.GetCoreDataByType(CoreType.AlienCocoon);
             
@@ -339,6 +339,8 @@ namespace Project.Scripts.ECS.System
             alienCocoon.transform.SetParent(_rootForObjects);
 
             InitResource(alienCocoon);
+
+            return alienCocoon;
         }
 
         public void CreateHealingCore(Vector3 atPosition)

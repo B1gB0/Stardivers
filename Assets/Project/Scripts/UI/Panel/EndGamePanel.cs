@@ -22,22 +22,22 @@ namespace Project.Scripts.UI.Panel
         [SerializeField] private Text _accumulatedKillsText;
         [SerializeField] private Text _accumulatedGoldText;
         [SerializeField] private Text _accumulatedScoreText;
-        
+
         [SerializeField] private Button _goToMainMenuButton;
         [SerializeField] private Button _rebornPlayerButton;
         [SerializeField] private Button _nextLevelButton;
-        
+
         [SerializeField] private List<Image> _images;
 
         [SerializeField] private GameObject _rootWindow;
-        
+
         private IPauseService _pauseService;
         private OperationService _operationService;
         private ICurrencyService _currencyService;
         private IUILocalizationService _uiLocalizationService;
         private ITweenAnimationService _tweenAnimationService;
         private ExperiencePoints _experiencePoints;
-        
+
         private UILocalizationData _uiLocalizationData;
 
         public event Action OnRewardAdSuccessShowed;
@@ -61,13 +61,14 @@ namespace Project.Scripts.UI.Panel
         {
             _goToMainMenuButton.onClick.AddListener(Hide);
             _rebornPlayerButton.onClick.AddListener(OnShowRewardAd);
-            
+
             _nextLevelButton.onClick.AddListener(OnPlayGame);
             _goToMainMenuButton.onClick.AddListener(OnPlayGame);
-            
+
 #if UNITY_EDITOR
             _rebornPlayerButton.onClick.AddListener(Hide);
             _rebornPlayerButton.onClick.AddListener(OnPlayGame);
+            _rebornPlayerButton.onClick.AddListener(OnReborn);
 #endif
 
             YG2.onRewardAdv += OnRewardSuccess;
@@ -77,15 +78,16 @@ namespace Project.Scripts.UI.Panel
         {
             _goToMainMenuButton.onClick.RemoveListener(Hide);
             _rebornPlayerButton.onClick.RemoveListener(OnShowRewardAd);
-            
+
             _nextLevelButton.onClick.RemoveListener(OnPlayGame);
             _goToMainMenuButton.onClick.RemoveListener(OnPlayGame);
 
 #if UNITY_EDITOR
             _rebornPlayerButton.onClick.RemoveListener(Hide);
             _rebornPlayerButton.onClick.RemoveListener(OnPlayGame);
+            _rebornPlayerButton.onClick.RemoveListener(OnReborn);
 #endif
-            
+
             YG2.onRewardAdv -= OnRewardSuccess;
         }
 
@@ -100,7 +102,7 @@ namespace Project.Scripts.UI.Panel
                 _operationService.CurrentOperation.Maps.Count - CountCorrectFactor)
             {
                 _nextLevelButton.gameObject.SetActive(false);
-                
+
                 if (_operationService.CurrentOperation.Id == Game.Constant.Operations.Mars)
                 {
                     YG2.saves.isMysteryPlanetUnlock = true;
@@ -113,9 +115,9 @@ namespace Project.Scripts.UI.Panel
             }
 
             _rebornPlayerButton.gameObject.SetActive(false);
-            
+
             SetLocalizationData(UITextType.VictoryPanelTitle);
-            
+
             OnChangeColor(Colors.GetColor(ColorName.BlueUIPanelColor));
         }
 
@@ -123,9 +125,9 @@ namespace Project.Scripts.UI.Panel
         {
             _rebornPlayerButton.gameObject.SetActive(true);
             _nextLevelButton.gameObject.SetActive(false);
-            
+
             SetLocalizationData(UITextType.DefeatPanelTitle);
-            
+
             OnChangeColor(Colors.GetColor(ColorName.RedUIPanelColor));
         }
 
@@ -134,7 +136,7 @@ namespace Project.Scripts.UI.Panel
             _accumulatedGoldText.text = _currencyService.AccumulatedGold.ToString();
             _accumulatedKillsText.text = _experiencePoints.AccumulatedKills.ToString();
             _accumulatedScoreText.text = _experiencePoints.AccumulatedScore.ToString();
-            
+
             _pauseService.StopGame();
             gameObject.SetActive(true);
             _tweenAnimationService.AnimateScale(_rootWindow.transform);
@@ -144,7 +146,7 @@ namespace Project.Scripts.UI.Panel
         {
             _currencyService.ResetAccumulatedGold();
             _experiencePoints.ResetAccumulatedValues();
-            
+
             gameObject.SetActive(false);
         }
 
@@ -166,7 +168,7 @@ namespace Project.Scripts.UI.Panel
         {
             _experiencePoints = experiencePoints;
         }
-        
+
         private void SetLocalizationData(UITextType type)
         {
             _uiLocalizationData = _uiLocalizationService.GetLevelTextData(type);
@@ -186,6 +188,13 @@ namespace Project.Scripts.UI.Panel
         {
             _pauseService.PlayGame();
         }
+
+#if UNITY_EDITOR
+        private void OnReborn()
+        {
+            OnRewardAdSuccessShowed?.Invoke();
+        }
+#endif
 
         private void OnRewardSuccess(string id = null)
         {

@@ -6,19 +6,19 @@ namespace Project.Scripts.Levels.Triggers
 {
     public class NestTriggerForNavigation : Trigger
     {
-        [SerializeField] private Transform _targetMissionPoint;
-        
+        [field: SerializeField] public Transform TargetNestPoint { get; private set; }
+
         private Arrow _arrow;
-        
+
         private void OnTriggerEnter(Collider trigger)
         {
             if (trigger.TryGetComponent(out PlayerActor _))
             {
-                _arrow.OnLookAtTarget(_targetMissionPoint);
+                _arrow.OnLookAtTarget(TargetNestPoint);
             }
         }
-
-        public void GetArrow(Arrow arrow)
+        
+        public void GetData(Arrow arrow)
         {
             _arrow = arrow;
         }

@@ -26,13 +26,6 @@ namespace Project.Scripts.Weapon.Player
         private Button _minesButton;
         private AudioSoundsService _audioSoundsService;
         private ParticleEffectsService _particleEffectsService;
-        
-        private float _lastShotTime;
-        private float _reloadTimer;
-        
-        private int _currentCountShots;
-        private bool _isReloading;
-        private WeaponView _weaponView;
 
         public MineCharacteristics MineCharacteristics { get; private set; } = new ();
 
@@ -54,9 +47,9 @@ namespace Project.Scripts.Weapon.Player
             YG2.saves.MinesCharacteristics = MineCharacteristics;
 
             WeaponCharacteristics = MineCharacteristics;
-            _currentCountShots = MineCharacteristics.MaxCountShots;
-            _weaponView = WeaponPanel.GetWeaponViewByType(Type);
-            _weaponView.SetText(_currentCountShots, MineCharacteristics.MaxCountShots);
+            CurrentCountShots = MineCharacteristics.MaxCountShots;
+            WeaponView = WeaponPanel.GetWeaponViewByType(Type);
+            WeaponView.SetText(CurrentCountShots, MineCharacteristics.MaxCountShots);
         }
 
         private void Awake()
@@ -72,11 +65,11 @@ namespace Project.Scripts.Weapon.Player
             _minesButton.onClick.AddListener(Shoot);
         }
 
-        private void FixedUpdate()
+        private void Update()
         {
             CheckAmmoAndReload();
             
-            _lastShotTime -= Time.fixedDeltaTime;
+            LastShotTime -= Time.deltaTime;
         }
 
         private void OnDestroy()
@@ -86,10 +79,10 @@ namespace Project.Scripts.Weapon.Player
 
         public override void Shoot()
         {
-            if (_lastShotTime <= MinValue && _currentCountShots > MinValue && !_isReloading)
+            if (LastShotTime <= MinValue && CurrentCountShots > MinValue && !IsReloading)
             {
                 _mine = _pool.GetFreeElement();
-                _currentCountShots--;
+                CurrentCountShots--;
                 
                 _audioSoundsService.PlaySound(SoundsType.Button).Forget();
 
@@ -98,45 +91,16 @@ namespace Project.Scripts.Weapon.Player
                 _mine.transform.position = _installPoint.position;
                 _mine.SetCharacteristics(MineCharacteristics.Damage, MineCharacteristics.ExplosionRadius);
 
-                _lastShotTime = MineCharacteristics.FireRate;
+                LastShotTime = MineCharacteristics.FireRate;
                 
-                _weaponView.SetText(_currentCountShots, MineCharacteristics.MaxCountShots);
+                WeaponView.SetText(CurrentCountShots, MineCharacteristics.MaxCountShots);
             }
         }
         
         public override void AcceptWeaponImprovement(IWeaponVisitor weaponVisitor, CharacteristicType type, float value)
         {
             weaponVisitor.Visit(this, type, value);
-            _weaponView.SetText(_currentCountShots, MineCharacteristics.MaxCountShots);
-        }
-        
-        private void CheckAmmoAndReload()
-        {
-            if (_currentCountShots <= MinValue && !_isReloading)
-            {
-                StartCoroutine(Reload());
-            }
-        }
-
-        private IEnumerator Reload()
-        {
-            _reloadTimer = MinValue;
-            
-            _isReloading = true;
-            _weaponView.ActivateFiller();
-
-            while (_reloadTimer < MineCharacteristics.ReloadTime)
-            {
-                _reloadTimer += Time.fixedDeltaTime;
-                yield return null;
-            }
-
-            _currentCountShots = MineCharacteristics.MaxCountShots;
-            _isReloading = false;
-            _weaponView.DeactivateFiller();
-            _weaponView.SetText(_currentCountShots, MineCharacteristics.MaxCountShots);
-            
-            Debug.Log(_reloadTimer + " время перезарядки");
+            WeaponView.SetText(CurrentCountShots, MineCharacteristics.MaxCountShots);
         }
     }
 }
