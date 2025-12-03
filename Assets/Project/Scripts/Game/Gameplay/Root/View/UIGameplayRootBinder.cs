@@ -1,4 +1,3 @@
-using System;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Project.Scripts.Audio.Sounds;
@@ -20,13 +19,14 @@ namespace Project.Scripts.Game.Gameplay.Root.View
         [field: SerializeField] public GameplayElements UIScene { get; private set; }
         [field: SerializeField] public Button MinesButton { get; private set; }
         [field: SerializeField] public Joystick Joystick { get; private set; }
+        [field: SerializeField] public WeaponPanel WeaponPanel { get; private set; }
         
 // #if UNITY_EDITOR
         [field: SerializeField] public Button CheatsButton { get; private set; }
 // #endif
-        
-        [field: SerializeField] public WeaponPanel WeaponPanel { get; private set; }
 
+        [field: SerializeField] public Transform TopPointerPoint { get; private set; }
+        [field: SerializeField] public Transform BottomPointerPoint { get; private set; }
         [field: SerializeField] public Transform ShowMinesButtonPoint { get; private set; }
         [field: SerializeField] public Transform HideMinesButtonPoint { get; private set; }
         [field: SerializeField] public Transform ShowGoldPoint { get; private set; }
@@ -97,5 +97,7 @@ namespace Project.Scripts.Game.Gameplay.Root.View
         {
             MinesButton.transform.DOKill();
         }
+        
+        
     }
 }
