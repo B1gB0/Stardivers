@@ -18,7 +18,7 @@
                     "name": "Jump",
                     "type": "Button",
                     "id": "873a9413-0017-4324-bf3f-2126a83eaeb3",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -36,6 +36,15 @@
                     "name": "ActivateWeapon",
                     "type": "Button",
                     "id": "611d0524-b331-4c29-808f-b19a7e8afdd7",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Global",
+                    "type": "Button",
+                    "id": "28bd3c41-ebd1-45d6-b7e2-c01417f4d3b2",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -150,6 +159,17 @@
                     "processors": "",
                     "groups": ";Keyboard and mouse",
                     "action": "ActivateWeapon",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "72552570-17e5-421f-ac67-b4e7d3b3467d",
+                    "path": "<Mouse>/press",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard and mouse",
+                    "action": "Global",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

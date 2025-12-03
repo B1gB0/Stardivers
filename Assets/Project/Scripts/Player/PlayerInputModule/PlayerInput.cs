@@ -104,7 +104,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""name"": ""Jump"",
                     ""type"": ""Button"",
                     ""id"": ""873a9413-0017-4324-bf3f-2126a83eaeb3"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -122,6 +122,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""name"": ""ActivateWeapon"",
                     ""type"": ""Button"",
                     ""id"": ""611d0524-b331-4c29-808f-b19a7e8afdd7"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Global"",
+                    ""type"": ""Button"",
+                    ""id"": ""28bd3c41-ebd1-45d6-b7e2-c01417f4d3b2"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -238,6 +247,17 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""ActivateWeapon"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""72552570-17e5-421f-ac67-b4e7d3b3467d"",
+                    ""path"": ""<Mouse>/press"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard and mouse"",
+                    ""action"": ""Global"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -278,6 +298,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Button = m_Player.FindAction("Button", throwIfNotFound: true);
         m_Player_ActivateWeapon = m_Player.FindAction("ActivateWeapon", throwIfNotFound: true);
+        m_Player_Global = m_Player.FindAction("Global", throwIfNotFound: true);
     }
 
     ~@PlayerInput()
@@ -362,6 +383,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_Button;
     private readonly InputAction m_Player_ActivateWeapon;
+    private readonly InputAction m_Player_Global;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -389,6 +411,10 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/ActivateWeapon".
         /// </summary>
         public InputAction @ActivateWeapon => m_Wrapper.m_Player_ActivateWeapon;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Global".
+        /// </summary>
+        public InputAction @Global => m_Wrapper.m_Player_Global;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -427,6 +453,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @ActivateWeapon.started += instance.OnActivateWeapon;
             @ActivateWeapon.performed += instance.OnActivateWeapon;
             @ActivateWeapon.canceled += instance.OnActivateWeapon;
+            @Global.started += instance.OnGlobal;
+            @Global.performed += instance.OnGlobal;
+            @Global.canceled += instance.OnGlobal;
         }
 
         /// <summary>
@@ -450,6 +479,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @ActivateWeapon.started -= instance.OnActivateWeapon;
             @ActivateWeapon.performed -= instance.OnActivateWeapon;
             @ActivateWeapon.canceled -= instance.OnActivateWeapon;
+            @Global.started -= instance.OnGlobal;
+            @Global.performed -= instance.OnGlobal;
+            @Global.canceled -= instance.OnGlobal;
         }
 
         /// <summary>
@@ -544,5 +576,12 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnActivateWeapon(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Global" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnGlobal(InputAction.CallbackContext context);
     }
 }

@@ -27,12 +27,12 @@ namespace Project.Scripts.Levels
         [field: SerializeField] public bool IsLaunchPlayerCapsule { get; private set; }
         [field: SerializeField] public EndLevelTrigger EndLevelTrigger { get; private set; }
         [field: SerializeField] public EntranceTrigger EntranceToNextLvlTrigger { get; private set; }
+        [field:SerializeField] public WelcomePlanetTextTrigger WelcomePlanetTextTrigger { get; private set; }
         [field: SerializeField] public Transform ArrowPoint { get; private set; }
         [field: SerializeField] public int QuantityGoldCore { get; private set; }
         [field: SerializeField] public int QuantityHealingCore { get; private set; }
         [field: SerializeField] public int QuantityIceCrystals { get; private set; }
         
-        [SerializeField] protected WelcomePlanetTextTrigger WelcomePlanetTextTrigger;
         [SerializeField] protected float SpawnWaveOfEnemyDelay = 10f;
         [SerializeField] protected int CountSmallEnemy;
         [SerializeField] protected int CountBigEnemy;

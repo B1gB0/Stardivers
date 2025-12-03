@@ -222,6 +222,8 @@ namespace Project.Scripts.Game.Gameplay.Root
             _level.EndLevelTrigger.IsLevelCompleted += _levelUpPanel.OnEndGameTriggerIsReached;
             _level.EndLevelTrigger.IsLevelCompleted += _uiRoot.UIRootButtons.Hide;
             _level.EndLevelTrigger.IsLevelCompleted += _endGamePanel.SetVictoryPanel;
+            _level.WelcomePlanetTextTrigger.IsWelcomeToPlanet += _uiScene.HideTutorialKeyboardView;
+            _level.WelcomePlanetTextTrigger.IsWelcomeToPlanet += _uiScene.HideTutorialPointer;
 
             _levelUpPanel.OnContinueButtonIsClicked += _endGamePanel.Show;
 
@@ -256,6 +258,13 @@ namespace Project.Scripts.Game.Gameplay.Root
 
             await _level.OnStartLevel();
             await TryLoadWeapons();
+            
+            // _uiScene.ResetCountdownTutorialPointer();
+            
+            if(YG2.envir.isDesktop)
+                _uiScene.ShowTutorialKeyboardView().Forget();
+            else
+                _uiScene.ShowTutorialPointer().Forget();
 
             return exitToSceneSignal;
         }
@@ -284,6 +293,8 @@ namespace Project.Scripts.Game.Gameplay.Root
             _level.EndLevelTrigger.IsLevelCompleted -= _levelUpPanel.OnEndGameTriggerIsReached;
             _level.EndLevelTrigger.IsLevelCompleted -= _uiRoot.UIRootButtons.Hide;
             _level.EndLevelTrigger.IsLevelCompleted -= _endGamePanel.SetVictoryPanel;
+            _level.WelcomePlanetTextTrigger.IsWelcomeToPlanet -= _uiScene.HideTutorialKeyboardView;
+            _level.WelcomePlanetTextTrigger.IsWelcomeToPlanet -= _uiScene.HideTutorialPointer;
             
             _levelUpPanel.OnContinueButtonIsClicked -= _endGamePanel.Show;
 

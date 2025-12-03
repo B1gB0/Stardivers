@@ -9,8 +9,12 @@ namespace Project.Scripts.Services
     {
         private const float ShowScale = 1f;
         private const float HideScale = 0f;
+        
         private const float DurationShow = 0.4f;
         private const float DurationHide = 0.3f;
+        
+        private const float SmallPause = 0.1f;
+        private const float BigPause = 0.5f;
 
         public bool IsInitiated { get; private set; }
 
@@ -86,6 +90,41 @@ namespace Project.Scripts.Services
             {
                 TryOffGameObject(target.transform, isDisableTarget);
             });
+        }
+        
+        public void AnimatePointer(Transform target, Transform topPoint, Transform bottomPoint)
+        {
+            target?.DOKill();
+
+            var originalY = target.position.y;
+
+            // Создаем последовательность анимаций
+            Sequence sequence = DOTween.Sequence()
+
+                //1. Опускание вниз
+                .Append(target.DOMoveY(bottomPoint.position.y, DurationHide)
+                    .SetEase(Ease.Linear))
+                .AppendInterval(SmallPause) // Маленькая пауза
+
+                //2. Два быстрых подъема-опускания
+                .Append(target.DOMoveY(topPoint.position.y,
+                    DurationHide).SetEase(Ease.OutSine))
+                .Append(target.DOMoveY(bottomPoint.position.y,
+                    DurationHide).SetEase(Ease.OutSine))
+
+                // Маленькая пауза
+                .AppendInterval(SmallPause)
+                .Append(target.DOMoveY(topPoint.position.y,
+                    DurationShow).SetEase(Ease.OutSine))
+                .Append(target.DOMoveY(bottomPoint.position.y,
+                    DurationShow).SetEase(Ease.OutSine))
+
+                // 3. Возврат в исходную позицию
+                .Append(target.DOMoveY(originalY, BigPause).SetEase(Ease.Linear))
+                .AppendInterval(BigPause) // Большая пауза
+
+                // 4. Зацикливание
+                .SetLoops(-1, LoopType.Restart);
         }
         
         private void TryOffGameObject(Transform target, bool isDisableTarget)
