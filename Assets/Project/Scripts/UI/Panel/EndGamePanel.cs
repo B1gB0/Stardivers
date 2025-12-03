@@ -198,9 +198,9 @@ namespace Project.Scripts.UI.Panel
 
         private void OnRewardSuccess(string id = null)
         {
+            OnRewardAdSuccessShowed?.Invoke();
             Hide();
             OnPlayGame();
-            OnRewardAdSuccessShowed?.Invoke();
         }
 
         private void OnShowRewardAd()
