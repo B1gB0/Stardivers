@@ -79,6 +79,10 @@ namespace Project.Scripts.Game.Gameplay.Root.View
             MinesButton.transform.DOKill();
             TutorialPointer.transform.DOKill();
             KeyboardTutorialView.transform.DOKill();
+            
+            _tutorialCancellationToken?.Cancel();
+            _tutorialCancellationToken?.Dispose();
+            _tutorialCancellationToken = null;
         }
 
         public void GetUIStateMachine(UIStateMachine uiStateMachine, UIRootButtons uiRootButtons)
