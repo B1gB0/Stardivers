@@ -222,8 +222,6 @@ namespace Project.Scripts.Game.Gameplay.Root
             _level.EndLevelTrigger.IsLevelCompleted += _levelUpPanel.OnEndGameTriggerIsReached;
             _level.EndLevelTrigger.IsLevelCompleted += _uiRoot.UIRootButtons.Hide;
             _level.EndLevelTrigger.IsLevelCompleted += _endGamePanel.SetVictoryPanel;
-            _level.WelcomePlanetTextTrigger.IsWelcomeToPlanet += _uiScene.HideTutorialKeyboardView;
-            _level.WelcomePlanetTextTrigger.IsWelcomeToPlanet += _uiScene.HideTutorialPointer;
 
             _levelUpPanel.OnContinueButtonIsClicked += _endGamePanel.Show;
 
@@ -243,6 +241,9 @@ namespace Project.Scripts.Game.Gameplay.Root
             
             uiRoot.ExitPanel.OnExitToMainMenu += GetMainMenuExitParameters;
             uiRoot.ExitPanel.OnExitToMainMenu += _uiScene.HandleGoToNextSceneButtonClick;
+            
+            _playerService.PlayerActor.PlayerInputController.OnMoveButtonsPressed +=
+                _uiScene.ResetCountdownTutorialPointer;
 
 // #if UNITY_EDITOR
             _uiScene.CheatsButton.onClick.AddListener(_cheatPanel.Show);
@@ -259,12 +260,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             await _level.OnStartLevel();
             await TryLoadWeapons();
             
-            // _uiScene.ResetCountdownTutorialPointer();
-            
-            if(YG2.envir.isDesktop)
-                _uiScene.ShowTutorialKeyboardView().Forget();
-            else
-                _uiScene.ShowTutorialPointer().Forget();
+            _uiScene.ResetCountdownTutorialPointer();
 
             return exitToSceneSignal;
         }
@@ -293,9 +289,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             _level.EndLevelTrigger.IsLevelCompleted -= _levelUpPanel.OnEndGameTriggerIsReached;
             _level.EndLevelTrigger.IsLevelCompleted -= _uiRoot.UIRootButtons.Hide;
             _level.EndLevelTrigger.IsLevelCompleted -= _endGamePanel.SetVictoryPanel;
-            _level.WelcomePlanetTextTrigger.IsWelcomeToPlanet -= _uiScene.HideTutorialKeyboardView;
-            _level.WelcomePlanetTextTrigger.IsWelcomeToPlanet -= _uiScene.HideTutorialPointer;
-            
+
             _levelUpPanel.OnContinueButtonIsClicked -= _endGamePanel.Show;
 
             _endGamePanel.GoToMainMenuButton.onClick.RemoveListener(GetMainMenuExitParameters);
@@ -306,6 +300,12 @@ namespace Project.Scripts.Game.Gameplay.Root
             
             _endGamePanel.OnRewardAdSuccessShowed -= _gameInitSystem.CreateCapsule;
             _endGamePanel.OnRewardAdSuccessShowed -= _uiRoot.UIRootButtons.Show;
+            
+            _uiRoot.ExitPanel.OnExitToMainMenu -= GetMainMenuExitParameters;
+            _uiRoot.ExitPanel.OnExitToMainMenu -= _uiScene.HandleGoToNextSceneButtonClick;
+            
+            _playerService.PlayerActor.PlayerInputController.OnMoveButtonsPressed -=
+                _uiScene.ResetCountdownTutorialPointer;
 
             _experiencePoints.CurrentLevelIsUpgraded -= _levelUpPanel.OnCurrentLevelIsUpgraded;
 

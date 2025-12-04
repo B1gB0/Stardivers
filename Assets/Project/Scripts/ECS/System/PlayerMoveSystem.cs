@@ -7,7 +7,6 @@ namespace Project.Scripts.ECS.System
     public class PlayerMoveSystem : IEcsRunSystem
     {
         private const float MoveDirectionY = 0f;
-        private const float MinMagnitude = 0f;
 
         private readonly EcsFilter<PlayerComponent, PlayerMovableComponent, InputEventComponent> _MoveFilter;
 
@@ -35,7 +34,7 @@ namespace Project.Scripts.ECS.System
                         movableComponent.RotationSpeed * Time.fixedDeltaTime);
                 }
 
-                movableComponent.IsMoving = playerInputController.MoveDirection.sqrMagnitude > MinMagnitude;
+                movableComponent.IsMoving = playerInputController.IsMoveInputPerformed;
             }
         }
     }

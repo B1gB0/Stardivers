@@ -7,6 +7,8 @@ namespace Project.Scripts.Services
 {
     public class TweenAnimationService : ITweenAnimationService
     {
+        private const float MoveDistance = 15f;
+        
         private const float ShowScale = 1f;
         private const float HideScale = 0f;
         
@@ -92,38 +94,25 @@ namespace Project.Scripts.Services
             });
         }
         
-        public void AnimatePointer(Transform target, Transform topPoint, Transform bottomPoint)
+        public void AnimatePointer(Transform target)
         {
             target?.DOKill();
 
-            var originalY = target.position.y;
+            // Анимация в локальных координатах
+            float originalY = target.localPosition.y;
+            float topY = originalY + MoveDistance;
+            float bottomY = originalY - MoveDistance;
 
-            // Создаем последовательность анимаций
             Sequence sequence = DOTween.Sequence()
-
-                //1. Опускание вниз
-                .Append(target.DOMoveY(bottomPoint.position.y, DurationHide)
-                    .SetEase(Ease.Linear))
-                .AppendInterval(SmallPause) // Маленькая пауза
-
-                //2. Два быстрых подъема-опускания
-                .Append(target.DOMoveY(topPoint.position.y,
-                    DurationHide).SetEase(Ease.OutSine))
-                .Append(target.DOMoveY(bottomPoint.position.y,
-                    DurationHide).SetEase(Ease.OutSine))
-
-                // Маленькая пауза
+                .Append(target.DOLocalMoveY(bottomY, DurationHide).SetEase(Ease.Linear))
                 .AppendInterval(SmallPause)
-                .Append(target.DOMoveY(topPoint.position.y,
-                    DurationShow).SetEase(Ease.OutSine))
-                .Append(target.DOMoveY(bottomPoint.position.y,
-                    DurationShow).SetEase(Ease.OutSine))
-
-                // 3. Возврат в исходную позицию
-                .Append(target.DOMoveY(originalY, BigPause).SetEase(Ease.Linear))
-                .AppendInterval(BigPause) // Большая пауза
-
-                // 4. Зацикливание
+                .Append(target.DOLocalMoveY(topY, DurationHide).SetEase(Ease.OutSine))
+                .Append(target.DOLocalMoveY(bottomY, DurationHide).SetEase(Ease.OutSine))
+                .AppendInterval(SmallPause)
+                .Append(target.DOLocalMoveY(topY, DurationShow).SetEase(Ease.OutSine))
+                .Append(target.DOLocalMoveY(bottomY, DurationShow).SetEase(Ease.OutSine))
+                .Append(target.DOLocalMoveY(originalY, BigPause).SetEase(Ease.Linear))
+                .AppendInterval(BigPause)
                 .SetLoops(-1, LoopType.Restart);
         }
         

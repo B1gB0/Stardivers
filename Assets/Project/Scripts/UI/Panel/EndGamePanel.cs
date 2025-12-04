@@ -200,7 +200,7 @@ namespace Project.Scripts.UI.Panel
         {
             OnRewardAdSuccessShowed?.Invoke();
             Hide();
-            OnPlayGame();
+            _pauseService.PlayGameAndResetAllPauses();
         }
 
         private void OnShowRewardAd()

@@ -13,14 +13,16 @@ using R3;
 using Reflex.Attributes;
 using UnityEngine;
 using UnityEngine.UI;
+using YG;
 using Joystick = Project.Scripts.UI.View.Joystick;
+using Unit = R3.Unit;
 
 namespace Project.Scripts.Game.Gameplay.Root.View
 {
     public class UIGameplayRootBinder : MonoBehaviour
     {
         private const int DelayToShowTutorial = 5;
-        
+
         [field: SerializeField] public GameplayElements UIScene { get; private set; }
         [field: SerializeField] public Button MinesButton { get; private set; }
         [field: SerializeField] public Joystick Joystick { get; private set; }
@@ -65,11 +67,16 @@ namespace Project.Scripts.Game.Gameplay.Root.View
             _tweenAnimationService = tweenAnimationService;
         }
 
+// #if UNITY_EDITOR
         private void Awake()
         {
-// #if UNITY_EDITOR
             CheatsButton.gameObject.SetActive(true);
+        }
 // #endif
+
+        private void OnDestroy()
+        {
+            MinesButton.transform.DOKill();
         }
 
         public void GetUIStateMachine(UIStateMachine uiStateMachine, UIRootButtons uiRootButtons)
@@ -103,17 +110,17 @@ namespace Project.Scripts.Game.Gameplay.Root.View
             _exitSceneSignalSubject?.OnNext(Unit.Default);
         }
 
-        public async UniTaskVoid ShowTutorialPointer()
+        private async UniTaskVoid ShowTutorialPointer()
         {
             await UniTask.Delay(TimeSpan.FromSeconds(DelayToShowTutorial), DelayType.DeltaTime);
 
             TutorialPointer.Show();
             TutorialPointer.transform.position = PointerPoint.transform.position;
-            _tweenAnimationService.AnimatePointer(TutorialPointer.transform, TopPointerPoint,
-                BottomPointerPoint);
+            TutorialPointer.transform.SetParent(PointerPoint);
+            _tweenAnimationService.AnimatePointer(TutorialPointer.transform);
         }
         
-        public async UniTaskVoid ShowTutorialKeyboardView()
+        private async UniTaskVoid ShowTutorialKeyboardView()
         {
             await UniTask.Delay(TimeSpan.FromSeconds(DelayToShowTutorial), DelayType.DeltaTime);
 
@@ -122,61 +129,40 @@ namespace Project.Scripts.Game.Gameplay.Root.View
                 HideKeyboardTutorialPoint);
         }
 
-        public void HideTutorialPointer()
+        public void ResetCountdownTutorialPointer()
         {
-            TutorialPointer.Hide();
+            if (YG2.envir.isDesktop)
+            {
+                _tweenAnimationService.AnimateMove(KeyboardTutorialView.transform, ShowKeyboardTutorialPoint,
+                    HideKeyboardTutorialPoint, true);
+            }
+            else
+                TutorialPointer.Hide();
+
+            CountdownToShowStoryButtonFoot().Forget();
         }
+
+        private async UniTaskVoid CountdownToShowStoryButtonFoot()
+        {
+            _tutorialCancellationToken?.Cancel();
+            _tutorialCancellationToken?.Dispose();
+            _tutorialCancellationToken = new CancellationTokenSource();
         
-        public void HideTutorialKeyboardView()
-        {
-            KeyboardTutorialView.Hide();
+            try
+            {
+                var completedTask = await UniTask.WhenAny(
+                    UniTask.Delay(TimeSpan.FromSeconds(DelayToShowTutorial), DelayType.DeltaTime,
+                        cancellationToken: _tutorialCancellationToken.Token));
+
+                if (completedTask == 0)
+                {
+                    if(YG2.envir.isDesktop)
+                        ShowTutorialKeyboardView().Forget();
+                    else
+                        ShowTutorialPointer().Forget();
+                }
+            }
+            catch (OperationCanceledException) { }
         }
-
-        // public void ResetCountdownTutorialPointer()
-        // {
-        //     TutorialPointer.Hide();
-        //     CountdownToShowStoryButtonFoot().Forget();
-        // }
-
-        private void OnDestroy()
-        {
-            MinesButton.transform.DOKill();
-        }
-
-        // private async UniTaskVoid CountdownToShowStoryButtonFoot()
-        // {
-        //     _tutorialCancellationToken?.Cancel();
-        //     _tutorialCancellationToken?.Dispose();
-        //     _tutorialCancellationToken = new CancellationTokenSource();
-        //
-        //     try
-        //     {
-        //         // Ожидаем 4 секунды или любое нажатие
-        //         var completedTask = await UniTask.WhenAny(
-        //             UniTask.Delay(TimeSpan.FromSeconds(6), DelayType.DeltaTime,
-        //                 cancellationToken: _tutorialCancellationToken.Token),
-        //             WaitForAnyInput(_tutorialCancellationToken.Token)
-        //         );
-        //
-        //         // Если индекс 0 - значит сработала задержка (не было ввода)
-        //         if (completedTask == 0)
-        //         {
-        //             TutorialPointer.Show();
-        //             TutorialPointer.transform.position = PointerPoint.transform.position;
-        //             _tweenAnimationService.AnimatePointer(TutorialPointer.transform, TopPointerPoint,
-        //                 BottomPointerPoint);
-        //         }
-        //     }
-        //     catch (OperationCanceledException) { }
-        // }
-        //
-        // private async UniTask WaitForAnyInput(CancellationToken ct)
-        // {
-        //     await UniTask.WaitUntil(() => 
-        //             Input.anyKeyDown ||
-        //             (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began),
-        //         cancellationToken: ct
-        //     );
-        // }
     }
 }
