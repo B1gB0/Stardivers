@@ -77,6 +77,8 @@ namespace Project.Scripts.Game.Gameplay.Root.View
         private void OnDestroy()
         {
             MinesButton.transform.DOKill();
+            TutorialPointer.transform.DOKill();
+            KeyboardTutorialView.transform.DOKill();
         }
 
         public void GetUIStateMachine(UIStateMachine uiStateMachine, UIRootButtons uiRootButtons)
