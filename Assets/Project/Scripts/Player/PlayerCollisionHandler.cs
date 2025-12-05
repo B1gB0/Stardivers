@@ -22,7 +22,6 @@ namespace Project.Scripts.Player
         {
             if (trigger.TryGetComponent(out EntranceTrigger entranceTrigger))
             {
-                _playerService.PlayerActor.ChangeFollowEnemyState(false);
                 entranceTrigger.Entrance.OpenGate();
             }
         }

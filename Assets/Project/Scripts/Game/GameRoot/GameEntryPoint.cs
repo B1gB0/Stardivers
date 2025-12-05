@@ -31,13 +31,15 @@ namespace Project.Scripts.Game.GameRoot
 
         private UIRootView _uiRoot;
         private OperationService _operationService;
+        private IPauseService _pauseService;
 
         [Inject]
         private void Construct(UIRootView uiRoot, OperationService operationService,
-            AudioSoundsService audioSoundsService)
+            IPauseService pauseService)
         {
             _operationService = operationService;
             _uiRoot = uiRoot;
+            _pauseService = pauseService;
         }
 
         private async void Start()
@@ -50,6 +52,17 @@ namespace Project.Scripts.Game.GameRoot
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
 
             await StartGame();
+
+            YG2.onFocusWindowGame += _pauseService.OnFocusWindowGame;
+            YG2.onOpenAnyAdv += _pauseService.OnShowAdvertisement;
+            YG2.onCloseAnyAdv += _pauseService.OnCloseAdvertisement;
+        }
+
+        private void OnDestroy()
+        {
+            YG2.onFocusWindowGame -= _pauseService.OnFocusWindowGame;
+            YG2.onOpenAnyAdv -= _pauseService.OnShowAdvertisement;
+            YG2.onCloseAnyAdv -= _pauseService.OnCloseAdvertisement;
         }
 
         private async UniTask StartGame()

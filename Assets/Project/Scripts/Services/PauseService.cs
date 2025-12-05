@@ -53,5 +53,31 @@ namespace Project.Scripts.Services
             
             _countPauses++;
         }
+
+        public void OnShowAdvertisement()
+        {
+            AudioListener.pause = true;
+            StopGame(true);
+        }
+        
+        public void OnCloseAdvertisement()
+        {
+            AudioListener.pause = false;
+            PlayGame(true);
+        }
+
+        public void OnFocusWindowGame(bool isFocusGame)
+        {
+            AudioListener.pause = !isFocusGame;
+
+            if (!isFocusGame)
+            {
+                StopGame(true);
+            }
+            else
+            {
+                PlayGame(true);
+            }
+        }
     }
 }

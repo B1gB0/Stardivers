@@ -396,6 +396,138 @@ Transform:
   m_Children: []
   m_Father: {fileID: 7597658098664656055}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &386137520
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 386137521}
+  - component: {fileID: 386137523}
+  - component: {fileID: 386137522}
+  m_Layer: 0
+  m_Name: EnemyUnFollowTrigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &386137521
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 386137520}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.27832374, z: -0, w: 0.9604873}
+  m_LocalPosition: {x: 9.17, y: 0.59, z: 63.13}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7597658098664656060}
+  m_LocalEulerAnglesHint: {x: 0, y: 32.32, z: 0}
+--- !u!65 &386137522
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 386137520}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 4.0964913, y: 1.966989, z: 0.39108658}
+  m_Center: {x: -0.46607327, y: 0.48349452, z: 0.24142838}
+--- !u!114 &386137523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 386137520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c847058f40384abe8bceeab2d5d8ffa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &390242827
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 390242828}
+  - component: {fileID: 390242830}
+  - component: {fileID: 390242829}
+  m_Layer: 0
+  m_Name: EnemyUnFollowTrigger (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &390242828
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 390242827}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -14.43, y: 0.59, z: -9.54}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7597658098664656060}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &390242829
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 390242827}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 4.0964913, y: 1.966989, z: 0.39108658}
+  m_Center: {x: -0.46607327, y: 0.48349452, z: 0.24142838}
+--- !u!114 &390242830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 390242827}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c847058f40384abe8bceeab2d5d8ffa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &438399947
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2959,6 +3091,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6659014684468130909, guid: 3f97a65ecccbb004f904c543321b77ed, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1277259497}
+    - targetCorrespondingSourceObject: {fileID: 6659014684468130909, guid: 3f97a65ecccbb004f904c543321b77ed, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 386137521}
+    - targetCorrespondingSourceObject: {fileID: 6659014684468130909, guid: 3f97a65ecccbb004f904c543321b77ed, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 390242828}
     - targetCorrespondingSourceObject: {fileID: 6545671193571024470, guid: 3f97a65ecccbb004f904c543321b77ed, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1347544527}
