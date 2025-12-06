@@ -499,12 +499,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 509913265}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 53.18, y: 1.06, z: 2.6}
+  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0.22999957, y: 0.49386644, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2107447503}
+  m_Father: {fileID: 775362308}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &509913267
 MonoBehaviour:
@@ -780,6 +780,16 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1312389143}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &775362307 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4655870180967582337, guid: 11fe58ba8ddf59c4d85ccfa71ae3aa91, type: 3}
+  m_PrefabInstance: {fileID: 2107447499}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &775362308 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1748924062140675917, guid: 11fe58ba8ddf59c4d85ccfa71ae3aa91, type: 3}
+  m_PrefabInstance: {fileID: 2107447499}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &828288438
 GameObject:
   m_ObjectHideFlags: 3
@@ -2049,12 +2059,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1795214341}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -43.25, y: 1.06, z: 2.64}
+  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0.23999935, y: 0.49386644, z: 0.25000763}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2107447503}
+  m_Father: {fileID: 775362307}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1795214343
 MonoBehaviour:
@@ -2263,7 +2273,7 @@ Transform:
   m_GameObject: {fileID: 2101870029}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1.2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2472,12 +2482,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2069433981743137041, guid: 11fe58ba8ddf59c4d85ccfa71ae3aa91, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1694677187}
-    - targetCorrespondingSourceObject: {fileID: 2069433981743137041, guid: 11fe58ba8ddf59c4d85ccfa71ae3aa91, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1795214342}
-    - targetCorrespondingSourceObject: {fileID: 2069433981743137041, guid: 11fe58ba8ddf59c4d85ccfa71ae3aa91, type: 3}
+    - targetCorrespondingSourceObject: {fileID: 1748924062140675917, guid: 11fe58ba8ddf59c4d85ccfa71ae3aa91, type: 3}
       insertIndex: -1
       addedObject: {fileID: 509913266}
+    - targetCorrespondingSourceObject: {fileID: 4655870180967582337, guid: 11fe58ba8ddf59c4d85ccfa71ae3aa91, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1795214342}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 3473994869337256753, guid: 11fe58ba8ddf59c4d85ccfa71ae3aa91, type: 3}
       insertIndex: -1

@@ -422,12 +422,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 386137520}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.27832374, z: -0, w: 0.9604873}
-  m_LocalPosition: {x: 9.17, y: 0.59, z: 63.13}
+  m_LocalRotation: {x: -0, y: -0.016652258, z: -0, w: 0.99986136}
+  m_LocalPosition: {x: 0.6445671, y: 0.59, z: -1.0007647}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 7597658098664656060}
+  m_Father: {fileID: 2042228610}
   m_LocalEulerAnglesHint: {x: 0, y: 32.32, z: 0}
 --- !u!65 &386137522
 BoxCollider:
@@ -489,11 +489,11 @@ Transform:
   m_GameObject: {fileID: 390242827}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -14.43, y: 0.59, z: -9.54}
+  m_LocalPosition: {x: 0.6499996, y: 0.59, z: -0.069999695}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 7597658098664656060}
+  m_Father: {fileID: 2042228611}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &390242829
 BoxCollider:
@@ -2684,6 +2684,16 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6248892997995880217, guid: 7300968199345ea4ebfeb5a31927e42c, type: 3}
   m_PrefabInstance: {fileID: 1991923003}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &2042228610 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4824134745556787565, guid: 3f97a65ecccbb004f904c543321b77ed, type: 3}
+  m_PrefabInstance: {fileID: 7597658098664656054}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2042228611 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4195737625919161086, guid: 3f97a65ecccbb004f904c543321b77ed, type: 3}
+  m_PrefabInstance: {fileID: 7597658098664656054}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2076775521
 GameObject:
   m_ObjectHideFlags: 0
@@ -2942,6 +2952,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4164662019534639046, guid: 3f97a65ecccbb004f904c543321b77ed, type: 3}
+      propertyPath: m_Size.z
+      value: 1.1809478
+      objectReference: {fileID: 0}
+    - target: {fileID: 4164662019534639046, guid: 3f97a65ecccbb004f904c543321b77ed, type: 3}
+      propertyPath: m_Center.z
+      value: -6.965863
+      objectReference: {fileID: 0}
     - target: {fileID: 4252444207919990978, guid: 3f97a65ecccbb004f904c543321b77ed, type: 3}
       propertyPath: _countEnemyWaves
       value: 2
@@ -3046,6 +3064,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -1.6
       objectReference: {fileID: 0}
+    - target: {fileID: 6119077348151582116, guid: 3f97a65ecccbb004f904c543321b77ed, type: 3}
+      propertyPath: m_Size.z
+      value: 1.6239958
+      objectReference: {fileID: 0}
+    - target: {fileID: 6119077348151582116, guid: 3f97a65ecccbb004f904c543321b77ed, type: 3}
+      propertyPath: m_Center.z
+      value: -7.5134187
+      objectReference: {fileID: 0}
     - target: {fileID: 6282848247853783557, guid: 3f97a65ecccbb004f904c543321b77ed, type: 3}
       propertyPath: m_Name
       value: SecondAlien_HQ
@@ -3091,12 +3117,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6659014684468130909, guid: 3f97a65ecccbb004f904c543321b77ed, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1277259497}
-    - targetCorrespondingSourceObject: {fileID: 6659014684468130909, guid: 3f97a65ecccbb004f904c543321b77ed, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 386137521}
-    - targetCorrespondingSourceObject: {fileID: 6659014684468130909, guid: 3f97a65ecccbb004f904c543321b77ed, type: 3}
+    - targetCorrespondingSourceObject: {fileID: 4195737625919161086, guid: 3f97a65ecccbb004f904c543321b77ed, type: 3}
       insertIndex: -1
       addedObject: {fileID: 390242828}
+    - targetCorrespondingSourceObject: {fileID: 4824134745556787565, guid: 3f97a65ecccbb004f904c543321b77ed, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 386137521}
     - targetCorrespondingSourceObject: {fileID: 6545671193571024470, guid: 3f97a65ecccbb004f904c543321b77ed, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1347544527}
