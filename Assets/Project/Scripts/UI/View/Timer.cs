@@ -13,6 +13,9 @@ namespace Project.Scripts.UI.View
     {
         private const int SecondsInMinute = 60;
         private const int MinValue = 0;
+        
+        private const float MinValueFloat = 0f;
+        private const float StepTime = 1f;
 
         [SerializeField] private TMP_Text _text;
         [SerializeField] private Transform _showPoint;
@@ -100,7 +103,7 @@ namespace Project.Scripts.UI.View
 
             _isRunning = true;
             _isPaused = false;
-            _accumulatedTime = 0f;
+            _accumulatedTime = MinValueFloat;
 
             await RunTimerAsync(this.GetCancellationTokenOnDestroy());
         }
@@ -127,9 +130,9 @@ namespace Project.Scripts.UI.View
             
                     if (_isPaused) continue;
             
-                    _accumulatedTime += Time.unscaledDeltaTime;
+                    _accumulatedTime += Time.deltaTime;
 
-                    if (!(_accumulatedTime >= 1f))
+                    if (!(_accumulatedTime >= StepTime))
                         continue;
             
                     int secondsPassed = Mathf.FloorToInt(_accumulatedTime);
