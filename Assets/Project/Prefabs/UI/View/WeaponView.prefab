@@ -114,7 +114,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 17.550293, y: 18.162476}
-  m_SizeDelta: {x: 150, y: 150}
+  m_SizeDelta: {x: 130, y: 130}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3644237927525388915
 CanvasRenderer:
@@ -169,7 +169,6 @@ MonoBehaviour:
   _filler: {fileID: 8895083644607465724}
   _icon: {fileID: 4876531230446494862}
   _text: {fileID: 8913164252528211065}
-  _keyText: {fileID: 0}
 --- !u!1 &7119711555499203222
 GameObject:
   m_ObjectHideFlags: 0
@@ -204,7 +203,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -9.25, y: 8.7}
+  m_AnchoredPosition: {x: -9.25, y: 10}
   m_SizeDelta: {x: 56.563, y: 19.3962}
   m_Pivot: {x: 1, y: 0}
 --- !u!222 &5181898750537465268
@@ -262,8 +261,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -298,7 +297,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: -0.29289246}
+  m_margin: {x: -19.94321, y: 0, z: 0, w: -0.29289246}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0

@@ -1,18 +1,18 @@
-using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using YG;
 
 namespace Project.Scripts.UI.View
 {
     public class ActivateWeaponButton : MonoBehaviour
     {
-        [SerializeField] private TMP_Text _keyText;
+        [SerializeField] private Image _keyIcon;
         
         private void Start()
         {
             if (YG2.envir.isDesktop)
             {
-                _keyText.gameObject.SetActive(true);
+                _keyIcon.gameObject.SetActive(true);
             }
         }
     }
