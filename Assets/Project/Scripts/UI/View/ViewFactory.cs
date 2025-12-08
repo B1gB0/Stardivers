@@ -154,7 +154,7 @@ namespace Project.Scripts.UI.View
 
             DialoguePanel dialoguePanel = adviserMessagePanelTemplate.GetComponent<DialoguePanel>();
             GameObjectInjector.InjectObject(dialoguePanel.gameObject, _container);
-            dialoguePanel.transform.SetParent(_uiScene.transform);
+            dialoguePanel.transform.SetParent(_uiScene.transform, false);
             return dialoguePanel;
         }
 

@@ -116,20 +116,16 @@ namespace Project.Scripts.Game.Gameplay.Root.View
             _exitSceneSignalSubject?.OnNext(Unit.Default);
         }
 
-        private async UniTaskVoid ShowTutorialPointer()
+        private void ShowTutorialPointer()
         {
-            await UniTask.Delay(TimeSpan.FromSeconds(DelayToShowTutorial), DelayType.DeltaTime);
-
             TutorialPointer.Show();
             TutorialPointer.transform.position = PointerPoint.transform.position;
             TutorialPointer.transform.SetParent(PointerPoint);
             _tweenAnimationService.AnimatePointer(TutorialPointer.transform);
         }
         
-        private async UniTaskVoid ShowTutorialKeyboardView()
+        private void ShowTutorialKeyboardView()
         {
-            await UniTask.Delay(TimeSpan.FromSeconds(DelayToShowTutorial), DelayType.DeltaTime);
-
             KeyboardTutorialView.Show();
             _tweenAnimationService.AnimateMove(KeyboardTutorialView.transform, ShowKeyboardTutorialPoint,
                 HideKeyboardTutorialPoint);
@@ -163,9 +159,9 @@ namespace Project.Scripts.Game.Gameplay.Root.View
                 if (completedTask == 0)
                 {
                     if(YG2.envir.isDesktop)
-                        ShowTutorialKeyboardView().Forget();
+                        ShowTutorialKeyboardView();
                     else
-                        ShowTutorialPointer().Forget();
+                        ShowTutorialPointer();
                 }
             }
             catch (OperationCanceledException) { }

@@ -168,10 +168,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 4610944630748690418}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 292.95, y: -277}
-  m_SizeDelta: {x: -691.62, y: -755.1862}
+  m_AnchorMin: {x: 0.5427267, y: 0.10825908}
+  m_AnchorMax: {x: 0.95800006, y: 0.215}
+  m_AnchoredPosition: {x: -0.049987793, y: 2.499939}
+  m_SizeDelta: {x: -7.619995, y: -16.186218}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4545812475753924383
 CanvasRenderer:
@@ -411,7 +411,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3320047525777824391}
-  - {fileID: 311902191916864482}
   - {fileID: 420259007714557066}
   m_Father: {fileID: 1315714727371659035}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -450,12 +449,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4610944630748690418}
+  m_Father: {fileID: 3320047525777824391}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 292.94897, y: 51.285828}
-  m_SizeDelta: {x: -691.6224, y: -251.1805}
+  m_AnchoredPosition: {x: 0.91503906, y: -0.8707886}
+  m_SizeDelta: {x: 48.379883, y: 47.849655}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &759425439332814461
 CanvasRenderer:
@@ -524,13 +523,14 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 311902191916864482}
   m_Father: {fileID: 4610944630748690418}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 292, y: 52.252014}
-  m_SizeDelta: {x: -739.94934, y: -299.42218}
+  m_AnchorMin: {x: 0.5632734, y: 0.215}
+  m_AnchorMax: {x: 0.9418894, y: 0.9021243}
+  m_AnchoredPosition: {x: -3.5, y: 3.7520142}
+  m_SizeDelta: {x: -12.949341, y: -40.42218}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &77144842379015968
 CanvasRenderer:
@@ -602,10 +602,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1315714727371659035}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -222.55, y: -1.3729}
-  m_SizeDelta: {x: 586.99, y: 634.38}
+  m_AnchorMin: {x: 0.05541865, y: 0.06185715}
+  m_AnchorMax: {x: 0.55054677, y: 0.9057281}
+  m_AnchoredPosition: {x: 0.4210205, y: -4.8151855}
+  m_SizeDelta: {x: 2.5562, y: -23.4728}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6966181961206448735
 CanvasRenderer:
@@ -637,7 +637,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 7a9506cbcaba4e6488a923ba4bde5925, type: 3}
-    m_FontSize: 45
+    m_FontSize: 42
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -648,15 +648,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u041C\u0430\u0440\u0441 \u0432\u0441\u0442\u0440\u0435\u0447\u0430\u0435\u0442
-    \u0442\u0435\u0431\u044F, \u0434\u0435\u0441\u0430\u043D\u0442\u043D\u0438\u043A!
-    \u041C\u044B \u043F\u043E\u043B\u0443\u0447\u0438\u043B\u0438 \u0441\u0438\u0433\u043D\u0430\u043B
-    \u0431\u0435\u0434\u0441\u0442\u0432\u0438\u044F \u0441 \u043F\u043B\u0430\u043D\u0435\u0442\u044B.
-    \u041F\u043E\u044D\u0442\u043E\u043C\u0443 \u0434\u0435\u0439\u0441\u0442\u0432\u0443\u0435\u043C
-    \u0431\u044B\u0441\u0442\u0440\u043E! \u0422\u0435\u0431\u0435 \u043D\u0443\u0436\u043D\u043E
-    \u043F\u0440\u043E\u0432\u0435\u0440\u0438\u0442\u044C \u0431\u043B\u0438\u0436\u0430\u0439\u0448\u0438\u0439
-    \u0440\u0430\u0434\u0438\u043E\u043F\u0435\u0440\u0435\u0434\u0430\u0442\u0447\u0438\u043A
-    \u043E\u043A\u043E\u043B\u043E \u043F\u043E\u0441\u0442\u0430 \u043A\u043E\u043B\u043E\u043D\u0438\u0441\u0442\u043E\u0432."
+  m_Text: "Mars seni selaml\u0131yor, y\u0131ld\u0131z denizcisi! Gezegenden bir
+    tehlike sinyali ald\u0131k. Bu nedenle h\u0131zl\u0131 hareket ediyoruz! Kolonistlerin
+    karakolunun yak\u0131n\u0131ndaki en yak\u0131n vericiyi kontrol etmeniz gerekiyor."
 --- !u!1 &6028447924821813395
 GameObject:
   m_ObjectHideFlags: 0
@@ -687,7 +681,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1315714727371659035}
   m_Father: {fileID: 4809011622759451476}
@@ -695,7 +689,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0.000015259, y: -0.80518}
-  m_SizeDelta: {x: 1170.0542, y: 836.5516}
+  m_SizeDelta: {x: 1000, y: 710}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &907440456350089780
 CanvasRenderer:
@@ -803,7 +797,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4164620899585442919}
   - {fileID: 4610944630748690418}
@@ -811,8 +805,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 585.0271, y: -413.2758}
-  m_SizeDelta: {x: 1170.0542, y: 826.5516}
+  m_AnchoredPosition: {x: 500, y: -350}
+  m_SizeDelta: {x: 1000, y: 700}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6340849045551425461
 CanvasRenderer:

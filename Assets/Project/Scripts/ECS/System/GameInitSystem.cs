@@ -54,7 +54,6 @@ namespace Project.Scripts.ECS.System
 
         private readonly ExperiencePoints _experiencePoints;
         private readonly PauseService _pauseService;
-        private readonly DialoguePanel _dialoguePanel;
         private readonly MissionProgressBar _missionProgressBar;
         private readonly Level _level;
 
@@ -105,7 +104,7 @@ namespace Project.Scripts.ECS.System
             Player.Construct(_particleEffectsService, _playerService, playerCharacteristics);
             Player.gameObject.SetActive(false);
 
-            _level.GetServices(this, _dialoguePanel, _pauseService, _levelInitData, _levelTextService,
+            _level.GetServices(this, _pauseService, _levelInitData, _levelTextService,
                 _viewFactory, _currencyService);
 
             CreateEnemyObjectPools();

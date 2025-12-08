@@ -81,7 +81,6 @@ namespace Project.Scripts.Game.Gameplay.Root
         private ProgressRadialBar _progressBar;
         private LevelUpPanel _levelUpPanel;
         private EndGamePanel _endGamePanel;
-        private DialoguePanel _dialoguePanel;
         private GoldView _goldView;
         private AlienCocoonView _alienCocoonView;
         private MissionProgressBar _missionProgressBar;
@@ -177,14 +176,8 @@ namespace Project.Scripts.Game.Gameplay.Root
             _floatingTextService.Init(textView);
 
             _goldView = await _viewFactory.CreateGoldView();
-            _dialoguePanel = await _viewFactory.CreateDialoguePanel();
-
-            _levelUpPanel = await _viewFactory.CreateLevelUpPanel();
-            _endGamePanel = await _viewFactory.CreateEndGamePanel();
 
             _experiencePoints = new ExperiencePoints(_playerService);
-            
-            _endGamePanel.GetExperiencePoints(_experiencePoints);
 
 // #if UNITY_EDITOR
             _cheatPanel = await _viewFactory.CreateCheatPanel(_experiencePoints);
@@ -194,6 +187,10 @@ namespace Project.Scripts.Game.Gameplay.Root
 
             _healthBar = await _viewFactory.CreateHealthBar(_gameInitSystem.PlayerHealth);
             _progressBar = await _viewFactory.CreateProgressBar(_experiencePoints, _gameInitSystem.PlayerTransform);
+            
+            _levelUpPanel = await _viewFactory.CreateLevelUpPanel();
+            _endGamePanel = await _viewFactory.CreateEndGamePanel();
+            _endGamePanel.GetExperiencePoints(_experiencePoints);
 
             _weaponFactory.GetData(_gameInitSystem.PlayerTransform, _weaponHolder, _uiScene.WeaponPanel);
             await _weaponFactory.CreateEnemyDetectorForPlayer();
@@ -395,7 +392,6 @@ namespace Project.Scripts.Game.Gameplay.Root
             _fixedUpdateSystems.Add(new PatrolSystem());
             _fixedUpdateSystems.Init();
             
-            _updateSystems.Inject(_dialoguePanel);
             _updateSystems.Inject(_experiencePoints);
             _updateSystems.Inject(_floatingTextService);
             _updateSystems.Inject(_currencyService);

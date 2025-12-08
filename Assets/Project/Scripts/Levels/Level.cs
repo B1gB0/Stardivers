@@ -65,9 +65,10 @@ namespace Project.Scripts.Levels
 
         public virtual async UniTask OnStartLevel()
         {
+            DialoguePanel = await ViewFactory.CreateDialoguePanel();
             DialogueSetter = new DialogueSetter(DialoguePanel, _levelTextService);
             Arrow = await ViewFactory.CreateArrow(ArrowPoint);
-            
+
             EndLevelTrigger.Deactivate();
             EntranceToNextLvlTrigger.Deactivate();
 
@@ -76,7 +77,6 @@ namespace Project.Scripts.Levels
 
         public void GetServices(
             GameInitSystem gameInitSystem,
-            DialoguePanel dialoguePanel,
             PauseService pauseService,
             LevelInitData levelInitData,
             ILevelTextService levelTextService,
@@ -85,7 +85,6 @@ namespace Project.Scripts.Levels
         {
             _gameInitSystem = gameInitSystem;
             PauseService = pauseService;
-            DialoguePanel = dialoguePanel;
             _levelInitData = levelInitData;
             _levelTextService = levelTextService;
             ViewFactory = viewFactory;

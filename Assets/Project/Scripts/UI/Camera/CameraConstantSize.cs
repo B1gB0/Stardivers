@@ -4,6 +4,8 @@ namespace Project.Scripts.UI.Camera
 {
     public class CameraConstantSize : MonoBehaviour
     {
+        private const float VerticalFovFactor = 2f;
+        
         [SerializeField] [Range(0f, 1f)] private float _widthOrHeight = 0;
         [SerializeField] private Vector2 _defaultResolution = new (1920, 1080);
 
@@ -44,7 +46,8 @@ namespace Project.Scripts.UI.Camera
         {
             float hFovInRads = hFovInDeg * Mathf.Deg2Rad;
 
-            float vFovInRads = 2 * Mathf.Atan(Mathf.Tan(hFovInRads / 2) / aspectRatio);
+            float vFovInRads = VerticalFovFactor *
+                               Mathf.Atan(Mathf.Tan(hFovInRads / VerticalFovFactor) / aspectRatio);
 
             return vFovInRads * Mathf.Rad2Deg;
         }
