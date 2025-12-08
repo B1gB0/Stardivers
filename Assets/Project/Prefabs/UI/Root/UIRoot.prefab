@@ -653,7 +653,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3961466932484935924}
-  - component: {fileID: 5845699597991839404}
+  - component: {fileID: 5752013807674370502}
   m_Layer: 5
   m_Name: RightButtons
   m_TagString: Untagged
@@ -683,7 +683,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &5845699597991839404
+--- !u!114 &5752013807674370502
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -692,23 +692,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 6972922187141577052}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30649d3a9faa99c48a7b1166b86bf2a0, type: 3}
+  m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
     m_Left: 0
-    m_Right: 25
+    m_Right: 30
     m_Top: 30
     m_Bottom: 0
   m_ChildAlignment: 2
   m_Spacing: 20
-  m_ChildForceExpandWidth: 0
+  m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 0
   m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
-  m_ReverseArrangement: 0
+  m_ReverseArrangement: 1
 --- !u!1 &8129046826325445952
 GameObject:
   m_ObjectHideFlags: 0
@@ -1461,15 +1461,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 54741590897881535, guid: 617e745ee6151534ba1eedd2b0e9a909, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 54741590897881535, guid: 617e745ee6151534ba1eedd2b0e9a909, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 54741590897881535, guid: 617e745ee6151534ba1eedd2b0e9a909, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 933444803612291397, guid: 617e745ee6151534ba1eedd2b0e9a909, type: 3}
       propertyPath: m_Sprite
@@ -1485,15 +1485,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2826222212495569772, guid: 617e745ee6151534ba1eedd2b0e9a909, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2826222212495569772, guid: 617e745ee6151534ba1eedd2b0e9a909, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2826222212495569772, guid: 617e745ee6151534ba1eedd2b0e9a909, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3005066768091893381, guid: 617e745ee6151534ba1eedd2b0e9a909, type: 3}
       propertyPath: m_Enabled
@@ -1509,15 +1509,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4171783187803579746, guid: 617e745ee6151534ba1eedd2b0e9a909, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4366416405128258958, guid: 617e745ee6151534ba1eedd2b0e9a909, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4366416405128258958, guid: 617e745ee6151534ba1eedd2b0e9a909, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4917946368045319627, guid: 617e745ee6151534ba1eedd2b0e9a909, type: 3}
       propertyPath: _settingsButton
@@ -1525,11 +1525,11 @@ PrefabInstance:
       objectReference: {fileID: 1135128379573836590}
     - target: {fileID: 5276636658253469919, guid: 617e745ee6151534ba1eedd2b0e9a909, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5276636658253469919, guid: 617e745ee6151534ba1eedd2b0e9a909, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5840616327425804248, guid: 617e745ee6151534ba1eedd2b0e9a909, type: 3}
       propertyPath: m_Pivot.x
@@ -1649,7 +1649,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7028106606719644916, guid: 617e745ee6151534ba1eedd2b0e9a909, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 6.5546045
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8258380980773772515, guid: 617e745ee6151534ba1eedd2b0e9a909, type: 3}
       propertyPath: m_Sprite
