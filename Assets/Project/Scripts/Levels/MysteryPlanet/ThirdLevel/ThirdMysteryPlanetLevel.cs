@@ -71,9 +71,9 @@ namespace Project.Scripts.Levels.MysteryPlanet.ThirdLevel
             _secondNestTrigger.GetData(Arrow);
 
             _alienCocoonView = await ViewFactory.CreateAlienCocoonView();
+            _alienCocoonView.Show();
+            
             _objectiveTextView = await ViewFactory.CreateObjectiveText();
-
-            OnAlienCocoonViewShow += _alienCocoonView.Show;
 
             WelcomePlanetTextTrigger.IsWelcomeToPlanet += DialogueSetter.OnWelcomePlanet;
             WelcomePlanetTextTrigger.IsWelcomeToPlanet += CreateAllAlienEnemyTurrets;
@@ -145,8 +145,6 @@ namespace Project.Scripts.Levels.MysteryPlanet.ThirdLevel
             WelcomePlanetTextTrigger.IsWelcomeToPlanet -= DialogueSetter.OnWelcomePlanet;
             WelcomePlanetTextTrigger.IsWelcomeToPlanet -= CreateAllAlienEnemyTurrets;
             WelcomePlanetTextTrigger.IsWelcomeToPlanet -= _objectiveTextView.Show;
-
-            OnAlienCocoonViewShow -= _alienCocoonView.Show;
 
             _enemySpawnFirstTriggerWithoutEffect.EnemySpawned -= _entranceLastLvlTrigger.Deactivate;
             _enemySpawnFirstTriggerWithoutEffect.EnemySpawned -= StartFirstWaveSpawning;

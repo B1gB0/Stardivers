@@ -55,7 +55,6 @@ namespace Project.Scripts.Levels
         private ILevelTextService _levelTextService;
 
         public event Action IsInitiatedSpawners;
-        public event Action OnAlienCocoonViewShow;
 
         private void OnDestroy()
         {
@@ -136,7 +135,6 @@ namespace Project.Scripts.Levels
         protected void SpawnAlienCocoons()
         {
             ResourcesSpawner.SpawnAlienCocoons();
-            OnAlienCocoonViewShow?.Invoke();
         }
 
         protected void SpawnIceCrystals()
