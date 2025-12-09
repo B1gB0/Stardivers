@@ -37,6 +37,7 @@ namespace Project.Scripts.UI.Panel
         private IUILocalizationService _uiLocalizationService;
         private ITweenAnimationService _tweenAnimationService;
         private ExperiencePoints _experiencePoints;
+        private WeaponPanel _weaponPanel;
 
         private UILocalizationData _uiLocalizationData;
 
@@ -139,6 +140,7 @@ namespace Project.Scripts.UI.Panel
 
             _pauseService.StopGame();
             gameObject.SetActive(true);
+            _weaponPanel.Hide();
             _tweenAnimationService.AnimateScale(_rootWindow.transform);
         }
 
@@ -148,6 +150,7 @@ namespace Project.Scripts.UI.Panel
             _experiencePoints.ResetAccumulatedValues();
 
             gameObject.SetActive(false);
+            _weaponPanel.Show();
         }
 
         public void SetLabelText()
@@ -164,9 +167,10 @@ namespace Project.Scripts.UI.Panel
             };
         }
 
-        public void GetExperiencePoints(ExperiencePoints experiencePoints)
+        public void GetServices(ExperiencePoints experiencePoints, WeaponPanel weaponPanel)
         {
             _experiencePoints = experiencePoints;
+            _weaponPanel = weaponPanel;
         }
 
         private void SetLocalizationData(UITextType type)

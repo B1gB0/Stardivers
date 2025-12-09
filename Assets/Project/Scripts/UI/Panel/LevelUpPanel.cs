@@ -55,6 +55,7 @@ namespace Project.Scripts.UI.Panel
 
         private WeaponFactory _weaponFactory;
         private WeaponHolder _weaponHolder;
+        private WeaponPanel _weaponPanel;
 
         private Queue<int> _pendingLevels = new();
 
@@ -122,10 +123,11 @@ namespace Project.Scripts.UI.Panel
             transform.DOKill();
         }
 
-        public void GetServices(WeaponFactory weaponFactory, WeaponHolder weaponHolder)
+        public void GetServices(WeaponFactory weaponFactory, WeaponHolder weaponHolder, WeaponPanel weaponPanel)
         {
             _weaponFactory = weaponFactory;
             _weaponHolder = weaponHolder;
+            _weaponPanel = weaponPanel;
         }
 
         public async UniTask ShowAsync()
@@ -136,6 +138,7 @@ namespace Project.Scripts.UI.Panel
             }
 
             gameObject.SetActive(true);
+            _weaponPanel.Hide();
             await _tweenAnimationService.AnimateScaleAsync(transform);
             _isClosed = false;
         }
@@ -146,6 +149,7 @@ namespace Project.Scripts.UI.Panel
                 return;
 
             _isClosed = true;
+            _weaponPanel.Show();
             await _tweenAnimationService.AnimateScaleAsync(transform, true);
 
             await UniTask.NextFrame();

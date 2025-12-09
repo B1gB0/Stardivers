@@ -190,12 +190,12 @@ namespace Project.Scripts.Game.Gameplay.Root
             
             _levelUpPanel = await _viewFactory.CreateLevelUpPanel();
             _endGamePanel = await _viewFactory.CreateEndGamePanel();
-            _endGamePanel.GetExperiencePoints(_experiencePoints);
+            _endGamePanel.GetServices(_experiencePoints, _uiScene.WeaponPanel);
 
             _weaponFactory.GetData(_gameInitSystem.PlayerTransform, _weaponHolder, _uiScene.WeaponPanel);
             await _weaponFactory.CreateEnemyDetectorForPlayer();
 
-            _levelUpPanel.GetServices(_weaponFactory, _weaponHolder);
+            _levelUpPanel.GetServices(_weaponFactory, _weaponHolder, _uiScene.WeaponPanel);
             _weaponFactory.GetMinesButton(_uiScene.MinesButton);
 
             uiRoot.AttachSceneUI(_uiScene.gameObject);
