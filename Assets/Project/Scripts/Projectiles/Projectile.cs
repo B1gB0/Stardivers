@@ -7,7 +7,7 @@ namespace Project.Scripts.Projectiles
     public abstract class Projectile : MonoBehaviour
     {
         private const float DefaultDirectionY = 0f;
-        private const string Default = nameof(Default);
+        private const string Ground = nameof(Ground);
         private const string Resources = nameof(Resources);
         
         [field: SerializeField] public float LifeTime { get; private set; } = 4f;
@@ -65,7 +65,7 @@ namespace Project.Scripts.Projectiles
 
         protected void CheckDefaultAndResourceLayer(Collider collision)
         {
-            if (collision.gameObject.layer == LayerMask.NameToLayer(Default) ||
+            if (collision.gameObject.layer == LayerMask.NameToLayer(Ground) ||
                 collision.gameObject.layer == LayerMask.NameToLayer(Resources))
             {
                 gameObject.SetActive(false);

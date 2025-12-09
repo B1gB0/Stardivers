@@ -918,6 +918,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2821938768408175551, guid: 99c52dcbf79d6bf4482197d737c0fd77, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 2842802138881804754, guid: 99c52dcbf79d6bf4482197d737c0fd77, type: 3}
       propertyPath: _countEnemyWaves
       value: 1
@@ -3972,7 +3976,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 6615
+    m_Bits: 15319
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0

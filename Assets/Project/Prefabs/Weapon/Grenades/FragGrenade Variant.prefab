@@ -8,9 +8,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1234528308537044892, guid: 60d8a919e4a14e04d8b8a14b751776b4, type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
     - target: {fileID: 2312058719468638546, guid: 60d8a919e4a14e04d8b8a14b751776b4, type: 3}
       propertyPath: m_Name
       value: FragGrenade Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 2312058719468638546, guid: 60d8a919e4a14e04d8b8a14b751776b4, type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 2354785976593343166, guid: 60d8a919e4a14e04d8b8a14b751776b4, type: 3}
+      propertyPath: m_Layer
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 3124870918522113000, guid: 60d8a919e4a14e04d8b8a14b751776b4, type: 3}
       propertyPath: m_LocalScale.x
@@ -67,6 +79,10 @@ PrefabInstance:
     - target: {fileID: 3124870918522113000, guid: 60d8a919e4a14e04d8b8a14b751776b4, type: 3}
       propertyPath: m_ConstrainProportionsScale
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3393153928227297172, guid: 60d8a919e4a14e04d8b8a14b751776b4, type: 3}
+      propertyPath: m_Layer
+      value: 13
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5431260585374319854}
   - component: {fileID: 5213091562558694725}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -158,6 +158,10 @@ PrefabInstance:
       value: Bullet_Trail_FX
       objectReference: {fileID: 0}
     - target: {fileID: 1003485616670832, guid: 2298236a23b5c4349b5f8204068aadf3, type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 1003485616670832, guid: 2298236a23b5c4349b5f8204068aadf3, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
@@ -235,6 +239,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GunBullet
       objectReference: {fileID: 0}
+    - target: {fileID: 1859234679933314, guid: 4700ce61fd21e32439977dd4e8211f37, type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
     - target: {fileID: 4084649257871824, guid: 4700ce61fd21e32439977dd4e8211f37, type: 3}
       propertyPath: m_LocalScale.x
       value: 10
@@ -311,6 +319,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1859234679933314, guid: 4700ce61fd21e32439977dd4e8211f37, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3279009880565865678}
+    - targetCorrespondingSourceObject: {fileID: 1859234679933314, guid: 4700ce61fd21e32439977dd4e8211f37, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -13188950130277266}
   m_SourcePrefab: {fileID: 100100000, guid: 4700ce61fd21e32439977dd4e8211f37, type: 3}
 --- !u!1 &9112862583243746273 stripped
 GameObject:
@@ -426,6 +437,33 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!54 &-13188950130277266
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9112862583243746273}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!4 &9115140774464048051 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4084649257871824, guid: 4700ce61fd21e32439977dd4e8211f37, type: 3}

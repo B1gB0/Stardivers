@@ -149,7 +149,7 @@ namespace Project.Scripts.UI.Panel
             _currencyService.ResetAccumulatedGold();
             _experiencePoints.ResetAccumulatedValues();
 
-            gameObject.SetActive(false);
+            _tweenAnimationService.AnimateScale(_rootWindow.transform, true);
             _weaponPanel.Show();
         }
 

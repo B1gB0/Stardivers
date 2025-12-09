@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7304683918578989211}
   - component: {fileID: 5906447005605069995}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -157,6 +157,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Wep_Bullet_Ammo_02 Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 1921050381039918, guid: ff7d6dbf412c3944d8d4ca0ae3fe1fc2, type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
     - target: {fileID: 4715402205806380, guid: ff7d6dbf412c3944d8d4ca0ae3fe1fc2, type: 3}
       propertyPath: m_LocalScale.x
       value: 10
@@ -227,6 +231,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1921050381039918, guid: ff7d6dbf412c3944d8d4ca0ae3fe1fc2, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8392050344475209427}
+    - targetCorrespondingSourceObject: {fileID: 1921050381039918, guid: ff7d6dbf412c3944d8d4ca0ae3fe1fc2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -2152220908913710669}
   m_SourcePrefab: {fileID: 100100000, guid: ff7d6dbf412c3944d8d4ca0ae3fe1fc2, type: 3}
 --- !u!4 &6451261805540945854 stripped
 Transform:
@@ -251,3 +258,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <LifeTime>k__BackingField: 4
+--- !u!54 &-2152220908913710669
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6454062765315041724}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0

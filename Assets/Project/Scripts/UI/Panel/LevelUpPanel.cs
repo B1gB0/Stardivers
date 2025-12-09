@@ -155,7 +155,7 @@ namespace Project.Scripts.UI.Panel
             _isClosed = true;
             _healthBar.MoveToShowPosition();
             _weaponPanel.Show();
-            await _tweenAnimationService.AnimateScaleAsync(transform);
+            await _tweenAnimationService.AnimateScaleAsync(transform,true);
 
             await UniTask.NextFrame();
         }
