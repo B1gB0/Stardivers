@@ -195,7 +195,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             _weaponFactory.GetData(_gameInitSystem.PlayerTransform, _weaponHolder, _uiScene.WeaponPanel);
             await _weaponFactory.CreateEnemyDetectorForPlayer();
 
-            _levelUpPanel.GetServices(_weaponFactory, _weaponHolder, _uiScene.WeaponPanel);
+            _levelUpPanel.GetServices(_weaponFactory, _weaponHolder, _uiScene.WeaponPanel, _healthBar);
             _weaponFactory.GetMinesButton(_uiScene.MinesButton);
 
             uiRoot.AttachSceneUI(_uiScene.gameObject);

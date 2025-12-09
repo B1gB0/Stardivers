@@ -87,7 +87,7 @@ namespace Project.Scripts.UI.View
             GameObjectInjector.InjectObject(healthBar.gameObject, _container);
             healthBar.Construct(health);
             healthBar.transform.SetParent(_uiScene.transform);
-            healthBar.GetPoints(_uiScene.ShowHealthPoint, _uiScene.HideHealthPoint);
+            healthBar.GetPoints(_uiScene.ShowHealthPoint, _uiScene.HideHealthPoint, _uiScene.WeaponPanel.ShowPoint);
             
             return healthBar;
         }

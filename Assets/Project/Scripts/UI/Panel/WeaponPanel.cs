@@ -25,6 +25,8 @@ namespace Project.Scripts.UI.Panel
         [SerializeField] private Transform _hidePoint;
 
         private ITweenAnimationService _tweenAnimationService;
+
+        public Transform ShowPoint => _showPoint;
     
         [Inject]
         private void Construct(ITweenAnimationService tweenAnimationService)
