@@ -63,7 +63,7 @@ namespace Project.Scripts.Services
         public void OnCloseAdvertisement()
         {
             AudioListener.pause = false;
-            PlayGame();
+            PlayGameAndResetAllPauses();
         }
 
         public void OnFocusWindowGame(bool isFocusGame)
