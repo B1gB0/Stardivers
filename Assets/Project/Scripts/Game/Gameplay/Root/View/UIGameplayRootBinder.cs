@@ -116,25 +116,6 @@ namespace Project.Scripts.Game.Gameplay.Root.View
             _exitSceneSignalSubject?.OnNext(Unit.Default);
         }
 
-        public void HideTutorialPoint()
-        {
-            _tutorialCancellationToken?.Cancel();
-            _tutorialCancellationToken?.Dispose();
-            _tutorialCancellationToken = null;
-            
-            // TutorialPointer.Hide();
-        }
-
-        public void HideTutorialKeyboardView()
-        {
-            _tutorialCancellationToken?.Cancel();
-            _tutorialCancellationToken?.Dispose();
-            _tutorialCancellationToken = null;
-            
-            // _tweenAnimationService.AnimateMove(KeyboardTutorialView.transform, ShowKeyboardTutorialPoint,
-            //     HideKeyboardTutorialPoint, true);
-        }
-
         private void ShowTutorialPointer()
         {
             TutorialPointer.Show();
