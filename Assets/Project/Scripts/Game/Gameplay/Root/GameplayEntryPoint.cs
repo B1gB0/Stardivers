@@ -207,6 +207,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             _goldView.Show();
 
             _gameInitSystem.PlayerHealth.Die += _endGamePanel.Show;
+            _gameInitSystem.PlayerHealth.Die += OnHideTutorial;
             _gameInitSystem.PlayerHealth.Die += _uiRoot.UIRootButtons.Hide;
             _gameInitSystem.PlayerHealth.Die += _endGamePanel.SetDefeatPanel;
             _gameInitSystem.PlayerHealth.Die += _progressBar.Hide;
@@ -278,6 +279,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             _uiRoot.LocalizationLanguageSwitcher.OnLanguageChanged -= _endGamePanel.SetLabelText;
 
             _gameInitSystem.PlayerHealth.Die -= _endGamePanel.Show;
+            _gameInitSystem.PlayerHealth.Die -= OnHideTutorial;
             _gameInitSystem.PlayerHealth.Die -= _uiRoot.UIRootButtons.Hide;
             _gameInitSystem.PlayerHealth.Die -= _endGamePanel.SetDefeatPanel;
             _gameInitSystem.PlayerHealth.Die -= _progressBar.Hide;
@@ -441,6 +443,18 @@ namespace Project.Scripts.Game.Gameplay.Root
             else
             {
                 _uiScene.Joystick.Show();
+            }
+        }
+
+        private void OnHideTutorial()
+        {
+            if (YG2.envir.isDesktop)
+            {
+                _uiScene.HideTutorialKeyboardView();
+            }
+            else
+            {
+                _gameInitSystem.PlayerHealth.Die += _uiScene.HideTutorialPoint;
             }
         }
     }

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6738699830481437539}
   - component: {fileID: 3896971281896765563}
   - component: {fileID: 2736151049151365862}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4849,7 +4849,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8366260319110475548}
   - component: {fileID: 9037659754015392545}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5035,6 +5035,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 53f1f92cc26db55438613ed063e6307c, type: 3}
       propertyPath: m_Name
       value: EnemyProjectileTurrent
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 53f1f92cc26db55438613ed063e6307c, type: 3}
+      propertyPath: m_Layer
+      value: 13
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

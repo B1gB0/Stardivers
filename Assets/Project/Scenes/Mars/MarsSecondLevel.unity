@@ -484,7 +484,7 @@ GameObject:
   - component: {fileID: 509913266}
   - component: {fileID: 509913268}
   - component: {fileID: 509913267}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: EnemyUnFollowTrigger (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1394,7 +1394,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 2519
+    m_Bits: 6615
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -1978,7 +1978,7 @@ GameObject:
   - component: {fileID: 1694677187}
   - component: {fileID: 1694677189}
   - component: {fileID: 1694677188}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: WelcomeTextTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2044,7 +2044,7 @@ GameObject:
   - component: {fileID: 1795214342}
   - component: {fileID: 1795214344}
   - component: {fileID: 1795214343}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: EnemyUnFollowTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2257,7 +2257,7 @@ GameObject:
   - component: {fileID: 2101870030}
   - component: {fileID: 2101870031}
   - component: {fileID: 2101870032}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: FollowTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2384,6 +2384,14 @@ PrefabInstance:
       propertyPath: m_Center.z
       value: -0.40236273
       objectReference: {fileID: 0}
+    - target: {fileID: 1549504074005501230, guid: 11fe58ba8ddf59c4d85ccfa71ae3aa91, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1737164667140944871, guid: 11fe58ba8ddf59c4d85ccfa71ae3aa91, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 2676655330303363476, guid: 11fe58ba8ddf59c4d85ccfa71ae3aa91, type: 3}
       propertyPath: _speedRising
       value: 0.4
@@ -2404,9 +2412,37 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 23.41
       objectReference: {fileID: 0}
+    - target: {fileID: 4332374129449445548, guid: 11fe58ba8ddf59c4d85ccfa71ae3aa91, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 5070819013422291266, guid: 11fe58ba8ddf59c4d85ccfa71ae3aa91, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 5332676066782433052, guid: 11fe58ba8ddf59c4d85ccfa71ae3aa91, type: 3}
       propertyPath: m_LocalPosition.z
       value: -0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5332676066782580494, guid: 11fe58ba8ddf59c4d85ccfa71ae3aa91, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 5332676066782606078, guid: 11fe58ba8ddf59c4d85ccfa71ae3aa91, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 5332676066782641562, guid: 11fe58ba8ddf59c4d85ccfa71ae3aa91, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 5364091668386097672, guid: 11fe58ba8ddf59c4d85ccfa71ae3aa91, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 5525505005572018190, guid: 11fe58ba8ddf59c4d85ccfa71ae3aa91, type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 5848091299804491185, guid: 11fe58ba8ddf59c4d85ccfa71ae3aa91, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2455,6 +2491,14 @@ PrefabInstance:
     - target: {fileID: 5942256750657100479, guid: 11fe58ba8ddf59c4d85ccfa71ae3aa91, type: 3}
       propertyPath: m_LocalPosition.z
       value: -12.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 6193593833851432418, guid: 11fe58ba8ddf59c4d85ccfa71ae3aa91, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 6339816504922604431, guid: 11fe58ba8ddf59c4d85ccfa71ae3aa91, type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 8584963252936919165, guid: 11fe58ba8ddf59c4d85ccfa71ae3aa91, type: 3}
       propertyPath: m_LocalPosition.z

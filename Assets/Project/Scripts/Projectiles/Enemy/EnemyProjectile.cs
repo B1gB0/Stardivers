@@ -12,6 +12,8 @@ namespace Project.Scripts.Projectiles.Enemy
                 player.Health.TakeDamage(Damage);
                 gameObject.SetActive(false);
             }
+            
+            CheckDefaultAndResourceLayer(collision);
         }
     }
 }

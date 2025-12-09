@@ -45,6 +45,9 @@ namespace Project.Scripts.Weapon.Player
 
             while (ReloadTimer < WeaponCharacteristics.ReloadTime)
             {
+                if(WeaponView == null)
+                    return;
+                
                 WeaponView.AnimateFiller(ReloadTimer, WeaponCharacteristics.ReloadTime);
                 ReloadTimer += Time.deltaTime;
                 await UniTask.NextFrame();

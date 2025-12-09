@@ -430,6 +430,10 @@ PrefabInstance:
       propertyPath: m_LightProbeUsage
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1054774140691464452, guid: 99c52dcbf79d6bf4482197d737c0fd77, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 1068512415730377222, guid: 99c52dcbf79d6bf4482197d737c0fd77, type: 3}
       propertyPath: m_ReceiveShadows
       value: 0
@@ -509,6 +513,10 @@ PrefabInstance:
     - target: {fileID: 1334931151689706985, guid: 99c52dcbf79d6bf4482197d737c0fd77, type: 3}
       propertyPath: m_ReflectionProbeUsage
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1344551201661743313, guid: 99c52dcbf79d6bf4482197d737c0fd77, type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 1379260956849132384, guid: 99c52dcbf79d6bf4482197d737c0fd77, type: 3}
       propertyPath: m_TagString
@@ -593,6 +601,18 @@ PrefabInstance:
     - target: {fileID: 1661731272566539886, guid: 99c52dcbf79d6bf4482197d737c0fd77, type: 3}
       propertyPath: m_ReflectionProbeUsage
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1683163975603724553, guid: 99c52dcbf79d6bf4482197d737c0fd77, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1683163975603739897, guid: 99c52dcbf79d6bf4482197d737c0fd77, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1683163975603957357, guid: 99c52dcbf79d6bf4482197d737c0fd77, type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 1683163975604149483, guid: 99c52dcbf79d6bf4482197d737c0fd77, type: 3}
       propertyPath: m_LocalPosition.x
@@ -766,6 +786,10 @@ PrefabInstance:
       propertyPath: m_ReflectionProbeUsage
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 2431134322192985552, guid: 99c52dcbf79d6bf4482197d737c0fd77, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 2500364378534657825, guid: 99c52dcbf79d6bf4482197d737c0fd77, type: 3}
       propertyPath: m_LightProbeUsage
       value: 0
@@ -885,6 +909,10 @@ PrefabInstance:
     - target: {fileID: 2793190012944099318, guid: 99c52dcbf79d6bf4482197d737c0fd77, type: 3}
       propertyPath: m_ReflectionProbeUsage
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2811220749755573943, guid: 99c52dcbf79d6bf4482197d737c0fd77, type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 2811220749755573943, guid: 99c52dcbf79d6bf4482197d737c0fd77, type: 3}
       propertyPath: m_IsActive
@@ -2542,6 +2570,10 @@ PrefabInstance:
       propertyPath: m_ReflectionProbeUsage
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 7805486922777408469, guid: 99c52dcbf79d6bf4482197d737c0fd77, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 7810369073898055553, guid: 99c52dcbf79d6bf4482197d737c0fd77, type: 3}
       propertyPath: m_CastShadows
       value: 2
@@ -2689,6 +2721,10 @@ PrefabInstance:
     - target: {fileID: 8432868247474099839, guid: 99c52dcbf79d6bf4482197d737c0fd77, type: 3}
       propertyPath: m_ReflectionProbeUsage
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8433043355484180025, guid: 99c52dcbf79d6bf4482197d737c0fd77, type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 8596626518175518710, guid: 99c52dcbf79d6bf4482197d737c0fd77, type: 3}
       propertyPath: m_CastShadows
@@ -3936,7 +3972,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 2519
+    m_Bits: 6615
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -4149,7 +4185,7 @@ GameObject:
   - component: {fileID: 1491556130}
   - component: {fileID: 1491556131}
   - component: {fileID: 1491556132}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: EnemyUnFollowTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4580,7 +4616,7 @@ GameObject:
   - component: {fileID: 1659506240}
   - component: {fileID: 1659506242}
   - component: {fileID: 1659506241}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: EnemyFollowTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -27,6 +27,8 @@ namespace  Project.Scripts.Projectiles.Grenades
                 Explode();
                 StopCoroutine(LifeRoutine());
             }
+            
+            CheckDefaultAndResourceLayer(collision);
         }
 
         public override void SetDirection(Vector3 targetPosition)
