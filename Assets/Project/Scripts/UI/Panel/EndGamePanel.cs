@@ -138,10 +138,10 @@ namespace Project.Scripts.UI.Panel
             _accumulatedKillsText.text = _experiencePoints.AccumulatedKills.ToString();
             _accumulatedScoreText.text = _experiencePoints.AccumulatedScore.ToString();
 
-            _pauseService.StopGame();
             gameObject.SetActive(true);
             _weaponPanel.Hide();
-            _tweenAnimationService.AnimateScale(_rootWindow.transform);
+            _tweenAnimationService.AnimateScale(transform);
+            _pauseService.StopGame();
         }
 
         public void Hide()
@@ -149,7 +149,7 @@ namespace Project.Scripts.UI.Panel
             _currencyService.ResetAccumulatedGold();
             _experiencePoints.ResetAccumulatedValues();
 
-            _tweenAnimationService.AnimateScale(_rootWindow.transform, true);
+            _tweenAnimationService.AnimateScale(transform, true);
             _weaponPanel.Show();
         }
 
@@ -190,7 +190,7 @@ namespace Project.Scripts.UI.Panel
 
         private void OnPlayGame()
         {
-            _pauseService.PlayGame();
+            _pauseService.PlayGameAndResetAllPauses();
         }
 
 #if UNITY_EDITOR
@@ -204,7 +204,7 @@ namespace Project.Scripts.UI.Panel
         {
             OnRewardAdSuccessShowed?.Invoke();
             Hide();
-            _pauseService.PlayGameAndResetAllPauses();
+            OnPlayGame();
         }
 
         private void OnShowRewardAd()

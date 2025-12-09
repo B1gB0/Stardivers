@@ -101,11 +101,13 @@ namespace Project.Scripts.Game.GameRoot
             {
                 if (_operationService.CurrentOperation.Id == Constant.Operations.Mars)
                 {
-                    mainMenuExitParameters.TargetSceneEnterParameters.SetNewSceneName(_operationService.GetSceneNameByCurrentNumber());
+                    mainMenuExitParameters.TargetSceneEnterParameters
+                        .SetNewSceneName(_operationService.GetSceneNameByCurrentNumber());
                 }
                 else if (_operationService.CurrentOperation.Id == Constant.Operations.MysteryPlanet)
                 {
-                    mainMenuExitParameters.TargetSceneEnterParameters.SetNewSceneName(_operationService.GetSceneNameByCurrentNumber());
+                    mainMenuExitParameters.TargetSceneEnterParameters
+                        .SetNewSceneName(_operationService.GetSceneNameByCurrentNumber());
                 }
 
                 LoadAndStartGameplay(mainMenuExitParameters
@@ -129,7 +131,8 @@ namespace Project.Scripts.Game.GameRoot
             await HandleExitGameplayScene(exitParameters);
         }
 
-        private async UniTask<GameplayExitParameters> HandleExitGameplayScene(GameplayExitParameters gameplayExitParameters)
+        private async UniTask<GameplayExitParameters> HandleExitGameplayScene(
+            GameplayExitParameters gameplayExitParameters)
         {
             YG2.InterstitialAdvShow();
             

@@ -57,13 +57,13 @@ namespace Project.Scripts.Services
         public void OnShowAdvertisement()
         {
             AudioListener.pause = true;
-            StopGame(true);
+            StopGame();
         }
         
         public void OnCloseAdvertisement()
         {
             AudioListener.pause = false;
-            PlayGame(true);
+            PlayGame();
         }
 
         public void OnFocusWindowGame(bool isFocusGame)
@@ -72,11 +72,11 @@ namespace Project.Scripts.Services
 
             if (!isFocusGame)
             {
-                StopGame(true);
+                StopGame();
             }
             else
             {
-                PlayGame(true);
+                PlayGame();
             }
         }
     }
