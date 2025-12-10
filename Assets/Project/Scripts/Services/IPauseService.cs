@@ -7,9 +7,8 @@ namespace Project.Scripts.Services
         public void PlayGameAndResetAllPauses(bool isYGGameplayStart = false);
         public void PlayGame(bool isYGGameplayStart = false);
         public void StopGame(bool isYGGameplayStop = false);
-        public void OnFocusWindowGame(bool isFocusGame);
-        public void OnShowAdvertisement();
-        public void OnCloseAdvertisement();
+        public void OnStopGame();
+        public void OnPlayGame();
         public event Action OnGameStarted;
         public event Action OnGamePaused;
     }

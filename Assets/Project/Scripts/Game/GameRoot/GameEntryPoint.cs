@@ -53,16 +53,18 @@ namespace Project.Scripts.Game.GameRoot
 
             await StartGame();
 
-            YG2.onFocusWindowGame += _pauseService.OnFocusWindowGame;
-            YG2.onOpenAnyAdv += _pauseService.OnShowAdvertisement;
-            YG2.onCloseAnyAdv += _pauseService.OnCloseAdvertisement;
+            YG2.onShowWindowGame += _pauseService.OnPlayGame;
+            YG2.onHideWindowGame += _pauseService.OnStopGame;
+            YG2.onOpenAnyAdv += _pauseService.OnStopGame;
+            YG2.onCloseAnyAdv += _pauseService.OnPlayGame;
         }
 
         private void OnDestroy()
         {
-            YG2.onFocusWindowGame -= _pauseService.OnFocusWindowGame;
-            YG2.onOpenAnyAdv -= _pauseService.OnShowAdvertisement;
-            YG2.onCloseAnyAdv -= _pauseService.OnCloseAdvertisement;
+            YG2.onShowWindowGame -= _pauseService.OnPlayGame;
+            YG2.onHideWindowGame -= _pauseService.OnStopGame;
+            YG2.onOpenAnyAdv -= _pauseService.OnStopGame;
+            YG2.onCloseAnyAdv -= _pauseService.OnPlayGame;
         }
 
         private async UniTask StartGame()

@@ -19,10 +19,10 @@ namespace Project.Scripts.Services
         {
             _countPauses = 0;
             OnGameStarted?.Invoke();
-                    
-            if(isYGGameplayStart)
+
+            if (isYGGameplayStart)
                 YG2.GameplayStart();
-                    
+
             Time.timeScale = PlayTime;
         }
 
@@ -30,10 +30,10 @@ namespace Project.Scripts.Services
         {
             switch (_countPauses)
             {
-                case MinCountPause :
+                case MinCountPause:
                     PlayGameAndResetAllPauses();
                     break;
-                case > MinCountPause :
+                case > MinCountPause:
                     _countPauses--;
                     break;
             }
@@ -44,40 +44,26 @@ namespace Project.Scripts.Services
             if (Time.timeScale != StopTime)
             {
                 OnGamePaused?.Invoke();
-                
-                if(isYGGameplayStop)
+
+                if (isYGGameplayStop)
                     YG2.GameplayStop();
-                
+
                 Time.timeScale = StopTime;
             }
-            
+
             _countPauses++;
         }
 
-        public void OnShowAdvertisement()
+        public void OnStopGame()
         {
             AudioListener.pause = true;
-            StopGame();
+            StopGame(true);
         }
-        
-        public void OnCloseAdvertisement()
+
+        public void OnPlayGame()
         {
             AudioListener.pause = false;
-            PlayGameAndResetAllPauses();
-        }
-
-        public void OnFocusWindowGame(bool isFocusGame)
-        {
-            AudioListener.pause = !isFocusGame;
-
-            if (!isFocusGame)
-            {
-                StopGame();
-            }
-            else
-            {
-                PlayGame();
-            }
+            PlayGame(true);
         }
     }
 }
