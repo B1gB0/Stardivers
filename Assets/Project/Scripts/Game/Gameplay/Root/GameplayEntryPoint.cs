@@ -438,11 +438,11 @@ namespace Project.Scripts.Game.Gameplay.Root
         {
             if (YG2.envir.isDesktop)
             {
-                _uiScene.Joystick.Hide();
+                _uiScene.JoystickView.Hide();
             }
             else
             {
-                _uiScene.Joystick.Show();
+                _uiScene.JoystickView.Show();
             }
         }
     }

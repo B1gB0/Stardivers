@@ -14,7 +14,6 @@ using Reflex.Attributes;
 using UnityEngine;
 using UnityEngine.UI;
 using YG;
-using Joystick = Project.Scripts.UI.View.Joystick;
 using Unit = R3.Unit;
 
 namespace Project.Scripts.Game.Gameplay.Root.View
@@ -25,7 +24,7 @@ namespace Project.Scripts.Game.Gameplay.Root.View
 
         [field: SerializeField] public GameplayElements UIScene { get; private set; }
         [field: SerializeField] public Button MinesButton { get; private set; }
-        [field: SerializeField] public Joystick Joystick { get; private set; }
+        [field: SerializeField] public JoystickView JoystickView { get; private set; }
         [field: SerializeField] public WeaponPanel WeaponPanel { get; private set; }
         [field: SerializeField] public TutorialPointer TutorialPointer { get; private set; }
         [field: SerializeField] public KeyboardTutorialView KeyboardTutorialView { get; private set; }
@@ -101,7 +100,8 @@ namespace Project.Scripts.Game.Gameplay.Root.View
         public void ShowMinesButton()
         {
             MinesButton.gameObject.SetActive(true);
-            _tweenAnimationService.AnimateMove(MinesButton.transform, ShowMinesButtonPoint, HideMinesButtonPoint);
+            _tweenAnimationService.AnimateMove(MinesButton.transform, ShowMinesButtonPoint, HideMinesButtonPoint,
+                false, true);
         }
 
         public void HideMinesButton()

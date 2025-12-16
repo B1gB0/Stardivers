@@ -55,7 +55,8 @@ namespace Project.Scripts.Services
             TryOffGameObject(target, isDisableTarget);
         }
 
-        public void AnimateMove(Transform target, Transform showPoint, Transform hidePoint, bool isDisableTarget = false)
+        public void AnimateMove(Transform target, Transform showPoint, Transform hidePoint, 
+            bool isDisableTarget = false, bool isSetParentToPoint = false)
         {
             target.DOKill(true);
 
@@ -73,6 +74,11 @@ namespace Project.Scripts.Services
                 .OnComplete(() =>
                 {
                     TryOffGameObject(target, isDisableTarget);
+
+                    if (isSetParentToPoint)
+                    {
+                        target.SetParent(isDisableTarget ? hidePoint : showPoint);
+                    }
                 });
         }
 

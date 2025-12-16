@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Project.Scripts.UI.View
 {
-    public class Joystick : MonoBehaviour, IView
+    public class JoystickView : MonoBehaviour, IView
     {
         [SerializeField] private Transform _showPoint;
         [SerializeField] private Transform _hidePoint;
@@ -26,12 +26,13 @@ namespace Project.Scripts.UI.View
         public void Show()
         {
             gameObject.SetActive(true);
-            _tweenAnimationService.AnimateMove(transform, _showPoint, _hidePoint);
+            // _tweenAnimationService.AnimateMove(transform, _showPoint, _hidePoint);
         }
 
         public void Hide()
         {
-            _tweenAnimationService.AnimateMove(transform, _showPoint, _hidePoint, true);
+            gameObject.SetActive(false);
+            // _tweenAnimationService.AnimateMove(transform, _showPoint, _hidePoint, true);
         }
     }
 }
