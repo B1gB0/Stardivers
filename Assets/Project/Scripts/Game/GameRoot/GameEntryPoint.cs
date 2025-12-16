@@ -56,7 +56,7 @@ namespace Project.Scripts.Game.GameRoot
             YG2.onShowWindowGame += _pauseService.OnPlayGame;
             YG2.onHideWindowGame += _pauseService.OnStopGame;
             YG2.onOpenAnyAdv += _pauseService.OnStopGame;
-            YG2.onCloseAnyAdv += _pauseService.OnPlayGameAndResetAllPauses;
+            YG2.onCloseAnyAdv += _pauseService.OnPlayGame;
         }
 
         private void OnDestroy()
@@ -64,7 +64,7 @@ namespace Project.Scripts.Game.GameRoot
             YG2.onShowWindowGame -= _pauseService.OnPlayGame;
             YG2.onHideWindowGame -= _pauseService.OnStopGame;
             YG2.onOpenAnyAdv -= _pauseService.OnStopGame;
-            YG2.onCloseAnyAdv -= _pauseService.OnPlayGameAndResetAllPauses;
+            YG2.onCloseAnyAdv -= _pauseService.OnPlayGame;
             YG2.GameplayStop();
         }
 
