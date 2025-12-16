@@ -65,5 +65,10 @@ namespace Project.Scripts.Services
             AudioListener.pause = false;
             PlayGame(true);
         }
+
+        public void OnPlayGameAndResetAllPauses()
+        {
+            PlayGameAndResetAllPauses(true);
+        }
     }
 }
