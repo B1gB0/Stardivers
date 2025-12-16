@@ -100,11 +100,12 @@ namespace Project.Scripts.Services
             });
         }
         
-        public void AnimatePointer(Transform target)
+        public void AnimatePointer(Transform target, Transform pointerPoint)
         {
             target?.DOKill();
-
-            // Анимация в локальных координатах
+            
+            target.position = pointerPoint.position;
+            
             float originalY = target.localPosition.y;
             float topY = originalY + MoveDistance;
             float bottomY = originalY - MoveDistance;

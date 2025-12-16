@@ -12,6 +12,6 @@ namespace Project.Scripts.Services
 
         public void AnimateMove(Transform target, Transform showPoint, Transform hidePoint,
             bool isDisableTarget = false, bool isSetParentToPoint = false);
-        public void AnimatePointer(Transform target);
+        public void AnimatePointer(Transform target, Transform pointerPoint);
     }
 }

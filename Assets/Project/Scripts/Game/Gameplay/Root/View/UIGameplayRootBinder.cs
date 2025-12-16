@@ -25,6 +25,7 @@ namespace Project.Scripts.Game.Gameplay.Root.View
         [field: SerializeField] public GameplayElements UIScene { get; private set; }
         [field: SerializeField] public Button MinesButton { get; private set; }
         [field: SerializeField] public Joystick Joystick { get; private set; }
+        [field: SerializeField] public GameObject JoystickIcon { get; private set; }
         [field: SerializeField] public WeaponPanel WeaponPanel { get; private set; }
         [field: SerializeField] public TutorialPointer TutorialPointer { get; private set; }
         [field: SerializeField] public KeyboardTutorialView KeyboardTutorialView { get; private set; }
@@ -118,10 +119,10 @@ namespace Project.Scripts.Game.Gameplay.Root.View
 
         private void ShowTutorialPointer()
         {
+            JoystickIcon.gameObject.SetActive(true);
             TutorialPointer.Show();
             TutorialPointer.transform.position = PointerPoint.transform.position;
-            TutorialPointer.transform.SetParent(PointerPoint);
-            _tweenAnimationService.AnimatePointer(TutorialPointer.transform);
+            _tweenAnimationService.AnimatePointer(TutorialPointer.transform, PointerPoint);
         }
         
         private void ShowTutorialKeyboardView()
@@ -139,7 +140,10 @@ namespace Project.Scripts.Game.Gameplay.Root.View
                     HideKeyboardTutorialPoint, true);
             }
             else
+            {
+                JoystickIcon.gameObject.SetActive(false);
                 TutorialPointer.Hide();
+            }
 
             CountdownToShowStoryButtonFoot().Forget();
         }
