@@ -65,7 +65,7 @@ namespace Project.Scripts.Game.GameRoot
             YG2.onHideWindowGame -= _pauseService.OnStopGame;
             YG2.onOpenAnyAdv -= _pauseService.OnStopGame;
             YG2.onCloseAnyAdv -= _pauseService.OnPlayGame;
-            YG2.GameplayStop();
+            // YG2.GameplayStop();
         }
 
         private async UniTask StartGame()
@@ -85,7 +85,7 @@ namespace Project.Scripts.Game.GameRoot
             }
 #endif
             Debug.Log("Старт игры, и вход в состояние загрузки");
-            YG2.GameplayStart();
+            // YG2.GameplayStart();
 
             _uiRoot.UIStateMachine.EnterIn<LoadingPanelState>();
 

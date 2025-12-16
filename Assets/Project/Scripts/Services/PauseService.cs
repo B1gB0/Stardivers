@@ -57,13 +57,13 @@ namespace Project.Scripts.Services
         public void OnStopGame()
         {
             AudioListener.pause = true;
-            StopGame(true);
+            StopGame();
         }
 
         public void OnPlayGame()
         {
             AudioListener.pause = false;
-            PlayGame(true);
+            PlayGame();
         }
 
         public void OnPlayGameAndResetAllPauses()

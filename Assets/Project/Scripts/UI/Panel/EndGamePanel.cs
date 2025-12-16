@@ -151,6 +151,7 @@ namespace Project.Scripts.UI.Panel
 
             _tweenAnimationService.AnimateScale(transform, true);
             _weaponPanel.Show();
+            _pauseService.PlayGame();
         }
 
         public void SetLabelText()
