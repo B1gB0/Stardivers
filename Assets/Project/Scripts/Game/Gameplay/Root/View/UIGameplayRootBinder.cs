@@ -24,7 +24,7 @@ namespace Project.Scripts.Game.Gameplay.Root.View
 
         [field: SerializeField] public GameplayElements UIScene { get; private set; }
         [field: SerializeField] public Button MinesButton { get; private set; }
-        [field: SerializeField] public JoystickView JoystickView { get; private set; }
+        [field: SerializeField] public Joystick Joystick { get; private set; }
         [field: SerializeField] public WeaponPanel WeaponPanel { get; private set; }
         [field: SerializeField] public TutorialPointer TutorialPointer { get; private set; }
         [field: SerializeField] public KeyboardTutorialView KeyboardTutorialView { get; private set; }

@@ -205,6 +205,8 @@ namespace Project.Scripts.Game.Gameplay.Root
             _weaponFactory.WeaponIsCreated += _uiScene.WeaponPanel.SetData;
 
             _goldView.Show();
+            
+            _playerService.GetJoystick(_uiScene.Joystick);
 
             _gameInitSystem.PlayerHealth.Die += _endGamePanel.Show;
             _gameInitSystem.PlayerHealth.Die += _uiScene.ResetCountdownTutorialPointer;;
@@ -438,11 +440,11 @@ namespace Project.Scripts.Game.Gameplay.Root
         {
             if (YG2.envir.isDesktop)
             {
-                _uiScene.JoystickView.Hide();
+                _uiScene.Joystick.gameObject.SetActive(false);
             }
             else
             {
-                _uiScene.JoystickView.Show();
+                _uiScene.Joystick.gameObject.SetActive(true);
             }
         }
     }

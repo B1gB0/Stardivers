@@ -52,6 +52,11 @@ namespace Project.Scripts.Services
             return _playersData[type];
         }
 
+        public void GetJoystick(Joystick joystick)
+        {
+            PlayerActor.PlayerInputController.GetJoystick(joystick);
+        }
+
         public List<int> GetPlayerLevels()
         {
             return _playerLevels;

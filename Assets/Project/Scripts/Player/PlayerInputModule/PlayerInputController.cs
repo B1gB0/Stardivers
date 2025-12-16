@@ -9,6 +9,7 @@ namespace Project.Scripts.Player.PlayerInputModule
         private const float MinMagnitude = 0f;
         
         private PlayerInput _playerInput;
+        private Joystick _joystick;
 
         public Vector2 MoveDirection { get; private set; }
         public bool IsMoveInputPerformed { get; private set; }
@@ -21,23 +22,47 @@ namespace Project.Scripts.Player.PlayerInputModule
             _playerInput = new PlayerInput();
         }
 
-        private void Update()
+        private void OnEnable()
         {
+            _playerInput.Enable();
+            
             _playerInput.Player.Move.performed += OnMove;
             _playerInput.Player.Move.canceled += OnMove;
-            
+
             _playerInput.Player.ActivateWeapon.performed += OnActivateWeapon;
             _playerInput.Player.ActivateWeapon.canceled += OnActivateWeapon;
         }
 
-        private void OnEnable()
-        {
-            _playerInput.Enable();
-        }
-
         private void OnDisable()
         {
+            _playerInput.Player.Move.performed -= OnMove;
+            _playerInput.Player.Move.canceled -= OnMove;
+
+            _playerInput.Player.ActivateWeapon.performed -= OnActivateWeapon;
+            _playerInput.Player.ActivateWeapon.canceled -= OnActivateWeapon;
+            
             _playerInput.Disable();
+        }
+
+        private void OnDestroy()
+        {
+            _joystick.OnInputHandled -= OnMoveWithJoystick;
+        }
+
+        public void GetJoystick(Joystick joystick)
+        {
+            _joystick = joystick;
+            _joystick.OnInputHandled += OnMoveWithJoystick;
+        }
+
+        private void OnMoveWithJoystick()
+        {
+            MoveDirection = _joystick.Direction;
+            
+            IsMoveInputPerformed = MoveDirection.sqrMagnitude > MinMagnitude;
+            
+            if(IsMoveInputPerformed)
+                OnMoveButtonsPressed?.Invoke();
         }
 
         private void OnMove(InputAction.CallbackContext context)
