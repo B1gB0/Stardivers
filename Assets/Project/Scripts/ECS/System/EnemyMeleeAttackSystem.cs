@@ -12,7 +12,7 @@ namespace Project.Scripts.ECS.System
         private readonly EcsFilter<EnemyComponent, FollowPlayerComponent, EnemySmallAlienAttackComponent,
             EnemyMovableComponent, AnimatedComponent> _attackFilter;
 
-        private float _lastHitTime = 0.2f;
+        private float _lastHitTime = 0.8f;
 
         public void Run()
         {

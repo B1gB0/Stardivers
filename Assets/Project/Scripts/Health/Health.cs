@@ -35,9 +35,7 @@ namespace Project.Scripts.Health
         public float TargetHealth { get; private set; }
 
         public bool IsHitting { get; private set; }
-        
-        public bool IsHealing { get; private set; }
-        
+
         public Transform HitPoint => _hitPoint;
 
         private void Start()
@@ -74,7 +72,7 @@ namespace Project.Scripts.Health
 
         public void ImproveHealth(float newHealthValue)
         {
-            var currentHealthPercentage = _currentHealth / MaxHealth;
+            var currentHealthPercentage = TargetHealth / MaxHealth;
             var maxHealth = MaxHealth + newHealthValue;
             
             MaxHealth = maxHealth;

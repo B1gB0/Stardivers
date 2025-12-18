@@ -191,7 +191,7 @@ namespace Project.Scripts.UI.Panel
 
         private void OnPlayGame()
         {
-            _pauseService.PlayGameAndResetAllPauses(true);
+            _pauseService.PlayGameAndResetAllPauses();
         }
 
 #if UNITY_EDITOR
