@@ -209,6 +209,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             _playerService.GetJoystick(_uiScene.Joystick);
 
             _gameInitSystem.PlayerHealth.Die += _endGamePanel.Show;
+            _gameInitSystem.PlayerHealth.Die += _pauseService.OnStopGame;
             _gameInitSystem.PlayerHealth.Die += _uiScene.ResetCountdownTutorialPointer;;
             _gameInitSystem.PlayerHealth.Die += _uiRoot.UIRootButtons.Hide;
             _gameInitSystem.PlayerHealth.Die += _endGamePanel.SetDefeatPanel;
@@ -224,6 +225,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             _level.EndLevelTrigger.IsLevelCompleted += _endGamePanel.SetVictoryPanel;
 
             _levelUpPanel.OnContinueButtonIsClicked += _endGamePanel.Show;
+            _levelUpPanel.OnContinueButtonIsClicked += _pauseService.OnStopGame;
 
             _gameInitSystem.PlayerIsSpawned += _uiScene.WeaponPanel.Show;
             _gameInitSystem.PlayerIsSpawned += _progressBar.Show;
@@ -281,6 +283,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             _uiRoot.LocalizationLanguageSwitcher.OnLanguageChanged -= _endGamePanel.SetLabelText;
 
             _gameInitSystem.PlayerHealth.Die -= _endGamePanel.Show;
+            _gameInitSystem.PlayerHealth.Die -= _pauseService.OnStopGame;
             _gameInitSystem.PlayerHealth.Die -= _uiScene.ResetCountdownTutorialPointer;;
             _gameInitSystem.PlayerHealth.Die -= _uiRoot.UIRootButtons.Hide;
             _gameInitSystem.PlayerHealth.Die -= _endGamePanel.SetDefeatPanel;
@@ -292,6 +295,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             _level.EndLevelTrigger.IsLevelCompleted -= _endGamePanel.SetVictoryPanel;
 
             _levelUpPanel.OnContinueButtonIsClicked -= _endGamePanel.Show;
+            _levelUpPanel.OnContinueButtonIsClicked -= _pauseService.OnStopGame;
 
             _endGamePanel.GoToMainMenuButton.onClick.RemoveListener(GetMainMenuExitParameters);
             _endGamePanel.GoToMainMenuButton.onClick.RemoveListener(_uiScene.HandleGoToNextSceneButtonClick);

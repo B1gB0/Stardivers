@@ -60,6 +60,8 @@ namespace Project.Scripts.UI.Panel
 
         private void OnEnable()
         {
+            OnRewardAdSuccessShowed += OnRewardSuccess;
+            
             _goToMainMenuButton.onClick.AddListener(Hide);
             _rebornPlayerButton.onClick.AddListener(OnShowRewardAd);
 
@@ -71,12 +73,12 @@ namespace Project.Scripts.UI.Panel
             _rebornPlayerButton.onClick.AddListener(OnPlayGame);
             _rebornPlayerButton.onClick.AddListener(OnReborn);
 #endif
-
-            YG2.onRewardAdv += OnRewardSuccess;
         }
 
         private void OnDisable()
         {
+            OnRewardAdSuccessShowed -= OnRewardSuccess;
+            
             _goToMainMenuButton.onClick.RemoveListener(Hide);
             _rebornPlayerButton.onClick.RemoveListener(OnShowRewardAd);
 
@@ -88,8 +90,6 @@ namespace Project.Scripts.UI.Panel
             _rebornPlayerButton.onClick.RemoveListener(OnPlayGame);
             _rebornPlayerButton.onClick.RemoveListener(OnReborn);
 #endif
-
-            YG2.onRewardAdv -= OnRewardSuccess;
         }
 
         private void OnDestroy()
@@ -141,17 +141,16 @@ namespace Project.Scripts.UI.Panel
             gameObject.SetActive(true);
             _weaponPanel.Hide();
             _tweenAnimationService.AnimateScale(transform);
-            _pauseService.StopGame();
         }
 
         public void Hide()
         {
+            _pauseService.PlayGame();
             _currencyService.ResetAccumulatedGold();
             _experiencePoints.ResetAccumulatedValues();
 
             _tweenAnimationService.AnimateScale(transform, true);
             _weaponPanel.Show();
-            _pauseService.PlayGame();
         }
 
         public void SetLabelText()
@@ -201,16 +200,15 @@ namespace Project.Scripts.UI.Panel
         }
 #endif
 
-        private void OnRewardSuccess(string id = null)
+        private void OnRewardSuccess()
         {
-            OnRewardAdSuccessShowed?.Invoke();
             Hide();
             OnPlayGame();
         }
 
         private void OnShowRewardAd()
         {
-            YG2.RewardedAdvShow(RewardAdRebornId);
+            YG2.RewardedAdvShow(RewardAdRebornId, OnRewardAdSuccessShowed);
         }
     }
 }
