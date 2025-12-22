@@ -28,7 +28,7 @@ namespace Project.Scripts.ECS.EntityActors
             _playerService = playerService;
             PlayerCharacteristics = playerCharacteristics;
             
-            Health.CurrentHealthChanged += PlayerCharacteristics.SaveCurrentHealth;
+            Health.TargetHealthChanged += PlayerCharacteristics.SaveTargetHealth;
             OnChangeSpeed += PlayerCharacteristics.UpdateCurrentSpeed;
         }
         
@@ -54,7 +54,7 @@ namespace Project.Scripts.ECS.EntityActors
 
         private void OnDestroy()
         {
-            Health.CurrentHealthChanged -= PlayerCharacteristics.SaveCurrentHealth;
+            Health.TargetHealthChanged -= PlayerCharacteristics.SaveTargetHealth;
             OnChangeSpeed -= PlayerCharacteristics.UpdateCurrentSpeed;
         }
 

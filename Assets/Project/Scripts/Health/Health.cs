@@ -29,7 +29,7 @@ namespace Project.Scripts.Health
         public event Action IsDamaged; 
 
         public event Action<float, float, float> HealthChanged;
-        public event Action<float> CurrentHealthChanged;
+        public event Action<float> TargetHealthChanged;
         
         public float MaxHealth { get; private set; }
         public float TargetHealth { get; private set; }
@@ -41,7 +41,7 @@ namespace Project.Scripts.Health
         private void Start()
         {
             HealthChanged?.Invoke(_currentHealth, MaxHealth, TargetHealth);
-            CurrentHealthChanged?.Invoke(_currentHealth);
+            TargetHealthChanged?.Invoke(TargetHealth);
         }
 
         private void OnDestroy()
@@ -81,11 +81,11 @@ namespace Project.Scripts.Health
             SetHealthValue(currentHealth);
         }
 
-        public void LoadHealth(float maxHealth, float currentHealth)
+        public void LoadHealth(float maxHealth, float targetHealth)
         {
             MaxHealth = maxHealth;
 
-            SetHealthValue(currentHealth);
+            SetHealthValue(targetHealth);
         }
 
         public void AddHealth(float healthValue)
@@ -134,7 +134,7 @@ namespace Project.Scripts.Health
                 );
                 
                 HealthChanged?.Invoke(_currentHealth, MaxHealth, TargetHealth);
-                CurrentHealthChanged?.Invoke(_currentHealth);
+                TargetHealthChanged?.Invoke(TargetHealth);
                 
                 await UniTask.NextFrame(PlayerLoopTiming.Update, cancellationToken);
             }

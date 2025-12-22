@@ -10,7 +10,7 @@ namespace Project.Scripts.Weapon.CharacteristicsOfWeapon
         private readonly IPlayerService _playerService;
         
         private float _maxHealth;
-        private float _currentHealth;
+        private float _targetHealth;
         private float _diggingSpeed;
         private float _moveSpeed;
         
@@ -24,7 +24,7 @@ namespace Project.Scripts.Weapon.CharacteristicsOfWeapon
         public void SetStartingCharacteristics(PlayerData data)
         {
             _maxHealth = data.Health;
-            _currentHealth = data.Health;
+            _targetHealth = data.Health;
             _diggingSpeed = data.DiggingSpeed;
             _moveSpeed = data.MoveSpeed;
             _baseMoveSpeed = data.MoveSpeed;
@@ -34,15 +34,15 @@ namespace Project.Scripts.Weapon.CharacteristicsOfWeapon
 
         public void SetCharacteristics()
         {
-            _playerService.PlayerActor.Health.LoadHealth(_maxHealth, _currentHealth);
+            _playerService.PlayerActor.Health.LoadHealth(_maxHealth, _targetHealth);
             _playerService.PlayerActor.MiningToolActor.ChangeDiggingSpeed(_diggingSpeed);
             
             ChangeMovableComponentSpeed(_moveSpeed);
         }
 
-        public void SaveCurrentHealth(float currentHealth)
+        public void SaveTargetHealth(float targetHealth)
         {
-            _currentHealth = currentHealth;
+            _targetHealth = targetHealth;
         }
 
         public void ApplyImprovement(CharacteristicType type, float factor)
