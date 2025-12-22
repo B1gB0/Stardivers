@@ -21,14 +21,10 @@ namespace Project.Scripts.DI
         
         public void InstallBindings(ContainerBuilder builder)
         {
-            Debug.Log("Регистрация сервисов");
-            
             RegisterCoreServices(builder);
-            Debug.Log("Перед созданием моно сервисов");
             CreateMonoServices();
             RegisterCreatedServices(builder);
             RegisterContainerDependentServices(builder);
-            Debug.Log("Конец InstallBindings");
         }
         
         private void RegisterCoreServices(ContainerBuilder builder)
@@ -48,13 +44,10 @@ namespace Project.Scripts.DI
             builder.AddSingleton(typeof(LevelTextService), typeof(ILevelTextService));
             builder.AddSingleton(typeof(CoreService), typeof(ICoreService));
             builder.AddSingleton(typeof(UILocalizationService), typeof(IUILocalizationService));
-            Debug.Log("Регистрация сервисов завершена");
         }
         
         private void CreateMonoServices()
         {
-            Debug.Log("Создание моно сервисов");
-
             CreateService(_audioSoundsServicePrefab);
             CreateService(_particleEffectsService);
             CreateService(_operationServicePrefab);
@@ -64,7 +57,6 @@ namespace Project.Scripts.DI
 
         private void CreateService<T>(T prefab) where T : MonoBehaviour
         {
-            Debug.Log($"Создание {prefab.name}");
             var instance = Instantiate(prefab);
             _monoServices.Add(instance);
             _monoServiceObjects.Add(instance.gameObject);
