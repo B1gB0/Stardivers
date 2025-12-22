@@ -44,8 +44,6 @@ namespace Project.Scripts.Game.GameRoot
 
         private async void Start()
         {
-            Debug.Log("Метод Start в GameEntryPoint");
-
             await Addressables.InitializeAsync().Task;
 
             Application.targetFrameRate = 60;
@@ -65,7 +63,6 @@ namespace Project.Scripts.Game.GameRoot
             YG2.onHideWindowGame -= _pauseService.OnStopGame;
             YG2.onOpenAnyAdv -= _pauseService.OnStopGame;
             YG2.onCloseAnyAdv -= _pauseService.OnPlayGame;
-            // YG2.GameplayStop();
         }
 
         private async UniTask StartGame()
@@ -84,9 +81,6 @@ namespace Project.Scripts.Game.GameRoot
                 return;
             }
 #endif
-            Debug.Log("Старт игры, и вход в состояние загрузки");
-            // YG2.GameplayStart();
-
             _uiRoot.UIStateMachine.EnterIn<LoadingPanelState>();
 
             await LoadAndStartMainMenu();
@@ -94,8 +88,6 @@ namespace Project.Scripts.Game.GameRoot
 
         private async UniTask LoadAndStartMainMenu(MainMenuEnterParameters enterParameters = null)
         {
-            Debug.Log("Загрузка меню");
-
             _uiRoot.UIStateMachine.EnterIn<LoadingPanelState>();
 
             await LoadScene(Scenes.MainMenu);
@@ -122,8 +114,6 @@ namespace Project.Scripts.Game.GameRoot
 
         private async UniTask LoadAndStartGameplay(GameplayEnterParameters enterParameters)
         {
-            Debug.Log("Загрузка геймплея");
-
             _uiRoot.UIStateMachine.EnterIn<LoadingPanelState>();
 
             await LoadScene(enterParameters.SceneName);

@@ -66,6 +66,7 @@ namespace Project.Scripts.Levels.MysteryPlanet.SecondLevel
             _radioTower.InstallationDishCompleted += EndLevelTrigger.Activate;
             _radioTower.InstallationDishCompleted += EntranceToNextLvlTrigger.Activate;
             _radioTower.InstallationDishCompleted += _entranceLastLvlTrigger.Activate;
+            _radioTower.InstallationDishCompleted += _radioTowerTrigger.Deactivate;
         }
 
         private void FixedUpdate()
@@ -96,6 +97,7 @@ namespace Project.Scripts.Levels.MysteryPlanet.SecondLevel
             _radioTower.InstallationDishCompleted -= EndLevelTrigger.Activate;
             _radioTower.InstallationDishCompleted -= EntranceToNextLvlTrigger.Activate;
             _radioTower.InstallationDishCompleted -= _entranceLastLvlTrigger.Activate;
+            _radioTower.InstallationDishCompleted -= _radioTowerTrigger.Deactivate;
         }
         
         private void LookArrowAtBallisticRocketTrigger()
