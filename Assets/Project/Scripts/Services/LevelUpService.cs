@@ -48,7 +48,6 @@ namespace Project.Scripts.Services
         public void RemoveImprovementCard(ImprovementCard improvementCard)
         {
             _currentImprovementCards.Remove(improvementCard);
-            Debug.Log(_currentImprovementCards.Count + " После удаления карты улучшения");
         }
 
         public void RemoveWeaponCard(WeaponType type)
@@ -57,13 +56,10 @@ namespace Project.Scripts.Services
             {
                 if (_currentWeaponCards[i].WeaponType != type)
                     continue;
-                Debug.Log(_currentWeaponCards[i].WeaponType + " удалена");
+                
                 _currentWeaponCards.RemoveAt(i);
                 break;
             }
-            
-            
-            Debug.Log(_currentWeaponCards.Count + " После удаления карты оружия");
         }
         
         public void GenerateCardsByLevel(int currentLevel, WeaponHolder weaponHolder, List<CardView> cardViews)
@@ -108,8 +104,6 @@ namespace Project.Scripts.Services
                     _currentImprovementCards.Add(card);
                 }
             }
-            
-            Debug.Log(_currentImprovementCards.Count + " Обновление количества карточек улучшения");
         }
         
         private void GetCards(List<Card> cards, List<CardView> cardViews)
