@@ -50,19 +50,23 @@ namespace Project.Scripts.Game.GameRoot
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
             
             await StartGame();
-
+            
+            _pauseService.OnPlayGame();
+            
             YG2.onShowWindowGame += _pauseService.OnPlayGame;
-            YG2.onHideWindowGame += _pauseService.OnStopGame;
-            YG2.onOpenAnyAdv += _pauseService.OnStopGame;
-            YG2.onCloseAnyAdv += _pauseService.OnPlayGame;
+            YG2.onHideWindowGame += _pauseService.OnStopGameWithMusic;
+            YG2.onOpenAnyAdv += _pauseService.OnStopGameWithMusic;
+            YG2.onCloseAnyAdv += _pauseService.OnPlayGameAndResetAllPauses;
+            YG2.onCloseRewardedAdv += _pauseService.OnPlayGameAndResetAllPauses;
         }
 
         private void OnDestroy()
         {
             YG2.onShowWindowGame -= _pauseService.OnPlayGame;
-            YG2.onHideWindowGame -= _pauseService.OnStopGame;
-            YG2.onOpenAnyAdv -= _pauseService.OnStopGame;
-            YG2.onCloseAnyAdv -= _pauseService.OnPlayGame;
+            YG2.onHideWindowGame -= _pauseService.OnStopGameWithMusic;
+            YG2.onOpenAnyAdv -= _pauseService.OnStopGameWithMusic;
+            YG2.onCloseAnyAdv -= _pauseService.OnPlayGameAndResetAllPauses;
+            YG2.onCloseRewardedAdv -= _pauseService.OnPlayGameAndResetAllPauses;
         }
 
         private async UniTask StartGame()

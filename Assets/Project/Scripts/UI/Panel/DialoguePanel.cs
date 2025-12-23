@@ -60,14 +60,14 @@ namespace Project.Scripts.UI.Panel
 
         public void Show()
         {
-            _pauseService.StopGame();
+            _pauseService.OnStopGameWithoutMusic();
             gameObject.SetActive(true);
             _tweenAnimationService.AnimateScale(transform);
         }
 
         public void Hide()
         {
-            _pauseService.PlayGame();
+            _pauseService.OnPlayGame();
             _tweenAnimationService.AnimateScale(transform, true);
         }
     }

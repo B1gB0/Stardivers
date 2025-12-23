@@ -279,14 +279,14 @@ namespace Project.Scripts.UI.Panel
         {
             _levelUpService.GenerateCardsByLevel(currentLevel, _weaponHolder, _cardViews);
 
-            _pauseService.StopGame();
+            _pauseService.OnStopGameWithoutMusic();
         }
 
         private void GetImprovements()
         {
             _levelUpService.GenerateImprovements(_cardViews);
 
-            _pauseService.StopGame();
+            _pauseService.OnStopGameWithoutMusic();
         }
 
         private async void OnCardViewButtonClicked(Card card, CardView cardView)
@@ -342,7 +342,7 @@ namespace Project.Scripts.UI.Panel
                     view.Hide();
                 }
 
-                _pauseService.PlayGame();
+                _pauseService.OnPlayGame();
 
                 await HideAsync();
             }
@@ -382,7 +382,7 @@ namespace Project.Scripts.UI.Panel
 
         private async void OnContinueButtonClicked()
         {
-            _pauseService.PlayGame();
+            _pauseService.OnPlayGame();
             
             await HideAsync();
             

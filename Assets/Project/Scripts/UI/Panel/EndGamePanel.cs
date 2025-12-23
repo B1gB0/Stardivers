@@ -58,42 +58,46 @@ namespace Project.Scripts.UI.Panel
             _tweenAnimationService = tweenAnimationService;
         }
 
-        private void OnEnable()
+        private void Start()
         {
             OnRewardAdSuccessShowed += OnRewardSuccess;
-            
+            OnRewardAdSuccessShowed += _pauseService.OnPlayGameAndResetAllPauses;
+        }
+
+        private void OnEnable()
+        {
             _goToMainMenuButton.onClick.AddListener(Hide);
             _rebornPlayerButton.onClick.AddListener(OnShowRewardAd);
 
-            _nextLevelButton.onClick.AddListener(OnPlayGame);
-            _goToMainMenuButton.onClick.AddListener(OnPlayGame);
+            _nextLevelButton.onClick.AddListener(_pauseService.OnPlayGameAndResetAllPauses);
+            _goToMainMenuButton.onClick.AddListener(_pauseService.OnPlayGameAndResetAllPauses);
 
 #if UNITY_EDITOR
             _rebornPlayerButton.onClick.AddListener(Hide);
-            _rebornPlayerButton.onClick.AddListener(OnPlayGame);
+            _rebornPlayerButton.onClick.AddListener(_pauseService.OnPlayGameAndResetAllPauses);
             _rebornPlayerButton.onClick.AddListener(OnReborn);
 #endif
         }
 
         private void OnDisable()
         {
-            OnRewardAdSuccessShowed -= OnRewardSuccess;
-            
             _goToMainMenuButton.onClick.RemoveListener(Hide);
             _rebornPlayerButton.onClick.RemoveListener(OnShowRewardAd);
 
-            _nextLevelButton.onClick.RemoveListener(OnPlayGame);
-            _goToMainMenuButton.onClick.RemoveListener(OnPlayGame);
+            _nextLevelButton.onClick.RemoveListener(_pauseService.OnPlayGameAndResetAllPauses);
+            _goToMainMenuButton.onClick.RemoveListener(_pauseService.OnPlayGameAndResetAllPauses);
 
 #if UNITY_EDITOR
             _rebornPlayerButton.onClick.RemoveListener(Hide);
-            _rebornPlayerButton.onClick.RemoveListener(OnPlayGame);
+            _rebornPlayerButton.onClick.RemoveListener(_pauseService.OnPlayGameAndResetAllPauses);
             _rebornPlayerButton.onClick.RemoveListener(OnReborn);
 #endif
         }
 
         private void OnDestroy()
         {
+            OnRewardAdSuccessShowed -= OnRewardSuccess;
+            OnRewardAdSuccessShowed -= _pauseService.OnPlayGameAndResetAllPauses;
             _rootWindow.transform.DOKill();
         }
 
@@ -145,7 +149,6 @@ namespace Project.Scripts.UI.Panel
 
         public void Hide()
         {
-            _pauseService.PlayGame();
             _currencyService.ResetAccumulatedGold();
             _experiencePoints.ResetAccumulatedValues();
 
@@ -188,11 +191,6 @@ namespace Project.Scripts.UI.Panel
             }
         }
 
-        private void OnPlayGame()
-        {
-            _pauseService.PlayGameAndResetAllPauses();
-        }
-
 #if UNITY_EDITOR
         private void OnReborn()
         {
@@ -203,7 +201,6 @@ namespace Project.Scripts.UI.Panel
         private void OnRewardSuccess()
         {
             Hide();
-            OnPlayGame();
         }
 
         private void OnShowRewardAd()

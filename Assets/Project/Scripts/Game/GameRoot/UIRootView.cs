@@ -100,7 +100,7 @@ namespace Project.Scripts.Game.GameRoot
             if (SceneManager.GetActiveScene().name == Scenes.MainMenu)
                 return;
 
-            _pauseService.StopGame();
+            _pauseService.OnStopGameWithoutMusic();
         }
 
         private void PlayGame()
@@ -108,7 +108,7 @@ namespace Project.Scripts.Game.GameRoot
             if (SceneManager.GetActiveScene().name == Scenes.MainMenu)
                 return;
 
-            _pauseService.PlayGame();
+            _pauseService.OnPlayGame();
             _audioSoundsService.PlaySound(SoundsType.Button).Forget();
             _audioSoundsService.ResumeAllSounds();
         }
