@@ -1,4 +1,5 @@
-﻿using Project.Scripts.Game.Gameplay.Root;
+﻿using System;
+using Project.Scripts.Game.Gameplay.Root;
 using Project.Scripts.Game.MainMenu.Root;
 using Project.Scripts.Services;
 using Project.Scripts.UI.StateMachine.States;
@@ -55,18 +56,21 @@ namespace Project.Scripts.Game.GameRoot
             
             YG2.onShowWindowGame += _pauseService.OnPlayGame;
             YG2.onHideWindowGame += _pauseService.OnStopGameWithMusic;
-            YG2.onOpenAnyAdv += _pauseService.OnStopGameWithMusic;
-            YG2.onCloseAnyAdv += _pauseService.OnPlayGameAndResetAllPauses;
-            YG2.onCloseRewardedAdv += _pauseService.OnPlayGameAndResetAllPauses;
+            YG2.onOpenInterAdv += _pauseService.OnStopGameWithMusic;
+            YG2.onCloseAnyAdv += _pauseService.OnPlayGame;
+        }
+
+        private void Update()
+        {
+            Debug.Log(" Update GameEntryPoint TimeScale - "+ Time.timeScale);
         }
 
         private void OnDestroy()
         {
             YG2.onShowWindowGame -= _pauseService.OnPlayGame;
             YG2.onHideWindowGame -= _pauseService.OnStopGameWithMusic;
-            YG2.onOpenAnyAdv -= _pauseService.OnStopGameWithMusic;
-            YG2.onCloseAnyAdv -= _pauseService.OnPlayGameAndResetAllPauses;
-            YG2.onCloseRewardedAdv -= _pauseService.OnPlayGameAndResetAllPauses;
+            YG2.onOpenInterAdv -= _pauseService.OnStopGameWithMusic;
+            YG2.onCloseAnyAdv -= _pauseService.OnPlayGame;
         }
 
         private async UniTask StartGame()

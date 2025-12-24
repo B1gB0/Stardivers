@@ -74,7 +74,9 @@ namespace Project.Scripts.Game.MainMenu.Root
 
             var exitSignalSubject = new Subject<Unit>();
             _uiScene.Bind(exitSignalSubject);
-
+            
+            YG2.OpenAuthDialog();
+            
             var exitToGameplaySceneSignal = exitSignalSubject.Select(_ => _exitParameters);
 
             return exitToGameplaySceneSignal;
