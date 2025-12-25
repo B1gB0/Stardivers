@@ -66,6 +66,9 @@ namespace Project.Scripts.UI.Panel
 
         private void OnEnable()
         {
+            YG2.onShowWindowGame -= _pauseService.OnPlayGame;
+            YG2.onHideWindowGame -= _pauseService.OnStopGameWithMusic;
+            
             _goToMainMenuButton.onClick.AddListener(Hide);
             _rebornPlayerButton.onClick.AddListener(OnShowRewardAd);
 
@@ -81,6 +84,9 @@ namespace Project.Scripts.UI.Panel
 
         private void OnDisable()
         {
+            YG2.onShowWindowGame += _pauseService.OnPlayGame;
+            YG2.onHideWindowGame += _pauseService.OnStopGameWithMusic;
+            
             _goToMainMenuButton.onClick.RemoveListener(Hide);
             _rebornPlayerButton.onClick.RemoveListener(OnShowRewardAd);
 

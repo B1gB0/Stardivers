@@ -56,7 +56,9 @@ namespace Project.Scripts.Game.GameRoot
             await StartGame();
             
             _pauseService.OnPlayGame();
-            
+
+            YG2.onShowWindowGame += _pauseService.OnPlayGame;
+            YG2.onHideWindowGame += _pauseService.OnStopGameWithMusic;
             YG2.onOpenAnyAdv += _pauseService.OnStopGameWithMusic;
             YG2.onOpenAnyAdv += _pauseService.DisableEventSystem;
             YG2.onCloseAnyAdv += _pauseService.EnableEventSystem;
@@ -65,6 +67,8 @@ namespace Project.Scripts.Game.GameRoot
 
         private void OnDestroy()
         {
+            YG2.onShowWindowGame -= _pauseService.OnPlayGame;
+            YG2.onHideWindowGame -= _pauseService.OnStopGameWithMusic;
             YG2.onOpenAnyAdv -= _pauseService.OnStopGameWithMusic;
             YG2.onOpenAnyAdv -= _pauseService.DisableEventSystem;
             YG2.onCloseAnyAdv -= _pauseService.EnableEventSystem;
