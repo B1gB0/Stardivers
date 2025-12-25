@@ -231,7 +231,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             _gameInitSystem.PlayerIsSpawned += _healthBar.Show;
             _gameInitSystem.PlayerIsSpawned += OnShowJoystick;
 
-            _endGamePanel.OnRewardAdSuccessShowed += _gameInitSystem.CreateCapsule;
+            _endGamePanel.OnSpawnPlayer += _gameInitSystem.CreateCapsule;
             _endGamePanel.OnRewardAdSuccessShowed += uiRoot.UIRootButtons.Show;
 
             _endGamePanel.GoToMainMenuButton.onClick.AddListener(GetMainMenuExitParameters);
@@ -302,7 +302,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             _endGamePanel.NextLevelButton.onClick.RemoveListener(GetGameplayExitParameters);
             _endGamePanel.NextLevelButton.onClick.RemoveListener(_uiScene.HandleGoToNextSceneButtonClick);
             
-            _endGamePanel.OnRewardAdSuccessShowed -= _gameInitSystem.CreateCapsule;
+            _endGamePanel.OnSpawnPlayer -= _gameInitSystem.CreateCapsule;
             _endGamePanel.OnRewardAdSuccessShowed -= _uiRoot.UIRootButtons.Show;
             
             _uiRoot.ExitPanel.OnExitToMainMenu -= GetMainMenuExitParameters;

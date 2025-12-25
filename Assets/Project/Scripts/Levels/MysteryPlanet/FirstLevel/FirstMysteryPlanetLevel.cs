@@ -44,7 +44,7 @@ namespace Project.Scripts.Levels.MysteryPlanet.FirstLevel
             
             PauseService.OnGameStarted += _timer.ResumeTimer;
             PauseService.OnGamePaused += _timer.PauseTimer;
-            
+
             _enemySpawnTriggerWithEffect.EnemySpawned += _timer.Show;
             _enemySpawnTriggerWithEffect.EnemySpawned += HideEnemySpawnedPointers;
             _enemySpawnTriggerWithEffect.EnemySpawned += Arrow.Hide;

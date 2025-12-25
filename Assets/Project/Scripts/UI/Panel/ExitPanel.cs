@@ -74,7 +74,7 @@ namespace Project.Scripts.UI.Panel
             _audioSoundsService.PlaySound(SoundsType.Button).Forget();
             
             _isExitToMainMenu = true;
-            _pauseService.PlayGameAndResetAllPauses();
+            _pauseService.OnPlayGame();
             OnExitToMainMenu?.Invoke();
         }
     }

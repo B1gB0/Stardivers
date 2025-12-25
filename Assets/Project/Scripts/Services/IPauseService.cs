@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine.EventSystems;
 
 namespace Project.Scripts.Services
 {
@@ -6,10 +7,12 @@ namespace Project.Scripts.Services
     {
         public event Action OnGameStarted;
         public event Action OnGamePaused;
-        public void PlayGameAndResetAllPauses(bool isYGGameplayStart = false);
+        
         public void OnStopGameWithoutMusic();
         public void OnStopGameWithMusic();
         public void OnPlayGame();
-        public void OnPlayGameAndResetAllPauses();
+        public void GetEventSystem(EventSystem eventSystem);
+        public void DisableEventSystem();
+        public void EnableEventSystem();
     }
 }

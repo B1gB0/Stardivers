@@ -24,6 +24,7 @@ namespace Project.Scripts.Game.MainMenu.Root
         private ILevelTextService _levelTextService;
         private AudioSoundsService _audioSoundsService;
         private ILevelUpService _levelUpService;
+        private IPauseService _pauseService;
 
         private MainMenuExitParameters _exitParameters;
 

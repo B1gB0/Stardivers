@@ -1,5 +1,4 @@
-﻿using System;
-using Project.Scripts.Game.Gameplay.Root;
+﻿using Project.Scripts.Game.Gameplay.Root;
 using Project.Scripts.Game.MainMenu.Root;
 using Project.Scripts.Services;
 using Project.Scripts.UI.StateMachine.States;
@@ -10,6 +9,7 @@ using UnityEngine.SceneManagement;
 using Cysharp.Threading.Tasks;
 using Reflex.Attributes;
 using UnityEngine.AddressableAssets;
+using UnityEngine.EventSystems;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceProviders;
 using YG;
@@ -41,6 +41,9 @@ namespace Project.Scripts.Game.GameRoot
             _operationService = operationService;
             _uiRoot = uiRoot;
             _pauseService = pauseService;
+            
+            EventSystem eventSystem = FindAnyObjectByType<EventSystem>();
+            _pauseService.GetEventSystem(eventSystem);
         }
 
         private async void Start()
@@ -54,23 +57,18 @@ namespace Project.Scripts.Game.GameRoot
             
             _pauseService.OnPlayGame();
             
-            YG2.onShowWindowGame += _pauseService.OnPlayGame;
-            YG2.onHideWindowGame += _pauseService.OnStopGameWithMusic;
-            YG2.onOpenInterAdv += _pauseService.OnStopGameWithMusic;
-            YG2.onCloseAnyAdv += _pauseService.OnPlayGame;
-        }
-
-        private void Update()
-        {
-            Debug.Log(" Update GameEntryPoint TimeScale - "+ Time.timeScale);
+            YG2.onOpenAnyAdv += _pauseService.OnStopGameWithMusic;
+            YG2.onOpenAnyAdv += _pauseService.DisableEventSystem;
+            YG2.onCloseAnyAdv += _pauseService.EnableEventSystem;
+            YG2.onCloseInterAdv += _pauseService.OnPlayGame;
         }
 
         private void OnDestroy()
         {
-            YG2.onShowWindowGame -= _pauseService.OnPlayGame;
-            YG2.onHideWindowGame -= _pauseService.OnStopGameWithMusic;
-            YG2.onOpenInterAdv -= _pauseService.OnStopGameWithMusic;
-            YG2.onCloseAnyAdv -= _pauseService.OnPlayGame;
+            YG2.onOpenAnyAdv -= _pauseService.OnStopGameWithMusic;
+            YG2.onOpenAnyAdv -= _pauseService.DisableEventSystem;
+            YG2.onCloseAnyAdv -= _pauseService.EnableEventSystem;
+            YG2.onCloseInterAdv -= _pauseService.OnPlayGame;
         }
 
         private async UniTask StartGame()
