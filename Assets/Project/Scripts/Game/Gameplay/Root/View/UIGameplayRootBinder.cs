@@ -30,9 +30,9 @@ namespace Project.Scripts.Game.Gameplay.Root.View
         [field: SerializeField] public TutorialPointer TutorialPointer { get; private set; }
         [field: SerializeField] public KeyboardTutorialView KeyboardTutorialView { get; private set; }
 
-// #if UNITY_EDITOR
+#if UNITY_EDITOR
         [field: SerializeField] public Button CheatsButton { get; private set; }
-// #endif
+#endif
 
         [field: SerializeField] public Transform TopPointerPoint { get; private set; }
         [field: SerializeField] public Transform PointerPoint { get; private set; }
@@ -67,12 +67,12 @@ namespace Project.Scripts.Game.Gameplay.Root.View
             _tweenAnimationService = tweenAnimationService;
         }
 
-// #if UNITY_EDITOR
+#if UNITY_EDITOR
         private void Awake()
         {
             CheatsButton.gameObject.SetActive(true);
         }
-// #endif
+#endif
 
         private void OnDestroy()
         {

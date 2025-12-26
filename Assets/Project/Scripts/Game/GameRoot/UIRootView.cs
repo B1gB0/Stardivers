@@ -9,6 +9,7 @@ using Reflex.Attributes;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using YG;
 
 namespace Project.Scripts.Game.GameRoot
 {
@@ -16,7 +17,7 @@ namespace Project.Scripts.Game.GameRoot
     {
         [SerializeField] private UISceneContainer _uiSceneContainer;
         [SerializeField] private UIRootButtons _uiRootButtons;
-
+        
         [SerializeField] private LoadingPanel _loadingPanel;
         [SerializeField] private SettingsPanel _settingsPanel;
         [SerializeField] private LeaderboardPanel _leaderboardPanel;

@@ -13,9 +13,9 @@ namespace Project.Scripts.UI.View
 {
     public class ViewFactory : MonoBehaviour
     {
-// #if UNITY_EDITOR
+#if UNITY_EDITOR
         private const string CheatPanelPath = "CheatPanel";
-// #endif
+#endif
 
         private const string MissionProgressBarPath = "MissionProgressBar";
         private const string HealthBarPath = "HealthBar";
@@ -210,7 +210,7 @@ namespace Project.Scripts.UI.View
             return _objectiveTextView;
         }
 
-// #if UNITY_EDITOR
+#if UNITY_EDITOR
         public async UniTask<CheatPanel> CreateCheatPanel(ExperiencePoints experiencePoints)
         {
             var cheatPanelTemplate = await _resourceService.Load<GameObject>(CheatPanelPath);
@@ -222,6 +222,6 @@ namespace Project.Scripts.UI.View
             cheatPanel.transform.SetParent(_uiScene.transform);
             return cheatPanel;
         }
-// #endif
+#endif
     }
 }
