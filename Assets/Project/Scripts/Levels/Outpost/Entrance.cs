@@ -16,11 +16,17 @@ namespace Project.Scripts.Levels.Outpost
 
         public void OpenGate()
         {
+            if(_animator.GetBool(IsOpened))
+                return;
+            
             _animator.SetBool(IsOpened, true);
         }
 
         public void CloseGate()
         {
+            if(!_animator.GetBool(IsOpened))
+                return;
+            
             _animator.SetBool(IsOpened, false);
         }
     }
