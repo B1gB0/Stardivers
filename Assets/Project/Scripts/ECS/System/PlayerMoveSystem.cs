@@ -8,16 +8,16 @@ namespace Project.Scripts.ECS.System
     {
         private const float MoveDirectionY = 0f;
 
-        private readonly EcsFilter<PlayerComponent, PlayerMovableComponent, InputEventComponent> _MoveFilter;
+        private readonly EcsFilter<PlayerComponent, PlayerMovableComponent, InputEventComponent> _moveFilter;
 
         public void Run()
         {
-            foreach (var entity in _MoveFilter)
+            foreach (var entity in _moveFilter)
             {
-                ref var movableComponent = ref _MoveFilter.Get2(entity);
+                ref var movableComponent = ref _moveFilter.Get2(entity);
                 ref var rigidbody = ref movableComponent.Rigidbody;
                 
-                ref var inputComponent = ref _MoveFilter.Get3(entity);
+                ref var inputComponent = ref _moveFilter.Get3(entity);
                 ref var playerInputController = ref inputComponent.PlayerInputController;
 
                 if (movableComponent.IsMoving)

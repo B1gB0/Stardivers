@@ -11,17 +11,13 @@ namespace Project.Scripts.Levels.Triggers
         private void OnTriggerEnter(Collider trigger)
         {
             if (trigger.TryGetComponent(out PlayerActor player))
-            {
                 _truck.OnPlayerIsNearby(player);
-            }
         }
 
         private void OnTriggerExit(Collider trigger)
         {
             if (trigger.TryGetComponent(out PlayerActor player))
-            {
                 _truck.OnPlayerIsNotNearby();
-            }
         }
     }
 }

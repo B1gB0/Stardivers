@@ -112,11 +112,11 @@ namespace Project.Scripts.UI.View
         {
             switch (_operation.Id)
             {
-                case Game.Constant.Operations.Mars:
+                case Operations.Mars:
                 {
                     return YG2.saves.isMarsOperationUnlock;
                 }
-                case Game.Constant.Operations.MysteryPlanet:
+                case Operations.MysteryPlanet:
                 {
                     return YG2.saves.isMysteryPlanetUnlock;
                 }
@@ -134,7 +134,7 @@ namespace Project.Scripts.UI.View
             
             switch (_operation.Id)
             {
-                case Game.Constant.Operations.MysteryPlanet:
+                case Operations.MysteryPlanet:
                 {
                     YG2.saves.isMysteryPlanetUnlock = true;
                     YG2.SaveProgress();

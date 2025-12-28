@@ -23,7 +23,7 @@ namespace Project.Scripts.Weapon.Player
         private const int FirstTargetIndex = 1;
 
         [SerializeField] private Transform _shootPoint;
-        [SerializeField] private LightningLineRendererProjectile lightningLineRendererPrefab;
+        [SerializeField] private LightningLineRendererProjectile _lightningLineRendererPrefab;
         [SerializeField] private float _chainDelay = 0.2f;
         [SerializeField] private float _lightningDuration = 0.35f;
         [SerializeField] private float _heightOffset = 0.2f;
@@ -62,7 +62,7 @@ namespace Project.Scripts.Weapon.Player
         private void Awake()
         {
             _lightningPool = new ObjectPool<LightningLineRendererProjectile>(
-                lightningLineRendererPrefab, ChainLightningGunCharacteristics.MaxCountShots,
+                _lightningLineRendererPrefab, ChainLightningGunCharacteristics.MaxCountShots,
                 new GameObject(PoolName).transform)
             {
                 AutoExpand = IsAutoExpandPool

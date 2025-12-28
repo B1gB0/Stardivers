@@ -4,7 +4,7 @@ namespace Project.Scripts.Game.Gameplay.Root
 {
     public class GameplayExitParameters
     {
-        public SceneEnterParameters TargetSceneEnterParameters;
+        public readonly SceneEnterParameters TargetSceneEnterParameters;
 
         public GameplayExitParameters(SceneEnterParameters targetSceneEnterParameters)
         {

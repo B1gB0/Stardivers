@@ -21,11 +21,40 @@ namespace Project.Scripts.Levels.MysteryPlanet.FirstLevel
             IsInitiatedSpawners += SpawnResources;
             IsInitiatedSpawners += SpawnIceCrystals;
         }
+        
+        private void FixedUpdate()
+        {
+            if (_enemySpawnTriggerWithEffect.IsEnemySpawned)
+            {
+                CreateWaveOfEnemy(FirstWaveEnemy);
+            }
+        }
 
         private void OnDisable()
         {
             IsInitiatedSpawners -= SpawnResources;
             IsInitiatedSpawners -= SpawnIceCrystals;
+        }
+        
+        private void OnDestroy()
+        {
+            WelcomePlanetTextTrigger.IsWelcomeToPlanet -= DialogueSetter.OnWelcomePlanet;
+            
+            PauseService.OnGameStarted -= _timer.ResumeTimer;
+            PauseService.OnGamePaused -= _timer.PauseTimer;
+            
+            _enemySpawnTriggerWithEffect.EnemySpawned -= _timer.Show;
+            _enemySpawnTriggerWithEffect.EnemySpawned -= HideEnemySpawnedPointers;
+            _enemySpawnTriggerWithEffect.EnemySpawned -= Arrow.Hide;
+            _enemySpawnTriggerWithEffect.EnemySpawned -= DialogueSetter.OnEnemySpawnTriggerWithEffect;
+            
+            _timer.IsEndAttack -= DialogueSetter.OnEndAttack;
+            _timer.IsEndAttack -= Arrow.Show;
+            _timer.IsEndAttack -= ShowOutpostPointers;
+            _timer.IsEndAttack -= ArrowLookAtOutpost;
+            _timer.IsEndAttack -= _enemySpawnTriggerWithEffect.CompleteSpawn;
+            _timer.IsEndAttack -= EntranceToNextLvlTrigger.Activate;
+            _timer.IsEndAttack -= EndLevelTrigger.Activate;
         }
 
         public override async UniTask OnStartLevel()
@@ -59,35 +88,6 @@ namespace Project.Scripts.Levels.MysteryPlanet.FirstLevel
             _timer.IsEndAttack += EndLevelTrigger.Activate;
         }
 
-        private void FixedUpdate()
-        {
-            if (_enemySpawnTriggerWithEffect.IsEnemySpawned)
-            {
-                CreateWaveOfEnemy(FirstWaveEnemy);
-            }
-        }
-
-        private void OnDestroy()
-        {
-            WelcomePlanetTextTrigger.IsWelcomeToPlanet -= DialogueSetter.OnWelcomePlanet;
-            
-            PauseService.OnGameStarted -= _timer.ResumeTimer;
-            PauseService.OnGamePaused -= _timer.PauseTimer;
-            
-            _enemySpawnTriggerWithEffect.EnemySpawned -= _timer.Show;
-            _enemySpawnTriggerWithEffect.EnemySpawned -= HideEnemySpawnedPointers;
-            _enemySpawnTriggerWithEffect.EnemySpawned -= Arrow.Hide;
-            _enemySpawnTriggerWithEffect.EnemySpawned -= DialogueSetter.OnEnemySpawnTriggerWithEffect;
-            
-            _timer.IsEndAttack -= DialogueSetter.OnEndAttack;
-            _timer.IsEndAttack -= Arrow.Show;
-            _timer.IsEndAttack -= ShowOutpostPointers;
-            _timer.IsEndAttack -= ArrowLookAtOutpost;
-            _timer.IsEndAttack -= _enemySpawnTriggerWithEffect.CompleteSpawn;
-            _timer.IsEndAttack -= EntranceToNextLvlTrigger.Activate;
-            _timer.IsEndAttack -= EndLevelTrigger.Activate;
-        }
-        
         private void ShowOutpostPointers()
         {
             foreach (var pointer in _enemyOutpostPointers)

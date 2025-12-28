@@ -17,7 +17,7 @@ namespace Project.Scripts.ECS.EntityActors
         protected ParticleEffectsService ParticleEffectsService;
         protected AudioSoundsService AudioSoundsService;
 
-        protected EcsEntity EnemyEntity;
+        private EcsEntity _enemyEntity;
 
         public EnemyData Data { get; private set; }
 
@@ -28,7 +28,7 @@ namespace Project.Scripts.ECS.EntityActors
         {
             ExperiencePoints = experiencePoints;
             Data = data;
-            EnemyEntity = enemyEntity;
+            _enemyEntity = enemyEntity;
             ParticleEffectsService = particleEffectsService;
             AudioSoundsService = audioSoundsService;
             
@@ -38,17 +38,17 @@ namespace Project.Scripts.ECS.EntityActors
             OnChangeSpeed += UpdateCurrentSpeed;
         }
 
+        private void OnDestroy()
+        {
+            OnChangeSpeed -= UpdateCurrentSpeed;
+        }
+        
         protected virtual void OnDie()
         {
             ResetModifiers();
             Health.IsSpawnedDamageText -= TextService.OnChangedFloatingText;
             OnChangeSpeed -= UpdateCurrentSpeed;
             Die?.Invoke(this);
-        }
-
-        private void OnDestroy()
-        {
-            OnChangeSpeed -= UpdateCurrentSpeed;
         }
         
         protected virtual void OnPlayParticleEffect()
@@ -64,9 +64,8 @@ namespace Project.Scripts.ECS.EntityActors
         
         private void ChangeMoveSpeed(float moveSpeed)
         {
-            ref var movableComponent = ref EnemyEntity.Get<EnemyMovableComponent>();
-            movableComponent.MoveSpeed = moveSpeed;
-            
+            ref var movableComponent = ref _enemyEntity.Get<EnemyMovableComponent>();
+
             if(movableComponent.NavMeshAgent == null)
                 return;
             

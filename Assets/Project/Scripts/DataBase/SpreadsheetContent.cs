@@ -12,7 +12,8 @@ namespace Project.Scripts.DataBase
         [SpreadsheetPage("CharacteristicsLocalization")] public List<CharacteristicsLocalizationData>
             CharacteristicsLocalization;
         [SpreadsheetPage("WeaponsLocalization")] public List<WeaponLocalizationData> WeaponsLocalization;
-        [SpreadsheetPage("CharacteristicsWeapon")] public List<CharacteristicsWeaponData> CharacteristicsWeaponsData;
+        [SpreadsheetPage("CharacteristicsWeapon")] public List<CharacteristicsWeaponData> 
+            CharacteristicsWeaponsData;
         [SpreadsheetPage("Improvements")] public List<ImprovementData> Improvements;
         [SpreadsheetPage("PlayerLevels")] public List<PlayerLevelData> PlayerLevels;
         [SpreadsheetPage("Players")] public List<PlayerData> Players;

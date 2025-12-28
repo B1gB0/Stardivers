@@ -16,6 +16,11 @@ namespace Project.Scripts.Game.MainMenu.Root.View
             _tweenAnimationService = tweenAnimationService;
         }
         
+        private void OnDestroy()
+        {
+            transform.DOKill();
+        }
+        
         public void Show()
         {
             gameObject.SetActive(true);
@@ -25,11 +30,6 @@ namespace Project.Scripts.Game.MainMenu.Root.View
         public void Hide()
         {
             _tweenAnimationService.AnimateScale(transform, true);
-        }
-
-        private void OnDestroy()
-        {
-            transform.DOKill();
         }
     }
 }

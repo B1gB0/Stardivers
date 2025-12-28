@@ -22,7 +22,7 @@ namespace Project.Scripts.Levels
         
         private const string LeaderboardName = "BestPlayers";
         
-        private readonly List<EnemyWave> EnemyWaves = new();
+        private readonly List<EnemyWave> _enemyWaves = new();
 
         [field: SerializeField] public bool IsLaunchPlayerCapsule { get; private set; }
         [field: SerializeField] public EndLevelTrigger EndLevelTrigger { get; private set; }
@@ -41,15 +41,15 @@ namespace Project.Scripts.Levels
         [SerializeField] private int _countEnemyWaves;
 
         protected ResourcesSpawner ResourcesSpawner;
-        protected EnemySpawner EnemySpawner;
         protected DialogueSetter DialogueSetter;
-        protected DialoguePanel DialoguePanel;
-        protected PauseService PauseService;
+        protected IPauseService PauseService;
         protected ViewFactory ViewFactory;
         protected ICurrencyService CurrencyService;
         protected float LastSpawnTime;
         protected Arrow Arrow;
 
+        private DialoguePanel _dialoguePanel;
+        private EnemySpawner _enemySpawner;
         private GameInitSystem _gameInitSystem;
         private LevelInitData _levelInitData;
         private ILevelTextService _levelTextService;
@@ -64,9 +64,9 @@ namespace Project.Scripts.Levels
 
         public virtual async UniTask OnStartLevel()
         {
-            DialoguePanel = await ViewFactory.CreateDialoguePanel();
-            DialogueSetter = new DialogueSetter(DialoguePanel, _levelTextService);
-            Arrow = await ViewFactory.CreateArrow(ArrowPoint);
+            _dialoguePanel = await ViewFactory.CreateDialoguePanel();
+            DialogueSetter = new DialogueSetter(_dialoguePanel, _levelTextService);
+            Arrow = await ViewFactory.CreateArrow();
 
             EndLevelTrigger.Deactivate();
             EntranceToNextLvlTrigger.Deactivate();
@@ -76,7 +76,7 @@ namespace Project.Scripts.Levels
 
         public void GetServices(
             GameInitSystem gameInitSystem,
-            PauseService pauseService,
+            IPauseService pauseService,
             LevelInitData levelInitData,
             ILevelTextService levelTextService,
             ViewFactory viewFactory,
@@ -108,22 +108,22 @@ namespace Project.Scripts.Levels
 
         protected void CreateWaveOfSmallEnemies(int numberWaveEnemy)
         {
-            EnemySpawner.SpawnSmallAlienEnemy(EnemyWaves[numberWaveEnemy].SmallEnemySpawnPositions, CountSmallEnemy);
+            _enemySpawner.SpawnSmallAlienEnemy(_enemyWaves[numberWaveEnemy].SmallEnemySpawnPositions, CountSmallEnemy);
         }
         
         protected void CreateWaveOfBigEnemies(int numberWaveEnemy)
         {
-            EnemySpawner.SpawnBigEnemyAlien(EnemyWaves[numberWaveEnemy].BigEnemySpawnPositions, CountBigEnemy);
+            _enemySpawner.SpawnBigEnemyAlien(_enemyWaves[numberWaveEnemy].BigEnemySpawnPositions, CountBigEnemy);
         }
         
         protected void CreateWaveOfGunnerEnemies(int numberWaveEnemy)
         {
-            EnemySpawner.SpawnGunnerAlienEnemy(EnemyWaves[numberWaveEnemy].GunnerEnemySpawnPositions, CountGunnerEnemy);
+            _enemySpawner.SpawnGunnerAlienEnemy(_enemyWaves[numberWaveEnemy].GunnerEnemySpawnPositions, CountGunnerEnemy);
         }
         
         protected void CreateAllAlienEnemyTurrets()
         {
-            EnemySpawner.SpawnAlienEnemyTurret(_levelInitData.EnemyTurretsSpawnPoints,
+            _enemySpawner.SpawnAlienEnemyTurret(_levelInitData.EnemyTurretsSpawnPoints,
                 _levelInitData.PlayerSpawnPosition);
         }
 
@@ -173,7 +173,7 @@ namespace Project.Scripts.Levels
                         throw new Exception("There is not enough data for new waves");
                 }
 
-                EnemyWaves.Add(enemyWave);
+                _enemyWaves.Add(enemyWave);
             }
         }
 
@@ -194,7 +194,7 @@ namespace Project.Scripts.Levels
             InitEnemyWaves();
 
             ResourcesSpawner = new ResourcesSpawner(gameInitSystem, _levelInitData);
-            EnemySpawner = new EnemySpawner(gameInitSystem);
+            _enemySpawner = new EnemySpawner(gameInitSystem);
 
             IsInitiatedSpawners?.Invoke();
         }

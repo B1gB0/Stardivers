@@ -9,7 +9,6 @@ using Reflex.Attributes;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using YG;
 
 namespace Project.Scripts.Game.GameRoot
 {

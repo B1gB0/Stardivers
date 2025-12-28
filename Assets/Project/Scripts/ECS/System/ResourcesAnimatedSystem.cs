@@ -15,7 +15,6 @@ namespace Project.Scripts.ECS.System
             foreach (var entity in _animatedFilter)
             {
                 ref var resourceComponent = ref _animatedFilter.Get1(entity);
-
                 ref var animatedComponent = ref _animatedFilter.Get2(entity);
 
                 animatedComponent.Animator.SetBool(Hit, resourceComponent.Health.IsHitting);

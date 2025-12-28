@@ -37,17 +37,17 @@ namespace Project.Scripts.UI.Panel
             _operationService = operationService;
             _tweenAnimationService = tweenAnimationService;
         }
-
-        private void Start()
-        {
-            SetOperation(_currentIndex);
-        }
-
+        
         private void OnEnable()
         {
             _priviousButton.onClick.AddListener(SetPreviousOperation);
             _nextButton.onClick.AddListener(SetNextOperation);
             _backToMainMenuButton.onClick.AddListener(HandleBackButtonClick);
+        }
+
+        private void Start()
+        {
+            SetOperation(_currentIndex);
         }
 
         private void OnDisable()

@@ -34,6 +34,16 @@ namespace Project.Scripts.Weapon.Player
 
             enemyAlienActor.Die -= OnEnemyDie;
         }
+        
+        private void OnDestroy()
+        {
+            foreach (var enemyAlienActor in _enemiesInRange.Where(enemyAlienActor => enemyAlienActor != null))
+            {
+                enemyAlienActor.Die -= OnEnemyDie;
+            }
+
+            _enemiesInRange.Clear();
+        }
 
         public EnemyActor GetClosestEnemy()
         {
@@ -68,16 +78,6 @@ namespace Project.Scripts.Weapon.Player
         {
             _enemiesInRange.Remove(enemyActor);
             enemyActor.Die -= OnEnemyDie;
-        }
-
-        private void OnDestroy()
-        {
-            foreach (var enemyAlienActor in _enemiesInRange.Where(enemyAlienActor => enemyAlienActor != null))
-            {
-                enemyAlienActor.Die -= OnEnemyDie;
-            }
-
-            _enemiesInRange.Clear();
         }
     }
 }

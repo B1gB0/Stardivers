@@ -18,22 +18,53 @@ namespace Project.Scripts.Levels.MysteryPlanet.SecondLevel
         [SerializeField] private EntranceTrigger _entranceLastLvlTrigger;
         
         private MissionProgressBar _missionProgressBar;
-
-        private void Start()
-        {
-            _radioTowerTrigger.Deactivate();
-        }
-
+        
         private void OnEnable()
         {
             IsInitiatedSpawners += SpawnResources;
             IsInitiatedSpawners += SpawnIceCrystals;
         }
 
+        private void Start()
+        {
+            _radioTowerTrigger.Deactivate();
+        }
+        
+        private void FixedUpdate()
+        {
+            if (_enemySpawnTriggerWithEffect.IsEnemySpawned)
+            {
+                CreateWaveOfEnemy(FirstWaveEnemy);
+            }
+        }
+
         private void OnDisable()
         {
             IsInitiatedSpawners -= SpawnResources;
             IsInitiatedSpawners -= SpawnIceCrystals;
+        }
+        
+        private void OnDestroy()
+        {
+            WelcomePlanetTextTrigger.IsWelcomeToPlanet -= DialogueSetter.OnWelcomePlanet;
+            
+            _radioTower.ProgressChanged -= _missionProgressBar.OnChangedValues;
+            
+            _enemySpawnTriggerWithEffect.EnemySpawned -= _radioTowerTrigger.Activate;
+            _enemySpawnTriggerWithEffect.EnemySpawned -= HideEnemySpawnedPointers;
+            _enemySpawnTriggerWithEffect.EnemySpawned -= LookArrowAtBallisticRocketTrigger;
+            _enemySpawnTriggerWithEffect.EnemySpawned -= _entranceLastLvlTrigger.Deactivate;
+            _enemySpawnTriggerWithEffect.EnemySpawned -= _missionProgressBar.Show;
+            _enemySpawnTriggerWithEffect.EnemySpawned -= DialogueSetter.OnEnemySpawnTriggerWithEffect;
+
+            _radioTower.InstallationDishCompleted -= DialogueSetter.OnEndAttack;
+            _radioTower.InstallationDishCompleted -= ShowOutpostPointers;
+            _radioTower.InstallationDishCompleted -= ArrowLookAtOutpost;
+            _radioTower.InstallationDishCompleted -= _enemySpawnTriggerWithEffect.CompleteSpawn;
+            _radioTower.InstallationDishCompleted -= EndLevelTrigger.Activate;
+            _radioTower.InstallationDishCompleted -= EntranceToNextLvlTrigger.Activate;
+            _radioTower.InstallationDishCompleted -= _entranceLastLvlTrigger.Activate;
+            _radioTower.InstallationDishCompleted -= _radioTowerTrigger.Deactivate;
         }
 
         public override async UniTask OnStartLevel()
@@ -69,37 +100,6 @@ namespace Project.Scripts.Levels.MysteryPlanet.SecondLevel
             _radioTower.InstallationDishCompleted += _radioTowerTrigger.Deactivate;
         }
 
-        private void FixedUpdate()
-        {
-            if (_enemySpawnTriggerWithEffect.IsEnemySpawned)
-            {
-                CreateWaveOfEnemy(FirstWaveEnemy);
-            }
-        }
-
-        private void OnDestroy()
-        {
-            WelcomePlanetTextTrigger.IsWelcomeToPlanet -= DialogueSetter.OnWelcomePlanet;
-            
-            _radioTower.ProgressChanged -= _missionProgressBar.OnChangedValues;
-            
-            _enemySpawnTriggerWithEffect.EnemySpawned -= _radioTowerTrigger.Activate;
-            _enemySpawnTriggerWithEffect.EnemySpawned -= HideEnemySpawnedPointers;
-            _enemySpawnTriggerWithEffect.EnemySpawned -= LookArrowAtBallisticRocketTrigger;
-            _enemySpawnTriggerWithEffect.EnemySpawned -= _entranceLastLvlTrigger.Deactivate;
-            _enemySpawnTriggerWithEffect.EnemySpawned -= _missionProgressBar.Show;
-            _enemySpawnTriggerWithEffect.EnemySpawned -= DialogueSetter.OnEnemySpawnTriggerWithEffect;
-
-            _radioTower.InstallationDishCompleted -= DialogueSetter.OnEndAttack;
-            _radioTower.InstallationDishCompleted -= ShowOutpostPointers;
-            _radioTower.InstallationDishCompleted -= ArrowLookAtOutpost;
-            _radioTower.InstallationDishCompleted -= _enemySpawnTriggerWithEffect.CompleteSpawn;
-            _radioTower.InstallationDishCompleted -= EndLevelTrigger.Activate;
-            _radioTower.InstallationDishCompleted -= EntranceToNextLvlTrigger.Activate;
-            _radioTower.InstallationDishCompleted -= _entranceLastLvlTrigger.Activate;
-            _radioTower.InstallationDishCompleted -= _radioTowerTrigger.Deactivate;
-        }
-        
         private void LookArrowAtBallisticRocketTrigger()
         {
             Arrow.OnLookAtTarget(_radioTowerTrigger.transform);

@@ -67,7 +67,7 @@ namespace Project.Scripts.UI.View
             GameObjectInjector.InjectRecursive(_uiScene.gameObject, _container);
         }
         
-        public async UniTask<Arrow> CreateArrow(Transform target)
+        public async UniTask<Arrow> CreateArrow()
         {
             var arrowTemplate = await _resourceService.Load<GameObject>(ArrowPath);
             arrowTemplate = Instantiate(arrowTemplate);

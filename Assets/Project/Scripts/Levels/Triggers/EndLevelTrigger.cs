@@ -11,11 +11,11 @@ namespace Project.Scripts.Levels.Triggers
 
         private void OnTriggerEnter(Collider trigger)
         {
-            if (trigger.TryGetComponent(out PlayerActor _))
-            {
-                YG2.SaveProgress();
-                IsLevelCompleted?.Invoke();
-            }
+            if (!trigger.TryGetComponent(out PlayerActor _))
+                return;
+            
+            YG2.SaveProgress();
+            IsLevelCompleted?.Invoke();
         }
     }
 }

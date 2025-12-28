@@ -18,8 +18,9 @@ namespace Project.Scripts.Weapon.Player
         
         protected bool IsReloading;
         protected int CurrentCountShots;
-        protected float ReloadTimer;
         protected float LastShotTime;
+        
+        private float _reloadTimer;
         
         public WeaponType Type { get; protected set; }
 
@@ -38,18 +39,18 @@ namespace Project.Scripts.Weapon.Player
 
         private async UniTask Reload()
         {
-            ReloadTimer = MinValue;
+            _reloadTimer = MinValue;
             
             IsReloading = true;
             WeaponView.ActivateFiller();
 
-            while (ReloadTimer < WeaponCharacteristics.ReloadTime)
+            while (_reloadTimer < WeaponCharacteristics.ReloadTime)
             {
                 if(WeaponView == null)
                     return;
                 
-                WeaponView.AnimateFiller(ReloadTimer, WeaponCharacteristics.ReloadTime);
-                ReloadTimer += Time.deltaTime;
+                WeaponView.AnimateFiller(_reloadTimer, WeaponCharacteristics.ReloadTime);
+                _reloadTimer += Time.deltaTime;
                 await UniTask.NextFrame();
             }
 

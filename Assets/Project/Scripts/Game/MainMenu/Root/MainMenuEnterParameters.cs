@@ -4,11 +4,6 @@ namespace Project.Scripts.Game.MainMenu.Root
 {
     public class MainMenuEnterParameters : SceneEnterParameters
     {
-        public string Result { get; }
-
-        public MainMenuEnterParameters(string result) : base(Scenes.MainMenu)
-        {
-            Result = result;
-        }
+        public MainMenuEnterParameters() : base(Scenes.MainMenu) { }
     }
 }

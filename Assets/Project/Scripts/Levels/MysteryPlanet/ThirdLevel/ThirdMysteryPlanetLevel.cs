@@ -16,6 +16,9 @@ namespace Project.Scripts.Levels.MysteryPlanet.ThirdLevel
         private const int MinSecondAliensCocoonsValue = 0;
         private const int MinCocoonsValue = 0;
 
+        private readonly List<AlienCocoon> _firstNestCocoons = new();
+        private readonly List<AlienCocoon> _secondNestCocoons = new();
+        
         [SerializeField] private List<GameObject> _alienCocoonsPointers;
         [SerializeField] private List<GameObject> _enemyOutpostPointers;
 
@@ -24,9 +27,6 @@ namespace Project.Scripts.Levels.MysteryPlanet.ThirdLevel
         [SerializeField] private EntranceTrigger _entranceLastLvlTrigger;
         [SerializeField] private NestTriggerForNavigation _firstNestTrigger;
         [SerializeField] private NestTriggerForNavigation _secondNestTrigger;
-
-        private List<AlienCocoon> _firstNestCocoons = new();
-        private List<AlienCocoon> _secondNestCocoons = new();
 
         private AlienCocoonView _alienCocoonView;
         private ObjectiveTextView _objectiveTextView;

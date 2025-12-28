@@ -7,6 +7,5 @@ namespace Project.Scripts.Services
     {
         public List<ImprovementCard> ImprovementCards { get; }
         public List<WeaponCard> WeaponCards { get; }
-        // public void RecreateAllCards();
     }
 }

@@ -6,7 +6,6 @@ namespace Project.Scripts.ECS.System
 {
     public class PlayerAnimatedSystem : IEcsRunSystem
     {
-        public readonly int Idle = Animator.StringToHash(nameof(Idle));
         public readonly int Move = Animator.StringToHash(nameof(Move));
         public readonly int Hit = Animator.StringToHash(nameof(Hit));
         public readonly int Speed = Animator.StringToHash(nameof(Speed));

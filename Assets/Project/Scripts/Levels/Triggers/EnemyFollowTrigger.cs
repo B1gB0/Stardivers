@@ -8,9 +8,7 @@ namespace Project.Scripts.Levels.Triggers
         private void OnTriggerEnter(Collider trigger)
         {
             if (trigger.TryGetComponent(out PlayerActor playerActor))
-            {
                 playerActor.ChangeFollowEnemyState(true);
-            }
         }
     }
 }

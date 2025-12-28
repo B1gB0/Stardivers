@@ -5,13 +5,10 @@ namespace Project.Scripts.Game.Gameplay.Root
 {
     public class GameplayEnterParameters : SceneEnterParameters
     {
-        public Operation CurrentOperation { get; }
         public int CurrentNumberLevel { get; }
         
-        public GameplayEnterParameters(Operation currentOperation, 
-            int currentNumberLevel, string sceneName) : base(sceneName)
+        public GameplayEnterParameters(int currentNumberLevel, string sceneName) : base(sceneName)
         {
-            CurrentOperation = currentOperation;
             CurrentNumberLevel = currentNumberLevel;
         }
     }

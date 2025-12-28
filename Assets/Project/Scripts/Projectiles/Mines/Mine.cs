@@ -8,11 +8,11 @@ namespace Project.Scripts.Projectiles.Mines
     {
         protected override void OnTriggerEnter(Collider collision)
         {
-            if(collision.gameObject.TryGetComponent(out EnemyActor enemy))
-            {
-                Explode();
-                StopCoroutine(LifeRoutine());
-            }
+            if (!collision.gameObject.TryGetComponent(out EnemyActor enemy))
+                return;
+            
+            Explode();
+            StopCoroutine(LifeRoutine());
         }
 
         public override void SetCharacteristics(float damage, float explosionRadius)

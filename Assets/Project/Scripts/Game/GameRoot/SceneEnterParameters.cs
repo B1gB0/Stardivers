@@ -4,7 +4,7 @@
     {
         public string SceneName { get; private set; }
 
-        public SceneEnterParameters(string sceneName)
+        protected SceneEnterParameters(string sceneName)
         {
             SceneName = sceneName;
         }

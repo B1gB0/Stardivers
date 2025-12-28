@@ -13,7 +13,7 @@ namespace Project.Scripts.UI.View
         private const int DefaultBarValue = 0;
         private const int DefaultBackgroundBarValue = 2;
 
-        private readonly int RemovedSegments = Shader.PropertyToID("_RemovedSegments");
+        private readonly int _removedSegments = Shader.PropertyToID("_RemovedSegments");
         
         [SerializeField] protected TMP_Text text;
         
@@ -24,8 +24,8 @@ namespace Project.Scripts.UI.View
 
         private void Start()
         {
-            _barMaterial.SetFloat(RemovedSegments, DefaultBarValue);
-            _backgroundBarMaterial.SetFloat(RemovedSegments, DefaultBackgroundBarValue);
+            _barMaterial.SetFloat(_removedSegments, DefaultBarValue);
+            _backgroundBarMaterial.SetFloat(_removedSegments, DefaultBackgroundBarValue);
         }
 
         private void OnDestroy()
@@ -59,7 +59,7 @@ namespace Project.Scripts.UI.View
                     Mathf.MoveTowards(currentValue, targetValue, RecoveryRate * Time.unscaledDeltaTime);
                 
                 float sliderValue = currentValue / maxValue;
-                _barMaterial.SetFloat(RemovedSegments, sliderValue);
+                _barMaterial.SetFloat(_removedSegments, sliderValue);
 
                 await UniTask.Yield(PlayerLoopTiming.Update, token);
             }
@@ -67,7 +67,7 @@ namespace Project.Scripts.UI.View
             if (!token.IsCancellationRequested)
             {
                 float finalSliderValue = targetValue / maxValue;
-                _barMaterial.SetFloat(RemovedSegments, finalSliderValue);
+                _barMaterial.SetFloat(_removedSegments, finalSliderValue);
             }
         }
         

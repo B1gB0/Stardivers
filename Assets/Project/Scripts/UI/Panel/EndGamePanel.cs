@@ -28,7 +28,6 @@ namespace Project.Scripts.UI.Panel
         [SerializeField] private Button _nextLevelButton;
 
         [SerializeField] private List<Image> _images;
-
         [SerializeField] private GameObject _rootWindow;
 
         private IPauseService _pauseService;
@@ -38,7 +37,6 @@ namespace Project.Scripts.UI.Panel
         private ITweenAnimationService _tweenAnimationService;
         private ExperiencePoints _experiencePoints;
         private WeaponPanel _weaponPanel;
-
         private UILocalizationData _uiLocalizationData;
 
         public event Action OnRewardAdSuccessShowed;
@@ -58,12 +56,7 @@ namespace Project.Scripts.UI.Panel
             _uiLocalizationService = uiLocalizationService;
             _tweenAnimationService = tweenAnimationService;
         }
-
-        private void Start()
-        {
-            OnRewardAdSuccessShowed += OnRewardSuccess;
-        }
-
+        
         private void OnEnable()
         {
             YG2.onShowWindowGame -= _pauseService.OnPlayGame;
@@ -80,6 +73,11 @@ namespace Project.Scripts.UI.Panel
             _rebornPlayerButton.onClick.AddListener(_pauseService.OnPlayGame);
             _rebornPlayerButton.onClick.AddListener(OnReborn);
 #endif
+        }
+
+        private void Start()
+        {
+            OnRewardAdSuccessShowed += OnRewardSuccess;
         }
 
         private void OnDisable()

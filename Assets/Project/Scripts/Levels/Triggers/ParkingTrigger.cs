@@ -12,17 +12,13 @@ namespace Project.Scripts.Levels.Triggers
         private void OnTriggerEnter(Collider trigger)
         {
             if (trigger.TryGetComponent(out Truck truck) || trigger.TryGetComponent(out PlayerActor playerActor))
-            {
                 Entrance.OpenGate();
-            }
         }
 
         private void OnTriggerExit(Collider trigger)
         {
             if (trigger.TryGetComponent(out Truck truck) || trigger.TryGetComponent(out PlayerActor playerActor))
-            {
                 Entrance.CloseGate();
-            }
         }
     }
 }

@@ -6,7 +6,8 @@ namespace Project.Scripts.EnemyAnimation.States
     {
         private const float Duration = 0.1f;
         
-        public AttackState(Animator animator, AnimationNamesBase animationNamesBase) : base(animator, animationNamesBase) { }
+        public AttackState(Animator animator, AnimationNamesBase animationNamesBase) 
+            : base(animator, animationNamesBase) { }
         
         public override void Enter()
         {

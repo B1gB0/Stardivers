@@ -39,6 +39,11 @@ namespace Project.Scripts.UI.View
             _levelTextService = levelTextService;
         }
         
+        private void OnDestroy()
+        {
+            transform.DOKill();
+        }
+        
         public void OnChangedValues(float currentProgress, float maxProgress)
         {
             SetValue(currentProgress, maxProgress);
@@ -125,11 +130,6 @@ namespace Project.Scripts.UI.View
         private void SetValue(float currentValue, float maxValue)
         {
             _smoothSlider.value = currentValue / maxValue;
-        }
-
-        private void OnDestroy()
-        {
-            transform.DOKill();
         }
     }
 }

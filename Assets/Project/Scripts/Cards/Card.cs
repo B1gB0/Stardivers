@@ -1,6 +1,9 @@
 using Project.Scripts.Weapon.Player;
 
-public abstract class Card
+namespace Project.Scripts.Cards
 {
-    public WeaponType WeaponType { get; protected set; }
+    public abstract class Card
+    {
+        public WeaponType WeaponType { get; protected set; }
+    }
 }

@@ -14,20 +14,18 @@ namespace Project.Scripts.Levels.Triggers
 
         private void OnTriggerEnter(Collider trigger)
         {
-            if (trigger.TryGetComponent(out PlayerActor _))
-            {
-                IsEnemySpawned = true;
-                _zoneEffect.gameObject.SetActive(false);
-                EnemySpawned?.Invoke();
-            }
+            if (!trigger.TryGetComponent(out PlayerActor _))
+                return;
+            
+            IsEnemySpawned = true;
+            _zoneEffect.gameObject.SetActive(false);
+            EnemySpawned?.Invoke();
         }
 
         private void OnTriggerExit(Collider trigger)
         {
             if (trigger.TryGetComponent(out PlayerActor _))
-            {
                 Deactivate();
-            }
         }
 
         public void CompleteSpawn()

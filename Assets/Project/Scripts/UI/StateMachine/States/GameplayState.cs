@@ -1,5 +1,4 @@
 ﻿using Project.Scripts.UI.View;
-using UnityEngine;
 
 namespace Project.Scripts.UI.StateMachine.States
 {

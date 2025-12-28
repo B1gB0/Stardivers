@@ -4,7 +4,7 @@ namespace Project.Scripts.Game.MainMenu.Root
 {
     public class MainMenuExitParameters
     {
-        public SceneEnterParameters TargetSceneEnterParameters;
+        public readonly SceneEnterParameters TargetSceneEnterParameters;
 
         public MainMenuExitParameters(SceneEnterParameters targetSceneEnterParameters)
         {

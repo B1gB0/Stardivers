@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Project.Scripts.Projectiles;
 using UnityEngine;
 
@@ -15,16 +16,14 @@ namespace Project.Scripts.Lightning
 
         public void SetPosition(Vector3 startPoint, Vector3 endPoint)
         {
-            if (_lineRenderers.Count > MinValueLineRenderers)
+            if (_lineRenderers.Count <= MinValueLineRenderers)
+                return;
+            
+            foreach (var lineRenderer in _lineRenderers.Where(lineRenderer =>
+                         lineRenderer.positionCount >= MinValuePosition))
             {
-                for (int i = 0; i < _lineRenderers.Count; i++)
-                {
-                    if (_lineRenderers[i].positionCount >= MinValuePosition)
-                    {
-                        _lineRenderers[i].SetPosition(FirstIndex, startPoint);
-                        _lineRenderers[i].SetPosition(SecondIndex, endPoint);
-                    }
-                }
+                lineRenderer.SetPosition(FirstIndex, startPoint);
+                lineRenderer.SetPosition(SecondIndex, endPoint);
             }
         }
     }

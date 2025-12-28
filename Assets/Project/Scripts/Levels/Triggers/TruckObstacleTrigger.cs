@@ -22,13 +22,13 @@ namespace Project.Scripts.Levels.Triggers
                 IsObstacleForward = true;
             }
 
-            if (trigger.TryGetComponent(out ResourceActor resource))
-            {
-                resource.Health.DieHealth += OnObstacleDestroy;
+            if (!trigger.TryGetComponent(out ResourceActor resource))
+                return;
+            
+            resource.Health.DieHealth += OnObstacleDestroy;
                 
-                _obstaclesInTrigger.Add(trigger.gameObject);
-                IsObstacleForward = true;
-            }
+            _obstaclesInTrigger.Add(trigger.gameObject);
+            IsObstacleForward = true;
         }
 
         private void OnTriggerExit(Collider trigger)

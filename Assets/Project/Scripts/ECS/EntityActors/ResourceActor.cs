@@ -8,7 +8,7 @@ namespace Project.Scripts.ECS.EntityActors
 {
     public abstract class ResourceActor : MonoBehaviour
     {
-        [field: SerializeField] public Health.Health Health{ get; private set; }
+        [field: SerializeField] public Health.Health Health { get; private set; }
         [field: SerializeField] public Animator Animator { get; private set; }
         
         protected ExperiencePoints ExperiencePoints;

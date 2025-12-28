@@ -350,7 +350,7 @@ namespace Project.Scripts.Game.Gameplay.Root
         {
             _uiRoot.UIRootButtons.Show();
             
-            var mainMenuEnterParameters = new MainMenuEnterParameters("Enter parameters");
+            var mainMenuEnterParameters = new MainMenuEnterParameters();
             _exitParameters = new GameplayExitParameters(mainMenuEnterParameters);
         }
 
@@ -362,8 +362,7 @@ namespace Project.Scripts.Game.Gameplay.Root
 
             var sceneName = _operationService.GetSceneNameByNumber(nextNumberLevel);
 
-            var gameplayEnterParameters = new GameplayEnterParameters(_operationService.CurrentOperation,
-                nextNumberLevel, sceneName);
+            var gameplayEnterParameters = new GameplayEnterParameters(nextNumberLevel, sceneName);
 
             _exitParameters = new GameplayExitParameters(gameplayEnterParameters);
         }
@@ -441,14 +440,7 @@ namespace Project.Scripts.Game.Gameplay.Root
 
         private void OnShowJoystick()
         {
-            if (YG2.envir.isDesktop)
-            {
-                _uiScene.Joystick.gameObject.SetActive(false);
-            }
-            else
-            {
-                _uiScene.Joystick.gameObject.SetActive(true);
-            }
+            _uiScene.Joystick.gameObject.SetActive(!YG2.envir.isDesktop);
         }
     }
 }

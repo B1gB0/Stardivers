@@ -33,10 +33,7 @@ namespace Project.Scripts.Game.Gameplay.Root.View
 #if UNITY_EDITOR
         [field: SerializeField] public Button CheatsButton { get; private set; }
 #endif
-
-        [field: SerializeField] public Transform TopPointerPoint { get; private set; }
         [field: SerializeField] public Transform PointerPoint { get; private set; }
-        [field: SerializeField] public Transform BottomPointerPoint { get; private set; }
         [field: SerializeField] public Transform ShowKeyboardTutorialPoint { get; private set; }
         [field: SerializeField] public Transform HideKeyboardTutorialPoint { get; private set; }
         [field: SerializeField] public Transform ShowMinesButtonPoint { get; private set; }
@@ -103,12 +100,6 @@ namespace Project.Scripts.Game.Gameplay.Root.View
             MinesButton.gameObject.SetActive(true);
             _tweenAnimationService.AnimateMove(MinesButton.transform, ShowMinesButtonPoint, HideMinesButtonPoint,
                 false, true);
-        }
-
-        public void HideMinesButton()
-        {
-            _tweenAnimationService.AnimateMove(MinesButton.transform, ShowMinesButtonPoint, HideMinesButtonPoint,
-                true);
         }
 
         public void HandleGoToNextSceneButtonClick()

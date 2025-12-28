@@ -4,13 +4,14 @@ namespace Project.Scripts.Cards
 {
     public class WeaponCard : Card
     {
-        public CharacteristicsWeaponData CharacteristicsWeaponData { get; private set; }
+        private CharacteristicsWeaponData _characteristicsWeaponData;
+        
         public WeaponLocalizationData WeaponLocalizationData { get; private set; }
 
         public void SetData(WeaponLocalizationData weaponLocalizationData, CharacteristicsWeaponData characteristicsWeaponData)
         {
             WeaponLocalizationData = weaponLocalizationData;
-            CharacteristicsWeaponData = characteristicsWeaponData;
+            _characteristicsWeaponData = characteristicsWeaponData;
             WeaponType = weaponLocalizationData.Type;
         }
     }

@@ -8,7 +8,6 @@ namespace Project.Scripts.ECS.EntityActors
     public abstract class EntityActor : MonoBehaviour
     {
         private const float MinValue = 0f;
-        
         private const int DurationFactor = 1000;
         
         [field: SerializeField] public Health.Health Health { get; private set; }

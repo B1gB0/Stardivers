@@ -36,11 +36,11 @@ namespace Project.Scripts.NavMeshComponents
                 _changeBehaviour = null;
             }
 
-            if (_startBehaviour != null)
-            {
-                StopCoroutine(_startBehaviour);
-                _startBehaviour = null;
-            }
+            if (_startBehaviour == null)
+                return;
+            
+            StopCoroutine(_startBehaviour);
+            _startBehaviour = null;
         }
 
         private IEnumerator ChangeBehaviour()
@@ -82,7 +82,8 @@ namespace Project.Scripts.NavMeshComponents
             
             while (agent.transform.position != endPos)
             {
-                agent.transform.position = Vector3.MoveTowards(agent.transform.position, endPos, agent.speed * Time.deltaTime);
+                agent.transform.position = Vector3.MoveTowards(agent.transform.position, endPos,
+                    agent.speed * Time.deltaTime);
                 yield return null;
             }
         }

@@ -10,15 +10,15 @@ namespace Project.Scripts.DI
 {
     public class ProjectInstaller : MonoBehaviour, IInstaller
     {
+        private readonly List<object> _monoServices = new ();
+        private readonly List<GameObject> _monoServiceObjects = new ();
+        
         [SerializeField] private AudioSoundsService _audioSoundsServicePrefab;
         [SerializeField] private ParticleEffectsService _particleEffectsService;
         [SerializeField] private OperationService _operationServicePrefab;
         [SerializeField] private UIRootView _uiRootViewPrefab;
         [SerializeField] private GameEntryPoint _gameEntryPointPrefab;
-        
-        private readonly List<object> _monoServices = new ();
-        private readonly List<GameObject> _monoServiceObjects = new ();
-        
+
         public void InstallBindings(ContainerBuilder builder)
         {
             RegisterCoreServices(builder);

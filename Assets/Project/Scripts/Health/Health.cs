@@ -1,16 +1,13 @@
 using System;
-using System.Collections;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Project.Scripts.Game.Constant;
-using Project.Scripts.Services;
 using Project.Scripts.UI.View;
-using Reflex.Attributes;
 using UnityEngine;
 
 namespace Project.Scripts.Health
 {
-    public class Health : MonoBehaviour, IDamageable
+    public class Health : MonoBehaviour
     {
         private const float RecoveryRate = 10f;
         

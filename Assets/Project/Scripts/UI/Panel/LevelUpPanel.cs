@@ -22,10 +22,10 @@ namespace Project.Scripts.UI.Panel
     public class LevelUpPanel : MonoBehaviour, IView
     {
         private const int MinValue = 0;
-
         private const float LevelUpDelay = 0.3f;
 
         private readonly WeaponVisitor _weaponVisitor = new();
+        private readonly Queue<int> _pendingLevels = new();
 
         [SerializeField] private List<CardView> _cardViews = new();
 
@@ -57,9 +57,7 @@ namespace Project.Scripts.UI.Panel
         private WeaponHolder _weaponHolder;
         private WeaponPanel _weaponPanel;
         private HealthBar _healthBar;
-
-        private Queue<int> _pendingLevels = new();
-
+        
         private int _currentLevel;
         private bool _isShowing;
         private bool _isClosed;

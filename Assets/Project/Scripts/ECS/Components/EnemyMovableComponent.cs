@@ -7,7 +7,6 @@ namespace Project.Scripts.ECS.Components
     {
         public NavMeshAgent NavMeshAgent;
         public Transform Transform;
-        public float MoveSpeed;
         public bool IsMoving;
         public bool IsAttack;
     }

@@ -8,7 +8,6 @@ namespace Project.Scripts.ECS.System
     {
         private readonly EcsFilter<PatrolComponent, EnemyMovableComponent, FollowPlayerComponent>
             _enemyPatrolFollowFilter;
-
         private readonly EcsFilter<EnemyMovableComponent, FollowPlayerComponent, EnemyAlienTurretAttackComponent>
             _enemyTurretFollowFilter;
 

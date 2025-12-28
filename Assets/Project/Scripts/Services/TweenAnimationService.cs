@@ -1,7 +1,6 @@
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Project.Scripts.Services
 {
@@ -82,24 +81,6 @@ namespace Project.Scripts.Services
                 });
         }
 
-        public void AnimateFade(Image target, bool isDisableTarget = false)
-        {
-            target.gameObject.SetActive(!isDisableTarget);
-            
-            target.DOKill(true);
-
-            Sequence scaleSequence = DOTween.Sequence()
-                .Append(!isDisableTarget
-                    ? target.DOFade(ShowScale, DurationShow)
-                    : target.DOFade(HideScale, DurationHide))
-                .SetEase(!isDisableTarget ? Ease.OutBounce : Ease.OutSine)
-                .SetUpdate(true)
-                .OnComplete(() =>
-            {
-                TryOffGameObject(target.transform, isDisableTarget);
-            });
-        }
-        
         public void AnimatePointer(Transform target, Transform pointerPoint)
         {
             target?.DOKill();

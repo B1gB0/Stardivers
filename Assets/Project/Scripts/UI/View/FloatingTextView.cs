@@ -45,22 +45,13 @@ namespace Project.Scripts.UI.View
         
         private void SetIcon(FloatingTextViewType viewType)
         {
-            if (viewType == FloatingTextViewType.Gold)
+            _icon.sprite = viewType switch
             {
-                _icon.sprite = _sprites[0];
-            }
-            else if(viewType == FloatingTextViewType.RedCrystal)
-            {
-                _icon.sprite = _sprites[1];
-            }
-            else if(viewType == FloatingTextViewType.AlienCocoon)
-            {
-                _icon.sprite = _sprites[2];
-            }
-            else
-            {
-                _icon.sprite = null;
-            }
+                FloatingTextViewType.Gold => _sprites[0],
+                FloatingTextViewType.RedCrystal => _sprites[1],
+                FloatingTextViewType.AlienCocoon => _sprites[2],
+                _ => null
+            };
         }
 
         private IEnumerator LifeRoutine()

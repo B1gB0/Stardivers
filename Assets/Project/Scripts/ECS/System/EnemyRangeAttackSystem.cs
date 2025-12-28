@@ -11,10 +11,8 @@ namespace Project.Scripts.ECS.System
 
         private readonly EcsFilter<EnemyComponent, FollowPlayerComponent, EnemyMovableComponent, AnimatedComponent,
             EnemyGunnerAlienAttackComponent> _gunnerAlienEnemyAttackFilter;
-        
         private readonly EcsFilter<EnemyComponent, FollowPlayerComponent, EnemyMovableComponent, AnimatedComponent,
             EnemyBigAlienAttackComponent> _bigAlienEnemyAttackFilter;
-        
         private readonly EcsFilter<EnemyComponent, FollowPlayerComponent, EnemyMovableComponent, AnimatedComponent,
             EnemyAlienTurretAttackComponent> _alienEnemyTurretAttackFilter;
 

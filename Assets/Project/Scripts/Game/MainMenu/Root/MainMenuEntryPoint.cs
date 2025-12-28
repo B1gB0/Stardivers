@@ -87,8 +87,7 @@ namespace Project.Scripts.Game.MainMenu.Root
         {
             var sceneName = _operationService.GetSceneNameByCurrentNumber();
 
-            var gameplayEnterParameters = new GameplayEnterParameters(_operationService.CurrentOperation,
-                _operationService.CurrentNumberLevel, sceneName);
+            var gameplayEnterParameters = new GameplayEnterParameters(_operationService.CurrentNumberLevel, sceneName);
             
             _exitParameters = new MainMenuExitParameters(gameplayEnterParameters);
         }

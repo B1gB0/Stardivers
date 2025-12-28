@@ -35,7 +35,6 @@ namespace Project.Scripts.Services
         private const int CountAudioSources = 10;
 
         private const float MinValue = 0f;
-        private const float FadeDuration = 2f;
         private const float CapsuleFlightDuration = 4.5f;
         private const float CapsuleExplosionDelay = 2.5f;
 
@@ -117,49 +116,6 @@ namespace Project.Scripts.Services
             _currentMusicType = musicType;
         }
 
-        public void StopCurrentMusic()
-        {
-            if (_musicAudioSource == null || !_musicAudioSource.isPlaying)
-                return;
-
-            _musicAudioSource.Stop();
-            _musicAudioSource.clip = null;
-            _currentMusicType = SoundsType.None;
-        }
-
-        public void CrossFadeMusic(SoundsType newMusicType, float fadeDuration = FadeDuration)
-        {
-            if (!IsInitiated) return;
-
-            StartCoroutine(CrossFadeMusicCoroutine(newMusicType, fadeDuration));
-        }
-
-        public void PauseMusic()
-        {
-            if (_musicAudioSource != null && _musicAudioSource.isPlaying)
-            {
-                _musicAudioSource.Pause();
-            }
-        }
-
-        public void ResumeMusic()
-        {
-            if (_musicAudioSource != null && !_musicAudioSource.isPlaying)
-            {
-                _musicAudioSource.Play();
-            }
-        }
-
-        public void StopSound(AudioSource audioSource)
-        {
-            if (audioSource == null) return;
-
-            if (!audioSource.isPlaying) return;
-
-            audioSource.Stop();
-            _availableAudioSources.Enqueue(audioSource);
-        }
-
         public void StopAllSounds()
         {
             if (_capsuleSoundToken != null)
@@ -169,39 +125,50 @@ namespace Project.Scripts.Services
                 _capsuleSoundToken = null;
             }
 
-            foreach (var audioSource in _allAudioSources)
+            foreach (var audioSource in _allAudioSources.Where(audioSource => audioSource.isPlaying))
             {
-                if (audioSource.isPlaying)
+                audioSource.Stop();
+                if (!_availableAudioSources.Contains(audioSource))
                 {
-                    audioSource.Stop();
-                    if (!_availableAudioSources.Contains(audioSource))
-                    {
-                        _availableAudioSources.Enqueue(audioSource);
-                    }
+                    _availableAudioSources.Enqueue(audioSource);
                 }
             }
         }
         
         public void PauseAllSounds()
         {
-            foreach (var audioSource in _allAudioSources)
+            foreach (var audioSource in _allAudioSources.Where(audioSource => audioSource.isPlaying))
             {
-                if (audioSource.isPlaying)
-                {
-                    audioSource.Pause();
-                }
+                audioSource.Pause();
             }
         }
         
         public void ResumeAllSounds()
         {
-            foreach (var audioSource in _allAudioSources)
+            foreach (var audioSource in _allAudioSources.Where(audioSource => audioSource.isPlaying))
             {
-                if (audioSource.isPlaying)
-                {
-                    audioSource.Play();
-                }
+                audioSource.Play();
             }
+        }
+        
+        private void StopCurrentMusic()
+        {
+            if (_musicAudioSource == null || !_musicAudioSource.isPlaying)
+                return;
+
+            _musicAudioSource.Stop();
+            _musicAudioSource.clip = null;
+            _currentMusicType = SoundsType.None;
+        }
+        
+        private void StopSound(AudioSource audioSource)
+        {
+            if (audioSource == null) return;
+
+            if (!audioSource.isPlaying) return;
+
+            audioSource.Stop();
+            _availableAudioSources.Enqueue(audioSource);
         }
 
         private async UniTask HandleCapsuleSoundSequence(AudioSource audioSource, Sound soundConfig)

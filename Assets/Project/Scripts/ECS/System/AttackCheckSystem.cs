@@ -10,7 +10,6 @@ namespace Project.Scripts.ECS.System
         private const float MinRemainingDistance = 1f;
 
         private readonly EcsFilter<PatrolComponent, EnemyMovableComponent, FollowPlayerComponent> _enemyNavMeshFilter;
-
         private readonly EcsFilter<EnemyMovableComponent, FollowPlayerComponent, EnemyAlienTurretAttackComponent>
             _enemyTurretFilter;
 

@@ -10,11 +10,11 @@ namespace Project.Scripts.UI.View
         private const string LevelRu = "УР ";
         private const string LevelEn = "LVL ";
         private const string LevelTr = "SEV ";
-        
-        private readonly float _startValueLevel = 0f;
-        private readonly float _height = 0.1f;
-        private readonly int _stepLevel = 1;
-        
+
+        private const float StartValueLevel = 0f;
+        private const float Height = 0.1f;
+        private const int StepLevel = 1;
+
         private ExperiencePoints _experiencePoints;
         private Transform _target;
         private int _currentLevel;
@@ -37,7 +37,7 @@ namespace Project.Scripts.UI.View
 
         private void FixedUpdate()
         {
-            transform.position = new Vector3(_target.position.x, _height, _target.position.z);
+            transform.position = new Vector3(_target.position.x, Height, _target.position.z);
         }
 
         private void OnDisable()
@@ -48,11 +48,11 @@ namespace Project.Scripts.UI.View
 
         private void UpgradeProgressBarLevel(int level, float targetValue, float maxValue)
         {
-            _currentLevel = _stepLevel + level;
+            _currentLevel = StepLevel + level;
 
             ChangeText();
             
-            OnChangeValue(_startValueLevel, targetValue, maxValue);
+            OnChangeValue(StartValueLevel, targetValue, maxValue);
         }
 
         public void ChangeText()

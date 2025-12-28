@@ -8,7 +8,7 @@ namespace Project.Scripts.Localization
 {
     public class LocalizationLanguageSwitcher : MonoBehaviour
     {
-        private readonly List<string> _languages = new () {"en", "ru", "tr"};
+        private readonly List<string> _languages = new() { "en", "ru", "tr" };
 
         [SerializeField] private Button _priviousButton;
         [SerializeField] private Button _nextButton;
@@ -17,17 +17,17 @@ namespace Project.Scripts.Localization
 
         public event Action OnLanguageChanged;
 
-        private void Start()
-        {
-            YG2.SwitchLanguage(YG2.lang);
-        }
-
         private void OnEnable()
         {
             _priviousButton.onClick.AddListener(SetPreviousLanguage);
             _nextButton.onClick.AddListener(SetNextLanguage);
         }
 
+        private void Start()
+        {
+            YG2.SwitchLanguage(YG2.lang);
+        }
+        
         private void OnDisable()
         {
             _priviousButton.onClick.RemoveListener(SetPreviousLanguage);
@@ -40,7 +40,7 @@ namespace Project.Scripts.Localization
                 _currentIndex = 0;
             else
                 _currentIndex++;
-        
+
             SetLanguage(_currentIndex);
         }
 
@@ -50,10 +50,10 @@ namespace Project.Scripts.Localization
                 _currentIndex = _languages.Count - 1;
             else
                 _currentIndex--;
-        
+
             SetLanguage(_currentIndex);
         }
-    
+
         private void SetLanguage(int index)
         {
             YG2.SwitchLanguage(_languages[index]);

@@ -53,7 +53,8 @@ namespace Project.Scripts.Weapon.Player
 
         private void Awake()
         {
-            _poolGrenades = new ObjectPool<FragGrenade>(_fragGrenade, CountGrenades, new GameObject(ObjectPoolGrenadeName).transform)
+            _poolGrenades = new ObjectPool<FragGrenade>(_fragGrenade, CountGrenades,
+                new GameObject(ObjectPoolGrenadeName).transform)
             {
                 AutoExpand = IsAutoExpandPool
             };
@@ -86,8 +87,8 @@ namespace Project.Scripts.Weapon.Player
                 _fragGrenade.transform.position = _shootPoint.position;
 
                 _fragGrenade.SetDirection(_closestEnemy.transform.position);
-                _fragGrenade.SetCharacteristics(FragGrenadeCharacteristics.Damage, FragGrenadeCharacteristics.ExplosionRadius,
-                    FragGrenadeCharacteristics.ProjectileSpeed);
+                _fragGrenade.SetCharacteristics(FragGrenadeCharacteristics.Damage, 
+                    FragGrenadeCharacteristics.ExplosionRadius, FragGrenadeCharacteristics.ProjectileSpeed);
 
                 LastShotTime = FragGrenadeCharacteristics.FireRate;
             }

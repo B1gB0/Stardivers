@@ -7,6 +7,7 @@ namespace Project.Scripts.Experience
     public class ExperienceScoreActorVisitor : IScoreActorVisitor
     {
         private const int MinValue = 0;
+
         public int AccumulatedExperience { get; private set; }
         public int AccumulatedEnemyKills { get; private set; }
         public int AccumulatedScore { get; private set; }
@@ -82,11 +83,11 @@ namespace Project.Scripts.Experience
             YG2.saves.AcumulatedScore += alienCocoon.Data.Score;
         }
 
-// #if UNITY_EDITOR
+#if UNITY_EDITOR
         public void Visit(CheatPanel cheatPanel)
         {
             AccumulatedExperience += cheatPanel.ExpValue;
         }
-// #endif
+#endif
     }
 }

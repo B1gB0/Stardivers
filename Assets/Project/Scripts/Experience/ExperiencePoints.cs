@@ -16,15 +16,13 @@ namespace Project.Scripts.Experience
 
         private readonly ExperienceScoreActorVisitor _experienceScoreActorVisitor = new();
         private readonly Queue<int> _pendingLevelUps = new ();
+        private readonly List<int> _playerLevels;
 
-        private List<int> _playerLevels;
         private bool _isLevelUpProcessing;
-        private IPlayerService _playerService;
 
         public ExperiencePoints(IPlayerService playerService)
         {
-            _playerService = playerService;
-            _playerLevels = _playerService.GetPlayerLevels();
+            _playerLevels = playerService.GetPlayerLevels();
             _currentMaxValueOfLevel = _playerLevels[_counterLevel];
             _counterLevel = DefaultLevel;
             _currentValue = TargetExperienceValue;

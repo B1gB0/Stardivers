@@ -32,6 +32,11 @@ namespace Project.Scripts.UI.View
         {
             gameObject.SetActive(false);
         }
+        
+        private void OnDestroy()
+        {
+            transform.DOKill();
+        }
 
         public void Show()
         {
@@ -71,11 +76,6 @@ namespace Project.Scripts.UI.View
                 LocalizationCode.Tr => _levelTextData.TextTr,
                 _ => _text.text
             };
-        }
-
-        private void OnDestroy()
-        {
-            transform.DOKill();
         }
     }
 }

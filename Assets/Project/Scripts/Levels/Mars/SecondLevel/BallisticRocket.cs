@@ -25,17 +25,17 @@ namespace Project.Scripts.Levels.Mars.SecondLevel
         public event Action<float, float> ProgressChanged;
 
         public event Action LaunchCompleted;
+        
+        private void OnEnable()
+        {
+            LaunchCompleted += OnLaunch;
+        }
 
         private void Start()
         {
             _maxProgress = MaxValue;
 
             ProgressChanged?.Invoke(_currentProgress, _maxProgress);
-        }
-
-        private void OnEnable()
-        {
-            LaunchCompleted += OnLaunch;
         }
 
         private void OnDisable()

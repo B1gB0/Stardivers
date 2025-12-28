@@ -1,4 +1,4 @@
-// #if UNITY_EDITOR
+#if UNITY_EDITOR
 
 using Project.Scripts.ECS.EntityActors;
 using Project.Scripts.Experience;
@@ -86,4 +86,4 @@ namespace Project.Scripts.UI.Panel
         }
     }
 }
-// #endif
+#endif

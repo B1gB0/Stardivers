@@ -13,9 +13,7 @@ namespace Project.Scripts.Levels.Triggers
         private void OnTriggerEnter(Collider trigger)
         {
             if (trigger.TryGetComponent(out PlayerActor _))
-            {
                 _arrow.OnLookAtTarget(TargetNestPoint);
-            }
         }
         
         public void GetData(Arrow arrow)

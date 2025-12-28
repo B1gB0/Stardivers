@@ -53,7 +53,7 @@ namespace Project.Scripts.ECS.System
         private readonly ViewFactory _viewFactory;
 
         private readonly ExperiencePoints _experiencePoints;
-        private readonly PauseService _pauseService;
+        private readonly IPauseService _pauseService;
         private readonly MissionProgressBar _missionProgressBar;
         private readonly Level _level;
 
@@ -162,7 +162,6 @@ namespace Project.Scripts.ECS.System
             ref var enemyMovableComponent = ref entity.Get<EnemyMovableComponent>();
             enemyMovableComponent.NavMeshAgent = smallEnemyAlienActor.NavMeshAgent;
             enemyMovableComponent.Transform = smallEnemyAlienActor.transform;
-            enemyMovableComponent.MoveSpeed = data.Speed;
             enemyMovableComponent.IsMoving = true;
 
             ref var enemyAnimationsComponent = ref entity.Get<AnimatedComponent>();
@@ -204,7 +203,6 @@ namespace Project.Scripts.ECS.System
             ref var enemyMovableComponent = ref entity.Get<EnemyMovableComponent>();
             enemyMovableComponent.NavMeshAgent = bigEnemyAlienActor.NavMeshAgent;
             enemyMovableComponent.Transform = bigEnemyAlienActor.transform;
-            enemyMovableComponent.MoveSpeed = data.Speed;
             enemyMovableComponent.IsMoving = true;
 
             ref var enemyAnimationsComponent = ref entity.Get<AnimatedComponent>();
@@ -249,7 +247,6 @@ namespace Project.Scripts.ECS.System
             ref var enemyMovableComponent = ref entity.Get<EnemyMovableComponent>();
             enemyMovableComponent.NavMeshAgent = gunnerEnemyAlienActor.NavMeshAgent;
             enemyMovableComponent.Transform = gunnerEnemyAlienActor.transform;
-            enemyMovableComponent.MoveSpeed = data.Speed;
             enemyMovableComponent.IsMoving = true;
 
             ref var enemyAnimationsComponent = ref entity.Get<AnimatedComponent>();
@@ -294,7 +291,6 @@ namespace Project.Scripts.ECS.System
             
             ref var enemyMovableComponent = ref entity.Get<EnemyMovableComponent>();
             enemyMovableComponent.Transform = enemyTurret.transform;
-            enemyMovableComponent.MoveSpeed = data.Speed;
 
             ref var enemyAnimationsComponent = ref entity.Get<AnimatedComponent>();
             AnimatedStateMachine animatedStateMachine = new(enemyTurret.Animator);

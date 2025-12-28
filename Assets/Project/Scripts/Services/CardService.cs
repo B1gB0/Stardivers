@@ -11,7 +11,8 @@ namespace Project.Scripts.Services
     public class CardService : ICardService
     {
         private Dictionary<WeaponType, WeaponLocalizationData> _weaponsLocalizationData = new ();
-        private Dictionary<CharacteristicType, CharacteristicsLocalizationData> _characteristicsLocalizationData = new ();
+        private Dictionary<CharacteristicType, CharacteristicsLocalizationData>
+            _characteristicsLocalizationData = new ();
         private Dictionary<string, ImprovementData> _improvementsData = new ();
         
         private IDataBaseService _dataBaseService;
@@ -56,14 +57,6 @@ namespace Project.Scripts.Services
             
             return UniTask.CompletedTask;
         }
-
-        // public void RecreateAllCards()
-        // {
-        //     WeaponCards.Clear();
-        //     ImprovementCards.Clear();
-        //     CreateWeaponsCard();
-        //     CreateImprovementCards();
-        // }
 
         private void CreateWeaponsCard()
         {

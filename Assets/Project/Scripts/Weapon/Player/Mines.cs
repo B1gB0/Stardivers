@@ -1,11 +1,9 @@
-﻿using System.Collections;
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
 using Project.Scripts.Audio.Sounds;
 using Project.Scripts.DataBase.Data;
 using Project.Scripts.Projectiles.Mines;
 using Project.Scripts.Services;
 using Project.Scripts.UI.Panel;
-using Project.Scripts.UI.View;
 using Project.Scripts.Weapon.CharacteristicsOfWeapon;
 using Project.Scripts.Weapon.Improvements;
 using UnityEngine;

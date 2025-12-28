@@ -17,8 +17,7 @@ namespace Project.Scripts.UI.Panel
 
         private IPauseService _pauseService;
         private ITweenAnimationService _tweenAnimationService;
-        
-        public Button ContinueButton { get; private set; }
+        private Button _continueButton;
         
         [Inject]
         private void Construct(IPauseService pauseService, ITweenAnimationService tweenAnimationService)
@@ -29,17 +28,17 @@ namespace Project.Scripts.UI.Panel
 
         private void Awake()
         {
-            ContinueButton = GetComponent<Button>();
+            _continueButton = GetComponent<Button>();
         }
 
         private void OnEnable()
         {
-            ContinueButton.onClick.AddListener(Hide);
+            _continueButton.onClick.AddListener(Hide);
         }
 
         private void OnDisable()
         {
-            ContinueButton.onClick.RemoveListener(Hide);
+            _continueButton.onClick.RemoveListener(Hide);
         }
 
         private void OnDestroy()

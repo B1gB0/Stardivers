@@ -2,26 +2,29 @@ using Project.Scripts.UI.View;
 using TMPro;
 using UnityEngine;
 
-public class LoadingPanel : MonoBehaviour, IView
+namespace Project.Scripts.UI.Panel
 {
-    private const int TextFormat = 100;
-    private const float StartProgress = 0f;
+    public class LoadingPanel : MonoBehaviour, IView
+    {
+        private const int TextFormat = 100;
+        private const float StartProgress = 0f;
     
-    [SerializeField] private TMP_Text _progressText;
+        [SerializeField] private TMP_Text _progressText;
 
-    public void Show()
-    {
-        gameObject.SetActive(true);
-        _progressText.text = $"{StartProgress * TextFormat:0}%";
-    }
+        public void Show()
+        {
+            gameObject.SetActive(true);
+            _progressText.text = $"{StartProgress * TextFormat:0}%";
+        }
 
-    public void Hide()
-    {
-        gameObject.SetActive(false);
-    }
+        public void Hide()
+        {
+            gameObject.SetActive(false);
+        }
 
-    public void SetProgressText(float progress)
-    {
-        _progressText.text = $"{progress * TextFormat:0}%";
+        public void SetProgressText(float progress)
+        {
+            _progressText.text = $"{progress * TextFormat:0}%";
+        }
     }
 }

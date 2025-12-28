@@ -12,14 +12,14 @@ namespace Project.Scripts.Levels.Triggers
         
         private void OnTriggerEnter(Collider trigger)
         {
-            if (trigger.TryGetComponent(out Truck truck))
-            {
-                truck.ReachFinalPoint();
-                _zoneEffect.gameObject.SetActive(false);
-                IsFinalPointReached?.Invoke();
+            if (!trigger.TryGetComponent(out Truck truck))
+                return;
+            
+            truck.ReachFinalPoint();
+            _zoneEffect.gameObject.SetActive(false);
+            IsFinalPointReached?.Invoke();
                 
-                Deactivate();
-            }
+            Deactivate();
         }
     }
 }

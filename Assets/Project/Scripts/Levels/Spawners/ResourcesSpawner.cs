@@ -14,7 +14,7 @@ namespace Project.Scripts.Levels.Spawners
         private readonly GameInitSystem _gameInitSystem;
         private readonly LevelInitData _levelInitData;
 
-        public List<AlienCocoon> AlienCocoons { get; private set; } = new();
+        public List<AlienCocoon> AlienCocoons { get; } = new();
 
         public ResourcesSpawner(GameInitSystem gameInitSystem, LevelInitData levelInitData)
         {

@@ -10,20 +10,20 @@ namespace Project.Scripts.Levels.Triggers
 
         private void OnTriggerEnter(Collider trigger)
         {
-            if (trigger.TryGetComponent(out PlayerActor player))
-            {
-                if (_ballisticRocket.gameObject.activeSelf)
-                    _ballisticRocket.OnChangeProgress(player);
-            }
+            if (!trigger.TryGetComponent(out PlayerActor player))
+                return;
+            
+            if (_ballisticRocket.gameObject.activeSelf)
+                _ballisticRocket.OnChangeProgress(player);
         }
 
         private void OnTriggerExit(Collider trigger)
         {
-            if (trigger.TryGetComponent(out PlayerActor player))
-            {
-                if (_ballisticRocket.gameObject.activeSelf)
-                    _ballisticRocket.OnStopChangeProgress();
-            }
+            if (!trigger.TryGetComponent(out PlayerActor player))
+                return;
+            
+            if (_ballisticRocket.gameObject.activeSelf)
+                _ballisticRocket.OnStopChangeProgress();
         }
     }
 }
