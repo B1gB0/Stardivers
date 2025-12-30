@@ -8,9 +8,9 @@ namespace Project.Scripts.Projectiles.Mines
     {
         protected override void OnTriggerEnter(Collider collision)
         {
-            if (!collision.gameObject.TryGetComponent(out EnemyActor enemy))
+            if (!collision.gameObject.TryGetComponent(out EnemyActor _))
                 return;
-            
+
             Explode();
             StopCoroutine(LifeRoutine());
         }
@@ -24,7 +24,7 @@ namespace Project.Scripts.Projectiles.Mines
         protected override IEnumerator LifeRoutine()
         {
             yield return new WaitForSeconds(LifeTime);
-        
+
             Explode();
         }
     }

@@ -7,7 +7,7 @@ namespace Project.Scripts.Services
     {
         public event Action OnGameStarted;
         public event Action OnGamePaused;
-        
+
         public void OnStopGameWithoutMusic();
         public void OnStopGameWithMusic();
         public void OnPlayGame();

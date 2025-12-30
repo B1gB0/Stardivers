@@ -13,7 +13,7 @@ namespace Project.Scripts.DataBase.Data
         [SerializeField] private string _textRu;
         [SerializeField] private string _textEn;
         [SerializeField] private string _textTr;
-        
+
         public string Id => _id;
         public LevelTextsType Type => _type;
         public string SceneName => _sceneName;

@@ -16,12 +16,15 @@ namespace Project.Scripts.Services
             _poolDamageText =
                 new ObjectPool<FloatingTextView>(textView, Count, new GameObject(ObjectPoolDamageText).transform)
                 {
-                    AutoExpand = IsAutoExpand
+                    AutoExpand = IsAutoExpand,
                 };
         }
 
-        public void OnChangedFloatingText(string value, Transform target, 
-            FloatingTextViewType floatingTextViewType, Color color)
+        public void OnChangedFloatingText(
+            string value,
+            Transform target,
+            FloatingTextViewType floatingTextViewType,
+            Color color)
         {
             ChangeText(value, target, floatingTextViewType, color);
         }

@@ -11,7 +11,7 @@ namespace Project.Scripts.Levels.Mars.ThirdLevel
     {
         private const int MinCountPoints = 0;
         private const int NextPoint = 1;
-        
+
         private const float MinValue = 0f;
         private const float MinDistanceToPoint = 1f;
         private const float MoveSpeed = 2f;
@@ -20,7 +20,7 @@ namespace Project.Scripts.Levels.Mars.ThirdLevel
         [SerializeField] private Transform[] _followPoints;
         [SerializeField] private List<WheelRotation> _wheels;
         [SerializeField] private TruckObstacleTrigger _obstacleForwardTrigger;
-        
+
         private int _currentIndexPoint;
         private float _heightAboveGroundLevel;
         private bool _isFinalPointReached;
@@ -33,14 +33,14 @@ namespace Project.Scripts.Levels.Mars.ThirdLevel
         private void Start()
         {
             _heightAboveGroundLevel = transform.position.y;
-            
+
             ProgressChanged?.Invoke(_currentIndexPoint, _followPoints.Length);
         }
 
         private void FixedUpdate()
         {
             CheckPlayer();
-            
+
             if (_isPlayerNearby && !_obstacleForwardTrigger.IsObstacleForward && !_isFinalPointReached)
             {
                 Vector3 target = _followPoints[_currentIndexPoint].position;
@@ -71,7 +71,7 @@ namespace Project.Scripts.Levels.Mars.ThirdLevel
             _player = player;
             _isPlayerNearby = true;
         }
-        
+
         public void OnPlayerIsNotNearby()
         {
             _isPlayerNearby = false;
@@ -84,10 +84,10 @@ namespace Project.Scripts.Levels.Mars.ThirdLevel
 
         private void CheckPlayer()
         {
-            if(_player == null)
+            if (_player == null)
                 return;
-            
-            if(_player.Health.TargetHealth <= MinValue)
+
+            if (_player.Health.TargetHealth <= MinValue)
                 OnPlayerIsNotNearby();
         }
 
@@ -98,8 +98,7 @@ namespace Project.Scripts.Levels.Mars.ThirdLevel
             transform.position = Vector3.MoveTowards(
                 transform.position,
                 targetPosition,
-                MoveSpeed * Time.fixedDeltaTime
-            );
+                MoveSpeed * Time.fixedDeltaTime);
         }
 
         private void SmoothRotateTowardsTarget(Vector3 targetPosition)
@@ -115,14 +114,14 @@ namespace Project.Scripts.Levels.Mars.ThirdLevel
                 transform.rotation = Quaternion.Slerp(
                     transform.rotation,
                     targetRotation,
-                    RotationSpeed * Time.fixedDeltaTime
-                );
+                    RotationSpeed * Time.fixedDeltaTime);
             }
         }
 
         private void GoToNextPoint()
         {
-            if (_followPoints.Length == MinCountPoints) return;
+            if (_followPoints.Length == MinCountPoints)
+                return;
 
             var nextIndex = _currentIndexPoint + NextPoint;
 
@@ -134,7 +133,7 @@ namespace Project.Scripts.Levels.Mars.ThirdLevel
             {
                 _currentIndexPoint = nextIndex;
             }
-            
+
             ProgressChanged?.Invoke(_currentIndexPoint, _followPoints.Length);
         }
     }

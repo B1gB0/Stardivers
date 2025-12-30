@@ -7,13 +7,13 @@ namespace Project.Scripts.Services
     public class TweenAnimationService : ITweenAnimationService
     {
         private const float MoveDistance = 15f;
-        
+
         private const float ShowScale = 1f;
         private const float HideScale = 0f;
-        
+
         private const float DurationShow = 0.4f;
         private const float DurationHide = 0.3f;
-        
+
         private const float SmallPause = 0.1f;
         private const float BigPause = 0.5f;
 
@@ -21,20 +21,21 @@ namespace Project.Scripts.Services
 
         public UniTask Init()
         {
-            if(IsInitiated)
+            if (IsInitiated)
                 return UniTask.CompletedTask;
-            
+
             DOTween.Init(recycleAllByDefault: true, useSafeMode: true, logBehaviour: LogBehaviour.Default);
 
             IsInitiated = true;
-            
+
             return UniTask.CompletedTask;
         }
 
         public void AnimateScale(Transform target, bool isDisableTarget = false)
         {
-            if (!IsTargetValid(target)) return;
-            
+            if (!IsTargetValid(target))
+                return;
+
             var scaleSequence = CreateScaleSequence(target, isDisableTarget);
 
             scaleSequence.OnComplete(() =>
@@ -45,8 +46,9 @@ namespace Project.Scripts.Services
 
         public async UniTask AnimateScaleAsync(Transform target, bool isDisableTarget = false)
         {
-            if (!IsTargetValid(target)) return;
-            
+            if (!IsTargetValid(target))
+                return;
+
             var scaleSequence = CreateScaleSequence(target, isDisableTarget);
 
             await scaleSequence.AsyncWaitForCompletion();
@@ -54,8 +56,12 @@ namespace Project.Scripts.Services
             TryOffGameObject(target, isDisableTarget);
         }
 
-        public void AnimateMove(Transform target, Transform showPoint, Transform hidePoint, 
-            bool isDisableTarget = false, bool isSetParentToPoint = false)
+        public void AnimateMove(
+            Transform target,
+            Transform showPoint,
+            Transform hidePoint,
+            bool isDisableTarget = false,
+            bool isSetParentToPoint = false)
         {
             target.DOKill(true);
 
@@ -64,7 +70,7 @@ namespace Project.Scripts.Services
                 target.localPosition = hidePoint.localPosition;
             }
 
-            Sequence scaleSequence = DOTween.Sequence()
+            Sequence _ = DOTween.Sequence()
                 .Append(!isDisableTarget
                     ? target.DOMove(showPoint.position, DurationShow)
                     : target.DOMove(hidePoint.position, DurationHide))
@@ -84,14 +90,14 @@ namespace Project.Scripts.Services
         public void AnimatePointer(Transform target, Transform pointerPoint)
         {
             target?.DOKill();
-            
+
             target.position = pointerPoint.position;
-            
+
             float originalY = target.localPosition.y;
             float topY = originalY + MoveDistance;
             float bottomY = originalY - MoveDistance;
 
-            Sequence sequence = DOTween.Sequence()
+            Sequence _ = DOTween.Sequence()
                 .Append(target.DOLocalMoveY(bottomY, DurationHide).SetEase(Ease.Linear))
                 .AppendInterval(SmallPause)
                 .Append(target.DOLocalMoveY(topY, DurationHide).SetEase(Ease.OutSine))
@@ -103,13 +109,13 @@ namespace Project.Scripts.Services
                 .AppendInterval(BigPause)
                 .SetLoops(-1, LoopType.Restart);
         }
-        
+
         private void TryOffGameObject(Transform target, bool isDisableTarget)
         {
             if (isDisableTarget && IsTargetValid(target))
                 target.gameObject.SetActive(false);
         }
-        
+
         private Sequence CreateScaleSequence(Transform target, bool isDisableTarget)
         {
             target.DOKill(true);
@@ -125,7 +131,7 @@ namespace Project.Scripts.Services
                 .SetUpdate(true);
             return scaleSequence;
         }
-        
+
         private bool IsTargetValid(Transform target)
         {
             return target != null && target.gameObject != null;

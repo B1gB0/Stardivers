@@ -10,14 +10,14 @@ namespace Project.Scripts.Projectiles
         private const string Ground = nameof(Ground);
         private const string Resources = nameof(Resources);
         private const string HighGround = nameof(HighGround);
-        
-        [field: SerializeField] public float LifeTime { get; private set; } = 4f;
-        
+
         protected float Damage;
         protected float ProjectileSpeed;
-    
+
         protected Vector3 Direction;
         protected Transform Transform;
+
+        [field: SerializeField] public float LifeTime { get; private set; } = 4f;
 
         private void Awake()
         {
@@ -28,7 +28,7 @@ namespace Project.Scripts.Projectiles
         {
             StartCoroutine(LifeRoutine());
         }
-        
+
         protected virtual void FixedUpdate()
         {
             Transform.position += Direction * (ProjectileSpeed * Time.fixedDeltaTime);
@@ -37,8 +37,8 @@ namespace Project.Scripts.Projectiles
         protected virtual void OnTriggerEnter(Collider collision)
         {
             CheckDefaultAndResourceLayer(collision);
-            
-            if(collision.gameObject.TryGetComponent(out EnemyActor enemy))
+
+            if (collision.gameObject.TryGetComponent(out EnemyActor enemy))
             {
                 enemy.Health.TakeDamage(Damage);
                 gameObject.SetActive(false);
@@ -49,7 +49,7 @@ namespace Project.Scripts.Projectiles
         {
             StopCoroutine(LifeRoutine());
         }
-        
+
         public virtual void SetDirection(Vector3 targetPosition)
         {
             Direction = (targetPosition - Transform.position).normalized;
@@ -66,8 +66,8 @@ namespace Project.Scripts.Projectiles
 
         protected void CheckDefaultAndResourceLayer(Collider collision)
         {
-            if (collision.gameObject.layer == LayerMask.NameToLayer(Ground) 
-                || collision.gameObject.layer == LayerMask.NameToLayer(Resources) 
+            if (collision.gameObject.layer == LayerMask.NameToLayer(Ground)
+                || collision.gameObject.layer == LayerMask.NameToLayer(Resources)
                 || collision.gameObject.layer == LayerMask.NameToLayer(HighGround))
             {
                 gameObject.SetActive(false);
@@ -77,10 +77,8 @@ namespace Project.Scripts.Projectiles
         protected virtual IEnumerator LifeRoutine()
         {
             yield return new WaitForSeconds(LifeTime);
-        
+
             gameObject.SetActive(false);
         }
-        
-        
     }
 }

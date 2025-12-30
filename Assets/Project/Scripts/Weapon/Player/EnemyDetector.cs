@@ -9,7 +9,7 @@ namespace Project.Scripts.Weapon.Player
     {
         private const int MinValue = 0;
 
-        private readonly HashSet<EnemyActor> _enemiesInRange = new();
+        private readonly HashSet<EnemyActor> _enemiesInRange = new ();
 
         private float _closestEnemyDistanceSqr;
 
@@ -29,12 +29,12 @@ namespace Project.Scripts.Weapon.Player
         {
             if (!otherCollider.TryGetComponent(out EnemyActor enemyAlienActor))
                 return;
-            
+
             _enemiesInRange.Remove(enemyAlienActor);
 
             enemyAlienActor.Die -= OnEnemyDie;
         }
-        
+
         private void OnDestroy()
         {
             foreach (var enemyAlienActor in _enemiesInRange.Where(enemyAlienActor => enemyAlienActor != null))

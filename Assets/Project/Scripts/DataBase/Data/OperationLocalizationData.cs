@@ -14,7 +14,7 @@ namespace Project.Scripts.DataBase.Data
         [SerializeField] private string _descriptionEn;
         [SerializeField] private string _descriptionTr;
         [SerializeField] private int _price;
-        
+
         public string Id => _id;
         public string NameRu => _nameRu;
         public string NameEn => _nameEn;

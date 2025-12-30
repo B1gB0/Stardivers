@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System.Linq;
 using Cysharp.Threading.Tasks;
 using Project.Scripts.Audio.Sounds;
@@ -11,6 +10,7 @@ using Project.Scripts.Services;
 using Project.Scripts.UI.Panel;
 using Project.Scripts.Weapon.CharacteristicsOfWeapon;
 using Project.Scripts.Weapon.Improvements;
+using UnityEngine;
 using YG;
 
 namespace Project.Scripts.Weapon.Player
@@ -31,41 +31,21 @@ namespace Project.Scripts.Weapon.Player
         private EnemyDetector _detector;
         private AudioSoundsService _audioService;
         private ObjectPool<LightningLineRendererProjectile> _lightningPool;
-        
+
         private bool _isShooting;
 
         private Coroutine _chainCoroutine;
 
         public ChainLightningGunCharacteristics ChainLightningGunCharacteristics { get; private set; } = new();
 
-        public void Construct(AudioSoundsService audioService, EnemyDetector detector, CharacteristicsWeaponData data,
-            ChainLightningGunCharacteristics chainLightningGunCharacteristics, WeaponPanel weaponPanel)
-        {
-            _audioService = audioService;
-            _detector = detector;
-            Type = data.WeaponType;
-            WeaponPanel = weaponPanel;
-            
-            if(chainLightningGunCharacteristics == null)
-                ChainLightningGunCharacteristics.SetStartingCharacteristics(data);
-            else
-                ChainLightningGunCharacteristics = chainLightningGunCharacteristics;
-
-            YG2.saves.ChainLightningGunCharacteristics = ChainLightningGunCharacteristics;
-            
-            WeaponCharacteristics = ChainLightningGunCharacteristics;
-            CurrentCountShots = ChainLightningGunCharacteristics.MaxCountShots;
-            WeaponView = WeaponPanel.GetWeaponViewByType(Type);
-            WeaponView.SetText(CurrentCountShots, ChainLightningGunCharacteristics.MaxCountShots);
-        }
-
         private void Awake()
         {
             _lightningPool = new ObjectPool<LightningLineRendererProjectile>(
-                _lightningLineRendererPrefab, ChainLightningGunCharacteristics.MaxCountShots,
+                _lightningLineRendererPrefab,
+                ChainLightningGunCharacteristics.MaxCountShots,
                 new GameObject(PoolName).transform)
             {
-                AutoExpand = IsAutoExpandPool
+                AutoExpand = IsAutoExpandPool,
             };
         }
 
@@ -82,12 +62,50 @@ namespace Project.Scripts.Weapon.Player
             }
         }
 
+        private void OnDisable()
+        {
+            if (_chainCoroutine != null)
+            {
+                StopCoroutine(_chainCoroutine);
+                _chainCoroutine = null;
+            }
+
+            _isShooting = false;
+        }
+
+        public void Construct(
+            AudioSoundsService audioService,
+            EnemyDetector detector,
+            CharacteristicsWeaponData data,
+            ChainLightningGunCharacteristics chainLightningGunCharacteristics,
+            WeaponPanel weaponPanel)
+        {
+            _audioService = audioService;
+            _detector = detector;
+            Type = data.WeaponType;
+            WeaponPanel = weaponPanel;
+
+            if (chainLightningGunCharacteristics == null)
+                ChainLightningGunCharacteristics.SetStartingCharacteristics(data);
+            else
+                ChainLightningGunCharacteristics = chainLightningGunCharacteristics;
+
+            YG2.saves.ChainLightningGunCharacteristics = ChainLightningGunCharacteristics;
+
+            WeaponCharacteristics = ChainLightningGunCharacteristics;
+            CurrentCountShots = ChainLightningGunCharacteristics.MaxCountShots;
+            WeaponView = WeaponPanel.GetWeaponViewByType(Type);
+            WeaponView.SetText(CurrentCountShots, ChainLightningGunCharacteristics.MaxCountShots);
+        }
+
         public override void Shoot()
         {
-            if (_isShooting || CurrentCountShots <= MinValue) return;
+            if (_isShooting || CurrentCountShots <= MinValue)
+                return;
 
             var firstTarget = _detector.GetClosestEnemy();
-            if (firstTarget == null || firstTarget.Health.TargetHealth <= MinValue) return;
+            if (firstTarget == null || firstTarget.Health.TargetHealth <= MinValue)
+                return;
 
             _audioService.PlaySound(SoundsType.ChainLightningGun).Forget();
             CurrentCountShots--;
@@ -113,7 +131,8 @@ namespace Project.Scripts.Weapon.Player
                 yield return new WaitForSeconds(_chainDelay);
 
                 var nextEnemy = FindNextEnemy(currentTarget, hitEnemies);
-                if (nextEnemy == null || nextEnemy.Health.TargetHealth <= MinValue) break;
+                if (nextEnemy == null || nextEnemy.Health.TargetHealth <= MinValue)
+                    break;
 
                 CreateLightning(currentTarget.transform, nextEnemy.transform);
                 nextEnemy.Health.TakeDamage(ChainLightningGunCharacteristics.Damage);
@@ -127,7 +146,8 @@ namespace Project.Scripts.Weapon.Player
 
         private EnemyActor FindNextEnemy(EnemyActor lastEnemy, List<EnemyActor> alreadyHit)
         {
-            if (lastEnemy == null) return null;
+            if (lastEnemy == null)
+                return null;
 
             var enemiesInRange = _detector.GetEnemiesInRange()
                 .Where(enemy => enemy != null && enemy != lastEnemy && !alreadyHit.Contains(enemy) &&
@@ -163,17 +183,6 @@ namespace Project.Scripts.Weapon.Player
         {
             weaponVisitor.Visit(this, type, value);
             WeaponView.SetText(CurrentCountShots, ChainLightningGunCharacteristics.MaxCountShots);
-        }
-
-        private void OnDisable()
-        {
-            if (_chainCoroutine != null)
-            {
-                StopCoroutine(_chainCoroutine);
-                _chainCoroutine = null;
-            }
-
-            _isShooting = false;
         }
     }
 }

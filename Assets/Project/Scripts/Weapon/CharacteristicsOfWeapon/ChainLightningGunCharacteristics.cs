@@ -6,12 +6,12 @@ namespace Project.Scripts.Weapon.CharacteristicsOfWeapon
     {
         public override void SetStartingCharacteristics(CharacteristicsWeaponData data)
         {
-            rangeAttack = data.RangeAttack;
-            fireRate = data.FireRate;
-            damage = data.Damage;
-            maxCountShots = data.MaxCountShots;
-            reloadTime = data.ReloadTime;
-            maxEnemiesInChain = data.MaxEnemiesInChain;
+            RangeAttack = data.RangeAttack;
+            FireRate = data.FireRate;
+            Damage = data.Damage;
+            MaxCountShots = data.MaxCountShots;
+            ReloadTime = data.ReloadTime;
+            MaxEnemiesInChain = data.MaxEnemiesInChain;
         }
 
         public override void ApplyImprovement(CharacteristicType type, float factor)

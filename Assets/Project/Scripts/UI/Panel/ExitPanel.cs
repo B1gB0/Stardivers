@@ -25,7 +25,9 @@ namespace Project.Scripts.UI.Panel
         public event Action OnBackToSceneButtonPressed;
 
         [Inject]
-        public void Construct(IPauseService pauseService, ITweenAnimationService tweenAnimationService,
+        public void Construct(
+            IPauseService pauseService,
+            ITweenAnimationService tweenAnimationService,
             AudioSoundsService audioSoundsService)
         {
             _tweenAnimationService = tweenAnimationService;
@@ -72,7 +74,7 @@ namespace Project.Scripts.UI.Panel
         {
             _audioSoundsService.StopAllSounds();
             _audioSoundsService.PlaySound(SoundsType.Button).Forget();
-            
+
             _isExitToMainMenu = true;
             _pauseService.OnPlayGame();
             OnExitToMainMenu?.Invoke();

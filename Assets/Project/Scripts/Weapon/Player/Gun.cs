@@ -28,10 +28,43 @@ namespace Project.Scripts.Weapon.Player
         private EnemyDetector _detector;
         private AudioSoundsService _audioSoundsService;
 
-        public GunCharacteristics GunCharacteristics { get; private set; } = new ();
-        
-        public void Construct(EnemyDetector detector, AudioSoundsService audioSoundsService,
-            CharacteristicsWeaponData data, GunCharacteristics gunCharacteristics, WeaponPanel weaponPanel)
+        public GunCharacteristics GunCharacteristics { get; private set; } = new();
+
+        private void Awake()
+        {
+            _poolBullets = new ObjectPool<GunBullet>(
+                _bulletPrefab,
+                _countBullets,
+                new GameObject(ObjectPoolBulletName).transform)
+            {
+                AutoExpand = IsAutoExpandPool,
+            };
+        }
+
+        private void Update()
+        {
+            _closestEnemy = _detector.GetClosestEnemy();
+
+            CheckAmmoAndReload();
+
+            if (_closestEnemy == null)
+                return;
+
+            if (_detector.ClosestEnemyDistance <= GunCharacteristics.RangeAttack && CurrentCountShots > MinCountShots
+                && !IsReloading)
+            {
+                Shoot();
+            }
+
+            LastShotTime -= Time.deltaTime;
+        }
+
+        public void Construct(
+            EnemyDetector detector,
+            AudioSoundsService audioSoundsService,
+            CharacteristicsWeaponData data,
+            GunCharacteristics gunCharacteristics,
+            WeaponPanel weaponPanel)
         {
             _detector = detector;
             _audioSoundsService = audioSoundsService;
@@ -42,48 +75,22 @@ namespace Project.Scripts.Weapon.Player
                 GunCharacteristics.SetStartingCharacteristics(data);
             else
                 GunCharacteristics = gunCharacteristics;
-            
+
             YG2.saves.GunCharacteristics = GunCharacteristics;
-            
+
             WeaponCharacteristics = GunCharacteristics;
             CurrentCountShots = GunCharacteristics.MaxCountShots;
             WeaponView = WeaponPanel.GetWeaponViewByType(Type);
             WeaponView.SetText(CurrentCountShots, GunCharacteristics.MaxCountShots);
         }
 
-        private void Awake()
-        {
-            _poolBullets = new ObjectPool<GunBullet>(_bulletPrefab, _countBullets,
-                new GameObject(ObjectPoolBulletName).transform)
-            {
-                AutoExpand = IsAutoExpandPool
-            };
-        }
-
-        private void Update()
-        {
-            _closestEnemy = _detector.GetClosestEnemy();
-
-            CheckAmmoAndReload();
-            
-            if (_closestEnemy == null) return;
-
-            if (_detector.ClosestEnemyDistance <= GunCharacteristics.RangeAttack && CurrentCountShots > MinCountShots
-                && !IsReloading)
-            {
-                Shoot();
-            }
-            
-            LastShotTime -= Time.deltaTime;
-        }
-    
         public override void Shoot()
         {
             if (LastShotTime <= MinValue && _closestEnemy.Health.TargetHealth > MinValue)
             {
                 CurrentCountShots--;
                 _bullet = _poolBullets.GetFreeElement();
-            
+
                 _audioSoundsService.PlaySound(SoundsType.Gun).Forget();
 
                 _bullet.transform.position = _shootPoint.position;
@@ -92,7 +99,7 @@ namespace Project.Scripts.Weapon.Player
                 _bullet.SetCharacteristics(GunCharacteristics.Damage, GunCharacteristics.ProjectileSpeed);
 
                 LastShotTime = GunCharacteristics.FireRate;
-                
+
                 WeaponView.SetText(CurrentCountShots, GunCharacteristics.MaxCountShots);
             }
         }

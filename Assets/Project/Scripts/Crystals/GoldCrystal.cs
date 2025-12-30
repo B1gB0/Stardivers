@@ -15,10 +15,13 @@ namespace Project.Scripts.Crystals
         public void Destroy()
         {
             _currencyService.AddGold(_goldValue);
-            
-            TextService.OnChangedFloatingText("+" + _goldValue, transform, FloatingTextViewType.Gold, 
+
+            TextService.OnChangedFloatingText(
+                "+" + _goldValue,
+                transform,
+                FloatingTextViewType.Gold,
                 Colors.GetColor(ColorName.GoldColor));
-            
+
             Destroy(gameObject);
         }
 

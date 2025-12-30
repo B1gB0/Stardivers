@@ -7,10 +7,10 @@ namespace Project.Scripts.Services
     public class CurrencyService : ICurrencyService
     {
         private const int MinValue = 0;
-        
+
         public event Action<int> OnGoldValueChanged;
         public event Action<int> OnAlienCocoonValueChanged;
-        public event Action OnAllAlienCocoonsCollected; 
+        public event Action OnAllAlienCocoonsCollected;
 
         public int Gold { get; private set; }
         public int AccumulatedGold { get; private set; }
@@ -20,9 +20,9 @@ namespace Project.Scripts.Services
 
         public UniTask Init()
         {
-            if(IsInitiated)
+            if (IsInitiated)
                 return UniTask.CompletedTask;
-            
+
             Gold = YG2.saves.Gold;
             OnGoldValueChanged?.Invoke(Gold);
 
@@ -45,14 +45,14 @@ namespace Project.Scripts.Services
             OnGoldValueChanged?.Invoke(Gold);
             SaveGold();
         }
-        
+
         public void SpendGold(int gold)
         {
             Gold -= gold;
             OnGoldValueChanged?.Invoke(Gold);
             SaveGold();
         }
-        
+
         public void ResetAccumulatedGold()
         {
             AccumulatedGold = MinValue;
@@ -62,8 +62,8 @@ namespace Project.Scripts.Services
         {
             AlienCocoons += alienCocoon;
             OnAlienCocoonValueChanged?.Invoke(AlienCocoons);
-            
-            if(AlienCocoons == MaxAlienCocoons)
+
+            if (AlienCocoons == MaxAlienCocoons)
                 OnAllAlienCocoonsCollected?.Invoke();
         }
 

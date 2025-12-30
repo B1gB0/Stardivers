@@ -16,7 +16,7 @@ namespace Project.Scripts.Levels.Triggers
 
         private void OnTriggerExit(Collider trigger)
         {
-            if (trigger.TryGetComponent(out PlayerActor player))
+            if (trigger.TryGetComponent(out PlayerActor _))
                 _radioTower.OnStopChangeProgress();
         }
     }

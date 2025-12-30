@@ -16,7 +16,7 @@ namespace Project.Scripts.Game.GameRoot
     {
         [SerializeField] private UISceneContainer _uiSceneContainer;
         [SerializeField] private UIRootButtons _uiRootButtons;
-        
+
         [SerializeField] private LoadingPanel _loadingPanel;
         [SerializeField] private SettingsPanel _settingsPanel;
         [SerializeField] private LeaderboardPanel _leaderboardPanel;
@@ -31,8 +31,8 @@ namespace Project.Scripts.Game.GameRoot
         private IPauseService _pauseService;
 
         public UIStateMachine UIStateMachine { get; private set; }
-
         public UIRootButtons UIRootButtons => _uiRootButtons;
+
         public LocalizationLanguageSwitcher LocalizationLanguageSwitcher => _localizationLanguageSwitcher;
         public Button ExitButton => _exitButton;
         public ExitPanel ExitPanel => _exitPanel;
@@ -58,11 +58,11 @@ namespace Project.Scripts.Game.GameRoot
             _settingsButton.onClick.AddListener(ShowSettingsPanel);
             _settingsPanel.OnBackToSceneButtonPressed += ShowUIScene;
             _settingsPanel.OnBackToSceneButtonPressed += PlayGame;
-            
+
             _leaderboardButton.onClick.AddListener(ShowLeaderboardPanel);
             _leaderboardPanel.OnBackToSceneButtonPressed += ShowUIScene;
             _leaderboardPanel.OnBackToSceneButtonPressed += PlayGame;
-            
+
             _exitButton.onClick.AddListener(ShowExitPanel);
             _exitPanel.OnBackToSceneButtonPressed += ShowUIScene;
             _exitPanel.OnBackToSceneButtonPressed += PlayGame;
@@ -73,11 +73,11 @@ namespace Project.Scripts.Game.GameRoot
             _settingsButton.onClick.RemoveListener(ShowSettingsPanel);
             _settingsPanel.OnBackToSceneButtonPressed -= ShowUIScene;
             _settingsPanel.OnBackToSceneButtonPressed -= PlayGame;
-            
+
             _leaderboardButton.onClick.RemoveListener(ShowLeaderboardPanel);
             _leaderboardPanel.OnBackToSceneButtonPressed -= ShowUIScene;
             _leaderboardPanel.OnBackToSceneButtonPressed -= PlayGame;
-            
+
             _exitButton.onClick.RemoveListener(ShowExitPanel);
             _exitPanel.OnBackToSceneButtonPressed -= ShowUIScene;
             _exitPanel.OnBackToSceneButtonPressed -= PlayGame;
@@ -91,7 +91,7 @@ namespace Project.Scripts.Game.GameRoot
         public void AttachSceneUI(GameObject sceneUI)
         {
             ClearSceneUI();
-            
+
             sceneUI.transform.SetParent(_uiSceneContainer.transform, false);
         }
 
@@ -140,13 +140,13 @@ namespace Project.Scripts.Game.GameRoot
         private void ShowUIScene()
         {
             _audioSoundsService.PlaySound(SoundsType.Button).Forget();
-            
+
             var sceneName = SceneManager.GetActiveScene().name;
-            
-            if(sceneName == Scenes.MainMenu)
+
+            if (sceneName == Scenes.MainMenu)
                 UIStateMachine.EnterIn<MainMenuState>();
-            
-            if(sceneName != Scenes.MainMenu)
+
+            if (sceneName != Scenes.MainMenu)
                 UIStateMachine.EnterIn<GameplayState>();
         }
 

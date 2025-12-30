@@ -19,7 +19,7 @@ namespace Project.Scripts.Weapon.Player
         private const string ObjectPoolBulletName = "PoolFourBarrelMachineGunBullets";
         private const bool IsAutoExpandPool = true;
         private const int CountBullets = 4;
-        
+
         private const float DelayBetweenShots = 0.1f;
         private const float MinRandomRangePosition = -0.2f;
         private const float MaxRandomRangePosition = 0.2f;
@@ -39,8 +39,11 @@ namespace Project.Scripts.Weapon.Player
 
         public FourBarrelMachineGunCharacteristics FourBarrelMachineGunCharacteristics { get; private set; } = new();
 
-        public void Construct(AudioSoundsService audioSoundsService, EnemyDetector detector,
-            CharacteristicsWeaponData data, FourBarrelMachineGunCharacteristics fourBarrelMachineGunCharacteristics,
+        public void Construct(
+            AudioSoundsService audioSoundsService,
+            EnemyDetector detector,
+            CharacteristicsWeaponData data,
+            FourBarrelMachineGunCharacteristics fourBarrelMachineGunCharacteristics,
             WeaponPanel weaponPanel)
         {
             _audioSoundsService = audioSoundsService;
@@ -50,12 +53,11 @@ namespace Project.Scripts.Weapon.Player
 
             if (fourBarrelMachineGunCharacteristics == null)
                 FourBarrelMachineGunCharacteristics.SetStartingCharacteristics(data);
-            
             else
                 FourBarrelMachineGunCharacteristics = fourBarrelMachineGunCharacteristics;
 
             YG2.saves.FourBarrelMachineGunCharacteristics = FourBarrelMachineGunCharacteristics;
-            
+
             WeaponCharacteristics = FourBarrelMachineGunCharacteristics;
             CurrentCountShots = FourBarrelMachineGunCharacteristics.MaxCountShots;
             WeaponView = WeaponPanel.GetWeaponViewByType(Type);
@@ -64,9 +66,13 @@ namespace Project.Scripts.Weapon.Player
 
         private void Awake()
         {
-            _poolBullets = new ObjectPool<FourBarrelMachineGunBullet>(_bulletPrefab, _countBulletsForPool,
-                new GameObject(ObjectPoolBulletName).transform);
-            _poolBullets.AutoExpand = IsAutoExpandPool;
+            _poolBullets = new ObjectPool<FourBarrelMachineGunBullet>(
+                _bulletPrefab,
+                _countBulletsForPool,
+                new GameObject(ObjectPoolBulletName).transform)
+            {
+                AutoExpand = IsAutoExpandPool,
+            };
 
             _directions.Add(transform.forward);
             _directions.Add(transform.right);
@@ -79,8 +85,9 @@ namespace Project.Scripts.Weapon.Player
             _closestEnemy = _detector.GetClosestEnemy();
 
             CheckAmmoAndReload();
-            
-            if (_closestEnemy == null) return;
+
+            if (_closestEnemy == null)
+                return;
 
             if (_detector.ClosestEnemyDistance <= FourBarrelMachineGunCharacteristics.RangeAttack && !IsReloading)
             {
@@ -120,11 +127,15 @@ namespace Project.Scripts.Weapon.Player
                 CurrentCountShots--;
                 WeaponView.SetText(CurrentCountShots, FourBarrelMachineGunCharacteristics.MaxCountShots);
 
-                _bullet.transform.position = _shootPoint.position + Vector3.one
-                    * Random.Range(MinRandomRangePosition, MaxRandomRangePosition);
+                _bullet.transform.position = _shootPoint.position +
+                                             (Vector3.one * Random.Range(
+                                                 MinRandomRangePosition,
+                                                 MaxRandomRangePosition));
 
                 _bullet.SetDirection(direction);
-                _bullet.SetCharacteristics(FourBarrelMachineGunCharacteristics.Damage,
+
+                _bullet.SetCharacteristics(
+                    FourBarrelMachineGunCharacteristics.Damage,
                     FourBarrelMachineGunCharacteristics.ProjectileSpeed);
 
                 yield return new WaitForSeconds(DelayBetweenShots);

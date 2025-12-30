@@ -1,17 +1,18 @@
-﻿using Project.Scripts.Game.Gameplay.Root;
+﻿using Cysharp.Threading.Tasks;
+using Project.Scripts.Game.Constant;
+using Project.Scripts.Game.Gameplay.Root;
 using Project.Scripts.Game.MainMenu.Root;
 using Project.Scripts.Services;
 using Project.Scripts.UI.StateMachine.States;
 using R3;
+using Reflex.Attributes;
 using Reflex.Core;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using Cysharp.Threading.Tasks;
-using Reflex.Attributes;
 using UnityEngine.AddressableAssets;
 using UnityEngine.EventSystems;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceProviders;
+using UnityEngine.SceneManagement;
 using YG;
 
 namespace Project.Scripts.Game.GameRoot
@@ -24,7 +25,7 @@ namespace Project.Scripts.Game.GameRoot
         private const float SpeedFinalLoadingScene = 0.5f;
         private const float MinLoadTime = 2.0f;
         private const float ActivationThreshold = 0.9f;
-        
+
         private const int DelayOfTransition = 100;
 
         private AsyncOperationHandle<SceneInstance> _sceneHandle;
@@ -35,13 +36,15 @@ namespace Project.Scripts.Game.GameRoot
         private IPauseService _pauseService;
 
         [Inject]
-        private void Construct(UIRootView uiRoot, OperationService operationService,
+        private void Construct(
+            UIRootView uiRoot,
+            OperationService operationService,
             IPauseService pauseService)
         {
             _operationService = operationService;
             _uiRoot = uiRoot;
             _pauseService = pauseService;
-            
+
             EventSystem eventSystem = FindAnyObjectByType<EventSystem>();
             _pauseService.GetEventSystem(eventSystem);
         }
@@ -52,9 +55,9 @@ namespace Project.Scripts.Game.GameRoot
 
             Application.targetFrameRate = 60;
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
-            
+
             await StartGame();
-            
+
             _pauseService.OnPlayGame();
 
             YG2.onShowWindowGame += _pauseService.OnPlayGame;
@@ -105,20 +108,19 @@ namespace Project.Scripts.Game.GameRoot
             var sceneEntryPoint = FindFirstObjectByType<MainMenuEntryPoint>();
             sceneEntryPoint.Run(_uiRoot, enterParameters).Subscribe(mainMenuExitParameters =>
             {
-                if (_operationService.CurrentOperation.Id == Constant.Operations.Mars)
+                if (_operationService.CurrentOperation.Id == Operations.Mars)
                 {
                     mainMenuExitParameters.TargetSceneEnterParameters
                         .SetNewSceneName(_operationService.GetSceneNameByCurrentNumber());
                 }
-                else if (_operationService.CurrentOperation.Id == Constant.Operations.MysteryPlanet)
+                else if (_operationService.CurrentOperation.Id == Operations.MysteryPlanet)
                 {
                     mainMenuExitParameters.TargetSceneEnterParameters
                         .SetNewSceneName(_operationService.GetSceneNameByCurrentNumber());
                 }
 
                 LoadAndStartGameplay(mainMenuExitParameters
-                    .TargetSceneEnterParameters.As<GameplayEnterParameters>()
-                ).Forget();
+                    .TargetSceneEnterParameters.As<GameplayEnterParameters>()).Forget();
             });
         }
 
@@ -130,7 +132,7 @@ namespace Project.Scripts.Game.GameRoot
 
             var sceneEntryPoint = FindFirstObjectByType<GameplayEntryPoint>();
             var observable = await sceneEntryPoint.Run(_uiRoot, enterParameters);
-            
+
             var exitParameters = await observable.FirstAsync();
             await HandleExitGameplayScene(exitParameters);
         }
@@ -139,28 +141,28 @@ namespace Project.Scripts.Game.GameRoot
             GameplayExitParameters gameplayExitParameters)
         {
             YG2.InterstitialAdvShow();
-            
+
             var targetSceneName = gameplayExitParameters.TargetSceneEnterParameters.SceneName;
 
             if (targetSceneName == Scenes.MainMenu)
             {
                 await LoadAndStartMainMenu(gameplayExitParameters
-                    .TargetSceneEnterParameters.As<MainMenuEnterParameters>()
-                );
+                    .TargetSceneEnterParameters.As<MainMenuEnterParameters>());
             }
             else
             {
                 await LoadAndStartGameplay(gameplayExitParameters
-                    .TargetSceneEnterParameters.As<GameplayEnterParameters>()
-                );
+                    .TargetSceneEnterParameters.As<GameplayEnterParameters>());
             }
-            
+
             return gameplayExitParameters;
         }
 
         private async UniTask LoadScene(string sceneName)
         {
-            if(_isLoadingScene) return;
+            if (_isLoadingScene) 
+                return;
+            
             _isLoadingScene = true;
 
             try
@@ -168,8 +170,7 @@ namespace Project.Scripts.Game.GameRoot
                 var newSceneHandle = Addressables.LoadSceneAsync(
                     sceneName,
                     LoadSceneMode.Single,
-                    false
-                );
+                    false);
 
                 await newSceneHandle.Task;
 
@@ -192,7 +193,9 @@ namespace Project.Scripts.Game.GameRoot
                 _sceneHandle = newSceneHandle;
 
                 Scene loadedScene = SceneManager.GetSceneByName(sceneName);
-                ReflexSceneManager.PreInstallScene(loadedScene,
+                
+                ReflexSceneManager.PreInstallScene(
+                    loadedScene,
                     builder => builder.AddSingleton("Container"));
             }
             finally
@@ -200,7 +203,7 @@ namespace Project.Scripts.Game.GameRoot
                 _isLoadingScene = false;
             }
         }
-        
+
         private async UniTask SimulateLoadingProgress(AsyncOperationHandle<SceneInstance> sceneHandle)
         {
             float timer = MinValue;
@@ -224,7 +227,9 @@ namespace Project.Scripts.Game.GameRoot
 
             while (fakeProgress < TargetValue)
             {
-                fakeProgress = Mathf.MoveTowards(fakeProgress, TargetValue,
+                fakeProgress = Mathf.MoveTowards(
+                    fakeProgress,
+                    TargetValue,
                     Time.deltaTime * SpeedFinalLoadingScene);
 
                 _uiRoot.ShowLoadingProgress(fakeProgress);

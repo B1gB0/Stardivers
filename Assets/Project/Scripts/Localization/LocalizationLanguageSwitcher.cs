@@ -8,7 +8,7 @@ namespace Project.Scripts.Localization
 {
     public class LocalizationLanguageSwitcher : MonoBehaviour
     {
-        private readonly List<string> _languages = new() { "en", "ru", "tr" };
+        private readonly List<string> _languages = new () { "en", "ru", "tr" };
 
         [SerializeField] private Button _priviousButton;
         [SerializeField] private Button _nextButton;
@@ -27,7 +27,7 @@ namespace Project.Scripts.Localization
         {
             YG2.SwitchLanguage(YG2.lang);
         }
-        
+
         private void OnDisable()
         {
             _priviousButton.onClick.RemoveListener(SetPreviousLanguage);

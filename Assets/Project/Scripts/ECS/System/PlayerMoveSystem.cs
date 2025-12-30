@@ -16,21 +16,27 @@ namespace Project.Scripts.ECS.System
             {
                 ref var movableComponent = ref _moveFilter.Get2(entity);
                 ref var rigidbody = ref movableComponent.Rigidbody;
-                
+
                 ref var inputComponent = ref _moveFilter.Get3(entity);
                 ref var playerInputController = ref inputComponent.PlayerInputController;
 
                 if (movableComponent.IsMoving)
                 {
-                    rigidbody.velocity = new Vector3(playerInputController.MoveDirection.x * movableComponent.MoveSpeed,
-                        rigidbody.velocity.y, playerInputController.MoveDirection.y * movableComponent.MoveSpeed);
-                    
-                    Vector3 moveDirection = new Vector3(playerInputController.MoveDirection.x, MoveDirectionY,
+                    rigidbody.velocity = new Vector3(
+                        playerInputController.MoveDirection.x * movableComponent.MoveSpeed,
+                        rigidbody.velocity.y,
+                        playerInputController.MoveDirection.y * movableComponent.MoveSpeed);
+
+                    Vector3 moveDirection = new Vector3(
+                        playerInputController.MoveDirection.x,
+                        MoveDirectionY,
                         playerInputController.MoveDirection.y);
 
                     Quaternion toRotation = Quaternion.LookRotation(moveDirection);
-                   
-                    rigidbody.rotation = Quaternion.RotateTowards(rigidbody.rotation, toRotation, 
+
+                    rigidbody.rotation = Quaternion.RotateTowards(
+                        rigidbody.rotation,
+                        toRotation,
                         movableComponent.RotationSpeed * Time.fixedDeltaTime);
                 }
 

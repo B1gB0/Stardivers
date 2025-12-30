@@ -32,7 +32,7 @@ namespace Project.Scripts.UI.View
         {
             gameObject.SetActive(false);
         }
-        
+
         private void OnDestroy()
         {
             transform.DOKill();
@@ -58,17 +58,18 @@ namespace Project.Scripts.UI.View
 
         public void SetData()
         {
-            _levelTextData = _levelTextService.GetLevelTextData(SceneManager.GetActiveScene().name,
+            _levelTextData = _levelTextService.GetLevelTextData(
+                SceneManager.GetActiveScene().name,
                 LevelTextsType.ObjectiveText);
-            
+
             SetText();
         }
 
         public void SetText()
         {
-            if(_levelTextData == null)
+            if (_levelTextData == null)
                 return;
-            
+
             _text.text = YG2.lang switch
             {
                 LocalizationCode.Ru => _levelTextData.TextRu,

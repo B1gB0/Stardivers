@@ -18,13 +18,13 @@ namespace Project.Scripts.Services
         private const int Multiplicity = 3;
         private const int CountWeapons = 4;
         private const int CounterCorrector = 1;
-        
-        private readonly Random _random = new();
-        private readonly List<Card> _currentImprovementCards = new();
-        private readonly List<Card> _currentWeaponCards = new();
-        
+
+        private readonly Random _random = new ();
+        private readonly List<Card> _currentImprovementCards = new ();
+        private readonly List<Card> _currentWeaponCards = new ();
+
         private ICardService _cardService;
-        
+
         public bool IsInitiated { get; private set; }
 
         [Inject]
@@ -41,7 +41,7 @@ namespace Project.Scripts.Services
             RecreateCards();
 
             IsInitiated = true;
-            
+
             return UniTask.CompletedTask;
         }
 
@@ -56,12 +56,12 @@ namespace Project.Scripts.Services
             {
                 if (_currentWeaponCards[i].WeaponType != type)
                     continue;
-                
+
                 _currentWeaponCards.RemoveAt(i);
                 break;
             }
         }
-        
+
         public void GenerateCardsByLevel(int currentLevel, WeaponHolder weaponHolder, List<CardView> cardViews)
         {
             if (currentLevel % Multiplicity == Remainder && weaponHolder.Weapons.Count < CountWeapons)
@@ -86,15 +86,15 @@ namespace Project.Scripts.Services
         {
             _currentWeaponCards.Clear();
             _currentImprovementCards.Clear();
-            
+
             foreach (WeaponCard card in _cardService.WeaponCards)
             {
                 _currentWeaponCards.Add(card);
             }
-            
+
             UpdateImprovementCardsByTypeWeapon(WeaponType.None);
         }
-        
+
         public void UpdateImprovementCardsByTypeWeapon(WeaponType type)
         {
             foreach (ImprovementCard card in _cardService.ImprovementCards)
@@ -105,7 +105,7 @@ namespace Project.Scripts.Services
                 }
             }
         }
-        
+
         private void GetCards(List<Card> cards, List<CardView> cardViews)
         {
             if (cards.Count >= cardViews.Count)
@@ -125,7 +125,7 @@ namespace Project.Scripts.Services
                 }
             }
         }
-        
+
         private void SortRandomCards(IList<Card> cards)
         {
             int count = cards.Count;
@@ -139,7 +139,7 @@ namespace Project.Scripts.Services
                 (cards[index], cards[count]) = (cards[count], cards[index]);
             }
         }
-        
+
         private List<Card> FilterDuplicateCards(List<Card> cards)
         {
             List<ImprovementCard> improvementCards = cards.Cast<ImprovementCard>().ToList();
@@ -149,7 +149,7 @@ namespace Project.Scripts.Services
             foreach (var card in improvementCards)
             {
                 var combination = (card.WeaponType, card.CharacteristicType);
-                
+
                 if (encounteredCombinations.Add(combination))
                 {
                     result.Add(card);

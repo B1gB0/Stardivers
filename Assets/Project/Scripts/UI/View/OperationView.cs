@@ -17,7 +17,7 @@ namespace Project.Scripts.UI.View
         [SerializeField] private Text _countMissions;
         [SerializeField] private GameObject _countMissionsRoot;
         [SerializeField] private Button _startOperation;
-        
+
         [Header("PurchaseUI")]
         [SerializeField] private Text _purchaseOffer;
         [SerializeField] private Text _price;
@@ -85,29 +85,29 @@ namespace Project.Scripts.UI.View
 
             _countMissions.text = _operation.Maps.Count.ToString();
         }
-        
+
         private void CheckAndSetPurchaseState()
         {
             if (CheckUnlockOperation())
             {
                 _startOperation.gameObject.SetActive(true);
                 _description.gameObject.SetActive(true);
-                _countMissionsRoot.gameObject.SetActive(true);
+                _countMissionsRoot.SetActive(true);
                 _purchaseButton.gameObject.SetActive(false);
                 _purchaseOffer.gameObject.SetActive(false);
-                _lockPanel.gameObject.SetActive(false);
+                _lockPanel.SetActive(false);
             }
             else
             {
                 _startOperation.gameObject.SetActive(false);
                 _description.gameObject.SetActive(false);
-                _countMissionsRoot.gameObject.SetActive(false);
+                _countMissionsRoot.SetActive(false);
                 _purchaseButton.gameObject.SetActive(true);
                 _purchaseOffer.gameObject.SetActive(true);
-                _lockPanel.gameObject.SetActive(true);
+                _lockPanel.SetActive(true);
             }
         }
-        
+
         private bool CheckUnlockOperation()
         {
             switch (_operation.Id)
@@ -116,10 +116,12 @@ namespace Project.Scripts.UI.View
                 {
                     return YG2.saves.isMarsOperationUnlock;
                 }
+
                 case Operations.MysteryPlanet:
                 {
                     return YG2.saves.isMysteryPlanetUnlock;
                 }
+
                 default:
                     throw new Exception("Operation not found");
             }
@@ -127,11 +129,11 @@ namespace Project.Scripts.UI.View
 
         private void OnPurchaseButtonClicked()
         {
-            if(_currencyService.Gold < _operation.Price)
+            if (_currencyService.Gold < _operation.Price)
                 return;
-            
+
             _currencyService.SpendGold(_operation.Price);
-            
+
             switch (_operation.Id)
             {
                 case Operations.MysteryPlanet:
@@ -141,6 +143,7 @@ namespace Project.Scripts.UI.View
                     CheckAndSetPurchaseState();
                     break;
                 }
+
                 default:
                     throw new Exception("Operation not found");
             }

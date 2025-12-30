@@ -9,15 +9,15 @@ namespace Project.Scripts.ECS.EntityActors
     {
         private const float MinValue = 0f;
         private const int DurationFactor = 1000;
-        
-        [field: SerializeField] public Health.Health Health { get; private set; }
-        [field: SerializeField] public Animator Animator { get; private set; }
 
         private float _currentModifier;
         private CancellationTokenSource _modifierCts;
 
         public event Action OnChangeSpeed;
-        
+
+        [field: SerializeField] public Health.Health Health { get; private set; }
+        [field: SerializeField] public Animator Animator { get; private set; }
+
         private void OnDestroy()
         {
             ResetModifiers();
@@ -27,23 +27,25 @@ namespace Project.Scripts.ECS.EntityActors
         {
             _modifierCts?.Cancel();
             _modifierCts = new CancellationTokenSource();
-            
+
             TemporaryModifierTask(modifier, duration, _modifierCts.Token).Forget();
         }
 
         public float GetCurrentModifier() => _currentModifier;
-        
+
         protected void ResetModifiers()
         {
             _modifierCts?.Cancel();
             _modifierCts?.Dispose();
             _modifierCts = null;
-            
+
             _currentModifier = MinValue;
             OnChangeSpeed?.Invoke();
         }
 
-        private async UniTaskVoid TemporaryModifierTask(float modifier, float duration,
+        private async UniTaskVoid TemporaryModifierTask(
+            float modifier,
+            float duration,
             CancellationToken cancellationToken)
         {
             try
@@ -52,7 +54,7 @@ namespace Project.Scripts.ECS.EntityActors
                 OnChangeSpeed?.Invoke();
 
                 await UniTask.Delay((int)(duration * DurationFactor), cancellationToken: cancellationToken);
-                
+
                 if (!cancellationToken.IsCancellationRequested)
                 {
                     _currentModifier = MinValue;

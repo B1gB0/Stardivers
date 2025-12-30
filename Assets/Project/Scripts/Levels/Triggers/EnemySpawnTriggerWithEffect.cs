@@ -7,16 +7,16 @@ namespace Project.Scripts.Levels.Triggers
     public class EnemySpawnTriggerWithEffect : Trigger
     {
         [SerializeField] private ParticleSystem _zoneEffect;
-        
-        public bool IsEnemySpawned { get; private set; }
 
         public event Action EnemySpawned;
+
+        public bool IsEnemySpawned { get; private set; }
 
         private void OnTriggerEnter(Collider trigger)
         {
             if (!trigger.TryGetComponent(out PlayerActor _))
                 return;
-            
+
             IsEnemySpawned = true;
             _zoneEffect.gameObject.SetActive(false);
             EnemySpawned?.Invoke();

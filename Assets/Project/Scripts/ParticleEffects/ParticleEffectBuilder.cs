@@ -7,7 +7,6 @@ namespace Project.Scripts.ParticleEffects
     {
         private const string EffectBuilder = nameof(EffectBuilder);
 
-        public ParticleEffectBuilder(IResourceService resourceService) 
-            : base(resourceService, EffectBuilder) { }
+        public ParticleEffectBuilder(IResourceService resourceService) : base(resourceService, EffectBuilder) { }
     }
 }

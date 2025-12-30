@@ -15,7 +15,7 @@ namespace Project.Scripts.Game.MainMenu.Root
     public class MainMenuEntryPoint : MonoBehaviour
     {
         [SerializeField] private UIMainMenuRootBinder _sceneUIRootPrefab;
-        
+
         private UIMainMenuRootBinder _uiScene;
         private OperationService _operationService;
         private IDataBaseService _dataBaseService;
@@ -29,9 +29,14 @@ namespace Project.Scripts.Game.MainMenu.Root
         private MainMenuExitParameters _exitParameters;
 
         [Inject]
-        private void Construct(OperationService operationService, IDataBaseService dataBaseService, 
-            ICurrencyService currencyService, ITweenAnimationService tweenAnimationService,
-            ILevelTextService levelTextService, AudioSoundsService audioSoundsService, ILevelUpService levelUpService)
+        private void Construct(
+            OperationService operationService,
+            IDataBaseService dataBaseService,
+            ICurrencyService currencyService,
+            ITweenAnimationService tweenAnimationService,
+            ILevelTextService levelTextService,
+            AudioSoundsService audioSoundsService,
+            ILevelUpService levelUpService)
         {
             _dataBaseService = dataBaseService;
             _operationService = operationService;
@@ -51,9 +56,9 @@ namespace Project.Scripts.Game.MainMenu.Root
             await _audioSoundsService.Init();
             await _levelTextService.Init();
 
-            if(_levelUpService.IsInitiated)
+            if (_levelUpService.IsInitiated)
                 _levelUpService.RecreateCards();
-            
+
             DeleteGameplayData();
 
             _audioSoundsService.PlayMusic(SoundsType.MainMenuMusic);
@@ -65,9 +70,9 @@ namespace Project.Scripts.Game.MainMenu.Root
 
             _uiScene = Instantiate(_sceneUIRootPrefab);
             uiRoot.AttachSceneUI(_uiScene.gameObject);
-            
+
             _uiScene.OnGameplayStarted += GetMainMenuExitParameters;
-            
+
             var container = gameObject.scene.GetSceneContainer();
             GameObjectInjector.InjectRecursive(uiRoot.gameObject, container);
 
@@ -75,9 +80,9 @@ namespace Project.Scripts.Game.MainMenu.Root
 
             var exitSignalSubject = new Subject<Unit>();
             _uiScene.Bind(exitSignalSubject);
-            
+
             YG2.OpenAuthDialog();
-            
+
             var exitToGameplaySceneSignal = exitSignalSubject.Select(_ => _exitParameters);
 
             return exitToGameplaySceneSignal;
@@ -88,7 +93,7 @@ namespace Project.Scripts.Game.MainMenu.Root
             var sceneName = _operationService.GetSceneNameByCurrentNumber();
 
             var gameplayEnterParameters = new GameplayEnterParameters(_operationService.CurrentNumberLevel, sceneName);
-            
+
             _exitParameters = new MainMenuExitParameters(gameplayEnterParameters);
         }
 

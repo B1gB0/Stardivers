@@ -11,14 +11,14 @@ namespace Project.Scripts.UI.Panel
         [SerializeField] private LeaderboardYG _leaderboardYg;
         [SerializeField] private Button _leaderboardButton;
         [SerializeField] private Button _backToSceneButton;
-        
+
         public event Action OnBackToSceneButtonPressed;
 
         private void OnEnable()
         {
             _leaderboardYg.SetLeaderboard(YG2.saves.AcumulatedScore);
             _leaderboardYg.UpdateLB();
-            
+
             _backToSceneButton.onClick.AddListener(MoveBackToScene);
             _leaderboardButton.gameObject.SetActive(false);
         }
@@ -38,7 +38,7 @@ namespace Project.Scripts.UI.Panel
         {
             gameObject.SetActive(false);
         }
-        
+
         private void MoveBackToScene()
         {
             OnBackToSceneButtonPressed?.Invoke();

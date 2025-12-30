@@ -28,18 +28,18 @@ namespace Project.Scripts.UI.View
         private const string Common = "Common";
         private const string Unusual = "Unusual";
         private const string Rare = "Rare";
-        
+
         [SerializeField] private int _priceCommonLevel;
         [SerializeField] private int _priceUnusualLevel;
         [SerializeField] private int _priceRareLevel;
-        
+
         [SerializeField] private Text _priceText;
         [SerializeField] private GameObject _priceHolder;
-        
+
         [SerializeField] private List<Sprite> _sprites;
 
         [SerializeField] private Image _icon;
-    
+
         [SerializeField] private Text _label;
         [SerializeField] private Text _description;
         [SerializeField] private Text _level;
@@ -82,7 +82,7 @@ namespace Project.Scripts.UI.View
         private void OnDestroy()
         {
             _currencyService.OnGoldValueChanged -= OnPriceTextColorChanged;
-            
+
             transform.DOKill();
         }
 
@@ -98,12 +98,12 @@ namespace Project.Scripts.UI.View
 
         public void ShowPrice()
         {
-            _priceHolder.gameObject.SetActive(true);
+            _priceHolder.SetActive(true);
         }
-        
+
         public void HidePrice()
         {
-            _priceHolder.gameObject.SetActive(false);
+            _priceHolder.SetActive(false);
         }
 
         public void GetCard(Card card)
@@ -128,7 +128,7 @@ namespace Project.Scripts.UI.View
             switch (_card)
             {
                 case ImprovementCard improvementCard:
-                    
+
                     if (_card.WeaponType == WeaponType.None)
                     {
                         _icon.sprite = improvementCard.CharacteristicType switch
@@ -139,7 +139,7 @@ namespace Project.Scripts.UI.View
                             _ => _icon.sprite
                         };
                     }
-                    
+
                     _label.text = YG2.lang switch
                     {
                         LocalizationCode.Ru => improvementCard.CharacteristicsLocalizationData.NameRu,
@@ -147,7 +147,7 @@ namespace Project.Scripts.UI.View
                         LocalizationCode.Tr => improvementCard.CharacteristicsLocalizationData.NameTr,
                         _ => _label.text
                     };
-                
+
                     _description.text = YG2.lang switch
                     {
                         LocalizationCode.Ru => improvementCard.CharacteristicsLocalizationData.DescriptionRu,
@@ -163,7 +163,7 @@ namespace Project.Scripts.UI.View
                         Rare => _blueColor,
                         _ => _level.color
                     };
-                    
+
                     _priceText.text = Convert.ToString(improvementCard.ImprovementData.LevelCardEn switch
                     {
                         Common => _priceCommonLevel,
@@ -182,9 +182,14 @@ namespace Project.Scripts.UI.View
 
                     if (improvementCard.CharacteristicType is CharacteristicType.MaxCountShots
                         or CharacteristicType.MaxCountEnemiesInChain or CharacteristicType.Health)
+                    {
                         _characteristics.text = " +" + improvementCard.Value;
+                    }
                     else
-                        _characteristics.text = " +" + improvementCard.Value * 100 + "%";
+                    {
+                        _characteristics.text = " +" + (improvementCard.Value * 100) + "%";
+                    }
+
                     break;
                 case WeaponCard weaponCard:
                     _label.text = YG2.lang switch
@@ -194,7 +199,7 @@ namespace Project.Scripts.UI.View
                         LocalizationCode.Tr => weaponCard.WeaponLocalizationData.NameTr,
                         _ => _label.text
                     };
-                
+
                     _description.text = YG2.lang switch
                     {
                         LocalizationCode.Ru => weaponCard.WeaponLocalizationData.DescriptionRu,
@@ -213,8 +218,9 @@ namespace Project.Scripts.UI.View
         {
             var price = Convert.ToInt32(_priceText.text);
 
-            _priceText.color = gold < price ? Colors.GetColor(ColorName.RedCurrencyColor) :
-                Colors.GetColor(ColorName.DefaultWhiteTextColor);
+            _priceText.color = gold < price
+                ? Colors.GetColor(ColorName.RedCurrencyColor)
+                : Colors.GetColor(ColorName.DefaultWhiteTextColor);
         }
 
         private void OnButtonClicked()

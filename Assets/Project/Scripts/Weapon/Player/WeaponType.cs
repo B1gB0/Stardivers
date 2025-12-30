@@ -8,6 +8,6 @@
         Mines = 3,
         FragGrenades = 4,
         FourBarrelMachineGun = 5,
-        ChainLightningGun = 6
+        ChainLightningGun = 6,
     }
 }

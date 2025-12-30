@@ -18,14 +18,14 @@ namespace Project.Scripts.Services
         private IDataBaseService _dataBaseService;
         private EcsEntity _playerEntity;
 
+        public bool IsInitiated { get; private set; }
+        public PlayerActor PlayerActor { get; private set; }
+
         [Inject]
         public void Construct(IDataBaseService dataBaseService)
         {
             _dataBaseService = dataBaseService;
         }
-
-        public bool IsInitiated { get; private set; }
-        public PlayerActor PlayerActor { get; private set; }
 
         public UniTask Init()
         {
@@ -73,7 +73,9 @@ namespace Project.Scripts.Services
             var characteristics = YG2.saves.PlayerCharacteristics;
 
             if (characteristics != null)
+            {
                 characteristics.SetCharacteristics();
+            }
             else
             {
                 characteristics = new PlayerCharacteristics(this);
@@ -99,7 +101,7 @@ namespace Project.Scripts.Services
 
         public void AddHealthByFactor(float factorHealth)
         {
-            var addingHealth = PlayerActor.Health.MaxHealth * factorHealth; 
+            var addingHealth = PlayerActor.Health.MaxHealth * factorHealth;
             PlayerActor.Health.AddHealth(addingHealth);
         }
     }

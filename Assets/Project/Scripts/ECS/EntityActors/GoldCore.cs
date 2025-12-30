@@ -12,13 +12,13 @@ namespace Project.Scripts.ECS.EntityActors
         private const float MinAngle = 0f;
         private const int MinDirection = -1;
         private const int MaxDirection = 1;
-        
+
         [SerializeField] private GoldCrystal _goldCrystalPrefab;
         [SerializeField] private Transform _crystalSpawnPoint;
-        
+
         private Vector3 _rotationCrystal;
         private Vector3 _jumpDirectionCrystal;
-        
+
         private IFloatingTextService _floatingTextService;
         private ICurrencyService _currencyService;
         private Transform _rootForObjects;
@@ -36,8 +36,10 @@ namespace Project.Scripts.ECS.EntityActors
             Health.IsDamaged -= SpawnCrystal;
             Health.IsDamaged -= OnPlayParticleEffect;
         }
-        
-        public void GetServices(IFloatingTextService floatingTextService, ICurrencyService currencyService, 
+
+        public void GetServices(
+            IFloatingTextService floatingTextService,
+            ICurrencyService currencyService,
             Transform rootForObjects)
         {
             _floatingTextService = floatingTextService;
@@ -52,20 +54,31 @@ namespace Project.Scripts.ECS.EntityActors
 
         private void SpawnCrystal()
         {
-            _rotationCrystal = new Vector3(Random.Range(MinAngle, MaxAngle), Random.Range(MinAngle, MaxAngle),
+            _rotationCrystal = new Vector3(
+                Random.Range(MinAngle, MaxAngle),
+                Random.Range(MinAngle, MaxAngle),
                 Random.Range(MinAngle, MaxAngle));
-            _jumpDirectionCrystal = new Vector3(Random.Range(MinDirection, MaxDirection), MaxDirection,
+
+            _jumpDirectionCrystal = new Vector3(
+                Random.Range(MinDirection, MaxDirection),
+                MaxDirection,
                 Random.Range(MinDirection, MaxDirection));
-            
-            var crystal = Instantiate(_goldCrystalPrefab, _crystalSpawnPoint.position,
+
+            var crystal = Instantiate(
+                _goldCrystalPrefab,
+                _crystalSpawnPoint.position,
                 Quaternion.Euler(_rotationCrystal));
+
             crystal.transform.SetParent(_rootForObjects);
             crystal.GetTextService(_floatingTextService);
             crystal.GetCurrencyService(_currencyService, (int)Data.CrystalValue);
-            crystal.Rigidbody.AddForceAtPosition(_jumpDirectionCrystal * CrystalJumpForce,
-                crystal.transform.position, ForceMode.Impulse);
+
+            crystal.Rigidbody.AddForceAtPosition(
+                _jumpDirectionCrystal * CrystalJumpForce,
+                crystal.transform.position,
+                ForceMode.Impulse);
         }
-        
+
         private void Die()
         {
             ExperiencePoints.OnKill(this);

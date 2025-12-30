@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -34,7 +33,6 @@ namespace Project.Scripts.Services
 
         private const int CountAudioSources = 10;
 
-        private const float MinValue = 0f;
         private const float CapsuleFlightDuration = 4.5f;
         private const float CapsuleExplosionDelay = 2.5f;
 
@@ -60,9 +58,9 @@ namespace Project.Scripts.Services
 
         public async UniTask Init()
         {
-            if(IsInitiated)
+            if (IsInitiated)
                 return;
-            
+
             await InitializeSoundDictionary();
             InitializeMusicAudioSource();
             InitializeAudioSourcePool();
@@ -73,9 +71,11 @@ namespace Project.Scripts.Services
         {
             try
             {
-                if (!IsInitiated) return;
+                if (!IsInitiated)
+                    return;
 
-                if (!_soundDictionary.ContainsKey(sound)) return;
+                if (!_soundDictionary.ContainsKey(sound))
+                    return;
 
                 var config = _soundDictionary[sound];
 
@@ -91,18 +91,23 @@ namespace Project.Scripts.Services
                     await HandleCapsuleSoundSequence(audioSource, config);
                 }
                 else
+                {
                     await PlaySoundAsync(audioSource, config);
+                }
             }
             catch (OperationCanceledException) { }
         }
 
         public void PlayMusic(SoundsType musicType)
         {
-            if (!IsInitiated) return;
+            if (!IsInitiated)
+                return;
 
-            if (_currentMusicType == musicType && _musicAudioSource.isPlaying) return;
+            if (_currentMusicType == musicType && _musicAudioSource.isPlaying)
+                return;
 
-            if (!_soundDictionary.ContainsKey(musicType)) return;
+            if (!_soundDictionary.ContainsKey(musicType))
+                return;
 
             var musicConfig = _soundDictionary[musicType];
 
@@ -134,7 +139,7 @@ namespace Project.Scripts.Services
                 }
             }
         }
-        
+
         public void PauseAllSounds()
         {
             foreach (var audioSource in _allAudioSources.Where(audioSource => audioSource.isPlaying))
@@ -142,7 +147,7 @@ namespace Project.Scripts.Services
                 audioSource.Pause();
             }
         }
-        
+
         public void ResumeAllSounds()
         {
             foreach (var audioSource in _allAudioSources.Where(audioSource => audioSource.isPlaying))
@@ -150,7 +155,7 @@ namespace Project.Scripts.Services
                 audioSource.Play();
             }
         }
-        
+
         private void StopCurrentMusic()
         {
             if (_musicAudioSource == null || !_musicAudioSource.isPlaying)
@@ -160,12 +165,14 @@ namespace Project.Scripts.Services
             _musicAudioSource.clip = null;
             _currentMusicType = SoundsType.None;
         }
-        
+
         private void StopSound(AudioSource audioSource)
         {
-            if (audioSource == null) return;
+            if (audioSource == null)
+                return;
 
-            if (!audioSource.isPlaying) return;
+            if (!audioSource.isPlaying)
+                return;
 
             audioSource.Stop();
             _availableAudioSources.Enqueue(audioSource);
@@ -178,7 +185,7 @@ namespace Project.Scripts.Services
             try
             {
                 PlaySoundAsync(audioSource, soundConfig).Forget();
-            
+
                 PlayDelayedSound(SoundsType.CapsuleExplosion, CapsuleExplosionDelay, _capsuleSoundToken.Token).Forget();
 
                 await UniTask.WaitForSeconds(CapsuleFlightDuration, cancellationToken: _capsuleSoundToken.Token);
@@ -192,7 +199,9 @@ namespace Project.Scripts.Services
             }
         }
 
-        private async UniTask PlayDelayedSound(SoundsType soundType, float delay,
+        private async UniTask PlayDelayedSound(
+            SoundsType soundType,
+            float delay,
             CancellationToken cancellationToken = default)
         {
             try
@@ -204,50 +213,6 @@ namespace Project.Scripts.Services
                 }
             }
             catch (OperationCanceledException) { }
-        }
-
-        private IEnumerator CrossFadeMusicCoroutine(SoundsType newMusicType, float fadeDuration)
-        {
-            var oldSource = _musicAudioSource;
-
-            var oldMusicConfig = _soundDictionary[_currentMusicType];
-
-            var newSource = gameObject.AddComponent<AudioSource>();
-            newSource.playOnAwake = false;
-            newSource.loop = true;
-
-            if (!_soundDictionary.ContainsKey(newMusicType)) yield break;
-
-            var newMusicConfig = _soundDictionary[newMusicType];
-            newSource.clip = newMusicConfig.Clip;
-            newSource.volume = MinValue;
-            newSource.Play();
-
-            float timer = MinValue;
-
-            while (timer < fadeDuration)
-            {
-                timer += Time.deltaTime;
-                float progress = timer / fadeDuration;
-
-                if (oldSource != null && oldSource.isPlaying)
-                {
-                    oldSource.volume = Mathf.Lerp(oldMusicConfig.Volume, MinValue, progress);
-                }
-
-                newSource.volume = Mathf.Lerp(MinValue, newMusicConfig.Volume, progress);
-
-                yield return null;
-            }
-
-            if (oldSource != null)
-            {
-                oldSource.Stop();
-                Destroy(oldSource);
-            }
-
-            _musicAudioSource = newSource;
-            _currentMusicType = newMusicType;
         }
 
         private void InitializeAudioSourcePool()

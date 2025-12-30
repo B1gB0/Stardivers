@@ -10,7 +10,7 @@ namespace Project.Scripts.Levels.Spawners
         private const int MinValue = 0;
         private const float RandomPositionFactor = 2f;
         private const int CorrectCountFactor = 1;
-        
+
         private readonly GameInitSystem _gameInitSystem;
 
         private int _counterSmallEnemies;
@@ -21,29 +21,30 @@ namespace Project.Scripts.Levels.Spawners
         {
             _gameInitSystem = gameInitSystem;
         }
-        
+
         public void SpawnGunnerAlienEnemy(List<Vector3> spawnPointPositions, int countEnemies)
-        {   
-            if(spawnPointPositions.Count == MinValue)
+        {
+            if (spawnPointPositions.Count == MinValue)
                 return;
-            
+
             foreach (var enemyPosition in spawnPointPositions)
             {
-                if(_counterGunnerEnemies > countEnemies - CorrectCountFactor)
+                if (_counterGunnerEnemies > countEnemies - CorrectCountFactor)
                     return;
-                
+
                 GunnerEnemy gunnerEnemy = _gameInitSystem.CreateGunnerAlienEnemy(_gameInitSystem.Player);
 
                 gunnerEnemy.NavMeshAgent.enabled = false;
 
-                var enemySpawnPosition = enemyPosition + Vector3.one * Random.Range(-RandomPositionFactor,
-                    RandomPositionFactor);
+                var enemySpawnPosition = enemyPosition +
+                                         (Vector3.one * Random.Range(-RandomPositionFactor, RandomPositionFactor));
+
                 enemySpawnPosition.y = enemyPosition.y;
 
                 gunnerEnemy.transform.position = enemySpawnPosition;
-                
+
                 gunnerEnemy.NavMeshAgent.enabled = true;
-                
+
                 gunnerEnemy.Die += OnKillGunnerEnemy;
                 _counterGunnerEnemies++;
             }
@@ -51,20 +52,21 @@ namespace Project.Scripts.Levels.Spawners
 
         public void SpawnSmallAlienEnemy(List<Vector3> spawnPointPositions, int countEnemies)
         {
-            if(spawnPointPositions.Count == MinValue)
+            if (spawnPointPositions.Count == MinValue)
                 return;
 
             foreach (var enemyPosition in spawnPointPositions)
             {
-                if(_counterSmallEnemies > countEnemies - CorrectCountFactor)
+                if (_counterSmallEnemies > countEnemies - CorrectCountFactor)
                     return;
-                
+
                 SmallEnemy smallEnemy = _gameInitSystem.CreateSmallAlienEnemy(_gameInitSystem.Player);
 
                 smallEnemy.NavMeshAgent.enabled = false;
 
-                var enemySpawnPosition = enemyPosition + Vector3.one * Random.Range(-RandomPositionFactor,
-                    RandomPositionFactor);
+                var enemySpawnPosition = enemyPosition +
+                                         (Vector3.one * Random.Range(-RandomPositionFactor, RandomPositionFactor));
+
                 enemySpawnPosition.y = enemyPosition.y;
 
                 smallEnemy.transform.position = enemySpawnPosition;
@@ -78,26 +80,27 @@ namespace Project.Scripts.Levels.Spawners
 
         public void SpawnBigEnemyAlien(List<Vector3> spawnPointPositions, int countEnemies)
         {
-            if(spawnPointPositions.Count == MinValue)
+            if (spawnPointPositions.Count == MinValue)
                 return;
-            
+
             foreach (var enemyPosition in spawnPointPositions)
             {
-                if(_counterBigEnemies > countEnemies - CorrectCountFactor)
+                if (_counterBigEnemies > countEnemies - CorrectCountFactor)
                     return;
-                
+
                 BigEnemy bigEnemy = _gameInitSystem.CreateBigAlienEnemy(_gameInitSystem.Player);
 
                 bigEnemy.NavMeshAgent.enabled = false;
 
-                var enemySpawnPosition = enemyPosition + Vector3.one * Random.Range(-RandomPositionFactor,
-                    RandomPositionFactor);
+                var enemySpawnPosition = enemyPosition +
+                                         (Vector3.one * Random.Range(-RandomPositionFactor, RandomPositionFactor));
+
                 enemySpawnPosition.y = enemyPosition.y;
 
                 bigEnemy.transform.position = enemySpawnPosition;
-                
+
                 bigEnemy.NavMeshAgent.enabled = true;
-                
+
                 bigEnemy.Die += OnKillBigEnemy;
                 _counterBigEnemies++;
             }
@@ -105,17 +108,17 @@ namespace Project.Scripts.Levels.Spawners
 
         public void SpawnAlienEnemyTurret(List<Vector3> spawnPointPositions, Vector3 playerSpawnPoint)
         {
-            if(spawnPointPositions.Count == MinValue)
+            if (spawnPointPositions.Count == MinValue)
                 return;
 
             foreach (var enemyPosition in spawnPointPositions)
             {
-
                 EnemyTurret enemyTurret = _gameInitSystem.CreateEnemyTurret(_gameInitSystem.Player, enemyPosition);
                 enemyTurret.transform.LookAt(playerSpawnPoint);
 
-                var enemySpawnPosition = enemyPosition + Vector3.one * Random.Range(-RandomPositionFactor,
-                    RandomPositionFactor);
+                var enemySpawnPosition = enemyPosition +
+                                         (Vector3.one * Random.Range(-RandomPositionFactor, RandomPositionFactor));
+                
                 enemySpawnPosition.y = enemyPosition.y;
 
                 enemyTurret.transform.position = enemySpawnPosition;
@@ -127,13 +130,13 @@ namespace Project.Scripts.Levels.Spawners
             _counterSmallEnemies--;
             enemyActor.Die -= OnKillSmallEnemy;
         }
-        
+
         private void OnKillBigEnemy(EnemyActor enemyActor)
         {
             _counterBigEnemies--;
             enemyActor.Die -= OnKillBigEnemy;
         }
-        
+
         private void OnKillGunnerEnemy(EnemyActor enemyActor)
         {
             _counterGunnerEnemies--;

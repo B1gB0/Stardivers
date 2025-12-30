@@ -10,28 +10,17 @@ namespace Project.Scripts.ECS.EntityActors
     public class PlayerActor : EntityActor
     {
         private const float RotationSpeed = 0.8f;
-        
+
+        private ParticleEffectsService _particleEffectsService;
+        private IPlayerService _playerService;
+
         [field: SerializeField] public Rigidbody Rigidbody { get; private set; }
         [field: SerializeField] public PlayerInputController PlayerInputController { get; private set; }
         [field: SerializeField] public MiningToolActor MiningToolActor { get; private set; }
-        
-        private ParticleEffectsService _particleEffectsService;
-        private IPlayerService _playerService;
-        
+
         public PlayerCharacteristics PlayerCharacteristics { get; private set; }
         public bool CanFollow { get; private set; }
 
-        public void Construct(ParticleEffectsService particleEffectsService, IPlayerService playerService, 
-            PlayerCharacteristics playerCharacteristics)
-        {
-            _particleEffectsService = particleEffectsService;
-            _playerService = playerService;
-            PlayerCharacteristics = playerCharacteristics;
-            
-            Health.TargetHealthChanged += PlayerCharacteristics.SaveTargetHealth;
-            OnChangeSpeed += PlayerCharacteristics.UpdateCurrentSpeed;
-        }
-        
         private void OnEnable()
         {
             Health.Die += Die;
@@ -58,6 +47,19 @@ namespace Project.Scripts.ECS.EntityActors
             OnChangeSpeed -= PlayerCharacteristics.UpdateCurrentSpeed;
         }
 
+        public void Construct(
+            ParticleEffectsService particleEffectsService,
+            IPlayerService playerService,
+            PlayerCharacteristics playerCharacteristics)
+        {
+            _particleEffectsService = particleEffectsService;
+            _playerService = playerService;
+            PlayerCharacteristics = playerCharacteristics;
+
+            Health.TargetHealthChanged += PlayerCharacteristics.SaveTargetHealth;
+            OnChangeSpeed += PlayerCharacteristics.UpdateCurrentSpeed;
+        }
+
         public void AcceptImprovement(IWeaponVisitor weaponVisitor, CharacteristicType type, float value)
         {
             weaponVisitor.Visit(this, type, value);
@@ -71,14 +73,16 @@ namespace Project.Scripts.ECS.EntityActors
         private void OnRotatePlayerToResource(Transform target)
         {
             Vector3 direction = (target.transform.position - transform.position).normalized;
-            
+
             direction.y = 0;
 
             if (direction != Vector3.zero)
             {
                 Quaternion targetRotation = Quaternion.LookRotation(direction);
 
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation,
+                transform.rotation = Quaternion.Slerp(
+                    transform.rotation,
+                    targetRotation,
                     Time.fixedDeltaTime * RotationSpeed);
             }
         }
@@ -88,7 +92,7 @@ namespace Project.Scripts.ECS.EntityActors
             ResetModifiers();
             gameObject.SetActive(false);
         }
-        
+
         private void OnPlayParticleEffect()
         {
             _particleEffectsService.PlayEffect(ParticleEffectType.PlayerHit, Health.HitPoint.position);

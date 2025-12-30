@@ -19,15 +19,15 @@ namespace Project.Scripts.ECS.Data
         private const string AlienCocoonData = "AlienCocoonData";
         private const string AlienTurretEnemyData = "AlienTurretEnemyData";
         private const string IceCrystalData = "IceCrystalData";
-    
+
         private IResourceService _resourceService;
-    
+
         [Inject]
         private void Construct(IResourceService resourceService)
         {
             _resourceService = resourceService;
         }
-    
+
         public LevelInitData CreateLevelData(Operation operation, int numberLevel)
         {
             LevelInitData levelInitData = Instantiate(operation.Maps[numberLevel]);
@@ -43,7 +43,7 @@ namespace Project.Scripts.ECS.Data
         {
             return await _resourceService.Load<SmallAlienEnemyInitData>(SmallEnemyAlienData);
         }
-    
+
         public async UniTask<BigAlienEnemyInitData> CreateBigEnemyAlienData()
         {
             return await _resourceService.Load<BigAlienEnemyInitData>(BigEnemyAlienData);
@@ -53,12 +53,12 @@ namespace Project.Scripts.ECS.Data
         {
             return await _resourceService.Load<GunnerAlienEnemyInitData>(GunnerEnemyAlienData);
         }
-        
+
         public async UniTask<AlienTurretEnemyInitData> CreateAlienTurretEnemyData()
         {
             return await _resourceService.Load<AlienTurretEnemyInitData>(AlienTurretEnemyData);
         }
-    
+
         public async UniTask<StoneInitData> CreateStoneData()
         {
             return await _resourceService.Load<StoneInitData>(StoneData);
@@ -73,7 +73,7 @@ namespace Project.Scripts.ECS.Data
         {
             return await _resourceService.Load<HealingCoreInitData>(HealingCoreData);
         }
-    
+
         public async UniTask<GoldCoreInitData> CreateGoldCoreData()
         {
             return await _resourceService.Load<GoldCoreInitData>(GoldCoreData);
@@ -83,7 +83,7 @@ namespace Project.Scripts.ECS.Data
         {
             return await _resourceService.Load<AlienCocoonInitData>(AlienCocoonData);
         }
-        
+
         public async UniTask<IceCrystalInitData> CreateIceCrystalData()
         {
             return await _resourceService.Load<IceCrystalInitData>(IceCrystalData);

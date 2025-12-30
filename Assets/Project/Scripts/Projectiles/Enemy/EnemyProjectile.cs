@@ -7,12 +7,12 @@ namespace Project.Scripts.Projectiles.Enemy
     {
         protected override void OnTriggerEnter(Collider collision)
         {
-            if(collision.gameObject.TryGetComponent(out PlayerActor player))
+            if (collision.gameObject.TryGetComponent(out PlayerActor player))
             {
                 player.Health.TakeDamage(Damage);
                 gameObject.SetActive(false);
             }
-            
+
             CheckDefaultAndResourceLayer(collision);
         }
     }

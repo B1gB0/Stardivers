@@ -9,13 +9,13 @@ namespace Project.Scripts.ECS.EntityActors
 {
     public class AlienCocoon : ResourceActor, IAcceptable
     {
-        [field: SerializeField] public Color Color { get; private set; }
-        
         private IFloatingTextService _textService;
         private ICurrencyService _currencyService;
 
         public event Action<AlienCocoon> OnDied;
-        
+
+        [field: SerializeField] public Color Color { get; private set; }
+
         private void OnEnable()
         {
             Health.Die += Die;
@@ -27,7 +27,7 @@ namespace Project.Scripts.ECS.EntityActors
             Health.Die -= Die;
             Health.IsDamaged -= OnPlayParticleEffect;
         }
-        
+
         public void AcceptScore(IScoreActorVisitor visitor)
         {
             visitor.Visit(this);
@@ -46,12 +46,15 @@ namespace Project.Scripts.ECS.EntityActors
 
         private void Die()
         {
-            _textService.OnChangedFloatingText("+" + Data.CrystalValue, transform,
+            _textService.OnChangedFloatingText(
+                "+" + Data.CrystalValue,
+                transform,
                 FloatingTextViewType.AlienCocoon, Color);
+            
             _currencyService.AddAlienCocoon((int)Data.CrystalValue);
             ExperiencePoints.OnKill(this);
             gameObject.SetActive(false);
-            
+
             OnDied?.Invoke(this);
         }
     }

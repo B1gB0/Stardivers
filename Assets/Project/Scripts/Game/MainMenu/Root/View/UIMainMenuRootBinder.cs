@@ -20,12 +20,12 @@ namespace Project.Scripts.Game.MainMenu.Root.View
 
         [SerializeField] private Button _playButton;
         [SerializeField] private Button _startOperationButton;
-    
+
         private Subject<Unit> _exitSceneSubjectSignal;
         private AudioSoundsService _audioSoundsService;
         private UIStateMachine _uiStateMachine;
 
-        public event Action OnGameplayStarted; 
+        public event Action OnGameplayStarted;
 
         [Inject]
         public void Construct(AudioSoundsService audioSoundsService)
@@ -44,7 +44,7 @@ namespace Project.Scripts.Game.MainMenu.Root.View
             _playButton.onClick.RemoveListener(HandlePlayButtonClick);
             _startOperationButton.onClick.RemoveListener(HandleGoToGameplayButtonClick);
         }
-    
+
         private void OnDestroy()
         {
             _uiStateMachine.RemoveState<MainMenuState>();
@@ -54,11 +54,11 @@ namespace Project.Scripts.Game.MainMenu.Root.View
         public void GetUIStateMachineAndStates(UIStateMachine uiStateMachine, UIRootButtons uiRootButtons)
         {
             _uiStateMachine = uiStateMachine;
-        
+
             _uiStateMachine.AddState(new MainMenuState(_uiScene, uiRootButtons));
             _uiStateMachine.AddState(new ChoosingOperationPanelState(_choosingOperationPanel));
             _choosingOperationPanel.GetUIStateMachine(_uiStateMachine);
-        
+
             _uiStateMachine.EnterIn<MainMenuState>();
         }
 
@@ -66,7 +66,7 @@ namespace Project.Scripts.Game.MainMenu.Root.View
         {
             _exitSceneSubjectSignal = exitSceneSignalSubject;
         }
-    
+
         private void HandleGoToGameplayButtonClick()
         {
             OnGameplayStarted?.Invoke();
@@ -81,4 +81,3 @@ namespace Project.Scripts.Game.MainMenu.Root.View
         }
     }
 }
- 

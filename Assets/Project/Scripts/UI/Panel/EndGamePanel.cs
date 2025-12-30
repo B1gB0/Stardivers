@@ -46,8 +46,11 @@ namespace Project.Scripts.UI.Panel
         public Button NextLevelButton => _nextLevelButton;
 
         [Inject]
-        public void Construct(IPauseService pauseService, OperationService operationService,
-            ICurrencyService currencyService, IUILocalizationService uiLocalizationService,
+        public void Construct(
+            IPauseService pauseService,
+            OperationService operationService,
+            ICurrencyService currencyService,
+            IUILocalizationService uiLocalizationService,
             ITweenAnimationService tweenAnimationService)
         {
             _pauseService = pauseService;
@@ -56,12 +59,12 @@ namespace Project.Scripts.UI.Panel
             _uiLocalizationService = uiLocalizationService;
             _tweenAnimationService = tweenAnimationService;
         }
-        
+
         private void OnEnable()
         {
             YG2.onShowWindowGame -= _pauseService.OnPlayGame;
             YG2.onHideWindowGame -= _pauseService.OnStopGameWithMusic;
-            
+
             _goToMainMenuButton.onClick.AddListener(Hide);
             _rebornPlayerButton.onClick.AddListener(OnShowRewardAd);
 
@@ -84,7 +87,7 @@ namespace Project.Scripts.UI.Panel
         {
             YG2.onShowWindowGame += _pauseService.OnPlayGame;
             YG2.onHideWindowGame += _pauseService.OnStopGameWithMusic;
-            
+
             _goToMainMenuButton.onClick.RemoveListener(Hide);
             _rebornPlayerButton.onClick.RemoveListener(OnShowRewardAd);
 

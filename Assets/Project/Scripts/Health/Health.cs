@@ -10,10 +10,10 @@ namespace Project.Scripts.Health
     public class Health : MonoBehaviour
     {
         private const float RecoveryRate = 10f;
-        
+
         [SerializeField] private float _value;
         [SerializeField] private Transform _hitPoint;
-        
+
         private CancellationTokenSource _healthCts;
         private float _currentHealth;
 
@@ -23,11 +23,11 @@ namespace Project.Scripts.Health
         public event Action<string, Transform, FloatingTextViewType, Color> IsSpawnedDamageText;
         public event Action<string, Transform, FloatingTextViewType, Color> IsSpawnedHealingText;
 
-        public event Action IsDamaged; 
+        public event Action IsDamaged;
 
         public event Action<float, float, float> HealthChanged;
         public event Action<float> TargetHealthChanged;
-        
+
         public float MaxHealth { get; private set; }
         public float TargetHealth { get; private set; }
 
@@ -48,7 +48,9 @@ namespace Project.Scripts.Health
 
         public void TakeDamage(float damage)
         {
-            IsSpawnedDamageText?.Invoke(damage.ToString(), transform, FloatingTextViewType.Damage,
+            IsSpawnedDamageText?.Invoke(damage.ToString(),
+                transform,
+                FloatingTextViewType.Damage,
                 Colors.GetColor(ColorName.DefaultWhiteTextColor));
 
             IsDamaged?.Invoke();
@@ -71,10 +73,10 @@ namespace Project.Scripts.Health
         {
             var currentHealthPercentage = TargetHealth / MaxHealth;
             var maxHealth = MaxHealth + newHealthValue;
-            
+
             MaxHealth = maxHealth;
             var currentHealth = MaxHealth * currentHealthPercentage;
-            
+
             SetHealthValue(currentHealth);
         }
 
@@ -87,11 +89,14 @@ namespace Project.Scripts.Health
 
         public void AddHealth(float healthValue)
         {
-            IsSpawnedHealingText?.Invoke(healthValue.ToString(), transform, FloatingTextViewType.Healing,
+            IsSpawnedHealingText?.Invoke(
+                healthValue.ToString(),
+                transform,
+                FloatingTextViewType.Healing,
                 Colors.GetColor(ColorName.HealingColor));
-            
+
             TargetHealth += healthValue;
-            
+
             OnChangeHealth();
 
             if (TargetHealth > MaxHealth)
@@ -102,10 +107,10 @@ namespace Project.Scripts.Health
         {
             _value = healthValue;
             TargetHealth = _value;
-            
+
             OnChangeHealth();
         }
-        
+
         public void SetHit(bool isHitting)
         {
             IsHitting = isHitting;
@@ -115,24 +120,23 @@ namespace Project.Scripts.Health
         {
             _healthCts?.Cancel();
             _healthCts = new CancellationTokenSource();
-            
+
             ChangeHealthAsync(_healthCts.Token).Forget();
         }
 
         private async UniTaskVoid ChangeHealthAsync(CancellationToken cancellationToken)
         {
-            while (!cancellationToken.IsCancellationRequested && 
+            while (!cancellationToken.IsCancellationRequested &&
                    Math.Abs(_currentHealth - TargetHealth) > Mathf.Epsilon)
             {
                 _currentHealth = Mathf.MoveTowards(
-                    _currentHealth, 
-                    TargetHealth, 
-                    RecoveryRate * Time.unscaledDeltaTime
-                );
-                
+                    _currentHealth,
+                    TargetHealth,
+                    RecoveryRate * Time.unscaledDeltaTime);
+
                 HealthChanged?.Invoke(_currentHealth, MaxHealth, TargetHealth);
                 TargetHealthChanged?.Invoke(TargetHealth);
-                
+
                 await UniTask.NextFrame(PlayerLoopTiming.Update, cancellationToken);
             }
         }

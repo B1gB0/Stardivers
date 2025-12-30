@@ -30,7 +30,7 @@ namespace Project.Scripts.UI.View
             _text.color = color;
 
             SetIcon(viewType);
-            transform.position = new Vector3 (target.position.x, target.position.y, target.position.z - Offset);
+            transform.position = new Vector3(target.position.x, target.position.y, target.position.z - Offset);
         }
 
         public void Show()
@@ -42,7 +42,7 @@ namespace Project.Scripts.UI.View
         {
             gameObject.SetActive(false);
         }
-        
+
         private void SetIcon(FloatingTextViewType viewType)
         {
             _icon.sprite = viewType switch
@@ -59,7 +59,7 @@ namespace Project.Scripts.UI.View
             WaitForSeconds waitForSeconds = new WaitForSeconds(Delay);
 
             yield return waitForSeconds;
-            
+
             Hide();
         }
     }

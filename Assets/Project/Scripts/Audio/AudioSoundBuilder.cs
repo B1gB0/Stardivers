@@ -7,7 +7,6 @@ namespace Project.Scripts.Audio
     {
         private const string SoundBuilder = nameof(SoundBuilder);
 
-        public AudioSoundBuilder(IResourceService resourceService) 
-            : base(resourceService, SoundBuilder) { }
+        public AudioSoundBuilder(IResourceService resourceService) : base(resourceService, SoundBuilder) { }
     }
 }

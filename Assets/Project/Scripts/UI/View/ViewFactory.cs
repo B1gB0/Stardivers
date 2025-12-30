@@ -50,9 +50,9 @@ namespace Project.Scripts.UI.View
 
         private void OnDestroy()
         {
-            if(_missionProgressBar != null)
+            if (_missionProgressBar != null)
                 _uiRoot.LocalizationLanguageSwitcher.OnLanguageChanged -= _missionProgressBar.SetText;
-            if(_objectiveTextView != null)
+            if (_objectiveTextView != null)
                 _uiRoot.LocalizationLanguageSwitcher.OnLanguageChanged -= _objectiveTextView.SetText;
             if (_levelUpPanel != null)
                 _uiRoot.LocalizationLanguageSwitcher.OnLanguageChanged -= _levelUpPanel.OnLanguageChanged;
@@ -63,10 +63,10 @@ namespace Project.Scripts.UI.View
             _uiRoot = uiRoot;
             _uiScene = uiScene;
             _container = container;
-            
+
             GameObjectInjector.InjectRecursive(_uiScene.gameObject, _container);
         }
-        
+
         public async UniTask<Arrow> CreateArrow()
         {
             var arrowTemplate = await _resourceService.Load<GameObject>(ArrowPath);
@@ -88,7 +88,7 @@ namespace Project.Scripts.UI.View
             healthBar.Construct(health);
             healthBar.transform.SetParent(_uiScene.transform);
             healthBar.GetPoints(_uiScene.ShowHealthPoint, _uiScene.HideHealthPoint, _uiScene.WeaponPanel.ShowPoint);
-            
+
             return healthBar;
         }
 
@@ -167,7 +167,7 @@ namespace Project.Scripts.UI.View
             GameObjectInjector.InjectObject(goldView.gameObject, _container);
             goldView.transform.SetParent(_uiScene.transform);
             goldView.GetPoints(_uiScene.ShowGoldPoint, _uiScene.HideGoldPoint);
-            
+
             return goldView;
         }
 
@@ -180,7 +180,7 @@ namespace Project.Scripts.UI.View
             GameObjectInjector.InjectObject(_alienCocoonView.gameObject, _container);
             _alienCocoonView.transform.SetParent(_uiScene.transform, false);
             _alienCocoonView.GetPoints(_uiScene.ShowAlienCocoonPoint, _uiScene.HideAlienCocoonPoint);
-            
+
             return _alienCocoonView;
         }
 
@@ -196,7 +196,7 @@ namespace Project.Scripts.UI.View
             _uiRoot.LocalizationLanguageSwitcher.OnLanguageChanged += _missionProgressBar.SetText;
             return _missionProgressBar;
         }
-        
+
         public async UniTask<ObjectiveTextView> CreateObjectiveText()
         {
             var objectiveTextTemplate = await _resourceService.Load<GameObject>(ObjectiveTextViewPath);

@@ -18,7 +18,7 @@ namespace Project.Scripts.Services
         private const string IceCrystalExplosionEffectPath = "IceCrystalExplosionEffect";
         private const string CapsuleExplosionEffectPath = "CapsuleExplosionEffect";
         private const string MiningToolStoneHitEffectPath = "MiningToolStoneHitEffect";
-        
+
         private const string ParticleEffects = nameof(ParticleEffects);
 
         private Dictionary<ParticleEffectType, ParticleEffect> _effectDictionary;
@@ -38,10 +38,10 @@ namespace Project.Scripts.Services
         {
             if (IsInitiated)
                 return;
-            
+
             _particleParent = new GameObject(ParticleEffects).transform;
             _particleParent.SetParent(transform);
-            
+
             _particlePool = new Dictionary<ParticleEffectType, Queue<ParticleSystem>>();
 
             await InitializeEffectDictionary();
@@ -51,8 +51,11 @@ namespace Project.Scripts.Services
 
         public void PlayEffect(ParticleEffectType effectType, Vector3 position)
         {
-            if (!IsInitiated) return;
-            if (!_effectDictionary.ContainsKey(effectType)) return;
+            if (!IsInitiated)
+                return;
+
+            if (!_effectDictionary.ContainsKey(effectType))
+                return;
 
             PlayEffectAsync(effectType, position).Forget();
         }
@@ -81,12 +84,12 @@ namespace Project.Scripts.Services
             transformOfEffect.position = position;
 
             particleEffect.Play(true);
-            
+
             await WaitForParticleSystem(particleEffect);
-            
+
             ReturnParticleSystemToPool(effectType, particleEffect);
         }
-        
+
         private ParticleSystem GetOrCreateParticleSystem(ParticleEffectType effectType)
         {
             if (!_particlePool.ContainsKey(effectType))
@@ -95,39 +98,41 @@ namespace Project.Scripts.Services
             }
 
             var pool = _particlePool[effectType];
-            
+
             while (pool.Count > 0)
             {
                 var particleEffect = pool.Dequeue();
-                
+
                 if (particleEffect == null || particleEffect.isPlaying)
                     continue;
-                
+
                 particleEffect.gameObject.SetActive(true);
                 return particleEffect;
             }
-            
+
             return CreateNewParticleSystem(effectType);
         }
 
         private ParticleSystem CreateNewParticleSystem(ParticleEffectType effectType)
         {
-            if (!_effectDictionary.ContainsKey(effectType)) return null;
+            if (!_effectDictionary.ContainsKey(effectType))
+                return null;
 
             var config = _effectDictionary[effectType];
             var particleEffect = Instantiate(config.Effect, _particleParent);
-            
+
             return particleEffect;
         }
 
         private void ReturnParticleSystemToPool(ParticleEffectType effectType, ParticleSystem particleSystem)
         {
-            if (particleSystem == null) return;
-            
+            if (particleSystem == null)
+                return;
+
             particleSystem.Stop(true, ParticleSystemStopBehavior.StopEmitting);
             particleSystem.gameObject.SetActive(false);
             particleSystem.Clear(true);
-            
+
             if (_particlePool.TryGetValue(effectType, out var queueEffects))
             {
                 queueEffects.Enqueue(particleSystem);
@@ -136,16 +141,17 @@ namespace Project.Scripts.Services
 
         private async UniTask WaitForParticleSystem(ParticleSystem particleSystem)
         {
-            if (particleSystem == null) return;
-            
+            if (particleSystem == null)
+                return;
+
             await UniTask.WaitUntil(() => particleSystem == null || !particleSystem.IsAlive(true));
         }
-        
+
         private void OnDestroy()
         {
             if (_particlePool == null)
                 return;
-            
+
             foreach (var pool in _particlePool.Values)
             {
                 foreach (var particleSystem in pool)
@@ -154,6 +160,7 @@ namespace Project.Scripts.Services
                         Destroy(particleSystem.gameObject);
                 }
             }
+
             _particlePool.Clear();
         }
     }

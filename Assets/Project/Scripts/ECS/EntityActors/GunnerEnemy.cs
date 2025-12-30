@@ -26,18 +26,18 @@ namespace Project.Scripts.ECS.EntityActors
             Health.Die -= OnDie;
             Health.IsDamaged -= OnPlayParticleEffect;
         }
-        
+
         public void AcceptScore(IScoreActorVisitor visitor)
         {
             visitor.Visit(this);
         }
-        
+
         protected override void OnDie()
         {
             Health.IsSpawnedDamageText -= TextService.OnChangedFloatingText;
             ExperiencePoints.OnKill(this);
             base.OnDie();
-            
+
             gameObject.SetActive(false);
         }
     }

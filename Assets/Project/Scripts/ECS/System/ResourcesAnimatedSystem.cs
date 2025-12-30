@@ -9,7 +9,7 @@ namespace Project.Scripts.ECS.System
         public readonly int Hit = Animator.StringToHash(nameof(Hit));
 
         private readonly EcsFilter<ResourceComponent, AnimatedComponent> _animatedFilter;
-        
+
         public void Run()
         {
             foreach (var entity in _animatedFilter)

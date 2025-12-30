@@ -6,7 +6,7 @@ namespace Project.Scripts.Levels.Outpost
     public class Entrance : MonoBehaviour
     {
         public readonly int IsOpened = Animator.StringToHash(nameof(IsOpened));
-    
+
         private Animator _animator;
 
         private void Start()
@@ -16,17 +16,17 @@ namespace Project.Scripts.Levels.Outpost
 
         public void OpenGate()
         {
-            if(_animator.GetBool(IsOpened))
+            if (_animator.GetBool(IsOpened))
                 return;
-            
+
             _animator.SetBool(IsOpened, true);
         }
 
         public void CloseGate()
         {
-            if(!_animator.GetBool(IsOpened))
+            if (!_animator.GetBool(IsOpened))
                 return;
-            
+
             _animator.SetBool(IsOpened, false);
         }
     }

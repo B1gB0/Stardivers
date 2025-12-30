@@ -16,7 +16,7 @@ namespace Project.Scripts.ECS.EntityActors
         [SerializeField] private float _miningRange;
         [SerializeField] private float _miningAngle;
         [SerializeField] private float _damage;
-        
+
         [SerializeField] private LayerMask _resourceLayerMask = 1;
 
         [SerializeField] private Transform _detectionPoint;
@@ -35,14 +35,6 @@ namespace Project.Scripts.ECS.EntityActors
 
         public bool IsMining { get; private set; }
         public Transform TargetResource => _resourceRef.transform;
-
-        public void Construct(AudioSoundsService audioSoundsService, float diggingSpeed,
-            ParticleEffectsService particleEffectsService)
-        {
-            _audioSoundsService = audioSoundsService;
-            _diggingSpeed = diggingSpeed;
-            _particleEffectsService = particleEffectsService;
-        }
 
         private void Update()
         {
@@ -66,7 +58,8 @@ namespace Project.Scripts.ECS.EntityActors
                     _resourceRef.Health.TakeDamage(_damage);
                     _resourceRef.Health.SetHit(true);
 
-                    _particleEffectsService.PlayEffect(ParticleEffectType.MiningToolStoneHitEffect,
+                    _particleEffectsService.PlayEffect(
+                        ParticleEffectType.MiningToolStoneHitEffect,
                         _hitEffectPoint.position);
 
                     _lastHitTime = _diggingSpeed;
@@ -88,6 +81,16 @@ namespace Project.Scripts.ECS.EntityActors
             }
         }
 
+        public void Construct(
+            AudioSoundsService audioSoundsService,
+            float diggingSpeed,
+            ParticleEffectsService particleEffectsService)
+        {
+            _audioSoundsService = audioSoundsService;
+            _diggingSpeed = diggingSpeed;
+            _particleEffectsService = particleEffectsService;
+        }
+
         public void ChangeDiggingSpeed(float newDiggingSpeed)
         {
             _diggingSpeed = newDiggingSpeed;
@@ -98,7 +101,10 @@ namespace Project.Scripts.ECS.EntityActors
             _detectionPosition = _detectionPoint.position;
             _detectionForward = _detectionPoint.forward;
 
-            if (Physics.Raycast(_detectionPosition, _detectionForward, out var hit,
+            if (Physics.Raycast(
+                    _detectionPosition,
+                    _detectionForward,
+                    out var hit,
                     _miningRange, _resourceLayerMask))
             {
                 if (hit.collider.TryGetComponent(out ResourceActor resource))
@@ -120,8 +126,7 @@ namespace Project.Scripts.ECS.EntityActors
                 _detectionPosition,
                 _miningRange,
                 _colliderBuffer,
-                _resourceLayerMask
-            );
+                _resourceLayerMask);
 
             for (int i = 0; i < numColliders; i++)
             {
@@ -153,35 +158,36 @@ namespace Project.Scripts.ECS.EntityActors
         }
 
 #if UNITY_EDITOR
-          private void OnDrawGizmosSelected()
+        private void OnDrawGizmosSelected()
         {
-            if (_detectionPoint == null) return;
-            
+            if (_detectionPoint == null) 
+                return;
+
             Gizmos.color = Color.yellow;
             DrawConeGizmo3D();
-            
+
             Gizmos.color = Color.red;
             Gizmos.DrawRay(_detectionPoint.position, _detectionPoint.forward * _miningRange);
-            
+
             if (Application.isPlaying)
             {
                 _detectionPosition = _detectionPoint.position;
                 _detectionForward = _detectionPoint.forward;
-                
+
                 int numColliders = Physics.OverlapSphereNonAlloc(
                     _detectionPosition, _miningRange, _colliderBuffer, _resourceLayerMask);
 
                 float cosHalfAngle = Mathf.Cos(_miningAngle * 0.5f * Mathf.Deg2Rad);
-                
+
                 for (int i = 0; i < numColliders; i++)
                 {
                     Collider collider = _colliderBuffer[i];
-                    if (collider.TryGetComponent(out ResourceActor resource))
+                    if (collider.TryGetComponent(out ResourceActor _))
                     {
                         Vector3 directionToResource = collider.transform.position - _detectionPosition;
                         Vector3 directionNormalized = directionToResource.normalized;
                         float dotProduct = Vector3.Dot(_detectionForward, directionNormalized);
-                        
+
                         bool inAngle = dotProduct >= cosHalfAngle;
 
                         if (inAngle)
@@ -189,7 +195,7 @@ namespace Project.Scripts.ECS.EntityActors
                             Gizmos.color = Color.green;
                             Gizmos.DrawLine(_detectionPosition, collider.transform.position);
                             Gizmos.DrawWireSphere(collider.transform.position, 0.3f);
-                            
+
                             Gizmos.color = Color.blue;
                             Gizmos.DrawLine(_detectionPosition, _detectionPosition + directionNormalized * 2f);
                         }
@@ -206,32 +212,33 @@ namespace Project.Scripts.ECS.EntityActors
         private void DrawConeGizmo3D()
         {
             int segments = 16;
-            float halfAngle = _miningAngle * 0.5f * Mathf.Deg2Rad;
-            
+
             Vector3 forward = _detectionPoint.forward * _miningRange;
-            
-            Vector3 lastPoint = _detectionPoint.position + Quaternion.AngleAxis(-_miningAngle * 0.5f, _detectionPoint.up) * forward;
-            
+
+            Vector3 lastPoint = _detectionPoint.position +
+                                (Quaternion.AngleAxis(-_miningAngle * 0.5f, _detectionPoint.up) * forward);
+
             for (int i = 0; i <= segments; i++)
             {
                 float angle = Mathf.Lerp(-_miningAngle * 0.5f, _miningAngle * 0.5f, (float)i / segments);
                 Vector3 dir = Quaternion.AngleAxis(angle, _detectionPoint.up) * _detectionPoint.forward * _miningRange;
                 Vector3 point = _detectionPoint.position + dir;
-                
+
                 Gizmos.DrawLine(_detectionPoint.position, point);
-                
+
                 if (i > 0)
                 {
                     Gizmos.DrawLine(lastPoint, point);
                 }
-                
+
                 lastPoint = point;
             }
-            
+
             for (int i = 0; i <= 4; i++)
             {
                 float verticalAngle = Mathf.Lerp(-30f, 30f, (float)i / 4);
-                Vector3 verticalDir = Quaternion.AngleAxis(verticalAngle, _detectionPoint.right) * _detectionPoint.forward * _miningRange;
+                Vector3 verticalDir = Quaternion.AngleAxis(verticalAngle, _detectionPoint.right) *
+                                      _detectionPoint.forward * _miningRange;
                 Gizmos.DrawLine(_detectionPoint.position, _detectionPoint.position + verticalDir);
             }
         }

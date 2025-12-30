@@ -6,9 +6,9 @@ namespace Project.Scripts.EnemyAnimation.States
     {
         private const float Duration = 0.1f;
 
-        public GetGunState(Animator animator, AnimationNamesBase animationNamesBase) 
+        public GetGunState(Animator animator, AnimationNamesBase animationNamesBase)
             : base(animator, animationNamesBase) { }
-        
+
         public override void Enter()
         {
             base.Enter();

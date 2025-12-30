@@ -14,14 +14,20 @@ namespace Project.Scripts.Projectiles.Mines
         private const float DefaultSlowingDownSpeed = -0.5f;
         private const float SlowDuration = 3f;
 
-        protected override void OnEnable() { }
+        private Collider[] _hits;
 
-        protected override void OnDisable() { }
+        protected override void OnEnable()
+        {
+        }
 
         private void Start()
         {
             Damage = DefaultDamage;
             ExplosionRadius = DefaultExplodingRadius;
+        }
+
+        protected override void OnDisable()
+        {
         }
 
         public void Construct(ParticleEffectsService particleEffectsService, AudioSoundsService audioSoundsService)
@@ -66,11 +72,15 @@ namespace Project.Scripts.Projectiles.Mines
 
         private PlayerActor GetPlayer()
         {
-            Collider[] hits = Physics.OverlapSphere(Transform.position, ExplosionRadius);
+            Physics.OverlapSphereNonAlloc(Transform.position, ExplosionRadius, _hits);
 
-            foreach (Collider hit in hits)
+            foreach (Collider hit in _hits)
+            {
                 if (hit.attachedRigidbody != null && hit.gameObject.TryGetComponent(out PlayerActor player))
+                {
                     return player;
+                }
+            }
 
             return null;
         }

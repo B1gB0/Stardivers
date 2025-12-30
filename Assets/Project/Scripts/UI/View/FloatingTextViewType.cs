@@ -6,6 +6,6 @@ namespace Project.Scripts.UI.View
         RedCrystal = 1,
         Damage = 2,
         Healing = 3,
-        AlienCocoon = 4
+        AlienCocoon = 4,
     }
 }

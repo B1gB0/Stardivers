@@ -10,24 +10,22 @@ namespace Project.Scripts.Services
     {
         private const int DefaultNumberLevel = 0;
 
-        [field: SerializeField] public List<Operation> Operations { get; private set; } = new();
-
-        private readonly Dictionary<int, string> _marsSceneLevels = new();
-        private readonly Dictionary<int, string> _mysteryPlanetSceneLevels = new();
+        private readonly Dictionary<int, string> _marsSceneLevels = new ();
+        private readonly Dictionary<int, string> _mysteryPlanetSceneLevels = new ();
 
         private IDataBaseService _dataBaseService;
-
-        public Operation CurrentOperation { get; private set; }
-
-        public int CurrentNumberLevel { get; private set; }
-
-        public bool IsInitiated { get; private set; }
 
         [Inject]
         public void Construct(IDataBaseService dataBaseService)
         {
             _dataBaseService = dataBaseService;
         }
+
+        [field: SerializeField] public List<Operation> Operations { get; private set; } = new ();
+
+        public Operation CurrentOperation { get; private set; }
+        public int CurrentNumberLevel { get; private set; }
+        public bool IsInitiated { get; private set; }
 
         public UniTask Init()
         {
@@ -56,7 +54,7 @@ namespace Project.Scripts.Services
             }
 
             IsInitiated = true;
-            
+
             return UniTask.CompletedTask;
         }
 

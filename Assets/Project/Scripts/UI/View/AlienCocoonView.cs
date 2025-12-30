@@ -20,7 +20,7 @@ namespace Project.Scripts.UI.View
         {
             _currencyService = currencyService;
             _tweenAnimationService = tweenAnimationService;
-            
+
             _text.text = _currencyService.AlienCocoons + "/" + _currencyService.MaxAlienCocoons;
             _currencyService.OnAlienCocoonValueChanged += SetValue;
         }
@@ -47,7 +47,7 @@ namespace Project.Scripts.UI.View
         {
             _tweenAnimationService.AnimateMove(transform, _showPoint, _hidePoint, true);
         }
-        
+
         private void SetValue(int value)
         {
             _text.text = _currencyService.AlienCocoons + "/" + _currencyService.MaxAlienCocoons;

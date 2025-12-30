@@ -25,7 +25,7 @@ namespace Project.Scripts.Levels.Mars.SecondLevel
         public event Action<float, float> ProgressChanged;
 
         public event Action LaunchCompleted;
-        
+
         private void OnEnable()
         {
             LaunchCompleted += OnLaunch;
@@ -79,10 +79,14 @@ namespace Project.Scripts.Levels.Mars.SecondLevel
                     OnStopChangeProgress();
                 }
 
-                _currentProgress = Mathf.MoveTowards(_currentProgress, _maxProgress,
+                _currentProgress = Mathf.MoveTowards(
+                    _currentProgress,
+                    _maxProgress,
                     RecoveryRate * Time.deltaTime);
 
-                _launchPad.position = Vector3.MoveTowards(_launchPad.position, _startPoint.position,
+                _launchPad.position = Vector3.MoveTowards(
+                    _launchPad.position,
+                    _startPoint.position,
                     _speedRising * Time.deltaTime);
 
                 ProgressChanged?.Invoke(_currentProgress, _maxProgress);
@@ -97,7 +101,9 @@ namespace Project.Scripts.Levels.Mars.SecondLevel
         {
             while (transform.position != _endPoint.position)
             {
-                transform.position = Vector3.MoveTowards(transform.position, _endPoint.position,
+                transform.position = Vector3.MoveTowards(
+                    transform.position,
+                    _endPoint.position,
                     _speedLaunching * Time.deltaTime);
 
                 yield return null;

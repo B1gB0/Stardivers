@@ -9,11 +9,11 @@ namespace Project.Scripts.Services
     public class CoreService : ICoreService
     {
         private readonly Dictionary<CoreType, CoreData> _coresData = new();
-        
+
         private IDataBaseService _dataBaseService;
-        
+
         public bool IsInitiated { get; private set; }
-        
+
         [Inject]
         public void Construct(IDataBaseService dataBaseService)
         {
@@ -22,16 +22,16 @@ namespace Project.Scripts.Services
 
         public UniTask Init()
         {
-            if(IsInitiated)
+            if (IsInitiated)
                 return UniTask.CompletedTask;
-            
+
             foreach (var core in _dataBaseService.Content.Cores)
             {
                 _coresData.TryAdd(core.Type, core);
             }
 
             IsInitiated = true;
-            
+
             return UniTask.CompletedTask;
         }
 

@@ -31,13 +31,13 @@ namespace Project.Scripts.UI.Panel
         private ITweenAnimationService _tweenAnimationService;
 
         public event Action OnBackToSceneButtonPressed;
-        
+
         [Inject]
         private void Construct(ITweenAnimationService tweenAnimationService)
         {
             _tweenAnimationService = tweenAnimationService;
         }
-        
+
         private void OnEnable()
         {
             _backToSceneButton.onClick.AddListener(MoveBackToScene);
@@ -61,7 +61,7 @@ namespace Project.Scripts.UI.Panel
             _musicVolumeSlider.onValueChanged.RemoveListener(ChangeMusicVolume);
             _effectsVolumeSlider.onValueChanged.RemoveListener(ChangeEffectsVolume);
         }
-        
+
         private void OnDestroy()
         {
             transform.DOKill();
@@ -85,11 +85,13 @@ namespace Project.Scripts.UI.Panel
 
             if (PlayerPrefs.GetFloat(MusicVolume) != MinValueSlider ||
                 PlayerPrefs.GetFloat(EffectsVolume) != MinValueSlider)
+            {
                 return;
-            
+            }
+
             _musicVolumeSlider.value = StartValueSlider;
             _effectsVolumeSlider.value = StartValueSlider;
-            
+
             ChangeMusicVolume(StartValueSlider);
             ChangeEffectsVolume(StartValueSlider);
         }

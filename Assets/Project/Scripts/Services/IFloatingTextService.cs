@@ -5,8 +5,12 @@ namespace Project.Scripts.Services
 {
     public interface IFloatingTextService
     {
-        void OnChangedFloatingText(string value, Transform target, FloatingTextViewType floatingTextViewType, 
+        public void OnChangedFloatingText(
+            string value,
+            Transform target,
+            FloatingTextViewType floatingTextViewType,
             Color color);
-        void Init(FloatingTextView textView);
+
+        public void Init(FloatingTextView textView);
     }
 }

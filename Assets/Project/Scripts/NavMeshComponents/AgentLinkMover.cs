@@ -12,9 +12,9 @@ namespace Project.Scripts.NavMeshComponents
         private const float Height = 2f;
         private const float NormalizedTimeMinValue = 0f;
         private const float NormalizedTimeMaxValue = 1f;
-        
+
         [SerializeField] private OffMeshLinkMoveMethod _method = OffMeshLinkMoveMethod.Parabola;
-        [SerializeField] private AnimationCurve _curve = new ();
+        [SerializeField] private AnimationCurve _curve = new();
 
         private NavMeshAgent _agent;
         private Coroutine _startBehaviour;
@@ -22,7 +22,7 @@ namespace Project.Scripts.NavMeshComponents
 
         private void OnEnable()
         {
-            if(_changeBehaviour != null)
+            if (_changeBehaviour != null)
                 StopCoroutine(_changeBehaviour);
 
             _changeBehaviour = StartCoroutine(ChangeBehaviour());
@@ -30,7 +30,7 @@ namespace Project.Scripts.NavMeshComponents
 
         private void OnDisable()
         {
-            if(_changeBehaviour != null)
+            if (_changeBehaviour != null)
             {
                 StopCoroutine(_changeBehaviour);
                 _changeBehaviour = null;
@@ -38,7 +38,7 @@ namespace Project.Scripts.NavMeshComponents
 
             if (_startBehaviour == null)
                 return;
-            
+
             StopCoroutine(_startBehaviour);
             _startBehaviour = null;
         }
@@ -46,8 +46,10 @@ namespace Project.Scripts.NavMeshComponents
         private IEnumerator ChangeBehaviour()
         {
             _agent = GetComponent<NavMeshAgent>();
-            if (_agent == null || !_agent.isActiveAndEnabled) yield break;
-            
+
+            if (_agent == null || !_agent.isActiveAndEnabled)
+                yield break;
+
             _agent.isStopped = false;
             _agent.autoTraverseOffMeshLink = false;
 
@@ -78,12 +80,15 @@ namespace Project.Scripts.NavMeshComponents
         private IEnumerator NormalSpeed(NavMeshAgent agent)
         {
             OffMeshLinkData data = agent.currentOffMeshLinkData;
-            Vector3 endPos = data.endPos + Vector3.up * agent.baseOffset;
-            
+            Vector3 endPos = data.endPos + (Vector3.up * agent.baseOffset);
+
             while (agent.transform.position != endPos)
             {
-                agent.transform.position = Vector3.MoveTowards(agent.transform.position, endPos,
+                agent.transform.position = Vector3.MoveTowards(
+                    agent.transform.position,
+                    endPos,
                     agent.speed * Time.deltaTime);
+
                 yield return null;
             }
         }
@@ -91,16 +96,16 @@ namespace Project.Scripts.NavMeshComponents
         private IEnumerator Parabola(NavMeshAgent agent, float height, float duration)
         {
             OffMeshLinkData data = agent.currentOffMeshLinkData;
-            
+
             Vector3 startPos = agent.transform.position;
-            Vector3 endPos = data.endPos + Vector3.up * agent.baseOffset;
-            
+            Vector3 endPos = data.endPos + (Vector3.up * agent.baseOffset);
+
             float normalizedTime = NormalizedTimeMinValue;
-            
+
             while (normalizedTime < NormalizedTimeMaxValue)
             {
                 float yOffset = height * JumpFactor * (normalizedTime - normalizedTime * normalizedTime);
-                agent.transform.position = Vector3.Lerp(startPos, endPos, normalizedTime) + yOffset * Vector3.up;
+                agent.transform.position = Vector3.Lerp(startPos, endPos, normalizedTime) + (yOffset * Vector3.up);
                 normalizedTime += Time.deltaTime / duration;
                 yield return null;
             }
@@ -109,16 +114,16 @@ namespace Project.Scripts.NavMeshComponents
         private IEnumerator Curve(NavMeshAgent agent, float duration)
         {
             OffMeshLinkData data = agent.currentOffMeshLinkData;
-            
+
             Vector3 startPos = agent.transform.position;
-            Vector3 endPos = data.endPos + Vector3.up * agent.baseOffset;
-            
+            Vector3 endPos = data.endPos + (Vector3.up * agent.baseOffset);
+
             float normalizedTime = NormalizedTimeMinValue;
-            
+
             while (normalizedTime < NormalizedTimeMaxValue)
             {
                 float yOffset = _curve.Evaluate(normalizedTime);
-                agent.transform.position = Vector3.Lerp(startPos, endPos, normalizedTime) + yOffset * Vector3.up;
+                agent.transform.position = Vector3.Lerp(startPos, endPos, normalizedTime) + (yOffset * Vector3.up);
                 normalizedTime += Time.deltaTime / duration;
                 yield return null;
             }

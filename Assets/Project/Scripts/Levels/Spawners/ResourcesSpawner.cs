@@ -14,14 +14,14 @@ namespace Project.Scripts.Levels.Spawners
         private readonly GameInitSystem _gameInitSystem;
         private readonly LevelInitData _levelInitData;
 
-        public List<AlienCocoon> AlienCocoons { get; } = new();
-
         public ResourcesSpawner(GameInitSystem gameInitSystem, LevelInitData levelInitData)
         {
             _gameInitSystem = gameInitSystem;
             _levelInitData = levelInitData;
         }
-        
+
+        public List<AlienCocoon> AlienCocoons { get; } = new();
+
         public void Spawn(int quantityGoldCore, int quantityHealingCore)
         {
             SpawnStones();
@@ -31,9 +31,9 @@ namespace Project.Scripts.Levels.Spawners
 
         public void SpawnAlienCocoons()
         {
-            if(_levelInitData.AlienCocoonSpawnPoints.Count == MinValue)
+            if (_levelInitData.AlienCocoonSpawnPoints.Count == MinValue)
                 return;
-            
+
             foreach (var alienCocoonSpawnPoint in _levelInitData.AlienCocoonSpawnPoints)
             {
                 var alienCocoonSpawnPosition = alienCocoonSpawnPoint + Vector3.one;
@@ -43,16 +43,17 @@ namespace Project.Scripts.Levels.Spawners
                 AlienCocoons.Add(cocoon);
             }
         }
-        
+
         public void SpawnIceCrystal(int quantityIceCrystals)
         {
-            var sortedSpawnPoints = 
+            var sortedSpawnPoints =
                 GetSortedRandomSpawnPoints(_levelInitData.IceCrystalsSpawnPositions, quantityIceCrystals);
-            
+
             foreach (var iceCrystalSpawnPoint in sortedSpawnPoints)
             {
                 var iceCrystalSpawnPosition = iceCrystalSpawnPoint +
-                                               Vector3.one * Random.Range(-RandomPositionFactor, RandomPositionFactor);
+                                              (Vector3.one * Random.Range(-RandomPositionFactor, RandomPositionFactor));
+
                 iceCrystalSpawnPosition.y = iceCrystalSpawnPoint.y;
 
                 _gameInitSystem.CreateIceCrystal(iceCrystalSpawnPosition);
@@ -61,13 +62,16 @@ namespace Project.Scripts.Levels.Spawners
 
         private void SpawnHealingCores(int quantityHealingCore)
         {
-            var sortedSpawnPoints = 
+            var sortedSpawnPoints =
                 GetSortedRandomSpawnPoints(_levelInitData.HealingCoreSpawnPositions, quantityHealingCore);
 
             foreach (var healingCoreSpawnPoint in sortedSpawnPoints)
             {
                 var healingCoreSpawnPosition = healingCoreSpawnPoint +
-                                               Vector3.one * Random.Range(-RandomPositionFactor, RandomPositionFactor);
+                                               (Vector3.one * Random.Range(
+                                                   -RandomPositionFactor,
+                                                   RandomPositionFactor));
+
                 healingCoreSpawnPosition.y = healingCoreSpawnPoint.y;
 
                 _gameInitSystem.CreateHealingCore(healingCoreSpawnPosition);
@@ -76,13 +80,14 @@ namespace Project.Scripts.Levels.Spawners
 
         private void SpawnGoldCores(int quantityGoldCore)
         {
-            var sortedSpawnPoints = 
+            var sortedSpawnPoints =
                 GetSortedRandomSpawnPoints(_levelInitData.GoldCoreSpawnPositions, quantityGoldCore);
 
             foreach (var goldCoreSpawnPoint in sortedSpawnPoints)
             {
                 var goldCoreSpawnPosition = goldCoreSpawnPoint +
-                                            Vector3.one * Random.Range(-RandomPositionFactor, RandomPositionFactor);
+                                            (Vector3.one * Random.Range(-RandomPositionFactor, RandomPositionFactor));
+
                 goldCoreSpawnPosition.y = goldCoreSpawnPoint.y;
 
                 _gameInitSystem.CreateGoldCore(goldCoreSpawnPosition);
@@ -94,7 +99,7 @@ namespace Project.Scripts.Levels.Spawners
             foreach (var stoneSpawnPoint in _levelInitData.StoneSpawnPositions)
             {
                 var stoneSpawnPosition = stoneSpawnPoint +
-                                         Vector3.one * Random.Range(-RandomPositionFactor, RandomPositionFactor);
+                                         (Vector3.one * Random.Range(-RandomPositionFactor, RandomPositionFactor));
                 stoneSpawnPosition.y = stoneSpawnPoint.y;
 
                 _gameInitSystem.CreateStone(stoneSpawnPosition);

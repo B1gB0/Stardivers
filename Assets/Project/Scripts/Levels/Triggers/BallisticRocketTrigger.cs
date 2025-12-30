@@ -1,6 +1,6 @@
-using UnityEngine;
 using Project.Scripts.ECS.EntityActors;
 using Project.Scripts.Levels.Mars.SecondLevel;
+using UnityEngine;
 
 namespace Project.Scripts.Levels.Triggers
 {
@@ -12,16 +12,16 @@ namespace Project.Scripts.Levels.Triggers
         {
             if (!trigger.TryGetComponent(out PlayerActor player))
                 return;
-            
+
             if (_ballisticRocket.gameObject.activeSelf)
                 _ballisticRocket.OnChangeProgress(player);
         }
 
         private void OnTriggerExit(Collider trigger)
         {
-            if (!trigger.TryGetComponent(out PlayerActor player))
+            if (!trigger.TryGetComponent(out PlayerActor _))
                 return;
-            
+
             if (_ballisticRocket.gameObject.activeSelf)
                 _ballisticRocket.OnStopChangeProgress();
         }

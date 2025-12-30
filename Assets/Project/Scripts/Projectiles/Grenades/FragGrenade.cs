@@ -5,7 +5,7 @@ using Project.Scripts.ECS.EntityActors;
 using Project.Scripts.ParticleEffects.Effects;
 using UnityEngine;
 
-namespace  Project.Scripts.Projectiles.Grenades
+namespace Project.Scripts.Projectiles.Grenades
 {
     public class FragGrenade : ExplodingObject
     {
@@ -16,18 +16,21 @@ namespace  Project.Scripts.Projectiles.Grenades
         protected override void FixedUpdate()
         {
             StartCoroutine(ThrowGrenade());
-            Transform.position = Vector3.MoveTowards(Transform.position, _enemyPosition, 
+
+            Transform.position = Vector3.MoveTowards(
+                Transform.position,
+                _enemyPosition,
                 ProjectileSpeed * Time.fixedDeltaTime);
         }
 
         protected override void OnTriggerEnter(Collider collision)
         {
-            if(collision.gameObject.TryGetComponent(out EnemyActor enemy))
+            if (collision.gameObject.TryGetComponent(out EnemyActor _))
             {
                 Explode();
                 StopCoroutine(LifeRoutine());
             }
-            
+
             CheckDefaultAndResourceLayer(collision);
         }
 
@@ -35,7 +38,7 @@ namespace  Project.Scripts.Projectiles.Grenades
         {
             _enemyPosition = targetPosition;
         }
-        
+
         public void SetCharacteristics(float damage, float explosionRadius, float projectileSpeed)
         {
             Damage = damage;
@@ -46,7 +49,7 @@ namespace  Project.Scripts.Projectiles.Grenades
         protected override IEnumerator LifeRoutine()
         {
             yield return new WaitForSeconds(LifeTime);
-            
+
             Explode();
         }
 
@@ -54,12 +57,12 @@ namespace  Project.Scripts.Projectiles.Grenades
         {
             ParticleEffectsService.PlayEffect(ParticleEffectType.FragGrenadeExplosion, Transform.position);
             AudioSoundsService.PlaySound(SoundsType.FragGrenades).Forget();
-        
+
             foreach (EnemyActor explosiveObject in GetEnemies())
             {
                 explosiveObject.Health.TakeDamage(Damage);
             }
-                
+
             gameObject.SetActive(false);
         }
 

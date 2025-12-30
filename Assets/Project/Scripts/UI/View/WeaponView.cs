@@ -9,7 +9,7 @@ namespace Project.Scripts.UI.View
     {
         private const float MinValue = 0f;
         private const float MaxValue = 1f;
-        
+
         [SerializeField] private Image _filler;
         [SerializeField] private Image _icon;
         [SerializeField] private TMP_Text _text;

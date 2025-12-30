@@ -8,10 +8,10 @@ namespace Project.Scripts.Services
 {
     public class CharacteristicsWeaponDataService : ICharacteristicsWeaponDataService
     {
-        private readonly Dictionary<WeaponType, CharacteristicsWeaponData> _characteristicsData = new ();
+        private readonly Dictionary<WeaponType, CharacteristicsWeaponData> _characteristicsData = new();
 
         private IDataBaseService _dataBaseService;
-        
+
         public bool IsInitiated { get; private set; }
 
         [Inject]
@@ -22,13 +22,13 @@ namespace Project.Scripts.Services
 
         public UniTask Init()
         {
-            if(IsInitiated)
+            if (IsInitiated)
                 return UniTask.CompletedTask;
 
             LoadAllWeaponsData();
-            
+
             IsInitiated = true;
-            
+
             return UniTask.CompletedTask;
         }
 
@@ -36,7 +36,7 @@ namespace Project.Scripts.Services
         {
             return _characteristicsData[type];
         }
-        
+
         private void LoadAllWeaponsData()
         {
             foreach (var data in _dataBaseService.Content.CharacteristicsWeaponsData)

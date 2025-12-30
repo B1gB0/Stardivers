@@ -7,7 +7,7 @@ namespace Project.Scripts.UI.View
     public class ActivateWeaponButton : MonoBehaviour
     {
         [SerializeField] private Image _keyIcon;
-        
+
         private void Start()
         {
             if (YG2.envir.isDesktop)

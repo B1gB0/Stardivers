@@ -5,6 +5,6 @@ namespace Project.Scripts.ECS.EntityActors
         SmallAlien = 0,
         GunnerAlien = 1,
         BigAlien = 2,
-        TurretAlien = 3
+        TurretAlien = 3,
     }
 }

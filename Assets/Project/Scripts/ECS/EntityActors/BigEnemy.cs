@@ -10,7 +10,7 @@ namespace Project.Scripts.ECS.EntityActors
     {
         [field: SerializeField] public BigEnemyAlienWeapon Weapon { get; private set; }
         [field: SerializeField] public NavMeshAgent NavMeshAgent { get; private set; }
-        
+
         private void Start()
         {
             Weapon.GetServices(AudioSoundsService);
@@ -27,7 +27,7 @@ namespace Project.Scripts.ECS.EntityActors
             Health.Die -= OnDie;
             Health.IsDamaged -= OnPlayParticleEffect;
         }
-        
+
         public void AcceptScore(IScoreActorVisitor visitor)
         {
             visitor.Visit(this);
@@ -38,7 +38,7 @@ namespace Project.Scripts.ECS.EntityActors
             Health.IsSpawnedDamageText -= TextService.OnChangedFloatingText;
             ExperiencePoints.OnKill(this);
             base.OnDie();
-            
+
             gameObject.SetActive(false);
         }
 

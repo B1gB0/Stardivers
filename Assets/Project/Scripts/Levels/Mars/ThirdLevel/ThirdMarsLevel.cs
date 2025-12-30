@@ -13,21 +13,21 @@ namespace Project.Scripts.Levels.Mars.ThirdLevel
         [SerializeField] private TruckPlayerTrigger _truckPlayerTrigger;
         [SerializeField] private TruckFinalPointTrigger _truckFinalPointTrigger;
         [SerializeField] private Truck _truck;
-        
+
         private MissionProgressBar _missionProgressBar;
 
         private void OnEnable()
         {
             IsInitiatedSpawners += SpawnResources;
         }
-        
+
         private void FixedUpdate()
         {
             if (_enemySpawnTriggerWithEffect.IsEnemySpawned)
             {
                 CreateWaveOfEnemy(FirstWaveEnemy);
             }
-            
+
             if (_enemySpawnTriggerWithoutEffect.IsEnemySpawned)
             {
                 CreateWaveOfEnemy(SecondWaveEnemy);
@@ -38,18 +38,18 @@ namespace Project.Scripts.Levels.Mars.ThirdLevel
         {
             IsInitiatedSpawners -= SpawnResources;
         }
-        
+
         private void OnDestroy()
         {
             WelcomePlanetTextTrigger.IsWelcomeToPlanet -= DialogueSetter.OnWelcomePlanet;
-            
+
             _truck.ProgressChanged -= _missionProgressBar.OnChangeValuesSmoothly;
-            
+
             _enemySpawnTriggerWithEffect.EnemySpawned -= _entranceLastLvlTrigger.Deactivate;
             _enemySpawnTriggerWithEffect.EnemySpawned -= LookAtTransport;
             _enemySpawnTriggerWithEffect.EnemySpawned -= DialogueSetter.OnEnemySpawnTriggerWithEffect;
             _enemySpawnTriggerWithEffect.EnemySpawned -= _missionProgressBar.Show;
-            
+
             _enemySpawnTriggerWithoutEffect.EnemySpawned -= OnCreateBigEnemiesWave;
 
             _truckFinalPointTrigger.IsFinalPointReached -= DialogueSetter.OnEndAttack;
@@ -66,19 +66,19 @@ namespace Project.Scripts.Levels.Mars.ThirdLevel
             await base.OnStartLevel();
 
             Arrow.OnLookAtTarget(_enemySpawnTriggerWithEffect.transform);
-            
+
             _missionProgressBar = await ViewFactory.CreateMissionProgressBar();
             _missionProgressBar.SetData();
 
             WelcomePlanetTextTrigger.IsWelcomeToPlanet += DialogueSetter.OnWelcomePlanet;
-            
+
             _truck.ProgressChanged += _missionProgressBar.OnChangeValuesSmoothly;
 
             _enemySpawnTriggerWithEffect.EnemySpawned += _entranceLastLvlTrigger.Deactivate;
             _enemySpawnTriggerWithEffect.EnemySpawned += LookAtTransport;
             _enemySpawnTriggerWithEffect.EnemySpawned += DialogueSetter.OnEnemySpawnTriggerWithEffect;
             _enemySpawnTriggerWithEffect.EnemySpawned += _missionProgressBar.Show;
-            
+
             _enemySpawnTriggerWithoutEffect.EnemySpawned += OnCreateBigEnemiesWave;
 
             _truckFinalPointTrigger.IsFinalPointReached += DialogueSetter.OnEndAttack;
@@ -102,7 +102,7 @@ namespace Project.Scripts.Levels.Mars.ThirdLevel
                 {
                     CreateWaveOfSmallEnemies(numberWaveEnemy);
                     CreateWaveOfGunnerEnemies(numberWaveEnemy);
-                
+
                     LastSpawnTime = SpawnWaveOfEnemyDelay;
                 }
 

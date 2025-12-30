@@ -9,7 +9,7 @@ namespace Project.Scripts.Services
     public class UILocalizationService : IUILocalizationService
     {
         private readonly Dictionary<UITextType, UILocalizationData> _uiLocalizationData = new();
-        
+
         private IDataBaseService _dataBaseService;
 
         public bool IsInitiated { get; private set; }
@@ -29,12 +29,12 @@ namespace Project.Scripts.Services
             {
                 _uiLocalizationData.TryAdd(data.UITextType, data);
             }
-            
+
             IsInitiated = true;
 
             return UniTask.CompletedTask;
         }
-        
+
         public UILocalizationData GetLevelTextData(UITextType type)
         {
             return _uiLocalizationData[type];

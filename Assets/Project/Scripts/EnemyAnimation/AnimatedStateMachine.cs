@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using Project.Scripts.EnemyAnimation.States;
 using UnityEngine;
 
@@ -8,10 +8,12 @@ namespace Project.Scripts.EnemyAnimation
     public class AnimatedStateMachine
     {
         private readonly Dictionary<Type, AnimatedState> _states = new();
-        
+
+        private AnimatedState _currentState;
+
         public AnimatedStateMachine(Animator animator)
         {
-            AnimationNamesBase animationBase = new ();
+            AnimationNamesBase animationBase = new();
 
             AddState(new IdleState(animator, animationBase));
             AddState(new GetGunState(animator, animationBase));
@@ -19,9 +21,8 @@ namespace Project.Scripts.EnemyAnimation
             AddState(new AttackState(animator, animationBase));
         }
 
-        private AnimatedState _currentState;
-
-        public void EnterIn<T>() where T : AnimatedState
+        public void EnterIn<T>()
+            where T : AnimatedState
         {
             var type = typeof(T);
 
@@ -30,13 +31,14 @@ namespace Project.Scripts.EnemyAnimation
                 return;
             }
 
-            if (!_states.TryGetValue(type, out var newState)) return;
-            
+            if (!_states.TryGetValue(type, out var newState))
+                return;
+
             _currentState?.Exit();
             _currentState = newState;
             _currentState.Enter();
         }
-        
+
         private void AddState(AnimatedState state)
         {
             var type = state.GetType();

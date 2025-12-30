@@ -33,7 +33,7 @@ namespace Project.Scripts.Weapon.Player
         private WeaponPanel _weaponPanel;
         private Button _minesButton;
         private Transform _player;
-        
+
         private Mines _mines;
 
         private int _weaponsCounter;
@@ -42,9 +42,13 @@ namespace Project.Scripts.Weapon.Player
         public event Action MinesIsCreated;
 
         [Inject]
-        private void Construct(AudioSoundsService audioSoundsService, IResourceService resourceService,
-            ICharacteristicsWeaponDataService characteristicsWeaponDataService, ILevelUpService levelUpService,
-            ParticleEffectsService particleEffectsService, IPlayerService playerService)
+        private void Construct(
+            AudioSoundsService audioSoundsService,
+            IResourceService resourceService,
+            ICharacteristicsWeaponDataService characteristicsWeaponDataService,
+            ILevelUpService levelUpService,
+            ParticleEffectsService particleEffectsService,
+            IPlayerService playerService)
         {
             _audioSoundsService = audioSoundsService;
             _particleEffectsService = particleEffectsService;
@@ -56,7 +60,7 @@ namespace Project.Scripts.Weapon.Player
 
         private void OnDestroy()
         {
-            if(_mines != null)
+            if (_mines != null)
                 _playerService.PlayerActor.PlayerInputController.OnWeaponButtonPressed -= _mines.Shoot;
         }
 
@@ -67,23 +71,16 @@ namespace Project.Scripts.Weapon.Player
 
             _levelUpService.RemoveWeaponCard(weaponType);
 
-            switch (weaponType)
+            return weaponType switch
             {
-                case WeaponType.Gun:
-                    return await CreateGun();
-                case WeaponType.MachineGun:
-                    return await CreateMachineGun();
-                case WeaponType.Mines:
-                    return await CreateMines();
-                case WeaponType.FragGrenades:
-                    return await CreateFragGrenades();
-                case WeaponType.FourBarrelMachineGun:
-                    return await CreateFourBarrelMachineGun();
-                case WeaponType.ChainLightningGun:
-                    return await CreateChainLightningGun();
-                default:
-                    return null;
-            }
+                WeaponType.Gun => await CreateGun(),
+                WeaponType.MachineGun => await CreateMachineGun(),
+                WeaponType.Mines => await CreateMines(),
+                WeaponType.FragGrenades => await CreateFragGrenades(),
+                WeaponType.FourBarrelMachineGun => await CreateFourBarrelMachineGun(),
+                WeaponType.ChainLightningGun => await CreateChainLightningGun(),
+                _ => null
+            };
         }
 
         public void GetData(Transform player, WeaponHolder weaponHolder, WeaponPanel weaponPanel)
@@ -117,7 +114,13 @@ namespace Project.Scripts.Weapon.Player
             var gunCharacteristics = YG2.saves.GunCharacteristics;
             var gunCharacteristicsData = _characteristicsWeaponDataService.GetWeaponDataByType(WeaponType.Gun);
 
-            gun.Construct(_enemyDetector, _audioSoundsService, gunCharacteristicsData, gunCharacteristics, _weaponPanel);
+            gun.Construct(
+                _enemyDetector,
+                _audioSoundsService,
+                gunCharacteristicsData,
+                gunCharacteristics,
+                _weaponPanel);
+
             _weaponHolder.AddWeapon(gun);
 
             return gun;
@@ -125,7 +128,9 @@ namespace Project.Scripts.Weapon.Player
 
         private async UniTask<PlayerWeapon> CreateFourBarrelMachineGun()
         {
-            var fourBarrelMachineGunTemplate = await _resourceService.Load<GameObject>(FourBarrelMachineGunPath);
+            var fourBarrelMachineGunTemplate = await _resourceService.Load<GameObject>(
+                FourBarrelMachineGunPath);
+
             fourBarrelMachineGunTemplate = Instantiate(fourBarrelMachineGunTemplate, _player);
 
             FourBarrelMachineGun fourBarrelMachineGun =
@@ -135,8 +140,13 @@ namespace Project.Scripts.Weapon.Player
             var fourBarrelMachineGunData =
                 _characteristicsWeaponDataService.GetWeaponDataByType(WeaponType.FourBarrelMachineGun);
 
-            fourBarrelMachineGun.Construct(_audioSoundsService, _enemyDetector, fourBarrelMachineGunData,
-                fourBarrelMachineGunCharacteristics, _weaponPanel);
+            fourBarrelMachineGun.Construct(
+                _audioSoundsService,
+                _enemyDetector,
+                fourBarrelMachineGunData,
+                fourBarrelMachineGunCharacteristics,
+                _weaponPanel);
+
             _weaponHolder.AddWeapon(fourBarrelMachineGun);
 
             return fourBarrelMachineGun;
@@ -155,8 +165,15 @@ namespace Project.Scripts.Weapon.Player
             var minesData = _characteristicsWeaponDataService.GetWeaponDataByType(WeaponType.Mines);
 
             mines.transform.position = position;
-            mines.Construct(_minesButton, _audioSoundsService, minesData, minesCharacteristics,
-                _particleEffectsService, _weaponPanel);
+
+            mines.Construct(
+                _minesButton,
+                _audioSoundsService,
+                minesData,
+                minesCharacteristics,
+                _particleEffectsService,
+                _weaponPanel);
+
             _weaponHolder.AddWeapon(mines);
 
             MinesIsCreated?.Invoke();
@@ -177,8 +194,14 @@ namespace Project.Scripts.Weapon.Player
             var fragGrenadesCharacteristics = YG2.saves.FragGrenadeCharacteristics;
             var fragGrenadesData = _characteristicsWeaponDataService.GetWeaponDataByType(WeaponType.FragGrenades);
 
-            fragGrenades.Construct(_enemyDetector, _audioSoundsService, fragGrenadesData, fragGrenadesCharacteristics,
-                _particleEffectsService, _weaponPanel);
+            fragGrenades.Construct(
+                _enemyDetector,
+                _audioSoundsService,
+                fragGrenadesData,
+                fragGrenadesCharacteristics,
+                _particleEffectsService,
+                _weaponPanel);
+
             _weaponHolder.AddWeapon(fragGrenades);
 
             return fragGrenades;
@@ -194,8 +217,13 @@ namespace Project.Scripts.Weapon.Player
             var machineGunCharacteristics = YG2.saves.MachineGunCharacteristics;
             var machineGunData = _characteristicsWeaponDataService.GetWeaponDataByType(WeaponType.MachineGun);
 
-            machineGun.Construct(_enemyDetector, _audioSoundsService, machineGunData, machineGunCharacteristics,
+            machineGun.Construct(
+                _enemyDetector,
+                _audioSoundsService,
+                machineGunData,
+                machineGunCharacteristics,
                 _weaponPanel);
+
             _weaponHolder.AddWeapon(machineGun);
 
             return machineGun;
@@ -212,8 +240,13 @@ namespace Project.Scripts.Weapon.Player
             var chainLightningGunData =
                 _characteristicsWeaponDataService.GetWeaponDataByType(WeaponType.ChainLightningGun);
 
-            chainLightningGun.Construct(_audioSoundsService, _enemyDetector, chainLightningGunData, 
-                chainLightningGunCharacteristics, _weaponPanel);
+            chainLightningGun.Construct(
+                _audioSoundsService,
+                _enemyDetector,
+                chainLightningGunData,
+                chainLightningGunCharacteristics,
+                _weaponPanel);
+
             _weaponHolder.AddWeapon(chainLightningGun);
 
             return chainLightningGun;

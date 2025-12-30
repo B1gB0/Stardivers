@@ -57,7 +57,7 @@ namespace Project.Scripts.UI.Panel
         private WeaponHolder _weaponHolder;
         private WeaponPanel _weaponPanel;
         private HealthBar _healthBar;
-        
+
         private int _currentLevel;
         private bool _isShowing;
         private bool _isClosed;
@@ -67,9 +67,13 @@ namespace Project.Scripts.UI.Panel
         public event Action OnContinueButtonIsClicked;
 
         [Inject]
-        private void Construct(AudioSoundsService audioSoundsService, IPauseService pauseService,
-            IPlayerService playerService, ICurrencyService currencyService,
-            ITweenAnimationService tweenAnimationService, ILevelUpService levelUpService,
+        private void Construct(
+            AudioSoundsService audioSoundsService,
+            IPauseService pauseService,
+            IPlayerService playerService,
+            ICurrencyService currencyService,
+            ITweenAnimationService tweenAnimationService,
+            ILevelUpService levelUpService,
             IUILocalizationService uiLocalizationService)
         {
             _audioSoundsService = audioSoundsService;
@@ -122,40 +126,16 @@ namespace Project.Scripts.UI.Panel
             transform.DOKill();
         }
 
-        public void GetServices(WeaponFactory weaponFactory, WeaponHolder weaponHolder, WeaponPanel weaponPanel, 
+        public void GetServices(
+            WeaponFactory weaponFactory,
+            WeaponHolder weaponHolder,
+            WeaponPanel weaponPanel,
             HealthBar healthBar)
         {
             _weaponFactory = weaponFactory;
             _weaponHolder = weaponHolder;
             _weaponPanel = weaponPanel;
             _healthBar = healthBar;
-        }
-
-        public async UniTask ShowAsync()
-        {
-            if (gameObject.activeSelf)
-            {
-                await ForceHideAsync();
-            }
-
-            gameObject.SetActive(true);
-            _healthBar.MoveToWeaponPanelPosition();
-            _weaponPanel.Hide();
-            await _tweenAnimationService.AnimateScaleAsync(transform);
-            _isClosed = false;
-        }
-
-        public async UniTask HideAsync()
-        {
-            if (_isClosed)
-                return;
-
-            _isClosed = true;
-            _healthBar.MoveToShowPosition();
-            _weaponPanel.Show();
-            await _tweenAnimationService.AnimateScaleAsync(transform,true);
-
-            await UniTask.NextFrame();
         }
 
         public async void OnCurrentLevelIsUpgraded(int currentLevel)
@@ -186,6 +166,7 @@ namespace Project.Scripts.UI.Panel
 
             GetImprovements();
             ShowAndAnimateCardsView();
+
             await ShowAsync();
         }
 
@@ -214,6 +195,36 @@ namespace Project.Scripts.UI.Panel
             };
         }
 
+        private async UniTask ShowAsync()
+        {
+            if (gameObject.activeSelf)
+            {
+                await ForceHideAsync();
+            }
+
+            gameObject.SetActive(true);
+            _healthBar.MoveToWeaponPanelPosition();
+            _weaponPanel.Hide();
+
+            await _tweenAnimationService.AnimateScaleAsync(transform);
+
+            _isClosed = false;
+        }
+
+        private async UniTask HideAsync()
+        {
+            if (_isClosed)
+                return;
+
+            _isClosed = true;
+            _healthBar.MoveToShowPosition();
+            _weaponPanel.Show();
+
+            await _tweenAnimationService.AnimateScaleAsync(transform, true);
+
+            await UniTask.NextFrame();
+        }
+
         private void SetLocalizationData(UITextType type)
         {
             _uiLocalizationData = _uiLocalizationService.GetLevelTextData(type);
@@ -232,12 +243,12 @@ namespace Project.Scripts.UI.Panel
 
         private void ShowPriceRoot()
         {
-            _priceRoot.gameObject.SetActive(true);
+            _priceRoot.SetActive(true);
         }
 
         private void HidePriceRoot()
         {
-            _priceRoot.gameObject.SetActive(false);
+            _priceRoot.SetActive(false);
         }
 
         private async UniTask ProcessPendingLevels()
@@ -291,7 +302,7 @@ namespace Project.Scripts.UI.Panel
         {
             _audioSoundsService.PlaySound(SoundsType.CardViewButton).Forget();
 
-            if (_priceRoot.gameObject.activeSelf)
+            if (_priceRoot.activeSelf)
             {
                 if (_currencyService.Gold >= cardView.Price)
                 {
@@ -308,15 +319,19 @@ namespace Project.Scripts.UI.Panel
             {
                 if (improvementCard.WeaponType == WeaponType.None)
                 {
-                    _playerService.PlayerActor.AcceptImprovement(_weaponVisitor,
-                        improvementCard.CharacteristicType, improvementCard.Value);
+                    _playerService.PlayerActor.AcceptImprovement(
+                        _weaponVisitor,
+                        improvementCard.CharacteristicType,
+                        improvementCard.Value);
                 }
                 else
                 {
-                    foreach (var weapon in _weaponHolder.Weapons.Where(weapon =>
-                                 improvementCard.WeaponType == weapon.Type))
+                    foreach (var weapon in _weaponHolder.Weapons.Where(
+                                 weapon => improvementCard.WeaponType == weapon.Type))
                     {
-                        weapon.AcceptWeaponImprovement(_weaponVisitor, improvementCard.CharacteristicType,
+                        weapon.AcceptWeaponImprovement(
+                            _weaponVisitor,
+                            improvementCard.CharacteristicType,
                             improvementCard.Value);
                     }
                 }
@@ -329,7 +344,7 @@ namespace Project.Scripts.UI.Panel
                 _levelUpService.UpdateImprovementCardsByTypeWeapon(weapon.Type);
             }
 
-            if (_priceRoot.gameObject.activeSelf)
+            if (_priceRoot.activeSelf)
             {
                 cardView.gameObject.SetActive(false);
             }
@@ -349,21 +364,25 @@ namespace Project.Scripts.UI.Panel
         private void OnRollButtonClicked()
         {
             if (_currencyService.Gold < _priceOfRoll)
+            {
                 return;
+            }
 
             _currencyService.SpendGold(_priceOfRoll);
 
             ShowAndAnimateCardsView();
-            
-            if(!_priceRoot.activeSelf)
+
+            if (!_priceRoot.activeSelf)
+            {
                 _levelUpService.GenerateCardsByLevel(_currentLevel, _weaponHolder, _cardViews);
+            }
             else
             {
                 foreach (var cardView in _cardViews)
                 {
                     cardView.ShowPrice();
                 }
-                
+
                 _levelUpService.GenerateImprovements(_cardViews);
             }
         }
@@ -371,7 +390,9 @@ namespace Project.Scripts.UI.Panel
         private void OnHealButtonClicked()
         {
             if (_currencyService.Gold < _priceOfHeal)
+            {
                 return;
+            }
 
             _currencyService.SpendGold(_priceOfHeal);
 
@@ -381,9 +402,9 @@ namespace Project.Scripts.UI.Panel
         private async void OnContinueButtonClicked()
         {
             _pauseService.OnPlayGame();
-            
+
             await HideAsync();
-            
+
             OnContinueButtonIsClicked?.Invoke();
         }
 

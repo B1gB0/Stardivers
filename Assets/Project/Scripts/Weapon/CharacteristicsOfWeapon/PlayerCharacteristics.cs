@@ -8,12 +8,12 @@ namespace Project.Scripts.Weapon.CharacteristicsOfWeapon
     {
         private const float MoveSpeedFactor = 1f;
         private readonly IPlayerService _playerService;
-        
+
         private float _maxHealth;
         private float _targetHealth;
         private float _diggingSpeed;
         private float _moveSpeed;
-        
+
         private float _baseMoveSpeed;
 
         public PlayerCharacteristics(IPlayerService playerService)
@@ -28,7 +28,7 @@ namespace Project.Scripts.Weapon.CharacteristicsOfWeapon
             _diggingSpeed = data.DiggingSpeed;
             _moveSpeed = data.MoveSpeed;
             _baseMoveSpeed = data.MoveSpeed;
-            
+
             SetCharacteristics();
         }
 
@@ -36,7 +36,7 @@ namespace Project.Scripts.Weapon.CharacteristicsOfWeapon
         {
             _playerService.PlayerActor.Health.LoadHealth(_maxHealth, _targetHealth);
             _playerService.PlayerActor.MiningToolActor.ChangeDiggingSpeed(_diggingSpeed);
-            
+
             ChangeMovableComponentSpeed(_moveSpeed);
         }
 
@@ -77,7 +77,7 @@ namespace Project.Scripts.Weapon.CharacteristicsOfWeapon
         {
             PlayerData data = _playerService.GetPlayerDataByType(PlayerActorType.CommonStardiver);
 
-            float newDiggingSpeed = data.DiggingSpeed - data.DiggingSpeed * diggingSpeedFactor;
+            float newDiggingSpeed = data.DiggingSpeed - (data.DiggingSpeed * diggingSpeedFactor);
             _diggingSpeed = newDiggingSpeed;
 
             _playerService.PlayerActor.MiningToolActor.ChangeDiggingSpeed(newDiggingSpeed);
@@ -86,8 +86,8 @@ namespace Project.Scripts.Weapon.CharacteristicsOfWeapon
         private void SetMoveSpeed(float moveSpeedFactor)
         {
             PlayerData data = _playerService.GetPlayerDataByType(PlayerActorType.CommonStardiver);
-            
-            _baseMoveSpeed = data.MoveSpeed + data.MoveSpeed * moveSpeedFactor;
+
+            _baseMoveSpeed = data.MoveSpeed + (data.MoveSpeed * moveSpeedFactor);
 
             UpdateCurrentSpeed();
         }
@@ -107,7 +107,7 @@ namespace Project.Scripts.Weapon.CharacteristicsOfWeapon
         {
             SetDiggingSpeed(diggingSpeedFactor);
         }
-        
+
         private void IncreaseMoveSpeed(float moveSpeedFactor)
         {
             SetMoveSpeed(moveSpeedFactor);

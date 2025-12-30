@@ -15,7 +15,7 @@ namespace Project.Scripts.DataBase.Data
         [SerializeField] private string _levelCardEn;
         [SerializeField] private string _levelCardTr;
         [SerializeField] private float _value;
-        
+
         public string Id => _id;
         public WeaponType WeaponType => _weaponType;
         public CharacteristicType CharacteristicType => _characteristicType;

@@ -8,16 +8,16 @@ namespace Project.Scripts.Levels.Mars.SecondLevel
 {
     public class SecondMarsLevel : Level
     {
-        [field: SerializeField] public BallisticRocket _ballisticRocket { get; private set; }
-        
         [SerializeField] private List<GameObject> _enemySpawnedPointers;
         [SerializeField] private List<GameObject> _enemyOutpostPointers;
-        
+
         [SerializeField] private EnemySpawnTriggerWithEffect _enemySpawnTriggerWithEffect;
         [SerializeField] private BallisticRocketTrigger _ballisticRocketTrigger;
         [SerializeField] private EntranceTrigger _entranceLastLvlTrigger;
 
         private MissionProgressBar _missionProgressBar;
+
+        [field: SerializeField] public BallisticRocket BallisticRocket { get; private set; }
 
         private void Start()
         {
@@ -37,19 +37,19 @@ namespace Project.Scripts.Levels.Mars.SecondLevel
         public override async UniTask OnStartLevel()
         {
             HideOutpostPointers();
-            
+
             await base.OnStartLevel();
-            
+
             Arrow.OnLookAtTarget(_enemySpawnTriggerWithEffect.transform);
-            
+
             _missionProgressBar = await ViewFactory.CreateMissionProgressBar();
-            
+
             _missionProgressBar.SetData();
-            
-            _ballisticRocket.ProgressChanged += _missionProgressBar.OnChangedValues;
+
+            BallisticRocket.ProgressChanged += _missionProgressBar.OnChangedValues;
 
             WelcomePlanetTextTrigger.IsWelcomeToPlanet += DialogueSetter.OnWelcomePlanet;
-            
+
             _enemySpawnTriggerWithEffect.EnemySpawned += _ballisticRocketTrigger.Activate;
             _enemySpawnTriggerWithEffect.EnemySpawned += HideEnemySpawnedPointers;
             _enemySpawnTriggerWithEffect.EnemySpawned += LookArrowAtBallisticRocketTrigger;
@@ -57,14 +57,14 @@ namespace Project.Scripts.Levels.Mars.SecondLevel
             _enemySpawnTriggerWithEffect.EnemySpawned += _missionProgressBar.Show;
             _enemySpawnTriggerWithEffect.EnemySpawned += DialogueSetter.OnEnemySpawnTriggerWithEffect;
 
-            _ballisticRocket.LaunchCompleted += DialogueSetter.OnEndAttack;
-            _ballisticRocket.LaunchCompleted += ShowOutpostPointers;
-            _ballisticRocket.LaunchCompleted += ArrowLookAtOutpost;
-            _ballisticRocket.LaunchCompleted += _enemySpawnTriggerWithEffect.CompleteSpawn;
-            _ballisticRocket.LaunchCompleted += EndLevelTrigger.Activate;
-            _ballisticRocket.LaunchCompleted += EntranceToNextLvlTrigger.Activate;
-            _ballisticRocket.LaunchCompleted += _entranceLastLvlTrigger.Activate;
-            _ballisticRocket.LaunchCompleted += _ballisticRocketTrigger.Deactivate;
+            BallisticRocket.LaunchCompleted += DialogueSetter.OnEndAttack;
+            BallisticRocket.LaunchCompleted += ShowOutpostPointers;
+            BallisticRocket.LaunchCompleted += ArrowLookAtOutpost;
+            BallisticRocket.LaunchCompleted += _enemySpawnTriggerWithEffect.CompleteSpawn;
+            BallisticRocket.LaunchCompleted += EndLevelTrigger.Activate;
+            BallisticRocket.LaunchCompleted += EntranceToNextLvlTrigger.Activate;
+            BallisticRocket.LaunchCompleted += _entranceLastLvlTrigger.Activate;
+            BallisticRocket.LaunchCompleted += _ballisticRocketTrigger.Deactivate;
         }
 
         private void FixedUpdate()
@@ -78,9 +78,9 @@ namespace Project.Scripts.Levels.Mars.SecondLevel
         private void OnDestroy()
         {
             WelcomePlanetTextTrigger.IsWelcomeToPlanet -= DialogueSetter.OnWelcomePlanet;
-            
-            _ballisticRocket.ProgressChanged -= _missionProgressBar.OnChangedValues;
-            
+
+            BallisticRocket.ProgressChanged -= _missionProgressBar.OnChangedValues;
+
             _enemySpawnTriggerWithEffect.EnemySpawned -= _ballisticRocketTrigger.Activate;
             _enemySpawnTriggerWithEffect.EnemySpawned -= HideEnemySpawnedPointers;
             _enemySpawnTriggerWithEffect.EnemySpawned -= LookArrowAtBallisticRocketTrigger;
@@ -88,33 +88,33 @@ namespace Project.Scripts.Levels.Mars.SecondLevel
             _enemySpawnTriggerWithEffect.EnemySpawned -= _missionProgressBar.Show;
             _enemySpawnTriggerWithEffect.EnemySpawned -= DialogueSetter.OnEnemySpawnTriggerWithEffect;
 
-            _ballisticRocket.LaunchCompleted -= DialogueSetter.OnEndAttack;
-            _ballisticRocket.LaunchCompleted -= ShowOutpostPointers;
-            _ballisticRocket.LaunchCompleted -= ArrowLookAtOutpost;
-            _ballisticRocket.LaunchCompleted -= _enemySpawnTriggerWithEffect.CompleteSpawn;
-            _ballisticRocket.LaunchCompleted -= EndLevelTrigger.Activate;
-            _ballisticRocket.LaunchCompleted -= EntranceToNextLvlTrigger.Activate;
-            _ballisticRocket.LaunchCompleted -= _entranceLastLvlTrigger.Activate;
+            BallisticRocket.LaunchCompleted -= DialogueSetter.OnEndAttack;
+            BallisticRocket.LaunchCompleted -= ShowOutpostPointers;
+            BallisticRocket.LaunchCompleted -= ArrowLookAtOutpost;
+            BallisticRocket.LaunchCompleted -= _enemySpawnTriggerWithEffect.CompleteSpawn;
+            BallisticRocket.LaunchCompleted -= EndLevelTrigger.Activate;
+            BallisticRocket.LaunchCompleted -= EntranceToNextLvlTrigger.Activate;
+            BallisticRocket.LaunchCompleted -= _entranceLastLvlTrigger.Activate;
         }
 
         private void LookArrowAtBallisticRocketTrigger()
         {
             Arrow.OnLookAtTarget(_ballisticRocketTrigger.transform);
         }
-        
+
         private void ShowOutpostPointers()
         {
             foreach (var pointer in _enemyOutpostPointers)
             {
-                pointer.gameObject.SetActive(true);
+                pointer.SetActive(true);
             }
         }
-        
+
         private void HideOutpostPointers()
         {
             foreach (var pointer in _enemyOutpostPointers)
             {
-                pointer.gameObject.SetActive(false);
+                pointer.SetActive(false);
             }
         }
 
@@ -122,7 +122,7 @@ namespace Project.Scripts.Levels.Mars.SecondLevel
         {
             foreach (var pointer in _enemySpawnedPointers)
             {
-                pointer.gameObject.SetActive(false);
+                pointer.SetActive(false);
             }
         }
     }

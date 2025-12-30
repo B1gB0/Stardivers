@@ -18,13 +18,13 @@ namespace Project.Scripts.UI.View
     {
         private const float MinValue = 0f;
         private const float MaxValue = 1f;
-        
+
         [SerializeField] private Slider _smoothSlider;
         [SerializeField] private TMP_Text _text;
         [SerializeField] private Transform _showPoint;
         [SerializeField] private Transform _hidePoint;
         [SerializeField] private float _animationDuration = 0.5f;
-    
+
         private float _currentDisplayValue;
         private CancellationTokenSource _animationCancellation;
 
@@ -38,12 +38,12 @@ namespace Project.Scripts.UI.View
             _tweenAnimationService = tweenAnimationService;
             _levelTextService = levelTextService;
         }
-        
+
         private void OnDestroy()
         {
             transform.DOKill();
         }
-        
+
         public void OnChangedValues(float currentProgress, float maxProgress)
         {
             SetValue(currentProgress, maxProgress);
@@ -52,30 +52,30 @@ namespace Project.Scripts.UI.View
         public void OnChangeValuesSmoothly(float currentProgress, float maxProgress)
         {
             float targetValue = currentProgress / maxProgress;
-            
+
             _animationCancellation?.Cancel();
             _animationCancellation = new CancellationTokenSource();
-            
+
             AnimateProgressAsync(targetValue, _animationCancellation.Token).Forget();
         }
-        
+
         private async UniTaskVoid AnimateProgressAsync(float targetValue, CancellationToken cancellationToken)
         {
             float startValue = _currentDisplayValue;
             float elapsedTime = MinValue;
-        
+
             while (elapsedTime < _animationDuration && !cancellationToken.IsCancellationRequested)
             {
                 elapsedTime += Time.deltaTime;
                 float progress = elapsedTime / _animationDuration;
-                
+
                 _currentDisplayValue = Mathf.SmoothStep(startValue, targetValue, progress);
-            
+
                 SetDisplayValue(_currentDisplayValue);
-            
+
                 await UniTask.Yield(PlayerLoopTiming.Update, cancellationToken);
             }
-        
+
             if (!cancellationToken.IsCancellationRequested)
             {
                 _currentDisplayValue = targetValue;
@@ -102,17 +102,18 @@ namespace Project.Scripts.UI.View
 
         public void SetData()
         {
-            _levelTextData = _levelTextService.GetLevelTextData(SceneManager.GetActiveScene().name,
+            _levelTextData = _levelTextService.GetLevelTextData(
+                SceneManager.GetActiveScene().name,
                 LevelTextsType.MissionProgressBarText);
-            
+
             SetText();
         }
 
         public void SetText()
         {
-            if(_levelTextData == null)
+            if (_levelTextData == null)
                 return;
-            
+
             _text.text = YG2.lang switch
             {
                 LocalizationCode.Ru => _levelTextData.TextRu,
@@ -126,7 +127,7 @@ namespace Project.Scripts.UI.View
         {
             SetValue(currentProgress, MaxValue);
         }
-        
+
         private void SetValue(float currentValue, float maxValue)
         {
             _smoothSlider.value = currentValue / maxValue;

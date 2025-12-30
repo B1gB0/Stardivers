@@ -9,6 +9,7 @@ namespace Project.Scripts.Services
     public interface IPlayerService : IService
     {
         public PlayerActor PlayerActor { get; }
+
         public PlayerData GetPlayerDataByType(PlayerActorType type);
         public void GetJoystick(Joystick joystick);
         public bool CheckMoveSystem();

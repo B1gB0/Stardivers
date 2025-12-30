@@ -11,10 +11,10 @@ namespace Project.Scripts.ECS.EntityActors
         private const float Force = 300f;
         private const float DefaultExplodingRigidbodyRadius = 20f;
         private const float DefaultExplodingDamageRadius = 20f;
-        
+
         private readonly Collider[] _hitsBuffer = new Collider[32];
-        private readonly List<Rigidbody> _cachedRigidbodies = new ();
-        
+        private readonly List<Rigidbody> _cachedRigidbodies = new();
+
         [SerializeField] private LayerMask _layerCapsuleParts;
 
         private void Start()
@@ -24,7 +24,7 @@ namespace Project.Scripts.ECS.EntityActors
 
             foreach (Rigidbody explodingObject in GetExplodingRigidbodyObjects())
             {
-                explodingObject.AddExplosionForce(Force, transform.position, DefaultExplodingRigidbodyRadius); 
+                explodingObject.AddExplosionForce(Force, transform.position, DefaultExplodingRigidbodyRadius);
             }
 
             foreach (var enemy in GetEnemies())
@@ -36,20 +36,19 @@ namespace Project.Scripts.ECS.EntityActors
         protected override IEnumerator LifeRoutine()
         {
             yield return new WaitForSeconds(LifeTime);
-        
+
             Destroy(gameObject);
         }
 
         private List<Rigidbody> GetExplodingRigidbodyObjects()
         {
             _cachedRigidbodies.Clear();
-    
+
             int hitCount = Physics.OverlapSphereNonAlloc(
-                transform.position, 
-                DefaultExplodingRigidbodyRadius, 
-                _hitsBuffer, 
-                _layerCapsuleParts
-            );
+                transform.position,
+                DefaultExplodingRigidbodyRadius,
+                _hitsBuffer,
+                _layerCapsuleParts);
 
             for (int i = 0; i < hitCount; i++)
             {

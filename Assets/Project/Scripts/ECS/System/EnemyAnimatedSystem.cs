@@ -11,7 +11,7 @@ namespace Project.Scripts.ECS.System
 
         private readonly EcsFilter<AnimatedComponent, EnemyMovableComponent, PatrolComponent> _animatedNavMeshFilter;
         private readonly EcsFilter<AnimatedComponent, EnemyAlienTurretAttackComponent> _animatedTurretFilter;
-        
+
         public void Run()
         {
             foreach (var entity in _animatedNavMeshFilter)
@@ -22,7 +22,7 @@ namespace Project.Scripts.ECS.System
                 animatedComponent.Animator.SetBool(Attack, animatedComponent.IsAttacking);
                 animatedComponent.Animator.SetBool(Move, movableComponent.IsMoving);
             }
-            
+
             foreach (var entity in _animatedTurretFilter)
             {
                 ref var animatedComponent = ref _animatedTurretFilter.Get1(entity);

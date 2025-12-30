@@ -10,10 +10,10 @@ namespace Project.Scripts.Levels.MysteryPlanet.FirstLevel
     {
         [SerializeField] private List<GameObject> _enemySpawnedPointers;
         [SerializeField] private List<GameObject> _enemyOutpostPointers;
-        
+
         [SerializeField] private EnemySpawnTriggerWithEffect _enemySpawnTriggerWithEffect;
         [SerializeField] private int _timeOfWaves = 90;
-        
+
         private Timer _timer;
 
         private void OnEnable()
@@ -21,7 +21,7 @@ namespace Project.Scripts.Levels.MysteryPlanet.FirstLevel
             IsInitiatedSpawners += SpawnResources;
             IsInitiatedSpawners += SpawnIceCrystals;
         }
-        
+
         private void FixedUpdate()
         {
             if (_enemySpawnTriggerWithEffect.IsEnemySpawned)
@@ -35,19 +35,19 @@ namespace Project.Scripts.Levels.MysteryPlanet.FirstLevel
             IsInitiatedSpawners -= SpawnResources;
             IsInitiatedSpawners -= SpawnIceCrystals;
         }
-        
+
         private void OnDestroy()
         {
             WelcomePlanetTextTrigger.IsWelcomeToPlanet -= DialogueSetter.OnWelcomePlanet;
-            
+
             PauseService.OnGameStarted -= _timer.ResumeTimer;
             PauseService.OnGamePaused -= _timer.PauseTimer;
-            
+
             _enemySpawnTriggerWithEffect.EnemySpawned -= _timer.Show;
             _enemySpawnTriggerWithEffect.EnemySpawned -= HideEnemySpawnedPointers;
             _enemySpawnTriggerWithEffect.EnemySpawned -= Arrow.Hide;
             _enemySpawnTriggerWithEffect.EnemySpawned -= DialogueSetter.OnEnemySpawnTriggerWithEffect;
-            
+
             _timer.IsEndAttack -= DialogueSetter.OnEndAttack;
             _timer.IsEndAttack -= Arrow.Show;
             _timer.IsEndAttack -= ShowOutpostPointers;
@@ -60,17 +60,17 @@ namespace Project.Scripts.Levels.MysteryPlanet.FirstLevel
         public override async UniTask OnStartLevel()
         {
             HideOutpostPointers();
-            
+
             await base.OnStartLevel();
-            
+
             Arrow.OnLookAtTarget(_enemySpawnTriggerWithEffect.transform);
-            
+
             _timer = await ViewFactory.CreateTimer();
-            
+
             WelcomePlanetTextTrigger.IsWelcomeToPlanet += DialogueSetter.OnWelcomePlanet;
-            
+
             _timer.SetTime(_timeOfWaves);
-            
+
             PauseService.OnGameStarted += _timer.ResumeTimer;
             PauseService.OnGamePaused += _timer.PauseTimer;
 
@@ -78,7 +78,7 @@ namespace Project.Scripts.Levels.MysteryPlanet.FirstLevel
             _enemySpawnTriggerWithEffect.EnemySpawned += HideEnemySpawnedPointers;
             _enemySpawnTriggerWithEffect.EnemySpawned += Arrow.Hide;
             _enemySpawnTriggerWithEffect.EnemySpawned += DialogueSetter.OnEnemySpawnTriggerWithEffect;
-            
+
             _timer.IsEndAttack += DialogueSetter.OnEndAttack;
             _timer.IsEndAttack += Arrow.Show;
             _timer.IsEndAttack += ShowOutpostPointers;
@@ -92,7 +92,7 @@ namespace Project.Scripts.Levels.MysteryPlanet.FirstLevel
         {
             foreach (var pointer in _enemyOutpostPointers)
             {
-                pointer.gameObject.SetActive(true);
+                pointer.SetActive(true);
             }
         }
 
@@ -100,7 +100,7 @@ namespace Project.Scripts.Levels.MysteryPlanet.FirstLevel
         {
             foreach (var pointer in _enemyOutpostPointers)
             {
-                pointer.gameObject.SetActive(false);
+                pointer.SetActive(false);
             }
         }
 
@@ -108,7 +108,7 @@ namespace Project.Scripts.Levels.MysteryPlanet.FirstLevel
         {
             foreach (var pointer in _enemySpawnedPointers)
             {
-                pointer.gameObject.SetActive(false);
+                pointer.SetActive(false);
             }
         }
     }

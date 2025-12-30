@@ -9,7 +9,9 @@ namespace Project.Scripts.Levels.Spawners
         public List<Vector3> BigEnemySpawnPositions { get; private set; }
         public List<Vector3> GunnerEnemySpawnPositions { get; private set; }
 
-        public void GetEnemyPositions(List<Vector3> smallEnemyPositions, List<Vector3> bigEnemyPositions,
+        public void GetEnemyPositions(
+            List<Vector3> smallEnemyPositions,
+            List<Vector3> bigEnemyPositions,
             List<Vector3> gunnerEnemyPositions)
         {
             SmallEnemySpawnPositions = smallEnemyPositions;

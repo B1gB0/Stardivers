@@ -6,13 +6,17 @@ namespace Project.Scripts.Game.Constant
     public class CustomPalette : ScriptableObject
     {
         [SerializeField] private ColorEntry[] colors;
-        
+
         public Color GetColor(ColorName colorName)
         {
             foreach (var entry in colors)
-                if (entry.name == colorName)
-                    return entry.color;
-            
+            {
+                if (entry.Name == colorName)
+                {
+                    return entry.Color;
+                }
+            }
+
             return Color.magenta;
         }
     }

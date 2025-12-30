@@ -19,7 +19,8 @@ namespace Project.Scripts.ECS.System
                 ref var movableComponent = ref _patrolFilter.Get2(entity);
                 ref var followComponent = ref _patrolFilter.Get3(entity);
 
-                if (patrolComponent.Points.Count == MinValue) continue;
+                if (patrolComponent.Points.Count == MinValue)
+                    continue;
 
                 if (followComponent.Target.CanFollow)
                 {
@@ -29,20 +30,21 @@ namespace Project.Scripts.ECS.System
 
                 var navMeshAgent = movableComponent.NavMeshAgent;
 
-                if (!navMeshAgent.gameObject.activeSelf) continue;
+                if (!navMeshAgent.gameObject.activeSelf)
+                    continue;
 
                 if (!patrolComponent.IsPatrol)
                 {
                     GotoCurrentPoint(ref patrolComponent, navMeshAgent);
                     patrolComponent.IsPatrol = true;
                 }
-                
+
                 if (navMeshAgent.remainingDistance < navMeshAgent.stoppingDistance)
                 {
                     SetNextPoint(ref patrolComponent);
                     GotoCurrentPoint(ref patrolComponent, navMeshAgent);
                 }
-                
+
                 movableComponent.IsMoving = navMeshAgent.remainingDistance > navMeshAgent.stoppingDistance;
             }
         }
@@ -54,8 +56,9 @@ namespace Project.Scripts.ECS.System
 
         private void GotoCurrentPoint(ref PatrolComponent patrol, NavMeshAgent agent)
         {
-            if (patrol.Points.Count == MinValue) return;
-            
+            if (patrol.Points.Count == MinValue)
+                return;
+
             agent.destination = patrol.Points[patrol.CurrentPointIndex];
         }
     }

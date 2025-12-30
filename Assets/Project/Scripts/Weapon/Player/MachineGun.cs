@@ -27,39 +27,19 @@ namespace Project.Scripts.Weapon.Player
         private EnemyDetector _detector;
         private AudioSoundsService _audioSoundsService;
         private EnemyActor _closestEnemy;
-        
+
         private ObjectPool<MachineGunBullet> _poolBullets;
 
         public MachineGunCharacteristics MachineGunCharacteristics { get; private set; } = new();
 
-        public void Construct(EnemyDetector detector, AudioSoundsService audioSoundsService,
-            CharacteristicsWeaponData data, MachineGunCharacteristics machineGunCharacteristics,
-            WeaponPanel weaponPanel)
-        {
-            _detector = detector;
-            _audioSoundsService = audioSoundsService;
-            Type = data.WeaponType;
-            WeaponPanel = weaponPanel;
-
-            if(machineGunCharacteristics == null)
-                MachineGunCharacteristics.SetStartingCharacteristics(data);
-            else
-                MachineGunCharacteristics = machineGunCharacteristics;
-
-            YG2.saves.MachineGunCharacteristics = MachineGunCharacteristics;
-            
-            WeaponCharacteristics = MachineGunCharacteristics;
-            CurrentCountShots = MachineGunCharacteristics.MaxCountShots;
-            WeaponView = WeaponPanel.GetWeaponViewByType(Type);
-            WeaponView.SetText(CurrentCountShots, MachineGunCharacteristics.MaxCountShots);
-        }
-
         private void Awake()
         {
-            _poolBullets = new ObjectPool<MachineGunBullet>(_bulletPrefab, _countBulletsForPool, 
+            _poolBullets = new ObjectPool<MachineGunBullet>(
+                _bulletPrefab,
+                _countBulletsForPool,
                 new GameObject(ObjectPoolBulletName).transform)
             {
-                AutoExpand = IsAutoExpandPool
+                AutoExpand = IsAutoExpandPool,
             };
         }
 
@@ -68,29 +48,55 @@ namespace Project.Scripts.Weapon.Player
             _closestEnemy = _detector.GetClosestEnemy();
 
             CheckAmmoAndReload();
-            
-            if (_closestEnemy == null) return;
-        
+
+            if (_closestEnemy == null)
+                return;
+
             if (_detector.ClosestEnemyDistance <= MachineGunCharacteristics.RangeAttack && !IsReloading)
             {
                 Shoot();
             }
         }
-    
+
+        public void Construct(
+            EnemyDetector detector,
+            AudioSoundsService audioSoundsService,
+            CharacteristicsWeaponData data,
+            MachineGunCharacteristics machineGunCharacteristics,
+            WeaponPanel weaponPanel)
+        {
+            _detector = detector;
+            _audioSoundsService = audioSoundsService;
+            Type = data.WeaponType;
+            WeaponPanel = weaponPanel;
+
+            if (machineGunCharacteristics == null)
+                MachineGunCharacteristics.SetStartingCharacteristics(data);
+            else
+                MachineGunCharacteristics = machineGunCharacteristics;
+
+            YG2.saves.MachineGunCharacteristics = MachineGunCharacteristics;
+
+            WeaponCharacteristics = MachineGunCharacteristics;
+            CurrentCountShots = MachineGunCharacteristics.MaxCountShots;
+            WeaponView = WeaponPanel.GetWeaponViewByType(Type);
+            WeaponView.SetText(CurrentCountShots, MachineGunCharacteristics.MaxCountShots);
+        }
+
         public override void Shoot()
         {
             if (LastShotTime <= MinValue && _closestEnemy.Health.TargetHealth > MinValue)
             {
                 _audioSoundsService.PlaySound(SoundsType.MachineGun).Forget();
-            
+
                 StartCoroutine(LaunchBullet());
-            
+
                 LastShotTime = MachineGunCharacteristics.FireRate;
             }
 
             LastShotTime -= Time.deltaTime;
         }
-    
+
         public override void AcceptWeaponImprovement(IWeaponVisitor weaponVisitor, CharacteristicType type, float value)
         {
             weaponVisitor.Visit(this, type, value);
@@ -105,7 +111,7 @@ namespace Project.Scripts.Weapon.Player
 
                 CurrentCountShots--;
                 WeaponView.SetText(CurrentCountShots, MachineGunCharacteristics.MaxCountShots);
-            
+
                 _bullet.transform.position = shootPoint.position;
 
                 if (_closestEnemy == null)
@@ -113,7 +119,7 @@ namespace Project.Scripts.Weapon.Player
                     _bullet.gameObject.SetActive(false);
                     continue;
                 }
-                
+
                 _bullet.SetDirection(_closestEnemy.transform.position);
                 _bullet.SetCharacteristics(MachineGunCharacteristics.Damage, MachineGunCharacteristics.ProjectileSpeed);
 

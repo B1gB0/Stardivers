@@ -6,15 +6,15 @@ namespace Project.Scripts.ECS.System
 {
     public class PlayerAnimatedSystem : IEcsRunSystem
     {
+        private const float StopHitValue = 0f;
+        private const float StartHitValue = 0.4f;
+
         public readonly int Move = Animator.StringToHash(nameof(Move));
         public readonly int Hit = Animator.StringToHash(nameof(Hit));
         public readonly int Speed = Animator.StringToHash(nameof(Speed));
 
         private readonly EcsFilter<AnimatedComponent, PlayerMovableComponent, PlayerComponent> _animatedFilter;
 
-        private readonly float _stopHitValue = 0f;
-        private readonly float _startHitValue = 0.4f;
-        
         public void Run()
         {
             foreach (var entity in _animatedFilter)
@@ -27,7 +27,7 @@ namespace Project.Scripts.ECS.System
 
                 if (playerComponent.MiningTool.IsMining && movableComponent.IsMoving)
                 {
-                    SetBlendTreeHitAndMoveAnimation(animatedComponent, _startHitValue);
+                    SetBlendTreeHitAndMoveAnimation(animatedComponent, StartHitValue);
                 }
                 else if (playerComponent.MiningTool.IsMining)
                 {
@@ -36,7 +36,7 @@ namespace Project.Scripts.ECS.System
                 else
                 {
                     SetHitAnimation(animatedComponent, false);
-                    SetBlendTreeHitAndMoveAnimation(animatedComponent, _stopHitValue);
+                    SetBlendTreeHitAndMoveAnimation(animatedComponent, StopHitValue);
                 }
             }
         }

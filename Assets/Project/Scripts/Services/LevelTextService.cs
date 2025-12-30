@@ -9,10 +9,10 @@ namespace Project.Scripts.Services
 {
     public class LevelTextService : ILevelTextService
     {
-        private readonly Dictionary<string, LevelTextData> _levelText = new();
+        private readonly Dictionary<string, LevelTextData> _levelText = new ();
 
         private IDataBaseService _dataBaseService;
-        
+
         public bool IsInitiated { get; private set; }
 
         [Inject]
@@ -23,9 +23,9 @@ namespace Project.Scripts.Services
 
         public UniTask Init()
         {
-            if(IsInitiated)
+            if (IsInitiated)
                 return UniTask.CompletedTask;
-            
+
             foreach (var levelTextData in _dataBaseService.Content.LevelTexts)
             {
                 _levelText.Add(levelTextData.Id, levelTextData);

@@ -15,7 +15,7 @@ namespace Project.Scripts.UI.Panel
     {
         private const int MinValue = 0;
         private const int CountCorrectFactor = 1;
-        
+
         [SerializeField] private OperationView _operationView;
 
         [SerializeField] private Button _backToMainMenuButton;
@@ -30,14 +30,16 @@ namespace Project.Scripts.UI.Panel
         private ITweenAnimationService _tweenAnimationService;
 
         [Inject]
-        private void Construct(AudioSoundsService audioSoundsService, OperationService operationService, 
-            IDataBaseService dataBaseService, ITweenAnimationService tweenAnimationService)
+        private void Construct(
+            AudioSoundsService audioSoundsService,
+            OperationService operationService,
+            ITweenAnimationService tweenAnimationService)
         {
             _audioSoundsService = audioSoundsService;
             _operationService = operationService;
             _tweenAnimationService = tweenAnimationService;
         }
-        
+
         private void OnEnable()
         {
             _priviousButton.onClick.AddListener(SetPreviousOperation);
@@ -57,7 +59,7 @@ namespace Project.Scripts.UI.Panel
             _nextButton.onClick.RemoveListener(SetNextOperation);
             _backToMainMenuButton.onClick.RemoveListener(HandleBackButtonClick);
         }
-        
+
         private void OnDestroy()
         {
             transform.DOKill(true);
@@ -67,7 +69,7 @@ namespace Project.Scripts.UI.Panel
         {
             _uiStateMachine = uiStateMachine;
         }
-        
+
         public void Show()
         {
             gameObject.SetActive(true);
@@ -95,7 +97,7 @@ namespace Project.Scripts.UI.Panel
         private void SetNextOperation()
         {
             _audioSoundsService.PlaySound(SoundsType.Button).Forget();
-            
+
             if (_currentIndex == _operationService.Operations.Count - CountCorrectFactor)
                 _currentIndex = MinValue;
             else
@@ -107,12 +109,12 @@ namespace Project.Scripts.UI.Panel
         private void SetPreviousOperation()
         {
             _audioSoundsService.PlaySound(SoundsType.Button).Forget();
-            
+
             if (_currentIndex == MinValue)
                 _currentIndex = _operationService.Operations.Count - CountCorrectFactor;
             else
                 _currentIndex--;
-        
+
             SetOperation(_currentIndex);
         }
     }

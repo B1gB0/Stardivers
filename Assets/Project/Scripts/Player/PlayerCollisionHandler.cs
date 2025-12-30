@@ -38,9 +38,9 @@ namespace Project.Scripts.Player
         {
             if (collision.gameObject.TryGetComponent(out RedCrystal healingCrystal))
             {
-                if(_playerService.PlayerActor.Health.TargetHealth == _playerService.PlayerActor.Health.MaxHealth)
+                if (_playerService.PlayerActor.Health.TargetHealth == _playerService.PlayerActor.Health.MaxHealth)
                     return;
-            
+
                 _playerService.PlayerActor.Health.AddHealth(healingCrystal.HealthValue);
                 healingCrystal.Destroy();
             }

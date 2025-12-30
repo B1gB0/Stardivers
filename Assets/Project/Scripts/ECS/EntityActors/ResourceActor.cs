@@ -8,15 +8,17 @@ namespace Project.Scripts.ECS.EntityActors
 {
     public abstract class ResourceActor : MonoBehaviour
     {
-        [field: SerializeField] public Health.Health Health { get; private set; }
-        [field: SerializeField] public Animator Animator { get; private set; }
-        
         protected ExperiencePoints ExperiencePoints;
         protected ParticleEffectsService ParticleEffectsService;
 
+        [field: SerializeField] public Health.Health Health { get; private set; }
+        [field: SerializeField] public Animator Animator { get; private set; }
+
         public CoreData Data { get; private set; }
 
-        public void Construct(ExperiencePoints experiencePoints, CoreData data,
+        public void Construct(
+            ExperiencePoints experiencePoints,
+            CoreData data,
             ParticleEffectsService particleEffectsService)
         {
             ExperiencePoints = experiencePoints;

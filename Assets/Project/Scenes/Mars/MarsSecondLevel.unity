@@ -1194,6 +1194,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 6767558396362588006, guid: a6151d03cd8834b44833a0caf8c6cd00, type: 3}
   m_PrefabInstance: {fileID: 1199015675}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1252959915 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2676655330303363476, guid: 11fe58ba8ddf59c4d85ccfa71ae3aa91, type: 3}
+  m_PrefabInstance: {fileID: 2107447499}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6bdba01533cb144bbdec15be31546c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1286935716
 GameObject:
   m_ObjectHideFlags: 0
@@ -2340,6 +2351,10 @@ PrefabInstance:
       propertyPath: _enemySpawnTriggerWithEffect
       value: 
       objectReference: {fileID: 2107447504}
+    - target: {fileID: -5492763188261115737, guid: 11fe58ba8ddf59c4d85ccfa71ae3aa91, type: 3}
+      propertyPath: <BallisticRocket>k__BackingField
+      value: 
+      objectReference: {fileID: 1252959915}
     - target: {fileID: -5492763188261115737, guid: 11fe58ba8ddf59c4d85ccfa71ae3aa91, type: 3}
       propertyPath: _enemyOutpostPointers.Array.size
       value: 2

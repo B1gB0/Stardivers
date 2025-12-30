@@ -13,7 +13,7 @@ namespace Project.Scripts.ECS.System
         {
             _mainCamera = mainCamera;
         }
-        
+
         public void Run()
         {
             foreach (var entity in _mainCameraFilter)

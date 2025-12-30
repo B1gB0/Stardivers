@@ -13,7 +13,7 @@ namespace Project.Scripts.UI.View
     {
         private const int SecondsInMinute = 60;
         private const int MinValue = 0;
-        
+
         private const float MinValueFloat = 0f;
         private const float StepTime = 1f;
 
@@ -76,18 +76,20 @@ namespace Project.Scripts.UI.View
 
         public void ResumeTimer()
         {
-            if (!gameObject.activeInHierarchy) return;
-            
+            if (!gameObject.activeInHierarchy)
+                return;
+
             _isPaused = false;
-            
-            if(!_isRunning)
+
+            if (!_isRunning)
                 OnLaunchTimer();
         }
 
         public void PauseTimer()
         {
-            if (!gameObject.activeInHierarchy) return;
-            
+            if (!gameObject.activeInHierarchy)
+                return;
+
             _isPaused = true;
         }
 
@@ -127,20 +129,21 @@ namespace Project.Scripts.UI.View
                 while (_timeInSeconds > MinValue && _isRunning && !ct.IsCancellationRequested)
                 {
                     await UniTask.Yield(PlayerLoopTiming.Update, ct);
-            
-                    if (_isPaused) continue;
-            
+
+                    if (_isPaused)
+                        continue;
+
                     _accumulatedTime += Time.deltaTime;
 
                     if (!(_accumulatedTime >= StepTime))
                         continue;
-            
+
                     int secondsPassed = Mathf.FloorToInt(_accumulatedTime);
                     _accumulatedTime -= secondsPassed;
-                
+
                     _timeInSeconds -= secondsPassed;
                     UpdateDisplay();
-                
+
                     if (_timeInSeconds <= MinValue)
                     {
                         IsEndAttack?.Invoke();

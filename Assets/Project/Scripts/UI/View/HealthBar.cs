@@ -3,11 +3,6 @@ namespace Project.Scripts.UI.View
     public class HealthBar : Bar
     {
         private Health.Health _health;
-        
-        public void Construct(Health.Health health)
-        {
-            _health = health;
-        }
 
         private void OnEnable()
         {
@@ -19,6 +14,11 @@ namespace Project.Scripts.UI.View
         {
             _health.Die -= OnDie;
             _health.HealthChanged -= OnChangedValues;
+        }
+
+        public void Construct(Health.Health health)
+        {
+            _health = health;
         }
 
         private void OnDie()

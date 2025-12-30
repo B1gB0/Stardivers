@@ -26,37 +26,16 @@ namespace Project.Scripts.Weapon.Player
 
         private ObjectPool<FragGrenade> _poolGrenades;
 
-        public FragGrenadeCharacteristics FragGrenadeCharacteristics { get; private set; } = new ();
-
-        public void Construct(EnemyDetector detector, AudioSoundsService audioSoundsService,
-            CharacteristicsWeaponData data, FragGrenadeCharacteristics fragGrenadeCharacteristics, 
-            ParticleEffectsService particleEffectsService, WeaponPanel weaponPanel)
-        {
-            _detector = detector;
-            _audioSoundsService = audioSoundsService;
-            _particleEffectsService = particleEffectsService;
-            Type = data.WeaponType;
-            WeaponPanel = weaponPanel;
-
-            if(fragGrenadeCharacteristics == null)
-                FragGrenadeCharacteristics.SetStartingCharacteristics(data);
-            else
-                FragGrenadeCharacteristics = fragGrenadeCharacteristics;
-
-            YG2.saves.FragGrenadeCharacteristics = FragGrenadeCharacteristics;
-            
-            WeaponCharacteristics = FragGrenadeCharacteristics;
-            CurrentCountShots = FragGrenadeCharacteristics.MaxCountShots;
-            WeaponView = WeaponPanel.GetWeaponViewByType(Type);
-            WeaponView.SetText(CurrentCountShots, FragGrenadeCharacteristics.MaxCountShots);
-        }
+        public FragGrenadeCharacteristics FragGrenadeCharacteristics { get; private set; } = new();
 
         private void Awake()
         {
-            _poolGrenades = new ObjectPool<FragGrenade>(_fragGrenade, CountGrenades,
+            _poolGrenades = new ObjectPool<FragGrenade>(
+                _fragGrenade,
+                CountGrenades,
                 new GameObject(ObjectPoolGrenadeName).transform)
             {
-                AutoExpand = IsAutoExpandPool
+                AutoExpand = IsAutoExpandPool,
             };
         }
 
@@ -66,36 +45,66 @@ namespace Project.Scripts.Weapon.Player
 
             CheckAmmoAndReload();
 
-            if (_closestEnemy == null) return;
-            
+            if (_closestEnemy == null)
+                return;
+
             if (_detector.ClosestEnemyDistance <= FragGrenadeCharacteristics.RangeAttack && !IsReloading)
             {
                 Shoot();
             }
         }
-        
+
+        public void Construct(
+            EnemyDetector detector,
+            AudioSoundsService audioSoundsService,
+            CharacteristicsWeaponData data,
+            FragGrenadeCharacteristics fragGrenadeCharacteristics,
+            ParticleEffectsService particleEffectsService,
+            WeaponPanel weaponPanel)
+        {
+            _detector = detector;
+            _audioSoundsService = audioSoundsService;
+            _particleEffectsService = particleEffectsService;
+            Type = data.WeaponType;
+            WeaponPanel = weaponPanel;
+
+            if (fragGrenadeCharacteristics == null)
+                FragGrenadeCharacteristics.SetStartingCharacteristics(data);
+            else
+                FragGrenadeCharacteristics = fragGrenadeCharacteristics;
+
+            YG2.saves.FragGrenadeCharacteristics = FragGrenadeCharacteristics;
+
+            WeaponCharacteristics = FragGrenadeCharacteristics;
+            CurrentCountShots = FragGrenadeCharacteristics.MaxCountShots;
+            WeaponView = WeaponPanel.GetWeaponViewByType(Type);
+            WeaponView.SetText(CurrentCountShots, FragGrenadeCharacteristics.MaxCountShots);
+        }
+
         public override void Shoot()
         {
             if (LastShotTime <= MinValue && _closestEnemy.Health.TargetHealth > MinValue)
             {
                 CurrentCountShots--;
                 WeaponView.SetText(CurrentCountShots, FragGrenadeCharacteristics.MaxCountShots);
-                
+
                 _fragGrenade = _poolGrenades.GetFreeElement();
                 _fragGrenade.GetExplosionEffects(_particleEffectsService, _audioSoundsService);
 
                 _fragGrenade.transform.position = _shootPoint.position;
 
                 _fragGrenade.SetDirection(_closestEnemy.transform.position);
-                _fragGrenade.SetCharacteristics(FragGrenadeCharacteristics.Damage, 
-                    FragGrenadeCharacteristics.ExplosionRadius, FragGrenadeCharacteristics.ProjectileSpeed);
+                _fragGrenade.SetCharacteristics(
+                    FragGrenadeCharacteristics.Damage,
+                    FragGrenadeCharacteristics.ExplosionRadius,
+                    FragGrenadeCharacteristics.ProjectileSpeed);
 
                 LastShotTime = FragGrenadeCharacteristics.FireRate;
             }
 
             LastShotTime -= Time.deltaTime;
         }
-        
+
         public override void AcceptWeaponImprovement(IWeaponVisitor weaponVisitor, CharacteristicType type, float value)
         {
             weaponVisitor.Visit(this, type, value);

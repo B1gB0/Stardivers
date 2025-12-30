@@ -18,7 +18,7 @@ namespace Project.Scripts.UI.Panel
         private IPauseService _pauseService;
         private ITweenAnimationService _tweenAnimationService;
         private Button _continueButton;
-        
+
         [Inject]
         private void Construct(IPauseService pauseService, ITweenAnimationService tweenAnimationService)
         {

@@ -12,6 +12,6 @@
         MaxCountEnemiesInChain = 7,
         Health = 8,
         DiggingSpeed = 9,
-        MoveSpeed = 10
+        MoveSpeed = 10,
     }
 }

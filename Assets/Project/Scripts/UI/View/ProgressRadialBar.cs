@@ -19,19 +19,13 @@ namespace Project.Scripts.UI.View
         private Transform _target;
         private int _currentLevel;
 
-        public void Construct(ExperiencePoints experiencePoints, Transform target)
-        {
-            _experiencePoints = experiencePoints;
-            _target = target;
-        }
-
         private void OnEnable()
         {
             ChangeText();
-            
+
             _experiencePoints.ValueIsChanged += OnChangeValue;
             _experiencePoints.ProgressBarLevelIsUpgraded += UpgradeProgressBarLevel;
-            
+
             _experiencePoints.LoadLevel();
         }
 
@@ -46,24 +40,30 @@ namespace Project.Scripts.UI.View
             _experiencePoints.ProgressBarLevelIsUpgraded -= UpgradeProgressBarLevel;
         }
 
+        public void Construct(ExperiencePoints experiencePoints, Transform target)
+        {
+            _experiencePoints = experiencePoints;
+            _target = target;
+        }
+
+        public void ChangeText()
+        {
+            Text.text = YG2.lang switch
+            {
+                LocalizationCode.Ru => LevelRu + _currentLevel,
+                LocalizationCode.En => LevelEn + _currentLevel,
+                LocalizationCode.Tr => LevelTr + _currentLevel,
+                _ => Text.text
+            };
+        }
+
         private void UpgradeProgressBarLevel(int level, float targetValue, float maxValue)
         {
             _currentLevel = StepLevel + level;
 
             ChangeText();
-            
-            OnChangeValue(StartValueLevel, targetValue, maxValue);
-        }
 
-        public void ChangeText()
-        {
-            text.text = YG2.lang switch
-            {
-                LocalizationCode.Ru => LevelRu + _currentLevel,
-                LocalizationCode.En => LevelEn + _currentLevel,
-                LocalizationCode.Tr => LevelTr + _currentLevel,
-                _ => text.text
-            };
+            OnChangeValue(StartValueLevel, targetValue, maxValue);
         }
     }
 }

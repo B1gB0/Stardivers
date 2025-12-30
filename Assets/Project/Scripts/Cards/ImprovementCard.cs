@@ -10,7 +10,8 @@ namespace Project.Scripts.Cards
         public CharacteristicType CharacteristicType { get; private set; }
         public float Value { get; private set; }
 
-        public void SetData(ImprovementData improvementData, CharacteristicsLocalizationData characteristicsLocalizationData)
+        public void SetData(ImprovementData improvementData,
+            CharacteristicsLocalizationData characteristicsLocalizationData)
         {
             ImprovementData = improvementData;
             CharacteristicsLocalizationData = characteristicsLocalizationData;

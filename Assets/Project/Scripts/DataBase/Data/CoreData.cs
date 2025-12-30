@@ -13,7 +13,7 @@ namespace Project.Scripts.DataBase.Data
         [SerializeField] private int _experience;
         [SerializeField] private int _score;
         [SerializeField] private float _crystalValue;
-        
+
         public string Id => _id;
         public CoreType Type => _type;
         public float Health => _health;

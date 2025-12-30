@@ -22,6 +22,13 @@ namespace Project.Scripts.Game.Gameplay.Root.View
     {
         private const int DelayToShowTutorial = 5;
 
+        private AudioSoundsService _audioSoundsService;
+        private ITweenAnimationService _tweenAnimationService;
+
+        private Subject<Unit> _exitSceneSignalSubject;
+        private UIStateMachine _uiStateMachine;
+        private CancellationTokenSource _tutorialCancellationToken;
+
         [field: SerializeField] public GameplayElements UIScene { get; private set; }
         [field: SerializeField] public Button MinesButton { get; private set; }
         [field: SerializeField] public Joystick Joystick { get; private set; }
@@ -49,16 +56,8 @@ namespace Project.Scripts.Game.Gameplay.Root.View
         [field: SerializeField] public Transform ShowTimerPoint { get; private set; }
         [field: SerializeField] public Transform HideTimerPoint { get; private set; }
 
-        private AudioSoundsService _audioSoundsService;
-        private ITweenAnimationService _tweenAnimationService;
-
-        private Subject<Unit> _exitSceneSignalSubject;
-        private UIStateMachine _uiStateMachine;
-        private CancellationTokenSource _tutorialCancellationToken;
-
         [Inject]
-        public void Construct(AudioSoundsService audioSoundsService, ITweenAnimationService tweenAnimationService,
-            IPlayerService playerService)
+        public void Construct(AudioSoundsService audioSoundsService, ITweenAnimationService tweenAnimationService)
         {
             _audioSoundsService = audioSoundsService;
             _tweenAnimationService = tweenAnimationService;
@@ -76,7 +75,7 @@ namespace Project.Scripts.Game.Gameplay.Root.View
             MinesButton.transform.DOKill();
             TutorialPointer.transform.DOKill();
             KeyboardTutorialView.transform.DOKill();
-            
+
             _tutorialCancellationToken?.Cancel();
             _tutorialCancellationToken?.Dispose();
             _tutorialCancellationToken = null;
@@ -98,8 +97,13 @@ namespace Project.Scripts.Game.Gameplay.Root.View
         public void ShowMinesButton()
         {
             MinesButton.gameObject.SetActive(true);
-            _tweenAnimationService.AnimateMove(MinesButton.transform, ShowMinesButtonPoint, HideMinesButtonPoint,
-                false, true);
+
+            _tweenAnimationService.AnimateMove(
+                MinesButton.transform,
+                ShowMinesButtonPoint,
+                HideMinesButtonPoint,
+                false,
+                true);
         }
 
         public void HandleGoToNextSceneButtonClick()
@@ -115,11 +119,14 @@ namespace Project.Scripts.Game.Gameplay.Root.View
             TutorialPointer.transform.position = PointerPoint.transform.position;
             _tweenAnimationService.AnimatePointer(TutorialPointer.transform, PointerPoint);
         }
-        
+
         private void ShowTutorialKeyboardView()
         {
             KeyboardTutorialView.Show();
-            _tweenAnimationService.AnimateMove(KeyboardTutorialView.transform, ShowKeyboardTutorialPoint,
+
+            _tweenAnimationService.AnimateMove(
+                KeyboardTutorialView.transform,
+                ShowKeyboardTutorialPoint,
                 HideKeyboardTutorialPoint);
         }
 
@@ -127,12 +134,15 @@ namespace Project.Scripts.Game.Gameplay.Root.View
         {
             if (YG2.envir.isDesktop)
             {
-                _tweenAnimationService.AnimateMove(KeyboardTutorialView.transform, ShowKeyboardTutorialPoint,
-                    HideKeyboardTutorialPoint, true);
+                _tweenAnimationService.AnimateMove(
+                    KeyboardTutorialView.transform,
+                    ShowKeyboardTutorialPoint,
+                    HideKeyboardTutorialPoint,
+                    true);
             }
             else
             {
-                JoystickIcon.gameObject.SetActive(false);
+                JoystickIcon.SetActive(false);
                 TutorialPointer.Hide();
             }
 
@@ -144,16 +154,17 @@ namespace Project.Scripts.Game.Gameplay.Root.View
             _tutorialCancellationToken?.Cancel();
             _tutorialCancellationToken?.Dispose();
             _tutorialCancellationToken = new CancellationTokenSource();
-        
+
             try
             {
                 var completedTask = await UniTask.WhenAny(
-                    UniTask.Delay(TimeSpan.FromSeconds(DelayToShowTutorial), DelayType.DeltaTime,
+                    UniTask.Delay(TimeSpan.FromSeconds(DelayToShowTutorial),
+                        DelayType.DeltaTime,
                         cancellationToken: _tutorialCancellationToken.Token));
 
                 if (completedTask == 0)
                 {
-                    if(YG2.envir.isDesktop)
+                    if (YG2.envir.isDesktop)
                         ShowTutorialKeyboardView();
                     else
                         ShowTutorialPointer();

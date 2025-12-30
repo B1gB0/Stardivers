@@ -8,7 +8,7 @@ namespace Project.Scripts.UI.Panel
     {
         private const int TextFormat = 100;
         private const float StartProgress = 0f;
-    
+
         [SerializeField] private TMP_Text _progressText;
 
         public void Show()

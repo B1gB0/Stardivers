@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace Project.Scripts.ECS.Data
 {
-
     public class LevelDataForConfig : MonoBehaviour
     {
         [SerializeField] private LevelInitData levelInitData;
@@ -12,28 +11,28 @@ namespace Project.Scripts.ECS.Data
         public void SaveDataToConfigLevel()
         {
             GameObject[] enemyPatrolPoints = GameObject.FindGameObjectsWithTag("EnemyPatrolPoints");
-            
+
             GameObject[] firstWaveSmallEnemy = GameObject.FindGameObjectsWithTag("FirstWaveSmallEnemyAlienSpawnPoint");
             GameObject[] firstWaveBigEnemy = GameObject.FindGameObjectsWithTag("FirstWaveBigEnemyAlienSpawnPoint");
-            GameObject[] firstWaveGunnerEnemy = 
+            GameObject[] firstWaveGunnerEnemy =
                 GameObject.FindGameObjectsWithTag("FirstWaveGunnerEnemyAlienSpawnPoint");
-            
-            GameObject[] secondWaveSmallEnemy = 
+
+            GameObject[] secondWaveSmallEnemy =
                 GameObject.FindGameObjectsWithTag("SecondWaveSmallEnemyAlienSpawnPoint");
             GameObject[] secondWaveBigEnemy = GameObject.FindGameObjectsWithTag("SecondWaveBigEnemyAlienSpawnPoint");
-            GameObject[] secondWaveGunnerEnemy = 
+            GameObject[] secondWaveGunnerEnemy =
                 GameObject.FindGameObjectsWithTag("SecondWaveGunnerEnemyAlienSpawnPoint");
-            
-            GameObject[] enemyTurretSpawnPoints = 
+
+            GameObject[] enemyTurretSpawnPoints =
                 GameObject.FindGameObjectsWithTag("EnemyTurretSpawnPoints");
-            
+
             GameObject[] alienCocoonSpawnPoints = GameObject.FindGameObjectsWithTag("AlienCocoonSpawnPoints");
             GameObject[] stoneSpawnPoints = GameObject.FindGameObjectsWithTag("StoneSpawnPoint");
             GameObject[] healingCoreSpawnPoints = GameObject.FindGameObjectsWithTag("HealingCoreSpawnPoint");
             GameObject[] iceCrystalSpawnPoints = GameObject.FindGameObjectsWithTag("IceCrystalSpawnPoint");
             GameObject[] goldCoreSpawnPoints = GameObject.FindGameObjectsWithTag("GoldCoreSpawnPoint");
             GameObject playerSpawnPoint = GameObject.FindGameObjectWithTag("PlayerSpawnPoint");
-            
+
             levelInitData.EnemyPatrolPositions.Clear();
             levelInitData.FirstWaveSmallEnemyAlienSpawnPositions.Clear();
             levelInitData.FirstWaveBigEnemyAlienSpawnPositions.Clear();
@@ -47,49 +46,49 @@ namespace Project.Scripts.ECS.Data
             levelInitData.AlienCocoonSpawnPoints.Clear();
             levelInitData.EnemyTurretsSpawnPoints.Clear();
             levelInitData.IceCrystalsSpawnPositions.Clear();
-        
+
             levelInitData.PlayerSpawnPosition = playerSpawnPoint.transform.position;
-            
+
             foreach (var point in enemyPatrolPoints)
             {
                 levelInitData.EnemyPatrolPositions.Add(point.transform.position);
             }
-        
+
             foreach (var point in firstWaveSmallEnemy)
             {
                 levelInitData.FirstWaveSmallEnemyAlienSpawnPositions.Add(point.transform.position);
             }
-        
+
             foreach (var point in firstWaveBigEnemy)
             {
                 levelInitData.FirstWaveBigEnemyAlienSpawnPositions.Add(point.transform.position);
             }
-            
+
             foreach (var point in firstWaveGunnerEnemy)
             {
                 levelInitData.FirstWaveGunnerEnemyAlienSpawnPositions.Add(point.transform.position);
             }
-            
+
             foreach (var point in secondWaveSmallEnemy)
             {
                 levelInitData.SecondWaveSmallEnemyAlienSpawnPositions.Add(point.transform.position);
             }
-        
+
             foreach (var point in secondWaveBigEnemy)
             {
                 levelInitData.SecondWaveBigEnemyAlienSpawnPositions.Add(point.transform.position);
             }
-            
+
             foreach (var point in secondWaveGunnerEnemy)
             {
                 levelInitData.SecondWaveGunnerEnemyAlienSpawnPositions.Add(point.transform.position);
             }
-            
+
             foreach (var point in enemyTurretSpawnPoints)
             {
                 levelInitData.EnemyTurretsSpawnPoints.Add(point.transform.position);
             }
-            
+
             foreach (var point in alienCocoonSpawnPoints)
             {
                 levelInitData.AlienCocoonSpawnPoints.Add(point.transform.position);
@@ -99,22 +98,22 @@ namespace Project.Scripts.ECS.Data
             {
                 levelInitData.StoneSpawnPositions.Add(stone.transform.position);
             }
-        
+
             foreach (var healingCore in healingCoreSpawnPoints)
             {
                 levelInitData.HealingCoreSpawnPositions.Add(healingCore.transform.position);
             }
-        
+
             foreach (var goldCore in goldCoreSpawnPoints)
             {
                 levelInitData.GoldCoreSpawnPositions.Add(goldCore.transform.position);
             }
-            
+
             foreach (var iceCrystal in iceCrystalSpawnPoints)
             {
                 levelInitData.IceCrystalsSpawnPositions.Add(iceCrystal.transform.position);
             }
-            
+
             if (!Application.isPlaying)
             {
                 UnityEditor.EditorUtility.SetDirty(levelInitData);

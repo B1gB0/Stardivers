@@ -15,18 +15,18 @@ namespace Project.Scripts.UI.Panel
         private const int _goldValue = 50;
         private const int _healthValue = 60;
         private const int _expValue = 100;
-        
+
         [SerializeField] private Button _addGold;
         [SerializeField] private Button _addHealth;
         [SerializeField] private Button _addExp;
         [SerializeField] private Button _exitButton;
-        
+
         private ICurrencyService _currencyService;
         private IPlayerService _playerService;
         private ExperiencePoints _experiencePoints;
 
         public int ExpValue => _expValue;
-        
+
         [Inject]
         private void Construct(ICurrencyService currencyService, IPlayerService playerService)
         {
@@ -64,7 +64,7 @@ namespace Project.Scripts.UI.Panel
         {
             gameObject.SetActive(false);
         }
-        
+
         public void AcceptScore(IScoreActorVisitor visitor)
         {
             visitor.Visit(this);
@@ -74,7 +74,7 @@ namespace Project.Scripts.UI.Panel
         {
             _currencyService.AddGold(_goldValue);
         }
-        
+
         private void OnAddHealthButtonClicked()
         {
             _playerService.PlayerActor.Health.AddHealth(_healthValue);

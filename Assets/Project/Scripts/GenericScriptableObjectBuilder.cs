@@ -6,7 +6,8 @@ using UnityEngine;
 
 namespace Project.Scripts
 {
-    public class GenericScriptableObjectBuilder<TKey, TValue> where TValue : ScriptableObject
+    public class GenericScriptableObjectBuilder<TKey, TValue> 
+        where TValue : ScriptableObject
     {
         private readonly IResourceService _resourceService;
         private readonly Dictionary<TKey, string> _resourcePaths = new();

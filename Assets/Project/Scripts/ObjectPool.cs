@@ -5,14 +5,13 @@ using Object = UnityEngine.Object;
 
 namespace Project.Scripts
 {
-    public class ObjectPool <T> where T : MonoBehaviour
+    public class ObjectPool<T>
+        where T : MonoBehaviour
     {
         private readonly Transform _container;
         private readonly T _prefab;
-    
-        private List<T> _pool;
 
-        public bool AutoExpand { get; set; }
+        private List<T> _pool;
 
         public ObjectPool(T prefab, int count, Transform container)
         {
@@ -21,6 +20,8 @@ namespace Project.Scripts
             CrateObjectPool(count);
         }
 
+        public bool AutoExpand { get; set; }
+
         public T GetFreeElement()
         {
             if (HasFreeElement(out var element))
@@ -28,10 +29,10 @@ namespace Project.Scripts
 
             if (AutoExpand)
                 return CreateObject(true);
-        
+
             throw new Exception($"There is no free elements in pool of type {typeof(T)}");
         }
-        
+
         private bool HasFreeElement(out T element)
         {
             foreach (var objects in _pool)
@@ -40,7 +41,7 @@ namespace Project.Scripts
                 {
                     element = objects;
                     objects.gameObject.SetActive(true);
-                
+
                     return true;
                 }
             }
@@ -62,9 +63,9 @@ namespace Project.Scripts
 
         private T CreateObject(bool isActiveByDefault = false)
         {
-            var createdObject = Object.Instantiate(this._prefab, this._container);
-            createdObject.gameObject.SetActive(isActiveByDefault); 
-        
+            var createdObject = Object.Instantiate(_prefab, _container);
+            createdObject.gameObject.SetActive(isActiveByDefault);
+
             _pool.Add(createdObject);
 
             return createdObject;

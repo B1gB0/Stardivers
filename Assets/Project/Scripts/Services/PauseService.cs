@@ -10,7 +10,7 @@ namespace Project.Scripts.Services
         private const float PlayTime = 1f;
 
         private EventSystem _eventSystem;
-        
+
         public event Action OnGameStarted;
         public event Action OnGamePaused;
 
@@ -18,7 +18,7 @@ namespace Project.Scripts.Services
         {
             AudioListener.pause = false;
             Time.timeScale = StopTime;
-            
+
             OnGamePaused?.Invoke();
         }
 
@@ -26,7 +26,7 @@ namespace Project.Scripts.Services
         {
             AudioListener.pause = true;
             Time.timeScale = StopTime;
-            
+
             OnGamePaused?.Invoke();
         }
 
@@ -42,12 +42,12 @@ namespace Project.Scripts.Services
         {
             _eventSystem = eventSystem;
         }
-        
+
         public void DisableEventSystem()
         {
             _eventSystem.enabled = false;
         }
-        
+
         public void EnableEventSystem()
         {
             _eventSystem.enabled = true;

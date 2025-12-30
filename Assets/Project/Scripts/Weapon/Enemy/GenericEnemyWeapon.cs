@@ -4,19 +4,20 @@ using UnityEngine;
 
 namespace Project.Scripts.Weapon.Enemy
 {
-    public abstract class GenericEnemyWeapon<T> : EnemyWeapon where T : Projectile
+    public abstract class GenericEnemyWeapon<T> : EnemyWeapon 
+        where T : Projectile
     {
         private const float DefaultBulletSpeed = 5f;
-        
+
         [SerializeField] private Transform _shootPoint;
 
         protected AudioSoundsService AudioSoundsService;
         private Transform _target;
         private T _projectile;
         private float _damage;
-        
+
         private ObjectPool<T> _projectilePool;
-        
+
         public void GetServices(AudioSoundsService audioSoundsService)
         {
             AudioSoundsService = audioSoundsService;
@@ -26,7 +27,7 @@ namespace Project.Scripts.Weapon.Enemy
         {
             _projectile = _projectilePool.GetFreeElement();
             _projectile.transform.position = _shootPoint.position;
-            _projectile.SetCharacteristics(_damage, DefaultBulletSpeed);           
+            _projectile.SetCharacteristics(_damage, DefaultBulletSpeed);
             _projectile.SetDirection(_target.position);
         }
 

@@ -11,26 +11,26 @@ namespace Project.Scripts.UI.View
     {
         [SerializeField] protected Slider SmoothSlider;
         [SerializeField] protected Slider Slider;
-    
+
         [SerializeField] protected TMP_Text Text;
-    
+
         [SerializeField] private Transform _showPoint;
         [SerializeField] private Transform _hidePoint;
         [SerializeField] private Transform _weaponPanelPoint;
 
         private ITweenAnimationService _tweenAnimationService;
-    
+
         [Inject]
         private void Construct(ITweenAnimationService tweenAnimationService)
         {
             _tweenAnimationService = tweenAnimationService;
         }
-    
+
         private void OnDestroy()
         {
             transform.DOKill();
         }
-    
+
         public void Show()
         {
             gameObject.SetActive(true);
@@ -51,20 +51,20 @@ namespace Project.Scripts.UI.View
         {
             _tweenAnimationService.AnimateMove(transform, _showPoint, _weaponPanelPoint);
         }
-    
+
         public void GetPoints(Transform showPoint, Transform hidePoint, Transform weaponPanelPoint)
         {
             _showPoint = showPoint;
             _hidePoint = hidePoint;
             _weaponPanelPoint = weaponPanelPoint;
         }
-    
+
         protected void SetValues(float currentValue, float maxValue, float targetValue)
         {
             SmoothSlider.value = currentValue / maxValue;
-        
+
             Slider.value = targetValue / maxValue;
-        
+
             Text.text = (int)targetValue + "/" + (int)maxValue;
         }
     }

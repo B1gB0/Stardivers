@@ -8,6 +8,7 @@ namespace Project.Scripts.ECS.System
     {
         private readonly EcsFilter<PatrolComponent, EnemyMovableComponent, FollowPlayerComponent>
             _enemyPatrolFollowFilter;
+
         private readonly EcsFilter<EnemyMovableComponent, FollowPlayerComponent, EnemyAlienTurretAttackComponent>
             _enemyTurretFollowFilter;
 
@@ -20,7 +21,8 @@ namespace Project.Scripts.ECS.System
 
                 var navMeshAgent = movableComponent.NavMeshAgent;
 
-                if (!navMeshAgent.gameObject.activeSelf) continue;
+                if (!navMeshAgent.gameObject.activeSelf) 
+                    continue;
 
                 if (followComponent.Target == null || !followComponent.Target.CanFollow)
                     continue;
@@ -32,7 +34,7 @@ namespace Project.Scripts.ECS.System
 
                 var direction = (followComponent.Target.transform.position - movableComponent.Transform.position)
                     .normalized;
-                
+
                 movableComponent.Transform.forward = isMoving ? navMeshAgent.transform.forward : direction;
             }
 
@@ -44,12 +46,14 @@ namespace Project.Scripts.ECS.System
 
                 if (followComponent.Target == null)
                     continue;
-                
-                var isMoving = Vector3.Distance(movableComponent.Transform.position, 
+
+                var isMoving = Vector3.Distance(
+                    movableComponent.Transform.position,
                     followComponent.Target.transform.position) < turretComponent.RangeAttack;
+                
                 movableComponent.IsMoving = isMoving;
                 movableComponent.IsAttack = isMoving;
-                
+
                 var direction = (followComponent.Target.transform.position - movableComponent.Transform.position)
                     .normalized;
                 movableComponent.Transform.forward = isMoving ? direction : movableComponent.Transform.forward;

@@ -19,17 +19,16 @@ namespace Project.Scripts.Levels
         [field: SerializeField] public int Price { get; private set; }
         [field: SerializeField] public Sprite Image { get; private set; }
 
-
         public void SetData(OperationLocalizationData data)
         {
             NameRu = data.NameRu;
             NameEn = data.NameEn;
             NameTr = data.NameTr;
-            
+
             DescriptionRu = data.DescriptionRu;
             DescriptionEn = data.DescriptionEn;
             DescriptionTr = data.DescriptionTr;
-            
+
             Price = data.Price;
         }
     }

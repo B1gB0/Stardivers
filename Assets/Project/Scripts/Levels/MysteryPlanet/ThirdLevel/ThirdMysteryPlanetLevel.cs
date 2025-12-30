@@ -18,7 +18,7 @@ namespace Project.Scripts.Levels.MysteryPlanet.ThirdLevel
 
         private readonly List<AlienCocoon> _firstNestCocoons = new();
         private readonly List<AlienCocoon> _secondNestCocoons = new();
-        
+
         [SerializeField] private List<GameObject> _alienCocoonsPointers;
         [SerializeField] private List<GameObject> _enemyOutpostPointers;
 
@@ -51,6 +51,42 @@ namespace Project.Scripts.Levels.MysteryPlanet.ThirdLevel
             _secondWaveCts?.Cancel();
         }
 
+        private void OnDestroy()
+        {
+            WelcomePlanetTextTrigger.IsWelcomeToPlanet -= DialogueSetter.OnWelcomePlanet;
+            WelcomePlanetTextTrigger.IsWelcomeToPlanet -= CreateAllAlienEnemyTurrets;
+            WelcomePlanetTextTrigger.IsWelcomeToPlanet -= _objectiveTextView.Show;
+
+            _enemySpawnFirstTriggerWithoutEffect.EnemySpawned -= _entranceLastLvlTrigger.Deactivate;
+            _enemySpawnFirstTriggerWithoutEffect.EnemySpawned -= StartFirstWaveSpawning;
+
+            _enemySpawnSecondTriggerWithoutEffect.EnemySpawned -= _entranceLastLvlTrigger.Deactivate;
+            _enemySpawnSecondTriggerWithoutEffect.EnemySpawned -= StartSecondWaveSpawning;
+
+            CurrencyService.OnAllAlienCocoonsCollected -= DialogueSetter.OnEndAttack;
+            CurrencyService.OnAllAlienCocoonsCollected -= _objectiveTextView.Hide;
+            CurrencyService.OnAllAlienCocoonsCollected -= LookArrowAtOutpost;
+            CurrencyService.OnAllAlienCocoonsCollected -= HideAliensCocoonsPointers;
+            CurrencyService.OnAllAlienCocoonsCollected -= ShowOutpostPointers;
+            CurrencyService.OnAllAlienCocoonsCollected -= _enemySpawnFirstTriggerWithoutEffect.CompleteSpawn;
+            CurrencyService.OnAllAlienCocoonsCollected -= _enemySpawnSecondTriggerWithoutEffect.CompleteSpawn;
+            CurrencyService.OnAllAlienCocoonsCollected -= EntranceToNextLvlTrigger.Activate;
+            CurrencyService.OnAllAlienCocoonsCollected -= EndLevelTrigger.Activate;
+
+            foreach (var cocoon in _firstNestCocoons)
+            {
+                cocoon.OnDied -= CheckFirstAliensCocoons;
+            }
+
+            foreach (var cocoon in _secondNestCocoons)
+            {
+                cocoon.OnDied -= CheckSecondAliensCocoons;
+            }
+
+            _firstWaveCts?.Cancel();
+            _secondWaveCts?.Cancel();
+        }
+
         public override async UniTask OnStartLevel()
         {
             HideOutpostPointers();
@@ -72,7 +108,7 @@ namespace Project.Scripts.Levels.MysteryPlanet.ThirdLevel
 
             _alienCocoonView = await ViewFactory.CreateAlienCocoonView();
             _alienCocoonView.Show();
-            
+
             _objectiveTextView = await ViewFactory.CreateObjectiveText();
 
             WelcomePlanetTextTrigger.IsWelcomeToPlanet += DialogueSetter.OnWelcomePlanet;
@@ -81,7 +117,7 @@ namespace Project.Scripts.Levels.MysteryPlanet.ThirdLevel
 
             _enemySpawnFirstTriggerWithoutEffect.EnemySpawned += _entranceLastLvlTrigger.Deactivate;
             _enemySpawnFirstTriggerWithoutEffect.EnemySpawned += StartFirstWaveSpawning;
-            
+
             _enemySpawnSecondTriggerWithoutEffect.EnemySpawned += _entranceLastLvlTrigger.Deactivate;
             _enemySpawnSecondTriggerWithoutEffect.EnemySpawned += StartSecondWaveSpawning;
 
@@ -99,7 +135,7 @@ namespace Project.Scripts.Levels.MysteryPlanet.ThirdLevel
             {
                 cocoon.OnDied += CheckFirstAliensCocoons;
             }
-            
+
             foreach (var cocoon in _secondNestCocoons)
             {
                 cocoon.OnDied += CheckSecondAliensCocoons;
@@ -140,42 +176,6 @@ namespace Project.Scripts.Levels.MysteryPlanet.ThirdLevel
             }
         }
 
-        private void OnDestroy()
-        {
-            WelcomePlanetTextTrigger.IsWelcomeToPlanet -= DialogueSetter.OnWelcomePlanet;
-            WelcomePlanetTextTrigger.IsWelcomeToPlanet -= CreateAllAlienEnemyTurrets;
-            WelcomePlanetTextTrigger.IsWelcomeToPlanet -= _objectiveTextView.Show;
-
-            _enemySpawnFirstTriggerWithoutEffect.EnemySpawned -= _entranceLastLvlTrigger.Deactivate;
-            _enemySpawnFirstTriggerWithoutEffect.EnemySpawned -= StartFirstWaveSpawning;
-
-            _enemySpawnSecondTriggerWithoutEffect.EnemySpawned -= _entranceLastLvlTrigger.Deactivate;
-            _enemySpawnSecondTriggerWithoutEffect.EnemySpawned -= StartSecondWaveSpawning;
-
-            CurrencyService.OnAllAlienCocoonsCollected -= DialogueSetter.OnEndAttack;
-            CurrencyService.OnAllAlienCocoonsCollected -= _objectiveTextView.Hide;
-            CurrencyService.OnAllAlienCocoonsCollected -= LookArrowAtOutpost;
-            CurrencyService.OnAllAlienCocoonsCollected -= HideAliensCocoonsPointers;
-            CurrencyService.OnAllAlienCocoonsCollected -= ShowOutpostPointers;
-            CurrencyService.OnAllAlienCocoonsCollected -= _enemySpawnFirstTriggerWithoutEffect.CompleteSpawn;
-            CurrencyService.OnAllAlienCocoonsCollected -= _enemySpawnSecondTriggerWithoutEffect.CompleteSpawn;
-            CurrencyService.OnAllAlienCocoonsCollected -= EntranceToNextLvlTrigger.Activate;
-            CurrencyService.OnAllAlienCocoonsCollected -= EndLevelTrigger.Activate;
-            
-            foreach (var cocoon in _firstNestCocoons)
-            {
-                cocoon.OnDied -= CheckFirstAliensCocoons;
-            }
-            
-            foreach (var cocoon in _secondNestCocoons)
-            {
-                cocoon.OnDied -= CheckSecondAliensCocoons;
-            }
-
-            _firstWaveCts?.Cancel();
-            _secondWaveCts?.Cancel();
-        }
-        
         private void CheckFirstAliensCocoons(AlienCocoon alienCocoon)
         {
             alienCocoon.OnDied -= CheckFirstAliensCocoons;
@@ -187,7 +187,7 @@ namespace Project.Scripts.Levels.MysteryPlanet.ThirdLevel
                 _firstNestTrigger.Deactivate();
             }
         }
-        
+
         private void CheckSecondAliensCocoons(AlienCocoon alienCocoon)
         {
             alienCocoon.OnDied -= CheckFirstAliensCocoons;
@@ -209,7 +209,7 @@ namespace Project.Scripts.Levels.MysteryPlanet.ThirdLevel
         {
             foreach (var pointer in _enemyOutpostPointers)
             {
-                pointer.gameObject.SetActive(true);
+                pointer.SetActive(true);
             }
         }
 
@@ -217,7 +217,7 @@ namespace Project.Scripts.Levels.MysteryPlanet.ThirdLevel
         {
             foreach (var pointer in _enemyOutpostPointers)
             {
-                pointer.gameObject.SetActive(false);
+                pointer.SetActive(false);
             }
         }
 
@@ -225,7 +225,7 @@ namespace Project.Scripts.Levels.MysteryPlanet.ThirdLevel
         {
             foreach (var pointer in _alienCocoonsPointers)
             {
-                pointer.gameObject.SetActive(false);
+                pointer.SetActive(false);
             }
         }
     }

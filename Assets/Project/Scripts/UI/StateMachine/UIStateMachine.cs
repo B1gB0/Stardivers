@@ -5,11 +5,12 @@ namespace Project.Scripts.UI.StateMachine
 {
     public class UIStateMachine
     {
-        private readonly Dictionary<Type, UIState> _states = new ();
+        private readonly Dictionary<Type, UIState> _states = new();
 
         private UIState _currentState;
 
-        public void EnterIn<T>() where T : UIState
+        public void EnterIn<T>()
+            where T : UIState
         {
             var type = typeof(T);
 
@@ -18,8 +19,9 @@ namespace Project.Scripts.UI.StateMachine
                 return;
             }
 
-            if (!_states.TryGetValue(type, out var newState)) return;
-            
+            if (!_states.TryGetValue(type, out var newState))
+                return;
+
             _currentState?.Exit();
             _currentState = newState;
             _currentState.Enter();
@@ -35,10 +37,11 @@ namespace Project.Scripts.UI.StateMachine
             }
         }
 
-        public void RemoveState<T>() where T : UIState
+        public void RemoveState<T>()
+            where T : UIState
         {
             var type = typeof(T);
-            
+
             if (_states.ContainsKey(type))
             {
                 _states.Remove(type);

@@ -18,10 +18,10 @@ namespace Project.Scripts.Levels.Mars.FirstLevel
         private void SetText(LevelTextsType type)
         {
             var text = _levelTextService.GetLevelTextData(SceneManager.GetActiveScene().name, type);
-            
-            if(text == null)
+
+            if (text == null)
                 return;
-            
+
             _dialoguePanel.SetText(text);
             _dialoguePanel.Show();
         }

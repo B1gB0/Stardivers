@@ -5,6 +5,7 @@ namespace Project.Scripts.Game.Constant
     public static class Colors
     {
         private static CustomPalette _palette;
+        
         private const string PalettePath = "ColorPalette";
 
         public static Color GetColor(ColorName colorName)
@@ -18,7 +19,7 @@ namespace Project.Scripts.Game.Constant
         {
             if (_palette != null)
                 return;
-            
+
             _palette = Resources.Load<CustomPalette>(PalettePath);
         }
     }

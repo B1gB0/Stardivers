@@ -6,7 +6,7 @@ namespace Project.Scripts.Crystals
     public class RedCrystal : Crystal
     {
         public float HealthValue { get; private set; }
-        
+
         public void Destroy()
         {
             Destroy(gameObject);

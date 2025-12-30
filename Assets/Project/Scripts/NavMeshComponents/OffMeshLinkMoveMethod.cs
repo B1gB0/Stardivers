@@ -5,6 +5,6 @@
         Teleport,
         NormalSpeed,
         Parabola,
-        Curve
+        Curve,
     }
 }

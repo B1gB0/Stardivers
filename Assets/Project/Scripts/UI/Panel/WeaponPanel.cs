@@ -16,9 +16,9 @@ namespace Project.Scripts.UI.Panel
         private const int Grenades = 3;
         private const int Mines = 4;
         private const int ElectricGun = 5;
-        
+
         private readonly Dictionary<WeaponType, WeaponView> _weaponViewsDictionary = new();
-        
+
         [SerializeField] private List<WeaponView> _weaponViews;
         [SerializeField] private List<Sprite> _sprites;
         [SerializeField] private Transform _showPoint;
@@ -27,40 +27,45 @@ namespace Project.Scripts.UI.Panel
         private ITweenAnimationService _tweenAnimationService;
 
         public Transform ShowPoint => _showPoint;
-    
+
         [Inject]
         private void Construct(ITweenAnimationService tweenAnimationService)
         {
             _tweenAnimationService = tweenAnimationService;
         }
 
+        private void OnDestroy()
+        {
+            transform.DOKill();
+        }
+
         public void SetData(int numberWeapon, WeaponType type)
         {
             switch (type)
             {
-                case WeaponType.Gun :
+                case WeaponType.Gun:
                     _weaponViews[numberWeapon].SetWeaponData(_sprites[Gun], type);
                     break;
-                case WeaponType.MachineGun : 
+                case WeaponType.MachineGun:
                     _weaponViews[numberWeapon].SetWeaponData(_sprites[MachineGun], type);
                     break;
-                case WeaponType.FourBarrelMachineGun : 
+                case WeaponType.FourBarrelMachineGun:
                     _weaponViews[numberWeapon].SetWeaponData(_sprites[FourBarrelMachineGun], type);
                     break;
-                case WeaponType.FragGrenades : 
+                case WeaponType.FragGrenades:
                     _weaponViews[numberWeapon].SetWeaponData(_sprites[Grenades], type);
                     break;
-                case WeaponType.Mines : 
+                case WeaponType.Mines:
                     _weaponViews[numberWeapon].SetWeaponData(_sprites[Mines], type);
                     break;
-                case WeaponType.ChainLightningGun : 
+                case WeaponType.ChainLightningGun:
                     _weaponViews[numberWeapon].SetWeaponData(_sprites[ElectricGun], type);
                     break;
             }
-            
+
             _weaponViewsDictionary.Add(type, _weaponViews[numberWeapon]);
         }
-        
+
         public void Show()
         {
             gameObject.SetActive(true);
@@ -75,11 +80,6 @@ namespace Project.Scripts.UI.Panel
         public WeaponView GetWeaponViewByType(WeaponType type)
         {
             return _weaponViewsDictionary[type];
-        }
-
-        private void OnDestroy()
-        {
-            transform.DOKill();
         }
     }
 }

@@ -1,23 +1,31 @@
 using System.Collections.Generic;
 using Project.Scripts.Game.GameRoot;
 using Project.Scripts.Services;
-using UnityEngine;
 using Reflex.Core;
 using Reflex.Injectors;
 using Unity.VisualScripting;
+using UnityEngine;
 
 namespace Project.Scripts.DI
 {
     public class ProjectInstaller : MonoBehaviour, IInstaller
     {
-        private readonly List<object> _monoServices = new ();
-        private readonly List<GameObject> _monoServiceObjects = new ();
-        
+        private readonly List<object> _monoServices = new();
+        private readonly List<GameObject> _monoServiceObjects = new();
+
         [SerializeField] private AudioSoundsService _audioSoundsServicePrefab;
         [SerializeField] private ParticleEffectsService _particleEffectsService;
         [SerializeField] private OperationService _operationServicePrefab;
         [SerializeField] private UIRootView _uiRootViewPrefab;
         [SerializeField] private GameEntryPoint _gameEntryPointPrefab;
+
+        private void OnDestroy()
+        {
+            foreach (var obj in _monoServiceObjects)
+            {
+                if (obj != null) Destroy(obj);
+            }
+        }
 
         public void InstallBindings(ContainerBuilder builder)
         {
@@ -26,15 +34,18 @@ namespace Project.Scripts.DI
             RegisterCreatedServices(builder);
             RegisterContainerDependentServices(builder);
         }
-        
+
         private void RegisterCoreServices(ContainerBuilder builder)
         {
             builder.AddSingleton(typeof(ResourceService), typeof(IResourceService));
             builder.AddSingleton(typeof(DataBaseService), typeof(IDataBaseService));
             builder.AddSingleton(typeof(PauseService), typeof(IPauseService));
             builder.AddSingleton(typeof(FloatingTextService), typeof(IFloatingTextService));
-            builder.AddSingleton(typeof(CharacteristicsWeaponDataService), 
+
+            builder.AddSingleton(
+                typeof(CharacteristicsWeaponDataService),
                 typeof(ICharacteristicsWeaponDataService));
+
             builder.AddSingleton(typeof(LevelUpService), typeof(ILevelUpService));
             builder.AddSingleton(typeof(CardService), typeof(ICardService));
             builder.AddSingleton(typeof(EnemyService), typeof(IEnemyService));
@@ -45,7 +56,7 @@ namespace Project.Scripts.DI
             builder.AddSingleton(typeof(CoreService), typeof(ICoreService));
             builder.AddSingleton(typeof(UILocalizationService), typeof(IUILocalizationService));
         }
-        
+
         private void CreateMonoServices()
         {
             CreateService(_audioSoundsServicePrefab);
@@ -55,23 +66,24 @@ namespace Project.Scripts.DI
             CreateService(_gameEntryPointPrefab);
         }
 
-        private void CreateService<T>(T prefab) where T : MonoBehaviour
+        private void CreateService<T>(T prefab)
+            where T : MonoBehaviour
         {
             var instance = Instantiate(prefab);
             _monoServices.Add(instance);
             _monoServiceObjects.Add(instance.gameObject);
             DontDestroyOnLoad(instance);
         }
-        
+
         private void RegisterCreatedServices(ContainerBuilder builder)
         {
             foreach (var service in _monoServices)
             {
                 builder.AddSingleton(service);
-                
+
                 var serviceType = service.GetType();
                 var interfaces = serviceType.GetInterfaces();
-                
+
                 foreach (var interfaceType in interfaces)
                 {
                     builder.AddSingleton(serviceType, interfaceType);
@@ -87,7 +99,7 @@ namespace Project.Scripts.DI
                 {
                     GameObjectInjector.InjectObject(service, container);
                 }
-                
+
                 foreach (var service in _monoServices)
                 {
                     if (service is IInitializable initializable)
@@ -96,14 +108,6 @@ namespace Project.Scripts.DI
                     }
                 }
             };
-        }
-        
-        private void OnDestroy()
-        {
-            foreach (var obj in _monoServiceObjects)
-            {
-                if (obj != null) Destroy(obj);
-            }
         }
     }
 }

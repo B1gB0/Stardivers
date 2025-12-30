@@ -6,7 +6,7 @@ namespace Project.Scripts.Levels.Triggers
     public class EndFirstWaveTrigger : Trigger
     {
         [SerializeField] private EnemySpawnTriggerWithEffect enemySpawnTriggerWithEffect;
-        
+
         private void OnTriggerEnter(Collider trigger)
         {
             if (trigger.TryGetComponent(out PlayerActor _))

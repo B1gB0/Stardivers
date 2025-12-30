@@ -6,30 +6,30 @@ namespace Project.Scripts.Weapon.CharacteristicsOfWeapon
     {
         public override void SetStartingCharacteristics(CharacteristicsWeaponData data)
         {
-            fireRate = data.FireRate;
-            damage = data.Damage;
-            explosionRadius = data.ExplosionRadius;
-            maxCountShots = data.MaxCountShots;
-            reloadTime = data.ReloadTime;
+            FireRate = data.FireRate;
+            Damage = data.Damage;
+            ExplosionRadius = data.ExplosionRadius;
+            MaxCountShots = data.MaxCountShots;
+            ReloadTime = data.ReloadTime;
         }
 
-        public override void ApplyImprovement(CharacteristicType type ,float factor)
+        public override void ApplyImprovement(CharacteristicType type, float factor)
         {
             switch (type)
             {
-                case CharacteristicType.Damage :
+                case CharacteristicType.Damage:
                     IncreaseDamage(factor);
                     break;
-                case CharacteristicType.FireRate :
+                case CharacteristicType.FireRate:
                     IncreaseFireRate(factor);
                     break;
-                case CharacteristicType.ExplosionRadius :
+                case CharacteristicType.ExplosionRadius:
                     IncreaseExplosionRadius(factor);
                     break;
-                case CharacteristicType.MaxCountShots :
+                case CharacteristicType.MaxCountShots:
                     IncreaseMaxCountBullets((int)factor);
                     break;
-                case CharacteristicType.ReloadTime :
+                case CharacteristicType.ReloadTime:
                     IncreaseReloadVelocity(factor);
                     break;
             }

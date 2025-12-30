@@ -5,6 +5,6 @@ namespace Project.Scripts.ECS.EntityActors
         Gold = 0,
         Healing = 1,
         Stone = 2,
-        AlienCocoon = 3
+        AlienCocoon = 3,
     }
 }

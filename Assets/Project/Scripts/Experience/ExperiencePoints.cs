@@ -15,10 +15,16 @@ namespace Project.Scripts.Experience
         private const float DelayLevelUp = 0.2f;
 
         private readonly ExperienceScoreActorVisitor _experienceScoreActorVisitor = new();
-        private readonly Queue<int> _pendingLevelUps = new ();
+        private readonly Queue<int> _pendingLevelUps = new();
         private readonly List<int> _playerLevels;
 
         private bool _isLevelUpProcessing;
+
+        private int _currentMaxValueOfLevel;
+        private int _currentValue;
+        private int _currentLevel;
+        private int _counterLevel;
+        private int _newValue;
 
         public ExperiencePoints(IPlayerService playerService)
         {
@@ -28,16 +34,10 @@ namespace Project.Scripts.Experience
             _currentValue = TargetExperienceValue;
         }
 
-        private int _currentMaxValueOfLevel;
-        private int _currentValue;
-        private int _currentLevel;
-        private int _counterLevel;
-        private int _newValue;
-        
         public event Action<float, float, float> ValueIsChanged;
         public event Action<int, float, float> ProgressBarLevelIsUpgraded;
         public event Action<int> CurrentLevelIsUpgraded;
-        
+
         public int AccumulatedKills => _experienceScoreActorVisitor.AccumulatedEnemyKills;
         public int AccumulatedScore => _experienceScoreActorVisitor.AccumulatedScore;
         private int TargetExperienceValue => _experienceScoreActorVisitor.AccumulatedExperience;
@@ -46,9 +46,10 @@ namespace Project.Scripts.Experience
         {
             experience.AcceptScore(_experienceScoreActorVisitor);
 
-            if (_counterLevel > _playerLevels.Count - CorrectFactorCounter) return;
-            
-            while (_counterLevel < _playerLevels.Count - CorrectFactorCounter && 
+            if (_counterLevel > _playerLevels.Count - CorrectFactorCounter) 
+                return;
+
+            while (_counterLevel < _playerLevels.Count - CorrectFactorCounter &&
                    TargetExperienceValue >= _currentMaxValueOfLevel)
             {
                 _counterLevel++;
@@ -66,13 +67,13 @@ namespace Project.Scripts.Experience
                     _pendingLevelUps.Enqueue(_currentLevel);
                 }
             }
-            
+
             if (TargetExperienceValue < _currentMaxValueOfLevel)
             {
                 ValueIsChanged?.Invoke(_currentValue, TargetExperienceValue, _currentMaxValueOfLevel);
                 _currentValue = TargetExperienceValue;
             }
-            
+
             if (_pendingLevelUps.Count > DefaultLevel && !_isLevelUpProcessing)
             {
                 ProcessLevelUps().Forget();
@@ -104,9 +105,9 @@ namespace Project.Scripts.Experience
                 while (_pendingLevelUps.Count > DefaultLevel)
                 {
                     int newLevel = _pendingLevelUps.Dequeue();
-                
+
                     CurrentLevelIsUpgraded?.Invoke(newLevel);
-                    
+
                     await UniTask.Delay(TimeSpan.FromSeconds(DelayLevelUp));
                 }
             }

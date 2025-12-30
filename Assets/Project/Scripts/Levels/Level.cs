@@ -19,25 +19,16 @@ namespace Project.Scripts.Levels
         protected const float MinValue = 0f;
         protected const int FirstWaveEnemy = 0;
         protected const int SecondWaveEnemy = 1;
-        
+
         private const string LeaderboardName = "BestPlayers";
-        
+
         private readonly List<EnemyWave> _enemyWaves = new();
 
-        [field: SerializeField] public bool IsLaunchPlayerCapsule { get; private set; }
-        [field: SerializeField] public EndLevelTrigger EndLevelTrigger { get; private set; }
-        [field: SerializeField] public EntranceTrigger EntranceToNextLvlTrigger { get; private set; }
-        [field:SerializeField] public WelcomePlanetTextTrigger WelcomePlanetTextTrigger { get; private set; }
-        [field: SerializeField] public Transform ArrowPoint { get; private set; }
-        [field: SerializeField] public int QuantityGoldCore { get; private set; }
-        [field: SerializeField] public int QuantityHealingCore { get; private set; }
-        [field: SerializeField] public int QuantityIceCrystals { get; private set; }
-        
         [SerializeField] protected float SpawnWaveOfEnemyDelay = 10f;
         [SerializeField] protected int CountSmallEnemy;
         [SerializeField] protected int CountBigEnemy;
         [SerializeField] protected int CountGunnerEnemy;
-        
+
         [SerializeField] private int _countEnemyWaves;
 
         protected ResourcesSpawner ResourcesSpawner;
@@ -55,6 +46,14 @@ namespace Project.Scripts.Levels
         private ILevelTextService _levelTextService;
 
         public event Action IsInitiatedSpawners;
+
+        [field: SerializeField] public bool IsLaunchPlayerCapsule { get; private set; }
+        [field: SerializeField] public EndLevelTrigger EndLevelTrigger { get; private set; }
+        [field: SerializeField] public EntranceTrigger EntranceToNextLvlTrigger { get; private set; }
+        [field: SerializeField] public WelcomePlanetTextTrigger WelcomePlanetTextTrigger { get; private set; }
+        [field: SerializeField] public int QuantityGoldCore { get; private set; }
+        [field: SerializeField] public int QuantityHealingCore { get; private set; }
+        [field: SerializeField] public int QuantityIceCrystals { get; private set; }
 
         private void OnDestroy()
         {
@@ -110,20 +109,23 @@ namespace Project.Scripts.Levels
         {
             _enemySpawner.SpawnSmallAlienEnemy(_enemyWaves[numberWaveEnemy].SmallEnemySpawnPositions, CountSmallEnemy);
         }
-        
+
         protected void CreateWaveOfBigEnemies(int numberWaveEnemy)
         {
             _enemySpawner.SpawnBigEnemyAlien(_enemyWaves[numberWaveEnemy].BigEnemySpawnPositions, CountBigEnemy);
         }
-        
+
         protected void CreateWaveOfGunnerEnemies(int numberWaveEnemy)
         {
-            _enemySpawner.SpawnGunnerAlienEnemy(_enemyWaves[numberWaveEnemy].GunnerEnemySpawnPositions, CountGunnerEnemy);
+            _enemySpawner.SpawnGunnerAlienEnemy(
+                _enemyWaves[numberWaveEnemy].GunnerEnemySpawnPositions,
+                CountGunnerEnemy);
         }
-        
+
         protected void CreateAllAlienEnemyTurrets()
         {
-            _enemySpawner.SpawnAlienEnemyTurret(_levelInitData.EnemyTurretsSpawnPoints,
+            _enemySpawner.SpawnAlienEnemyTurret(
+                _levelInitData.EnemyTurretsSpawnPoints,
                 _levelInitData.PlayerSpawnPosition);
         }
 
@@ -141,7 +143,7 @@ namespace Project.Scripts.Levels
         {
             ResourcesSpawner.SpawnIceCrystal(QuantityIceCrystals);
         }
-        
+
         protected void ArrowLookAtOutpost()
         {
             Arrow.OnLookAtTarget(EndLevelTrigger.transform);
@@ -159,15 +161,13 @@ namespace Project.Scripts.Levels
                         enemyWave.GetEnemyPositions(
                             _levelInitData.FirstWaveSmallEnemyAlienSpawnPositions,
                             _levelInitData.FirstWaveBigEnemyAlienSpawnPositions,
-                            _levelInitData.FirstWaveGunnerEnemyAlienSpawnPositions
-                        );
+                            _levelInitData.FirstWaveGunnerEnemyAlienSpawnPositions);
                         break;
                     case SecondWaveEnemy:
                         enemyWave.GetEnemyPositions(
                             _levelInitData.SecondWaveSmallEnemyAlienSpawnPositions,
                             _levelInitData.SecondWaveBigEnemyAlienSpawnPositions,
-                            _levelInitData.SecondWaveGunnerEnemyAlienSpawnPositions
-                        );
+                            _levelInitData.SecondWaveGunnerEnemyAlienSpawnPositions);
                         break;
                     default:
                         throw new Exception("There is not enough data for new waves");

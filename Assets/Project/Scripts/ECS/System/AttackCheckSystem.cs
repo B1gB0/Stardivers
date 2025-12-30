@@ -39,7 +39,8 @@ namespace Project.Scripts.ECS.System
                 ref var followComponent = ref _enemyTurretFilter.Get2(entity);
                 ref var turretComponent = ref _enemyTurretFilter.Get3(entity);
 
-                var isInRangeAttack = Vector3.Distance(movableComponent.Transform.position,
+                var isInRangeAttack = Vector3.Distance(
+                    movableComponent.Transform.position,
                     followComponent.Target.transform.position) <= turretComponent.RangeAttack;
 
                 if (followComponent.Target == null || !isInRangeAttack)
