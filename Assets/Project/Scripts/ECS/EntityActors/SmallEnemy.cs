@@ -4,7 +4,7 @@ using UnityEngine.AI;
 
 namespace Project.Scripts.ECS.EntityActors
 {
-    public class SmallEnemy : EnemyActor, IAcceptable
+    public class SmallEnemy : EnemyActor
     {
         [field: SerializeField] public NavMeshAgent NavMeshAgent { get; private set; }
 
@@ -18,11 +18,6 @@ namespace Project.Scripts.ECS.EntityActors
         {
             Health.Die -= OnDie;
             Health.IsDamaged -= OnPlayParticleEffect;
-        }
-
-        public void AcceptScore(IScoreActorVisitor visitor)
-        {
-            visitor.Visit(this);
         }
 
         protected override void OnDie()

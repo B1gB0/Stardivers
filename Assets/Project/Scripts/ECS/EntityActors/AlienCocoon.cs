@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Project.Scripts.ECS.EntityActors
 {
-    public class AlienCocoon : ResourceActor, IAcceptable
+    public class AlienCocoon : ResourceActor
     {
         private IFloatingTextService _textService;
         private ICurrencyService _currencyService;
@@ -27,12 +27,7 @@ namespace Project.Scripts.ECS.EntityActors
             Health.Die -= Die;
             Health.IsDamaged -= OnPlayParticleEffect;
         }
-
-        public void AcceptScore(IScoreActorVisitor visitor)
-        {
-            visitor.Visit(this);
-        }
-
+        
         public void GetServices(ICurrencyService currencyService, IFloatingTextService textService)
         {
             _currencyService = currencyService;

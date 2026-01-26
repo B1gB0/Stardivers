@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Project.Scripts.ECS.EntityActors
 {
-    public class GoldCore : ResourceActor, IAcceptable
+    public class GoldCore : ResourceActor
     {
         private const float MaxAngle = 360f;
         private const float CrystalJumpForce = 2.5f;
@@ -45,11 +45,6 @@ namespace Project.Scripts.ECS.EntityActors
             _floatingTextService = floatingTextService;
             _currencyService = currencyService;
             _rootForObjects = rootForObjects;
-        }
-
-        public void AcceptScore(IScoreActorVisitor visitor)
-        {
-            visitor.Visit(this);
         }
 
         private void SpawnCrystal()

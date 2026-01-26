@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Project.Scripts.ECS.EntityActors
 {
-    public abstract class ResourceActor : MonoBehaviour, IExperienceScoreActor
+    public abstract class ResourceActor : MonoBehaviour, IExperienceScoreActor, IAcceptable
     {
         protected ExperiencePoints ExperiencePoints;
         protected ParticleEffectsService ParticleEffectsService;
@@ -32,6 +32,11 @@ namespace Project.Scripts.ECS.EntityActors
             IsEnemy = false;
             
             ParticleEffectsService = particleEffectsService;
+        }
+        
+        public void AcceptScore(IScoreActorVisitor visitor)
+        {
+            visitor.Visit(this);
         }
 
         protected virtual void OnPlayParticleEffect()

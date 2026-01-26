@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Project.Scripts.ECS.EntityActors
 {
-    public class HealingCore : ResourceActor, IAcceptable
+    public class HealingCore : ResourceActor
     {
         private const float CrystalJumpForce = 2.5f;
         private const float MinAngle = 0f;
@@ -37,11 +37,6 @@ namespace Project.Scripts.ECS.EntityActors
         {
             _floatingTextService = floatingTextService;
             _rootForObjects = rootForObjects;
-        }
-
-        public void AcceptScore(IScoreActorVisitor visitor)
-        {
-            visitor.Visit(this);
         }
 
         private void SpawnCrystal()

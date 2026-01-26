@@ -8,7 +8,7 @@ namespace Project.Scripts.Services
 {
     public class OperationService : MonoBehaviour, IService
     {
-        private const int DefaultNumberLevel = 2;
+        private const int DefaultNumberLevel = 0;
 
         private readonly Dictionary<int, string> _marsSceneLevels = new ();
         private readonly Dictionary<int, string> _mysteryPlanetSceneLevels = new ();

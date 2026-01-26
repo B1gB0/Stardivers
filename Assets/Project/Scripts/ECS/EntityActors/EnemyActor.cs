@@ -8,7 +8,7 @@ using Project.Scripts.Services;
 
 namespace Project.Scripts.ECS.EntityActors
 {
-    public abstract class EnemyActor : EntityActor, IExperienceScoreActor
+    public abstract class EnemyActor : EntityActor, IExperienceScoreActor, IAcceptable
     {
         private const float MoveSpeedFactor = 1f;
 
@@ -18,10 +18,10 @@ namespace Project.Scripts.ECS.EntityActors
         protected AudioSoundsService AudioSoundsService;
 
         private EcsEntity _enemyEntity;
+        private EnemyData _data;
 
         public event Action<EnemyActor> Die;
 
-        public EnemyData Data { get; private set; }
         public int Experience { get; private set; }
         public int Score { get; private set; }
         public bool IsEnemy { get; private set; }
@@ -41,7 +41,7 @@ namespace Project.Scripts.ECS.EntityActors
         {
             ExperiencePoints = experiencePoints;
             
-            Data = data;
+            _data = data;
             Experience = data.Experience;
             Score = data.Score;
             IsEnemy = true;
@@ -54,6 +54,11 @@ namespace Project.Scripts.ECS.EntityActors
 
             Health.IsSpawnedDamageText += TextService.OnChangedFloatingText;
             OnChangeSpeed += UpdateCurrentSpeed;
+        }
+        
+        public void AcceptScore(IScoreActorVisitor visitor)
+        {
+            visitor.Visit(this);
         }
 
         protected virtual void OnDie()
@@ -71,7 +76,7 @@ namespace Project.Scripts.ECS.EntityActors
 
         private void UpdateCurrentSpeed()
         {
-            var moveSpeed = Data.Speed * (MoveSpeedFactor + GetCurrentModifier());
+            var moveSpeed = _data.Speed * (MoveSpeedFactor + GetCurrentModifier());
             ChangeMoveSpeed(moveSpeed);
         }
 

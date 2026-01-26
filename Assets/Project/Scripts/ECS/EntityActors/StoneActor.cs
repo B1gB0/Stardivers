@@ -2,7 +2,7 @@
 
 namespace Project.Scripts.ECS.EntityActors
 {
-    public class StoneActor : ResourceActor, IAcceptable
+    public class StoneActor : ResourceActor
     {
         private void OnEnable()
         {
@@ -20,11 +20,6 @@ namespace Project.Scripts.ECS.EntityActors
         {
             ExperiencePoints.OnKill(this);
             gameObject.SetActive(false);
-        }
-
-        public void AcceptScore(IScoreActorVisitor visitor)
-        {
-            visitor.Visit(this);
         }
     }
 }

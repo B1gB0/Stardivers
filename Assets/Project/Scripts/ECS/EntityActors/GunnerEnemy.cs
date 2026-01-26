@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 namespace Project.Scripts.ECS.EntityActors
 {
-    public class GunnerEnemy : EnemyActor, IAcceptable
+    public class GunnerEnemy : EnemyActor
     {
         [field: SerializeField] public GunnerEnemyAlienWeapon Weapon { get; private set; }
         [field: SerializeField] public NavMeshAgent NavMeshAgent { get; private set; }
@@ -25,11 +25,6 @@ namespace Project.Scripts.ECS.EntityActors
         {
             Health.Die -= OnDie;
             Health.IsDamaged -= OnPlayParticleEffect;
-        }
-
-        public void AcceptScore(IScoreActorVisitor visitor)
-        {
-            visitor.Visit(this);
         }
 
         protected override void OnDie()
