@@ -13,12 +13,11 @@ namespace Project.Scripts.Projectiles.Mines
         private const float DefaultExplodingRadius = 5f;
         private const float DefaultSlowingDownSpeed = -0.5f;
         private const float SlowDuration = 3f;
+        private const int MaxCount = 20;
 
-        private Collider[] _hits;
+        private readonly Collider[] _hits = new Collider[MaxCount];
 
-        protected override void OnEnable()
-        {
-        }
+        protected override void OnEnable() { }
 
         private void Start()
         {
@@ -26,9 +25,7 @@ namespace Project.Scripts.Projectiles.Mines
             ExplosionRadius = DefaultExplodingRadius;
         }
 
-        protected override void OnDisable()
-        {
-        }
+        protected override void OnDisable() { }
 
         public void Construct(ParticleEffectsService particleEffectsService, AudioSoundsService audioSoundsService)
         {
@@ -70,18 +67,34 @@ namespace Project.Scripts.Projectiles.Mines
             gameObject.SetActive(false);
         }
 
+        // private PlayerActor GetPlayer()
+        // {
+        //     Physics.OverlapSphereNonAlloc(Transform.position, ExplosionRadius, _hits);
+        //
+        //     foreach (Collider hit in _hits)
+        //     {
+        //         if (hit.attachedRigidbody != null && hit.gameObject.TryGetComponent(out PlayerActor player))
+        //         {
+        //             return player;
+        //         }
+        //     }
+        //
+        //     return null;
+        // }
+        
         private PlayerActor GetPlayer()
         {
-            Physics.OverlapSphereNonAlloc(Transform.position, ExplosionRadius, _hits);
-
-            foreach (Collider hit in _hits)
+            int count = Physics.OverlapSphereNonAlloc(transform.position, ExplosionRadius, _hits);
+    
+            for (int i = 0; i < count; i++)
             {
+                Collider hit = _hits[i];
                 if (hit.attachedRigidbody != null && hit.gameObject.TryGetComponent(out PlayerActor player))
                 {
                     return player;
                 }
             }
-
+    
             return null;
         }
     }
