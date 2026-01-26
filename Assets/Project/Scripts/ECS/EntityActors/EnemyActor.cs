@@ -8,7 +8,7 @@ using Project.Scripts.Services;
 
 namespace Project.Scripts.ECS.EntityActors
 {
-    public abstract class EnemyActor : EntityActor
+    public abstract class EnemyActor : EntityActor, IExperienceScoreActor
     {
         private const float MoveSpeedFactor = 1f;
 
@@ -22,6 +22,9 @@ namespace Project.Scripts.ECS.EntityActors
         public event Action<EnemyActor> Die;
 
         public EnemyData Data { get; private set; }
+        public int Experience { get; private set; }
+        public int Score { get; private set; }
+        public bool IsEnemy { get; private set; }
 
         private void OnDestroy()
         {
@@ -37,7 +40,12 @@ namespace Project.Scripts.ECS.EntityActors
             AudioSoundsService audioSoundsService)
         {
             ExperiencePoints = experiencePoints;
+            
             Data = data;
+            Experience = data.Experience;
+            Score = data.Score;
+            IsEnemy = true;
+            
             _enemyEntity = enemyEntity;
             ParticleEffectsService = particleEffectsService;
             AudioSoundsService = audioSoundsService;

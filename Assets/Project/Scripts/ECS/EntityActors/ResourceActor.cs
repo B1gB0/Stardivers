@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Project.Scripts.ECS.EntityActors
 {
-    public abstract class ResourceActor : MonoBehaviour
+    public abstract class ResourceActor : MonoBehaviour, IExperienceScoreActor
     {
         protected ExperiencePoints ExperiencePoints;
         protected ParticleEffectsService ParticleEffectsService;
@@ -15,6 +15,9 @@ namespace Project.Scripts.ECS.EntityActors
         [field: SerializeField] public Animator Animator { get; private set; }
 
         public CoreData Data { get; private set; }
+        public int Experience { get; private set; }
+        public int Score { get; private set; }
+        public bool IsEnemy { get; private set; }
 
         public void Construct(
             ExperiencePoints experiencePoints,
@@ -22,7 +25,12 @@ namespace Project.Scripts.ECS.EntityActors
             ParticleEffectsService particleEffectsService)
         {
             ExperiencePoints = experiencePoints;
+            
             Data = data;
+            Experience = data.Experience;
+            Score = data.Score;
+            IsEnemy = false;
+            
             ParticleEffectsService = particleEffectsService;
         }
 
