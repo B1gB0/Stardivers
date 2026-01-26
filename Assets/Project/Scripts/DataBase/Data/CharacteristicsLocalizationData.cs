@@ -7,7 +7,6 @@ namespace Project.Scripts.DataBase.Data
     [Serializable]
     public class CharacteristicsLocalizationData
     {
-        [SerializeField] private string _id;
         [SerializeField] private CharacteristicType _type;
         [SerializeField] private string _nameRu;
         [SerializeField] private string _nameEn;
@@ -15,8 +14,7 @@ namespace Project.Scripts.DataBase.Data
         [SerializeField] private string _descriptionRu;
         [SerializeField] private string _descriptionEn;
         [SerializeField] private string _descriptionTr;
-
-        public string Id => _id;
+        
         public CharacteristicType Type => _type;
         public string NameRu => _nameRu;
         public string NameEn => _nameEn;

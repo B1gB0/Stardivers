@@ -7,7 +7,6 @@ namespace Project.Scripts.DataBase.Data
     [Serializable]
     public class CharacteristicsWeaponData
     {
-        [SerializeField] private string _id;
         [SerializeField] private WeaponType _weaponType;
         [SerializeField] private float _rangeAttack;
         [SerializeField] private float _fireRate;
@@ -18,7 +17,6 @@ namespace Project.Scripts.DataBase.Data
         [SerializeField] private float _explosionRadius;
         [SerializeField] private int _maxEnemiesInChain;
         
-        public string Id => _id;
         public WeaponType WeaponType => _weaponType;
         public float RangeAttack => _rangeAttack;
         public float FireRate => _fireRate;
