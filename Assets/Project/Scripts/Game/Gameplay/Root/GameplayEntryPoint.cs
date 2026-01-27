@@ -133,10 +133,10 @@ namespace Project.Scripts.Game.Gameplay.Root
             switch (_operationService.CurrentOperation.Id)
             {
                 case Constant.Operations.Mars:
-                    _audioSoundsService.PlayMusic(SoundsType.MarsGameplayMusic);
+                    _audioSoundsService.PlayMusic(SoundsType.MarsMusic);
                     break;
                 case Constant.Operations.MysteryPlanet:
-                    _audioSoundsService.PlayMusic(SoundsType.MysteryPlanetGameplayMusic);
+                    _audioSoundsService.PlayMusic(SoundsType.MysteryPlanetMusic);
                     break;
             }
         }

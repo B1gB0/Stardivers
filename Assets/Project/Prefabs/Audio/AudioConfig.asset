@@ -1,0 +1,85 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 181933f322c6416696e0133af46e7983, type: 3}
+  m_Name: AudioConfig
+  m_EditorClassIdentifier: 
+  Sounds:
+  - ClipName: Mines
+    Clip: {fileID: 8300000, guid: 223eb43ca79bd2e47aa0f2313194e873, type: 3}
+    IsLoop: 0
+    Volume: 1
+  - ClipName: MachineGun
+    Clip: {fileID: 8300000, guid: 4dc16299e21027442990f9c5bad821e7, type: 3}
+    IsLoop: 0
+    Volume: 1
+  - ClipName: GunnerEnemyAlien
+    Clip: {fileID: 8300000, guid: 4fa43ef756bb6394a938bdf95e45dc44, type: 3}
+    IsLoop: 0
+    Volume: 1
+  - ClipName: Stone
+    Clip: {fileID: 8300000, guid: 5b7a2b706bd27924fba18fbf512bd7ce, type: 3}
+    IsLoop: 0
+    Volume: 1
+  - ClipName: FourBarrelMachineGun
+    Clip: {fileID: 8300000, guid: 5ebb8c520e7e0464d8b4b59116dd3b47, type: 3}
+    IsLoop: 0
+    Volume: 1
+  - ClipName: Gun
+    Clip: {fileID: 8300000, guid: 72819b746f8c680458ef7e84edfabce0, type: 3}
+    IsLoop: 0
+    Volume: 1
+  - ClipName: CapsuleExplosion
+    Clip: {fileID: 8300000, guid: 826a32dec4da8b94796cb5ae14990e0d, type: 3}
+    IsLoop: 0
+    Volume: 1
+  - ClipName: CardViewButton
+    Clip: {fileID: 8300000, guid: 8807d47a60a59c7469fd6965655d0070, type: 3}
+    IsLoop: 0
+    Volume: 1
+  - ClipName: Button
+    Clip: {fileID: 8300000, guid: a1369489276d6744db1579cd2385c0cc, type: 3}
+    IsLoop: 0
+    Volume: 1
+  - ClipName: ChainLightningGun
+    Clip: {fileID: 8300000, guid: bff9cc863770c074cbed367e353d3d12, type: 3}
+    IsLoop: 0
+    Volume: 1
+  - ClipName: FragGrenade
+    Clip: {fileID: 8300000, guid: d92a3bf7d69a5ba4a8e46aaac801fd0c, type: 3}
+    IsLoop: 0
+    Volume: 1
+  - ClipName: Splash
+    Clip: {fileID: 8300000, guid: dd3cdb12ffc4ae346be5348e810135b2, type: 3}
+    IsLoop: 0
+    Volume: 1
+  - ClipName: IceCrystal
+    Clip: {fileID: 8300000, guid: ec72a5d932b938741ab12c9524aee5f5, type: 3}
+    IsLoop: 0
+    Volume: 1
+  - ClipName: CapsuleFlight
+    Clip: {fileID: 8300000, guid: fa1e47251529f2e439cdde099b1a9cbd, type: 3}
+    IsLoop: 0
+    Volume: 1
+  - ClipName: MarsMusic
+    Clip: {fileID: 8300000, guid: 91b0d30a74adab14f8050429a7dfe64f, type: 3}
+    IsLoop: 1
+    Volume: 1
+  - ClipName: MainMenuMusic
+    Clip: {fileID: 8300000, guid: cdef3425237d4ae4b921049de78c3675, type: 3}
+    IsLoop: 1
+    Volume: 1
+  - ClipName: MysteryPlanetMusic
+    Clip: {fileID: 8300000, guid: d3751c6029ef6f2489bdf657f7cd4457, type: 3}
+    IsLoop: 1
+    Volume: 1
+  _soundLabel: Sound
+  _musicLabel: Music

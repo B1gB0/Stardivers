@@ -13,29 +13,15 @@ namespace Project.Scripts.Services
 {
     public class AudioSoundsService : MonoBehaviour, IService
     {
-        private const string GunSoundPath = "GunSound";
-        private const string ButtonSoundPath = "ButtonSound";
-        private const string MinesSoundPath = "MinesSound";
-        private const string MiningStoneSoundPath = "MiningStoneSound";
-        private const string FourBarrelMachineGunSoundPath = "FourBarrelMachineGunSound";
-        private const string MachineGunSoundPath = "MachineGunSound";
-        private const string CardViewButtonSoundPath = "CardViewButtonSound";
-        private const string ChainLightningGunSoundPath = "ChainLightningGunSound";
-        private const string CapsuleFlightSoundPath = "CapsuleFlightSound";
-        private const string CapsuleExplosionSoundPath = "CapsuleExplosionSound";
-        private const string GrenadesSoundPath = "GrenadesSound";
-        private const string MainMenuMusicPath = "MainMenuMusic";
-        private const string MarsGameplayMusicPath = "MarsGameplayMusic";
-        private const string MysteryPlanetGameplayMusicPath = "MysteryPlanetGameplayMusic";
-        private const string IceCrystalSoundPath = "IceCrystalSound";
-        private const string GunnerEnemyAlienSoundPath = "GunnerEnemyAlienSound";
-        private const string SplashSoundPath = "SplashSound";
+        private const string AudioConfigPath = "AudioConfig";
 
         private const int CountAudioSources = 10;
 
         private const float CapsuleFlightDuration = 4.5f;
         private const float CapsuleExplosionDelay = 2.5f;
 
+        private readonly Dictionary<SoundsType, Sound> _soundDictionary = new();
+        
         [SerializeField] private AudioMixerGroup _musicGroup;
         [SerializeField] private AudioMixerGroup _effectsGroup;
 
@@ -43,7 +29,6 @@ namespace Project.Scripts.Services
         private SoundsType _currentMusicType;
         private CancellationTokenSource _capsuleSoundToken;
 
-        private Dictionary<SoundsType, Sound> _soundDictionary;
         private Queue<AudioSource> _availableAudioSources;
         private List<AudioSource> _allAudioSources;
         private IResourceService _resourceService;
@@ -60,8 +45,9 @@ namespace Project.Scripts.Services
         {
             if (IsInitiated)
                 return;
-
+            
             await InitializeSoundDictionary();
+            
             InitializeMusicAudioSource();
             InitializeAudioSourcePool();
             IsInitiated = true;
@@ -240,26 +226,15 @@ namespace Project.Scripts.Services
 
         private async UniTask InitializeSoundDictionary()
         {
-            var builder = new AudioSoundBuilder(_resourceService)
-                .AddScriptableObject(SoundsType.Gun, GunSoundPath)
-                .AddScriptableObject(SoundsType.Button, ButtonSoundPath)
-                .AddScriptableObject(SoundsType.Mines, MinesSoundPath)
-                .AddScriptableObject(SoundsType.Stone, MiningStoneSoundPath)
-                .AddScriptableObject(SoundsType.MachineGun, MachineGunSoundPath)
-                .AddScriptableObject(SoundsType.CardViewButton, CardViewButtonSoundPath)
-                .AddScriptableObject(SoundsType.FourBarrelMachineGun, FourBarrelMachineGunSoundPath)
-                .AddScriptableObject(SoundsType.ChainLightningGun, ChainLightningGunSoundPath)
-                .AddScriptableObject(SoundsType.CapsuleFlight, CapsuleFlightSoundPath)
-                .AddScriptableObject(SoundsType.CapsuleExplosion, CapsuleExplosionSoundPath)
-                .AddScriptableObject(SoundsType.FragGrenades, GrenadesSoundPath)
-                .AddScriptableObject(SoundsType.MainMenuMusic, MainMenuMusicPath)
-                .AddScriptableObject(SoundsType.MarsGameplayMusic, MarsGameplayMusicPath)
-                .AddScriptableObject(SoundsType.MysteryPlanetGameplayMusic, MysteryPlanetGameplayMusicPath)
-                .AddScriptableObject(SoundsType.IceCrystalExplosion, IceCrystalSoundPath)
-                .AddScriptableObject(SoundsType.GunnerEnemyAlien, GunnerEnemyAlienSoundPath)
-                .AddScriptableObject(SoundsType.SplashSound, SplashSoundPath);
+            AudioConfig audioConfig = await _resourceService.Load<AudioConfig>(AudioConfigPath);
 
-            _soundDictionary = await builder.Build();
+            foreach (var sound in audioConfig.Sounds)
+            {
+                AudioClip clip = await _resourceService.Load<AudioClip>(sound.ClipName);
+                sound.Clip = clip;
+                Enum.TryParse(sound.ClipName, out SoundsType soundType);
+                _soundDictionary.TryAdd(soundType, sound);
+            }
         }
 
         private async UniTask PlaySoundAsync(AudioSource audioSource, Sound config)

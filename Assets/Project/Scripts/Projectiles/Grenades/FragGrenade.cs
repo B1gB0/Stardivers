@@ -56,7 +56,7 @@ namespace Project.Scripts.Projectiles.Grenades
         protected override void Explode()
         {
             ParticleEffectsService.PlayEffect(ParticleEffectType.FragGrenadeExplosion, Transform.position);
-            AudioSoundsService.PlaySound(SoundsType.FragGrenades).Forget();
+            AudioSoundsService.PlaySound(SoundsType.FragGrenade).Forget();
 
             foreach (EnemyActor explosiveObject in GetEnemies())
             {

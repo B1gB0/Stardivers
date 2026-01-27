@@ -1,11 +1,15 @@
+using System;
 using UnityEngine;
 
 namespace Project.Scripts.Audio.Sounds
 {
-    public abstract class Sound : ScriptableObject
+    [Serializable]
+    public class Sound
     {
-        [field: SerializeField] public AudioClip Clip { get; private set; }
-        [field: SerializeField] public bool IsLoop { get; private set; }
-        [field: SerializeField] public float Volume { get; private set; } = 1f;
+        public string ClipName;
+        public AudioClip Clip;
+        public bool IsLoop;
+        
+        [Range(0f, 1f)] public float Volume = 1f;
     }
 }

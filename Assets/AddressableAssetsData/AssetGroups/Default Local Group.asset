@@ -32,18 +32,13 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 0eb3cdf931514b340a71c6e6a5647c16
-    m_Address: MainMenuMusic
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 0f5b81191b4db5347ad25564d756e35d
-    m_Address: MachineGunSound
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 14153f022094a2948b2491e35edca607
     m_Address: Mines
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 173c6dc54fa6db94e88648c6569956e2
+    m_Address: AudioConfig
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -57,15 +52,16 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 20f8a9d66e19ec44699b3a2b3f06a0b9
-    m_Address: FourBarrelMachineGunSound
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 21f96b951acedf44fbc3aa42708dd572
     m_Address: SmallEnemyAlienData
     m_ReadOnly: 0
     m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 223eb43ca79bd2e47aa0f2313194e873
+    m_Address: Mines
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Sound
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 236691d053c4dd1428a1de43f2f55faa
     m_Address: LevelUpPanel
@@ -99,11 +95,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3907491156bd5354aa6aa01cd34dc746
     m_Address: Arrow
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 3acbbace8889be540a2002160f0e0894
-    m_Address: GunSound
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -142,6 +133,18 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4dc16299e21027442990f9c5bad821e7
+    m_Address: MachineGun
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Sound
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4fa43ef756bb6394a938bdf95e45dc44
+    m_Address: GunnerEnemyAlien
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Sound
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 54ec7a125c3dc3d4f99c39c067633ddc
     m_Address: FragGrenades
     m_ReadOnly: 0
@@ -152,15 +155,17 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 58d980fce7e521b48835a0bf0a91eb17
-    m_Address: ButtonSound
+  - m_GUID: 5b7a2b706bd27924fba18fbf512bd7ce
+    m_Address: Stone
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Sound
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 593d93ba8b6b17546a0a95effa519200
-    m_Address: GrenadesSound
+  - m_GUID: 5ebb8c520e7e0464d8b4b59116dd3b47
+    m_Address: FourBarrelMachineGun
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Sound
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 5ec3a6fa2deaec94483e042264b3e7f2
     m_Address: EnemyDetectorForPlayer
@@ -187,10 +192,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 713dd9a2cb3d2454899ec25646d30fe4
-    m_Address: GunnerEnemyAlienSound
+  - m_GUID: 72819b746f8c680458ef7e84edfabce0
+    m_Address: Gun
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Sound
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 7a65b2b2cb355ec439d925f6492bf8ec
     m_Address: EndGamePanel
@@ -212,20 +218,28 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 87afac48ebaaac947902df9e1c7204fd
-    m_Address: MarsGameplayMusic
+  - m_GUID: 826a32dec4da8b94796cb5ae14990e0d
+    m_Address: CapsuleExplosion
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Sound
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 8b6022a70e19f9e4187ce8c54ddf068e
-    m_Address: SplashSound
+  - m_GUID: 8807d47a60a59c7469fd6965655d0070
+    m_Address: CardViewButton
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Sound
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 8ee6a8b8f595ce24a91082ef95823bb6
     m_Address: MachineGunBullet
     m_ReadOnly: 0
     m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 91b0d30a74adab14f8050429a7dfe64f
+    m_Address: MarsMusic
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Music
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 95288b66127170f4a85a6bc9bfab1783
     m_Address: GoldView
@@ -252,10 +266,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: a29406f4cfe7b0449afe96f0e545df4c
-    m_Address: ChainLightningGunSound
+  - m_GUID: a1369489276d6744db1579cd2385c0cc
+    m_Address: Button
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Sound
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a7df192c270aa6b42947ef1b264b92b6
     m_Address: GoldCoreData
@@ -277,10 +292,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: c2e356731b74fc74daaecfaff1be2535
-    m_Address: MysteryPlanetGameplayMusic
+  - m_GUID: bff9cc863770c074cbed367e353d3d12
+    m_Address: ChainLightningGun
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Sound
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c40195fe644856747bd28f7936bafee5
     m_Address: MarsSecondLevel
@@ -297,25 +313,39 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: d0b2548e355364440843d2d127fad75a
-    m_Address: IceCrystalSound
+  - m_GUID: cdef3425237d4ae4b921049de78c3675
+    m_Address: MainMenuMusic
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Music
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: d28cb0b7a91f43d4d9bdd1f948dc8090
-    m_Address: MiningStoneSound
+  - m_GUID: d3751c6029ef6f2489bdf657f7cd4457
+    m_Address: MysteryPlanetMusic
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Music
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d519ad6ef8ea3cd4f9acf13f6646a601
     m_Address: HitResources
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d92a3bf7d69a5ba4a8e46aaac801fd0c
+    m_Address: FragGrenade
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Sound
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: dc85622582fa2ce4ca59fed07448db1c
     m_Address: BigEnemyAlienData
     m_ReadOnly: 0
     m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dd3cdb12ffc4ae346be5348e810135b2
+    m_Address: Splash
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Sound
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: de85f8f81ea29ea479250adb36debd92
     m_Address: GreenBloodExplosion
@@ -337,11 +367,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: e1fa4fa3f7e17f44384757a24770cc24
-    m_Address: CapsuleFlightSound
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e5cf3c4e4607e1c45a9c03f613fbf342
     m_Address: AdviserMessagePanel
     m_ReadOnly: 0
@@ -349,11 +374,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e6fb4b6b7dbccac40a1f6e723da19a70
     m_Address: MainMenu
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: e7068144c47bb894781ea87eefa363e2
-    m_Address: MinesSound
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -372,18 +392,14 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ec72a5d932b938741ab12c9524aee5f5
+    m_Address: IceCrystal
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Sound
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: efa7d68d7e5067345a1edc1e04501b6e
     m_Address: MarsThirdLevel
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: f1a3d0426d354c347ac0a44215140489
-    m_Address: CapsuleExplosionSound
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: f482ede0d612a0340a3a3cc17406dc96
-    m_Address: CardViewButtonSound
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -391,6 +407,12 @@ MonoBehaviour:
     m_Address: MysteryPlanetThirdLevel
     m_ReadOnly: 0
     m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fa1e47251529f2e439cdde099b1a9cbd
+    m_Address: CapsuleFlight
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Sound
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: fae01f525cce1724abc6e03fc609e68d
     m_Address: CheatPanel

@@ -8,7 +8,7 @@ namespace Project.Scripts.Weapon.Enemy
     {
         public override void Shoot()
         {
-            AudioSoundsService.PlaySound(SoundsType.SplashSound).Forget();
+            AudioSoundsService.PlaySound(SoundsType.Splash).Forget();
             base.Shoot();
         }
     }

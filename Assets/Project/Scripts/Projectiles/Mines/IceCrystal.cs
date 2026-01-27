@@ -56,7 +56,7 @@ namespace Project.Scripts.Projectiles.Mines
         protected override void Explode()
         {
             ParticleEffectsService.PlayEffect(ParticleEffectType.IceCrystalExplosion, Transform.position);
-            AudioSoundsService.PlaySound(SoundsType.IceCrystalExplosion).Forget();
+            AudioSoundsService.PlaySound(SoundsType.IceCrystal).Forget();
 
             foreach (EnemyActor enemy in GetEnemies())
             {
