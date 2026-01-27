@@ -11,7 +11,7 @@ using UnityEngine.UI;
 
 namespace Project.Scripts.UI.Panel
 {
-    public class ChoosingOperationPanel : MonoBehaviour, IView
+    public class ChoosingOperationPanel : View.View
     {
         private const int MinValue = 0;
         private const int CountCorrectFactor = 1;
@@ -70,14 +70,13 @@ namespace Project.Scripts.UI.Panel
             _uiStateMachine = uiStateMachine;
         }
 
-        public void Show()
+        public override void Show()
         {
-            gameObject.SetActive(true);
             _tweenAnimationService.AnimateScale(transform);
             SetOperation(_currentIndex);
         }
 
-        public void Hide()
+        public override void Hide()
         {
             _tweenAnimationService.AnimateScale(transform, true);
         }

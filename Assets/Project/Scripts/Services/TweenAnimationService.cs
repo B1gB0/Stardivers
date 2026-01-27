@@ -35,6 +35,9 @@ namespace Project.Scripts.Services
         {
             if (!IsTargetValid(target))
                 return;
+            
+            if(!isDisableTarget)
+                target.gameObject.SetActive(true);
 
             var scaleSequence = CreateScaleSequence(target, isDisableTarget);
 
@@ -48,6 +51,9 @@ namespace Project.Scripts.Services
         {
             if (!IsTargetValid(target))
                 return;
+            
+            if(!isDisableTarget)
+                target.gameObject.SetActive(true);
 
             var scaleSequence = CreateScaleSequence(target, isDisableTarget);
 
@@ -67,6 +73,7 @@ namespace Project.Scripts.Services
 
             if (!isDisableTarget)
             {
+                target.gameObject.SetActive(true);
                 target.localPosition = hidePoint.localPosition;
             }
 

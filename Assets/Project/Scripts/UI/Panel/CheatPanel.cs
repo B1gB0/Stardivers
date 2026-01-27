@@ -3,14 +3,13 @@
 using Project.Scripts.ECS.EntityActors;
 using Project.Scripts.Experience;
 using Project.Scripts.Services;
-using Project.Scripts.UI.View;
 using Reflex.Attributes;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Project.Scripts.UI.Panel
 {
-    public class CheatPanel : MonoBehaviour, IView, IAcceptable
+    public class CheatPanel : View.View, IAcceptable
     {
         private const int _goldValue = 50;
         private const int _healthValue = 60;
@@ -39,7 +38,7 @@ namespace Project.Scripts.UI.Panel
             _addGold.onClick.AddListener(OnAddGoldButtonClicked);
             _addHealth.onClick.AddListener(OnAddHealthButtonClicked);
             _addExp.onClick.AddListener(OnAddExpButtonClicked);
-            _exitButton.onClick.AddListener(Hide);
+            _exitButton.onClick.AddListener(Deactivate);
         }
 
         private void OnDisable()
@@ -47,22 +46,12 @@ namespace Project.Scripts.UI.Panel
             _addGold.onClick.RemoveListener(OnAddGoldButtonClicked);
             _addHealth.onClick.RemoveListener(OnAddHealthButtonClicked);
             _addExp.onClick.RemoveListener(OnAddExpButtonClicked);
-            _exitButton.onClick.RemoveListener(Hide);
+            _exitButton.onClick.RemoveListener(Deactivate);
         }
 
         public void GetServices(ExperiencePoints experiencePoints)
         {
             _experiencePoints = experiencePoints;
-        }
-
-        public void Show()
-        {
-            gameObject.SetActive(true);
-        }
-
-        public void Hide()
-        {
-            gameObject.SetActive(false);
         }
 
         public void AcceptScore(IScoreActorVisitor visitor)

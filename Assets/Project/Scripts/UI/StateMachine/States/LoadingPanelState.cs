@@ -1,9 +1,7 @@
-﻿using Project.Scripts.UI.View;
-
-namespace Project.Scripts.UI.StateMachine.States
+﻿namespace Project.Scripts.UI.StateMachine.States
 {
     public class LoadingPanelState : ViewState
     {
-        public LoadingPanelState(IView view) : base(view) { }
+        public LoadingPanelState(View.View view) : base(view) { }
     }
 }

@@ -3,14 +3,13 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Project.Scripts.Audio.Sounds;
 using Project.Scripts.Services;
-using Project.Scripts.UI.View;
 using Reflex.Attributes;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Project.Scripts.UI.Panel
 {
-    public class ExitPanel : MonoBehaviour, IView
+    public class ExitPanel : View.View
     {
         [SerializeField] private Button _noButton;
         [SerializeField] private Button _yesButton;
@@ -49,16 +48,16 @@ namespace Project.Scripts.UI.Panel
             _yesButton.onClick.RemoveListener(OnYesButtonClicked);
         }
 
-        public void Show()
+        public override void Show()
         {
-            gameObject.SetActive(true);
+            Activate();
             _tweenAnimationService.AnimateScale(transform);
         }
 
-        public void Hide()
+        public override void Hide()
         {
             if (_isExitToMainMenu)
-                gameObject.SetActive(false);
+                Deactivate();
             else
                 _tweenAnimationService.AnimateScale(transform, true);
         }

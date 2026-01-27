@@ -115,14 +115,14 @@ namespace Project.Scripts.Game.Gameplay.Root.View
         private void ShowTutorialPointer()
         {
             JoystickIcon.gameObject.SetActive(true);
-            TutorialPointer.Show();
+            TutorialPointer.Activate();
             TutorialPointer.transform.position = PointerPoint.transform.position;
             _tweenAnimationService.AnimatePointer(TutorialPointer.transform, PointerPoint);
         }
 
         private void ShowTutorialKeyboardView()
         {
-            KeyboardTutorialView.Show();
+            KeyboardTutorialView.Activate();
 
             _tweenAnimationService.AnimateMove(
                 KeyboardTutorialView.transform,
@@ -143,7 +143,7 @@ namespace Project.Scripts.Game.Gameplay.Root.View
             else
             {
                 JoystickIcon.SetActive(false);
-                TutorialPointer.Hide();
+                TutorialPointer.Deactivate();
             }
 
             CountdownToShowStoryButtonFoot().Forget();

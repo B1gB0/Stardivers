@@ -45,11 +45,11 @@ namespace Project.Scripts.Levels.MysteryPlanet.FirstLevel
 
             _enemySpawnTriggerWithEffect.EnemySpawned -= _timer.Show;
             _enemySpawnTriggerWithEffect.EnemySpawned -= HideEnemySpawnedPointers;
-            _enemySpawnTriggerWithEffect.EnemySpawned -= Arrow.Hide;
+            _enemySpawnTriggerWithEffect.EnemySpawned -= Arrow.Deactivate;
             _enemySpawnTriggerWithEffect.EnemySpawned -= DialogueSetter.OnEnemySpawnTriggerWithEffect;
 
             _timer.IsEndAttack -= DialogueSetter.OnEndAttack;
-            _timer.IsEndAttack -= Arrow.Show;
+            _timer.IsEndAttack -= Arrow.Activate;
             _timer.IsEndAttack -= ShowOutpostPointers;
             _timer.IsEndAttack -= ArrowLookAtOutpost;
             _timer.IsEndAttack -= _enemySpawnTriggerWithEffect.CompleteSpawn;
@@ -76,11 +76,11 @@ namespace Project.Scripts.Levels.MysteryPlanet.FirstLevel
 
             _enemySpawnTriggerWithEffect.EnemySpawned += _timer.Show;
             _enemySpawnTriggerWithEffect.EnemySpawned += HideEnemySpawnedPointers;
-            _enemySpawnTriggerWithEffect.EnemySpawned += Arrow.Hide;
+            _enemySpawnTriggerWithEffect.EnemySpawned += Arrow.Deactivate;
             _enemySpawnTriggerWithEffect.EnemySpawned += DialogueSetter.OnEnemySpawnTriggerWithEffect;
 
             _timer.IsEndAttack += DialogueSetter.OnEndAttack;
-            _timer.IsEndAttack += Arrow.Show;
+            _timer.IsEndAttack += Arrow.Activate;
             _timer.IsEndAttack += ShowOutpostPointers;
             _timer.IsEndAttack += ArrowLookAtOutpost;
             _timer.IsEndAttack += _enemySpawnTriggerWithEffect.CompleteSpawn;

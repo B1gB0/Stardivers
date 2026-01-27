@@ -5,7 +5,6 @@ using Project.Scripts.DataBase.Data;
 using Project.Scripts.Experience;
 using Project.Scripts.Game.Constant;
 using Project.Scripts.Services;
-using Project.Scripts.UI.View;
 using Reflex.Attributes;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,7 +12,7 @@ using YG;
 
 namespace Project.Scripts.UI.Panel
 {
-    public class EndGamePanel : MonoBehaviour, IView
+    public class EndGamePanel : MonoBehaviour
     {
         private const int CountCorrectFactor = 1;
         private const string RewardAdRebornId = "RebornPlayer";
@@ -147,8 +146,7 @@ namespace Project.Scripts.UI.Panel
             _accumulatedGoldText.text = _currencyService.AccumulatedGold.ToString();
             _accumulatedKillsText.text = _experiencePoints.AccumulatedKills.ToString();
             _accumulatedScoreText.text = _experiencePoints.AccumulatedScore.ToString();
-
-            gameObject.SetActive(true);
+            
             _weaponPanel.Hide();
             _tweenAnimationService.AnimateScale(transform);
         }

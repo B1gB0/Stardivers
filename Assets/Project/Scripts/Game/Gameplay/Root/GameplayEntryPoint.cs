@@ -181,7 +181,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             _viewFactory.GetUIRootAndUIScene(uiRoot, _uiScene, _container);
 
             FloatingTextView textView = await _viewFactory.CreateDamageTextView();
-            textView.Hide();
+            textView.Activate();
             _floatingTextService.Init(textView);
 
             _goldView = await _viewFactory.CreateGoldView();
@@ -220,9 +220,9 @@ namespace Project.Scripts.Game.Gameplay.Root
             _gameInitSystem.PlayerHealth.Die += _endGamePanel.Show;
             _gameInitSystem.PlayerHealth.Die += _pauseService.OnStopGameWithMusic;
             _gameInitSystem.PlayerHealth.Die += _uiScene.ResetCountdownTutorialPointer;
-            _gameInitSystem.PlayerHealth.Die += _uiRoot.UIRootButtons.Hide;
+            _gameInitSystem.PlayerHealth.Die += _uiRoot.UIRootButtons.Deactivate;
             _gameInitSystem.PlayerHealth.Die += _endGamePanel.SetDefeatPanel;
-            _gameInitSystem.PlayerHealth.Die += _progressBar.Hide;
+            _gameInitSystem.PlayerHealth.Die += _progressBar.Deactivate;
             _gameInitSystem.PlayerHealth.IsSpawnedHealingText += _floatingTextService.OnChangedFloatingText;
 
             uiRoot.LocalizationLanguageSwitcher.OnLanguageChanged += _progressBar.ChangeText;
@@ -230,19 +230,19 @@ namespace Project.Scripts.Game.Gameplay.Root
             uiRoot.LocalizationLanguageSwitcher.OnLanguageChanged += _endGamePanel.SetLabelText;
 
             _level.EndLevelTrigger.IsLevelCompleted += _levelUpPanel.OnEndGameTriggerIsReached;
-            _level.EndLevelTrigger.IsLevelCompleted += _uiRoot.UIRootButtons.Hide;
+            _level.EndLevelTrigger.IsLevelCompleted += _uiRoot.UIRootButtons.Deactivate;
             _level.EndLevelTrigger.IsLevelCompleted += _endGamePanel.SetVictoryPanel;
 
             _levelUpPanel.OnContinueButtonIsClicked += _endGamePanel.Show;
             _levelUpPanel.OnContinueButtonIsClicked += _pauseService.OnStopGameWithMusic;
 
             _gameInitSystem.PlayerIsSpawned += _uiScene.WeaponPanel.Show;
-            _gameInitSystem.PlayerIsSpawned += _progressBar.Show;
+            _gameInitSystem.PlayerIsSpawned += _progressBar.Activate;
             _gameInitSystem.PlayerIsSpawned += _healthBar.Show;
             _gameInitSystem.PlayerIsSpawned += OnShowJoystick;
 
             _endGamePanel.OnSpawnPlayer += _gameInitSystem.CreateCapsule;
-            _endGamePanel.OnRewardAdSuccessShowed += uiRoot.UIRootButtons.Show;
+            _endGamePanel.OnRewardAdSuccessShowed += uiRoot.UIRootButtons.Activate;
 
             _endGamePanel.GoToMainMenuButton.onClick.AddListener(GetMainMenuExitParameters);
             _endGamePanel.GoToMainMenuButton.onClick.AddListener(_uiScene.HandleGoToNextSceneButtonClick);
@@ -257,7 +257,7 @@ namespace Project.Scripts.Game.Gameplay.Root
                 _uiScene.ResetCountdownTutorialPointer;
 
 #if UNITY_EDITOR
-            _uiScene.CheatsButton.onClick.AddListener(_cheatPanel.Show);
+            _uiScene.CheatsButton.onClick.AddListener(_cheatPanel.Activate);
 #endif
 
             _weaponFactory.MinesIsCreated += _uiScene.ShowMinesButton;
@@ -284,7 +284,7 @@ namespace Project.Scripts.Game.Gameplay.Root
 
             _gameInitSystem.PlayerIsSpawned -= _uiScene.WeaponPanel.Show;
             _gameInitSystem.PlayerIsSpawned -= _healthBar.Show;
-            _gameInitSystem.PlayerIsSpawned -= _progressBar.Show;
+            _gameInitSystem.PlayerIsSpawned -= _progressBar.Activate;
             _gameInitSystem.PlayerIsSpawned -= OnShowJoystick;
 
             _uiRoot.LocalizationLanguageSwitcher.OnLanguageChanged -= _progressBar.ChangeText;
@@ -294,13 +294,13 @@ namespace Project.Scripts.Game.Gameplay.Root
             _gameInitSystem.PlayerHealth.Die -= _endGamePanel.Show;
             _gameInitSystem.PlayerHealth.Die -= _pauseService.OnStopGameWithMusic;
             _gameInitSystem.PlayerHealth.Die -= _uiScene.ResetCountdownTutorialPointer;
-            _gameInitSystem.PlayerHealth.Die -= _uiRoot.UIRootButtons.Hide;
+            _gameInitSystem.PlayerHealth.Die -= _uiRoot.UIRootButtons.Deactivate;
             _gameInitSystem.PlayerHealth.Die -= _endGamePanel.SetDefeatPanel;
-            _gameInitSystem.PlayerHealth.Die -= _progressBar.Hide;
+            _gameInitSystem.PlayerHealth.Die -= _progressBar.Deactivate;
             _gameInitSystem.PlayerHealth.IsSpawnedHealingText -= _floatingTextService.OnChangedFloatingText;
 
             _level.EndLevelTrigger.IsLevelCompleted -= _levelUpPanel.OnEndGameTriggerIsReached;
-            _level.EndLevelTrigger.IsLevelCompleted -= _uiRoot.UIRootButtons.Hide;
+            _level.EndLevelTrigger.IsLevelCompleted -= _uiRoot.UIRootButtons.Deactivate;
             _level.EndLevelTrigger.IsLevelCompleted -= _endGamePanel.SetVictoryPanel;
 
             _levelUpPanel.OnContinueButtonIsClicked -= _endGamePanel.Show;
@@ -313,7 +313,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             _endGamePanel.NextLevelButton.onClick.RemoveListener(_uiScene.HandleGoToNextSceneButtonClick);
 
             _endGamePanel.OnSpawnPlayer -= _gameInitSystem.CreateCapsule;
-            _endGamePanel.OnRewardAdSuccessShowed -= _uiRoot.UIRootButtons.Show;
+            _endGamePanel.OnRewardAdSuccessShowed -= _uiRoot.UIRootButtons.Activate;
 
             _uiRoot.ExitPanel.OnExitToMainMenu -= GetMainMenuExitParameters;
             _uiRoot.ExitPanel.OnExitToMainMenu -= _uiScene.HandleGoToNextSceneButtonClick;
@@ -326,7 +326,7 @@ namespace Project.Scripts.Game.Gameplay.Root
             _weaponFactory.MinesIsCreated -= _uiScene.ShowMinesButton;
 
 #if UNITY_EDITOR
-            _uiScene.CheatsButton.onClick.RemoveListener(_cheatPanel.Show);
+            _uiScene.CheatsButton.onClick.RemoveListener(_cheatPanel.Activate);
 #endif
 
             _updateSystems?.Destroy();
@@ -358,7 +358,7 @@ namespace Project.Scripts.Game.Gameplay.Root
 
         private void GetMainMenuExitParameters()
         {
-            _uiRoot.UIRootButtons.Show();
+            _uiRoot.UIRootButtons.Activate();
 
             var mainMenuEnterParameters = new MainMenuEnterParameters();
             _exitParameters = new GameplayExitParameters(mainMenuEnterParameters);
@@ -366,7 +366,7 @@ namespace Project.Scripts.Game.Gameplay.Root
 
         private void GetGameplayExitParameters()
         {
-            _uiRoot.UIRootButtons.Show();
+            _uiRoot.UIRootButtons.Deactivate();
 
             int nextNumberLevel = _operationService.CurrentNumberLevel + NextOperationStep;
 

@@ -19,7 +19,7 @@ using YG;
 
 namespace Project.Scripts.UI.Panel
 {
-    public class LevelUpPanel : MonoBehaviour, IView
+    public class LevelUpPanel : MonoBehaviour
     {
         private const int MinValue = 0;
         private const float LevelUpDelay = 0.3f;
@@ -201,8 +201,7 @@ namespace Project.Scripts.UI.Panel
             {
                 await ForceHideAsync();
             }
-
-            gameObject.SetActive(true);
+            
             _healthBar.MoveToWeaponPanelPosition();
             _weaponPanel.Hide();
 
@@ -352,7 +351,7 @@ namespace Project.Scripts.UI.Panel
             {
                 foreach (CardView view in _cardViews)
                 {
-                    view.Hide();
+                    view.Deactivate();
                 }
 
                 _pauseService.OnPlayGame();

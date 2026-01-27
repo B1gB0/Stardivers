@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Project.Scripts.UI.Panel
 {
-    public class WeaponPanel : MonoBehaviour, IView
+    public class WeaponPanel : View.View
     {
         private const int Gun = 0;
         private const int MachineGun = 1;

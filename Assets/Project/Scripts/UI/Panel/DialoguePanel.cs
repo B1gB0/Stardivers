@@ -11,7 +11,7 @@ using YG;
 namespace Project.Scripts.UI.Panel
 {
     [RequireComponent(typeof(Button))]
-    public class DialoguePanel : MonoBehaviour, IView
+    public class DialoguePanel : MonoBehaviour
     {
         [SerializeField] private Text _text;
 
@@ -60,7 +60,6 @@ namespace Project.Scripts.UI.Panel
         public void Show()
         {
             _pauseService.OnStopGameWithoutMusic();
-            gameObject.SetActive(true);
             _tweenAnimationService.AnimateScale(transform);
         }
 

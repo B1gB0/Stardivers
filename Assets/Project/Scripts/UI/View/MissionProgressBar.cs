@@ -14,7 +14,7 @@ using YG;
 
 namespace Project.Scripts.UI.View
 {
-    public class MissionProgressBar : MonoBehaviour, IView
+    public class MissionProgressBar : View
     {
         private const float MinValue = 0f;
         private const float MaxValue = 1f;
@@ -83,13 +83,12 @@ namespace Project.Scripts.UI.View
             }
         }
 
-        public void Show()
+        public override void Show()
         {
-            gameObject.SetActive(true);
             _tweenAnimationService.AnimateMove(transform, _showPoint, _hidePoint);
         }
 
-        public void Hide()
+        public override void Hide()
         {
             _tweenAnimationService.AnimateMove(transform, _showPoint, _hidePoint, true);
         }

@@ -33,7 +33,7 @@ namespace Project.Scripts.Services
         {
             FloatingTextView textView = _poolDamageText.GetFreeElement();
             textView.SetFloatingText(value, target, floatingTextViewType, color);
-            textView.Show();
+            textView.Activate();
         }
     }
 }

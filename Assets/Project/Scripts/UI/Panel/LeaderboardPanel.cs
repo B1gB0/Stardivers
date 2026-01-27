@@ -1,12 +1,11 @@
 using System;
-using Project.Scripts.UI.View;
 using UnityEngine;
 using UnityEngine.UI;
 using YG;
 
 namespace Project.Scripts.UI.Panel
 {
-    public class LeaderboardPanel : MonoBehaviour, IView
+    public class LeaderboardPanel : View.View
     {
         [SerializeField] private LeaderboardYG _leaderboardYg;
         [SerializeField] private Button _leaderboardButton;
@@ -27,16 +26,6 @@ namespace Project.Scripts.UI.Panel
         {
             _backToSceneButton.onClick.RemoveListener(MoveBackToScene);
             _leaderboardButton.gameObject.SetActive(true);
-        }
-
-        public void Show()
-        {
-            gameObject.SetActive(true);
-        }
-
-        public void Hide()
-        {
-            gameObject.SetActive(false);
         }
 
         private void MoveBackToScene()

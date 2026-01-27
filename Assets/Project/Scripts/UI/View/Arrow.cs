@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Project.Scripts.UI.View
 {
-    public class Arrow : MonoBehaviour, IView
+    public class Arrow : View
     {
         private const float _offsetY = 2.5f;
         private const float _offsetZ = 2f;
@@ -23,16 +23,6 @@ namespace Project.Scripts.UI.View
                 _targetSpawnPosition.position.z + _offsetZ);
 
             transform.LookAt(_currentTarget);
-        }
-
-        public void Show()
-        {
-            gameObject.SetActive(true);
-        }
-
-        public void Hide()
-        {
-            gameObject.SetActive(false);
         }
 
         public void OnLookAtTarget(Transform target)

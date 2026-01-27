@@ -1,25 +1,23 @@
-﻿using Project.Scripts.UI.View;
-
-namespace Project.Scripts.UI.StateMachine.States
+﻿namespace Project.Scripts.UI.StateMachine.States
 {
     public class GameplayState : ViewState
     {
-        private readonly IView _uiRootButtons;
+        private readonly View.View _uiRootButtons;
 
-        public GameplayState(IView view, IView uiRootButtons) : base(view)
+        public GameplayState(View.View view, View.View uiRootButtons) : base(view)
         {
             _uiRootButtons = uiRootButtons;
         }
 
         public override void Enter()
         {
-            _uiRootButtons.Show();
+            _uiRootButtons.Activate();
             base.Enter();
         }
 
         public override void Exit()
         {
-            _uiRootButtons.Hide();
+            _uiRootButtons.Deactivate();
             base.Exit();
         }
     }

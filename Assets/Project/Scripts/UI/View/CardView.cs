@@ -13,7 +13,7 @@ using YG;
 
 namespace Project.Scripts.UI.View
 {
-    public class CardView : MonoBehaviour, IView
+    public class CardView : View
     {
         private const int Gun = 0;
         private const int MachineGun = 1;
@@ -84,16 +84,6 @@ namespace Project.Scripts.UI.View
             _currencyService.OnGoldValueChanged -= OnPriceTextColorChanged;
 
             transform.DOKill();
-        }
-
-        public void Show()
-        {
-            gameObject.SetActive(true);
-        }
-
-        public void Hide()
-        {
-            gameObject.SetActive(false);
         }
 
         public void ShowPrice()

@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace Project.Scripts.UI.View
 {
-    public class Timer : MonoBehaviour, IView
+    public class Timer : View
     {
         private const int SecondsInMinute = 60;
         private const int MinValue = 0;
@@ -63,13 +63,12 @@ namespace Project.Scripts.UI.View
             _hidePoint = hidePoint;
         }
 
-        public void Show()
+        public override void Show()
         {
-            gameObject.SetActive(true);
             _tweenAnimationService.AnimateMove(transform, _showPoint, _hidePoint);
         }
 
-        public void Hide()
+        public override void Hide()
         {
             _tweenAnimationService.AnimateMove(transform, _showPoint, _hidePoint, true);
         }

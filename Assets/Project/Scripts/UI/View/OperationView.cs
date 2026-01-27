@@ -9,7 +9,7 @@ using YG;
 
 namespace Project.Scripts.UI.View
 {
-    public class OperationView : MonoBehaviour, IView
+    public class OperationView : MonoBehaviour
     {
         [SerializeField] private Image _image;
         [SerializeField] private Text _name;
@@ -49,16 +49,6 @@ namespace Project.Scripts.UI.View
             _operation = operation;
             SetData();
             CheckAndSetPurchaseState();
-        }
-
-        public void Show()
-        {
-            gameObject.SetActive(true);
-        }
-
-        public void Hide()
-        {
-            gameObject.SetActive(false);
         }
 
         private void SetData()

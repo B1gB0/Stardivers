@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Project.Scripts.UI.View
 {
-    public class GoldView : MonoBehaviour, IView
+    public class GoldView : MonoBehaviour
     {
         [SerializeField] private TMP_Text _text;
         [SerializeField] private Transform _showPoint;
@@ -39,7 +39,6 @@ namespace Project.Scripts.UI.View
 
         public void Show()
         {
-            gameObject.SetActive(true);
             _tweenAnimationService.AnimateMove(transform, _showPoint, _hidePoint);
         }
 

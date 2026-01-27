@@ -3,21 +3,11 @@ using UnityEngine;
 
 namespace Project.Scripts.UI.View
 {
-    public class JoystickView : MonoBehaviour, IView
+    public class JoystickView : View
     {
         private void OnDestroy()
         {
             transform.DOKill();
-        }
-
-        public void Show()
-        {
-            gameObject.SetActive(true);
-        }
-
-        public void Hide()
-        {
-            gameObject.SetActive(false);
         }
     }
 }

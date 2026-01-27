@@ -113,7 +113,7 @@ namespace Project.Scripts.Services
                 for (int i = 0; i < cardViews.Count; i++)
                 {
                     cardViews[i].GetCard(cards[i]);
-                    cardViews[i].Show();
+                    cardViews[i].Activate();
                 }
             }
             else
@@ -121,7 +121,7 @@ namespace Project.Scripts.Services
                 for (int i = 0; i < cards.Count; i++)
                 {
                     cardViews[i].GetCard(cards[i]);
-                    cardViews[i].Show();
+                    cardViews[i].Activate();
                 }
             }
         }

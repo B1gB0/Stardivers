@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace Project.Scripts.UI.View
 {
-    public class WeaponView : MonoBehaviour, IView
+    public class WeaponView : MonoBehaviour
     {
         private const float MinValue = 0f;
         private const float MaxValue = 1f;
@@ -21,16 +21,6 @@ namespace Project.Scripts.UI.View
             _text.gameObject.SetActive(true);
 
             _icon.sprite = sprite;
-        }
-
-        public void Show()
-        {
-            gameObject.SetActive(true);
-        }
-
-        public void Hide()
-        {
-            gameObject.SetActive(true);
         }
 
         public void ActivateFiller()

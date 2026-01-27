@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Project.Scripts.UI.View
 {
-    public class RadialBar : MonoBehaviour, IView
+    public class RadialBar : View
     {
         private const float RecoveryRate = 10f;
         private const float ApproximateValue = 0.01f;
@@ -31,16 +31,6 @@ namespace Project.Scripts.UI.View
         private void OnDestroy()
         {
             CancelAnimation();
-        }
-
-        public void Show()
-        {
-            gameObject.SetActive(true);
-        }
-
-        public void Hide()
-        {
-            gameObject.SetActive(false);
         }
 
         protected void OnChangeValue(float currentValue, float targetValue, float maxValue)

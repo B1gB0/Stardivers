@@ -1,24 +1,22 @@
-﻿using Project.Scripts.UI.View;
-
-namespace Project.Scripts.UI.StateMachine.States
+﻿namespace Project.Scripts.UI.StateMachine.States
 {
     public abstract class ViewState : UIState
     {
-        private readonly IView _view;
+        private readonly View.View _view;
 
-        protected ViewState(IView view)
+        protected ViewState(View.View view)
         {
             _view = view;
         }
 
         public override void Enter()
         {
-            _view.Show();
+            _view.Activate();
         }
 
         public override void Exit()
         {
-            _view.Hide();
+            _view.Deactivate();
         }
     }
 }

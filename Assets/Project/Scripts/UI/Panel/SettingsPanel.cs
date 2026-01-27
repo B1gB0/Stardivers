@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 namespace Project.Scripts.UI.Panel
 {
-    public class SettingsPanel : MonoBehaviour, IView
+    public class SettingsPanel : View.View
     {
         private const string MusicVolume = nameof(MusicVolume);
         private const string EffectsVolume = nameof(EffectsVolume);
@@ -67,13 +67,12 @@ namespace Project.Scripts.UI.Panel
             transform.DOKill();
         }
 
-        public void Show()
+        public override void Show()
         {
-            gameObject.SetActive(true);
             _tweenAnimationService.AnimateScale(transform);
         }
 
-        public void Hide()
+        public override void Hide()
         {
             _tweenAnimationService.AnimateScale(transform, true);
         }

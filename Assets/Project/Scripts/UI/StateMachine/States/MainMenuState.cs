@@ -1,26 +1,26 @@
-﻿using Project.Scripts.UI.View;
-
-namespace Project.Scripts.UI.StateMachine.States
+﻿namespace Project.Scripts.UI.StateMachine.States
 {
     public class MainMenuState : ViewState
     {
-        private readonly IView _uiRootButtons;
+        private readonly View.View _uiRootButtons;
+        private readonly View.View _mainMenuView;
 
-        public MainMenuState(IView view, IView uiRootButtons) : base(view)
+        public MainMenuState(View.View view, View.View uiRootButtons) : base(view)
         {
             _uiRootButtons = uiRootButtons;
+            _mainMenuView = view;
         }
 
         public override void Enter()
         {
-            _uiRootButtons.Show();
-            base.Enter();
+            _uiRootButtons.Activate();
+            _mainMenuView.Show();
         }
 
         public override void Exit()
         {
-            _uiRootButtons.Hide();
-            base.Exit();
+            _uiRootButtons.Deactivate();
+            _mainMenuView.Hide();
         }
     }
 }

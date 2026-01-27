@@ -11,7 +11,7 @@ using YG;
 
 namespace Project.Scripts.UI.View
 {
-    public class ObjectiveTextView : MonoBehaviour, IView
+    public class ObjectiveTextView : View
     {
         [SerializeField] private TMP_Text _text;
         [SerializeField] private Transform _showPoint;
@@ -38,14 +38,13 @@ namespace Project.Scripts.UI.View
             transform.DOKill();
         }
 
-        public void Show()
+        public override void Show()
         {
             SetData();
-            gameObject.SetActive(true);
             _tweenAnimationService.AnimateMove(transform, _showPoint, _hidePoint);
         }
 
-        public void Hide()
+        public override void Hide()
         {
             _tweenAnimationService.AnimateMove(transform, _showPoint, _hidePoint, true);
         }

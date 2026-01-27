@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace Project.Scripts.UI.View
 {
-    public abstract class Bar : MonoBehaviour, IView
+    public abstract class Bar : MonoBehaviour
     {
         [SerializeField] protected Slider SmoothSlider;
         [SerializeField] protected Slider Slider;
@@ -33,7 +33,6 @@ namespace Project.Scripts.UI.View
 
         public void Show()
         {
-            gameObject.SetActive(true);
             _tweenAnimationService.AnimateMove(transform, _showPoint, _hidePoint);
         }
 

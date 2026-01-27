@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Project.Scripts.UI.View
 {
-    public class FloatingTextView : MonoBehaviour, IView
+    public class FloatingTextView : View
     {
         private const float Delay = 4f;
         private const float Offset = 2f;
@@ -33,16 +33,6 @@ namespace Project.Scripts.UI.View
             transform.position = new Vector3(target.position.x, target.position.y, target.position.z - Offset);
         }
 
-        public void Show()
-        {
-            gameObject.SetActive(true);
-        }
-
-        public void Hide()
-        {
-            gameObject.SetActive(false);
-        }
-
         private void SetIcon(FloatingTextViewType viewType)
         {
             _icon.sprite = viewType switch
@@ -60,7 +50,7 @@ namespace Project.Scripts.UI.View
 
             yield return waitForSeconds;
 
-            Hide();
+            Deactivate();
         }
     }
 }
